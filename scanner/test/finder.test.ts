@@ -1,4 +1,7 @@
-import { readFileSync } from "node:fs";
+import { spawnSync } from "node:child_process";
+import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { expect, test } from "vitest";
 import { scanFiles } from "../src/scan.js";
 import { PENALTIES } from "../src/score.js";
@@ -55,4 +58,37 @@ test("README penalty numbers match score.ts", () => {
   expect(readme).toMatch(/80–100[^\n]*Low risk/);
   expect(readme).toMatch(/50–79[^\n]*Review before installing/);
   expect(readme).toMatch(/0–49[^\n]*High risk/);
+});
+
+test("SKILL.md constrains and quotes keywords and handles unreadable indexes", () => {
+  expect(skill).toContain("^[a-z0-9]{2,20}$");
+  expect(skill).toMatch(/single-quote each keyword/);
+  expect(skill).toMatch(/ask the user to rephrase/);
+  expect(skill).toContain("index unreadable");
+});
+
+const script = /^node -e '(.*)' "\$f" KEYWORDS$/m.exec(skill)?.[1] ?? "";
+const run = (content: string, ...args: string[]) => {
+  const f = join(mkdtempSync(join(tmpdir(), "finder-")), "index.json");
+  writeFileSync(f, content);
+  return spawnSync("node", ["-e", script, f, ...args], { encoding: "utf8" });
+};
+const entry = (id: string, name: string) => ({ id, name, description: "d", owner: "a", repo: "r", path: "", stars: 1, category: "x",
+  score: 90, band: "low", commit: "0".repeat(40), ruleIds: [], status: "ok", incomplete: false, installCommand: "" });
+
+test("filter script: malformed or non-array index prints one line and fails", () => {
+  expect(script).not.toBe("");
+  for (const bad of ["{not json", "{}"]) {
+    const r = run(bad, "pdf");
+    expect(r.stdout.trim()).toBe("index unreadable");
+    expect(r.status).not.toBe(0);
+  }
+});
+
+test("filter script: keyword args failing the pattern are ignored", () => {
+  const idx = JSON.stringify([entry("one", "pdf tool"), entry("two", "x;rm thing")]);
+  const lines = run(idx, "pdf", "x;rm").stdout.trim().split("\n");
+  expect(lines).toHaveLength(1);
+  expect(lines[0]).toMatch(/^one \|/);
+  expect(run(idx, "x;rm", "a").stdout.trim()).toBe("");
 });
