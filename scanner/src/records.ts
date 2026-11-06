@@ -19,6 +19,8 @@ export interface SkillRecord {
   repoCreatedAt: string;
   alsoFoundIn: string[];
   status: "ok" | "unavailable";
+  /** a file the scan needed could not be read (after one retry): the score may be too good */
+  incomplete: boolean;
   scannedAt: string;
   scan: ScanResult;
   history: { commit: string; scannedAt: string; score: number; rulesVersion: string }[];
@@ -38,6 +40,7 @@ export interface IndexEntry {
   commit: string;
   ruleIds: RuleId[];
   status: "ok" | "unavailable";
+  incomplete: boolean;
   installCommand: string;
 }
 
@@ -100,7 +103,7 @@ export function toIndexEntry(r: SkillRecord): IndexEntry {
     owner: r.owner, repo: r.repo, path: r.path, stars: r.stars, category: r.category,
     score: r.scan.score, band: r.scan.band, commit: r.commit,
     ruleIds: [...new Set(r.scan.findings.map((f) => f.ruleId))],
-    status: r.status, installCommand: cmd,
+    status: r.status, incomplete: !!r.incomplete, installCommand: cmd,
   };
 }
 

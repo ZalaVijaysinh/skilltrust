@@ -28,7 +28,15 @@ const LINK = /github\.com\/([\w.-]{1,100})\/([\w.-]{1,100})(?:\/tree\/[^/\s)#?"'
 export interface Candidate extends SkillRef { firstSeen: string }
 /** A pending code-search slice; `page` is the next page to fetch. The queue is the resumable cursor. */
 export interface SliceTask { lo: number; hi: number; page: number }
-export interface DiscoveryState { candidates: Candidate[]; queue: SliceTask[]; lastFullSweep?: string }
+export interface DiscoveryState {
+  candidates: Candidate[];
+  queue: SliceTask[];
+  lastFullSweep?: string;
+  /** owner/repo (lowercase) -> ISO time of the last probe; drives the repo order */
+  lastChecked?: Record<string, string>;
+  /** repos whose scan was cut short by the deadline; never fast-pathed */
+  partial?: string[];
+}
 
 const freshQueue = (): SliceTask[] => SIZE_RANGES.map(([lo, hi]) => ({ lo, hi, page: 1 }));
 export function newDiscoveryState(): DiscoveryState { return { candidates: [], queue: freshQueue() }; }
@@ -58,7 +66,37 @@ async function run(gh: GitHub, state: DiscoveryState, budget: number, today: str
     try { await f(); } catch (e) { if (e instanceof RateLimitExhausted) throw e; }
   };
 
-  // 1. code search, sliced by file size; each loop iteration is one request
+  // 1. awesome lists (links only; no per-repo API calls)
+  for (const [o, r] of AWESOME_LISTS) {
+    await tolerate(async () => {
+      const md = await gh.readRaw(o, r, "HEAD", "README.md");
+      for (const m of md.matchAll(LINK)) {
+        const owner = m[1];
+        const repo = trimEnd(m[2].endsWith(".git") ? m[2].slice(0, -4) : m[2], ".");
+        if (!repo || NOT_OWNERS.has(owner.toLowerCase())) continue;
+        add(owner, repo, trimEnd(m[3] ?? "", "/"));
+      }
+    });
+  }
+
+  // 2. official marketplace
+  await tolerate(async () => {
+    const text = await gh.readRaw("anthropics", "claude-plugins-official", "HEAD", ".claude-plugin/marketplace.json");
+    for (const p of JSON.parse(text).plugins ?? []) {
+      const s = p?.source;
+      if (typeof s === "string") {
+        if (s.startsWith("./")) add("anthropics", "claude-plugins-official", trimEnd(s.slice(2), "/"));
+      } else if (s?.source === "github" && typeof s.repo === "string") {
+        const [o, r] = s.repo.split("/");
+        if (o && r) add(o, r, typeof s.path === "string" ? trimBoth(s.path, "/") : "");
+      } else if (s?.source === "url" && typeof s.url === "string") {
+        const m = /^https:\/\/github\.com\/([\w.-]{1,100})\/([\w.-]{1,100}?)(?:\.git)?\/?$/.exec(s.url);
+        if (m) add(m[1], m[2], "");
+      }
+    }
+  });
+
+  // 3. code search (last: a search quota stop must not lose the cheap sources), sliced by file size; each loop iteration is one request
   if (!state.queue.length) state.queue = freshQueue();
   for (let spent = 0; spent < budget && state.queue.length; spent++) {
     const { lo, hi, page } = state.queue[0];
@@ -83,35 +121,4 @@ async function run(gh: GitHub, state: DiscoveryState, budget: number, today: str
       break;
     }
   }
-
-  // 2. awesome lists (links only; no per-repo API calls)
-  for (const [o, r] of AWESOME_LISTS) {
-    await tolerate(async () => {
-      const md = await gh.readRaw(o, r, "HEAD", "README.md");
-      for (const m of md.matchAll(LINK)) {
-        const owner = m[1];
-        const repo = trimEnd(m[2].endsWith(".git") ? m[2].slice(0, -4) : m[2], ".");
-        if (!repo || NOT_OWNERS.has(owner.toLowerCase())) continue;
-        add(owner, repo, trimEnd(m[3] ?? "", "/"));
-      }
-    });
-  }
-
-  // 3. official marketplace
-  await tolerate(async () => {
-    const text = await gh.readRaw("anthropics", "claude-plugins-official", "HEAD", ".claude-plugin/marketplace.json");
-    for (const p of JSON.parse(text).plugins ?? []) {
-      const s = p?.source;
-      if (typeof s === "string") {
-        if (s.startsWith("./")) add("anthropics", "claude-plugins-official", trimEnd(s.slice(2), "/"));
-      } else if (s?.source === "github" && typeof s.repo === "string") {
-        const [o, r] = s.repo.split("/");
-        if (o && r) add(o, r, typeof s.path === "string" ? trimBoth(s.path, "/") : "");
-      } else if (s?.source === "url" && typeof s.url === "string") {
-        const m = /^https:\/\/github\.com\/([\w.-]{1,100})\/([\w.-]{1,100}?)(?:\.git)?\/?$/.exec(s.url);
-        if (m) add(m[1], m[2], "");
-      }
-    }
-  });
-
 }

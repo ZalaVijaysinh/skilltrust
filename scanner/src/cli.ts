@@ -3,14 +3,13 @@ import { runScan } from "./pipeline.js";
 
 const token = process.env.SKILLTRUST_TOKEN || process.env.GITHUB_TOKEN;
 if (!token) console.warn("skilltrust: no SKILLTRUST_TOKEN or GITHUB_TOKEN set; code search will fail");
-const minStars = Number(process.env.SKILLTRUST_MIN_STARS ?? 10);
-if (!Number.isFinite(minStars)) throw new Error("SKILLTRUST_MIN_STARS must be a number");
-
+/** empty counts as unset */
 const num = (name: string, dflt: number) => {
-  const v = Number(process.env[name] ?? dflt);
+  const v = Number(process.env[name] || dflt);
   if (!Number.isFinite(v)) throw new Error(`${name} must be a number`);
   return v;
 };
+const minStars = num("SKILLTRUST_MIN_STARS", 10);
 const r = await runScan({
   gh: createGitHub({ token }), dataDir: "data", now: new Date(), minStars,
   searchBudget: num("SKILLTRUST_SEARCH_BUDGET", 120), maxMinutes: num("SKILLTRUST_MAX_MINUTES", 240),

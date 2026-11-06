@@ -18,15 +18,20 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run scan
+        timeout-minutes: 300
         env:
           SKILLTRUST_TOKEN: ${{ secrets.SKILLTRUST_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Commit data
+        if: always()
         run: |
           git config user.name skilltrust-bot
           git config user.email skilltrust-bot@users.noreply.github.com
           git add data
           if ! git diff --cached --quiet; then
             git commit -m "data: daily scan $(date -u +%F)"
-            git push
+            for i in 1 2 3; do
+              git pull --rebase --autostash && git push && exit 0
+            done
+            exit 1
           fi

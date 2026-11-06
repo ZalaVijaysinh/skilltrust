@@ -1,5 +1,5 @@
-import { describe, it, expect } from "vitest";
-import { mkdtemp, readFile, readdir, stat } from "node:fs/promises";
+import { describe, it, expect, vi } from "vitest";
+import { mkdtemp, readFile, readdir, stat, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { runScan } from "../src/pipeline.js";
@@ -182,7 +182,7 @@ describe("runScan", () => {
     const dir = await mk();
     const { gh, calls } = fake({ "a/one": { files: skill("one") }, "b/two": { files: skill("two") }, "c/three": { files: skill("three") } });
     let t = 0;
-    const r = await run(gh, dir, 10, { maxMinutes: 5, clock: () => (t += 3 * 60_000) });
+    const r = await run(gh, dir, 10, { maxMinutes: 5, clock: () => (t += 2 * 60_000) });
     expect(r.stoppedEarly).toBe(true);
     expect(calls.getTree.length).toBeLessThan(3);
     expect(JSON.parse(await readFile(join(dir, "index.json"), "utf8")).length).toBe(calls.getTree.length);
@@ -214,5 +214,121 @@ describe("runScan", () => {
     f.gh.searchCode = async () => ({ totalCount: 0, items: [] });
     expect((await run(f.gh, dir, 10, { searchBudget: 1 })).scanned).toBe(0); // unchanged commit
     expect((await load(dir)).map((x) => x.repo)).toEqual(["r"]);
+  });
+
+  const seqClock = (vals: number[]) => () => vals.shift() ?? 5 * 60_000;
+  const discovery = async (dir: string) => JSON.parse(await readFile(join(dir, "discovery.json"), "utf8"));
+
+  it("an unchanged repo checked this run goes behind one that was not checked", async () => {
+    const dir = await mk();
+    await writeData(dir, [
+      rec({ id: "a__a___root", owner: "a", repo: "a", path: "", commit: sha("b"), scannedAt: "2026-01-01T00:00:00Z", contentHash: "h-a" }),
+      rec({ id: "a__b___root", owner: "a", repo: "b", path: "", commit: sha("1"), scannedAt: "2026-06-01T00:00:00Z", contentHash: "h-b" }),
+    ]);
+    const repos = { "a/a": { files: skill("a") }, "a/b": { files: skill("bbbb") } };
+    // run 1 stops after the first repo (a/a, unchanged)
+    await run(fake(repos).gh, dir, 10, { maxMinutes: 1, clock: seqClock([0, 0]) });
+    expect(Object.keys((await discovery(dir)).lastChecked)).toEqual(["a/a"]);
+    const second = fake(repos);
+    await run(second.gh, dir);
+    expect(second.calls.getRepo).toEqual(["a/b", "a/a"]);
+  });
+
+  it("stops inside a repo at the deadline, keeps finished skills, and finishes the repo next run", async () => {
+    const dir = await mk();
+    const files = { "x/SKILL.md": "---\nname: x\n---\n1", "y/SKILL.md": "---\nname: y\n---\n22", "z/SKILL.md": "---\nname: z\n---\n333" };
+    const r = await run(fake({ "a/m": { files } }).gh, dir, 10, { maxMinutes: 1, clock: seqClock([0, 0, 0]) });
+    expect(r.stoppedEarly).toBe(true);
+    expect((await load(dir)).map((x) => x.path)).toEqual(["x"]);
+    expect(JSON.parse(await readFile(join(dir, "index.json"), "utf8"))).toHaveLength(1);
+    expect((await discovery(dir)).lastChecked?.["a/m"]).toBeUndefined();
+    const r2 = await run(fake({ "a/m": { files } }).gh, dir);
+    expect(r2.stoppedEarly).toBe(false);
+    expect((await load(dir)).map((x) => x.path)).toEqual(["x", "y", "z"]);
+  });
+
+  const flaky = (gh: GitHub, path: string, failures: number) => {
+    let left = failures;
+    const orig = gh.readRaw;
+    gh.readRaw = async (o, r, c, p) => { if (p === path && left-- > 0) throw new Error("timeout"); return orig(o, r, c, p); };
+  };
+
+  it("retries a failed read once; a persistent failure marks the record incomplete", async () => {
+    const files = { ...skill("r"), "tool.sh": "echo hi" };
+    const d1 = await mk();
+    const f1 = fake({ "a/r": { files } });
+    flaky(f1.gh, "tool.sh", 1);
+    await run(f1.gh, d1);
+    expect((await load(d1))[0]).toMatchObject({ incomplete: false });
+    expect((await load(d1))[0].scan.filesSkipped).toBe(0);
+    const d2 = await mk();
+    const f2 = fake({ "a/r": { files } });
+    flaky(f2.gh, "tool.sh", 99);
+    await run(f2.gh, d2);
+    expect((await load(d2))[0]).toMatchObject({ incomplete: true });
+    expect((await load(d2))[0].scan.filesSkipped).toBe(1);
+    expect(JSON.parse(await readFile(join(d2, "index.json"), "utf8"))[0].incomplete).toBe(true);
+  });
+
+  it("a failing README or SKILL.md read is incomplete; an absent README or a binary file is not", async () => {
+    const d1 = await mk();
+    const f1 = fake({ "a/r": { files: { ...skill("r"), "README.md": "hello" } } });
+    flaky(f1.gh, "README.md", 99);
+    await run(f1.gh, d1);
+    expect((await load(d1))[0]).toMatchObject({ incomplete: true });
+    expect((await load(d1))[0].scan.filesSkipped).toBeGreaterThan(0);
+    const d2 = await mk();
+    const f2 = fake({ "a/r": { files: { ...skill("r"), "logo.png": "x" } } });
+    await run(f2.gh, d2);
+    expect((await load(d2))[0]).toMatchObject({ incomplete: false });
+    const d3 = await mk();
+    const f3 = fake({ "a/r": { files: skill("r") } });
+    flaky(f3.gh, "SKILL.md", 99);
+    await run(f3.gh, d3);
+    expect((await load(d3))[0]).toMatchObject({ incomplete: true });
+  });
+
+  it("never fast-paths an incomplete record, even at the same commit", async () => {
+    const dir = await mk();
+    const files = { ...skill("r"), "tool.sh": "echo hi" };
+    const f1 = fake({ "a/r": { files } });
+    flaky(f1.gh, "tool.sh", 99);
+    await run(f1.gh, dir);
+    const f2 = fake({ "a/r": { files } });
+    await run(f2.gh, dir);
+    expect(f2.calls.getTree).toEqual(["a/r"]);
+    expect((await load(dir))[0]).toMatchObject({ incomplete: false });
+  });
+
+  it("a code-search limit error does not stop scanning", async () => {
+    const dir = await mk();
+    const f = fake({
+      "a/r": { files: skill("r") },
+      "ComposioHQ/awesome-claude-skills": { files: { "README.md": "[x](https://github.com/a/r)" } },
+    });
+    f.gh.searchCode = async () => { throw new Error("GitHub 403 for /search/code: search limit exhausted"); };
+    const r = await run(f.gh, dir);
+    expect(r).toMatchObject({ scanned: 1, stoppedEarly: false });
+  });
+
+  it("warns, backs up a corrupt discovery.json and starts fresh", async () => {
+    const dir = await mk();
+    await writeData(dir, []);
+    await writeFile(join(dir, "discovery.json"), "{not json");
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    await run(fake({ "a/r": { files: skill("r") } }).gh, dir);
+    expect(warn).toHaveBeenCalled();
+    warn.mockRestore();
+    expect(await readFile(join(dir, "discovery.json.bak"), "utf8")).toBe("{not json");
+    expect((await discovery(dir)).candidates[0]).toMatchObject({ repo: "r" });
+  });
+
+  it("still rebuilds the index and saves discovery when the run throws", async () => {
+    const dir = await mk();
+    await writeData(dir, [rec({ id: "z__old___root", owner: "z", repo: "old", path: "" })]);
+    let n = 0;
+    await expect(run(fake({ "a/r": { files: skill("r") } }).gh, dir, 10, { clock: () => { if (n++ > 0) throw new Error("clock"); return 0; } })).rejects.toThrow("clock");
+    expect(JSON.parse(await readFile(join(dir, "index.json"), "utf8"))).toHaveLength(1);
+    expect((await discovery(dir)).candidates).toHaveLength(1);
   });
 });

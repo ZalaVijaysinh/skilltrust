@@ -132,6 +132,13 @@ describe("discoverSkills", () => {
       expect(state.queue.slice(0, 3).map((t) => [t.lo, t.hi])).toEqual([[0, 500], [501, 1000], [1001, 2000]]);
     });
 
+    it("refreshes awesome lists and the marketplace before code search, so a search quota stop keeps them", async () => {
+      const f = fake({ search: () => { throw new RateLimitExhausted("x"); }, raw: { "ComposioHQ/awesome-claude-skills/README.md": "[a](https://github.com/Foo/bar)" } });
+      const state = newDiscoveryState();
+      await expect(discoverSkills(f.gh, { state })).rejects.toBeInstanceOf(RateLimitExhausted);
+      expect(state.candidates.map((c) => c.repo)).toEqual(["bar"]);
+    });
+
     it("keeps the state when RateLimitExhausted propagates", async () => {
       const f = fake({ search: () => { throw new RateLimitExhausted("x"); } });
       const state = newDiscoveryState();
