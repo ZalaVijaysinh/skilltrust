@@ -3,20 +3,41 @@ import Base from "../layouts/Base.astro";
 import { loadData } from "../lib/data";
 import { base, skillHref, PARTIAL } from "../lib/view";
 import { bandLabel } from "../../../scanner/src/score";
+import { computeTrending, type TrendingList } from "../../../scanner/src/trending";
+import TrendingCard from "../components/TrendingCard.astro";
 
-const { index, report } = loadData();
+const { index, report, stars } = loadData();
 const LABELS = { low: bandLabel("low"), review: bandLabel("review"), high: bandLabel("high") };
 const categories = [...new Set(index.map((e) => e.category))].sort();
 const PAGE = 100;
+const today = process.env.SKILLTRUST_TODAY ?? new Date().toISOString().slice(0, 10);
+const trending = stars ? computeTrending(stars, index, today) : null;
+const lists: TrendingList[] = [];
+for (const l of trending ? [trending.week, trending.month] : []) {
+  // a rising list ignores the window, so the week and month copies are identical: show it once
+  if (l.cards.length > 0 && !(l.kind === "rising" && lists.some((x) => x.kind === "rising"))) lists.push(l);
+}
+const names = new Map(index.map((e) => [e.id, e.name]));
+const shownO = lists.some((l) => l.backfilled);
+const since = stars ? Object.values(stars.repos).flatMap((r) => r.points.filter((p) => p[2] !== "o").map((p) => p[0])).sort()[0] : undefined;
 ---
-<Base title="SkillTrust: what can this Claude skill do to your computer?">
-  <h1>What can this Claude skill do to your computer?</h1>
-  <p class="lede">We read the public files of Claude skills on GitHub and tell you, in plain English, what each one can do. Look at the trust rating first. Stars only tell you it is popular.</p>
+<Base title="SkillTrust: what can these AI agent skills do to your computer?" description="What public AI agent skills can do to your computer, explained in plain English. Trending skills for Claude Code, Codex, Cursor, Copilot, Gemini CLI and more.">
+  <h1>What can an AI agent skill do to your computer?</h1>
+  <p class="lede">We read the public files of AI agent skills on GitHub, for Claude Code, Codex, Antigravity, Cursor, Copilot, Gemini CLI and more, and tell you, in plain English, what each one can do. Look at the trust rating first. Stars only tell you it is popular.</p>
 
   {index.length === 0 ? (
     <p class="notice">First scan in progress. Check back soon: the list appears once the first scan finishes.</p>
   ) : (
     <>
+      {lists.map((l) => (
+        <section aria-labelledby={`t-${l.kind}-${l.window}`}>
+          <h2 id={`t-${l.kind}-${l.window}`}>{l.kind === "rising" ? "New and rising" : l.window === 7 ? "Trending this week" : "Trending this month"}</h2>
+          {l.kind === "rising" && <p class="meta">New and rising — not enough history yet</p>}
+          <ul class="tgrid">{l.cards.map((c) => <TrendingCard card={c} rising={l.kind === "rising"} window={l.window} names={names} />)}</ul>
+        </section>
+      ))}
+      {shownO && since && <p class="meta">Star history before {since} from OSS Insight.</p>}
+      <h2>All skills</h2>
       {report && <p class="meta">{report.totalSkills} skills scanned from {report.totalRepos} repositories.</p>}
       <div class="controls" id="controls" data-rows={`${base}/rows.json`} data-base={base} data-page={PAGE} data-labels={JSON.stringify(LABELS)}>
         <label>Risk level

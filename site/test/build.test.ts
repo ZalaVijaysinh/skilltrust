@@ -1,6 +1,6 @@
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
-import { existsSync, mkdtempSync, readFileSync } from "node:fs";
+import { cpSync, existsSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { beforeAll, describe, expect, it } from "vitest";
@@ -14,7 +14,7 @@ const fixtures = join(root, "site/test/fixtures/data");
 
 function build(data: string, out: string): void {
   // Vitest sets BASE_URL, MODE, DEV, PROD and SSR in process.env, and Astro would read them instead of its own config.
-  const env: NodeJS.ProcessEnv = { ...process.env, SKILLTRUST_DATA: data, SKILLTRUST_OUT: out };
+  const env: NodeJS.ProcessEnv = { ...process.env, SKILLTRUST_DATA: data, SKILLTRUST_OUT: out, SKILLTRUST_TODAY: "2026-11-07" };
   for (const k of ["BASE_URL", "MODE", "DEV", "PROD", "SSR"]) delete env[k];
   execFileSync("npx", ["astro", "build"], { cwd: root, stdio: "pipe", env });
 }
@@ -28,7 +28,7 @@ describe("site build with fixtures", () => {
 
   it("lists skills in score order with band labels", () => {
     const html = page("index.html");
-    const order = ["PDF Helper", "Stale Skill", "Web Fetch", "Sneaky"].map((n) => html.indexOf(n));
+    const order = ["PDF Helper", "Stale Skill", "Web Fetch", "Sneaky"].map((n) => html.indexOf(n, html.indexOf("All skills")));
     expect(order.every((i) => i > 0)).toBe(true);
     expect([...order].sort((a, b) => a - b)).toEqual(order);
     expect(html).toContain('href="/skilltrust/skills/acme__tools__pdf-helper/"');
@@ -102,6 +102,77 @@ describe("site build with fixtures", () => {
   });
 });
 
+describe("trending home page", () => {
+  const sections = (html: string) => [...html.matchAll(/<h2[^>]*>([^<]*)<\/h2>/g)].map((m) => m[1]);
+
+  describe("with a trending week and a rising month", () => {
+    const tmp = mkdtempSync(join(tmpdir(), "skilltrust-trend-"));
+    const data = join(tmp, "data");
+    const out4 = join(tmp, "dist");
+    beforeAll(() => {
+      cpSync(fixtures, data, { recursive: true });
+      const index = JSON.parse(readFileSync(join(data, "index.json"), "utf8"));
+      const pdf = JSON.parse(readFileSync(join(data, "skills/acme__tools__pdf-helper.json"), "utf8"));
+      const mk = (id: string, repo: string, name: string, score: number, band: string, ruleIds: string[]) => {
+        index.push({ ...index[0], id, owner: "t", repo, name, score, band, ruleIds, stars: 100 });
+        writeFileSync(join(data, `skills/${id}.json`), JSON.stringify({ ...pdf, id, owner: "t", repo, name }));
+      };
+      mk("t__r0__a", "r0", "Risky Tool", 55, "review", ["network", "shell"]);
+      mk("t__r0__b", "r0", "Calm Tool", 100, "low", []);
+      for (let i = 1; i < 10; i++) mk(`t__r${i}__a`, `r${i}`, `Tool ${i}`, 100, "low", []);
+      writeFileSync(join(data, "index.json"), JSON.stringify(index));
+      const repos: Record<string, unknown> = {};
+      for (let i = 0; i < 10; i++) {
+        repos[`t/r${i}`] = { createdAt: "2026-10-01T00:00:00Z", points: [["2026-10-29", 100], i === 3 ? ["2026-11-07", 100 + (10 - i) * 5, "o"] : ["2026-11-07", 100 + (10 - i) * 5]] };
+      }
+      writeFileSync(join(data, "stars.json"), JSON.stringify({ repos }));
+      build(data, out4);
+    }, 120_000);
+    const home = () => readFileSync(join(out4, "index.html"), "utf8");
+
+    it("orders sections: week, month (rising), then the leaderboard", () => {
+      expect(sections(home()).slice(0, 3)).toEqual(["Trending this week", "New and rising", "All skills"]);
+      expect(text(home())).toContain("New and rising — not enough history yet");
+    });
+
+    it("cards show the gain, the worst band as text, skill links and the riskiest skill's sentences", () => {
+      const t = text(home());
+      expect(t).toContain("+50 this week");
+      expect(t).toContain("Review before installing");
+      expect(t).toContain("★ 150 stars · new this month");
+      expect(home()).toContain('href="/skilltrust/skills/t__r0__a/"');
+      expect(t).toContain("Riskiest skill: Risky Tool . It can: Connects to the internet Runs commands on your computer");
+    });
+
+    it("credits OSS Insight only when backfilled data is shown", () => {
+      expect(text(home())).toMatch(/Star history before 2026-10-29 from OSS Insight/);
+      expect(text(page("index.html"))).not.toContain("OSS Insight");
+    });
+  });
+
+  describe("with fixture data (rising only)", () => {
+    it("shows one rising list, escaped, and no empty trending heading", () => {
+      const html = page("index.html");
+      expect(sections(html).slice(0, 2)).toEqual(["New and rising", "All skills"]);
+      expect(html).not.toContain("<i>skill</i>");
+      expect(html).toContain("Sneaky &lt;i&gt;skill&lt;/i&gt;");
+    });
+  });
+
+  describe("universal wording", () => {
+    it("never says 'Claude skills' and names AI agent skills", () => {
+      for (const p of ["index.html", "how-we-score/index.html", "report/index.html", "skills/bob__stuff__web-fetch/index.html"]) {
+        expect(text(page(p))).not.toMatch(/Claude skills?\b/i);
+      }
+      const home = page("index.html");
+      expect(home).toMatch(/<title>[^<]*AI agent skills/);
+      expect(home).toMatch(/<meta name="?description"? content="?[^>]*AI agent skills/);
+      expect(text(home)).toMatch(/AI agent skills/);
+      expect(text(page("skills/bob__stuff__web-fetch/index.html"))).toContain("Works with any agent that supports SKILL.md skills");
+    });
+  });
+});
+
 describe("site build with no data directory", () => {
   const empty = mkdtempSync(join(tmpdir(), "skilltrust-empty-"));
   const out2 = join(empty, "dist");
@@ -111,6 +182,7 @@ describe("site build with no data directory", () => {
     expect(text(readFileSync(join(out2, "index.html"), "utf8"))).toContain("First scan in progress");
     expect(text(readFileSync(join(out2, "report/index.html"), "utf8"))).toContain("First scan in progress");
     expect(existsSync(join(out2, "how-we-score/index.html"))).toBe(true);
+    expect(text(readFileSync(join(out2, "index.html"), "utf8"))).not.toContain("Trending");
   });
 });
 

@@ -2,12 +2,15 @@ import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import type { IndexEntry, SkillRecord } from "../../../scanner/src/records.js";
 import type { Report } from "../../../scanner/src/report.js";
+import type { StarsFile } from "../../../scanner/src/stars.js";
 
 export interface SiteData {
   index: IndexEntry[];
   /** records by id; every index entry listed here has one */
   records: Map<string, SkillRecord>;
   report: Report | null;
+  /** star history for the trending lists; null before the first snapshot */
+  stars: StarsFile | null;
 }
 
 const SAFE_ID = /^[a-z0-9._~-]+$/;
@@ -34,6 +37,7 @@ function readJson<T>(file: string): T | null {
 export function loadData(dir: string = process.env.SKILLTRUST_DATA ?? "data"): SiteData {
   const index = readJson<IndexEntry[]>(join(dir, "index.json")) ?? [];
   const report = readJson<Report>(join(dir, "report.json"));
+  const stars = readJson<StarsFile>(join(dir, "stars.json"));
   const records = new Map<string, SkillRecord>();
   const skills = join(dir, "skills");
   if (existsSync(skills)) {
@@ -47,5 +51,5 @@ export function loadData(dir: string = process.env.SKILLTRUST_DATA ?? "data"): S
     if (!ok) console.warn(`skilltrust site: skipping ${String(e.id)} (unsafe id or no record)`);
     return ok;
   });
-  return { index: usable, records, report };
+  return { index: usable, records, report, stars: stars && typeof stars.repos === "object" && stars.repos ? stars : null };
 }

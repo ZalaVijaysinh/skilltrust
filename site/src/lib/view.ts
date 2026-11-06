@@ -1,5 +1,5 @@
 import { RULES } from "../../../scanner/src/rules.js";
-import type { Finding } from "../../../scanner/src/types.js";
+import type { Finding, RuleId } from "../../../scanner/src/types.js";
 
 export const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 export const skillHref = (id: string) => `${base}/skills/${encodeURIComponent(id)}/`;
@@ -15,3 +15,6 @@ export function sentence(f: Finding): string {
   const shown = hosts.slice(0, 10).join(", ");
   return rule.sentence.replace("{hosts}", hosts.length > 10 ? `${shown} and ${hosts.length - 10} more` : shown);
 }
+
+/** Sentence for a rule when no finding is at hand (trending cards): hosts are unknown, so the network rule reads "Connects to the internet". */
+export const ruleSentence = (ruleId: RuleId): string => sentence({ ruleId } as Finding);

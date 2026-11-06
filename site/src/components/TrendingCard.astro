@@ -1,0 +1,30 @@
+---
+import { bandLabel } from "../../../scanner/src/score";
+import { skillHref, ruleSentence } from "../lib/view";
+import type { TrendingCard } from "../../../scanner/src/trending";
+interface Props { card: TrendingCard; rising: boolean; window: 7 | 30; names: Map<string, string> }
+const { card, rising, window, names } = Astro.props;
+const stars = (n: number) => n.toLocaleString("en-US");
+const risky = card.riskiest;
+---
+<li class="tcard">
+  <div class="thead">
+    <h3>{card.owner}/{card.repo}</h3>
+    <span class={`badge band-${card.band}`}>{bandLabel(card.band)}</span>
+  </div>
+  <p class="meta">
+    {rising
+      ? <>★ {stars(card.stars)} stars · new this month</>
+      : <><b>+{stars(card.gained)} this {window === 7 ? "week" : "month"}</b> · ★ {stars(card.stars)} stars</>}
+  </p>
+  <ul class="tskills">
+    {card.skills.map((s) => (
+      <li><a href={skillHref(s.id)}>{s.name}</a> <span class="meta">{s.score}/100{s.incomplete && " · Partially scanned"}</span></li>
+    ))}
+    {card.moreSkills > 0 && <li class="meta">and {card.moreSkills} more</li>}
+  </ul>
+  {risky.ruleIds.length > 0 && (
+    <p class="meta">Riskiest skill: <a href={skillHref(risky.id)}>{names.get(risky.id) ?? risky.id}</a>. It can:</p>
+    <ul class="tcan">{risky.ruleIds.map((r) => <li>{ruleSentence(r)}</li>)}</ul>
+  )}
+</li>
