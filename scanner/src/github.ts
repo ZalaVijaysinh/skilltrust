@@ -1,4 +1,6 @@
 export class RateLimitExhausted extends Error {}
+/** Recursive tree listing was cut off by GitHub (~100k entries / 7 MB). */
+export class TreeTruncated extends Error {}
 
 export interface RepoMeta {
   owner: string;
@@ -123,6 +125,7 @@ export function createGitHub(opts: {
     },
     async getTree(owner, repo, commit) {
       const d = await json<any>(`${repoPath(owner, repo)}/git/trees/${enc(commit)}?recursive=1`);
+      if (d.truncated) throw new TreeTruncated(`tree truncated for ${owner}/${repo}@${commit}`);
       return d.tree
         .filter((t: any) => t.type === "blob" || t.type === "tree")
         .map((t: any) => ({ path: t.path, type: t.type, sha: t.sha, size: t.size }));

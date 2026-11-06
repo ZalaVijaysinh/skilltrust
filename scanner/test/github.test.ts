@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { createGitHub, RateLimitExhausted } from "../src/github.js";
+import { createGitHub, RateLimitExhausted, TreeTruncated } from "../src/github.js";
 
 type Call = { url: string; headers: Record<string, string> };
 function fake(responses: Response[]) {
@@ -184,5 +184,17 @@ describe("github client", () => {
     await gh.searchCode("q", 1);
     expect(gh.remaining()).toBe(Infinity);
     expect(await gh.getRepo("a", "b")).toBeNull();
+  });
+
+  it("getTree throws TreeTruncated when GitHub truncates", async () => {
+    const { fetchImpl } = fake([json({ truncated: true, tree: [{ path: "a", type: "blob", sha: "1" }] })]);
+    const err = await createGitHub({ fetchImpl }).getTree("o", "r", "abc").catch((e) => e);
+    expect(err).toBeInstanceOf(TreeTruncated);
+    expect(err.message).toContain("o/r@abc");
+  });
+
+  it("getTree returns entries when truncated is false", async () => {
+    const { fetchImpl } = fake([json({ truncated: false, tree: [{ path: "a", type: "blob", sha: "1", size: 2 }] })]);
+    expect(await createGitHub({ fetchImpl }).getTree("o", "r", "abc")).toHaveLength(1);
   });
 });
