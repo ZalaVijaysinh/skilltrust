@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { discoverSkills } from "../src/discover.js";
+import { discoverSkills, newDiscoveryState } from "../src/discover.js";
 import { RateLimitExhausted, type GitHub } from "../src/github.js";
 
 function fake(opts: {
@@ -95,5 +95,48 @@ describe("discoverSkills", () => {
     const start = Date.now();
     await discoverSkills(gh);
     expect(Date.now() - start).toBeLessThan(1000);
+  });
+
+  describe("incremental", () => {
+    const hit = (n: number) => () => ({ totalCount: 1, items: [{ owner: "o", repo: `r${n}`, path: "SKILL.md" }] });
+
+    it("stops after the budget, saves the cursor, and resumes from it without duplicates", async () => {
+      let n = 0;
+      const a = fake({ search: () => { n++; return { totalCount: 1, items: [{ owner: "o", repo: `r${Math.min(n, 4)}`, path: "SKILL.md" }] }; } });
+      const state = newDiscoveryState();
+      await discoverSkills(a.gh, { state, budget: 2, now: new Date("2026-11-06T00:00:00Z") });
+      expect(a.queries).toHaveLength(2);
+      expect(state.queue[0]).toMatchObject({ lo: 2001, hi: 4000, page: 1 });
+      expect(state.candidates.map((c) => c.repo)).toEqual(["r1", "r2"]);
+      expect(state.candidates[0].firstSeen).toBe("2026-11-06");
+      const saved = JSON.parse(JSON.stringify(state));
+      const b = fake({ search: hit(2) });
+      const out = await discoverSkills(b.gh, { state: saved, budget: 2 });
+      expect(b.queries).toEqual(["filename:SKILL.md size:2001..4000#1", "filename:SKILL.md size:4001..8000#1"]);
+      expect(out.map((r) => r.repo)).toEqual(["r1", "r2"]);
+    });
+
+    it("records lastFullSweep and wraps to the start when a sweep completes", async () => {
+      const f = fake({ search: hit(1) });
+      const state = newDiscoveryState();
+      await discoverSkills(f.gh, { state, budget: 100, now: new Date("2026-11-06T00:00:00Z") });
+      expect(f.queries).toHaveLength(6);
+      expect(state.lastFullSweep).toBe("2026-11-06");
+      expect(state.queue[0]).toMatchObject({ lo: 0, hi: 1000, page: 1 });
+    });
+
+    it("remembers recursive splits in the cursor", async () => {
+      const f = fake({ search: (q) => (q.endsWith("size:0..1000") ? { totalCount: 1500, items: [] } : { totalCount: 0, items: [] }) });
+      const state = newDiscoveryState();
+      await discoverSkills(f.gh, { state, budget: 1 });
+      expect(state.queue.slice(0, 3).map((t) => [t.lo, t.hi])).toEqual([[0, 500], [501, 1000], [1001, 2000]]);
+    });
+
+    it("keeps the state when RateLimitExhausted propagates", async () => {
+      const f = fake({ search: () => { throw new RateLimitExhausted("x"); } });
+      const state = newDiscoveryState();
+      await expect(discoverSkills(f.gh, { state })).rejects.toBeInstanceOf(RateLimitExhausted);
+      expect(state.queue[0]).toMatchObject({ lo: 0, hi: 1000, page: 1 });
+    });
   });
 });

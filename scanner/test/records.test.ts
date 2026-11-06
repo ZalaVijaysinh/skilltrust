@@ -2,7 +2,7 @@ import { describe, it, expect, vi } from "vitest";
 import { mkdtemp, readFile, readdir, writeFile, mkdir } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { installCommand, parseFrontmatter, writeData } from "../src/records.js";
+import { installCommand, parseFrontmatter, rebuildIndex, writeData, writeRecords } from "../src/records.js";
 import { categorize } from "../src/category.js";
 import { rec, SHA } from "./fixtures-record.js";
 
@@ -125,5 +125,20 @@ describe("writeData", () => {
     await writeData(dir, [rec({ id: long, contentHash: "y" })], warn);
     expect(await readdir(join(dir, "skills"))).toHaveLength(2);
     expect(JSON.parse(await readFile(join(dir, "index.json"), "utf8"))).toHaveLength(2);
+  });
+});
+
+describe("writeRecords / rebuildIndex", () => {
+  it("writeRecords writes only the record files; rebuildIndex then builds index and report from disk", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "st-"));
+    await writeRecords(dir, [rec({ id: "o__a__s", repo: "a", contentHash: "1" })]);
+    expect(await readdir(dir)).toEqual(["skills"]);
+    await writeRecords(dir, [rec({ id: "o__b__s", repo: "b", contentHash: "2" })]);
+    expect(await readdir(dir)).toEqual(["skills"]);
+    await writeFile(join(dir, "skills", "junk.json"), "{nope");
+    const { skipped } = await rebuildIndex(dir, () => {});
+    expect(skipped).toEqual(["junk.json"]);
+    expect(JSON.parse(await readFile(join(dir, "index.json"), "utf8"))).toHaveLength(2);
+    expect(JSON.parse(await readFile(join(dir, "report.json"), "utf8")).totalSkills).toBe(2);
   });
 });

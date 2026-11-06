@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { mkdtemp, readFile, readdir } from "node:fs/promises";
+import { mkdtemp, readFile, readdir, stat } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { runScan } from "../src/pipeline.js";
@@ -54,7 +54,7 @@ const skill = (name: string, extra = "") => ({ "SKILL.md": `---\nname: ${name}\n
 const mk = async () => mkdtemp(join(tmpdir(), "st-"));
 const load = async (dir: string): Promise<SkillRecord[]> =>
   Promise.all((await readdir(join(dir, "skills"))).sort().map(async (f) => JSON.parse(await readFile(join(dir, "skills", f), "utf8"))));
-const run = (gh: GitHub, dataDir: string, minStars = 10) => runScan({ gh, dataDir, now: NOW, minStars });
+const run = (gh: GitHub, dataDir: string, minStars = 10, extra: Partial<Parameters<typeof runScan>[0]> = {}) => runScan({ gh, dataDir, now: NOW, minStars, ...extra });
 
 describe("runScan", () => {
   it("records skills and writes index/report; skips repos below minStars", async () => {
@@ -165,5 +165,54 @@ describe("runScan", () => {
     const x = recs.find((q) => q.path === "x")!;
     expect(x.scan.findings.some((f) => f.ruleId === "network" && f.disclosed)).toBe(true);
     expect(recs.find((q) => q.path === "y")!.name).toBe("y");
+  });
+
+  it("per-repo saves do not touch index.json; one rebuild at the end covers everything", async () => {
+    const dir = await mk();
+    const f = fake({ "a/one": { files: skill("one") }, "b/two": { files: skill("twooo") } });
+    const seen: boolean[] = [];
+    const origTree = f.gh.getTree;
+    f.gh.getTree = async (...a) => { seen.push(await stat(join(dir, "index.json")).then(() => true, () => false)); return origTree(...a); };
+    await run(f.gh, dir);
+    expect(seen).toEqual([false, false]);
+    expect(JSON.parse(await readFile(join(dir, "index.json"), "utf8"))).toHaveLength(2);
+  });
+
+  it("stops cleanly when the time budget is exceeded, still rebuilding the index", async () => {
+    const dir = await mk();
+    const { gh, calls } = fake({ "a/one": { files: skill("one") }, "b/two": { files: skill("two") }, "c/three": { files: skill("three") } });
+    let t = 0;
+    const r = await run(gh, dir, 10, { maxMinutes: 5, clock: () => (t += 3 * 60_000) });
+    expect(r.stoppedEarly).toBe(true);
+    expect(calls.getTree.length).toBeLessThan(3);
+    expect(JSON.parse(await readFile(join(dir, "index.json"), "utf8")).length).toBe(calls.getTree.length);
+  });
+
+  it("counts unread files (binary, huge, failed reads) in filesSkipped", async () => {
+    const dir = await mk();
+    const { gh } = fake({ "a/r": { files: { ...skill("r"), "logo.png": "x", "big.md": "y".repeat(1_100_000), "tool.sh": "echo hi" } } });
+    const origRead = gh.readRaw;
+    gh.readRaw = async (o, r, c, p) => { if (p === "tool.sh") throw new Error("timeout"); return origRead(o, r, c, p); };
+    await run(gh, dir);
+    const [x] = await load(dir);
+    expect(x.scan.filesSkipped).toBe(3);
+    expect(x.scan.filesScanned).toBe(1);
+  });
+
+  it("persists discovery state and spends at most the search budget", async () => {
+    const dir = await mk();
+    const f = fake({ "a/r": { files: skill("r") } });
+    let searches = 0;
+    const inner = f.gh.searchCode;
+    f.gh.searchCode = async (q, p) => { searches++; return inner(q, p); };
+    await run(f.gh, dir, 10, { searchBudget: 2 });
+    expect(searches).toBe(2);
+    const d = JSON.parse(await readFile(join(dir, "discovery.json"), "utf8"));
+    expect(d.queue.length).toBeGreaterThan(0);
+    expect(d.candidates[0]).toMatchObject({ owner: "a", repo: "r" });
+    // candidates found earlier are still scanned when the next run finds nothing new
+    f.gh.searchCode = async () => ({ totalCount: 0, items: [] });
+    expect((await run(f.gh, dir, 10, { searchBudget: 1 })).scanned).toBe(0); // unchanged commit
+    expect((await load(dir)).map((x) => x.repo)).toEqual(["r"]);
   });
 });

@@ -110,16 +110,13 @@ function fileStem(id: string): string | null {
   return /^[a-z0-9._~-]+$/.test(stem) && !/^\.+$/.test(stem) ? stem : null;
 }
 
-async function writeAtomic(file: string, text: string): Promise<void> {
+export async function writeAtomic(file: string, text: string): Promise<void> {
   await writeFile(`${file}.tmp`, text);
   await rename(`${file}.tmp`, file);
 }
 
-/**
- * Writes the given records, then rebuilds index.json and report.json from every record in skills/
- * (duplicates collapsed, oldest repo wins). Never deletes. Returns the files/ids it could not use.
- */
-export async function writeData(dir: string, records: SkillRecord[], warn: (m: string) => void = console.warn): Promise<{ skipped: string[] }> {
+/** Writes only the given record files (atomic). Never deletes. Returns the ids it could not write. */
+export async function writeRecords(dir: string, records: SkillRecord[], warn: (m: string) => void = console.warn): Promise<{ skipped: string[] }> {
   const skills = join(dir, "skills");
   await mkdir(skills, { recursive: true });
   const skipped: string[] = [];
@@ -130,13 +127,29 @@ export async function writeData(dir: string, records: SkillRecord[], warn: (m: s
     try { await writeAtomic(join(skills, `${stem}.json`), JSON.stringify(r, null, 2) + "\n"); }
     catch (e) { bad(r.id, String(e)); }
   }
+  return { skipped };
+}
+
+/** Rebuilds index.json and report.json from every record in skills/ (duplicates collapsed, oldest repo wins). Never deletes. */
+export async function rebuildIndex(dir: string, warn: (m: string) => void = console.warn): Promise<{ skipped: string[] }> {
+  const skills = join(dir, "skills");
+  await mkdir(skills, { recursive: true });
+  const skipped: string[] = [];
   const all: SkillRecord[] = [];
   for (const f of (await readdir(skills)).filter((n) => n.endsWith(".json")).sort()) {
-    try { all.push(JSON.parse(await readFile(join(skills, f), "utf8"))); } catch { bad(f, "unparseable JSON"); }
+    try { all.push(JSON.parse(await readFile(join(skills, f), "utf8"))); }
+    catch { skipped.push(f); warn(`skilltrust: skipped ${f}: unparseable JSON`); }
   }
   const merged = mergeDuplicates(all);
   const index = merged.map(toIndexEntry).sort((a, b) => b.score - a.score || b.stars - a.stars || (a.id < b.id ? -1 : 1));
   await writeAtomic(join(dir, "index.json"), JSON.stringify(index, null, 2) + "\n");
   await writeAtomic(join(dir, "report.json"), JSON.stringify(buildReport(merged), null, 2) + "\n");
   return { skipped };
+}
+
+/** writeRecords, then rebuildIndex. */
+export async function writeData(dir: string, records: SkillRecord[], warn: (m: string) => void = console.warn): Promise<{ skipped: string[] }> {
+  const w = await writeRecords(dir, records, warn);
+  const r = await rebuildIndex(dir, warn);
+  return { skipped: [...w.skipped, ...r.skipped] };
 }

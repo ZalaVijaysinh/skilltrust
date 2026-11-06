@@ -1,18 +1,19 @@
-import { readdir, readFile } from "node:fs/promises";
+import { mkdir, readdir, readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { RateLimitExhausted, type GitHub, type RepoMeta, type TreeEntry } from "./github.js";
-import { discoverSkills } from "./discover.js";
+import { discoverSkills, newDiscoveryState, type DiscoveryState } from "./discover.js";
 import { resolveSkillFiles } from "./resolve.js";
 import { scanFiles } from "./scan.js";
 import { RULES_VERSION } from "./rules.js";
 import { categorize } from "./category.js";
 import { contentHash, skillDirsInTree, skillId } from "./dedupe.js";
-import { parseFrontmatter, writeData, type SkillRecord } from "./records.js";
+import { parseFrontmatter, rebuildIndex, writeAtomic, writeRecords, type SkillRecord } from "./records.js";
 import type { SkillFile } from "./types.js";
 
 export interface ScanSummary { scanned: number; skipped: number; unavailable: number; stoppedEarly: boolean; writeSkipped: string[] }
 
 const CONCURRENCY = 8;
+const MAX_READ = 1_000_000;
 const BINARY = /\.(png|jpe?g|gif|webp|ico|pdf|zip|gz|tgz|woff2?|ttf|mp[34]|wasm|lock)$/i;
 const key = (o: string, r: string) => `${o}/${r}`.toLowerCase();
 
@@ -55,21 +56,25 @@ async function scanRepo(gh: GitHub, meta: RepoMeta, commit: string, tree: TreeEn
   const readOpt = async (p: string) => {
     try { return await read(p); } catch (e) { if (e instanceof RateLimitExhausted) throw e; return ""; }
   };
+  const sizes = new Map(tree.map((e) => [e.path, e.size]));
   const readme = await readOpt("README.md");
   const out: SkillRecord[] = [];
   for (const dir of skillDirsInTree(tree)) {
     // warm the cache in parallel; the resolver itself reads one file at a time
     const prefix = dir ? `${dir}/` : "";
-    await Promise.all(tree.filter((e) => e.type === "blob" && e.path.startsWith(prefix) && !BINARY.test(e.path) && (e.size ?? 0) <= 1_000_000).map((e) => readOpt(e.path)));
+    const unreadable = (p: string) => BINARY.test(p) || (sizes.get(p) ?? 0) > MAX_READ;
+    await Promise.all(tree.filter((e) => e.type === "blob" && e.path.startsWith(prefix) && !unreadable(e.path)).map((e) => read(e.path).catch((err) => { if (err instanceof RateLimitExhausted) throw err; })));
     const { skill, referenced, pluginAuto } = await resolveSkillFiles(tree, dir, read);
-    const origin = (paths: string[], o: SkillFile["origin"]) => paths.filter((p) => !BINARY.test(p)).map((path) => ({ path, origin: o }));
-    const wanted = [...origin(skill, "skill"), ...origin(referenced, "referenced"), ...origin(pluginAuto, "plugin-auto")];
+    const wanted = [...skill.map((path) => ({ path, origin: "skill" as const })), ...referenced.map((path) => ({ path, origin: "referenced" as const })), ...pluginAuto.map((path) => ({ path, origin: "plugin-auto" as const }))];
+    let unread = 0;
     const files: SkillFile[] = (await Promise.all(wanted.map(async (w) => {
-      try { return { ...w, text: await read(w.path) }; } catch (e) { if (e instanceof RateLimitExhausted) throw e; return null; }
+      if (unreadable(w.path)) { unread++; return null; }
+      try { return { ...w, text: await read(w.path) }; } catch (e) { if (e instanceof RateLimitExhausted) throw e; unread++; return null; }
     }))).filter((f): f is SkillFile => f !== null);
     const skillMd = await readOpt(dir ? `${dir}/SKILL.md` : "SKILL.md");
     const fm = parseFrontmatter(skillMd);
     const scan = scanFiles(files, `${skillMd}\n${readme}`);
+    scan.filesSkipped += unread;
     const path = dir;
     const id = skillId({ owner, repo, path });
     const prev = existing.get(id);
@@ -87,22 +92,37 @@ async function scanRepo(gh: GitHub, meta: RepoMeta, commit: string, tree: TreeEn
   return out;
 }
 
-export async function runScan(opts: { gh: GitHub; dataDir: string; now: Date; minStars: number }): Promise<ScanSummary> {
+export async function runScan(opts: {
+  gh: GitHub; dataDir: string; now: Date; minStars: number;
+  /** code-search requests per run */ searchBudget?: number;
+  /** wall-clock limit for the repo loop */ maxMinutes?: number;
+  clock?: () => number;
+}): Promise<ScanSummary> {
   const { gh, dataDir, now, minStars } = opts;
+  const clock = opts.clock ?? Date.now;
+  const deadline = clock() + (opts.maxMinutes ?? 240) * 60_000;
   const sum: ScanSummary = { scanned: 0, skipped: 0, unavailable: 0, stoppedEarly: false, writeSkipped: [] };
   const existing = new Map((await loadExisting(dataDir)).map((r) => [r.id, r]));
   const byRepo = new Map<string, SkillRecord[]>();
   for (const r of existing.values()) byRepo.set(key(r.owner, r.repo), [...(byRepo.get(key(r.owner, r.repo)) ?? []), r]);
 
-  const write = async (records: SkillRecord[]) => { sum.writeSkipped.push(...(await writeData(dataDir, records)).skipped); };
-  const finish = async () => { await write([]); return sum; };
+  const write = async (records: SkillRecord[]) => { sum.writeSkipped.push(...(await writeRecords(dataDir, records)).skipped); };
+  // index.json and report.json are rebuilt once per run, from everything on disk
+  const finish = async () => { sum.writeSkipped.push(...(await rebuildIndex(dataDir)).skipped); return sum; };
 
-  let refs;
-  try { refs = await discoverSkills(gh); } catch (e) {
+  const discoveryFile = join(dataDir, "discovery.json");
+  let state: DiscoveryState;
+  try {
+    const d = JSON.parse(await readFile(discoveryFile, "utf8"));
+    state = Array.isArray(d?.candidates) && Array.isArray(d?.queue) ? d : newDiscoveryState();
+  } catch { state = newDiscoveryState(); }
+  try { await discoverSkills(gh, { state, budget: opts.searchBudget ?? 120, now }); } catch (e) {
     if (!(e instanceof RateLimitExhausted)) throw e;
     sum.stoppedEarly = true;
-    return finish();
   }
+  await mkdir(dataDir, { recursive: true });
+  await writeAtomic(discoveryFile, JSON.stringify(state, null, 2) + "\n");
+  const refs = state.candidates;
   // discovery paths are only candidates; the tree decides what is a skill
   const repos = new Map<string, { owner: string; repo: string }>();
   for (const r of refs) if (!repos.has(key(r.owner, r.repo))) repos.set(key(r.owner, r.repo), { owner: r.owner, repo: r.repo });
@@ -113,6 +133,8 @@ export async function runScan(opts: { gh: GitHub; dataDir: string; now: Date; mi
   });
 
   for (const [k, { owner, repo }] of order) {
+    if (sum.stoppedEarly) break;
+    if (clock() > deadline) { sum.stoppedEarly = true; break; }
     const known = byRepo.get(k) ?? [];
     try {
       const meta = await gh.getRepo(owner, repo);

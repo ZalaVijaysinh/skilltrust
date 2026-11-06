@@ -25,38 +25,64 @@ function trimBoth(s: string, ch: string): string {
 }
 const LINK = /github\.com\/([\w.-]{1,100})\/([\w.-]{1,100})(?:\/tree\/[^/\s)#?"'<>]{1,200}\/([^\s)#?"'<>]{0,500}))?/g;
 
-export function discoverSkills(gh: GitHub): Promise<SkillRef[]> {
-  return run(gh);
+export interface Candidate extends SkillRef { firstSeen: string }
+/** A pending code-search slice; `page` is the next page to fetch. The queue is the resumable cursor. */
+export interface SliceTask { lo: number; hi: number; page: number }
+export interface DiscoveryState { candidates: Candidate[]; queue: SliceTask[]; lastFullSweep?: string }
+
+const freshQueue = (): SliceTask[] => SIZE_RANGES.map(([lo, hi]) => ({ lo, hi, page: 1 }));
+export function newDiscoveryState(): DiscoveryState { return { candidates: [], queue: freshQueue() }; }
+
+/**
+ * Adds to `state` in place (so callers can save it even when this throws RateLimitExhausted).
+ * Spends at most `budget` code-search requests, continuing from `state.queue`; awesome lists and the marketplace are always refreshed.
+ * Without options: one full sweep from scratch, returning every candidate.
+ */
+export async function discoverSkills(
+  gh: GitHub,
+  opts: { state?: DiscoveryState; budget?: number; now?: Date } = {},
+): Promise<SkillRef[]> {
+  const state = opts.state ?? newDiscoveryState();
+  await run(gh, state, opts.budget ?? Infinity, (opts.now ?? new Date()).toISOString().slice(0, 10));
+  return state.candidates.map(({ owner, repo, path }) => ({ owner, repo, path }));
 }
 
-async function run(gh: GitHub): Promise<SkillRef[]> {
-  const seen = new Map<string, SkillRef>();
+async function run(gh: GitHub, state: DiscoveryState, budget: number, today: string): Promise<void> {
+  const keyOf = (owner: string, repo: string, path: string) => `${owner.toLowerCase()}/${repo.toLowerCase()}/${path}`;
+  const seen = new Set(state.candidates.map((c) => keyOf(c.owner, c.repo, c.path)));
   const add = (owner: string, repo: string, path: string) => {
-    const key = `${owner}/${repo}/${path}`.replace(/^([^/]*)\/([^/]*)/, (_, o, r) => `${o.toLowerCase()}/${r.toLowerCase()}`);
-    if (!seen.has(key)) seen.set(key, { owner, repo, path });
+    const key = keyOf(owner, repo, path);
+    if (!seen.has(key)) { seen.add(key); state.candidates.push({ owner, repo, path, firstSeen: today }); }
   };
   const tolerate = async (f: () => Promise<void>) => {
     try { await f(); } catch (e) { if (e instanceof RateLimitExhausted) throw e; }
   };
 
-  // 1. code search, sliced by file size
-  const slice = async (lo: number, hi: number): Promise<void> => {
+  // 1. code search, sliced by file size; each loop iteration is one request
+  if (!state.queue.length) state.queue = freshQueue();
+  for (let spent = 0; spent < budget && state.queue.length; spent++) {
+    const { lo, hi, page } = state.queue[0];
     const q = `filename:SKILL.md size:${lo}..${hi}`;
-    const first = await gh.searchCode(q, 1);
-    if (first.totalCount > 1000 && lo < hi) {
+    let res;
+    try { res = await gh.searchCode(q, page); } catch (e) {
+      if (e instanceof RateLimitExhausted) throw e; // task stays queued
+      state.queue.shift(); // skip a failing slice
+      continue;
+    }
+    state.queue.shift();
+    if (page === 1 && res.totalCount > 1000 && lo < hi) {
       const mid = Math.floor((lo + hi) / 2);
-      await slice(lo, mid);
-      await slice(mid + 1, hi);
-      return;
+      state.queue.unshift({ lo, hi: mid, page: 1 }, { lo: mid + 1, hi, page: 1 });
+      continue;
     }
-    let items = first.items;
-    for (let page = 1; ; page++) {
-      for (const i of items) add(i.owner, i.repo, i.path.split("/").slice(0, -1).join("/"));
-      if (items.length < 100 || page >= 10) break;
-      items = (await gh.searchCode(q, page + 1)).items;
+    for (const i of res.items) add(i.owner, i.repo, i.path.split("/").slice(0, -1).join("/"));
+    if (res.items.length === 100 && page < 10) state.queue.unshift({ lo, hi, page: page + 1 });
+    if (!state.queue.length) {
+      state.lastFullSweep = today;
+      state.queue = freshQueue();
+      break;
     }
-  };
-  for (const [lo, hi] of SIZE_RANGES) await tolerate(() => slice(lo, hi));
+  }
 
   // 2. awesome lists (links only; no per-repo API calls)
   for (const [o, r] of AWESOME_LISTS) {
@@ -88,5 +114,4 @@ async function run(gh: GitHub): Promise<SkillRef[]> {
     }
   });
 
-  return [...seen.values()];
 }
