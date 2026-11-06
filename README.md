@@ -14,7 +14,7 @@ Claude Code, Codex, Antigravity, Cursor, Copilot, Gemini CLI and OpenCode. Codex
 
 ## Install the finder
 
-The finder is an agent skill. Ask it for a skill and it detects which agent you are in, recommends the safest matches, shows what each can do, and installs one only after you say yes. It installs into the shared `~/.agents/skills` folder and links it into your agent's own skills folder when that agent needs it. It never deletes or replaces anything.
+The finder is an agent skill. Ask it for a skill and it detects which agent you are in, recommends the safest matches, shows what each can do, and installs one only after you say yes. It installs into the shared `~/.agents/skills` folder and links it into your agent's own skills folder when that agent needs it. It never deletes or replaces anything you already have (it only removes its own temporary download).
 
 ```
 npx skills add ZalaVijaysinh/skilltrust
@@ -29,7 +29,7 @@ Or, in Claude Code:
 
 ## Trending
 
-The home page ranks skills by stars gained this week and this month, taken from daily star snapshots. Until there is enough history it shows "New and rising" instead. "Most installed" is coming later. Star history is backfilled from [OSS Insight](https://ossinsight.io); the backfill is paused for now.
+The home page ranks skills by stars gained this week and this month, taken from daily star snapshots. Until there is enough history it shows "New and rising" instead. "Most installed" is coming later. Star history may later be backfilled from [OSS Insight](https://ossinsight.io) (paused: its API is currently failing).
 
 ## How scoring works
 
