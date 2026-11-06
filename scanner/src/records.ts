@@ -93,10 +93,10 @@ export function installCommand(e: { owner: string; repo: string; path: string; c
   const dest = slug(name) || slug(path.split("/").pop() ?? "") || "skill";
   const url = q(`https://github.com/${owner}/${repo}`);
   const target = `~/.claude/skills/${q(dest)}`;
-  const fetch = `d=$(mktemp -d) && git clone --quiet --filter=blob:none --no-checkout ${url} "$d" && git -C "$d" checkout --quiet ${q(commit)} -- ${q(path || ".")} && mkdir -p ~/.claude/skills`;
+  const clone = `d=$(mktemp -d) && git clone --quiet --filter=blob:none --no-checkout ${url} "$d" && git -C "$d" checkout --quiet ${q(commit)} -- ${q(path || ".")} && mkdir -p ~/.claude/skills`;
   // the folder did not exist a moment ago, so its .git is our own copy's
   const copy = path === "" ? `cp -R "$d/." ${target} && rm -rf ${target}/.git` : `cp -R "$d"/${q(path)} ${target}`;
-  return `if [ -e ${target} ] || [ -L ${target} ]; then echo ${q(`A skill folder named ${dest} already exists — not replacing it`)} >&2; false; else ${fetch} && ${copy} && rm -rf "$d"; fi`;
+  return `if [ -e ${target} ] || [ -L ${target} ]; then echo ${q(`A skill folder named ${dest} already exists — not replacing it`)} >&2; false; else ${clone} && ${copy} && rm -rf "$d"; fi`;
 }
 
 const cut = (s: string, n: number) => (s.length > n ? `${s.slice(0, n - 1)}…` : s);
