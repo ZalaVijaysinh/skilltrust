@@ -13,6 +13,7 @@ import type { SkillFile } from "./types.js";
 export interface ScanSummary { scanned: number; skipped: number; unavailable: number; stoppedEarly: boolean; writeSkipped: string[] }
 
 const CONCURRENCY = 8;
+const BELOW_FLOOR_RECHECK_MS = 7 * 24 * 3600_000;
 const MAX_READ = 1_000_000;
 const BINARY = /\.(png|jpe?g|gif|webp|ico|pdf|zip|gz|tgz|woff2?|ttf|mp[34]|wasm|lock)$/i;
 const key = (o: string, r: string) => `${o}/${r}`.toLowerCase();
@@ -107,12 +108,16 @@ function validState(d: any): DiscoveryState | null {
   if (!d || !Array.isArray(d.candidates) || !Array.isArray(d.queue)) return null;
   const lastChecked: Record<string, string> = {};
   if (d.lastChecked && typeof d.lastChecked === "object") for (const [k, v] of Object.entries(d.lastChecked)) if (isStr(v)) lastChecked[k] = v;
+  const belowFloor: NonNullable<DiscoveryState["belowFloor"]> = {};
+  if (d.belowFloor && typeof d.belowFloor === "object")
+    for (const [k, v] of Object.entries<any>(d.belowFloor)) if (v && Number.isFinite(v.stars) && isStr(v.checkedAt)) belowFloor[k] = { stars: v.stars, checkedAt: v.checkedAt };
   return {
     candidates: d.candidates.filter((c: any) => c && isStr(c.owner) && isStr(c.repo) && isStr(c.path) && isStr(c.firstSeen)),
     queue: d.queue.filter((t: any) => t && [t.lo, t.hi, t.page].every(Number.isFinite)),
     lastFullSweep: isStr(d.lastFullSweep) ? d.lastFullSweep : undefined,
     lastChecked,
     partial: Array.isArray(d.partial) ? d.partial.filter(isStr) : [],
+    belowFloor,
   };
 }
 
@@ -147,6 +152,7 @@ export async function runScan(opts: {
   await mkdir(dataDir, { recursive: true });
   const state = await loadState(discoveryFile);
   const lastChecked = (state.lastChecked ??= {});
+  const belowFloor = (state.belowFloor ??= {});
   const partial = new Set(state.partial ?? []);
   const saveState = () => writeAtomic(discoveryFile, JSON.stringify({ ...state, partial: [...partial] }, null, 2) + "\n");
   try {
@@ -171,6 +177,8 @@ export async function runScan(opts: {
       if (expired()) { sum.stoppedEarly = true; break; }
       const known = byRepo.get(k) ?? [];
       let probed = true; // false: leave lastChecked alone so the repo stays first in line
+      const below = belowFloor[k];
+      if (below && below.stars < minStars && now.getTime() - Date.parse(below.checkedAt) < BELOW_FLOOR_RECHECK_MS) { sum.skipped++; continue; }
       try {
         const meta = await gh.getRepo(owner, repo);
         if (!meta) {
@@ -179,7 +187,8 @@ export async function runScan(opts: {
           sum.unavailable += known.length;
           continue;
         }
-        if (meta.stars < minStars) { sum.skipped++; continue; }
+        if (meta.stars < minStars) { belowFloor[k] = { stars: meta.stars, checkedAt: now.toISOString() }; sum.skipped++; continue; }
+        delete belowFloor[k];
         const commit = await gh.getHeadCommit(owner, repo, meta.defaultBranch);
         if (!commit) { sum.skipped++; console.warn(`skilltrust: skipped ${owner}/${repo}: no head commit`); continue; }
         if (!partial.has(k) && known.length && known.every((r) => r.commit === commit && r.status === "ok" && !r.incomplete && r.scan.rulesVersion === RULES_VERSION)) {

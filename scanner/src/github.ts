@@ -44,11 +44,16 @@ export function createGitHub(opts: {
   fetchImpl?: typeof fetch;
   floor?: number;
   sleep?: (ms: number) => Promise<void>;
+  now?: () => number;
+  /** epoch ms: below the floor, wait for the hourly core reset only if it comes before this; otherwise stop */
+  deadline?: number;
 }): GitHub {
   const doFetch = opts.fetchImpl ?? fetch;
   const floor = opts.floor ?? 100;
   const sleep = opts.sleep ?? ((ms: number) => new Promise<void>((r) => setTimeout(r, ms)));
+  const now = opts.now ?? Date.now;
   let remaining = Infinity;
+  let resetAt = 0; // epoch ms of the next core quota reset, from x-ratelimit-reset
 
   const headers: Record<string, string> = {
     Accept: "application/vnd.github+json",
@@ -60,12 +65,19 @@ export function createGitHub(opts: {
   /** Returns the response (any status except retried 403/429); callers handle 404. */
   async function api(path: string): Promise<Response> {
     for (let attempt = 0; ; attempt++) {
-      if (remaining < floor) throw new RateLimitExhausted(`GitHub quota low: ${remaining} < ${floor}`);
+      if (remaining < floor) {
+        const wakeAt = resetAt + 5000;
+        if (!resetAt || opts.deadline === undefined || wakeAt > opts.deadline) throw new RateLimitExhausted(`GitHub quota low: ${remaining} < ${floor}`);
+        await sleep(Math.max(wakeAt - now(), 0));
+        remaining = Infinity; // quota refilled at reset
+      }
       const res = await doFetch(`https://api.github.com${path}`, { headers, signal: AbortSignal.timeout(FETCH_TIMEOUT_MS) });
       const resource = res.headers.get("x-ratelimit-resource") ?? "core";
       const rem = res.headers.get("x-ratelimit-remaining");
       // Only core quota drives remaining()/floor; search has its own small budget.
       if (resource === "core" && rem !== null && !Number.isNaN(Number(rem))) remaining = Number(rem);
+      const reset = Number(res.headers.get("x-ratelimit-reset"));
+      if (resource === "core" && reset > 0) resetAt = reset * 1000;
       if (res.status !== 403 && res.status !== 429) return res;
       const ra = res.headers.get("retry-after");
       let waitMs: number;

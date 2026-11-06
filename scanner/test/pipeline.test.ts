@@ -58,6 +58,7 @@ const run = (gh: GitHub, dataDir: string, minStars = 10, extra: Partial<Paramete
 
 describe("runScan", () => {
   const seqClock = (vals: number[]) => () => vals.shift() ?? 5 * 60_000;
+  const discovery = async (dir: string) => JSON.parse(await readFile(join(dir, "discovery.json"), "utf8"));
   it("records skills and writes index/report; skips repos below minStars", async () => {
     const dir = await mk();
     const { gh } = fake({ "a/big": { stars: 50, files: skill("big") }, "a/small": { stars: 2, files: skill("small") } });
@@ -70,6 +71,30 @@ describe("runScan", () => {
     const index = JSON.parse(await readFile(join(dir, "index.json"), "utf8"));
     expect(index).toHaveLength(1);
     expect(index[0].installCommand).toContain("git clone");
+  });
+
+  it("remembers repos below minStars and re-probes them at most every 7 days", async () => {
+    const dir = await mk();
+    const repos = { "a/small": { stars: 2, files: skill("small") } };
+    const r1 = fake(repos);
+    await run(r1.gh, dir);
+    expect(r1.calls.getRepo).toEqual(["a/small"]);
+    expect((await discovery(dir)).belowFloor).toEqual({ "a/small": { stars: 2, checkedAt: NOW.toISOString() } });
+    const r2 = fake(repos);
+    const s2 = await run(r2.gh, dir, 10, { now: new Date("2026-11-12T00:00:00Z") });
+    expect(r2.calls.getRepo).toEqual([]);
+    expect(s2.skipped).toBe(1);
+    // a lower minStars re-probes at once
+    const r3 = fake(repos);
+    await run(r3.gh, dir, 1, { now: new Date("2026-11-12T00:00:00Z") });
+    expect(r3.calls.getRepo).toEqual(["a/small"]);
+    expect((await discovery(dir)).belowFloor).toEqual({});
+    await writeFile(join(dir, "discovery.json"), JSON.stringify({ ...(await discovery(dir)), belowFloor: { "a/small": { stars: 2, checkedAt: NOW.toISOString() } } }));
+    const r4 = fake({ "a/small": { stars: 50, files: skill("small") } });
+    const s4 = await run(r4.gh, dir, 10, { now: new Date("2026-11-14T00:00:00Z") });
+    expect(r4.calls.getRepo).toEqual(["a/small"]);
+    expect(s4.scanned).toBe(0); // already scanned by the minStars=1 run, same commit
+    expect((await discovery(dir)).belowFloor).toEqual({});
   });
 
   it("does not re-fetch a repo whose head commit is unchanged", async () => {
@@ -260,7 +285,6 @@ describe("runScan", () => {
     expect((await load(dir)).map((x) => x.repo)).toEqual(["r"]);
   });
 
-  const discovery = async (dir: string) => JSON.parse(await readFile(join(dir, "discovery.json"), "utf8"));
 
   it("an unchanged repo checked this run goes behind one that was not checked", async () => {
     const dir = await mk();

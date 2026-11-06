@@ -36,6 +36,8 @@ export interface DiscoveryState {
   lastChecked?: Record<string, string>;
   /** repos whose scan was cut short by the deadline; never fast-pathed */
   partial?: string[];
+  /** owner/repo (lowercase) last seen below the star floor; re-probed at most every 7 days */
+  belowFloor?: Record<string, { stars: number; checkedAt: string }>;
 }
 
 const freshQueue = (): SliceTask[] => SIZE_RANGES.map(([lo, hi]) => ({ lo, hi, page: 1 }));

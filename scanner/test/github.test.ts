@@ -67,6 +67,32 @@ describe("github client", () => {
     expect(calls).toHaveLength(1);
   });
 
+  it("below the floor, sleeps until the hourly reset (+5 s) when it comes before the deadline, then continues", async () => {
+    const t0 = 1_800_000_000_000;
+    const resetSecs = t0 / 1000 + 1800;
+    const { fetchImpl, calls } = fake([
+      json({ sha: "abc" }, 200, { "x-ratelimit-remaining": "50", "x-ratelimit-reset": String(resetSecs) }),
+      json({ sha: "def" }, 200, { "x-ratelimit-remaining": "4999", "x-ratelimit-reset": String(resetSecs + 3600) }),
+    ]);
+    const waits: number[] = [];
+    const gh = createGitHub({ fetchImpl, sleep: async (ms) => void waits.push(ms), now: () => t0, deadline: t0 + 3 * 3600_000 });
+    expect(await gh.getHeadCommit("a", "b", "main")).toBe("abc");
+    expect(await gh.getHeadCommit("a", "b", "main")).toBe("def");
+    expect(waits).toEqual([1800_000 + 5000]);
+    expect(calls).toHaveLength(2);
+    expect(gh.remaining()).toBe(4999);
+  });
+
+  it("below the floor, stops when the reset comes after the deadline", async () => {
+    const t0 = 1_800_000_000_000;
+    const { fetchImpl } = fake([json({ sha: "abc" }, 200, { "x-ratelimit-remaining": "50", "x-ratelimit-reset": String(t0 / 1000 + 1800) })]);
+    const waits: number[] = [];
+    const gh = createGitHub({ fetchImpl, sleep: async (ms) => void waits.push(ms), now: () => t0, deadline: t0 + 1000_000 });
+    await gh.getHeadCommit("a", "b", "main");
+    await expect(gh.getHeadCommit("a", "b", "main")).rejects.toBeInstanceOf(RateLimitExhausted);
+    expect(waits).toEqual([]);
+  });
+
   it("respects custom floor", async () => {
     const { fetchImpl } = fake([
       json({ sha: "abc" }, 200, { "x-ratelimit-remaining": "5" }),

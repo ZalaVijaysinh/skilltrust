@@ -10,9 +10,10 @@ const num = (name: string, dflt: number) => {
   return v;
 };
 const minStars = num("SKILLTRUST_MIN_STARS", 10);
+const maxMinutes = num("SKILLTRUST_MAX_MINUTES", 240);
 const r = await runScan({
-  gh: createGitHub({ token }), dataDir: "data", now: new Date(), minStars,
-  searchBudget: num("SKILLTRUST_SEARCH_BUDGET", 120), maxMinutes: num("SKILLTRUST_MAX_MINUTES", 240),
+  gh: createGitHub({ token, deadline: Date.now() + maxMinutes * 60_000 }), dataDir: "data", now: new Date(), minStars,
+  searchBudget: num("SKILLTRUST_SEARCH_BUDGET", 120), maxMinutes,
 });
 console.log(`skilltrust: scanned ${r.scanned}, skipped ${r.skipped}, unavailable ${r.unavailable}, stoppedEarly ${r.stoppedEarly}`);
 if (r.writeSkipped.length) console.log(`skilltrust: write skipped: ${r.writeSkipped.join(", ")}`);
