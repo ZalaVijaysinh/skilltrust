@@ -1,0 +1,42 @@
+---
+import Base from "../layouts/Base.astro";
+import { RULES } from "../../../scanner/src/rules";
+import { PENALTIES, bandLabel } from "../../../scanner/src/score";
+const plain = (s: string) => s.replace(/:?\s*\{hosts\}/, "");
+const bands = [
+  { band: "low", range: "80 to 100" },
+  { band: "review", range: "50 to 79" },
+  { band: "high", range: "0 to 49" },
+] as const;
+---
+<Base title="How we score | SkillTrust">
+  <h1>How we score</h1>
+  <p class="lede">Every skill starts at 100. We subtract points for each kind of thing its files can do. Each kind counts once, however many times it appears.</p>
+
+  <h2>What we look for</h2>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>What the skill can do</th><th>Points off</th><th>If the author says so</th></tr></thead>
+      <tbody>
+        {RULES.map((r) => (
+          <tr><td>{plain(r.sentence)}</td><td>{PENALTIES[r.id]} points</td><td>{Math.ceil(PENALTIES[r.id] / 2)} points</td></tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p>If the skill's description or README tells you about it, we take off half as many points. Honesty about a capability matters. Hiding it matters more.</p>
+
+  <h2>Risk levels</h2>
+  <ul>
+    {bands.map((b) => <li><span class={`badge band-${b.band}`}>{bandLabel(b.band)}</span> score {b.range}</li>)}
+  </ul>
+
+  <h2 id="limits">Limits of static scanning</h2>
+  <ul>
+    <li>We read files. We never run the skill. A skill can look quiet and still behave differently when it runs.</li>
+    <li>We look for known patterns. A determined author can write code our rules do not recognise, so a high score is not a guarantee.</li>
+    <li>A flag means the skill <em>can</em> do something, not that it does anything wrong. Many useful skills need the internet or a terminal.</li>
+    <li>We scan one version of each skill. If its author changes it later, the score is out of date until the next scan.</li>
+    <li>If a file could not be read we say "Partially scanned", and the real score may be lower.</li>
+  </ul>
+</Base>

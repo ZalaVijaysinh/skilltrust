@@ -1,0 +1,48 @@
+name: deploy
+on:
+  push:
+    branches: [main]
+    paths:
+      - "data/**"
+      - "site/**"
+      - "astro.config.mjs"
+      - "scanner/src/rules.ts"
+      - "scanner/src/score.ts"
+  # Pushes made with GITHUB_TOKEN (the scan's data commit) do not trigger other workflows.
+  workflow_run:
+    workflows: ["scan"]
+    types: [completed]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # workflow_run's own sha is the commit the scan started from; we want the data it pushed.
+          ref: ${{ github.event_name == 'workflow_run' && github.event.repository.default_branch || github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run site:build
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/dist
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

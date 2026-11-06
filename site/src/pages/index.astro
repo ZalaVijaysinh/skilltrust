@@ -1,0 +1,111 @@
+---
+import Base from "../layouts/Base.astro";
+import { loadData } from "../lib/data";
+import { base, skillHref, PARTIAL } from "../lib/view";
+import { bandLabel } from "../../../scanner/src/score";
+
+const { index, report } = loadData();
+const LABELS = { low: bandLabel("low"), review: bandLabel("review"), high: bandLabel("high") };
+const categories = [...new Set(index.map((e) => e.category))].sort();
+const PAGE = 100;
+---
+<Base title="SkillTrust: what can this Claude skill do to your computer?">
+  <h1>What can this Claude skill do to your computer?</h1>
+  <p class="lede">We read the public files of Claude skills on GitHub and tell you, in plain English, what each one can do. Look at the trust rating first. Stars only tell you it is popular.</p>
+
+  {index.length === 0 ? (
+    <p class="notice">First scan in progress. Check back soon: the list appears once the first scan finishes.</p>
+  ) : (
+    <>
+      {report && <p class="meta">{report.totalSkills} skills scanned from {report.totalRepos} repositories.</p>}
+      <div class="controls" id="controls" data-rows={`${base}/rows.json`} data-base={base} data-page={PAGE} data-labels={JSON.stringify(LABELS)}>
+        <label>Risk level
+          <select id="f-band">
+            <option value="">All</option>
+            {(["low", "review", "high"] as const).map((b) => <option value={b}>{LABELS[b]}</option>)}
+          </select>
+        </label>
+        <label>Category
+          <select id="f-cat">
+            <option value="">All</option>
+            {categories.map((c) => <option value={c}>{c}</option>)}
+          </select>
+        </label>
+        <label>Sort by
+          <select id="f-sort">
+            <option value="trust">Trust rating</option>
+            <option value="stars">Stars</option>
+            <option value="updated">Recently scanned</option>
+          </select>
+        </label>
+      </div>
+      <p class="meta" id="count" aria-live="polite" role="status"></p>
+      <ul class="rows" id="rows">
+        {index.slice(0, PAGE).map((e) => (
+          <li>
+            <a class="row" href={skillHref(e.id)}>
+              <span class={`badge band-${e.band}`}><b>{e.score}</b> {LABELS[e.band]}</span>
+              <span class="name">{e.name}</span>
+              <span class="meta">
+                {e.owner}/{e.repo} · {e.category} · {e.ruleIds.length === 0 ? "nothing flagged" : `${e.ruleIds.length} thing${e.ruleIds.length === 1 ? "" : "s"} flagged`} · {e.stars.toLocaleString("en-US")} stars
+                {e.status === "unavailable" && <> · no longer available</>}
+                {e.incomplete && <span title={PARTIAL}> · Partially scanned</span>}
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <p><button id="more" type="button" hidden>Show more</button></p>
+    </>
+  )}
+</Base>
+
+<script>
+  interface Row { id: string; name: string; owner: string; repo: string; category: string; score: number; band: "low" | "review" | "high"; stars: number; updated: string; stale: boolean; partial: boolean; flagged: number }
+  const box = document.getElementById("controls");
+  if (box) {
+    const { rows: url, base, page, labels: l } = box.dataset;
+    const labels = JSON.parse(l!) as Record<string, string>;
+    const PAGE = Number(page);
+    const $ = (id: string) => document.getElementById(id)!;
+    const list = $("rows"), more = $("more") as HTMLButtonElement, count = $("count");
+    let all: Row[] | null = null, shown = PAGE, matches: Row[] = [];
+    const el = (tag: string, cls?: string, text?: string) => {
+      const n = document.createElement(tag);
+      if (cls) n.className = cls;
+      if (text !== undefined) n.textContent = text; // untrusted text: never innerHTML
+      return n;
+    };
+    const li = (r: Row) => {
+      const a = el("a", "row") as HTMLAnchorElement;
+      a.href = `${base}/skills/${encodeURIComponent(r.id)}/`;
+      const badge = el("span", `badge band-${r.band}`);
+      badge.append(el("b", "", String(r.score)), ` ${labels[r.band]}`);
+      const flagged = r.flagged === 0 ? "nothing flagged" : `${r.flagged} thing${r.flagged === 1 ? "" : "s"} flagged`;
+      const meta = `${r.owner}/${r.repo} · ${r.category} · ${flagged} · ${r.stars.toLocaleString("en-US")} stars${r.stale ? " · no longer available" : ""}${r.partial ? " · Partially scanned" : ""}`;
+      a.append(badge, el("span", "name", r.name), el("span", "meta", meta));
+      const item = el("li");
+      item.append(a);
+      return item;
+    };
+    const render = () => {
+      const band = ($("f-band") as HTMLSelectElement).value, cat = ($("f-cat") as HTMLSelectElement).value, sort = ($("f-sort") as HTMLSelectElement).value;
+      matches = all!.filter((r) => (!band || r.band === band) && (!cat || r.category === cat));
+      // all is already in trust order (score, then stars)
+      if (sort === "stars") matches.sort((a, b) => b.stars - a.stars);
+      else if (sort === "updated") matches.sort((a, b) => (a.updated < b.updated ? 1 : a.updated > b.updated ? -1 : 0));
+      list.replaceChildren(...matches.slice(0, shown).map(li));
+      count.textContent = `${matches.length} skill${matches.length === 1 ? "" : "s"}`;
+      more.hidden = matches.length <= shown;
+    };
+    const load = async () => {
+      if (all) return;
+      try { all = (await (await fetch(url!)).json()) as Row[]; } catch { count.textContent = "Could not load the full list. Showing the first results only."; }
+    };
+    for (const id of ["f-band", "f-cat", "f-sort"]) {
+      $(id).addEventListener("change", async () => { await load(); if (all) { shown = PAGE; render(); } });
+    }
+    more.addEventListener("click", () => { shown += PAGE; render(); });
+    load().then(() => { if (all) { count.textContent = `${all.length} skills`; more.hidden = all.length <= PAGE; } });
+  }
+</script>

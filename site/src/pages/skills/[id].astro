@@ -1,0 +1,78 @@
+---
+import Base from "../../layouts/Base.astro";
+import { loadData, fileUrl } from "../../lib/data";
+import { base, sentence, PARTIAL } from "../../lib/view";
+import { bandLabel } from "../../../../scanner/src/score";
+import type { IndexEntry, SkillRecord } from "../../../../scanner/src/records";
+
+export function getStaticPaths() {
+  const { index, records } = loadData();
+  return index.map((entry) => ({ params: { id: entry.id }, props: { entry, record: records.get(entry.id)! } }));
+}
+const { entry, record } = Astro.props as { entry: IndexEntry; record: SkillRecord };
+const repoUrl = `https://github.com/${entry.owner}/${entry.repo}`;
+const findings = record.scan.findings;
+const short = (c: string) => String(c).slice(0, 7);
+---
+<Base title={`${entry.name}: ${bandLabel(entry.band)} | SkillTrust`} description="What this Claude skill can do to your computer, in plain English.">
+  <p class="back"><a href={`${base}/`}>&larr; All skills</a></p>
+  <h1>{entry.name}</h1>
+  <p>
+    <span class={`badge band-${entry.band}`}><b>{entry.score}</b> / 100 · {bandLabel(entry.band)}</span>
+  </p>
+  <p class="meta">By <a href={repoUrl} rel="noopener">{entry.owner}/{entry.repo}</a> · {entry.category} · {entry.stars.toLocaleString("en-US")} stars · scanned at commit <code>{short(entry.commit)}</code></p>
+  {entry.description && <p>{entry.description}</p>}
+
+  {entry.status === "unavailable" && (
+    <p class="notice">This skill is no longer available at its GitHub address. The information below is from the last time we could read it and may be out of date.</p>
+  )}
+  {entry.incomplete && <p class="notice">{PARTIAL}</p>}
+
+  <h2>What this skill can do</h2>
+  {findings.length === 0 ? (
+    <p>We found nothing in the files we read that matches our rules. That does not prove the skill is safe: <a href={`${base}/how-we-score/#limits`}>see the limits of static scanning</a>.</p>
+  ) : findings.map((f) => {
+    const url = fileUrl(entry, f.file, f.line);
+    return (
+      <div class="finding">
+        <h3>{sentence(f)}</h3>
+        <p class="meta">
+          {f.disclosed ? "This is disclosed by the author in the skill's description." : "The author does not mention this."}
+          {f.automatic && " It runs automatically when the plugin is installed."}
+        </p>
+        <p class="meta">
+          {url ? <a href={url} rel="noopener">{f.file}, line {f.line}</a> : <span>{f.file}, line {f.line}</span>}
+          <code class="excerpt">{f.excerpt}</code>
+        </p>
+      </div>
+    );
+  })}
+
+  <h2>Install</h2>
+  {entry.installCommand ? (
+    <>
+      <p>Paste this into your terminal. It downloads exactly the version we scanned, not whatever is newest.</p>
+      <pre>{entry.installCommand}</pre>
+    </>
+  ) : <p>No install command is available for this skill. Open the <a href={repoUrl} rel="noopener">repository</a> instead.</p>}
+
+  <h2>Score history</h2>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Date</th><th>Version</th><th>Score</th></tr></thead>
+      <tbody>
+        {[...record.history].reverse().map((h) => (
+          <tr class="history-row"><td>{String(h.scannedAt).slice(0, 10)}</td><td><code>{short(h.commit)}</code></td><td>{h.score}</td></tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  {record.alsoFoundIn.length > 0 && (
+    <>
+      <h2>Also found in</h2>
+      <p class="meta">Identical copies of this skill exist at:</p>
+      <ul>{record.alsoFoundIn.map((x) => <li>{x}</li>)}</ul>
+    </>
+  )}
+</Base>
