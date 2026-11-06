@@ -52,8 +52,8 @@ export function recordSnapshot(
 
 export const saveStars = (file: string, s: StarsFile): Promise<void> => writeAtomic(file, JSON.stringify(s) + "\n");
 
-/** Stars gained over `window` days, anchored on the latest point (at most 2 days before `today`): its stars minus the nearest point on or before latest-window (at most 9 / 35 days before latest); null if either is missing. */
-export function starGain(points: StarPoint[], today: string, window: 7 | 30): number | null {
+/** The two points `starGain` measures between: anchored on the latest point (at most 2 days before `today`) and the nearest point on or before latest-window (at most 9 / 35 days before latest); null if either is missing. */
+export function gainPoints(points: StarPoint[], today: string, window: 7 | 30): { latest: StarPoint; base: StarPoint } | null {
   const day = (d: string) => Date.parse(d) / DAY_MS;
   const latest = points.reduce<StarPoint | undefined>((m, p) => (!m || p[0] > m[0] ? p : m), undefined);
   if (!latest || day(latest[0]) < day(today) - 2) return null;
@@ -61,5 +61,11 @@ export function starGain(points: StarPoint[], today: string, window: 7 | 30): nu
   const maxAge = window === 7 ? 9 : 35;
   let base: StarPoint | undefined;
   for (const p of points) if (day(p[0]) <= t - window && day(p[0]) >= t - maxAge && (!base || p[0] > base[0])) base = p;
-  return base ? latest[1] - base[1] : null;
+  return base ? { latest, base } : null;
+}
+
+/** Stars gained over `window` days between the points `gainPoints` picks; null if there are none. */
+export function starGain(points: StarPoint[], today: string, window: 7 | 30): number | null {
+  const g = gainPoints(points, today, window);
+  return g && g.latest[1] - g.base[1];
 }
