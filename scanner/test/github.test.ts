@@ -269,6 +269,14 @@ describe("github client", () => {
       expect(r.counts.size).toBe(150);
     });
 
+    it("stops after 3 consecutive failed batches and counts the rest as failed", async () => {
+      const { fetchImpl, calls } = fake([okBatch(100), json({}, 500), json({}, 500), json({}, 500), okBatch(50)]);
+      const r = await createGitHub({ fetchImpl }).getStars(repos(450));
+      expect(calls).toHaveLength(4);
+      expect(r.failedBatches).toBe(4);
+      expect(r.counts.size).toBe(100);
+    });
+
     it("a body with no data counts as failed", async () => {
       const { fetchImpl } = fake([json({ errors: [{ type: "X" }] })]);
       const r = await createGitHub({ fetchImpl }).getStars(repos(1));

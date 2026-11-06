@@ -16,4 +16,5 @@ test("deploy workflow rebuilds when dependencies change", () => {
   const yml = read("deploy.yml");
   expect(yml).toContain('- "package.json"');
   expect(yml).toContain('- "package-lock.json"');
+  for (const f of ["trending", "stars", "records", "rules", "score"]) expect(yml).toContain(`- "scanner/src/${f}.ts"`);
 });

@@ -453,10 +453,28 @@ describe("runScan", () => {
         "a/flat": { createdAt: "2025-01-01T00:00:00Z", points: [["2026-10-30", 100]] },
         "a/trend": { createdAt: "2025-01-01T00:00:00Z", points: [["2026-10-30", 100]] },
       } }));
+      await writeData(dir, [rec({ id: "a__trend__s", owner: "a", repo: "trend", scannedAt: h(30) })]);
       const f = fake({ "a/flat": { files: skill("flat") }, "a/trend": { files: skill("trend") } });
       f.gh.getStars = stars({ "a/flat": 100, "a/trend": 300 });
       await run(f.gh, dir, 10, { searchBudget: 0, topicBudget: 0 });
       expect(f.calls.getRepo).toEqual(["a/trend", "a/flat"]);
+    });
+
+    it("does not boost a trending repo that has no skill records", async () => {
+      const dir = await mk();
+      const h = (n: number) => new Date(NOW.getTime() - n * 3600_000).toISOString();
+      await writeFile(join(dir, "discovery.json"), JSON.stringify({
+        candidates: ["flat", "trend"].map((repo) => ({ owner: "a", repo, path: "", firstSeen: "2026-10-01" })),
+        queue: [], lastChecked: { "a/flat": h(40), "a/trend": h(30) },
+      }));
+      await writeFile(join(dir, "stars.json"), JSON.stringify({ repos: {
+        "a/flat": { createdAt: "2025-01-01T00:00:00Z", points: [["2026-10-30", 100]] },
+        "a/trend": { createdAt: "2025-01-01T00:00:00Z", points: [["2026-10-30", 100]] },
+      } }));
+      const f = fake({ "a/flat": { files: skill("flat") }, "a/trend": { files: skill("trend") } });
+      f.gh.getStars = stars({ "a/flat": 100, "a/trend": 300 });
+      await run(f.gh, dir, 10, { searchBudget: 0, topicBudget: 0 });
+      expect(f.calls.getRepo).toEqual(["a/flat", "a/trend"]);
     });
 
     it("does not boost a trending repo probed within 24 h", async () => {

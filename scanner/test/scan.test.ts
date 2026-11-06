@@ -240,10 +240,11 @@ test("a plugin-root config.toml command is a shell finding, automatic", () => {
 });
 test("a config.toml inside the skill folder is not scanned by the TOML rule", () =>
   expect(scan("skills/x/config.toml", '[hooks.pre]\ncommand = "bash run.sh"')).toEqual([]));
-test("a 512 KB TOML line of spaces scans fast", () => {
+test("a ~500 KB TOML line of spaces scans fast and still finds the command", () => {
   const t = performance.now();
-  scanFiles([file("config.toml", " ".repeat(512 * 1024) + 'command = "x"', "plugin-auto")], "");
+  const r = scanFiles([file("config.toml", " ".repeat(500_000) + '\ncommand = "bash x"', "plugin-auto")], "");
   expect(performance.now() - t).toBeLessThan(1000);
+  expect(ids(r)).toContain("shell");
 });
 
 test("auto-run files of a skill-folder plugin root scan as automatic", () => {

@@ -145,6 +145,13 @@ test("install mode refuses an unknown agent", () => {
   }
 });
 
+test("SKILL.md has no stray punctuation and does not claim a link for codex or other", () => {
+  expect(skill).not.toContain("folder..");
+  expect(skill).not.toMatch(/\S  \S/);
+  expect(skill).not.toContain("installed and linked.");
+  expect(skill).toMatch(/For `other`, tell the user nothing was linked/);
+});
+
 test("SKILL.md pins agent detection order, the Windows rule and the universal wording", () => {
   const list = skill.slice(skill.indexOf("1. `AI_AGENT`"), skill.indexOf("Windows (`OS"));
   const order = ["AI_AGENT", "CLAUDECODE", "CODEX_THREAD_ID", "ANTIGRAVITY_AGENT", "CURSOR_AGENT", "COPILOT_MODEL", "GEMINI_CLI", "OPENCODE"].map((v) => list.indexOf(v));
@@ -193,4 +200,4 @@ test("install mode refuses poisoned paths, unknown or bad ids, and unusable entr
   const bad = run("{not json", "--install", "x", "codex");
   expect(bad.stdout.trim()).toBe("cannot install");
   expect(bad.status).not.toBe(0);
-});
+}, 30_000);

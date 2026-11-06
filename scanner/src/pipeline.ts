@@ -204,7 +204,7 @@ export async function runScan(opts: {
     const cutoff = new Date(now.getTime() - TRENDING_RECHECK_MS).toISOString();
     const gain = new Map<string, number>();
     for (const k of all) {
-      const g = oldest(k) !== "" && oldest(k) < cutoff ? starGain(stars.repos[k]?.points ?? [], today, 7) : null;
+      const g = byRepo.has(k) && oldest(k) !== "" && oldest(k) < cutoff ? starGain(stars.repos[k]?.points ?? [], today, 7) : null;
       if (g !== null && g > 0) gain.set(k, g);
     }
     const trending = [...gain.keys()].sort((a, b) => gain.get(b)! - gain.get(a)! || alpha(a, b)).slice(0, TRENDING_TOP);

@@ -163,6 +163,7 @@ export function createGitHub(opts: {
     async getStars(repos) {
       const counts = new Map<string, { stars: number; createdAt: string }>();
       let failedBatches = 0;
+      let streak = 0;
       const nBatches = Math.ceil(repos.length / STARS_BATCH);
       for (let k = 0; k < nBatches; k++) {
         const batch = repos.slice(k * STARS_BATCH, (k + 1) * STARS_BATCH);
@@ -183,10 +184,12 @@ export function createGitHub(opts: {
           stop = /\b(403|429)\b|limit exhausted/.test(String(e)); // api() gave up on a rate limit
         }
         if (!d?.data) {
-          failedBatches += stop ? nBatches - k : 1;
-          if (stop) break;
+          streak++;
+          if (stop || streak >= 3) { failedBatches += nBatches - k; break; }
+          failedBatches++;
           continue;
         }
+        streak = 0;
         batch.forEach((r, j) => {
           const v = d!.data![`r${j}`];
           if (v) counts.set(`${r.owner}/${r.repo}`.toLowerCase(), { stars: v.stargazerCount, createdAt: v.createdAt });
