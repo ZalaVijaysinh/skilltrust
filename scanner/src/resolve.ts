@@ -1,15 +1,16 @@
 import { posix } from "node:path";
+import { RateLimitExhausted } from "./github.js";
 import type { TreeEntry } from "./github.js";
 
 const MAX_FILES = 300;
 const MAX_READ = 1_000_000;
 const BINARY = /\.(png|jpe?g|gif|webp|ico|pdf|zip|gz|tgz|woff2?|ttf|mp[34]|wasm|lock)$/i;
 const PATTERNS = [
-  /\]\(\s*<?([^)\s>]+)/g, // markdown links
-  /`([^`\n]+)`/g, // backticked paths
-  /(?:from|import|require\()\s*\(?\s*["']([^"']+)["']/g, // JS/TS imports
-  /(?:^|[\s"'(=])(\.{1,2}\/[\w@./-]+)/g, // bare ./ and ../ paths
-  /(\$\{?(?:CLAUDE_SKILL_DIR|CLAUDE_PLUGIN_ROOT)\}?\/[^\s"'`)\]]+)/g, // bare env-var paths
+  /\]\(\s{0,20}<?([^)\s>]{1,500})/g, // markdown links
+  /`([^`\n]{1,500})`/g, // backticked paths
+  /\b(?:from|import|require)\s{0,20}\(?\s{0,20}["']([^"'\n]{1,500})["']/g, // JS/TS imports
+  /(?:^|[\s"'(=])(\.{1,2}\/[\w@./-]{1,500})/g, // bare ./ and ../ paths
+  /(\$\{?(?:CLAUDE_SKILL_DIR|CLAUDE_PLUGIN_ROOT)\}?\/[^\s"'`)\]]{1,500})/g, // bare env-var paths
 ];
 
 export async function resolveSkillFiles(
@@ -57,7 +58,7 @@ export async function resolveSkillFiles(
     const size = blobs.get(file)?.size;
     if (size !== undefined && size > MAX_READ) continue;
     let text: string;
-    try { text = await read(file); } catch { continue; }
+    try { text = await read(file); } catch (e) { if (e instanceof RateLimitExhausted) throw e; continue; }
     for (const re of PATTERNS) {
       for (const m of text.matchAll(re)) {
         let tok = m[1].split(/[#?]/)[0].trim();
@@ -69,6 +70,7 @@ export async function resolveSkillFiles(
           bases.push(env[1] === "CLAUDE_SKILL_DIR" ? skillDir : (pluginRoot ?? ""));
         } else {
           bases.push(posix.dirname(file) === "." ? "" : posix.dirname(file), skillDir);
+          if (pluginRoot !== null && pluginAuto.includes(file)) bases.push(pluginRoot);
         }
         for (const b of bases) {
           const norm = posix.normalize(posix.join(b, tok));

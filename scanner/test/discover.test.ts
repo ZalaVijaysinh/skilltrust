@@ -88,4 +88,12 @@ describe("discoverSkills", () => {
     const { gh: bad } = fake({ search: () => { throw new RateLimitExhausted("x"); } });
     await expect(discoverSkills(bad)).rejects.toBeInstanceOf(RateLimitExhausted);
   });
+
+  it("parses hostile README link runs in linear time", async () => {
+    const evil = "https://github.com/o/a" + ".".repeat(300_000) + "b https://github.com/o/c/tree/main/" + "/".repeat(300_000) + "x";
+    const { gh } = fake({ raw: { "ComposioHQ/awesome-claude-skills/README.md": evil } });
+    const start = Date.now();
+    await discoverSkills(gh);
+    expect(Date.now() - start).toBeLessThan(1000);
+  });
 });

@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { resolveSkillFiles } from "../src/resolve.js";
+import { RateLimitExhausted } from "../src/github.js";
 import type { TreeEntry } from "../src/github.js";
 
 const tree = (...paths: string[]): TreeEntry[] => paths.map((path) => ({ path, type: "blob", sha: "x" }));
@@ -59,5 +60,30 @@ describe("resolveSkillFiles", () => {
     expect(r.skill).toEqual(["p/skills/x/SKILL.md"]);
     expect(r.pluginAuto).toEqual(["p/.claude-plugin/plugin.json", "p/.mcp.json", "p/hooks/guard.sh", "p/hooks/hooks.json"]);
     expect(r.referenced).toEqual(["p/scripts/h.sh"]);
+  });
+
+  it("handles hostile whitespace runs in linear time", async () => {
+    const t = tree("s/SKILL.md", "s/a.js");
+    for (const head of ["import", "require(", "from", "](", "`", "./"]) {
+      const text = head + " ".repeat(1_000_000 - head.length);
+      const start = Date.now();
+      await resolveSkillFiles(t, "s", reader({ "s/SKILL.md": text, "s/a.js": text }));
+      expect(Date.now() - start).toBeLessThan(1000);
+    }
+  });
+
+  it("propagates RateLimitExhausted from read but skips other read errors", async () => {
+    const t = tree("s/SKILL.md", "s/b.md");
+    const r = await resolveSkillFiles(t, "s", async (p) => { if (p === "s/b.md") throw new Error("404"); return "`b.md`"; });
+    expect(r.skill).toEqual(["s/SKILL.md", "s/b.md"]);
+    await expect(resolveSkillFiles(t, "s", async () => { throw new RateLimitExhausted("x"); })).rejects.toBeInstanceOf(RateLimitExhausted);
+  });
+
+  it("follows hook scripts from the plugin root", async () => {
+    const t = tree("p/.claude-plugin/plugin.json", "p/hooks/hooks.json", "p/skills/x/SKILL.md", "p/scripts/x.sh", "p/scripts/y.sh");
+    const r = await resolveSkillFiles(t, "p/skills/x", reader({
+      "p/hooks/hooks.json": '{"a":"${CLAUDE_PLUGIN_ROOT}/scripts/x.sh","b":"./scripts/y.sh"}',
+    }));
+    expect(r.referenced).toEqual(["p/scripts/x.sh", "p/scripts/y.sh"]);
   });
 });

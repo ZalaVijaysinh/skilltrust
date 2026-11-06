@@ -12,7 +12,18 @@ const AWESOME_LISTS: [string, string][] = [
   ["hesreallyhim", "awesome-claude-code"],
 ];
 const NOT_OWNERS = new Set(["topics", "sponsors", "orgs", "marketplace", "features", "settings", "apps", "collections"]);
-const LINK = /github\.com\/([\w.-]+)\/([\w.-]+)(?:\/tree\/[^/\s)#?"'<>]+\/([^\s)#?"'<>]*))?/g;
+/** Trim a char from the end without a backtracking regex. */
+function trimEnd(s: string, ch: string): string {
+  let n = s.length;
+  while (n > 0 && s[n - 1] === ch) n--;
+  return s.slice(0, n);
+}
+function trimBoth(s: string, ch: string): string {
+  let a = 0;
+  while (a < s.length && s[a] === ch) a++;
+  return trimEnd(s.slice(a), ch);
+}
+const LINK = /github\.com\/([\w.-]{1,100})\/([\w.-]{1,100})(?:\/tree\/[^/\s)#?"'<>]{1,200}\/([^\s)#?"'<>]{0,500}))?/g;
 
 export function discoverSkills(gh: GitHub): Promise<SkillRef[]> {
   return run(gh);
@@ -53,9 +64,9 @@ async function run(gh: GitHub): Promise<SkillRef[]> {
       const md = await gh.readRaw(o, r, "HEAD", "README.md");
       for (const m of md.matchAll(LINK)) {
         const owner = m[1];
-        const repo = m[2].replace(/\.git$/, "").replace(/\.+$/, "");
+        const repo = trimEnd(m[2].endsWith(".git") ? m[2].slice(0, -4) : m[2], ".");
         if (!repo || NOT_OWNERS.has(owner.toLowerCase())) continue;
-        add(owner, repo, (m[3] ?? "").replace(/\/+$/, ""));
+        add(owner, repo, trimEnd(m[3] ?? "", "/"));
       }
     });
   }
@@ -66,12 +77,12 @@ async function run(gh: GitHub): Promise<SkillRef[]> {
     for (const p of JSON.parse(text).plugins ?? []) {
       const s = p?.source;
       if (typeof s === "string") {
-        if (s.startsWith("./")) add("anthropics", "claude-plugins-official", s.slice(2).replace(/\/+$/, ""));
+        if (s.startsWith("./")) add("anthropics", "claude-plugins-official", trimEnd(s.slice(2), "/"));
       } else if (s?.source === "github" && typeof s.repo === "string") {
         const [o, r] = s.repo.split("/");
-        if (o && r) add(o, r, typeof s.path === "string" ? s.path.replace(/^\/+|\/+$/g, "") : "");
+        if (o && r) add(o, r, typeof s.path === "string" ? trimBoth(s.path, "/") : "");
       } else if (s?.source === "url" && typeof s.url === "string") {
-        const m = /^https:\/\/github\.com\/([\w.-]+)\/([\w.-]+?)(?:\.git)?\/?$/.exec(s.url);
+        const m = /^https:\/\/github\.com\/([\w.-]{1,100})\/([\w.-]{1,100}?)(?:\.git)?\/?$/.exec(s.url);
         if (m) add(m[1], m[2], "");
       }
     }
