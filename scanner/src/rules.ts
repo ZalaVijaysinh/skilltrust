@@ -14,27 +14,27 @@ export interface Rule {
 }
 
 const HOME = String.raw`(~/|\$HOME|\$\{HOME\}|os\.homedir|Path\.home|expanduser|/etc/|/usr/|/Library/)`;
-const WRITE = String.raw`(writeFile\w*|write_text|write_bytes|appendFile\w*|copyFile\w*|shutil\.(copy\w*|move)|os\.(rename|remove|unlink)|\b(cp|mv|tee|ln|rm|mkdir|touch|install)\b)`;
+const WRITE = String.raw`(writeFile\w{0,40}|write_text|write_bytes|appendFile\w{0,40}|copyFile\w{0,40}|shutil\.(copy\w{0,40}|move)|os\.(rename|remove|unlink)|\b(cp|mv|tee|ln|rm|mkdir|touch|install)\b)`;
 // Not preceded by a word char or dot, so `u.profile` (JS property access) is not a shell rc file.
 const RC = String.raw`(?<![\w.])\.(bashrc|zshrc|zprofile|bash_profile|profile)\b`;
 // Whole name segments, so MAX_TOKENS does not match but GITHUB_TOKEN and OPENAI_API_KEY do.
-const SECRET_VAR = String.raw`([A-Z0-9]+_)*(API_KEY|APIKEY|SECRET|SECRET_KEY|ACCESS_KEY|TOKEN|PASSWORD)(_[A-Z0-9]+)*(?![A-Za-z0-9])`;
-const B64 = String.raw`[A-Za-z0-9+/=]{200,}`;
+const SECRET_VAR = String.raw`([A-Z0-9]{1,30}_){0,10}(API_KEY|APIKEY|SECRET|SECRET_KEY|ACCESS_KEY|TOKEN|PASSWORD)(_[A-Z0-9]{1,30}){0,10}(?![A-Za-z0-9])`;
+const B64 = String.raw`[A-Za-z0-9+/=]{200,4000}`;
 
 export const RULES: Rule[] = [
   {
     id: "obfuscated",
     sentence: "Contains code that is hidden or hard to read",
     patterns: [
-      /\beval\s*\(\s*(atob|Buffer\.from|unescape|decodeURIComponent)\b/,
-      /\b(exec|eval)\s*\(\s*(base64\.b64decode|zlib\.decompress|codecs\.decode|marshal\.loads)/,
-      /\bbase64\s+(-d|-D|--decode)\b[^\n]{0,200}\|\s*(sudo\s+)?(ba|z|da)?sh\b/,
-      /\bFunction\s*\(\s*atob\b/,
+      /\beval\s{0,20}\(\s{0,20}(atob|Buffer\.from|unescape|decodeURIComponent)\b/,
+      /\b(exec|eval)\s{0,20}\(\s{0,20}(base64\.b64decode|zlib\.decompress|codecs\.decode|marshal\.loads)/,
+      /\bbase64\s{1,20}(-d|-D|--decode)\b[^\n]{0,200}\|\s{0,20}(sudo\s{1,20})?(ba|z|da)?sh\b/,
+      /\bFunction\s{0,20}\(\s{0,20}atob\b/,
       // A long base64 blob counts only with a decode/execute context; data: URIs and plain blobs do not.
-      new RegExp(String.raw`\b(eval|exec|Function|atob|b64decode)\s*\(\s*[bru]{0,2}["'\`]${B64}`),
-      new RegExp(String.raw`Buffer\.from\(\s*["']${B64}["']\s*,\s*["']base64`),
-      new RegExp(String.raw`(?<![A-Za-z0-9+/=])${B64}["']?\s*\)?\s*\|\s*(base64\s+(-d|-D|--decode)|(ba|z|da)?sh\b)`),
-      /(\\x[0-9a-fA-F]{2}){16,}/,
+      new RegExp(String.raw`\b(eval|exec|Function|atob|b64decode)\s{0,20}\(\s{0,20}[bru]{0,2}["'\`]${B64}`),
+      new RegExp(String.raw`Buffer\.from\(\s{0,20}["']${B64}["']\s{0,20},\s{0,20}["']base64`),
+      new RegExp(String.raw`(?<![A-Za-z0-9+/=])${B64}["']?\s{0,20}\)?\s{0,20}\|\s{0,20}(base64\s{1,20}(-d|-D|--decode)|(ba|z|da)?sh\b)`),
+      /(\\x[0-9a-fA-F]{2}){16,100}/,
     ],
     disclosureWords: ["obfuscated", "obfuscation", "minified", "encoded payload"],
   },
@@ -46,7 +46,7 @@ export const RULES: Rule[] = [
       /\.config\/(google-chrome|chromium|BraveSoftware|microsoft-edge)/i,
       /\.mozilla\/firefox|Firefox\/Profiles/i,
       /\b(cookies\.sqlite|logins\.json|key4\.db)\b|\/Default\/(Cookies|Login Data)\b/i,
-      /\bsecurity\s+(find|dump)-(generic-password|internet-password|keychain)/,
+      /\bsecurity\s{1,20}(find|dump)-(generic-password|internet-password|keychain)/,
       /Library\/Keychains|Library\/Cookies/,
       /\b(browser_cookie3|pycookiecheat|rookiepy|chrome-cookies-secure)\b/,
     ],
@@ -58,10 +58,10 @@ export const RULES: Rule[] = [
     requires: "network",
     patterns: [
       /~\/\.(ssh|aws|gnupg|netrc|npmrc|pypirc|kube|docker\/config)\b/,
-      /\.ssh\/(id_\w+|config|known_hosts)|\.aws\/credentials/,
-      /\b(open|readFile\w*|read_text|cat|source|load_dotenv|dotenv_values)\b[^\n]{0,200}['"/\s]\.env(\.\w+)?(['"\s)]|$)/,
-      new RegExp(String.raw`process\.env\.${SECRET_VAR}|process\.env\[\s*['"]${SECRET_VAR}`),
-      new RegExp(String.raw`os\.environ(\.get)?\s*[\[(]\s*['"]${SECRET_VAR}|os\.getenv\(\s*['"]${SECRET_VAR}`),
+      /\.ssh\/(id_\w{1,40}|config|known_hosts)|\.aws\/credentials/,
+      /\b(open|readFile\w{0,40}|read_text|cat|source|load_dotenv|dotenv_values)\b[^\n]{0,200}['"/\s]\.env(\.\w{1,20})?(['"\s)]|$)/,
+      new RegExp(String.raw`process\.env\.${SECRET_VAR}|process\.env\[\s{0,20}['"]${SECRET_VAR}`),
+      new RegExp(String.raw`os\.environ(\.get)?\s{0,20}[\[(]\s{0,20}['"]${SECRET_VAR}|os\.getenv\(\s{0,20}['"]${SECRET_VAR}`),
       new RegExp(String.raw`\$\{?${SECRET_VAR}\}?`),
     ],
     disclosureWords: ["api key", "api keys", "secret", "secrets", "credential", "credentials", "ssh key", "ssh keys", ".env file", "environment variable", "environment variables"],
@@ -70,15 +70,15 @@ export const RULES: Rule[] = [
     id: "downloads-code",
     sentence: "Downloads and installs other software",
     patterns: [
-      /\b(curl|wget)\b[^\n|]{0,200}\|\s*(sudo\s+)?(ba|z|da)?sh\b/,
-      /\b(ba|z|da)?sh\b\s+(-c\s+)?["']?\$?\(\s*(curl|wget)\b|\b(ba|z)?sh\s+<\(\s*(curl|wget)\b/,
-      /\bnpx\s+(-y|--yes)\b/,
+      /\b(curl|wget)\b[^\n|]{0,200}\|\s{0,20}(sudo\s{1,20})?(ba|z|da)?sh\b/,
+      /\b(ba|z|da)?sh\b\s{1,20}(-c\s{1,20})?["']?\$?\(\s{0,20}(curl|wget)\b|\b(ba|z)?sh\s{1,20}<\(\s{0,20}(curl|wget)\b/,
+      /\bnpx\s{1,20}(-y|--yes)\b/,
       /\buvx\b/,
-      /\bpipx\s+(run|install)\b/,
-      /\bpip3?\s+install\b|\bpython3?\s+-m\s+pip\s+install\b/,
-      /\bbrew\s+install\b/,
-      /\bnpm\s+(i|install|add)\s+(-g|--global)\b|\b(apt|apt-get|yum|dnf|apk)\s+(-y\s+)?install\b/,
-      /\b(cargo|go)\s+install\b/,
+      /\bpipx\s{1,20}(run|install)\b/,
+      /\bpip3?\s{1,20}install\b|\bpython3?\s{1,20}-m\s{1,20}pip\s{1,20}install\b/,
+      /\bbrew\s{1,20}install\b/,
+      /\bnpm\s{1,20}(i|install|add)\s{1,20}(-g|--global)\b|\b(apt|apt-get|yum|dnf|apk)\s{1,20}(-y\s{1,20})?install\b/,
+      /\b(cargo|go)\s{1,20}install\b/,
     ],
     disclosureWords: ["downloads", "installs", "homebrew", "downloads and installs"],
   },
@@ -87,10 +87,10 @@ export const RULES: Rule[] = [
     sentence: "Changes files outside its own folder",
     patterns: [
       new RegExp(String.raw`${WRITE}[^\n]{0,200}${HOME}`),
-      new RegExp(String.raw`>>?\s*["']?(~|\$HOME|\$\{HOME\}|/etc|/usr)/`),
-      new RegExp(String.raw`>>?\s*\S{0,100}${RC}|\b(echo|tee|sed\s+-i|cat)\b[^\n]{0,200}${RC}`),
-      new RegExp(String.raw`open\([^\n]{0,200}${HOME}[^\n]{0,200},\s*['"][wa]b?\+?['"]`),
-      /\.claude\/(skills|settings\.json|hooks)[^\n]{0,200}\b(cp|mv|ln|write\w*|mkdir)\b|\b(cp|mv|ln|write\w*|mkdir)\b[^\n]{0,200}\.claude\/(skills|settings\.json|hooks)/,
+      new RegExp(String.raw`>>?\s{0,20}["']?(~|\$HOME|\$\{HOME\}|/etc|/usr)/`),
+      new RegExp(String.raw`>>?\s{0,20}\S{0,100}${RC}|\b(echo|tee|sed\s{1,20}-i|cat)\b[^\n]{0,200}${RC}`),
+      new RegExp(String.raw`open\([^\n]{0,200}${HOME}[^\n]{0,200},\s{0,20}['"][wa]b?\+?['"]`),
+      /\.claude\/(skills|settings\.json|hooks)[^\n]{0,200}\b(cp|mv|ln|write\w{0,40}|mkdir)\b|\b(cp|mv|ln|write\w{0,40}|mkdir)\b[^\n]{0,200}\.claude\/(skills|settings\.json|hooks)/,
     ],
     disclosureWords: ["writes to", "writes files", "modifies", "home directory", "bashrc", "zshrc", "outside its", "config file"],
   },
@@ -107,12 +107,12 @@ export const RULES: Rule[] = [
     sentence: "Sends data to these websites: {hosts}",
     // A call pattern is required; scan.ts then lists hosts from URLs on the same line.
     patterns: [
-      /\bfetch\s*\(/,
+      /\bfetch\s{0,20}\(/,
       /\brequests\.(get|post|put|patch|delete|head|request|Session)\b/,
       /\b(urllib\.request|urlopen|http\.client|httpx\.|aiohttp\.|axios\b|XMLHttpRequest|new WebSocket|node-fetch)/,
-      /\bhttps?\.(get|request)\s*\(/,
+      /\bhttps?\.(get|request)\s{0,20}\(/,
       /\b(Invoke-WebRequest|Invoke-RestMethod|WebFetch|WebSearch)\b/,
-      /\b(curl|wget)\s+(-\w|https?:|["'$])/,
+      /\b(curl|wget)\s{1,20}(-\w|https?:|["'$])/,
     ],
     disclosureWords: ["network", "internet", "sends data", "upload", "uploads", "web request", "api call", "http request"],
   },
@@ -121,12 +121,12 @@ export const RULES: Rule[] = [
     sentence: "Runs commands on your computer",
     patterns: [
       /\bsubprocess\./,
-      /\bos\.(system|popen|exec\w+|spawn\w+)\s*\(/,
+      /\bos\.(system|popen|exec\w{1,40}|spawn\w{1,40})\s{0,20}\(/,
       /\bchild_process\b/,
-      /\b(execSync|spawnSync|execFileSync)\s*\(/,
-      /\bshell\s*=\s*True\b/,
+      /\b(execSync|spawnSync|execFileSync)\s{0,20}\(/,
+      /\bshell\s{0,20}=\s{0,20}True\b/,
       /\b(Deno\.Command|Bun\.spawn|Bun\.\$)\b|Runtime\.getRuntime\(\)\.exec/,
-      /\b(ba|z)?sh\s+-c\b/,
+      /\b(ba|z)?sh\s{1,20}-c\b/,
     ],
     disclosureWords: ["shell", "shell commands", "runs commands", "run commands", "terminal", "executes commands"],
   },

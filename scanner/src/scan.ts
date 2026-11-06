@@ -9,11 +9,35 @@ const URL_RE = /https?:\/\/([^\s/'"`<>)\]:?#\\]+)/gi;
 const IGNORED_HOSTS = new Set(["localhost", "127.0.0.1", "0.0.0.0", "www.w3.org"]);
 const SHELL_FENCE = /^(bash|sh|shell|zsh)$/i;
 const COMMENT_LINE = /^\s*(\/\/|#|\/\*|\*|<!--)/;
-// Longer lines skip per-line patterns (regex cost); only the obfuscation rule still looks at them.
-const MAX_LINE = 4000;
+// Long lines are scanned in overlapping windows; every rule quantifier is bounded well under the overlap.
+const WINDOW = 4000, OVERLAP = 400;
+function* windows(text: string): Generator<string> {
+  if (text.length <= WINDOW) { yield text; return; }
+  for (let at = 0; ; at += WINDOW - OVERLAP) {
+    yield text.slice(at, at + WINDOW);
+    if (at + WINDOW >= text.length) return;
+  }
+}
 const JS_LIKE = /\.(m?js|cjs|jsx|tsx?)$/i;
 
-const INLINE_CODE = /(`+)([^`]|[^`][\s\S]*?[^`])\1(?!`)/g;
+/** Linear inline-code splitter: a span is a backtick run closed by the next run of the same length. */
+function inlineCode(line: string): { code: string[]; prose: string } {
+  const runs = [...line.matchAll(/`+/g)];
+  const code: string[] = [];
+  const noMore = new Set<number>();
+  let prose = "", pos = 0, i = 0;
+  while (i < runs.length) {
+    const n = runs[i][0].length;
+    let j = i + 1;
+    if (!noMore.has(n)) while (j < runs.length && runs[j][0].length !== n) j++;
+    if (noMore.has(n) || j >= runs.length) { noMore.add(n); i++; continue; }
+    code.push(line.slice(runs[i].index + n, runs[j].index));
+    prose += line.slice(pos, runs[i].index) + " ";
+    pos = runs[j].index + n;
+    i = j + 1;
+  }
+  return { code, prose: prose + line.slice(pos) };
+}
 
 /** Per line: the code segments to scan (markdown keeps only code) and the prose left over. */
 function segments(file: SkillFile, lines: string[]): { segs: string[][]; prose: string[]; shellFences: Set<number> } {
@@ -27,9 +51,9 @@ function segments(file: SkillFile, lines: string[]): { segs: string[][]; prose: 
     const m = line.match(/^\s*(`{3,}|~{3,})\s*([\w-]*)/);
     if (fence === null) {
       if (m) { fence = m[1]; firstInFence = isSkillMd && SHELL_FENCE.test(m[2]) ? 0 : -1; prose[i] = ""; return []; }
-      if (line.length > MAX_LINE) { prose[i] = ""; return []; }
-      prose[i] = line.replace(INLINE_CODE, " ");
-      return [...line.matchAll(INLINE_CODE)].map((x) => x[2]);
+      const spans = inlineCode(line);
+      prose[i] = spans.prose;
+      return spans.code;
     }
     prose[i] = "";
     if (m && m[1][0] === fence[0] && m[1].length >= fence.length && !m[2] && line.trim() === m[1]) { fence = null; return []; }
@@ -58,21 +82,21 @@ export function scanFiles(files: SkillFile[], disclosureText: string): ScanResul
     const lines = file.text.split(/\r?\n/);
     const { segs, shellFences } = segments(file, lines);
     lines.forEach((line, i) => {
-      const long = line.length > MAX_LINE;
-      if (!long && !segs[i].length && !shellFences.has(i)) return;
+      if (!segs[i].length && !shellFences.has(i)) return;
       for (const rule of RULES) {
-        if (long && rule.id !== "obfuscated") continue;
         let matched = rule.id === "shell" && shellFences.has(i);
         let hosts: string[] = [];
-        for (const seg of long ? [line] : segs[i]) {
+        for (const seg of segs[i]) {
           if (rule.id === "network" && COMMENT_LINE.test(seg)) continue;
-          if (!rule.patterns.some((p) => p.test(seg))) continue;
-          matched = true;
-          if (rule.id === "network")
-            for (const m of seg.matchAll(URL_RE)) {
-              const h = m[1].toLowerCase();
-              if (!IGNORED_HOSTS.has(h) && !hosts.includes(h)) hosts.push(h);
-            }
+          for (const win of windows(seg)) {
+            if (!rule.patterns.some((p) => p.test(win))) continue;
+            matched = true; // one finding per rule per line, so overlapping windows cannot double-report
+            if (rule.id === "network")
+              for (const m of win.matchAll(URL_RE)) {
+                const h = m[1].toLowerCase();
+                if (!IGNORED_HOSTS.has(h) && !hosts.includes(h)) hosts.push(h);
+              }
+          }
         }
         // shortcut: minified = very long, almost space-free line in a JS file; tune if it misfires.
         if (rule.id === "obfuscated" && JS_LIKE.test(file.path) && line.length > 1000 && line.split(" ").length < line.length / 40) matched = true;
