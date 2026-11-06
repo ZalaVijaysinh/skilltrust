@@ -110,6 +110,18 @@ describe("runScan", () => {
     expect((await load(dir))).toHaveLength(1);
   });
 
+  it("rescans a repo at the same commit when its record has an older rulesVersion", async () => {
+    const dir = await mk();
+    await run(fake({ "a/r": { files: skill("r") } }).gh, dir);
+    const f = join(dir, "skills", (await readdir(join(dir, "skills")))[0]);
+    const old = JSON.parse(await readFile(f, "utf8"));
+    old.scan.rulesVersion = "0.9.0";
+    await writeFile(f, JSON.stringify(old));
+    const second = fake({ "a/r": { files: skill("r") } });
+    await run(second.gh, dir);
+    expect(second.calls.getTree).toEqual(["a/r"]);
+  });
+
   it("rescans a changed repo and appends history", async () => {
     const dir = await mk();
     await run(fake({ "a/r": { files: skill("r") } }).gh, dir);

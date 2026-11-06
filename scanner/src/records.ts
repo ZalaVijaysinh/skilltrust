@@ -79,6 +79,9 @@ const q = (s: string) => `'${s.replaceAll("'", "'\\''")}'`;
 const slug = (s: string) =>
   s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 64).replace(/-+$/, "");
 
+/** Folder name under ~/.agents/skills that installCommand uses. */
+export const skillFolder = (e: { name: string; path: string }): string => slug(e.name) || slug(e.path.split("/").pop() ?? "") || "skill";
+
 /**
  * Shell command that installs the scanned commit. Every value is validated and single-quoted: name is untrusted.
  * It never deletes or replaces an existing skill folder: it stops if one of the same name exists.
@@ -90,7 +93,7 @@ export function installCommand(e: { owner: string; repo: string; path: string; c
   if (!/^[0-9a-f]{40}$/.test(commit)) throw new Error("invalid commit");
   // eslint-disable-next-line no-control-regex
   if (path === "." || path.startsWith("/") || path.startsWith(":") || path.split("/").includes("..") || /[\u0000-\u001f\u007f]/.test(path)) throw new Error("invalid path");
-  const dest = slug(name) || slug(path.split("/").pop() ?? "") || "skill";
+  const dest = skillFolder({ name, path });
   const url = q(`https://github.com/${owner}/${repo}`);
   const target = `~/.agents/skills/${q(dest)}`;
   const clone = `d=$(mktemp -d) && git clone --quiet --filter=blob:none --no-checkout ${url} "$d" && git -C "$d" checkout --quiet ${q(commit)} -- ${q(path || ".")} && mkdir -p ~/.agents/skills`;

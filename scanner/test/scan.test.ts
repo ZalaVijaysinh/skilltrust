@@ -8,8 +8,8 @@ const ids = (r: ReturnType<typeof scanFiles>) => r.findings.map((f) => f.ruleId)
 const scan = (path: string, text: string) => ids(scanFiles([file(path, text)], ""));
 
 test("rules are versioned and use the exact sentences", () => {
-  expect(RULES_VERSION).toBe("1.0.0");
-  expect(scanFiles([], "").rulesVersion).toBe("1.0.0");
+  expect(RULES_VERSION).toBe("1.1.0");
+  expect(scanFiles([], "").rulesVersion).toBe("1.1.0");
   expect(RULES.map((r) => r.id).sort()).toEqual(
     ["browser-secrets", "downloads-code", "network", "obfuscated", "paid-api", "reads-secrets", "shell", "writes-outside"]);
   expect(RULES.find((r) => r.id === "network")?.sentence).toBe("Sends data to these websites: {hosts}");
