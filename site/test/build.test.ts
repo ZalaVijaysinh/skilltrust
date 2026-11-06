@@ -48,7 +48,10 @@ describe("site build with fixtures", () => {
     expect(t).toContain("runs automatically when the plugin is installed");
     expect(html).toContain("git clone");
     expect(t).toContain("~/.agents/skills/'web-fetch'");
-    expect(t).toContain("Agents that don't read ~/.agents/skills need a link to it; installing through the finder skill does both.");
+    expect(t).toContain("Codex reads ~/.agents/skills directly.");
+    expect(t).toContain("For Claude Code: ln -s ~/.agents/skills/'web-fetch' ~/.claude/skills/'web-fetch'");
+    expect(t).toContain("~/.config/opencode/skills");
+    expect(t).toContain("Or install through the finder skill, which does both.");
     expect(t).toContain("A skill folder named web-fetch already exists — not replacing it");
     expect(t).not.toMatch(/rm -rf ~\/\.claude\/skills\/'web-fetch'[^/]/);
     expect(html).toContain(sha("1").slice(0, 7));
@@ -141,7 +144,7 @@ describe("trending home page", () => {
       const t = text(home());
       expect(t).toContain("+50 this week");
       expect(t).toContain("Review before installing");
-      expect(t).toContain("★ 150 stars · new this month");
+      expect(t).toContain("★ 150 stars · created 37 days ago");
       expect(home()).toContain('href="/skilltrust/skills/t__r0__a/"');
       expect(t).toContain("Riskiest skill: Risky Tool . It can: Connects to the internet Runs commands on your computer");
     });

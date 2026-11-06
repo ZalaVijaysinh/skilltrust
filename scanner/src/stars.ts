@@ -14,7 +14,7 @@ const validPoint = (p: unknown) =>
   Array.isArray(p) && typeof p[0] === "string" && typeof p[1] === "number" &&
   (p.length === 2 || (p.length === 3 && p[2] === "o"));
 
-function valid(s: any): s is StarsFile {
+export function validStars(s: any): s is StarsFile {
   const r = s?.repos;
   return !!r && typeof r === "object" && !Array.isArray(r) &&
     Object.values(r).every((e: any) => typeof e?.createdAt === "string" && Array.isArray(e.points) && e.points.every(validPoint));
@@ -25,7 +25,7 @@ export async function loadStars(file: string, warn: (m: string) => void): Promis
   try { text = await readFile(file, "utf8"); } catch { return { repos: {} }; }
   try {
     const s = JSON.parse(text);
-    if (!valid(s)) throw new Error("unexpected shape");
+    if (!validStars(s)) throw new Error("unexpected shape");
     return s;
   } catch (e) {
     await rename(file, `${file}.bak`);

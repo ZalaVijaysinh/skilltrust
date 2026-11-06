@@ -3,7 +3,7 @@ import Base from "../../layouts/Base.astro";
 import { loadData, fileUrl } from "../../lib/data";
 import { base, sentence, PARTIAL } from "../../lib/view";
 import { bandLabel } from "../../../../scanner/src/score";
-import type { IndexEntry, SkillRecord } from "../../../../scanner/src/records";
+import { skillFolder, type IndexEntry, type SkillRecord } from "../../../../scanner/src/records";
 import type { RuleId } from "../../../../scanner/src/types";
 
 export function getStaticPaths() {
@@ -11,6 +11,7 @@ export function getStaticPaths() {
   return index.map((entry) => ({ params: { id: entry.id }, props: { entry, record: records.get(entry.id)! } }));
 }
 const { entry, record } = Astro.props as { entry: IndexEntry; record: SkillRecord };
+const folder = skillFolder(entry);
 const repoUrl = `https://github.com/${entry.owner}/${entry.repo}`;
 const findings = record.scan.findings;
 // "and N more places" goes after the last shown finding of each rule; records from before findingTotals have none
@@ -66,7 +67,7 @@ const alsoFoundIn = Array.isArray(entry.alsoFoundIn) ? entry.alsoFoundIn.map(Str
     <>
       <p>Paste this into your terminal. It downloads exactly the version we scanned, not whatever is newest.</p>
       <pre>{entry.installCommand}</pre>
-      <p>Agents that don't read ~/.agents/skills need a link to it; installing through the finder skill does both.</p>
+      <p>Codex reads ~/.agents/skills directly. For Claude Code, Cursor, Copilot, Gemini CLI, Antigravity or OpenCode, also link it. For Claude Code: <code>{`ln -s ~/.agents/skills/'${folder}' ~/.claude/skills/'${folder}'`}</code> (other agents: ~/.cursor/skills, ~/.copilot/skills, ~/.gemini/skills, ~/.gemini/config/skills, ~/.config/opencode/skills). Or install through the finder skill, which does both.</p>
     </>
   ) : <p>No install command is available for this skill. Open the <a href={repoUrl} rel="noopener">repository</a> instead.</p>}
 
