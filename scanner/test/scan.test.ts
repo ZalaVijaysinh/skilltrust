@@ -206,3 +206,15 @@ const timedMore: [string, string, string][] = [
 ];
 for (const [name, path, text] of timedMore)
   test(`adversarial single line is fast: ${name}`, () => expect(timed(path, text).ms).toBeLessThan(1000));
+
+test("bare words do not disclose high-penalty rules; specific phrases do", () => {
+  const net = "\nfetch('https://x.io')";
+  expect(disclosedFor("downloads-code", "pip install x", "This installs the CLI.")).toBe(false);
+  expect(disclosedFor("downloads-code", "pip install x", "It downloads the page you ask for.")).toBe(false);
+  expect(disclosedFor("downloads-code", "pip install x", "Downloads and installs the yt-dlp tool.")).toBe(true);
+  expect(disclosedFor("downloads-code", "pip install x", "On first use it installs dependencies.")).toBe(true);
+  expect(disclosedFor("reads-secrets", "k = os.getenv('OPENAI_API_KEY')" + net, "Keep your secret safe. Needs an API key.")).toBe(false);
+  expect(disclosedFor("reads-secrets", "k = os.getenv('OPENAI_API_KEY')" + net, "It reads your API key from OPENAI_API_KEY.")).toBe(true);
+  expect(disclosedFor("paid-api", "u='https://api.openai.com'", "Needs an API key.")).toBe(false);
+  expect(disclosedFor("paid-api", "u='https://api.openai.com'", "Uses the OpenAI API, billed to your account.")).toBe(true);
+});

@@ -41,7 +41,7 @@ describe("site build with fixtures", () => {
     expect(t).not.toContain("{hosts}");
     expect(t).toContain("Runs commands on your computer");
     expect(html).toContain(`https://github.com/bob/stuff/blob/${sha("b")}/scripts/get.py#L12`);
-    expect(t).toContain("disclosed by the author");
+    expect(t).toContain("This is disclosed by the author in the skill's SKILL.md or README.");
     expect(t).toContain("runs automatically when the plugin is installed");
     expect(html).toContain("git clone");
     expect(html).toContain(sha("1").slice(0, 7));
@@ -80,6 +80,7 @@ describe("site build with fixtures", () => {
     expect(t).toContain("80");
     expect(t).toContain("Review before installing");
     expect(t).toContain("Limits of static scanning");
+    expect(t).toContain("If the skill's SKILL.md or README tells you about it");
   });
 
   it("report page shows the numbers", () => {

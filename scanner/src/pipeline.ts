@@ -60,13 +60,14 @@ async function scanRepo(gh: GitHub, meta: RepoMeta, commit: string, tree: TreeEn
   const readText = async (p: string): Promise<{ text: string; failed: boolean }> => {
     try { return { text: await read(p), failed: false }; } catch (e) { if (e instanceof RateLimitExhausted) throw e; return { text: "", failed: true }; }
   };
-  // a missing README is fine (""); one that exists but cannot be read is not
-  const readme = tree.some((e) => e.path === "README.md") ? await readText("README.md") : { text: "", failed: false };
   const out: SkillRecord[] = [];
   for (const dir of skillDirsInTree(tree)) {
     if (expired()) return { records: out, partial: true };
     // warm the cache in parallel; the resolver itself reads one file at a time
     const prefix = dir ? `${dir}/` : "";
+    // disclosure: the skill's own SKILL.md and README (the repo-root README only for a root skill).
+    // A missing README is fine (""); one that exists but cannot be read is not.
+    const readme = tree.some((e) => e.path === `${prefix}README.md`) ? await readText(`${prefix}README.md`) : { text: "", failed: false };
     const unreadable = (p: string) => BINARY.test(p) || (sizes.get(p) ?? 0) > MAX_READ;
     await Promise.all(tree.filter((e) => e.type === "blob" && e.path.startsWith(prefix) && !unreadable(e.path)).map((e) => read(e.path).catch((err) => { if (err instanceof RateLimitExhausted) throw err; })));
     const { skill, referenced, pluginAuto } = await resolveSkillFiles(tree, dir, read);

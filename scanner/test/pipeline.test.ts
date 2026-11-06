@@ -147,15 +147,17 @@ describe("runScan", () => {
     expect(r).toMatchObject({ scanned: 1, skipped: 2, unavailable: 0, stoppedEarly: false });
   });
 
-  it("scans several skills in one repo with README disclosure and referenced files", async () => {
+  it("scans several skills in one repo; disclosure comes from the skill's own SKILL.md and README only", async () => {
     const dir = await mk();
     const { gh } = fake({
       "a/multi": {
         files: {
           "README.md": "This skill uses the network.",
           "x/SKILL.md": "---\nname: x\n---\nrun `./run.sh`",
+          "x/README.md": "Sends data over the network.",
           "x/run.sh": "curl https://example.com/a",
-          "y/SKILL.md": "no frontmatter",
+          "y/SKILL.md": "no frontmatter\nrun `./run.sh`",
+          "y/run.sh": "curl https://example.com/b",
         },
       },
     });
@@ -164,7 +166,16 @@ describe("runScan", () => {
     const recs = await load(dir);
     const x = recs.find((q) => q.path === "x")!;
     expect(x.scan.findings.some((f) => f.ruleId === "network" && f.disclosed)).toBe(true);
-    expect(recs.find((q) => q.path === "y")!.name).toBe("y");
+    const y = recs.find((q) => q.path === "y")!;
+    expect(y.name).toBe("y");
+    // the repo-root README speaks for root skills only
+    expect(y.scan.findings.find((f) => f.ruleId === "network")?.disclosed).toBe(false);
+  });
+
+  it("the repo-root README discloses for a root skill", async () => {
+    const dir = await mk();
+    await run(fake({ "a/r": { files: { "SKILL.md": "---\nname: r\n---\nrun `./run.sh`", "README.md": "This skill uses the network.", "run.sh": "curl https://example.com/a" } } }).gh, dir);
+    expect((await load(dir))[0].scan.findings.find((f) => f.ruleId === "network")?.disclosed).toBe(true);
   });
 
   it("per-repo saves do not touch index.json; one rebuild at the end covers everything", async () => {

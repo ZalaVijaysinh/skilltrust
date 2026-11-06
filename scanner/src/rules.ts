@@ -7,7 +7,7 @@ export interface Rule {
   sentence: string;
   /** Tested against one line (or one markdown code segment); no `g` flag. */
   patterns: RegExp[];
-  /** Whole words/phrases (case-insensitive); any one in the prose of SKILL.md/README marks the rule disclosed. */
+  /** Whole words/phrases (case-insensitive); any one in the prose of the skill's SKILL.md/README marks the rule disclosed. Specific phrases only: a bare "installs" or "secret" says nothing. */
   disclosureWords: string[];
   /** Findings count only if the skill also has findings for this rule. */
   requires?: RuleId;
@@ -82,7 +82,7 @@ export const RULES: Rule[] = [
       new RegExp(String.raw`os\.environ(\.get)?\s{0,20}[\[(]\s{0,20}['"]${SECRET_VAR}|os\.getenv\(\s{0,20}['"]${SECRET_VAR}`),
       new RegExp(String.raw`\$\{?${SECRET_VAR}\}?`),
     ],
-    disclosureWords: ["api key", "api keys", "secret", "secrets", "credential", "credentials", "ssh key", "ssh keys", ".env file", "environment variable", "environment variables"],
+    disclosureWords: ["reads your api key", "uses your api key", "reads your api keys", "uses your api keys", "credential", "credentials", "ssh key", "ssh keys", ".env file", "environment variable", "environment variables"],
   },
   {
     id: "downloads-code",
@@ -99,7 +99,7 @@ export const RULES: Rule[] = [
       /\bnpm\s{1,20}(i|install|add)\s{1,20}(-g|--global)\b|\b(apt|apt-get|yum|dnf|apk)\s{1,20}(-y\s{1,20})?install\b/,
       /\b(cargo|go)\s{1,20}install\b/,
     ],
-    disclosureWords: ["downloads", "installs", "homebrew", "downloads and installs"],
+    disclosureWords: ["downloads and installs", "installs dependencies", "homebrew"],
   },
   {
     id: "writes-outside",
@@ -120,7 +120,7 @@ export const RULES: Rule[] = [
       /\b(api\.openai\.com|api\.anthropic\.com|generativelanguage\.googleapis\.com|aiplatform\.googleapis\.com|api\.x\.ai|api\.elevenlabs\.io|api\.replicate\.com|fal\.run|openrouter\.ai|api\.perplexity\.ai)\b/,
       ...SDK_IMPORTS,
     ],
-    disclosureWords: ["paid api", "billed", "api key", "api credits", "usage costs", "openai api", "anthropic api", "gemini api", "elevenlabs api", "replicate api", "openrouter"],
+    disclosureWords: ["paid api", "billed", "api credits", "usage costs", "openai api", "anthropic api", "gemini api", "elevenlabs api", "replicate api", "openrouter"],
   },
   {
     id: "network",
