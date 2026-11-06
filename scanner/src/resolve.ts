@@ -13,6 +13,9 @@ const PATTERNS = [
   /(\$\{?(?:CLAUDE_SKILL_DIR|CLAUDE_PLUGIN_ROOT)\}?\/[^\s"'`)\]]{1,500})/g, // bare env-var paths
 ];
 
+export const PLUGIN_MANIFESTS = ["plugin.json", ".claude-plugin/plugin.json", ".codex-plugin/plugin.json", ".cursor-plugin/plugin.json", ".antigravity-plugin/plugin.json", ".plugin/plugin.json", "gemini-extension.json"];
+const PLUGIN_EXTRA = ["hooks.json", ".mcp.json", "mcp.json", "config.toml"];
+
 export async function resolveSkillFiles(
   tree: TreeEntry[],
   skillDir: string,
@@ -22,10 +25,10 @@ export async function resolveSkillFiles(
   const prefix = skillDir ? `${skillDir}/` : "";
   const all = [...blobs.keys()].sort();
 
-  // nearest ancestor (or self) directory holding .claude-plugin/plugin.json
+  // nearest ancestor (or self) directory holding any plugin manifest
   let pluginRoot: string | null = null;
   for (let d = skillDir; ; d = posix.dirname(d) === "." ? "" : posix.dirname(d)) {
-    if (blobs.has(posix.join(d, ".claude-plugin/plugin.json"))) { pluginRoot = d; break; }
+    if (PLUGIN_MANIFESTS.some((m) => blobs.has(posix.join(d, m)))) { pluginRoot = d; break; }
     if (d === "") break;
   }
 
@@ -34,7 +37,7 @@ export async function resolveSkillFiles(
   const pluginAuto: string[] = [];
   if (pluginRoot !== null) {
     const pre = pluginRoot ? `${pluginRoot}/` : "";
-    const autos = new Set([`${pre}.mcp.json`, `${pre}.claude-plugin/plugin.json`]);
+    const autos = new Set([...PLUGIN_MANIFESTS, ...PLUGIN_EXTRA].map((m) => `${pre}${m}`));
     for (const p of all) {
       if (inSkill.has(p)) continue;
       if (autos.has(p) || p.startsWith(`${pre}hooks/`)) pluginAuto.push(p);

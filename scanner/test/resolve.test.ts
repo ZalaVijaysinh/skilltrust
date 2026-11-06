@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { resolveSkillFiles } from "../src/resolve.js";
+import { PLUGIN_MANIFESTS, resolveSkillFiles } from "../src/resolve.js";
 import { RateLimitExhausted } from "../src/github.js";
 import type { TreeEntry } from "../src/github.js";
 
@@ -60,6 +60,12 @@ describe("resolveSkillFiles", () => {
     expect(r.skill).toEqual(["p/skills/x/SKILL.md"]);
     expect(r.pluginAuto).toEqual(["p/.claude-plugin/plugin.json", "p/.mcp.json", "p/hooks/guard.sh", "p/hooks/hooks.json"]);
     expect(r.referenced).toEqual(["p/scripts/h.sh"]);
+  });
+
+  it.each(PLUGIN_MANIFESTS)("treats %s as a plugin manifest and returns the auto-run files", async (m) => {
+    const t = tree(`p/${m}`, "p/hooks/hooks.json", "p/mcp.json", "p/config.toml", "p/skills/x/SKILL.md", "p/README.md");
+    const r = await resolveSkillFiles(t, "p/skills/x", reader({}));
+    expect(r.pluginAuto).toEqual([`p/${m}`, "p/config.toml", "p/hooks/hooks.json", "p/mcp.json"].sort());
   });
 
   it("handles hostile whitespace runs in linear time", async () => {

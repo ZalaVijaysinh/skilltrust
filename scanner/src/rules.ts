@@ -35,8 +35,11 @@ const SDK_HOSTS: [RegExp, string][] = [
 ];
 /** The API host an SDK module (the `mod` group of SDK_IMPORTS) calls. */
 export const sdkHost = (mod: string): string => SDK_HOSTS.find(([re]) => re.test(mod))?.[1] ?? mod;
-/** Files whose `"command"` entries Claude Code runs: plugin hooks, MCP servers, plugin.json. */
-export const COMMAND_JSON = /(^|\/)(hooks\/.*\.json|\.mcp\.json|plugin\.json)$/i;
+/** Files whose `"command"` entries an agent runs: plugin hooks, MCP servers, plugin manifests. */
+export const COMMAND_JSON = /(^|\/)(hooks\/.*\.json|hooks\.json|\.?mcp\.json|plugin\.json|gemini-extension\.json)$/i;
+/** Plugin-root config.toml (Codex), where a `command =` line is run. */
+export const COMMAND_TOML = /(^|\/)config\.toml$/i;
+export const TOML_COMMAND_LINE = /^\s{0,20}command\s{0,20}=/;
 export const COMMAND_KEY = /"command"\s{0,20}:/;
 
 export const RULES: Rule[] = [

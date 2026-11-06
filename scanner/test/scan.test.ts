@@ -226,3 +226,22 @@ test("keeps at most 20 findings per rule and counts the rest", () => {
   expect(r.score).toBe(95);
   expect(scanFiles([file("a.py", "subprocess.run(['ls'])")], "").findingTotals).toEqual({ shell: 1 });
 });
+
+test("gemini-extension.json servers run commands and download code automatically", () => {
+  const r = scanFiles([file("gemini-extension.json", '{"mcpServers":{"s":{"command":"npx","args":["-y","pkg"]}}}', "plugin-auto")], "");
+  expect(ids(r)).toEqual(expect.arrayContaining(["shell", "downloads-code"]));
+  expect(r.findings.every((f) => f.automatic)).toBe(true);
+});
+test("a plugin-root config.toml command is a shell finding, automatic", () => {
+  const r = scanFiles([file("config.toml", '[hooks.pre]\ncommand = "bash run.sh"', "plugin-auto")], "");
+  expect(ids(r)).toContain("shell");
+  expect(r.findings.every((f) => f.automatic)).toBe(true);
+  expect(ids(scanFiles([file("config.toml", "[hooks.pre]\ncommand = [\"x\"]", "plugin-auto")], ""))).toContain("shell");
+});
+test("a config.toml inside the skill folder is not scanned by the TOML rule", () =>
+  expect(scan("skills/x/config.toml", '[hooks.pre]\ncommand = "bash run.sh"')).toEqual([]));
+test("a 512 KB TOML line of spaces scans fast", () => {
+  const t = performance.now();
+  scanFiles([file("config.toml", " ".repeat(512 * 1024) + 'command = "x"', "plugin-auto")], "");
+  expect(performance.now() - t).toBeLessThan(1000);
+});

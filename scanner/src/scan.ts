@@ -1,4 +1,4 @@
-import { COMMAND_JSON, COMMAND_KEY, RULES, RULES_VERSION, SDK_IMPORTS, sdkHost } from "./rules.js";
+import { COMMAND_JSON, COMMAND_KEY, COMMAND_TOML, TOML_COMMAND_LINE, RULES, RULES_VERSION, SDK_IMPORTS, sdkHost } from "./rules.js";
 import { scoreFindings } from "./score.js";
 import type { Finding, ScanResult, SkillFile } from "./types.js";
 
@@ -83,6 +83,8 @@ export function scanFiles(files: SkillFile[], disclosureText: string): ScanResul
     const lines = file.text.split(/\r?\n/);
     const { segs, shellFences } = segments(file, lines);
     const commandJson = COMMAND_JSON.test(file.path);
+    // a config.toml only counts at a plugin root; one inside the skill folder is just a file
+    const commandToml = file.origin === "plugin-auto" && COMMAND_TOML.test(file.path);
     lines.forEach((line, i) => {
       if (!segs[i].length && !shellFences.has(i)) return;
       for (const rule of RULES) {
@@ -102,6 +104,7 @@ export function scanFiles(files: SkillFile[], disclosureText: string): ScanResul
         }
         // Claude Code runs every "command" in hook, MCP and plugin.json files.
         if (rule.id === "shell" && commandJson && COMMAND_KEY.test(line)) matched = true;
+        if (rule.id === "shell" && commandToml && TOML_COMMAND_LINE.test(line)) matched = true;
         // shortcut: minified = very long, almost space-free line in a JS file; tune if it misfires.
         if (rule.id === "obfuscated" && JS_LIKE.test(file.path) && line.length > 1000 && line.split(" ").length < line.length / 40) matched = true;
         if (!matched) continue;
