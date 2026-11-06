@@ -1,0 +1,78 @@
+import { RULES, RULES_VERSION } from "./rules.js";
+import { scoreFindings } from "./score.js";
+import type { Finding, ScanResult, SkillFile } from "./types.js";
+
+export const MAX_FILE_BYTES = 512 * 1024;
+
+const URL_RE = /https?:\/\/([^\s/'"`<>)\]:?#\\]+)/gi;
+// Namespace and loopback hosts are not data leaving the machine.
+const IGNORED_HOSTS = new Set(["localhost", "127.0.0.1", "0.0.0.0", "www.w3.org"]);
+const SHELL_FENCE = /^(bash|sh|shell|zsh|console)$/i;
+const JS_LIKE = /\.(m?js|cjs|jsx|tsx?)$/i;
+
+/** Per line: the text segments to scan. Markdown keeps only code; prose becomes []. */
+function segments(file: SkillFile, lines: string[]): { segs: string[][]; shellFences: Set<number> } {
+  const shellFences = new Set<number>();
+  if (!/\.(md|markdown)$/i.test(file.path)) return { segs: lines.map((l) => [l]), shellFences };
+  let fence: string | null = null;
+  let firstInFence = -1;
+  const segs = lines.map((line, i) => {
+    const m = line.match(/^\s*(`{3,}|~{3,})\s*([\w-]*)/);
+    if (fence === null) {
+      if (m) { fence = m[1]; firstInFence = SHELL_FENCE.test(m[2]) ? 0 : -1; return []; }
+      return [...line.matchAll(/(`+)([^`]|[^`][\s\S]*?[^`])\1(?!`)/g)].map((x) => x[2]);
+    }
+    if (m && m[1][0] === fence[0] && m[1].length >= fence.length && !m[2] && line.trim() === m[1]) { fence = null; return []; }
+    if (firstInFence === 0 && line.trim()) { shellFences.add(i); firstInFence = -1; }
+    return [line];
+  });
+  return { segs, shellFences };
+}
+
+export function scanFiles(files: SkillFile[], disclosureText: string): ScanResult {
+  const disclosure = disclosureText.toLowerCase();
+  const findings: Finding[] = [];
+  let filesScanned = 0, filesSkipped = 0;
+
+  for (const file of files) {
+    if (Buffer.byteLength(file.text) > MAX_FILE_BYTES || file.text.includes("\u0000")) { filesSkipped++; continue; }
+    filesScanned++;
+    const lines = file.text.split(/\r?\n/);
+    const { segs, shellFences } = segments(file, lines);
+    lines.forEach((line, i) => {
+      if (!segs[i].length && !shellFences.has(i)) return;
+      for (const rule of RULES) {
+        let matched = rule.id === "shell" && shellFences.has(i);
+        let hosts: string[] = [];
+        for (const seg of segs[i]) {
+          if (rule.id === "network")
+            for (const m of seg.matchAll(URL_RE)) {
+              const h = m[1].toLowerCase();
+              if (!IGNORED_HOSTS.has(h) && !hosts.includes(h)) hosts.push(h);
+            }
+          if (rule.patterns.some((p) => p.test(seg))) matched = true;
+        }
+        // shortcut: minified = very long, almost space-free line in a JS file; tune if it misfires.
+        if (rule.id === "obfuscated" && JS_LIKE.test(file.path) && line.length > 1000 && line.split(" ").length < line.length / 40) matched = true;
+        if (rule.id === "network" && hosts.length) matched = true;
+        if (!matched) continue;
+        const finding: Finding = {
+          ruleId: rule.id,
+          file: file.path,
+          line: i + 1,
+          excerpt: line.trim().slice(0, 160),
+          disclosed: rule.disclosureWords.some((w) => disclosure.includes(w.toLowerCase())),
+          automatic: file.origin === "plugin-auto",
+        };
+        if (rule.id === "network") finding.hosts = hosts;
+        findings.push(finding);
+      }
+    });
+  }
+
+  const kept = findings.filter((f) => {
+    const req = RULES.find((r) => r.id === f.ruleId)?.requires;
+    return !req || findings.some((x) => x.ruleId === req);
+  });
+  return { findings: kept, ...scoreFindings(kept), rulesVersion: RULES_VERSION, filesScanned, filesSkipped };
+}
