@@ -95,6 +95,22 @@ describe("computeTrending", () => {
     expect(week.cards[0].gained).toBe(400);
   });
 
+  it("rising cards carry ageDays", () => {
+    const s = file({ "a/new": { createdAt: `${day(12)}T00:00:00Z`, points: [[day(0), 400]] } });
+    expect(computeTrending(s, [entry("a", "new")], TODAY).week.cards[0].ageDays).toBe(12);
+  });
+
+  it("rising fails closed: an invalid createdAt or a stale latest point is excluded", () => {
+    const s = file({
+      "a/bad": { createdAt: "not a date", points: [[day(0), 9999]] },
+      "a/stale": { createdAt: `${day(5)}T00:00:00Z`, points: [[day(3), 500]] },
+      "a/future": { createdAt: `${day(-3)}T00:00:00Z`, points: [[day(0), 500]] },
+      "a/ok": { createdAt: `${day(5)}T00:00:00Z`, points: [[day(2), 50]] },
+    });
+    const es = ["bad", "stale", "future", "ok"].map((r) => entry("a", r));
+    expect(computeTrending(s, es, TODAY).week.cards.map((c) => c.repo)).toEqual(["ok"]);
+  });
+
   it("backfilled only when an o point was used", () => {
     const real = file({ "a/x": { points: gain(5) } });
     expect(trend(real, [entry("a", "x")]).backfilled).toBe(false);

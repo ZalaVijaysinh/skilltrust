@@ -18,3 +18,7 @@ export function sentence(f: Finding): string {
 
 /** Sentence for a rule when no finding is at hand (trending cards): hosts are unknown, so the network rule reads "Connects to the internet". */
 export const ruleSentence = (ruleId: RuleId): string => sentence({ ruleId } as Finding);
+
+/** YYYY-MM-DD "today" for the trending lists; SKILLTRUST_TODAY (tests) counts only when well-formed. */
+export const siteToday = (env: string | undefined = process.env.SKILLTRUST_TODAY, now = new Date()): string =>
+  env && /^\d{4}-\d{2}-\d{2}$/.test(env) ? env : now.toISOString().slice(0, 10);

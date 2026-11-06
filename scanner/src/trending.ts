@@ -7,6 +7,8 @@ export interface TrendingCard {
   repo: string;
   gained: number;
   stars: number;
+  /** days since the repo was created; set on rising cards only */
+  ageDays?: number;
   band: Band;
   skills: { id: string; name: string; score: number; band: Band; incomplete: boolean }[];
   moreSkills: number;
@@ -63,10 +65,11 @@ export function computeTrending(stars: StarsFile, entries: IndexEntry[], today: 
     for (const [key, skills] of byRepo) {
       const r = stars.repos[key];
       const latest = r?.points.reduce<(typeof r.points)[number] | undefined>((m, p) => (!m || p[0] > m[0] ? p : m), undefined);
-      if (!r || !latest) continue;
+      if (!r || !latest || Date.parse(latest[0]) / DAY_MS < Date.parse(today) / DAY_MS - 2) continue; // same freshness as gainPoints
       const age = (Date.parse(today) - Date.parse(r.createdAt)) / DAY_MS;
-      if (age > RISING_MAX_AGE_DAYS) continue;
-      rows.push({ c: card(skills[0].owner, skills[0].repo, latest[1], latest[1], skills), score: latest[1] / Math.max(1, age), key, o: latest[2] === "o" });
+      if (!(age >= 0 && age <= RISING_MAX_AGE_DAYS)) continue; // NaN fails closed
+      const c = { ...card(skills[0].owner, skills[0].repo, latest[1], latest[1], skills), ageDays: Math.floor(age) };
+      rows.push({ c, score: latest[1] / Math.max(1, age), key, o: latest[2] === "o" });
     }
     rows.sort((a, b) => b.score - a.score || (a.key < b.key ? -1 : 1));
     const top = rows.slice(0, LIST_SIZE);

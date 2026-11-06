@@ -1,7 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import { loadData } from "../lib/data";
-import { base, skillHref, PARTIAL } from "../lib/view";
+import { base, skillHref, PARTIAL, siteToday } from "../lib/view";
 import { bandLabel } from "../../../scanner/src/score";
 import { computeTrending, type TrendingList } from "../../../scanner/src/trending";
 import TrendingCard from "../components/TrendingCard.astro";
@@ -10,7 +10,7 @@ const { index, report, stars } = loadData();
 const LABELS = { low: bandLabel("low"), review: bandLabel("review"), high: bandLabel("high") };
 const categories = [...new Set(index.map((e) => e.category))].sort();
 const PAGE = 100;
-const today = process.env.SKILLTRUST_TODAY ?? new Date().toISOString().slice(0, 10);
+const today = siteToday();
 const trending = stars ? computeTrending(stars, index, today) : null;
 const lists: TrendingList[] = [];
 for (const l of trending ? [trending.week, trending.month] : []) {
