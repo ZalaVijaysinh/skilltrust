@@ -194,6 +194,15 @@ export async function runScan(opts: {
         sum.scanned += res.records.length;
         if (res.partial) { partial.add(k); probed = false; sum.stoppedEarly = true; break; }
         partial.delete(k);
+        // a full rescan saw every skill dir: known skills no longer in the tree were removed or moved
+        const dirs = new Set(skillDirsInTree(tree));
+        const fresh = new Set(res.records.map((r) => r.id)); // ids are lowercase: a case-only rename rewrote the same record
+        const gone = known.filter((r) => r.status === "ok" && !dirs.has(r.path) && !fresh.has(r.id)).map((r) => ({ ...r, status: "unavailable" as const }));
+        if (gone.length) {
+          await write(gone);
+          for (const r of gone) existing.set(r.id, r);
+          sum.unavailable += gone.length;
+        }
       } catch (e) {
         if (e instanceof RateLimitExhausted) { probed = false; sum.stoppedEarly = true; break; }
         sum.skipped++;

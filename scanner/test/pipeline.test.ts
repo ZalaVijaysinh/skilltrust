@@ -57,6 +57,7 @@ const load = async (dir: string): Promise<SkillRecord[]> =>
 const run = (gh: GitHub, dataDir: string, minStars = 10, extra: Partial<Parameters<typeof runScan>[0]> = {}) => runScan({ gh, dataDir, now: NOW, minStars, ...extra });
 
 describe("runScan", () => {
+  const seqClock = (vals: number[]) => () => vals.shift() ?? 5 * 60_000;
   it("records skills and writes index/report; skips repos below minStars", async () => {
     const dir = await mk();
     const { gh } = fake({ "a/big": { stars: 50, files: skill("big") }, "a/small": { stars: 2, files: skill("small") } });
@@ -118,6 +119,38 @@ describe("runScan", () => {
     expect(after.scan).toEqual(before.scan);
     const report = JSON.parse(await readFile(join(dir, "report.json"), "utf8"));
     expect(report.totalSkills).toBe(1);
+  });
+
+  it("marks a skill removed or moved at a new commit unavailable, keeping its last scan", async () => {
+    const dir = await mk();
+    const v1 = { "x/SKILL.md": "---\nname: x\n---\n1", "y/SKILL.md": "---\nname: y\n---\n22" };
+    await run(fake({ "a/m": { files: v1 } }).gh, dir);
+    const before = (await load(dir)).find((q) => q.path === "y")!;
+    const v2 = { "x/SKILL.md": "---\nname: x\n---\n1", "moved/y/SKILL.md": "---\nname: y\n---\n22" };
+    const r = await run(fake({ "a/m": { commit: sha("c"), files: v2 } }).gh, dir);
+    expect(r.unavailable).toBe(1);
+    const recs = await load(dir);
+    expect(recs.map((q) => [q.path, q.status])).toEqual([["moved/y", "ok"], ["x", "ok"], ["y", "unavailable"]]);
+    const y = recs.find((q) => q.path === "y")!;
+    expect(y.scan).toEqual(before.scan);
+    expect(y.commit).toBe(sha("b"));
+    const index = JSON.parse(await readFile(join(dir, "index.json"), "utf8"));
+    expect(index.find((e: { path: string }) => e.path === "y").status).toBe("unavailable");
+  });
+
+  it("a case-only rename keeps the skill ok", async () => {
+    const dir = await mk();
+    await run(fake({ "a/m": { files: { "Y/SKILL.md": "---\nname: y\n---\n1" } } }).gh, dir);
+    await run(fake({ "a/m": { commit: sha("c"), files: { "y/SKILL.md": "---\nname: y\n---\n1" } } }).gh, dir);
+    expect((await load(dir)).map((q) => [q.path, q.status])).toEqual([["y", "ok"]]);
+  });
+
+  it("a deadline-cut rescan does not mark unscanned skills unavailable", async () => {
+    const dir = await mk();
+    const files = { "x/SKILL.md": "---\nname: x\n---\n1", "y/SKILL.md": "---\nname: y\n---\n22" };
+    await run(fake({ "a/m": { files } }).gh, dir);
+    await run(fake({ "a/m": { commit: sha("c"), files } }).gh, dir, 10, { maxMinutes: 1, clock: seqClock([0, 0, 0]) });
+    expect((await load(dir)).map((q) => q.status)).toEqual(["ok", "ok"]);
   });
 
   it("stops cleanly on RateLimitExhausted without losing any record", async () => {
@@ -227,7 +260,6 @@ describe("runScan", () => {
     expect((await load(dir)).map((x) => x.repo)).toEqual(["r"]);
   });
 
-  const seqClock = (vals: number[]) => () => vals.shift() ?? 5 * 60_000;
   const discovery = async (dir: string) => JSON.parse(await readFile(join(dir, "discovery.json"), "utf8"));
 
   it("an unchanged repo checked this run goes behind one that was not checked", async () => {
