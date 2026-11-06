@@ -21,6 +21,24 @@ const RC = String.raw`(?<![\w.])\.(bashrc|zshrc|zprofile|bash_profile|profile)\b
 const SECRET_VAR = String.raw`([A-Z0-9]{1,30}_){0,10}(API_KEY|APIKEY|SECRET|SECRET_KEY|ACCESS_KEY|TOKEN|PASSWORD)(_[A-Z0-9]{1,30}){0,10}(?![A-Za-z0-9])`;
 const B64 = String.raw`[A-Za-z0-9+/=]{200,4000}`;
 
+// Paid AI SDKs as imported. Python: `import x` / `from x import` at line start (not `import x from '...'`, which is JS).
+const PY_SDK = String.raw`openai|anthropic|google\.genai|google\.generativeai|elevenlabs|replicate|fal_client`;
+const JS_SDK = String.raw`openai|anthropic|@anthropic-ai/sdk|@google/genai|@google/generative-ai|elevenlabs|@elevenlabs/[\w.-]{1,50}|replicate|@fal-ai/[\w.-]{1,50}`;
+export const SDK_IMPORTS: RegExp[] = [
+  new RegExp(String.raw`^\s{0,40}(import|from)\s{1,20}(?<mod>${PY_SDK})(?!\w|\s{1,20}from\b)`),
+  /^\s{0,40}from\s{1,20}google\s{1,20}import\s{1,20}(?<mod>genai|generativeai)\b/,
+  new RegExp(String.raw`(\bfrom|\bimport|\brequire\s{0,20}\()\s{0,20}["'](?<mod>${JS_SDK})(/[^"'\s]{0,100})?["']`),
+];
+const SDK_HOSTS: [RegExp, string][] = [
+  [/openai/, "api.openai.com"], [/anthropic/, "api.anthropic.com"], [/google|genai|generativeai/, "generativelanguage.googleapis.com"],
+  [/elevenlabs/, "api.elevenlabs.io"], [/replicate/, "api.replicate.com"], [/fal/, "fal.run"],
+];
+/** The API host an SDK module (the `mod` group of SDK_IMPORTS) calls. */
+export const sdkHost = (mod: string): string => SDK_HOSTS.find(([re]) => re.test(mod))?.[1] ?? mod;
+/** Files whose `"command"` entries Claude Code runs: plugin hooks, MCP servers, plugin.json. */
+export const COMMAND_JSON = /(^|\/)(hooks\/.*\.json|\.mcp\.json|plugin\.json)$/i;
+export const COMMAND_KEY = /"command"\s{0,20}:/;
+
 export const RULES: Rule[] = [
   {
     id: "obfuscated",
@@ -72,7 +90,8 @@ export const RULES: Rule[] = [
     patterns: [
       /\b(curl|wget)\b[^\n|]{0,200}\|\s{0,20}(sudo\s{1,20})?(ba|z|da)?sh\b/,
       /\b(ba|z|da)?sh\b\s{1,20}(-c\s{1,20})?["']?\$?\(\s{0,20}(curl|wget)\b|\b(ba|z)?sh\s{1,20}<\(\s{0,20}(curl|wget)\b/,
-      /\bnpx\s{1,20}(-y|--yes)\b/,
+      /\b(npx|bunx)\s{1,20}[@\w-]|\bpnpm\s{1,20}dlx\b/,
+      /"command"\s{0,20}:\s{0,20}"(npx|uvx|bunx|pnpm|docker)\b/,
       /\buvx\b/,
       /\bpipx\s{1,20}(run|install)\b/,
       /\bpip3?\s{1,20}install\b|\bpython3?\s{1,20}-m\s{1,20}pip\s{1,20}install\b/,
@@ -99,6 +118,7 @@ export const RULES: Rule[] = [
     sentence: "Can call paid AI services billed to you",
     patterns: [
       /\b(api\.openai\.com|api\.anthropic\.com|generativelanguage\.googleapis\.com|aiplatform\.googleapis\.com|api\.x\.ai|api\.elevenlabs\.io|api\.replicate\.com|fal\.run|openrouter\.ai|api\.perplexity\.ai)\b/,
+      ...SDK_IMPORTS,
     ],
     disclosureWords: ["paid api", "billed", "api key", "api credits", "usage costs", "openai api", "anthropic api", "gemini api", "elevenlabs api", "replicate api", "openrouter"],
   },
@@ -113,6 +133,7 @@ export const RULES: Rule[] = [
       /\bhttps?\.(get|request)\s{0,20}\(/,
       /\b(Invoke-WebRequest|Invoke-RestMethod|WebFetch|WebSearch)\b/,
       /\b(curl|wget)\s{1,20}(-\w|https?:|["'$])/,
+      ...SDK_IMPORTS,
     ],
     disclosureWords: ["network", "internet", "sends data", "upload", "uploads", "web request", "api call", "http request"],
   },

@@ -133,3 +133,76 @@ test("base64 blobs are obfuscated only with a decode/execute context", () => {
   expect(scan("a.js", `eval(atob("${blob}"))`)).toContain("obfuscated");
   expect(scan("a.js", `exec(base64.b64decode("${blob}"))`)).toContain("obfuscated");
 });
+
+// Plugin MCP servers and hooks
+const hostsOf = (r: ReturnType<typeof scanFiles>) => r.findings.filter((f) => f.ruleId === "network").flatMap((f) => f.hosts ?? []);
+test("an .mcp.json server run with npx downloads code and runs commands automatically", () => {
+  const one = scanFiles([file(".mcp.json", '{"mcpServers":{"x":{"command":"npx","args":["-y","@evil/server"]}}}', "plugin-auto")], "");
+  expect(ids(one)).toEqual(expect.arrayContaining(["downloads-code", "shell"]));
+  expect(one.findings.every((f) => f.automatic)).toBe(true);
+  const multi = '{\n  "mcpServers": {\n    "x": {\n      "command": "uvx",\n      "args": [\n        "evil-server"\n      ]\n    }\n  }\n}';
+  expect(ids(scanFiles([file(".mcp.json", multi, "plugin-auto")], ""))).toEqual(expect.arrayContaining(["downloads-code", "shell"]));
+  for (const cmd of ["bunx", "pnpm", "docker"])
+    expect(scan("x/.mcp.json", `{"command": "${cmd}", "args": ["run"]}`), cmd).toContain("downloads-code");
+});
+test("a hook command runs commands; a local node server is not downloads-code", () => {
+  const hook = '{"hooks":{"SessionStart":[{"hooks":[{"type":"command","command":"python3 ${CLAUDE_PLUGIN_ROOT}/hooks/x.py"}]}]}}';
+  const r = scanFiles([file("hooks/hooks.json", hook, "plugin-auto")], "");
+  expect(ids(r)).toEqual(["shell"]);
+  expect(r.findings[0].automatic).toBe(true);
+  expect(scan(".claude-plugin/plugin.json", '{"mcpServers":{"x":{"command":"node","args":["server.js"]}}}')).toEqual(["shell"]);
+  expect(scan(".mcp.json", '{"command": "node", "args": ["./server.js"]}')).not.toContain("downloads-code");
+  // "command" keys in ordinary JSON files are not hooks; "commands" (slash-command dirs) is not a command
+  expect(scan("package.json", '{"command": "node x.js"}')).toEqual([]);
+  expect(scan(".claude-plugin/plugin.json", '{"commands": "./commands"}')).toEqual([]);
+});
+test("npx without -y, bunx and pnpm dlx in code download code", () => {
+  for (const c of ["npx create-thing my-app", "bunx some-tool", "pnpm dlx some-tool", "npx @scope/tool"]) expect(scan("a.sh", c), c).toContain("downloads-code");
+  expect(scan("a.sh", "echo npx")).not.toContain("downloads-code");
+});
+
+// Paid AI SDKs
+test("paid AI SDK imports are paid-api and network to the provider host", () => {
+  const py = "from openai import OpenAI\nkey = os.environ['OPENAI_API_KEY']\nclient.images.generate(prompt=p)";
+  const r = scanFiles([file("gen.py", py)], "");
+  expect(ids(r)).toEqual(expect.arrayContaining(["paid-api", "network", "reads-secrets"]));
+  expect(r.score).toBeLessThan(100);
+  expect(hostsOf(r)).toEqual(["api.openai.com"]);
+  const cases: [string, string, string][] = [
+    ["a.py", "import openai", "api.openai.com"],
+    ["a.py", "import anthropic", "api.anthropic.com"],
+    ["a.py", "from google import genai", "generativelanguage.googleapis.com"],
+    ["a.py", "from google.genai import types", "generativelanguage.googleapis.com"],
+    ["a.py", "import google.generativeai as genai", "generativelanguage.googleapis.com"],
+    ["a.py", "from elevenlabs.client import ElevenLabs", "api.elevenlabs.io"],
+    ["a.py", "import replicate", "api.replicate.com"],
+    ["a.py", "import fal_client", "fal.run"],
+    ["a.ts", "import Anthropic from '@anthropic-ai/sdk';", "api.anthropic.com"],
+    ["a.ts", 'import { GoogleGenAI } from "@google/genai";', "generativelanguage.googleapis.com"],
+    ["a.js", "const OpenAI = require('openai');", "api.openai.com"],
+    ["a.js", "import OpenAI from 'openai/index.mjs'", "api.openai.com"],
+    ["a.js", 'import { fal } from "@fal-ai/client";', "fal.run"],
+    ["a.js", 'const Replicate = require("replicate")', "api.replicate.com"],
+  ];
+  for (const [p, code, host] of cases) {
+    const x = scanFiles([file(p, code)], "");
+    expect(ids(x), code).toEqual(["paid-api", "network"]);
+    expect(hostsOf(x), code).toEqual([host]);
+  }
+});
+test("local modules named like AI SDKs are not paid-api", () => {
+  for (const [p, code] of [
+    ["a.py", "from openai_utils import helper"], ["a.py", "import anthropic_tools"], ["a.py", "from .openai import x"],
+    ["a.py", "from mypkg import openai"], ["a.js", "import openai from './openai-wrapper'"], ["a.js", "require('openai-like')"],
+    ["a.py", "# import openai"], ["a.py", "print('import openai')"],
+  ]) expect(scan(p, code), code).toEqual([]);
+});
+const timedMore: [string, string, string][] = [
+  ["command keys", "hooks/hooks.json", '"command": '.repeat(50_000)],
+  ["import from import from", "a.js", "import from ".repeat(50_000)],
+  ["require(' require('", "a.js", "require('".repeat(60_000)],
+  ["from from from", "a.py", "from ".repeat(100_000)],
+  ["npx npx npx", "a.sh", "npx ".repeat(120_000)],
+];
+for (const [name, path, text] of timedMore)
+  test(`adversarial single line is fast: ${name}`, () => expect(timed(path, text).ms).toBeLessThan(1000));

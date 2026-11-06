@@ -1,4 +1,4 @@
-import { RULES, RULES_VERSION } from "./rules.js";
+import { COMMAND_JSON, COMMAND_KEY, RULES, RULES_VERSION, SDK_IMPORTS, sdkHost } from "./rules.js";
 import { scoreFindings } from "./score.js";
 import type { Finding, ScanResult, SkillFile } from "./types.js";
 
@@ -81,23 +81,26 @@ export function scanFiles(files: SkillFile[], disclosureText: string): ScanResul
     filesScanned++;
     const lines = file.text.split(/\r?\n/);
     const { segs, shellFences } = segments(file, lines);
+    const commandJson = COMMAND_JSON.test(file.path);
     lines.forEach((line, i) => {
       if (!segs[i].length && !shellFences.has(i)) return;
       for (const rule of RULES) {
         let matched = rule.id === "shell" && shellFences.has(i);
-        let hosts: string[] = [];
+        const hosts: string[] = [];
+        const addHost = (h: string) => { if (!IGNORED_HOSTS.has(h) && !hosts.includes(h)) hosts.push(h); };
         for (const seg of segs[i]) {
           if (rule.id === "network" && COMMENT_LINE.test(seg)) continue;
           for (const win of windows(seg)) {
             if (!rule.patterns.some((p) => p.test(win))) continue;
             matched = true; // one finding per rule per line, so overlapping windows cannot double-report
-            if (rule.id === "network")
-              for (const m of win.matchAll(URL_RE)) {
-                const h = m[1].toLowerCase();
-                if (!IGNORED_HOSTS.has(h) && !hosts.includes(h)) hosts.push(h);
-              }
+            if (rule.id === "network") {
+              for (const m of win.matchAll(URL_RE)) addHost(m[1].toLowerCase());
+              for (const p of SDK_IMPORTS) { const mod = p.exec(win)?.groups?.mod; if (mod) addHost(sdkHost(mod)); }
+            }
           }
         }
+        // Claude Code runs every "command" in hook, MCP and plugin.json files.
+        if (rule.id === "shell" && commandJson && COMMAND_KEY.test(line)) matched = true;
         // shortcut: minified = very long, almost space-free line in a JS file; tune if it misfires.
         if (rule.id === "obfuscated" && JS_LIKE.test(file.path) && line.length > 1000 && line.split(" ").length < line.length / 40) matched = true;
         if (!matched) continue;
