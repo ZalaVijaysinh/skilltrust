@@ -1,7 +1,9 @@
-import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
+import { createHash } from "node:crypto";
+import { mkdir, readdir, readFile, rename, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import type { Band, RuleId, ScanResult } from "./types.js";
 import { buildReport } from "./report.js";
+import { mergeDuplicates } from "./dedupe.js";
 
 export interface SkillRecord {
   id: string;
@@ -78,14 +80,14 @@ export function installCommand(e: { owner: string; repo: string; path: string; c
   if (!/^[A-Za-z0-9_.-]{1,100}$/.test(owner) || !/^[A-Za-z0-9_.-]{1,100}$/.test(repo)) throw new Error("invalid owner/repo");
   if (!/^[0-9a-f]{40}$/.test(commit)) throw new Error("invalid commit");
   // eslint-disable-next-line no-control-regex
-  if (path.startsWith("/") || path.split("/").includes("..") || /[\u0000-\u001f\u007f]/.test(path)) throw new Error("invalid path");
+  if (path === "." || path.startsWith("/") || path.startsWith(":") || path.split("/").includes("..") || /[\u0000-\u001f\u007f]/.test(path)) throw new Error("invalid path");
   const dest = slug(name) || slug(path.split("/").pop() ?? "") || "skill";
   const url = q(`https://github.com/${owner}/${repo}`);
   const base = `d=$(mktemp -d) && git clone --quiet --filter=blob:none --no-checkout ${url} "$d" && git -C "$d" checkout --quiet ${q(commit)} -- ${q(path || ".")} && mkdir -p ~/.claude/skills`;
   const target = `~/.claude/skills/${q(dest)}`;
   return path === ""
-    ? `${base} && cp -R "$d/." ${target} && rm -rf ${target}/.git`
-    : `${base} && cp -R "$d"/${q(path)} ${target}`;
+    ? `${base} && rm -rf ${target} && cp -R "$d/." ${target} && rm -rf ${target}/.git && rm -rf "$d"`
+    : `${base} && rm -rf ${target} && cp -R "$d"/${q(path)} ${target} && rm -rf "$d"`;
 }
 
 const cut = (s: string, n: number) => (s.length > n ? `${s.slice(0, n - 1)}…` : s);
@@ -102,16 +104,39 @@ export function toIndexEntry(r: SkillRecord): IndexEntry {
   };
 }
 
-/** Writes the given records, then rebuilds index.json and report.json from every record in skills/. Never deletes. */
-export async function writeData(dir: string, records: SkillRecord[]): Promise<void> {
+/** Filename stem for a record: long ids get a stable hash suffix; null when unsafe. */
+function fileStem(id: string): string | null {
+  const stem = id.length > 200 ? `${id.slice(0, 180)}-${createHash("sha256").update(id).digest("hex").slice(0, 16)}` : id;
+  return /^[a-z0-9._~-]+$/.test(stem) && !/^\.+$/.test(stem) ? stem : null;
+}
+
+async function writeAtomic(file: string, text: string): Promise<void> {
+  await writeFile(`${file}.tmp`, text);
+  await rename(`${file}.tmp`, file);
+}
+
+/**
+ * Writes the given records, then rebuilds index.json and report.json from every record in skills/
+ * (duplicates collapsed, oldest repo wins). Never deletes. Returns the files/ids it could not use.
+ */
+export async function writeData(dir: string, records: SkillRecord[], warn: (m: string) => void = console.warn): Promise<{ skipped: string[] }> {
   const skills = join(dir, "skills");
   await mkdir(skills, { recursive: true });
-  for (const r of records) await writeFile(join(skills, `${r.id}.json`), JSON.stringify(r, null, 2) + "\n");
+  const skipped: string[] = [];
+  const bad = (what: string, why: string) => { skipped.push(what); warn(`skilltrust: skipped ${what}: ${why}`); };
+  for (const r of records) {
+    const stem = typeof r.id === "string" ? fileStem(r.id) : null;
+    if (!stem) { bad(String(r.id), "unsafe id"); continue; }
+    try { await writeAtomic(join(skills, `${stem}.json`), JSON.stringify(r, null, 2) + "\n"); }
+    catch (e) { bad(r.id, String(e)); }
+  }
   const all: SkillRecord[] = [];
   for (const f of (await readdir(skills)).filter((n) => n.endsWith(".json")).sort()) {
-    try { all.push(JSON.parse(await readFile(join(skills, f), "utf8"))); } catch { /* unreadable file is left alone, not indexed */ }
+    try { all.push(JSON.parse(await readFile(join(skills, f), "utf8"))); } catch { bad(f, "unparseable JSON"); }
   }
-  const index = all.map(toIndexEntry).sort((a, b) => b.score - a.score || b.stars - a.stars || (a.id < b.id ? -1 : 1));
-  await writeFile(join(dir, "index.json"), JSON.stringify(index, null, 2) + "\n");
-  await writeFile(join(dir, "report.json"), JSON.stringify(buildReport(all), null, 2) + "\n");
+  const merged = mergeDuplicates(all);
+  const index = merged.map(toIndexEntry).sort((a, b) => b.score - a.score || b.stars - a.stars || (a.id < b.id ? -1 : 1));
+  await writeAtomic(join(dir, "index.json"), JSON.stringify(index, null, 2) + "\n");
+  await writeAtomic(join(dir, "report.json"), JSON.stringify(buildReport(merged), null, 2) + "\n");
+  return { skipped };
 }

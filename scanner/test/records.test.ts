@@ -1,5 +1,5 @@
-import { describe, it, expect } from "vitest";
-import { mkdtemp, readFile, readdir } from "node:fs/promises";
+import { describe, it, expect, vi } from "vitest";
+import { mkdtemp, readFile, readdir, writeFile, mkdir } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { installCommand, parseFrontmatter, writeData } from "../src/records.js";
@@ -11,22 +11,22 @@ const base = { owner: "acme", repo: "skills", path: "tools/pdf", commit: SHA, na
 describe("installCommand", () => {
   it("matches the quoted template", () => {
     expect(installCommand(base)).toBe(
-      `d=$(mktemp -d) && git clone --quiet --filter=blob:none --no-checkout 'https://github.com/acme/skills' "$d" && git -C "$d" checkout --quiet '${SHA}' -- 'tools/pdf' && mkdir -p ~/.claude/skills && cp -R "$d"/'tools/pdf' ~/.claude/skills/'pdf'`,
+      `d=$(mktemp -d) && git clone --quiet --filter=blob:none --no-checkout 'https://github.com/acme/skills' "$d" && git -C "$d" checkout --quiet '${SHA}' -- 'tools/pdf' && mkdir -p ~/.claude/skills && rm -rf ~/.claude/skills/'pdf' && cp -R "$d"/'tools/pdf' ~/.claude/skills/'pdf' && rm -rf "$d"`,
     );
   });
   it("root skill checks out . and drops .git", () => {
     const c = installCommand({ ...base, path: "" });
     expect(c).toContain(`-- '.'`);
-    expect(c).toContain(`cp -R "$d/." ~/.claude/skills/'pdf' && rm -rf ~/.claude/skills/'pdf'/.git`);
+    expect(c).toContain(`rm -rf ~/.claude/skills/'pdf' && cp -R "$d/." ~/.claude/skills/'pdf' && rm -rf ~/.claude/skills/'pdf'/.git && rm -rf "$d"`);
   });
   it("turns hostile names into a safe slug", () => {
     const c = installCommand({ ...base, name: "x'; rm -rf ~; echo '" });
-    expect(c.endsWith(`~/.claude/skills/'x-rm-rf-echo'`)).toBe(true);
-    expect(c).not.toContain("rm -rf ~");
-    expect(installCommand({ ...base, name: "$(reboot) `id` ../../etc" })).toMatch(/skills\/'reboot-id-etc'$/);
+    expect(c.includes(`cp -R "$d"/'tools/pdf' ~/.claude/skills/'x-rm-rf-echo'`)).toBe(true);
+    expect(c).not.toContain("rm -rf ~;");
+    expect(installCommand({ ...base, name: "$(reboot) `id` ../../etc" })).toContain(`~/.claude/skills/'reboot-id-etc'`);
   });
   it("falls back to the dir basename, then skill", () => {
-    expect(installCommand({ ...base, name: "!!!", path: "a/My Dir" })).toMatch(/skills\/'my-dir'$/);
+    expect(installCommand({ ...base, name: "!!!", path: "a/My Dir" })).toContain(`~/.claude/skills/'my-dir'`);
     expect(installCommand({ ...base, name: "!!!", path: "" })).toContain(`~/.claude/skills/'skill'`);
   });
   it("caps slug at 64 chars", () => {
@@ -40,6 +40,8 @@ describe("installCommand", () => {
     expect(() => installCommand({ ...base, commit: "A".repeat(40) })).toThrow();
     expect(() => installCommand({ ...base, path: "a/../b" })).toThrow();
     expect(() => installCommand({ ...base, path: "/abs" })).toThrow();
+    expect(() => installCommand({ ...base, path: "." })).toThrow();
+    expect(() => installCommand({ ...base, path: ":(top)x" })).toThrow();
     expect(() => installCommand({ ...base, path: "a\nb" })).toThrow();
     expect(() => installCommand({ ...base, owner: "a b" })).toThrow();
     expect(() => installCommand({ ...base, repo: "x;y" })).toThrow();
@@ -89,5 +91,39 @@ describe("writeData", () => {
     expect(e.name.endsWith("…")).toBe(true);
     expect(e.description).toHaveLength(500);
     expect(e.installCommand).toBe("");
+  });
+  it("collapses a mirror already on disk when the older original arrives later", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "st-"));
+    await writeData(dir, [rec({ id: "a_mirror", owner: "m", repo: "m", contentHash: "same", repoCreatedAt: "2025-05-01T00:00:00Z" })]);
+    await writeData(dir, [rec({ id: "z_orig", owner: "o", repo: "o", contentHash: "same", repoCreatedAt: "2024-01-01T00:00:00Z" })]);
+    const idx = JSON.parse(await readFile(join(dir, "index.json"), "utf8"));
+    expect(idx.map((e: { id: string }) => e.id)).toEqual(["z_orig"]);
+    expect(JSON.parse(await readFile(join(dir, "report.json"), "utf8")).totalSkills).toBe(1);
+    expect((await readdir(join(dir, "skills"))).sort()).toEqual(["a_mirror.json", "z_orig.json"]);
+  });
+  it("reports corrupt files instead of silently dropping them, and leaves no tmp files", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "st-"));
+    await mkdir(join(dir, "skills"));
+    await writeFile(join(dir, "skills", "bad.json"), '{"id": "tru');
+    const warn = vi.fn();
+    const res = await writeData(dir, [rec({ id: "good" })], warn);
+    expect(res.skipped).toEqual(["bad.json"]);
+    expect(warn).toHaveBeenCalled();
+    expect((await readdir(join(dir, "skills"))).sort()).toEqual(["bad.json", "good.json"]);
+  });
+  it("shortens long ids deterministically and skips bad ids without stopping the rest", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "st-"));
+    const long = "a".repeat(400);
+    const warn = vi.fn();
+    const res = await writeData(dir, [rec({ id: "../evil", contentHash: "x" }), rec({ id: long, contentHash: "y" }), rec({ id: "ok", contentHash: "z" })], warn);
+    const files = (await readdir(join(dir, "skills"))).sort();
+    expect(files).toHaveLength(2);
+    expect(files).toContain("ok.json");
+    const longFile = files.find((f) => f !== "ok.json")!;
+    expect(longFile).toMatch(/^a{180}-[0-9a-f]{16}\.json$/);
+    expect(res.skipped).toEqual(["../evil"]);
+    await writeData(dir, [rec({ id: long, contentHash: "y" })], warn);
+    expect(await readdir(join(dir, "skills"))).toHaveLength(2);
+    expect(JSON.parse(await readFile(join(dir, "index.json"), "utf8"))).toHaveLength(2);
   });
 });

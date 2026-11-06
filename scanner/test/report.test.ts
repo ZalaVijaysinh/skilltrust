@@ -18,6 +18,13 @@ describe("buildReport", () => {
     expect(r.byRule.obfuscated.count).toBe(0);
     expect(r.byCategory).toEqual({ coding: 2 });
   });
+  it("keeps the oldest repo among duplicates regardless of order", () => {
+    const r = buildReport([
+      rec({ id: "a", repo: "mirror", contentHash: "h", repoCreatedAt: "2025-01-01T00:00:00Z", category: "other" }),
+      rec({ id: "z", repo: "orig", contentHash: "h", repoCreatedAt: "2020-01-01T00:00:00Z", category: "coding" }),
+    ]);
+    expect(r.byCategory).toEqual({ coding: 1 });
+  });
   it("handles empty input", () => {
     expect(buildReport([]).byRule.network.percent).toBe(0);
   });
