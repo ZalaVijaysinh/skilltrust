@@ -92,7 +92,7 @@ async function scanRepo(gh: GitHub, meta: RepoMeta, commit: string, tree: TreeEn
     out.push({
       id, owner, repo, path, name, description: fm.description ?? "", stars: meta.stars,
       category: categorize(meta.topics, `${name} ${fm.description ?? ""}`),
-      commit, contentHash: contentHash(tree, dir), repoCreatedAt: meta.createdAt, alsoFoundIn: [], status: "ok",
+      commit, contentHash: contentHash(tree, dir, [...referenced, ...pluginAuto]), repoCreatedAt: meta.createdAt, alsoFoundIn: [], status: "ok",
       incomplete: failedReads > 0,
       scannedAt: now.toISOString(), scan,
       history: changed ? [...history, { commit, scannedAt: now.toISOString(), score: scan.score, rulesVersion: scan.rulesVersion }] : history,

@@ -21,6 +21,8 @@ const more = (ruleId: RuleId, i: number) => {
   return Math.max(0, total - findings.filter((f) => f.ruleId === ruleId).length);
 };
 const short = (c: string) => String(c).slice(0, 7);
+// merged in rebuildIndex; the record file on disk only knows itself
+const alsoFoundIn = Array.isArray(entry.alsoFoundIn) ? entry.alsoFoundIn.map(String) : [];
 ---
 <Base title={`${entry.name}: ${bandLabel(entry.band)} | SkillTrust`} description="What this Claude skill can do to your computer, in plain English.">
   <p class="back"><a href={`${base}/`}>&larr; All skills</a></p>
@@ -78,11 +80,11 @@ const short = (c: string) => String(c).slice(0, 7);
     </table>
   </div>
 
-  {record.alsoFoundIn.length > 0 && (
+  {alsoFoundIn.length > 0 && (
     <>
       <h2>Also found in</h2>
       <p class="meta">Identical copies of this skill exist at:</p>
-      <ul>{record.alsoFoundIn.map((x) => <li>{x}</li>)}</ul>
+      <ul>{alsoFoundIn.map((x) => <li>{x}</li>)}</ul>
     </>
   )}
 </Base>

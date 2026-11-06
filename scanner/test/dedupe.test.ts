@@ -17,6 +17,16 @@ describe("dedupe", () => {
     expect(contentHash(t1, "s")).not.toBe(contentHash([b("s/SKILL.md", "a"), b("s/run.sh", "c")], "s"));
   });
 
+  it("covers referenced and plugin files outside the skill dir, by repo-root path", () => {
+    const skillFiles = [b("s/SKILL.md", "a"), b("s/run.sh", "b")];
+    const plain = contentHash(skillFiles, "s");
+    expect(contentHash([...skillFiles, b("hooks/hooks.json", "h")], "s", [])).toBe(plain);
+    const withHook = contentHash([...skillFiles, b("hooks/hooks.json", "h")], "s", ["hooks/hooks.json"]);
+    expect(withHook).not.toBe(plain);
+    expect(contentHash([b("x/s/SKILL.md", "a"), b("x/s/run.sh", "b"), b("hooks/hooks.json", "h")], "x/s", ["hooks/hooks.json"])).toBe(withHook);
+    expect(contentHash([...skillFiles, b("hooks/hooks.json", "h2")], "s", ["hooks/hooks.json"])).not.toBe(withHook);
+  });
+
   it("builds lowercase ids", () => {
     expect(skillId({ owner: "Foo", repo: "Bar", path: "a/B" })).toBe("foo__bar__a~b");
     expect(skillId({ owner: "o", repo: "r", path: "" })).toBe("o__r___root");

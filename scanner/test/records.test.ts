@@ -98,6 +98,7 @@ describe("writeData", () => {
     await writeData(dir, [rec({ id: "z_orig", owner: "o", repo: "o", contentHash: "same", repoCreatedAt: "2024-01-01T00:00:00Z" })]);
     const idx = JSON.parse(await readFile(join(dir, "index.json"), "utf8"));
     expect(idx.map((e: { id: string }) => e.id)).toEqual(["z_orig"]);
+    expect(idx[0].alsoFoundIn).toEqual(["m/m/s"]);
     expect(JSON.parse(await readFile(join(dir, "report.json"), "utf8")).totalSkills).toBe(1);
     expect((await readdir(join(dir, "skills"))).sort()).toEqual(["a_mirror.json", "z_orig.json"]);
   });

@@ -42,6 +42,8 @@ export interface IndexEntry {
   status: "ok" | "unavailable";
   incomplete: boolean;
   installCommand: string;
+  /** `owner/repo/path` of identical copies merged into this entry */
+  alsoFoundIn: string[];
 }
 
 /** Minimal YAML-ish frontmatter reader: name and description only. Never throws. */
@@ -103,7 +105,7 @@ export function toIndexEntry(r: SkillRecord): IndexEntry {
     owner: r.owner, repo: r.repo, path: r.path, stars: r.stars, category: r.category,
     score: r.scan.score, band: r.scan.band, commit: r.commit,
     ruleIds: [...new Set(r.scan.findings.map((f) => f.ruleId))],
-    status: r.status, incomplete: !!r.incomplete, installCommand: cmd,
+    status: r.status, incomplete: !!r.incomplete, installCommand: cmd, alsoFoundIn: r.alsoFoundIn ?? [],
   };
 }
 

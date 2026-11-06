@@ -14,12 +14,16 @@ export function skillDirsInTree(tree: TreeEntry[]): string[] {
   return [...dirs].sort();
 }
 
-/** sha256 over sorted `relativePath:blobSha` lines of files under skillDir. */
-export function contentHash(tree: TreeEntry[], skillDir: string): string {
+/**
+ * sha256 over sorted `path:blobSha` lines of every scanned file: files under skillDir (path relative to it)
+ * and `outside` files such as referenced scripts and plugin hooks (path relative to the repo root).
+ */
+export function contentHash(tree: TreeEntry[], skillDir: string, outside: string[] = []): string {
   const prefix = skillDir ? `${skillDir}/` : "";
+  const extra = new Set(outside);
   const lines = tree
-    .filter((e) => e.type === "blob" && e.path.startsWith(prefix))
-    .map((e) => `${e.path.slice(prefix.length)}:${e.sha}`)
+    .filter((e) => e.type === "blob" && (e.path.startsWith(prefix) || extra.has(e.path)))
+    .map((e) => `${e.path.startsWith(prefix) ? e.path.slice(prefix.length) : e.path}:${e.sha}`)
     .sort();
   return createHash("sha256").update(lines.join("\n")).digest("hex");
 }
