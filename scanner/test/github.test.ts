@@ -240,7 +240,8 @@ describe("github client", () => {
         return gql(data);
       }) as unknown as typeof fetch;
       const gh = createGitHub({ fetchImpl });
-      const m = await gh.getStars(repos(250));
+      const { counts: m, failedBatches } = await gh.getStars(repos(250));
+      expect(failedBatches).toBe(0);
       expect(bodies).toHaveLength(3);
       expect(bodies.every((b) => b.method === "POST")).toBe(true);
       expect(bodies.map((b) => Object.keys(b.variables).length / 2)).toEqual([100, 100, 50]);
@@ -254,14 +255,45 @@ describe("github client", () => {
       const data: Record<string, unknown> = {};
       for (let i = 0; i < 10; i++) data["r" + i] = i === 7 ? null : { stargazerCount: i, createdAt: "t" };
       const { fetchImpl } = fake([gql(data, [{ type: "NOT_FOUND", path: ["r7"] }])]);
-      const m = await createGitHub({ fetchImpl }).getStars(repos(10));
+      const { counts: m } = await createGitHub({ fetchImpl }).getStars(repos(10));
       expect(m.size).toBe(9);
       expect(m.has("o7/r7")).toBe(false);
     });
 
-    it("throws on HTTP failure", async () => {
-      const { fetchImpl } = fake([json({}, 500)]);
-      await expect(createGitHub({ fetchImpl }).getStars(repos(1))).rejects.toThrow();
+    const okBatch = (n: number) => gql(Object.fromEntries(Array.from({ length: n }, (_, i) => [`r${i}`, { stargazerCount: 1, createdAt: "t" }])));
+
+    it("a failed batch is skipped and counted; others kept", async () => {
+      const { fetchImpl } = fake([okBatch(100), json({}, 500), okBatch(50)]);
+      const r = await createGitHub({ fetchImpl }).getStars(repos(250));
+      expect(r.failedBatches).toBe(1);
+      expect(r.counts.size).toBe(150);
+    });
+
+    it("a body with no data counts as failed", async () => {
+      const { fetchImpl } = fake([json({ errors: [{ type: "X" }] })]);
+      const r = await createGitHub({ fetchImpl }).getStars(repos(1));
+      expect(r).toEqual({ counts: new Map(), failedBatches: 1 });
+    });
+
+    it("RATE_LIMITED (200) stops remaining batches, keeps earlier ones", async () => {
+      const { fetchImpl, calls } = fake([okBatch(100), json({ data: null, errors: [{ type: "RATE_LIMITED" }] })]);
+      const r = await createGitHub({ fetchImpl }).getStars(repos(250));
+      expect(calls).toHaveLength(2);
+      expect(r.failedBatches).toBe(2);
+      expect(r.counts.size).toBe(100);
+    });
+
+    it("RATE_LIMITED as HTTP 403 stops remaining batches", async () => {
+      const { fetchImpl, calls } = fake([okBatch(100), json({ errors: [{ type: "RATE_LIMITED" }] }, 403)]);
+      const r = await createGitHub({ fetchImpl }).getStars(repos(250));
+      expect(calls).toHaveLength(2);
+      expect(r.failedBatches).toBe(2);
+      expect(r.counts.size).toBe(100);
+    });
+
+    it("core RateLimitExhausted still propagates", async () => {
+      const { fetchImpl } = fake([json({}, 403, { "x-ratelimit-remaining": "0", "x-ratelimit-reset": "9999999999" })]);
+      await expect(createGitHub({ fetchImpl }).getStars(repos(1))).rejects.toBeInstanceOf(RateLimitExhausted);
     });
   });
 });

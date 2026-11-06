@@ -26,6 +26,25 @@ describe("stars", () => {
     expect(s.repos["a/b"]).toBeUndefined();
   });
 
+  it.each([
+    ["null entry", '{"repos":{"a/b":null}}'],
+    ["no points", '{"repos":{"a/b":{"createdAt":"x"}}}'],
+    ["repos array", '{"repos":[]}'],
+    ["bad createdAt", '{"repos":{"a/b":{"createdAt":1,"points":[]}}}'],
+    ["bad point", '{"repos":{"a/b":{"createdAt":"x","points":[["2026-11-07","5"]]}}}'],
+    ["bad source", '{"repos":{"a/b":{"createdAt":"x","points":[["2026-11-07",5,"z"]]}}}'],
+  ])("invalid shape (%s) -> .bak, warn, empty", async (_n, text) => {
+    const dir = await mkdtemp(join(tmpdir(), "stars-"));
+    try {
+      const f = join(dir, "stars.json");
+      await writeFile(f, text);
+      const warns: string[] = [];
+      expect(await loadStars(f, (m) => warns.push(m))).toEqual({ repos: {} });
+      expect(warns).toHaveLength(1);
+      expect(await readFile(f + ".bak", "utf8")).toBe(text);
+    } finally { await rm(dir, { recursive: true, force: true }); }
+  });
+
   it("corrupt file -> .bak, warn, empty; missing -> empty; save round-trips", async () => {
     const dir = await mkdtemp(join(tmpdir(), "stars-"));
     try {

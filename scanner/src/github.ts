@@ -29,8 +29,9 @@ export interface GitHub {
   getTree(owner: string, repo: string, commit: string): Promise<TreeEntry[]>;
   /** `commit` is any git ref (branch or SHA). Not counted against API quota. */
   readRaw(owner: string, repo: string, commit: string, path: string): Promise<string>;
-  /** Batched GraphQL lookup, 100 repos per request. Key is lowercase `owner/repo`; missing repos are absent. */
-  getStars(repos: { owner: string; repo: string }[]): Promise<Map<string, { stars: number; createdAt: string }>>;
+  /** Batched GraphQL lookup, 100 repos per request. Key is lowercase `owner/repo`; missing repos are absent.
+   *  A failed batch is skipped and counted; a GraphQL rate limit fails all remaining batches. Core RateLimitExhausted propagates. */
+  getStars(repos: { owner: string; repo: string }[]): Promise<{ counts: Map<string, { stars: number; createdAt: string }>; failedBatches: number }>;
   /** Last seen `x-ratelimit-remaining` (Infinity before any API call). */
   remaining(): number;
 }
@@ -154,23 +155,38 @@ export function createGitHub(opts: {
       return res.text();
     },
     async getStars(repos) {
-      const out = new Map<string, { stars: number; createdAt: string }>();
-      for (let i = 0; i < repos.length; i += STARS_BATCH) {
-        const batch = repos.slice(i, i + STARS_BATCH);
+      const counts = new Map<string, { stars: number; createdAt: string }>();
+      let failedBatches = 0;
+      const nBatches = Math.ceil(repos.length / STARS_BATCH);
+      for (let k = 0; k < nBatches; k++) {
+        const batch = repos.slice(k * STARS_BATCH, (k + 1) * STARS_BATCH);
         const decl = batch.map((_, j) => `$o${j}: String!, $n${j}: String!`).join(", ");
         const body = batch.map((_, j) => `r${j}: repository(owner: $o${j}, name: $n${j}) { stargazerCount createdAt }`).join(" ");
         const variables: Record<string, string> = {};
         batch.forEach((r, j) => { variables[`o${j}`] = r.owner; variables[`n${j}`] = r.repo; });
-        const res = await api("/graphql", JSON.stringify({ query: `query(${decl}) { ${body} }`, variables }));
-        if (!res.ok) throw new Error(`GitHub ${res.status} for /graphql`);
-        const d = (await res.json()) as { data?: Record<string, { stargazerCount: number; createdAt: string } | null> | null };
-        if (!d.data) throw new Error("GitHub graphql returned no data");
+        let d: { data?: Record<string, { stargazerCount: number; createdAt: string } | null> | null; errors?: { type?: string }[] } | undefined;
+        let stop = false;
+        try {
+          const res = await api("/graphql", JSON.stringify({ query: `query(${decl}) { ${body} }`, variables }));
+          d = (await res.json().catch(() => undefined)) as typeof d;
+          // GitHub reports GraphQL rate limits as 200 or 403 with this error type
+          stop = !!d?.errors?.some((e) => e.type === "RATE_LIMITED");
+          if (!res.ok) d = undefined;
+        } catch (e) {
+          if (e instanceof RateLimitExhausted) throw e;
+          stop = /\b(403|429)\b|limit exhausted/.test(String(e)); // api() gave up on a rate limit
+        }
+        if (!d?.data) {
+          failedBatches += stop ? nBatches - k : 1;
+          if (stop) break;
+          continue;
+        }
         batch.forEach((r, j) => {
-          const v = d.data![`r${j}`];
-          if (v) out.set(`${r.owner}/${r.repo}`.toLowerCase(), { stars: v.stargazerCount, createdAt: v.createdAt });
+          const v = d!.data![`r${j}`];
+          if (v) counts.set(`${r.owner}/${r.repo}`.toLowerCase(), { stars: v.stargazerCount, createdAt: v.createdAt });
         });
       }
-      return out;
+      return { counts, failedBatches };
     },
     remaining: () => remaining,
   };

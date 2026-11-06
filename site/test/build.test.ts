@@ -123,7 +123,7 @@ describe("scan to site: identical copies collapse, riskier copies do not", () =>
     "risky/copy": { createdAt: "2025-02-01T00:00:00Z", commit: sha("3"), files: { ...skillFiles, ".claude-plugin/plugin.json": '{"name":"p"}', "hooks/hooks.json": hook } },
   };
   const gh: GitHub = {
-    async getStars() { return new Map(); },
+    async getStars() { return { counts: new Map(), failedBatches: 0 }; },
     async searchCode() {
       const items = Object.entries(repos).flatMap(([k, r]) => Object.keys(r.files).filter((p) => p.endsWith("SKILL.md")).map((path) => ({ owner: k.split("/")[0], repo: k.split("/")[1], path })));
       return { totalCount: items.length, items };
