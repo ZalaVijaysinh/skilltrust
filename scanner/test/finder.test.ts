@@ -120,7 +120,7 @@ test("install mode prints a check, the commit and the finished install command",
 });
 
 const link = (dir: string, f: string) =>
-  `if [ -e ${dir}/'${f}' ] || [ -L ${dir}/'${f}' ]; then echo 'A skill named ${f} already exists in ${dir} — not linking' >&2; false; else ln -s ~/.agents/skills/'${f}' ${dir}/'${f}'; fi`;
+  `if [ -e ${dir}/'${f}' ] || [ -L ${dir}/'${f}' ]; then echo 'Skill installed in ~/.agents/skills/${f}. A link already exists at ${dir}/${f} — left untouched.' >&2; false; else ln -s ~/.agents/skills/'${f}' ${dir}/'${f}'; fi`;
 const dirs: Record<string, string> = { "claude-code": "~/.claude/skills", antigravity: "~/.gemini/config/skills", cursor: "~/.cursor/skills",
   copilot: "~/.copilot/skills", "gemini-cli": "~/.gemini/skills", opencode: "~/.config/opencode/skills" };
 
@@ -146,9 +146,16 @@ test("install mode refuses an unknown agent", () => {
 });
 
 test("SKILL.md pins agent detection order, the Windows rule and the universal wording", () => {
-  const order = ["AI_AGENT", "CLAUDECODE", "CODEX_THREAD_ID", "ANTIGRAVITY_AGENT", "CURSOR_AGENT", "COPILOT_MODEL", "GEMINI_CLI", "OPENCODE"].map((v) => skill.indexOf(v));
-  expect(order.every((i) => i > 0)).toBe(true);
+  const list = skill.slice(skill.indexOf("1. `AI_AGENT`"), skill.indexOf("Windows (`OS"));
+  const order = ["AI_AGENT", "CLAUDECODE", "CODEX_THREAD_ID", "ANTIGRAVITY_AGENT", "CURSOR_AGENT", "COPILOT_MODEL", "GEMINI_CLI", "OPENCODE"].map((v) => list.indexOf(v));
+  expect(order.every((i) => i >= 0)).toBe(true);
   expect([...order].sort((a, b) => a - b)).toEqual(order);
+  expect(skill).toMatch(/\^\(OS\|AI_AGENT\|/);
+  expect(skill).toMatch(/Windows rule[^\n]*first[^\n]*overrides/i);
+  expect(skill).toMatch(/neither[^\n]*falls through to rule 2/i);
+  expect(skill).toContain("only to the `--install` script run");
+  expect(skill).toContain("Skill installed in ~/.agents/skills");
+  expect(skill).toMatch(/continue to step 7/);
   expect(skill).toContain("CURSOR_EXTENSION_HOST_ROLE=agent-exec");
   expect(skill).toContain("OS=Windows_NT");
   expect(skill).toMatch(/Windows[^\n]*no install/i);

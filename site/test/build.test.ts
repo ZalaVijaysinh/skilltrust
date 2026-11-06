@@ -48,7 +48,7 @@ describe("site build with fixtures", () => {
     expect(t).toContain("runs automatically when the plugin is installed");
     expect(html).toContain("git clone");
     expect(t).toContain("~/.agents/skills/'web-fetch'");
-    expect(t).toContain("Your agent may need a link to it — the finder skill does this for you.");
+    expect(t).toContain("Agents that don't read ~/.agents/skills need a link to it; installing through the finder skill does both.");
     expect(t).toContain("A skill folder named web-fetch already exists — not replacing it");
     expect(t).not.toMatch(/rm -rf ~\/\.claude\/skills\/'web-fetch'[^/]/);
     expect(html).toContain(sha("1").slice(0, 7));

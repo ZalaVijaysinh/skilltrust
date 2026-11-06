@@ -1,20 +1,20 @@
 # SkillTrust
 
-TrustMRR for AI agent skills: what every skill can do to your machine, in plain English. Works with every coding agent.
+TrustMRR for AI agent skills: what every skill can do to your machine, in plain English.
 
 Site: https://zalavijaysinh.github.io/skilltrust/
 
-SkillTrust scans public AI agent skills on GitHub every day and gives each one a score out of 100, plus a plain-English list of what it can do: run commands, read your keys, send data to other websites, and so on. Skills use one shared format, so the same score applies whichever agent runs them.
+SkillTrust scans public AI agent skills on GitHub every day and gives each one a score out of 100, plus a plain-English list of what it can do: run commands, read your keys, send data to other websites, and so on.
 
 Early days: the first full scan builds up over several daily runs, so the site will not list every skill on day one.
 
 ## Supported agents
 
-Claude Code, Codex, Antigravity, Cursor, Copilot, Gemini CLI and OpenCode. Any other agent that reads `~/.agents/skills` works too.
+Claude Code, Codex, Antigravity, Cursor, Copilot, Gemini CLI and OpenCode. Codex reads `~/.agents/skills` directly and the finder links the skill into the other agents listed; any other agent that reads `~/.agents/skills` works with the skill directly. Installing from Windows is not supported yet.
 
 ## Install the finder
 
-The finder is an agent skill. Ask it for a skill and it detects which agent you are in, recommends the safest matches, shows what each can do, and installs one only after you say yes. It installs into the shared `~/.agents/skills` folder and links it into your agent's own skills folder when that agent needs it. It never deletes or replaces anything. On Windows it links the trust page instead of installing.
+The finder is an agent skill. Ask it for a skill and it detects which agent you are in, recommends the safest matches, shows what each can do, and installs one only after you say yes. It installs into the shared `~/.agents/skills` folder and links it into your agent's own skills folder when that agent needs it. It never deletes or replaces anything.
 
 ```
 npx skills add ZalaVijaysinh/skilltrust
