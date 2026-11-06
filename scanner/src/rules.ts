@@ -15,8 +15,11 @@ export interface Rule {
 
 const HOME = String.raw`(~/|\$HOME|\$\{HOME\}|os\.homedir|Path\.home|expanduser|/etc/|/usr/|/Library/)`;
 const WRITE = String.raw`(writeFile\w*|write_text|write_bytes|appendFile\w*|copyFile\w*|shutil\.(copy\w*|move)|os\.(rename|remove|unlink)|\b(cp|mv|tee|ln|rm|mkdir|touch|install)\b)`;
-const RC = String.raw`\.(bashrc|zshrc|zprofile|bash_profile|profile)\b`;
-const SECRET_VAR = String.raw`\w*(API_KEY|APIKEY|SECRET|TOKEN|PASSWORD)\w*`;
+// Not preceded by a word char or dot, so `u.profile` (JS property access) is not a shell rc file.
+const RC = String.raw`(?<![\w.])\.(bashrc|zshrc|zprofile|bash_profile|profile)\b`;
+// Whole name segments, so MAX_TOKENS does not match but GITHUB_TOKEN and OPENAI_API_KEY do.
+const SECRET_VAR = String.raw`([A-Z0-9]+_)*(API_KEY|APIKEY|SECRET|SECRET_KEY|ACCESS_KEY|TOKEN|PASSWORD)(_[A-Z0-9]+)*(?![A-Za-z0-9])`;
+const B64 = String.raw`[A-Za-z0-9+/=]{200,}`;
 
 export const RULES: Rule[] = [
   {
@@ -25,9 +28,12 @@ export const RULES: Rule[] = [
     patterns: [
       /\beval\s*\(\s*(atob|Buffer\.from|unescape|decodeURIComponent)\b/,
       /\b(exec|eval)\s*\(\s*(base64\.b64decode|zlib\.decompress|codecs\.decode|marshal\.loads)/,
-      /\bbase64\s+(-d|-D|--decode)\b[^\n]*\|\s*(sudo\s+)?(ba|z|da)?sh\b/,
+      /\bbase64\s+(-d|-D|--decode)\b[^\n]{0,200}\|\s*(sudo\s+)?(ba|z|da)?sh\b/,
       /\bFunction\s*\(\s*atob\b/,
-      /[A-Za-z0-9+/]{200,}={0,2}/,
+      // A long base64 blob counts only with a decode/execute context; data: URIs and plain blobs do not.
+      new RegExp(String.raw`\b(eval|exec|Function|atob|b64decode)\s*\(\s*[bru]{0,2}["'\`]${B64}`),
+      new RegExp(String.raw`Buffer\.from\(\s*["']${B64}["']\s*,\s*["']base64`),
+      new RegExp(String.raw`(?<![A-Za-z0-9+/=])${B64}["']?\s*\)?\s*\|\s*(base64\s+(-d|-D|--decode)|(ba|z|da)?sh\b)`),
       /(\\x[0-9a-fA-F]{2}){16,}/,
     ],
     disclosureWords: ["obfuscated", "obfuscation", "minified", "encoded payload"],
@@ -53,7 +59,7 @@ export const RULES: Rule[] = [
     patterns: [
       /~\/\.(ssh|aws|gnupg|netrc|npmrc|pypirc|kube|docker\/config)\b/,
       /\.ssh\/(id_\w+|config|known_hosts)|\.aws\/credentials/,
-      /\b(open|readFile\w*|read_text|cat|source|load_dotenv|dotenv_values)\b[^\n]*['"/\s]\.env(\.\w+)?(['"\s)]|$)/,
+      /\b(open|readFile\w*|read_text|cat|source|load_dotenv|dotenv_values)\b[^\n]{0,200}['"/\s]\.env(\.\w+)?(['"\s)]|$)/,
       new RegExp(String.raw`process\.env\.${SECRET_VAR}|process\.env\[\s*['"]${SECRET_VAR}`),
       new RegExp(String.raw`os\.environ(\.get)?\s*[\[(]\s*['"]${SECRET_VAR}|os\.getenv\(\s*['"]${SECRET_VAR}`),
       new RegExp(String.raw`\$\{?${SECRET_VAR}\}?`),
@@ -64,7 +70,7 @@ export const RULES: Rule[] = [
     id: "downloads-code",
     sentence: "Downloads and installs other software",
     patterns: [
-      /\b(curl|wget)\b[^\n|]*\|\s*(sudo\s+)?(ba|z|da)?sh\b/,
+      /\b(curl|wget)\b[^\n|]{0,200}\|\s*(sudo\s+)?(ba|z|da)?sh\b/,
       /\b(ba|z|da)?sh\b\s+(-c\s+)?["']?\$?\(\s*(curl|wget)\b|\b(ba|z)?sh\s+<\(\s*(curl|wget)\b/,
       /\bnpx\s+(-y|--yes)\b/,
       /\buvx\b/,
@@ -80,11 +86,11 @@ export const RULES: Rule[] = [
     id: "writes-outside",
     sentence: "Changes files outside its own folder",
     patterns: [
-      new RegExp(String.raw`${WRITE}[^\n]*${HOME}`),
+      new RegExp(String.raw`${WRITE}[^\n]{0,200}${HOME}`),
       new RegExp(String.raw`>>?\s*["']?(~|\$HOME|\$\{HOME\}|/etc|/usr)/`),
-      new RegExp(String.raw`>>?\s*\S*${RC}|\b(echo|tee|sed\s+-i|cat)\b[^\n]*${RC}`),
-      new RegExp(String.raw`open\([^\n]*${HOME}[^\n]*,\s*['"][wa]b?\+?['"]`),
-      /\.claude\/(skills|settings\.json|hooks)[^\n]*\b(cp|mv|ln|write\w*|mkdir)\b|\b(cp|mv|ln|write\w*|mkdir)\b[^\n]*\.claude\/(skills|settings\.json|hooks)/,
+      new RegExp(String.raw`>>?\s*\S{0,100}${RC}|\b(echo|tee|sed\s+-i|cat)\b[^\n]{0,200}${RC}`),
+      new RegExp(String.raw`open\([^\n]{0,200}${HOME}[^\n]{0,200},\s*['"][wa]b?\+?['"]`),
+      /\.claude\/(skills|settings\.json|hooks)[^\n]{0,200}\b(cp|mv|ln|write\w*|mkdir)\b|\b(cp|mv|ln|write\w*|mkdir)\b[^\n]{0,200}\.claude\/(skills|settings\.json|hooks)/,
     ],
     disclosureWords: ["writes to", "writes files", "modifies", "home directory", "bashrc", "zshrc", "outside its", "config file"],
   },
@@ -99,12 +105,14 @@ export const RULES: Rule[] = [
   {
     id: "network",
     sentence: "Sends data to these websites: {hosts}",
-    // URLs are handled in scan.ts so hosts can be listed and local/namespace hosts ignored.
+    // A call pattern is required; scan.ts then lists hosts from URLs on the same line.
     patterns: [
       /\bfetch\s*\(/,
       /\brequests\.(get|post|put|patch|delete|head|request|Session)\b/,
       /\b(urllib\.request|urlopen|http\.client|httpx\.|aiohttp\.|axios\b|XMLHttpRequest|new WebSocket|node-fetch)/,
-      /\b(curl|wget)\s+-\w/,
+      /\bhttps?\.(get|request)\s*\(/,
+      /\b(Invoke-WebRequest|Invoke-RestMethod|WebFetch|WebSearch)\b/,
+      /\b(curl|wget)\s+(-\w|https?:|["'$])/,
     ],
     disclosureWords: ["network", "internet", "sends data", "upload", "uploads", "web request", "api call", "http request"],
   },
