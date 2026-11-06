@@ -22,3 +22,24 @@ describe("dedupe", () => {
     expect(skillId({ owner: "o", repo: "r", path: "" })).toBe("o__r___root");
   });
 });
+
+import { mergeDuplicates } from "../src/dedupe.js";
+import { rec } from "./fixtures-record.js";
+
+describe("mergeDuplicates", () => {
+  it("keeps the oldest repo's record and lists the others", () => {
+    const out = mergeDuplicates([
+      rec({ id: "new", owner: "n", repo: "r", path: "s", repoCreatedAt: "2025-06-01T00:00:00Z" }),
+      rec({ id: "old", owner: "o", repo: "r", path: "x", repoCreatedAt: "2024-01-01T00:00:00Z", alsoFoundIn: ["z/z/z"] }),
+      rec({ id: "u", contentHash: "other", status: "unavailable" }),
+      rec({ id: "u2", contentHash: "h1", status: "unavailable" }),
+    ]);
+    expect(out.map((r) => r.id).sort()).toEqual(["old", "u", "u2"]);
+    expect(out.find((r) => r.id === "old")!.alsoFoundIn).toEqual(["n/r/s", "z/z/z"]);
+  });
+  it("breaks ties by smallest id", () => {
+    const out = mergeDuplicates([rec({ id: "b" }), rec({ id: "a" })]);
+    expect(out.map((r) => r.id)).toEqual(["a"]);
+    expect(out[0].alsoFoundIn).toEqual(["o/r/s"]);
+  });
+});
