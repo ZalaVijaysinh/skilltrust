@@ -47,6 +47,8 @@ describe("site build with fixtures", () => {
     expect(t).toContain("This is disclosed by the author in the skill's SKILL.md or README.");
     expect(t).toContain("runs automatically when the plugin is installed");
     expect(html).toContain("git clone");
+    expect(t).toContain("A skill folder named web-fetch already exists — not replacing it");
+    expect(t).not.toMatch(/rm -rf ~\/\.claude\/skills\/'web-fetch'[^/]/);
     expect(html).toContain(sha("1").slice(0, 7));
     expect(html).toContain(sha("b").slice(0, 7));
     expect((html.match(/<tr class="history-row"/g) ?? []).length).toBe(2);

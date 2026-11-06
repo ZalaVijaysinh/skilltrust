@@ -79,7 +79,11 @@ const q = (s: string) => `'${s.replaceAll("'", "'\\''")}'`;
 const slug = (s: string) =>
   s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 64).replace(/-+$/, "");
 
-/** Shell command the finder skill runs. Every value is validated and single-quoted: name is untrusted. */
+/**
+ * Shell command that installs the scanned commit. Every value is validated and single-quoted: name is untrusted.
+ * It never deletes or replaces an existing skill folder: it stops if one of the same name exists.
+ * Keep in step with the finder's script in skills/skilltrust-finder/SKILL.md.
+ */
 export function installCommand(e: { owner: string; repo: string; path: string; commit: string; name: string }): string {
   const { owner, repo, path, commit, name } = e;
   if (!/^[A-Za-z0-9_.-]{1,100}$/.test(owner) || !/^[A-Za-z0-9_.-]{1,100}$/.test(repo)) throw new Error("invalid owner/repo");
@@ -88,11 +92,11 @@ export function installCommand(e: { owner: string; repo: string; path: string; c
   if (path === "." || path.startsWith("/") || path.startsWith(":") || path.split("/").includes("..") || /[\u0000-\u001f\u007f]/.test(path)) throw new Error("invalid path");
   const dest = slug(name) || slug(path.split("/").pop() ?? "") || "skill";
   const url = q(`https://github.com/${owner}/${repo}`);
-  const base = `d=$(mktemp -d) && git clone --quiet --filter=blob:none --no-checkout ${url} "$d" && git -C "$d" checkout --quiet ${q(commit)} -- ${q(path || ".")} && mkdir -p ~/.claude/skills`;
   const target = `~/.claude/skills/${q(dest)}`;
-  return path === ""
-    ? `${base} && rm -rf ${target} && cp -R "$d/." ${target} && rm -rf ${target}/.git && rm -rf "$d"`
-    : `${base} && rm -rf ${target} && cp -R "$d"/${q(path)} ${target} && rm -rf "$d"`;
+  const fetch = `d=$(mktemp -d) && git clone --quiet --filter=blob:none --no-checkout ${url} "$d" && git -C "$d" checkout --quiet ${q(commit)} -- ${q(path || ".")} && mkdir -p ~/.claude/skills`;
+  // the folder did not exist a moment ago, so its .git is our own copy's
+  const copy = path === "" ? `cp -R "$d/." ${target} && rm -rf ${target}/.git` : `cp -R "$d"/${q(path)} ${target}`;
+  return `if [ -e ${target} ] || [ -L ${target} ]; then echo ${q(`A skill folder named ${dest} already exists — not replacing it`)} >&2; false; else ${fetch} && ${copy} && rm -rf "$d"; fi`;
 }
 
 const cut = (s: string, n: number) => (s.length > n ? `${s.slice(0, n - 1)}…` : s);
