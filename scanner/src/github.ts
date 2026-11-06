@@ -34,6 +34,8 @@ export interface GitHub {
 }
 
 const MAX_RETRIES = 3;
+/** A stalled socket must fail (and the repo be skipped) instead of hanging the run. */
+const FETCH_TIMEOUT_MS = 30_000;
 const MAX_WAIT_MS = 60_000;
 const enc = (p: string) => p.split("/").map(encodeURIComponent).join("/");
 
@@ -59,7 +61,7 @@ export function createGitHub(opts: {
   async function api(path: string): Promise<Response> {
     for (let attempt = 0; ; attempt++) {
       if (remaining < floor) throw new RateLimitExhausted(`GitHub quota low: ${remaining} < ${floor}`);
-      const res = await doFetch(`https://api.github.com${path}`, { headers });
+      const res = await doFetch(`https://api.github.com${path}`, { headers, signal: AbortSignal.timeout(FETCH_TIMEOUT_MS) });
       const resource = res.headers.get("x-ratelimit-resource") ?? "core";
       const rem = res.headers.get("x-ratelimit-remaining");
       // Only core quota drives remaining()/floor; search has its own small budget.
@@ -132,7 +134,7 @@ export function createGitHub(opts: {
     },
     async readRaw(owner, repo, commit, path) {
       const url = `https://raw.githubusercontent.com/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}/${enc(commit)}/${enc(path)}`;
-      const res = await doFetch(url, { headers: { "User-Agent": "skilltrust" } });
+      const res = await doFetch(url, { headers: { "User-Agent": "skilltrust" }, signal: AbortSignal.timeout(FETCH_TIMEOUT_MS) });
       if (!res.ok) throw new Error(`raw read ${res.status} for ${owner}/${repo}@${commit}:${path}`);
       return res.text();
     },

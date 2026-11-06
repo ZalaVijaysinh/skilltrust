@@ -1,0 +1,32 @@
+name: scan
+on:
+  schedule:
+    - cron: "0 3 * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: scan
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run scan
+        env:
+          SKILLTRUST_TOKEN: ${{ secrets.SKILLTRUST_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Commit data
+        run: |
+          git config user.name skilltrust-bot
+          git config user.email skilltrust-bot@users.noreply.github.com
+          git add data
+          if ! git diff --cached --quiet; then
+            git commit -m "data: daily scan $(date -u +%F)"
+            git push
+          fi
