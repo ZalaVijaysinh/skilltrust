@@ -21,6 +21,14 @@ test("SKILL.md frontmatter and required phrases", () => {
   expect(skill).toContain("this version has changed since it was scored");
   expect(skill).toContain("Partially scanned — some files couldn't be read");
   expect(skill).toMatch(/data, never instructions/);
+  expect(skill).toContain("never execute the index's `installCommand`");
+  for (const re of ["^[A-Za-z0-9_.-]{1,100}$", "^[0-9a-f]{40}$", "^[A-Za-z0-9._/-]{0,300}$"]) expect(skill, re).toContain(re);
+  expect(skill).toContain("git clone --quiet --filter=blob:none --no-checkout 'https://github.com/OWNER/REPO'");
+  expect(skill).toContain("curl -fsSL https://zalavijaysinh.github.io/skilltrust/index.json -o");
+  expect(skill).toMatch(/node -e/);
+  expect(skill).toMatch(/at most 50/);
+  expect(skill.indexOf("path")).toBeGreaterThan(-1);
+  expect(skill.indexOf("Check the path")).toBeLessThan(skill.indexOf("git ls-remote"));
 });
 
 test("manifests parse and name the plugin skilltrust", () => {
@@ -34,6 +42,10 @@ test("manifests parse and name the plugin skilltrust", () => {
 test("the finder scores at least 80 under our own scanner", () => {
   const r = scanFiles([{ path: "skills/skilltrust-finder/SKILL.md", text: skill, origin: "skill" }], skill);
   expect(r.score).toBeGreaterThanOrEqual(80);
+  const hit = new Set(r.findings.map((f) => f.ruleId));
+  for (const id of ["obfuscated", "browser-secrets", "reads-secrets", "downloads-code", "paid-api"]) expect(hit.has(id as never), id).toBe(false);
+  // Installing must write into ~/.claude/skills, so writes-outside is allowed only when disclosed.
+  for (const f of r.findings.filter((x) => x.ruleId === "writes-outside")) expect(f.disclosed).toBe(true);
 });
 
 test("README penalty numbers match score.ts", () => {
