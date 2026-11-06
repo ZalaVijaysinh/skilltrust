@@ -73,8 +73,14 @@ describe("starGain", () => {
     expect(starGain([["2026-10-03", 100], [T, 130]], T, 30)).toBe(30);
     expect(starGain([["2026-10-02", 100], [T, 130]], T, 30)).toBeNull();
   });
-  it("is null without a point for today or without a baseline", () => {
-    expect(starGain([["2026-10-31", 100]], T, 7)).toBeNull();
+  it("anchors on the latest point when it is yesterday or 2 days old, measuring the window from its date", () => {
+    expect(starGain([["2026-10-30", 100], ["2026-11-06", 130]], T, 7)).toBe(30);
+    expect(starGain([["2026-10-29", 100], ["2026-11-05", 130]], T, 7)).toBe(30);
+    expect(starGain([["2026-10-27", 100], ["2026-11-05", 130]], T, 7)).toBe(30); // 9 days before the anchor
+    expect(starGain([["2026-10-26", 100], ["2026-11-05", 130]], T, 7)).toBeNull(); // 10 days before the anchor
+  });
+  it("is null when the latest point is 3 days old", () => expect(starGain([["2026-10-25", 100], ["2026-11-04", 130]], T, 7)).toBeNull());
+  it("is null without any point or without a baseline", () => {
     expect(starGain([[T, 130]], T, 7)).toBeNull();
     expect(starGain([], T, 7)).toBeNull();
   });

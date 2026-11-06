@@ -52,12 +52,12 @@ export function recordSnapshot(
 
 export const saveStars = (file: string, s: StarsFile): Promise<void> => writeAtomic(file, JSON.stringify(s) + "\n");
 
-/** Stars gained over `window` days: today's point minus the nearest point on or before today-window (at most 2 / 5 days older); null if either is missing. */
+/** Stars gained over `window` days, anchored on the latest point (at most 2 days before `today`): its stars minus the nearest point on or before latest-window (at most 9 / 35 days before latest); null if either is missing. */
 export function starGain(points: StarPoint[], today: string, window: 7 | 30): number | null {
   const day = (d: string) => Date.parse(d) / DAY_MS;
-  const t = day(today);
-  const latest = points.find((p) => p[0] === today);
-  if (!latest) return null;
+  const latest = points.reduce<StarPoint | undefined>((m, p) => (!m || p[0] > m[0] ? p : m), undefined);
+  if (!latest || day(latest[0]) < day(today) - 2) return null;
+  const t = day(latest[0]);
   const maxAge = window === 7 ? 9 : 35;
   let base: StarPoint | undefined;
   for (const p of points) if (day(p[0]) <= t - window && day(p[0]) >= t - maxAge && (!base || p[0] > base[0])) base = p;
