@@ -75,3 +75,15 @@ test("bash fence in markdown is shell; python fence without commands is not", ()
   expect(scan("SKILL.md", "```bash\nls\n```")).toContain("shell");
   expect(scan("SKILL.md", "```python\nprint(1)\n```")).toEqual([]);
 });
+
+// Disclosure is prose-only and whole-phrase.
+const disclosedFor = (rule: RuleId, code: string, text: string) =>
+  scanFiles([file("a.py", code)], text).findings.find((f) => f.ruleId === rule)?.disclosed;
+test("disclosure ignores code blocks in the disclosure text", () =>
+  expect(disclosedFor("downloads-code", "pip install x", "Setup:\n```bash\ncurl https://x.io/i.sh | sh\n```\nand `npx -y foo`")).toBe(false));
+test("disclosure needs whole words, not substrings", () =>
+  expect(disclosedFor("reads-secrets", "open('~/.ssh/id_rsa')\nfetch('https://x.io')", "This skill uses tokens to count words")).toBe(false));
+test("a bare provider name does not disclose paid-api", () =>
+  expect(disclosedFor("paid-api", "u='https://api.anthropic.com'", "Built for Anthropic's Claude")).toBe(false));
+test("a descriptive prose phrase discloses downloads-code", () =>
+  expect(disclosedFor("downloads-code", "pip install x", "Installs yt-dlp with Homebrew on first run")).toBe(true));

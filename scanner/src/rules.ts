@@ -7,7 +7,7 @@ export interface Rule {
   sentence: string;
   /** Tested against one line (or one markdown code segment); no `g` flag. */
   patterns: RegExp[];
-  /** Case-insensitive words; any one in SKILL.md/README text marks the rule disclosed. */
+  /** Whole words/phrases (case-insensitive); any one in the prose of SKILL.md/README marks the rule disclosed. */
   disclosureWords: string[];
   /** Findings count only if the skill also has findings for this rule. */
   requires?: RuleId;
@@ -30,7 +30,7 @@ export const RULES: Rule[] = [
       /[A-Za-z0-9+/]{200,}={0,2}/,
       /(\\x[0-9a-fA-F]{2}){16,}/,
     ],
-    disclosureWords: ["obfuscat", "minified", "encoded payload"],
+    disclosureWords: ["obfuscated", "obfuscation", "minified", "encoded payload"],
   },
   {
     id: "browser-secrets",
@@ -44,7 +44,7 @@ export const RULES: Rule[] = [
       /Library\/Keychains|Library\/Cookies/,
       /\b(browser_cookie3|pycookiecheat|rookiepy|chrome-cookies-secure)\b/,
     ],
-    disclosureWords: ["cookie", "saved password", "keychain", "browser profile", "login data"],
+    disclosureWords: ["cookie", "cookies", "saved password", "saved passwords", "keychain", "browser profile", "login data"],
   },
   {
     id: "reads-secrets",
@@ -58,7 +58,7 @@ export const RULES: Rule[] = [
       new RegExp(String.raw`os\.environ(\.get)?\s*[\[(]\s*['"]${SECRET_VAR}|os\.getenv\(\s*['"]${SECRET_VAR}`),
       new RegExp(String.raw`\$\{?${SECRET_VAR}\}?`),
     ],
-    disclosureWords: ["api key", "api-key", "secret", "credential", "ssh", "token", ".env", "environment variable"],
+    disclosureWords: ["api key", "api keys", "secret", "secrets", "credential", "credentials", "ssh key", "ssh keys", ".env file", "environment variable", "environment variables"],
   },
   {
     id: "downloads-code",
@@ -74,7 +74,7 @@ export const RULES: Rule[] = [
       /\bnpm\s+(i|install|add)\s+(-g|--global)\b|\b(apt|apt-get|yum|dnf|apk)\s+(-y\s+)?install\b/,
       /\b(cargo|go)\s+install\b/,
     ],
-    disclosureWords: ["downloads", "installs", "pip install", "npx", "brew install", "uvx", "curl", "wget"],
+    disclosureWords: ["downloads", "installs", "homebrew", "downloads and installs"],
   },
   {
     id: "writes-outside",
@@ -86,7 +86,7 @@ export const RULES: Rule[] = [
       new RegExp(String.raw`open\([^\n]*${HOME}[^\n]*,\s*['"][wa]b?\+?['"]`),
       /\.claude\/(skills|settings\.json|hooks)[^\n]*\b(cp|mv|ln|write\w*|mkdir)\b|\b(cp|mv|ln|write\w*|mkdir)\b[^\n]*\.claude\/(skills|settings\.json|hooks)/,
     ],
-    disclosureWords: ["writes to", "modifies", "home directory", "bashrc", "zshrc", "outside its", "config file"],
+    disclosureWords: ["writes to", "writes files", "modifies", "home directory", "bashrc", "zshrc", "outside its", "config file"],
   },
   {
     id: "paid-api",
@@ -94,7 +94,7 @@ export const RULES: Rule[] = [
     patterns: [
       /\b(api\.openai\.com|api\.anthropic\.com|generativelanguage\.googleapis\.com|aiplatform\.googleapis\.com|api\.x\.ai|api\.elevenlabs\.io|api\.replicate\.com|fal\.run|openrouter\.ai|api\.perplexity\.ai)\b/,
     ],
-    disclosureWords: ["openai", "anthropic", "gemini", "vertex", "xai", "x.ai", "elevenlabs", "replicate", "fal.ai", "openrouter", "perplexity", "paid api", "billed"],
+    disclosureWords: ["paid api", "billed", "api key", "api credits", "usage costs", "openai api", "anthropic api", "gemini api", "elevenlabs api", "replicate api", "openrouter"],
   },
   {
     id: "network",
@@ -106,7 +106,7 @@ export const RULES: Rule[] = [
       /\b(urllib\.request|urlopen|http\.client|httpx\.|aiohttp\.|axios\b|XMLHttpRequest|new WebSocket|node-fetch)/,
       /\b(curl|wget)\s+-\w/,
     ],
-    disclosureWords: ["network", "internet", "fetch", "sends data", "upload", "web request", "api call", "http request"],
+    disclosureWords: ["network", "internet", "sends data", "upload", "uploads", "web request", "api call", "http request"],
   },
   {
     id: "shell",
@@ -120,6 +120,6 @@ export const RULES: Rule[] = [
       /\b(Deno\.Command|Bun\.spawn|Bun\.\$)\b|Runtime\.getRuntime\(\)\.exec/,
       /\b(ba|z)?sh\s+-c\b/,
     ],
-    disclosureWords: ["shell", "runs commands", "run commands", "subprocess", "bash", "terminal", "executes"],
+    disclosureWords: ["shell", "shell commands", "runs commands", "run commands", "terminal", "executes commands"],
   },
 ];

@@ -10,27 +10,40 @@ const IGNORED_HOSTS = new Set(["localhost", "127.0.0.1", "0.0.0.0", "www.w3.org"
 const SHELL_FENCE = /^(bash|sh|shell|zsh|console)$/i;
 const JS_LIKE = /\.(m?js|cjs|jsx|tsx?)$/i;
 
-/** Per line: the text segments to scan. Markdown keeps only code; prose becomes []. */
-function segments(file: SkillFile, lines: string[]): { segs: string[][]; shellFences: Set<number> } {
+const INLINE_CODE = /(`+)([^`]|[^`][\s\S]*?[^`])\1(?!`)/g;
+
+/** Per line: the code segments to scan (markdown keeps only code) and the prose left over. */
+function segments(file: SkillFile, lines: string[]): { segs: string[][]; prose: string[]; shellFences: Set<number> } {
   const shellFences = new Set<number>();
-  if (!/\.(md|markdown)$/i.test(file.path)) return { segs: lines.map((l) => [l]), shellFences };
+  if (!/\.(md|markdown)$/i.test(file.path)) return { segs: lines.map((l) => [l]), prose: [], shellFences };
+  const prose: string[] = [];
   let fence: string | null = null;
   let firstInFence = -1;
   const segs = lines.map((line, i) => {
     const m = line.match(/^\s*(`{3,}|~{3,})\s*([\w-]*)/);
     if (fence === null) {
-      if (m) { fence = m[1]; firstInFence = SHELL_FENCE.test(m[2]) ? 0 : -1; return []; }
-      return [...line.matchAll(/(`+)([^`]|[^`][\s\S]*?[^`])\1(?!`)/g)].map((x) => x[2]);
+      if (m) { fence = m[1]; firstInFence = SHELL_FENCE.test(m[2]) ? 0 : -1; prose[i] = ""; return []; }
+      prose[i] = line.replace(INLINE_CODE, " ");
+      return [...line.matchAll(INLINE_CODE)].map((x) => x[2]);
     }
+    prose[i] = "";
     if (m && m[1][0] === fence[0] && m[1].length >= fence.length && !m[2] && line.trim() === m[1]) { fence = null; return []; }
     if (firstInFence === 0 && line.trim()) { shellFences.add(i); firstInFence = -1; }
     return [line];
   });
-  return { segs, shellFences };
+  return { segs, prose, shellFences };
 }
 
+/** Prose of a markdown text: fenced blocks and inline code removed. */
+function proseOf(text: string): string {
+  return segments({ path: "x.md", text, origin: "skill" }, text.split(/\r?\n/)).prose.join("\n");
+}
+
+const esc = (w: string) => w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const hasPhrase = (text: string, w: string) => new RegExp(`(?<![\\w])${esc(w)}(?![\\w])`, "i").test(text);
+
 export function scanFiles(files: SkillFile[], disclosureText: string): ScanResult {
-  const disclosure = disclosureText.toLowerCase();
+  const disclosure = proseOf(disclosureText);
   const findings: Finding[] = [];
   let filesScanned = 0, filesSkipped = 0;
 
@@ -61,7 +74,7 @@ export function scanFiles(files: SkillFile[], disclosureText: string): ScanResul
           file: file.path,
           line: i + 1,
           excerpt: line.trim().slice(0, 160),
-          disclosed: rule.disclosureWords.some((w) => disclosure.includes(w.toLowerCase())),
+          disclosed: rule.disclosureWords.some((w) => hasPhrase(disclosure, w)),
           automatic: file.origin === "plugin-auto",
         };
         if (rule.id === "network") finding.hosts = hosts;
