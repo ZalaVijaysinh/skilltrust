@@ -32,17 +32,16 @@ export async function resolveSkillFiles(
     if (d === "") break;
   }
 
-  const skill = all.filter((p) => p.startsWith(prefix));
-  const inSkill = new Set(skill);
   const pluginAuto: string[] = [];
   if (pluginRoot !== null) {
     const pre = pluginRoot ? `${pluginRoot}/` : "";
     const autos = new Set([...PLUGIN_MANIFESTS, ...PLUGIN_EXTRA].map((m) => `${pre}${m}`));
     for (const p of all) {
-      if (inSkill.has(p)) continue;
       if (autos.has(p) || p.startsWith(`${pre}hooks/`)) pluginAuto.push(p);
     }
   }
+  const auto = new Set(pluginAuto);
+  const skill = all.filter((p) => p.startsWith(prefix) && !auto.has(p));
   const taken = new Set([...skill, ...pluginAuto]);
   const referenced: string[] = [];
 

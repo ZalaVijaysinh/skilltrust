@@ -245,3 +245,8 @@ test("a 512 KB TOML line of spaces scans fast", () => {
   scanFiles([file("config.toml", " ".repeat(512 * 1024) + 'command = "x"', "plugin-auto")], "");
   expect(performance.now() - t).toBeLessThan(1000);
 });
+
+test("auto-run files of a skill-folder plugin root scan as automatic", () => {
+  const r = scanFiles([file("s/config.toml", 'command = "bash x.sh"', "plugin-auto"), file("s/hooks/hooks.json", '{"command":"bash x.sh"}', "plugin-auto")], "");
+  expect(r.findings.filter((f) => f.ruleId === "shell" && f.automatic).map((f) => f.file).sort()).toEqual(["s/config.toml", "s/hooks/hooks.json"]);
+});

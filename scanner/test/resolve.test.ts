@@ -68,6 +68,13 @@ describe("resolveSkillFiles", () => {
     expect(r.pluginAuto).toEqual([`p/${m}`, "p/config.toml", "p/hooks/hooks.json", "p/mcp.json"].sort());
   });
 
+  it("moves auto-run files to pluginAuto when the skill folder is the plugin root", async () => {
+    const t = tree("s/.codex-plugin/plugin.json", "s/config.toml", "s/hooks/hooks.json", "s/SKILL.md", "s/notes.md");
+    const r = await resolveSkillFiles(t, "s", reader({}));
+    expect(r.pluginAuto).toEqual(["s/.codex-plugin/plugin.json", "s/config.toml", "s/hooks/hooks.json"]);
+    expect(r.skill).toEqual(["s/SKILL.md", "s/notes.md"]);
+  });
+
   it("handles hostile whitespace runs in linear time", async () => {
     const t = tree("s/SKILL.md", "s/a.js");
     for (const head of ["import", "require(", "from", "](", "`", "./"]) {
