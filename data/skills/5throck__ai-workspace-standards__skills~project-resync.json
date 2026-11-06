@@ -1,0 +1,216 @@
+{
+  "id": "5throck__ai-workspace-standards__skills~project-resync",
+  "owner": "5throck",
+  "repo": "ai-workspace-standards",
+  "path": "skills/project-resync",
+  "name": "project-resync",
+  "description": "Full bidirectional sync cycle for Projects/co-* instances: provenance-audit uncommitted content, sync each project to its GitHub remote, selectively promote reusable work back into templates/L0, review each project (cadenced), run the root /sync, upgrade projects from their variant templates, and land upgrade PRs. Use when: user says \"project-resync\", \"resync projects\", \"resync the project fleet\", \"sync project cycle\", or asks to sync/backport/upgrade the Projects/* fleet. Distinct from the `sync` skill (single-repo commit→PR pipeline): this is the whole-fleet, bidirectional cycle.",
+  "stars": 25,
+  "category": "security",
+  "commit": "3a4d04008805f9b594a5ad0d8b7e8ceb9a2590f0",
+  "contentHash": "2bffed24e1a27bbbd280da0ccbdf964b42fd8d59161a20c751ef48c1a43547c9",
+  "repoCreatedAt": "2026-05-22T00:19:20Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/project-resync/SKILL.md",
+        "line": 64,
+        "excerpt": "bun scripts/resync-audit.ts --snapshot-dir /tmp/resync-snapshots",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/lib/dependency-guard.ts",
+        "line": 26,
+        "excerpt": "'assert', 'async_hooks', 'buffer', 'child_process', 'cluster', 'console',",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/lib/external-deps.ts",
+        "line": 32,
+        "excerpt": "import { spawnSync } from 'node:child_process';",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/lib/external-deps.ts",
+        "line": 303,
+        "excerpt": "const r = spawnSync('git', args, { cwd: opts.cwd, encoding: 'utf8', timeout: opts.timeoutMs ?? 120_000 });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "scripts/lib/external-deps.ts",
+        "line": 337,
+        "excerpt": "if (!fetch.ok) return { status: 'failed', error: `git fetch (refresh to ${entry.pin}) failed: ${fetch.stderr}` };",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/lib/external-deps.ts",
+        "line": 427,
+        "excerpt": "const r = spawnSync(argv[0], argv.slice(1), { cwd: projectDir, encoding: 'utf8', timeout: 600_000 });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/upgrade-project.ts",
+        "line": 1037,
+        "excerpt": "import { spawnSync } from 'node:child_process';",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/upgrade-project.ts",
+        "line": 1379,
+        "excerpt": "const gitCheck = spawnSync('git', ['-C', projectDir, 'rev-parse', '--git-dir'], { encoding: 'utf8' });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/upgrade-project.ts",
+        "line": 1499,
+        "excerpt": "const gateResult = spawnSync(process.execPath, [gateScript, '--variant', variant], { encoding: 'utf8' });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/upgrade-project.ts",
+        "line": 1590,
+        "excerpt": "const porcelain = spawnSync('git', ['-C', projectDir, 'status', '--porcelain'], { encoding: 'utf8' });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/upgrade-project.ts",
+        "line": 1598,
+        "excerpt": "const branchOut = spawnSync('git', ['-C', projectDir, 'rev-parse', '--abbrev-ref', 'HEAD'], { encoding: 'utf8' });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/upgrade-project.ts",
+        "line": 1600,
+        "excerpt": "const remoteUrl = (spawnSync('git', ['-C', projectDir, 'remote', 'get-url', 'origin'], { encoding: 'utf8' }).stdout || '').trim();",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/upgrade-project.ts",
+        "line": 1604,
+        "excerpt": "const gh = spawnSync('gh', ['pr', 'list', '-R', `${slug[1]}/${slug[2]}`, '--head', branch, '--state', 'open', '--json', 'number'], { encoding: 'utf8' });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/upgrade-project.ts",
+        "line": 1709,
+        "excerpt": "const stashList = spawnSync('git', ['-C', projectDir, 'stash', 'list'], { encoding: 'utf8' });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/upgrade-project.ts",
+        "line": 1713,
+        "excerpt": "const pop = spawnSync('git', ['-C', projectDir, 'stash', 'pop', `stash@{${stashIdx}}`], { encoding: 'utf8' });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/upgrade-project.ts",
+        "line": 1734,
+        "excerpt": "const st = spawnSync('git', ['-C', projectDir, 'status', '--porcelain'], { encoding: 'utf8' });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/upgrade-project.ts",
+        "line": 1748,
+        "excerpt": "const hasHead = spawnSync('git', ['-C', projectDir, 'rev-parse', '--verify', '-q', 'HEAD'], { encoding: 'utf8' }).status === 0;",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/upgrade-project.ts",
+        "line": 1758,
+        "excerpt": "const ignoredList = spawnSync('git', ['-C', projectDir, 'ls-files', '--others', '--ignored', '--exclude-standard'], { encoding: 'utf8' });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/upgrade-project.ts",
+        "line": 1771,
+        "excerpt": "const stash = hasHead ? spawnSync('git', ['-C', projectDir, 'stash', 'push', '-u', '-m', `pre-upgrade-snapshot-${snapDate}`], { encoding: 'utf8' }) : { status: ",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "scripts/upgrade-project.ts",
+        "line": 2589,
+        "excerpt": "record(MANIFEST_REL, 'PROJECT_STATE', 'EXTERNAL DEPS', 'SKIP', `dep ${dep.id}: manifest rewrite failed after the pin-move fetch (${(err as Error).message}) — ma",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/upgrade-project.ts",
+        "line": 2660,
+        "excerpt": "const tracked = spawnSync('git', ['ls-files', '--error-unmatch', 'Hermes.md'], { cwd: projectDir }).status === 0;",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/upgrade-project.ts",
+        "line": 2663,
+        "excerpt": "spawnSync('git', ['mv', 'Hermes.md', tmpName], { cwd: projectDir, stdio: 'inherit' });",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 37,
+      "network": 2
+    },
+    "score": 90,
+    "band": "low",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 28,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "3a4d04008805f9b594a5ad0d8b7e8ceb9a2590f0",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 90,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

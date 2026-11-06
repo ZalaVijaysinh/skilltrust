@@ -1,0 +1,116 @@
+{
+  "id": "elementalsouls__claude-bughunter__skills~hunt-ato",
+  "owner": "elementalsouls",
+  "repo": "Claude-BugHunter",
+  "path": "skills/hunt-ato",
+  "name": "hunt-ato",
+  "description": "Hunt account takeover taxonomy — 9 distinct paths to ATO, plus chains. Paths: (1) password reset flaws (host-header injection redirects token, predictable/numeric token, Referer leak, no-expiry/reuse), (2) email change without re-auth, (3) OAuth account-link CSRF, (4) MFA bypass (per hunt-mfa-bypass), (5) session fixation, (6) JWT manipulation (forge token to another identity; crypto details → hunt-jwt-crypto), (7) password change without step-up (chain with login timing/length oracle), (8) social-recovery / security-question brute-force, (9) SSO subdomain takeover at OAuth redirect_uri. Chains: cookie theft + password oracle + no step-up = persistent ATO; lax redirect_uri = auth-code theft; dangling-CNAME takeover at redirect_uri = ATO. Validate: demonstrate real takeover of test account B from attacker A's session; OOB/Collaborator confirm blind token-leak steps. Use when hunting ATO chains, testing password reset / email change / MFA / OAuth / session / JWT, or chaining primitives toward Critical.",
+  "stars": 5465,
+  "category": "security",
+  "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
+  "contentHash": "b6e6f504d9d3628d63de485c3367aa81f51011d56d3fad8902ff913530cc532c",
+  "repoCreatedAt": "2026-05-05T11:22:32Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-ato/SKILL.md",
+        "line": 13,
+        "excerpt": "POST /forgot-password HTTP/1.1",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-ato/SKILL.md",
+        "line": 37,
+        "excerpt": "# 6-digit numeric OTP-style reset code, no rate limit:",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-ato/SKILL.md",
+        "line": 56,
+        "excerpt": "PUT /api/user/email HTTP/1.1",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-ato/SKILL.md",
+        "line": 64,
+        "excerpt": "# (a) alg:none — strip the signature, set header alg to none",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-ato/SKILL.md",
+        "line": 69,
+        "excerpt": "curl -s https://target.com/.well-known/jwks.json   # or /oauth/.well-known/...  grab the RSA pub key",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "target.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-ato/SKILL.md",
+        "line": 81,
+        "excerpt": "# (a) password-change endpoint accepts a new password with no current-password / no MFA challenge:",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-ato/SKILL.md",
+        "line": 88,
+        "excerpt": "t=$(curl -s -o /dev/null -w '%{time_total}' -d \"user=victimB&pass=$p\" https://target.com/login)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "target.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-ato/SKILL.md",
+        "line": 96,
+        "excerpt": "# Security answers are low-entropy and often unthrottled. Brute the recovery-answer endpoint:",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-ato/SKILL.md",
+        "line": 108,
+        "excerpt": "# (a) enumerate accepted redirect_uri patterns — does the provider accept *.target.com subdomains?",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 7,
+      "network": 2
+    },
+    "score": 92,
+    "band": "low",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 92,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

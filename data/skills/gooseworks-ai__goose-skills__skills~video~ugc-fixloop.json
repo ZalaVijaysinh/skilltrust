@@ -1,0 +1,107 @@
+{
+  "id": "gooseworks-ai__goose-skills__skills~video~ugc-fixloop",
+  "owner": "gooseworks-ai",
+  "repo": "goose-skills",
+  "path": "skills/video/ugc-fixloop",
+  "name": "ugc-fixloop",
+  "description": "the UGC fix-loop toolkit — surgically re-render a bad window/beat of a single-take UGC master (stitch_replacement.py, pure FFmpeg) and GPT cross-model review a Seedance prompt before render (vet_seedance_prompt.py, routed through the openai-proxy). Fetch it into a one-shot UGC recipe so both scripts resolve on any machine and the vet call charged to your GooseWorks credits.",
+  "stars": 1291,
+  "category": "other",
+  "commit": "df8298140d434a6363de0c265eb6af2e571d97a5",
+  "contentHash": "773975111df75512639b63a7ed802e68c275052c2e1d41409690d42787a02007",
+  "repoCreatedAt": "2026-03-02T00:07:48Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "paid-api",
+        "file": "skills/video/ugc-fixloop/SKILL.md",
+        "line": 15,
+        "excerpt": "> the take (`create-video-fal` / fal-proxy), NEVER a direct `fal.run` call.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/video/ugc-fixloop/scripts/stitch_replacement.py",
+        "line": 41,
+        "excerpt": "p = subprocess.run(cmd, capture_output=True, text=True)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/video/ugc-fixloop/scripts/stitch_replacement.py",
+        "line": 66,
+        "excerpt": "p = subprocess.run(",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/video/ugc-fixloop/scripts/vet_seedance_prompt.py",
+        "line": 6,
+        "excerpt": "key never touches this machine) — never a direct api.openai.com call. Creds: the cloud",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/video/ugc-fixloop/scripts/vet_seedance_prompt.py",
+        "line": 23,
+        "excerpt": "import urllib.request",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/video/ugc-fixloop/scripts/vet_seedance_prompt.py",
+        "line": 60,
+        "excerpt": "env_tok = os.environ.get(\"GW_MEDIA_PROXY_TOKEN\")",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/video/ugc-fixloop/scripts/vet_seedance_prompt.py",
+        "line": 105,
+        "excerpt": "req = urllib.request.Request(url, data=json.dumps(body).encode(),",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/video/ugc-fixloop/scripts/vet_seedance_prompt.py",
+        "line": 108,
+        "excerpt": "with urllib.request.urlopen(req, timeout=180) as resp:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "paid-api": 2,
+      "shell": 2,
+      "network": 3,
+      "reads-secrets": 1
+    },
+    "score": 62,
+    "band": "review",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 5,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "df8298140d434a6363de0c265eb6af2e571d97a5",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 62,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

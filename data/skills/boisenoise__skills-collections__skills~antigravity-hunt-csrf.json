@@ -1,0 +1,163 @@
+{
+  "id": "boisenoise__skills-collections__skills~antigravity-hunt-csrf",
+  "owner": "boisenoise",
+  "repo": "skills-collections",
+  "path": "skills/antigravity-hunt-csrf",
+  "name": "hunt-csrf",
+  "description": "Hunting skill for csrf vulnerabilities.",
+  "stars": 12,
+  "category": "other",
+  "commit": "b89b2f59bcd776f96526ce61d77fcb9bd0821a9f",
+  "contentHash": "5996fb464cba75159e483d87a18e928996c0b0b020d3a3ecfb8091806bd8b989",
+  "repoCreatedAt": "2026-01-19T14:28:55Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity-hunt-csrf/SKILL.md",
+        "line": 108,
+        "excerpt": "fetch('/api/heartbeat', {method: 'POST', body: JSON.stringify(data)})",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-hunt-csrf/SKILL.md",
+        "line": 182,
+        "excerpt": "# Capture a valid request, then replay without token",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity-hunt-csrf/SKILL.md",
+        "line": 183,
+        "excerpt": "curl -s -X POST https://target.com/settings/email \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "target.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-hunt-csrf/SKILL.md",
+        "line": 191,
+        "excerpt": "# Get token from session A",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity-hunt-csrf/SKILL.md",
+        "line": 192,
+        "excerpt": "TOKEN_A=$(curl -s https://target.com/settings -H \"Cookie: session=SESSION_A\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "target.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity-hunt-csrf/SKILL.md",
+        "line": 196,
+        "excerpt": "curl -s -X POST https://target.com/settings/update \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "target.com"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/antigravity-hunt-csrf/SKILL.md",
+        "line": 198,
+        "excerpt": "-d \"authenticity_token=$TOKEN_A&email=test@test.com\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-hunt-csrf/SKILL.md",
+        "line": 204,
+        "excerpt": "# Find CSRF token fields in HTML responses",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity-hunt-csrf/SKILL.md",
+        "line": 211,
+        "excerpt": "curl -sI https://target.com/login | grep -i \"set-cookie\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "target.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity-hunt-csrf/SKILL.md",
+        "line": 219,
+        "excerpt": "curl -s https://monitoring.target.com/api/health | jq '.version'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "monitoring.target.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-hunt-csrf/SKILL.md",
+        "line": 219,
+        "excerpt": "curl -s https://monitoring.target.com/api/health | jq '.version'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity-hunt-csrf/SKILL.md",
+        "line": 307,
+        "excerpt": "- Payload: hosted on `marketing.victim.com`, target `argocd.internal.victim.com` → `fetch('https://argocd.internal.victim.com/api/v1/applications', {method:'POS",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "argocd.internal.victim.com",
+          "attacker"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-hunt-csrf/SKILL.md",
+        "line": 365,
+        "excerpt": "# Read-only first step; confirm scope before anything active.",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "network": 7,
+      "shell": 5,
+      "reads-secrets": 1
+    },
+    "score": 80,
+    "band": "low",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "b89b2f59bcd776f96526ce61d77fcb9bd0821a9f",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 80,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

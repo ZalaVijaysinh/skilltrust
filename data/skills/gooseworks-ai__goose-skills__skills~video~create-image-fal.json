@@ -1,0 +1,169 @@
+{
+  "id": "gooseworks-ai__goose-skills__skills~video~create-image-fal",
+  "owner": "gooseworks-ai",
+  "repo": "goose-skills",
+  "path": "skills/video/create-image-fal",
+  "name": "create-image-fal",
+  "description": "Generate or edit an image via any FAL image model (nano-banana edit, gpt-image, flux, ...), routed through the GooseWorks proxy, so the call is charged to your GooseWorks credits. image_urls must be public URLs; --image puts a local file on the fal CDN first. The recipe names the model + prompt. Use for keyframes, flat-cover transforms, product hero edits. (For the OpenAI gpt-image family specifically, create-image-gpt-image-fal also exists.)",
+  "stars": 1291,
+  "category": "media",
+  "commit": "df8298140d434a6363de0c265eb6af2e571d97a5",
+  "contentHash": "a72d0cac9317f657eac7fccffc3ff79d8810769b91b2705c0e2a6a2531ebd0c1",
+  "repoCreatedAt": "2026-03-02T00:07:48Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/video/create-image-fal/SKILL.md",
+        "line": 40,
+        "excerpt": "gen_image.py --model openai/gpt-image-2/edit --brand-product held --product-image pack-front.jpg \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/video/create-image-fal/SKILL.md",
+        "line": 59,
+        "excerpt": "gen_image.py --model fal-ai/nano-banana/edit --image product.png --image https://.../scene.jpg \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/video/create-image-fal/scripts/media_proxy.py",
+        "line": 8,
+        "excerpt": "FAL submit returns status_url/response_url on the REAL host (queue.fal.run); we",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/video/create-image-fal/scripts/media_proxy.py",
+        "line": 65,
+        "excerpt": "import urllib.request",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/video/create-image-fal/scripts/media_proxy.py",
+        "line": 98,
+        "excerpt": "env_tok = os.environ.get(\"GW_MEDIA_PROXY_TOKEN\")",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/video/create-image-fal/scripts/media_proxy.py",
+        "line": 125,
+        "excerpt": "if os.environ.get(\"GW_MEDIA_PROXY_TOKEN\"):",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/video/create-image-fal/scripts/media_proxy.py",
+        "line": 259,
+        "excerpt": "requests.post(api_base + \"/api/internal/cli-logs\",",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/video/create-image-fal/scripts/media_proxy.py",
+        "line": 720,
+        "excerpt": "return requests.get(url, params=params, timeout=60)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/video/create-image-fal/scripts/media_proxy.py",
+        "line": 889,
+        "excerpt": "sub_resp = requests.post(f\"{base}/{model_path}\", params=params, json=payload,",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/video/create-image-fal/scripts/media_proxy.py",
+        "line": 1021,
+        "excerpt": "r = requests.post(url, params=_params(tok, agent), timeout=timeout_s,",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/video/create-image-fal/scripts/media_proxy.py",
+        "line": 1060,
+        "excerpt": "r = requests.post(api_base + \"/api/internal/fal-storage-proxy/storage/auth/token\",",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/video/create-image-fal/scripts/media_proxy.py",
+        "line": 1066,
+        "excerpt": "up = requests.post(t[\"base_url\"].rstrip(\"/\") + \"/files/upload\", data=f, timeout=600,",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/video/create-image-fal/scripts/media_proxy.py",
+        "line": 1078,
+        "excerpt": "urllib.request.urlretrieve(url, out_path)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/video/create-image-fal/scripts/media_proxy.py",
+        "line": 1093,
+        "excerpt": "r = requests.post(url, params=_params(tok, agent), timeout=timeout_s,",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/video/create-image-fal/tests/test_brand_pack_lint.py",
+        "line": 63,
+        "excerpt": "return subprocess.run([sys.executable, str(SCRIPTS / \"gen_image.py\"), *args, \"--out\", \"/nonexistent/x.png\"],",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 3,
+      "paid-api": 1,
+      "network": 9,
+      "reads-secrets": 2
+    },
+    "score": 62,
+    "band": "review",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 10,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "df8298140d434a6363de0c265eb6af2e571d97a5",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 62,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

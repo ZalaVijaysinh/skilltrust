@@ -1,0 +1,206 @@
+{
+  "id": "aeonfun__aeon-agent__skills~reply-maker",
+  "owner": "aeonfun",
+  "repo": "aeon-agent",
+  "path": "skills/reply-maker",
+  "name": "reply-maker",
+  "description": "Draft copy-paste-ready X replies - two options per reply-worthy tweet from tracked accounts, topics, or lists (default), or ready-to-post responses to engagement opps in recent logs (from-logs)",
+  "stars": 12,
+  "category": "coding",
+  "commit": "dc82e8713b797fb62d4635c264f6ea8c4b31391d",
+  "contentHash": "30809951ec45f6063fafbedae31ca8eed75ee96bf3769b3a4ca25f71b752fedb",
+  "repoCreatedAt": "2026-03-25T19:51:51Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/reply-maker/SKILL.md",
+        "line": 62,
+        "excerpt": "./notify \"Want another pass? Reply with a change and I'll revise again.\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/reply-maker/SKILL.md",
+        "line": 86,
+        "excerpt": "date -u +%Y-%m-%dT%H:%M:%SZ",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/reply-maker/SKILL.md",
+        "line": 89,
+        "excerpt": "date -u -d '6 hours ago' +%Y-%m-%dT%H:%M:%SZ",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/reply-maker/SKILL.md",
+        "line": 92,
+        "excerpt": "date -u -d '6 hours ago' +%Y-%m-%d",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/reply-maker/SKILL.md",
+        "line": 98,
+        "excerpt": "./secretcurl -s -o /tmp/tw-rm.json -w 'twitterapi http=%{http_code} bytes=%{size_download}\\n' --max-time 60 -G \"https://api.twitterapi.io/twitter/user/last_twee",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/reply-maker/SKILL.md",
+        "line": 103,
+        "excerpt": "jq -r '.data.tweets[] | select((.isReply | not) and ((try (.createdAt | strptime(\"%a %b %d %H:%M:%S %z %Y\") | strftime(\"%Y-%m-%d\")) catch \"0000-00-00\") >= \"<FRO",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/reply-maker/SKILL.md",
+        "line": 108,
+        "excerpt": "./secretcurl -s -o /tmp/tw-rm.json -w 'twitterapi http=%{http_code} bytes=%{size_download}\\n' --max-time 60 -G \"https://api.twitterapi.io/twitter/tweet/advanced",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/reply-maker/SKILL.md",
+        "line": 114,
+        "excerpt": "jq -r '.tweets[] | [.id, .author.userName, .text, .url, .createdAt, .likeCount, .retweetCount, .replyCount] | @tsv' /tmp/tw-rm.json",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/reply-maker/SKILL.md",
+        "line": 120,
+        "excerpt": "**Path B - xAI Grok `x_search` (fallback; primary for `list:`).** Only if Path A returned non-2xx / empty / timeout, `TWITTER_API_KEY` is unset, or `${var}` is ",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/reply-maker/SKILL.md",
+        "line": 124,
+        "excerpt": "jq -r '.output[] | select(.type == \"message\") | .content[] | select(.type == \"output_text\") | .text' /tmp/xai-rm.json",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/reply-maker/SKILL.md",
+        "line": 133,
+        "excerpt": "jq -n '{",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/reply-maker/SKILL.md",
+        "line": 137,
+        "excerpt": "}' | ./secretcurl -s -o /tmp/xai-rm.json -w '%{http_code}' --max-time 150 -X POST \"https://api.x.ai/v1/responses\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/reply-maker/SKILL.md",
+        "line": 144,
+        "excerpt": "jq -n '{",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/reply-maker/SKILL.md",
+        "line": 148,
+        "excerpt": "}' | ./secretcurl -s -o /tmp/xai-rm.json -w '%{http_code}' --max-time 150 -X POST \"https://api.x.ai/v1/responses\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/reply-maker/SKILL.md",
+        "line": 155,
+        "excerpt": "jq -n '{",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/reply-maker/SKILL.md",
+        "line": 159,
+        "excerpt": "}' | ./secretcurl -s -o /tmp/xai-rm.json -w '%{http_code}' --max-time 150 -X POST \"https://api.x.ai/v1/responses\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/reply-maker/SKILL.md",
+        "line": 320,
+        "excerpt": "mkdir -p memory/drafts",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/reply-maker/SKILL.md",
+        "line": 325,
+        "excerpt": "./notify \"Want to refine these replies? Reply with a change and I'll revise them.\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/reply-maker/SKILL.md",
+        "line": 391,
+        "excerpt": "3. **Path B - xAI Grok `x_search` (fallback; primary for `list:`).** Only when Path A fails (non-2xx / empty / timeout), `TWITTER_API_KEY` is unset, or `${var}`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/reply-maker/SKILL.md",
+        "line": 393,
+        "excerpt": "jq -n '{...}' | ./secretcurl -s -o /tmp/xai-rm.json -w '%{http_code}' --max-time 150 -X POST \"https://api.x.ai/v1/responses\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/reply-maker/SKILL.md",
+        "line": 393,
+        "excerpt": "jq -n '{...}' | ./secretcurl -s -o /tmp/xai-rm.json -w '%{http_code}' --max-time 150 -X POST \"https://api.x.ai/v1/responses\" \\",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 15,
+      "paid-api": 6
+    },
+    "score": 87,
+    "band": "low",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "dc82e8713b797fb62d4635c264f6ea8c4b31391d",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 87,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

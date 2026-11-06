@@ -1,0 +1,288 @@
+{
+  "id": "acedatacloud__skills__skills~wecom",
+  "owner": "AceDataCloud",
+  "repo": "Skills",
+  "path": "skills/wecom",
+  "name": "wecom",
+  "description": "Read your WeCom (企业微信 / WeCom / Work Weixin) contacts, send app & group messages, create and read WeDoc docs/smart sheets, and manage schedules (日程) and meetings (会议) via the WeCom server-side API as a self-built app. Use when the user mentions 企业微信, WeCom, 通讯录成员/部门, 应用消息, 群机器人/应用群聊, 企业微信文档/智能表格, 企业微信日程 or 会议, or a qyapi.weixin.qq.com call.",
+  "stars": 17,
+  "category": "media",
+  "commit": "d3dc4b5d28cf28af20980a181350ff8b687b8dd9",
+  "contentHash": "b8bd7e3596ce6f6e2a7c9025f159b726192ccb9ac6418173ed8e6eb6b1fac159",
+  "repoCreatedAt": "2026-03-22T02:09:30Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/wecom/SKILL.md",
+        "line": 31,
+        "excerpt": "**Never log or echo `$WECOM_CORP_SECRET`** — treat it like a password.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wecom/SKILL.md",
+        "line": 44,
+        "excerpt": "# Fail loudly if credentials are missing/blank. WECOM_AGENT_ID must be a plain",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/wecom/SKILL.md",
+        "line": 46,
+        "excerpt": ": \"${WECOM_CORP_ID:?WECOM_CORP_ID not set}\" \"${WECOM_CORP_SECRET:?WECOM_CORP_SECRET not set}\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/wecom/SKILL.md",
+        "line": 53,
+        "excerpt": "if [ -f \"$TOKEN_CACHE\" ] && [ \"$(jq -r '.exp_at // 0' \"$TOKEN_CACHE\")\" -gt \"$((NOW + 300))\" ]; then",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/wecom/SKILL.md",
+        "line": 54,
+        "excerpt": "AT=$(jq -r '.access_token' \"$TOKEN_CACHE\")",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/wecom/SKILL.md",
+        "line": 56,
+        "excerpt": "RESP=$(curl -sS \"https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=${WECOM_CORP_ID}&corpsecret=${WECOM_CORP_SECRET}\")",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/wecom/SKILL.md",
+        "line": 56,
+        "excerpt": "RESP=$(curl -sS \"https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=${WECOM_CORP_ID}&corpsecret=${WECOM_CORP_SECRET}\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "qyapi.weixin.qq.com"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/wecom/SKILL.md",
+        "line": 64,
+        "excerpt": "'{access_token, exp_at: ($now + $ttl)}' > \"$TOKEN_CACHE\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/wecom/SKILL.md",
+        "line": 65,
+        "excerpt": "chmod 600 \"$TOKEN_CACHE\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/wecom/SKILL.md",
+        "line": 72,
+        "excerpt": "wc_get()  { curl -sS \"https://qyapi.weixin.qq.com/cgi-bin/$1&access_token=${AT}\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "qyapi.weixin.qq.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wecom/SKILL.md",
+        "line": 72,
+        "excerpt": "wc_get()  { curl -sS \"https://qyapi.weixin.qq.com/cgi-bin/$1&access_token=${AT}\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/wecom/SKILL.md",
+        "line": 74,
+        "excerpt": "wc_post() { curl -sS -X POST \"https://qyapi.weixin.qq.com/cgi-bin/$1?access_token=${AT}\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "qyapi.weixin.qq.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wecom/SKILL.md",
+        "line": 87,
+        "excerpt": "wc_get \"department/list?id=1\" | jq '[.department[] | {id, name, parentid}]'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wecom/SKILL.md",
+        "line": 97,
+        "excerpt": "wc_post \"user/list_id\" '{\"cursor\":\"\",\"limit\":10000}' \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wecom/SKILL.md",
+        "line": 104,
+        "excerpt": "wc_get \"user/get?userid=USERID\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wecom/SKILL.md",
+        "line": 112,
+        "excerpt": "wc_get \"user/simplelist?department_id=1&fetch_child=1\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wecom/SKILL.md",
+        "line": 119,
+        "excerpt": "for uid in $(wc_post \"user/list_id\" '{\"cursor\":\"\",\"limit\":10000}' | jq -r '.dept_user[].userid' | sort -u); do",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wecom/SKILL.md",
+        "line": 139,
+        "excerpt": "wc_post \"message/send\" \"$(jq -nc --arg to \"USERID1|USERID2\" --argjson agent \"${WECOM_AGENT_ID}\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wecom/SKILL.md",
+        "line": 148,
+        "excerpt": "wc_post \"message/send\" \"$(jq -nc --arg to \"@all\" --argjson agent \"${WECOM_AGENT_ID}\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wecom/SKILL.md",
+        "line": 157,
+        "excerpt": "wc_post \"message/send\" \"$(jq -nc --arg to \"USERID1\" --argjson agent \"${WECOM_AGENT_ID}\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wecom/SKILL.md",
+        "line": 168,
+        "excerpt": "# Create (owner + members are userids). Omit chatid to let WeCom assign one.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wecom/SKILL.md",
+        "line": 188,
+        "excerpt": "wc_post \"wedoc/create_doc\" \"$(jq -nc --arg name \"项目周报 2026-07\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wecom/SKILL.md",
+        "line": 196,
+        "excerpt": "wc_post \"wedoc/doc_share\" '{\"docid\":\"DOCID\"}' | jq '{share_url: .share_url}'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wecom/SKILL.md",
+        "line": 204,
+        "excerpt": "wc_post \"wedoc/document/get\" '{\"docid\":\"DOCID\"}' \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wecom/SKILL.md",
+        "line": 217,
+        "excerpt": "START=$(date -d \"2026-07-10 15:00\" +%s); END=$(date -d \"2026-07-10 16:00\" +%s)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wecom/SKILL.md",
+        "line": 223,
+        "excerpt": "wc_post \"oa/schedule/add\" \"$(jq -nc --arg org \"USERID1\" --argjson s \"$START\" --argjson e \"$END\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wecom/SKILL.md",
+        "line": 234,
+        "excerpt": "wc_post \"oa/schedule/get\" '{\"schedule_id_list\":[\"SCHEDULE_ID\"]}' \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wecom/SKILL.md",
+        "line": 250,
+        "excerpt": "wc_post \"meeting/create\" \"$(jq -nc --arg admin \"USERID1\" --argjson start \"$(date -d '2026-07-11 10:00' +%s)\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wecom/SKILL.md",
+        "line": 260,
+        "excerpt": "wc_post \"meeting/get_user_meetingid\" '{\"userid\":\"USERID1\",\"cursor\":\"\",\"limit\":100}' \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/wecom/SKILL.md",
+        "line": 271,
+        "excerpt": "- **Never print `$WECOM_CORP_SECRET`.** It is equivalent to full app access.",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "reads-secrets": 8,
+      "shell": 19,
+      "network": 3
+    },
+    "score": 70,
+    "band": "review",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "d3dc4b5d28cf28af20980a181350ff8b687b8dd9",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 70,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

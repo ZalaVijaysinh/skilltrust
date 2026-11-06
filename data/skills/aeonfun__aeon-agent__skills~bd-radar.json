@@ -1,0 +1,161 @@
+{
+  "id": "aeonfun__aeon-agent__skills~bd-radar",
+  "owner": "aeonfun",
+  "repo": "aeon-agent",
+  "path": "skills/bd-radar",
+  "name": "bd-radar",
+  "description": "Business-development radar across your product family - find who's building, forking, integrating, and mentioning your products, ranked into a who-to-talk-to-this-week lead list.",
+  "stars": 12,
+  "category": "coding",
+  "commit": "dc82e8713b797fb62d4635c264f6ea8c4b31391d",
+  "contentHash": "4bff937019a2ca6229e26b422f99c407cae173f32795ee6f3d30bd0f66d9c4f6",
+  "repoCreatedAt": "2026-03-25T19:51:51Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/bd-radar/SKILL.md",
+        "line": 45,
+        "excerpt": "mkdir -p memory/topics output/articles",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/bd-radar/SKILL.md",
+        "line": 55,
+        "excerpt": "**GitHub forks + issues - direct GitHub API, in-run.** The default runner token is integration-scoped to this instance's own repo, so cross-repo forks/issues of",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bd-radar/SKILL.md",
+        "line": 59,
+        "excerpt": "./secretcurl -s -o /tmp/bd-forks-<SLUG>.json -H \"Authorization: Bearer {GH_READ_PAT}\" -H \"Accept: application/vnd.github+json\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bd-radar/SKILL.md",
+        "line": 63,
+        "excerpt": "./secretcurl -s -o /tmp/bd-issues-<SLUG>.json -H \"Authorization: Bearer {GH_READ_PAT}\" -H \"Accept: application/vnd.github+json\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bd-radar/SKILL.md",
+        "line": 68,
+        "excerpt": "gh api \"repos/<REPO>/forks?sort=newest&per_page=40\" | node -e 'require(\"fs\").writeFileSync(\"/tmp/bd-forks-<SLUG>.json\", require(\"fs\").readFileSync(0))'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bd-radar/SKILL.md",
+        "line": 71,
+        "excerpt": "gh api \"repos/<REPO>/issues?state=open&per_page=40\" | node -e 'require(\"fs\").writeFileSync(\"/tmp/bd-issues-<SLUG>.json\", require(\"fs\").readFileSync(0))'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bd-radar/SKILL.md",
+        "line": 77,
+        "excerpt": "jq 'if type==\"array\" then .[] else empty end | {repo:.full_name, owner:.owner.login, created:.created_at, pushed:.pushed_at, size:.size}' /tmp/bd-forks-*.json",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bd-radar/SKILL.md",
+        "line": 80,
+        "excerpt": "jq 'if type==\"array\" then .[] else empty end | select(.pull_request|not) | {n:.number, title:.title, user:.user.login, created:.created_at, body:.body}' /tmp/bd",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bd-radar/SKILL.md",
+        "line": 86,
+        "excerpt": "gh search repos \"<term>\" --sort updated --limit 30",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bd-radar/SKILL.md",
+        "line": 90,
+        "excerpt": "gh search code \"<term>\" --limit 30",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bd-radar/SKILL.md",
+        "line": 97,
+        "excerpt": "date -u -d '3 days ago' +%Y-%m-%d",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bd-radar/SKILL.md",
+        "line": 101,
+        "excerpt": "jq -n '{model:\"grok-4.7\", input:[{role:\"user\",content:\"Search X since <FROM_DATE> for posts mentioning any of: <TERMS>. For each post return: @handle, full text",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/bd-radar/SKILL.md",
+        "line": 102,
+        "excerpt": "| ./secretcurl -s -o /tmp/xai-bd.json -w '%{http_code}' --max-time 150 -X POST \"https://api.x.ai/v1/responses\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bd-radar/SKILL.md",
+        "line": 107,
+        "excerpt": "jq -r '.output[]|select(.type==\"message\")|.content[]|select(.type==\"output_text\")|.text' /tmp/xai-bd.json",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/bd-radar/SKILL.md",
+        "line": 111,
+        "excerpt": "**HN / Reddit / web:** `WebSearch` for each product's name + `\"built on <product>\"`, plus relevant subreddits (e.g. `r/LocalLLaMA OR r/AI_Agents <product>`) for",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 12,
+      "reads-secrets": 1,
+      "paid-api": 1,
+      "network": 1
+    },
+    "score": 62,
+    "band": "review",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "dc82e8713b797fb62d4635c264f6ea8c4b31391d",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 62,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

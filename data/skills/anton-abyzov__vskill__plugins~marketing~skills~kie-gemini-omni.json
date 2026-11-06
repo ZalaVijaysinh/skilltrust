@@ -1,0 +1,253 @@
+{
+  "id": "anton-abyzov__vskill__plugins~marketing~skills~kie-gemini-omni",
+  "owner": "anton-abyzov",
+  "repo": "vskill",
+  "path": "plugins/marketing/skills/kie-gemini-omni",
+  "name": "kie-gemini-omni",
+  "description": "Submit-and-poll harness for Kie AI image + video models. IMAGE generation default is GPT Image v2 (`gpt-image-2-text-to-image` / `gpt-image-2-image-to-image`) — best text rendering, the right tool for X-reply attachments, ad creative, posters/cards, blog hero images, brand visuals; Nano Banana Pro (`nano-banana-pro`) is the fallback. VIDEO generation via `gemini-omni-video` for short-form B-roll. Replaces the deprecated Veo3 path. Handles the safety-filter rejections, Cloudflare CDN 403, duration rounding, and 500 transient errors that bite first-time users. Activate when the user mentions Kie AI, GPT Image, Gemini Omni, Nano Banana, generate-an-image-via-Kie, or wants to produce AI images/short clips through kie.ai's /api/v1/jobs/createTask endpoint.",
+  "stars": 47,
+  "category": "media",
+  "commit": "1b83d04e59e828b6eee1c289a1b36dedc5b1f44b",
+  "contentHash": "5e0b0c340156c2326a0058675a9c3552750c0dae300c6187945f1b4d578aea35",
+  "repoCreatedAt": "2026-02-16T01:37:46Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "browser-secrets",
+        "file": "plugins/marketing/skills/kie-gemini-omni/SKILL.md",
+        "line": 30,
+        "excerpt": "export KIE_API_KEY=$(security find-generic-password -s 'kie-api-key' -w 2>/dev/null || cat ~/.config/kie/api_key)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/marketing/skills/kie-gemini-omni/SKILL.md",
+        "line": 30,
+        "excerpt": "export KIE_API_KEY=$(security find-generic-password -s 'kie-api-key' -w 2>/dev/null || cat ~/.config/kie/api_key)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/marketing/skills/kie-gemini-omni/SKILL.md",
+        "line": 31,
+        "excerpt": "test -n \"$KIE_API_KEY\" || { echo \"KIE_API_KEY missing\"; exit 1; }",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/marketing/skills/kie-gemini-omni/SKILL.md",
+        "line": 47,
+        "excerpt": "TASK_ID=$(curl -sS -X POST https://api.kie.ai/api/v1/jobs/createTask \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.kie.ai"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/marketing/skills/kie-gemini-omni/SKILL.md",
+        "line": 47,
+        "excerpt": "TASK_ID=$(curl -sS -X POST https://api.kie.ai/api/v1/jobs/createTask \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/marketing/skills/kie-gemini-omni/SKILL.md",
+        "line": 48,
+        "excerpt": "-H \"Authorization: Bearer $KIE_API_KEY\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/marketing/skills/kie-gemini-omni/SKILL.md",
+        "line": 67,
+        "excerpt": "-d '{ \"model\":\"gpt-image-2-image-to-image\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/marketing/skills/kie-gemini-omni/SKILL.md",
+        "line": 78,
+        "excerpt": "poll_kie() {",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/marketing/skills/kie-gemini-omni/SKILL.md",
+        "line": 81,
+        "excerpt": "resp=$(curl -sS \"https://api.kie.ai/api/v1/jobs/recordInfo?taskId=$tid\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.kie.ai"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/marketing/skills/kie-gemini-omni/SKILL.md",
+        "line": 82,
+        "excerpt": "-H \"Authorization: Bearer $KIE_API_KEY\")",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/marketing/skills/kie-gemini-omni/SKILL.md",
+        "line": 102,
+        "excerpt": "curl -sS -A 'Mozilla/5.0' -o ./image.png \"$URL\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/marketing/skills/kie-gemini-omni/SKILL.md",
+        "line": 102,
+        "excerpt": "curl -sS -A 'Mozilla/5.0' -o ./image.png \"$URL\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/marketing/skills/kie-gemini-omni/SKILL.md",
+        "line": 107,
+        "excerpt": "import urllib.request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/marketing/skills/kie-gemini-omni/SKILL.md",
+        "line": 108,
+        "excerpt": "req = urllib.request.Request(url, headers={\"User-Agent\": \"Mozilla/5.0\"})",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/marketing/skills/kie-gemini-omni/SKILL.md",
+        "line": 109,
+        "excerpt": "with urllib.request.urlopen(req) as r, open(out, \"wb\") as f:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/marketing/skills/kie-gemini-omni/SKILL.md",
+        "line": 120,
+        "excerpt": "curl -sS -X POST https://api.kie.ai/api/v1/jobs/createTask \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.kie.ai"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/marketing/skills/kie-gemini-omni/SKILL.md",
+        "line": 120,
+        "excerpt": "curl -sS -X POST https://api.kie.ai/api/v1/jobs/createTask \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/marketing/skills/kie-gemini-omni/SKILL.md",
+        "line": 121,
+        "excerpt": "-H \"Authorization: Bearer $KIE_API_KEY\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/marketing/skills/kie-gemini-omni/SKILL.md",
+        "line": 140,
+        "excerpt": "Same as Pattern A. Download via `curl -A 'Mozilla/5.0'`.",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/marketing/skills/kie-gemini-omni/SKILL.md",
+        "line": 239,
+        "excerpt": "#!/usr/bin/env bash",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "browser-secrets",
+        "file": "plugins/marketing/skills/kie-gemini-omni/SKILL.md",
+        "line": 241,
+        "excerpt": "KEY=$(security find-generic-password -s 'kie-api-key' -w 2>/dev/null || cat ~/.config/kie/api_key)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/marketing/skills/kie-gemini-omni/SKILL.md",
+        "line": 250,
+        "excerpt": "TID=$(curl -sS -X POST https://api.kie.ai/api/v1/jobs/createTask \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.kie.ai"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/marketing/skills/kie-gemini-omni/SKILL.md",
+        "line": 258,
+        "excerpt": "R=$(curl -sS \"https://api.kie.ai/api/v1/jobs/recordInfo?taskId=$TID\" -H \"Authorization: Bearer $KEY\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.kie.ai"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/marketing/skills/kie-gemini-omni/SKILL.md",
+        "line": 268,
+        "excerpt": "curl -sS -A 'Mozilla/5.0' -o \"$OUT\" \"$URL\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "browser-secrets": 2,
+      "shell": 7,
+      "reads-secrets": 4,
+      "network": 11
+    },
+    "score": 57,
+    "band": "review",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "1b83d04e59e828b6eee1c289a1b36dedc5b1f44b",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 57,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "id": "b-open-io__prompts__modules~research~skills~x-tweet-fetch",
+  "owner": "b-open-io",
+  "repo": "prompts",
+  "path": "modules/research/skills/x-tweet-fetch",
+  "name": "x-tweet-fetch",
+  "description": "Fetch a specific tweet by URL or ID. Use when user shares an X/Twitter URL (https://x.com/... or https://twitter.com/...), asks \"get this tweet\", \"fetch tweet\", \"what does this tweet say\", \"read this X post\". Requires X_BEARER_TOKEN.",
+  "stars": 15,
+  "category": "other",
+  "commit": "f4b302aadb0c99023b03e1f1b38ffed3697fbedf",
+  "contentHash": "6bfc407de5b9913f19dd3faa733ec72e5198bba89fbf20eb134ce4636d6f0764",
+  "repoCreatedAt": "2025-06-03T14:42:57Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "modules/research/skills/x-tweet-fetch/SKILL.md",
+        "line": 16,
+        "excerpt": "export X_BEARER_TOKEN=\"your-token\"  # https://developer.x.com/en/portal/dashboard",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "modules/research/skills/x-tweet-fetch/SKILL.md",
+        "line": 22,
+        "excerpt": "${CLAUDE_SKILL_DIR}/scripts/fetch.sh <url_or_id>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "modules/research/skills/x-tweet-fetch/SKILL.md",
+        "line": 28,
+        "excerpt": "# By URL",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "modules/research/skills/x-tweet-fetch/scripts/fetch.sh",
+        "line": 15,
+        "excerpt": "if [ -z \"$X_BEARER_TOKEN\" ]; then",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "modules/research/skills/x-tweet-fetch/scripts/fetch.sh",
+        "line": 29,
+        "excerpt": "curl -s \"https://api.x.com/2/tweets/${TWEET_ID}?tweet.fields=created_at,author_id,public_metrics,entities,conversation_id&expansions=author_id,referenced_tweets",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.x.com"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "modules/research/skills/x-tweet-fetch/scripts/fetch.sh",
+        "line": 30,
+        "excerpt": "-H \"Authorization: Bearer $X_BEARER_TOKEN\" | jq '.'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "modules/research/skills/x-tweet-fetch/scripts/setup.sh",
+        "line": 23,
+        "excerpt": "echo 'export X_BEARER_TOKEN=\"paste-token-here\"' >> ~/.zshrc",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 3,
+      "reads-secrets": 2,
+      "network": 1,
+      "writes-outside": 1
+    },
+    "score": 60,
+    "band": "review",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 5,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "f4b302aadb0c99023b03e1f1b38ffed3697fbedf",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 60,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

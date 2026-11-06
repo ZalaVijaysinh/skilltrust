@@ -1,0 +1,271 @@
+{
+  "id": "daishiman__harness-dev__plugins~system-spec-harness~skills~run-system-spec-doc-fetch",
+  "owner": "daishiman",
+  "repo": "harness-dev",
+  "path": "plugins/system-spec-harness/skills/run-system-spec-doc-fetch",
+  "name": "run-system-spec-doc-fetch",
+  "description": "対象カテゴリで使う予定のツール・インフラ・フレームワークの最新公式ドキュメントを集めて公式host・version や更新日・確認時刻・参照元を fetched-references.json に記録したいとき、spec-compile 前に公式サイトの現行版で裏取りしたいときに使う。",
+  "stars": 10,
+  "category": "other",
+  "commit": "e63e798003f124bad3096554beaaf9f8046c4c21",
+  "contentHash": "a8aacef2034397f80aa7ad0a685f50c3f8c4dc10938f677e9b9c6171889200bc",
+  "repoCreatedAt": "2026-01-15T05:28:17Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "plugins/system-spec-harness/skills/run-system-spec-doc-fetch/SKILL.md",
+        "line": 174,
+        "excerpt": "- **公式ドキュメント取得 (R2)**: `WebSearch` で公式 host を特定し `WebFetch` で現行版・要点・更新日を取得する。詳細 = `prompts/R2-fetch.md` / `references/official-source-catalog.md`。",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/system-spec-harness/skills/run-system-spec-doc-fetch/SKILL.md",
+        "line": 181,
+        "excerpt": "# R3 決定論組み立て (全件対応も同時検査)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/system-spec-harness/skills/run-system-spec-doc-fetch/prompts/R2-fetch.md",
+        "line": 31,
+        "excerpt": "- **ツール**: `WebSearch` (公式サイト特定)、`WebFetch` (本文取得)、`Read` (R1 の取得対象一覧参照)、`Write` (取得証跡 JSON の保存のみ)、`Bash(python3 *)` (取得時刻の実測と証跡 SHA-256 の計算のみ)。",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/system-spec-harness/skills/run-system-spec-doc-fetch/prompts/R2-fetch.md",
+        "line": 32,
+        "excerpt": "- **探索手順の骨子**: `WebSearch` で「<技術名> official documentation」等から公式 host を特定 → `WebFetch` で該当ページを取得し version/更新日/要点を抽出。",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/system-spec-harness/skills/run-system-spec-doc-fetch/prompts/R4-audit-doc-freshness.md",
+        "line": 43,
+        "excerpt": "- **ツール**: `Read` (SSOT: references と targets)、`Bash` (C13 `validate-source-citation.py` の実行と JSON 検査のみ・read-only/network:false)、`WebSearch` (公式ホストの裏取り・現行版の所在特定",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/system-spec-harness/skills/run-system-spec-doc-fetch/references/resource-map.yaml",
+        "line": 9,
+        "excerpt": "topic: WebSearch/WebFetch で公式ドキュメントを引く R2 責務",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/system-spec-harness/skills/run-system-spec-doc-fetch/scripts/build-fetched-references.py",
+        "line": 19,
+        "excerpt": "本モジュールは R3-record の唯一の組み立て経路であり、WebSearch/WebFetch で得た",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/system-spec-harness/skills/run-system-spec-doc-fetch/tests/test_build_fetched_references.py",
+        "line": 277,
+        "excerpt": "content = f\"WebFetch evidence for {record['target_id']}{suffix}\\n\".encode()",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/system-spec-harness/agents/system-spec-doc-freshness-auditor.md",
+        "line": 89,
+        "excerpt": "- `WebSearch`: publisher の公式ドキュメントホストの裏取り・非公式 host 判定・現行版の所在特定。",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/system-spec-harness/agents/system-spec-doc-freshness-auditor.md",
+        "line": 90,
+        "excerpt": "- `WebFetch`: 公式ドキュメント現行ページを GET し、現行 `version`/`last_updated` を照合。書込・POST は行わない (read/GET のみ)。",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/system-spec-harness/tests/test_guard_hook.py",
+        "line": 4,
+        "excerpt": "# purpose: C11 guard-confirmed-chapter-overwrite hook の負例/正例を Write/Edit/Bash × 確定章(C03実出力形状)/対象外混在確定章/再オープン章/新規章/正本spec-state.json直接書換/正本位置外spec-state(交差汚染回避)/",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/system-spec-harness/tests/test_guard_hook.py",
+        "line": 432,
+        "excerpt": "'bash -c \"echo x > system-spec/database.md\"',",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/system-spec-harness/tests/test_guard_hook.py",
+        "line": 713,
+        "excerpt": "return subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/system-spec-harness/tests/test_guard_hook.py",
+        "line": 745,
+        "excerpt": "proc = subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/system-spec-harness/hooks/guard-confirmed-chapter-overwrite.py",
+        "line": 55,
+        "excerpt": "bash -c / eval は中身を同じ規則で再帰的に解析する。heredoc の本文はコードとして実行される",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/system-spec-harness/hooks/guard-confirmed-chapter-overwrite.py",
+        "line": 181,
+        "excerpt": "# 入れ子の bash -c / eval を解析する深さの上限 (超えたら書込み先不明として扱う)。",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/system-spec-harness/hooks/hooks.json",
+        "line": 10,
+        "excerpt": "\"command\": \"python3 \\\"${PLUGIN_ROOT:-${CLAUDE_PLUGIN_ROOT}}/hooks/guard-confirmed-chapter-overwrite.py\\\"\",",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/system-spec-harness/hooks/hooks.json",
+        "line": 22,
+        "excerpt": "\"command\": \"python3 \\\"${PLUGIN_ROOT:-${CLAUDE_PLUGIN_ROOT}}/hooks/record-audit-fork.py\\\"\",",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/system-spec-harness/hooks/hooks.json",
+        "line": 33,
+        "excerpt": "\"command\": \"python3 \\\"${PLUGIN_ROOT:-${CLAUDE_PLUGIN_ROOT}}/hooks/record-audit-fork.py\\\" --event subagent-stop\",",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/system-spec-harness/hooks/references/hook-guard-protection-scope.md",
+        "line": 48,
+        "excerpt": "4. **入れ子の shell**: `bash -c` / `sh -c` / `eval` / shell の heredoc は中身を同じ規則で再帰的に解析する (深さ上限 3)。",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/system-spec-harness/hooks/tests/test_guard_confirmed_chapter_overwrite.py",
+        "line": 183,
+        "excerpt": "# sh -c の中身も同じ規則で解析し、$F は外側の env 代入で解決する",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/system-spec-harness/hooks/tests/test_guard_confirmed_chapter_overwrite.py",
+        "line": 184,
+        "excerpt": "self.assertEqual(self.bash(\"env -i F=system-spec/spec-state.json sh -c 'cp x $F'\"), 2)",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/system-spec-harness/hooks/tests/test_guard_confirmed_chapter_overwrite.py",
+        "line": 341,
+        "excerpt": "入れ子 shell 経由 (`env -i F=... sh -c 'cp x $F'`) は bash -c の再帰解析で塞がり、",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/system-spec-harness/hooks/tests/test_record_audit_fork.py",
+        "line": 353,
+        "excerpt": "def _run(self, payload: dict, ledger: Path) -> subprocess.CompletedProcess:",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/system-spec-harness/hooks/tests/test_record_audit_fork.py",
+        "line": 357,
+        "excerpt": "return subprocess.run(",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/system-spec-harness/hooks/tests/test_record_audit_fork.py",
+        "line": 451,
+        "excerpt": "def run_one(index: int) -> subprocess.CompletedProcess:",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/system-spec-harness/hooks/tests/test_record_audit_fork.py",
+        "line": 471,
+        "excerpt": "proc = subprocess.run(",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/system-spec-harness/hooks/tests/test_record_audit_fork.py",
+        "line": 564,
+        "excerpt": "proc = subprocess.run(",
+        "disclosed": true,
+        "automatic": true
+      }
+    ],
+    "findingTotals": {
+      "network": 9,
+      "shell": 19
+    },
+    "score": 92,
+    "band": "low",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 28,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "e63e798003f124bad3096554beaaf9f8046c4c21",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 92,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

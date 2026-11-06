@@ -1,0 +1,95 @@
+{
+  "id": "costiash__claude-code-docs__plugin~skills~claude-docs-validate",
+  "owner": "costiash",
+  "repo": "claude-code-docs",
+  "path": "plugin/skills/claude-docs-validate",
+  "name": "claude-docs-validate",
+  "description": "Check the health and freshness of locally-stored Claude documentation. Use this skill when the user asks about documentation health, broken links, stale docs, freshness checks, or wants to validate that their local install is up-to-date and all URLs are reachable. Triggers on: \"are my docs current\", \"check doc health\", \"validate documentation\", \"broken links\", \"stale docs\".",
+  "stars": 56,
+  "category": "coding",
+  "commit": "a43b30814bc5e3a768a9ccd3c899354f5bc39a62",
+  "contentHash": "193707bd823f09c3c6c8953283039167dae541eaa4b9d1de19279d232754168e",
+  "repoCreatedAt": "2025-11-03T14:52:32Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "plugin/skills/claude-docs-validate/SKILL.md",
+        "line": 38,
+        "excerpt": "jq -r '.generated_at' ~/.claude-code-docs/paths_manifest.json          # manifest build time",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugin/skills/claude-docs-validate/SKILL.md",
+        "line": 47,
+        "excerpt": "~/.claude-code-docs/plugin/scripts/fetch-docs.sh status",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugin/skills/claude-docs-validate/SKILL.md",
+        "line": 55,
+        "excerpt": "bash ~/.claude-code-docs/plugin/skills/claude-docs-validate/scripts/validate-paths.sh --quick",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugin/skills/claude-docs-validate/SKILL.md",
+        "line": 65,
+        "excerpt": "jq '.pages | length' ~/.claude-code-docs/paths_manifest.json                       # total",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugin/skills/claude-docs-validate/scripts/validate-paths.sh",
+        "line": 50,
+        "excerpt": "status=$(curl -sI --proto '=https' --max-time \"${TIMEOUT:-10}\" -o /dev/null -w \"%{http_code}\" \"$url\" 2>/dev/null || echo \"000\")",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugin/skills/claude-docs-validate/scripts/validate-paths.sh",
+        "line": 62,
+        "excerpt": "results=$(printf '%s\\n' \"${check_urls[@]}\" | xargs -P \"$MAX_PARALLEL\" -I{} bash -c 'check_url \"$@\"' _ {})",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugin/hooks/hooks.json",
+        "line": 8,
+        "excerpt": "\"command\": \"${CLAUDE_PLUGIN_ROOT}/hooks/sync-docs.sh\",",
+        "disclosed": false,
+        "automatic": true
+      }
+    ],
+    "findingTotals": {
+      "shell": 6,
+      "network": 1
+    },
+    "score": 92,
+    "band": "low",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 6,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "a43b30814bc5e3a768a9ccd3c899354f5bc39a62",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 92,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

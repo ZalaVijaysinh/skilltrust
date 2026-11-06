@@ -1,0 +1,137 @@
+{
+  "id": "b-open-io__prompts__modules~creative~skills~promo-video-pipeline",
+  "owner": "b-open-io",
+  "repo": "prompts",
+  "path": "modules/creative/skills/promo-video-pipeline",
+  "name": "promo-video-pipeline",
+  "description": "Use this when making a motion-graphics promo or showreel, a short social cut or a longer commercial cut, from the user's prompt plus optional music. Covers gpt-image-2.5-flare inspiration keyframes, an approval gate before video spend, a budget-capped headless Claude Opus 5.5 edit through the Higgsfield REST API, Suno scoring, beat alignment, -14 LUFS loudness, and H.264 exports that play cleanly in QuickTime and Discord.",
+  "stars": 15,
+  "category": "media",
+  "commit": "f4b302aadb0c99023b03e1f1b38ffed3697fbedf",
+  "contentHash": "d2e85b95f8f66430595e970643826fb30740e516da82590ce57a5fe2cb4afd72",
+  "repoCreatedAt": "2025-06-03T14:42:57Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "modules/creative/skills/promo-video-pipeline/SKILL.md",
+        "line": 75,
+        "excerpt": "ffmpeg -pattern_type glob -i 'keyframes/*.png' \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "modules/creative/skills/promo-video-pipeline/SKILL.md",
+        "line": 116,
+        "excerpt": "set -euo pipefail",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "modules/creative/skills/promo-video-pipeline/SKILL.md",
+        "line": 129,
+        "excerpt": "DETACH=(python3 -c 'import os, sys; os.setsid(); os.execvp(sys.argv[1], sys.argv[1:])')",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "modules/creative/skills/promo-video-pipeline/SKILL.md",
+        "line": 166,
+        "excerpt": "\"Bash(curl *)\", \"Bash(wget *)\", \"WebFetch\", \"WebSearch\"]",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "modules/creative/skills/promo-video-pipeline/SKILL.md",
+        "line": 252,
+        "excerpt": "\"${DETACH[@]}\" claude -p --resume \"$SID\" \"The render stopped. Re-run it in the foreground and continue.\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "modules/creative/skills/promo-video-pipeline/SKILL.md",
+        "line": 273,
+        "excerpt": "ffmpeg -loop 1 -framerate 30 -i endcard.png \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "modules/creative/skills/promo-video-pipeline/SKILL.md",
+        "line": 292,
+        "excerpt": "# Pass 1: measure",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "modules/creative/skills/promo-video-pipeline/SKILL.md",
+        "line": 312,
+        "excerpt": "ffmpeg -i master-14lufs.mp4 -map 0:v:0 -map 0:a:0 \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "modules/creative/skills/promo-video-pipeline/SKILL.md",
+        "line": 327,
+        "excerpt": "ffmpeg -i master-14lufs.mp4 -map 0:v:0 -map 0:a:0 \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "modules/creative/skills/promo-video-pipeline/SKILL.md",
+        "line": 340,
+        "excerpt": "for t in 2 6 10 15; do ffmpeg -ss \"$t\" -i promo.mp4 -frames:v 1 \"still-$t.png\"; done",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "modules/creative/skills/promo-video-pipeline/scripts/hf-api",
+        "line": 185,
+        "excerpt": "CODE=$(curl \"${args[@]}\" \"$2\") || CODE=000",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "modules/creative/skills/promo-video-pipeline/scripts/hf-api",
+        "line": 286,
+        "excerpt": "curl -fsS --max-time 600 -o \"hf-output/$ID/$name\" \"$url\" || die \"download failed: $url\" 1",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 9,
+      "network": 3
+    },
+    "score": 94,
+    "band": "low",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 4,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "f4b302aadb0c99023b03e1f1b38ffed3697fbedf",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 94,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

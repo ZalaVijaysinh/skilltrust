@@ -1,0 +1,106 @@
+{
+  "id": "aeonfun__aeon-agent__skills~digest",
+  "owner": "aeonfun",
+  "repo": "aeon-agent",
+  "path": "skills/digest",
+  "name": "digest",
+  "description": "Generate and send a digest on a configurable topic, optionally pulling RSS/Atom feeds as an input source alongside web + X signal",
+  "stars": 12,
+  "category": "coding",
+  "commit": "dc82e8713b797fb62d4635c264f6ea8c4b31391d",
+  "contentHash": "14792e2b36c2bb0698133eaff0686be78ae882d9b763217cd8d876a5eb8819fc",
+  "repoCreatedAt": "2026-03-25T19:51:51Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/digest/SKILL.md",
+        "line": 68,
+        "excerpt": "date -u -d yesterday +%Y-%m-%d",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/digest/SKILL.md",
+        "line": 71,
+        "excerpt": "date -u +%Y-%m-%d",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/digest/SKILL.md",
+        "line": 75,
+        "excerpt": "jq -n '{model:\"grok-4.7\", input:[{role:\"user\",content:\"Search X for substantive, recent posts about: <TOPIC>. Date range: <FROM_DATE> to <TO_DATE>. Return up to",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/digest/SKILL.md",
+        "line": 76,
+        "excerpt": "| ./secretcurl -s -o /tmp/xai-digest.json -w '%{http_code}' --max-time 150 -X POST \"https://api.x.ai/v1/responses\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/digest/SKILL.md",
+        "line": 90,
+        "excerpt": "1. Fetch the RSS/Atom XML: `curl -sL \"FEED_URL\"`. If curl fails, fall back to **WebFetch** on the same URL.",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/digest/SKILL.md",
+        "line": 177,
+        "excerpt": "- Sources used: <list — e.g. WebSearch, xAI API (api|fallback:reason), feeds.yml (Feed A, Feed B)>",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/digest/SKILL.md",
+        "line": 186,
+        "excerpt": "`XAI_API_KEY` is **injected into this skill's environment** (declared in `requires:`) and is **present and valid**. The primary way to pull the X/Twitter signal",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/digest/SKILL.md",
+        "line": 197,
+        "excerpt": "**RSS feeds & public aggregators (no auth):** fetch with `curl -sL`; if that fails intermittently, the built-in **WebFetch** tool is a reliable fallback for any",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 3,
+      "paid-api": 2,
+      "network": 3
+    },
+    "score": 84,
+    "band": "low",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "dc82e8713b797fb62d4635c264f6ea8c4b31391d",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 84,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

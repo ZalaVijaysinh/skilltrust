@@ -1,0 +1,127 @@
+{
+  "id": "google__skills__skills~cloud~gke-workload-identity",
+  "owner": "google",
+  "repo": "skills",
+  "path": "skills/cloud/gke-workload-identity",
+  "name": "gke-workload-identity",
+  "description": "Configures and diagnoses Workload Identity Federation for GKE authentication failures for Pods (403 \"iam.serviceAccounts.getAccessToken\" / permission denied, \"could not find default credentials\", or GKE metadata server unreachable) by verifying cluster and node-pool Workload Identity configuration, the Kubernetes ServiceAccount (KSA) to IAM binding (direct principal binding and legacy Google ServiceAccount impersonation), target-resource IAM roles, and gke-metadata-server health. Use when setting up KSA/GSA bindings (`roles/iam.workloadIdentityUser`, `iam.gke.io/gcp-service-account`) or when a Pod cannot authenticate to Google Cloud APIs. Don't use for in-cluster Kubernetes RBAC errors (API-server authorization), general workload crashes (use gke-workload-troubleshooting), or Pod Security Standards and NetworkPolicies (use gke-workload-security).",
+  "stars": 22796,
+  "category": "devops",
+  "commit": "cdee7608b469990dd63279bb3c90c85f8c0aa4de",
+  "contentHash": "68c49636164169e5216d12bfd200803c16f3a1399b447291d0d5c333a7260b68",
+  "repoCreatedAt": "2026-03-31T19:02:20Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/cloud/gke-workload-identity/SKILL.md",
+        "line": 78,
+        "excerpt": "# Resolve the project number (used in the direct-binding principal identifier).",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/cloud/gke-workload-identity/SKILL.md",
+        "line": 100,
+        "excerpt": "kubectl logs \"{pod_name}\" -n \"{namespace}\" --all-containers --prefix",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/cloud/gke-workload-identity/SKILL.md",
+        "line": 142,
+        "excerpt": "# Cluster must have a workload identity pool (PROJECT_ID.svc.id.goog).",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/cloud/gke-workload-identity/SKILL.md",
+        "line": 165,
+        "excerpt": "gcloud container node-pools update \"{node_pool}\" --cluster \"{cluster}\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/cloud/gke-workload-identity/SKILL.md",
+        "line": 195,
+        "excerpt": "# The KSA annotation must reference the intended GSA.",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/cloud/gke-workload-identity/SKILL.md",
+        "line": 222,
+        "excerpt": "# Direct binding: search for the KSA principal's bindings across the project.",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/cloud/gke-workload-identity/SKILL.md",
+        "line": 241,
+        "excerpt": "gcloud projects add-iam-policy-binding \"{TARGET_PROJECT_ID}\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/cloud/gke-workload-identity/SKILL.md",
+        "line": 259,
+        "excerpt": "# The DaemonSet Pods must be healthy on the workload's node.",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/cloud/gke-workload-identity/SKILL.md",
+        "line": 283,
+        "excerpt": "# Token endpoint via the hardcoded metadata IP (a healthy path returns a token).",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/cloud/gke-workload-identity/SKILL.md",
+        "line": 285,
+        "excerpt": "curl -sS -H 'Metadata-Flavor: Google' \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/cloud/gke-workload-identity/SKILL.md",
+        "line": 331,
+        "excerpt": "kubectl annotate serviceaccount \"{ksa_name}\" --namespace \"{namespace}\" \\",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 10,
+      "network": 1
+    },
+    "score": 94,
+    "band": "low",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "cdee7608b469990dd63279bb3c90c85f8c0aa4de",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 94,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

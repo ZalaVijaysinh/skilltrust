@@ -1,0 +1,210 @@
+{
+  "id": "gooseworks-ai__goose-skills__skills~video~media-proxy",
+  "owner": "gooseworks-ai",
+  "repo": "goose-skills",
+  "path": "skills/video/media-proxy",
+  "name": "media-proxy",
+  "description": "Shared helper that routes ALL paid media generation (FAL image/video, ElevenLabs music) through the GooseWorks proxies so every call is charged to your GooseWorks credits — never a provider SDK's default host. Host-swaps the FAL queue URLs, loads the agent token from the sandbox env (GW_MEDIA_PROXY_TOKEN) or ~/.gooseworks/credentials.json, and returns the result CDN URL. Every video-ad media capability imports this; templates never call a provider directly.",
+  "stars": 1291,
+  "category": "media",
+  "commit": "df8298140d434a6363de0c265eb6af2e571d97a5",
+  "contentHash": "557a68e18cbc92c1776abdde7619f1f29df1e006872c6b0e1dcfa1c2332d2b41",
+  "repoCreatedAt": "2026-03-02T00:07:48Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/video/media-proxy/SKILL.md",
+        "line": 29,
+        "excerpt": "resume.py --list                              # resumable (submitted, unfinished) jobs",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/video/media-proxy/SKILL.md",
+        "line": 112,
+        "excerpt": "python3 media_proxy.py rejections        # list recorded rejections (key, model, reason, request id)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/video/media-proxy/SKILL.md",
+        "line": 166,
+        "excerpt": "`queue.fal.run`; the helper rewrites them to the proxy base (keeps the path). Never",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/video/media-proxy/SKILL.md",
+        "line": 167,
+        "excerpt": "poll `queue.fal.run` directly (401 + burns credits).",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/video/media-proxy/SKILL.md",
+        "line": 219,
+        "excerpt": "(`curl -X PUT -T <file> \"<upload.url>\"`).",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/video/media-proxy/scripts/media_proxy.py",
+        "line": 8,
+        "excerpt": "FAL submit returns status_url/response_url on the REAL host (queue.fal.run); we",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/video/media-proxy/scripts/media_proxy.py",
+        "line": 65,
+        "excerpt": "import urllib.request",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/video/media-proxy/scripts/media_proxy.py",
+        "line": 98,
+        "excerpt": "env_tok = os.environ.get(\"GW_MEDIA_PROXY_TOKEN\")",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/video/media-proxy/scripts/media_proxy.py",
+        "line": 125,
+        "excerpt": "if os.environ.get(\"GW_MEDIA_PROXY_TOKEN\"):",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/video/media-proxy/scripts/media_proxy.py",
+        "line": 259,
+        "excerpt": "requests.post(api_base + \"/api/internal/cli-logs\",",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/video/media-proxy/scripts/media_proxy.py",
+        "line": 720,
+        "excerpt": "return requests.get(url, params=params, timeout=60)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/video/media-proxy/scripts/media_proxy.py",
+        "line": 889,
+        "excerpt": "sub_resp = requests.post(f\"{base}/{model_path}\", params=params, json=payload,",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/video/media-proxy/scripts/media_proxy.py",
+        "line": 1021,
+        "excerpt": "r = requests.post(url, params=_params(tok, agent), timeout=timeout_s,",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/video/media-proxy/scripts/media_proxy.py",
+        "line": 1060,
+        "excerpt": "r = requests.post(api_base + \"/api/internal/fal-storage-proxy/storage/auth/token\",",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/video/media-proxy/scripts/media_proxy.py",
+        "line": 1066,
+        "excerpt": "up = requests.post(t[\"base_url\"].rstrip(\"/\") + \"/files/upload\", data=f, timeout=600,",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/video/media-proxy/scripts/media_proxy.py",
+        "line": 1078,
+        "excerpt": "urllib.request.urlretrieve(url, out_path)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/video/media-proxy/scripts/media_proxy.py",
+        "line": 1093,
+        "excerpt": "r = requests.post(url, params=_params(tok, agent), timeout=timeout_s,",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/video/media-proxy/tests/test_media_proxy_policy.py",
+        "line": 101,
+        "excerpt": "q = \"https://queue.fal.run/%s/requests/%s\" % (rest, rid)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/video/media-proxy/tests/test_media_proxy_policy.py",
+        "line": 300,
+        "excerpt": "run = lambda *a: subprocess.run([sys.executable, str(SCRIPT), *a], capture_output=True,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/video/media-proxy/tests/test_media_proxy_policy.py",
+        "line": 327,
+        "excerpt": "cli = subprocess.run([sys.executable, str(SCRIPT), \"forget\", str(manifest)],",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 4,
+      "paid-api": 4,
+      "network": 10,
+      "reads-secrets": 2
+    },
+    "score": 79,
+    "band": "review",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 7,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "df8298140d434a6363de0c265eb6af2e571d97a5",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 79,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

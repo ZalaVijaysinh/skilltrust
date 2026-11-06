@@ -1,0 +1,64 @@
+{
+  "id": "anton-abyzov__vskill__plugins~security~skills~php2shell-check",
+  "owner": "anton-abyzov",
+  "repo": "vskill",
+  "path": "plugins/security/skills/php2shell-check",
+  "name": "php2shell-check",
+  "description": "Read-only exposure check and fix plan for php2shell, the October 2026 PHP emergency patch (CVE-2026-109618, CVE-2026-109619, unauthenticated RCE in every web SAPI). Runs a portable POSIX script that finds installed PHP binaries and versions, judges each against the fixed releases (8.2.35, 8.3.36, 8.4.27, 8.5.12, 8.6.0RC4), detects distro packages that may carry backports, scans the project (Dockerfile/compose php images, .php-version, .tool-versions, composer.json, setup-php) and checks the ini stopgaps. Activate when the user mentions 'php2shell', 'CVE-2026-109618', 'CVE-2026-109619', 'GHSA-w8hw-w9fx-j79w', 'GHSA-6wmf-4rv5-p3rp', 'is my PHP vulnerable', 'PHP emergency patch', 'PHP RCE October 2026', or asks whether a PHP server, container or project needs patching. Do NOT use it to test sites the user does not own.",
+  "stars": 47,
+  "category": "security",
+  "commit": "1b83d04e59e828b6eee1c289a1b36dedc5b1f44b",
+  "contentHash": "9c138c47ed69e871c1719b7a9af5ab70df531c1d21f59449b5188e334abf564d",
+  "repoCreatedAt": "2026-02-16T01:37:46Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "plugins/security/skills/php2shell-check/SKILL.md",
+        "line": 30,
+        "excerpt": "sh \"$SKILL_DIR/scripts/check.sh\"                 # binaries + repo in cwd + ini stopgaps",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/security/skills/php2shell-check/SKILL.md",
+        "line": 75,
+        "excerpt": "- **Debian**: `apt update && apt install --only-upgrade 'php*'`. Sury repo users: update from packages.sury.org.",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/security/skills/php2shell-check/scripts/check.sh",
+        "line": 495,
+        "excerpt": "cu_h=$(curl -sI -m 15 -A \"php2shell-check/$TOOL_VERSION\" \"$cu_u\" 2>/dev/null | tr -d '\\r')",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 1,
+      "downloads-code": 1,
+      "network": 1
+    },
+    "score": 84,
+    "band": "low",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 5,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "1b83d04e59e828b6eee1c289a1b36dedc5b1f44b",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 84,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

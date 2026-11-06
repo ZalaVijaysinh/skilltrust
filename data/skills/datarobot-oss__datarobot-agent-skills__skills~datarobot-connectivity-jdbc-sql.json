@@ -1,0 +1,214 @@
+{
+  "id": "datarobot-oss__datarobot-agent-skills__skills~datarobot-connectivity-jdbc-sql",
+  "owner": "datarobot-oss",
+  "repo": "datarobot-agent-skills",
+  "path": "skills/datarobot-connectivity-jdbc-sql",
+  "name": "datarobot-connectivity-jdbc-sql",
+  "description": "Run SQL against a database through DataRobot with a JDBC URL (or host, port, and database) and credentials you supply; no DataRobot data connection needed. Also use it to point an existing app such as Talk to My Data at DataRobot's low-latency /jdbcDataPreview/ route (/jdbcExecution/ only for user-approved writes). Use when the user wants to test a connection to PostgreSQL, MySQL, SQL Server, Snowflake, Databricks, Trino, SAP HANA or Datasphere, Redshift, or BigQuery, list tables or columns, run read queries, or run DML/DDL, e.g. \"run this SQL on jdbc:postgresql://… through DataRobot\". If the database is already a DataRobot data connection, use datarobot-connectivity-datastore-sql.",
+  "stars": 32,
+  "category": "data",
+  "commit": "356938cf5739b947a176fd3bc42a3ac7ef407877",
+  "contentHash": "9bb14e7ec9090fc53715f2f15d964169a3309cf14ab13c52f130c8fd3db95443",
+  "repoCreatedAt": "2025-12-14T04:08:33Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/datarobot-connectivity-jdbc-sql/SKILL.md",
+        "line": 33,
+        "excerpt": "JDBC_URL=jdbc:postgresql://<host>:5432/<db>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/datarobot-connectivity-jdbc-sql/references/api-reference.md",
+        "line": 91,
+        "excerpt": "curl -sS -X POST \"${DATAROBOT_ENDPOINT}/jdbcDataPreview/\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/datarobot-connectivity-jdbc-sql/references/api-reference.md",
+        "line": 92,
+        "excerpt": "-H \"Authorization: Bearer ${DATAROBOT_API_TOKEN}\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/datarobot-connectivity-jdbc-sql/references/api-reference.md",
+        "line": 101,
+        "excerpt": "curl -sS -X POST \"${DATAROBOT_ENDPOINT}/jdbcExecution/\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/datarobot-connectivity-jdbc-sql/references/api-reference.md",
+        "line": 102,
+        "excerpt": "-H \"Authorization: Bearer ${DATAROBOT_API_TOKEN}\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/datarobot-connectivity-jdbc-sql/references/app-integration.md",
+        "line": 42,
+        "excerpt": "TOKEN = os.environ[\"DATAROBOT_API_TOKEN\"]",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/datarobot-connectivity-jdbc-sql/references/app-integration.md",
+        "line": 57,
+        "excerpt": "resp = requests.post(",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/datarobot-connectivity-jdbc-sql/scripts/jdbc_sql.py",
+        "line": 39,
+        "excerpt": "import http.client",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/datarobot-connectivity-jdbc-sql/scripts/jdbc_sql.py",
+        "line": 49,
+        "excerpt": "import urllib.request",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/datarobot-connectivity-jdbc-sql/scripts/jdbc_sql.py",
+        "line": 221,
+        "excerpt": "env_token = os.environ.get(\"DATAROBOT_API_TOKEN\", \"\").strip()",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/datarobot-connectivity-jdbc-sql/scripts/jdbc_sql.py",
+        "line": 287,
+        "excerpt": "class _NoRedirect(urllib.request.HTTPRedirectHandler):",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/datarobot-connectivity-jdbc-sql/scripts/jdbc_sql.py",
+        "line": 292,
+        "excerpt": "req: urllib.request.Request,",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/datarobot-connectivity-jdbc-sql/scripts/jdbc_sql.py",
+        "line": 296,
+        "excerpt": "headers: http.client.HTTPMessage,",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/datarobot-connectivity-jdbc-sql/scripts/jdbc_sql.py",
+        "line": 298,
+        "excerpt": ") -> urllib.request.Request | None:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/datarobot-connectivity-jdbc-sql/scripts/jdbc_sql.py",
+        "line": 306,
+        "excerpt": "except (OSError, http.client.HTTPException):",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/datarobot-connectivity-jdbc-sql/scripts/jdbc_sql.py",
+        "line": 338,
+        "excerpt": "handlers: list[urllib.request.BaseHandler] = [_NoRedirect()]",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/datarobot-connectivity-jdbc-sql/scripts/jdbc_sql.py",
+        "line": 341,
+        "excerpt": "handlers.append(urllib.request.HTTPSHandler(context=context))",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/datarobot-connectivity-jdbc-sql/scripts/jdbc_sql.py",
+        "line": 342,
+        "excerpt": "self._opener = urllib.request.build_opener(*handlers)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/datarobot-connectivity-jdbc-sql/scripts/jdbc_sql.py",
+        "line": 355,
+        "excerpt": "request = urllib.request.Request(",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/datarobot-connectivity-jdbc-sql/scripts/jdbc_sql.py",
+        "line": 367,
+        "excerpt": "except (http.client.HTTPException, ValueError) as exc:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 1,
+      "network": 15,
+      "reads-secrets": 4
+    },
+    "score": 84,
+    "band": "low",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 6,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "356938cf5739b947a176fd3bc42a3ac7ef407877",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 84,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

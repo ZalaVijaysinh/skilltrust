@@ -1,0 +1,174 @@
+{
+  "id": "aeonfun__aeon-agent__skills~write-tweet",
+  "owner": "aeonfun",
+  "repo": "aeon-agent",
+  "path": "skills/write-tweet",
+  "name": "write-tweet",
+  "description": "Multi-format tweet studio - standalone drafts (10 across 5 size tiers), a 5-10 tweet thread, or 10 remixes of past tweets, selected via ${var}",
+  "stars": 12,
+  "category": "coding",
+  "commit": "dc82e8713b797fb62d4635c264f6ea8c4b31391d",
+  "contentHash": "d8756e141b316883825c434b7ae340673b93de4460a0e55eb70866570d9a72cb",
+  "repoCreatedAt": "2026-03-25T19:51:51Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/write-tweet/SKILL.md",
+        "line": 56,
+        "excerpt": "./notify \"Want another pass? Reply with a change and I'll revise again.\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/write-tweet/SKILL.md",
+        "line": 83,
+        "excerpt": "date -u -d yesterday +%Y-%m-%d",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/write-tweet/SKILL.md",
+        "line": 87,
+        "excerpt": "./secretcurl -s -o /tmp/tw-wt.json -w 'twitterapi http=%{http_code} bytes=%{size_download}\\n' --max-time 60 -G \"https://api.twitterapi.io/twitter/tweet/advanced",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/write-tweet/SKILL.md",
+        "line": 93,
+        "excerpt": "jq -r '.tweets[] | [.author.userName, .text, .url, .createdAt, .likeCount, .retweetCount, .replyCount] | @tsv' /tmp/tw-wt.json",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/write-tweet/SKILL.md",
+        "line": 97,
+        "excerpt": "jq -n '{model:\"grok-4.7\", input:[{role:\"user\",content:\"Search X for what people are saying about <TOPIC> in the last 24 hours. Return the 5 most notable tweets ",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/write-tweet/SKILL.md",
+        "line": 98,
+        "excerpt": "| ./secretcurl -s -o /tmp/xai-wt.json -w '%{http_code}' --max-time 150 -X POST \"https://api.x.ai/v1/responses\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/write-tweet/SKILL.md",
+        "line": 423,
+        "excerpt": "date -u -d '<DAYS> days ago' +%Y-%m-%d",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/write-tweet/SKILL.md",
+        "line": 426,
+        "excerpt": "date -u -d '30 days ago' +%Y-%m-%d",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/write-tweet/SKILL.md",
+        "line": 434,
+        "excerpt": "./secretcurl -s -o /tmp/tw-wt-remix.json -w 'twitterapi http=%{http_code} bytes=%{size_download}\\n' --max-time 60 -G \"https://api.twitterapi.io/twitter/user/las",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/write-tweet/SKILL.md",
+        "line": 439,
+        "excerpt": "jq -r '.data.tweets[] | .day = (try (.createdAt | strptime(\"%a %b %d %H:%M:%S %z %Y\") | strftime(\"%Y-%m-%d\")) catch \"0000-00-00\") | select((.isReply | not) and ",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/write-tweet/SKILL.md",
+        "line": 451,
+        "excerpt": "jq -n '{model:\"grok-4.7\", input:[{role:\"user\",content:\"Search X for original tweets (exclude replies, retweets, quote tweets) posted by @<HANDLE> from <FROM_DAT",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/write-tweet/SKILL.md",
+        "line": 452,
+        "excerpt": "| ./secretcurl -s -o /tmp/xai-wt-q1.json -w '%{http_code}' --max-time 150 -X POST \"https://api.x.ai/v1/responses\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/write-tweet/SKILL.md",
+        "line": 578,
+        "excerpt": "mkdir -p memory/drafts",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/write-tweet/SKILL.md",
+        "line": 583,
+        "excerpt": "./notify \"Want to refine this draft? Reply with a change and I'll revise it.\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/write-tweet/SKILL.md",
+        "line": 651,
+        "excerpt": "3. **Path B - xAI Grok `x_search` (fallback).** Only when Path A fails (non-2xx / empty / timeout) or `TWITTER_API_KEY` is unset. Direct `curl` to `https://api.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/write-tweet/SKILL.md",
+        "line": 653,
+        "excerpt": "jq -n '{model:\"grok-4.7\", input:[{role:\"user\",content:\"<PROMPT>\"}], tools:[{type:\"x_search\"}]}' \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/write-tweet/SKILL.md",
+        "line": 654,
+        "excerpt": "| ./secretcurl -s -o /tmp/xai-wt.json -w '%{http_code}' --max-time 150 -X POST \"https://api.x.ai/v1/responses\" \\",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 13,
+      "paid-api": 4
+    },
+    "score": 87,
+    "band": "low",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "dc82e8713b797fb62d4635c264f6ea8c4b31391d",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 87,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

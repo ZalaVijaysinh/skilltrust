@@ -1,0 +1,121 @@
+{
+  "id": "alirezarezvani__claude-skills__agent-launcher~skills~run-without-you",
+  "owner": "alirezarezvani",
+  "repo": "claude-skills",
+  "path": "agent-launcher/skills/run-without-you",
+  "name": "run-without-you",
+  "description": "Use when a graded managed agent should run on a schedule, on an event trigger or on demand ('run it every morning'). Validates cron with cron_validator.py and builds the deployment with deployment_builder.py.",
+  "stars": 29412,
+  "category": "coding",
+  "commit": "8f082544116fc0d014188e521ca40304cdfc86b0",
+  "contentHash": "360d84b386de8e9bd2d5a1bce36cc8c116be437a5f483330d8448c2417c807c5",
+  "repoCreatedAt": "2025-10-19T04:04:05Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "agent-launcher/skills/run-without-you/SKILL.md",
+        "line": 32,
+        "excerpt": "python3 scripts/cron_validator.py --cron \"0 9 * * *\" --timezone Europe/Berlin",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "agent-launcher/skills/run-without-you/SKILL.md",
+        "line": 39,
+        "excerpt": "python3 scripts/deployment_builder.py \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "agent-launcher/skills/run-without-you/SKILL.md",
+        "line": 50,
+        "excerpt": "python3 scripts/next_directions_writer.py \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "agent-launcher/skills/run-without-you/scripts/deployment_builder.py",
+        "line": 46,
+        "excerpt": "\"# Create the deployment (reads $ANTHROPIC_API_KEY from your env; never paste the key):\\n\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "agent-launcher/skills/run-without-you/scripts/deployment_builder.py",
+        "line": 47,
+        "excerpt": "\"curl -sS -X POST \\\"$ANTHROPIC_BASE_URL/v1/deployments\\\" \\\\\\n\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "agent-launcher/skills/run-without-you/scripts/deployment_builder.py",
+        "line": 48,
+        "excerpt": "\"  -H \\\"x-api-key: $ANTHROPIC_API_KEY\\\" -H \\\"anthropic-version: 2023-06-01\\\" \\\\\\n\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "agent-launcher/skills/run-without-you/scripts/deployment_builder.py",
+        "line": 52,
+        "excerpt": "\"curl -sS -X POST \\\"$ANTHROPIC_BASE_URL/v1/deployments/$DEPL_ID/run\\\" \\\\\\n\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "agent-launcher/skills/run-without-you/scripts/deployment_builder.py",
+        "line": 53,
+        "excerpt": "\"  -H \\\"x-api-key: $ANTHROPIC_API_KEY\\\" -H \\\"anthropic-version: 2023-06-01\\\" \\\\\\n\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "agent-launcher/hooks/hooks.json",
+        "line": 9,
+        "excerpt": "\"command\": \"python3 ${CLAUDE_PLUGIN_ROOT}/hooks/session_start.py\"",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "agent-launcher/hooks/hooks.json",
+        "line": 19,
+        "excerpt": "\"command\": \"python3 ${CLAUDE_PLUGIN_ROOT}/hooks/session_end.py\"",
+        "disclosed": false,
+        "automatic": true
+      }
+    ],
+    "findingTotals": {
+      "shell": 5,
+      "reads-secrets": 3,
+      "network": 2
+    },
+    "score": 70,
+    "band": "review",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 12,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "8f082544116fc0d014188e521ca40304cdfc86b0",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 70,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

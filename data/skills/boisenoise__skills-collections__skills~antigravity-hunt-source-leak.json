@@ -1,0 +1,316 @@
+{
+  "id": "boisenoise__skills-collections__skills~antigravity-hunt-source-leak",
+  "owner": "boisenoise",
+  "repo": "skills-collections",
+  "path": "skills/antigravity-hunt-source-leak",
+  "name": "hunt-source-leak",
+  "description": "Hunt source code and build artifact leakage",
+  "stars": 12,
+  "category": "coding",
+  "commit": "b89b2f59bcd776f96526ce61d77fcb9bd0821a9f",
+  "contentHash": "252005bde7f5cefbf12b209457d1106ec4e0cf21261d722eb07357eabfd9cd7d",
+  "repoCreatedAt": "2026-01-19T14:28:55Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-hunt-source-leak/SKILL.md",
+        "line": 55,
+        "excerpt": "# Illustrative candidate paths; response timing and severity are not guaranteed.",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity-hunt-source-leak/SKILL.md",
+        "line": 67,
+        "excerpt": "STATUS=$(curl -s -o /tmp/sl_test -w \"%{http_code}\" \"https://$TARGET$probe_path\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target$probe_path"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-hunt-source-leak/SKILL.md",
+        "line": 111,
+        "excerpt": "# Step 1: Get asset manifest to find all JS bundle paths",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity-hunt-source-leak/SKILL.md",
+        "line": 112,
+        "excerpt": "curl -s \"https://$TARGET/asset-manifest.json\" | python3 -m json.tool 2>/dev/null",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity-hunt-source-leak/SKILL.md",
+        "line": 113,
+        "excerpt": "curl -s \"https://$TARGET/static/js/main.*.js\" 2>/dev/null | head -3",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity-hunt-source-leak/SKILL.md",
+        "line": 116,
+        "excerpt": "BUILD_ID=$(curl -s https://$TARGET/ | grep -oP '\"buildId\":\"\\K[^\"]+')",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity-hunt-source-leak/SKILL.md",
+        "line": 117,
+        "excerpt": "curl -s \"https://$TARGET/_next/static/$BUILD_ID/_buildManifest.js\" | head -5",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity-hunt-source-leak/SKILL.md",
+        "line": 120,
+        "excerpt": "for JS_URL in $(curl -s https://$TARGET/ | grep -oP 'src=\"[^\"]*\\.js\"' | sed 's/src=\"//;s/\"//'); do",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity-hunt-source-leak/SKILL.md",
+        "line": 121,
+        "excerpt": "LAST_LINE=$(curl -s \"https://$TARGET$JS_URL\" | tail -1)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target$js_url"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-hunt-source-leak/SKILL.md",
+        "line": 143,
+        "excerpt": "# Common paths",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity-hunt-source-leak/SKILL.md",
+        "line": 157,
+        "excerpt": "STATUS=$(curl -s -o /tmp/swagger_test -w \"%{http_code}\" \"https://$TARGET$probe_path\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target$probe_path"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-hunt-source-leak/SKILL.md",
+        "line": 179,
+        "excerpt": "# Check if .git directory is accessible",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity-hunt-source-leak/SKILL.md",
+        "line": 180,
+        "excerpt": "curl -s \"https://$TARGET/.git/HEAD\" | grep -q \"ref:\" && echo \"[+] .git exposed!\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/antigravity-hunt-source-leak/SKILL.md",
+        "line": 184,
+        "excerpt": "pip3 install git-dumper",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-hunt-source-leak/SKILL.md",
+        "line": 201,
+        "excerpt": "# Build artifacts and debug files",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity-hunt-source-leak/SKILL.md",
+        "line": 219,
+        "excerpt": "STATUS=$(curl -s -o /tmp/debug_test -w \"%{http_code}\" \"https://$TARGET$probe_path\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target$probe_path"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-hunt-source-leak/SKILL.md",
+        "line": 233,
+        "excerpt": "# .DS_Store files on macOS-deployed web servers reveal directory structure",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity-hunt-source-leak/SKILL.md",
+        "line": 234,
+        "excerpt": "curl -s \"https://$TARGET/.DS_Store\" | xxd | head -10",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/antigravity-hunt-source-leak/SKILL.md",
+        "line": 239,
+        "excerpt": "pip3 install ds_store",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-hunt-source-leak/SKILL.md",
+        "line": 257,
+        "excerpt": "# Download and analyze webpack chunks for hardcoded values",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity-hunt-source-leak/SKILL.md",
+        "line": 259,
+        "excerpt": "curl -s https://$TARGET/ | grep -oP '\"[^\"]*\\.chunk\\.js\"' | tr -d '\"' | while read chunk; do",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity-hunt-source-leak/SKILL.md",
+        "line": 261,
+        "excerpt": "curl -s \"https://$TARGET$chunk\" | \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target$chunk"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity-hunt-source-leak/SKILL.md",
+        "line": 266,
+        "excerpt": "curl -s \"https://$TARGET/static/js/main.*.js\" | \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity-hunt-source-leak/SKILL.md",
+        "line": 270,
+        "excerpt": "curl -s \"https://$TARGET/static/js/main.*.js\" | \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-hunt-source-leak/SKILL.md",
+        "line": 295,
+        "excerpt": "# git-dumper (reconstruct exposed .git)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/antigravity-hunt-source-leak/SKILL.md",
+        "line": 296,
+        "excerpt": "pip3 install git-dumper",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/antigravity-hunt-source-leak/SKILL.md",
+        "line": 300,
+        "excerpt": "npm install -g source-map-explorer",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/antigravity-hunt-source-leak/SKILL.md",
+        "line": 304,
+        "excerpt": "npm install -g unwebpack-sourcemap",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-hunt-source-leak/SKILL.md",
+        "line": 340,
+        "excerpt": "# Read-only first step; confirm scope before anything active.",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 9,
+      "network": 15,
+      "downloads-code": 5
+    },
+    "score": 77,
+    "band": "review",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "b89b2f59bcd776f96526ce61d77fcb9bd0821a9f",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 77,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

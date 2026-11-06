@@ -1,0 +1,283 @@
+{
+  "id": "boisenoise__skills-collections__skills~antigravity-okta-attack",
+  "owner": "boisenoise",
+  "repo": "skills-collections",
+  "path": "skills/antigravity-okta-attack",
+  "name": "okta-attack",
+  "description": "Okta-as-IdP red-team attack chain",
+  "stars": 12,
+  "category": "other",
+  "commit": "b89b2f59bcd776f96526ce61d77fcb9bd0821a9f",
+  "contentHash": "b4cfdb2a21de926f810875ccb363fef372ec9a075b89530065de4471b54a041e",
+  "repoCreatedAt": "2026-01-19T14:28:55Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-okta-attack/SKILL.md",
+        "line": 53,
+        "excerpt": "# Tenant subdomains often match the brand",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity-okta-attack/SKILL.md",
+        "line": 58,
+        "excerpt": "code=$(curl -sS --max-time 10 -o /dev/null -w \"%{http_code}\" --max-time 8 \"https://$host/\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$host"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-okta-attack/SKILL.md",
+        "line": 66,
+        "excerpt": "# Look for CNAME records pointing to Okta",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-okta-attack/SKILL.md",
+        "line": 78,
+        "excerpt": "# Visit corporate-app login, follow redirects",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity-okta-attack/SKILL.md",
+        "line": 79,
+        "excerpt": "curl -sS --max-time 10 --max-redirs 0 -o /dev/null -w \"%{redirect_url}\\n\" \"https://app.target.com/login\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "app.target.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-okta-attack/SKILL.md",
+        "line": 91,
+        "excerpt": "# Probe single user — DON'T spray, this counts as auth attempt!",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity-okta-attack/SKILL.md",
+        "line": 92,
+        "excerpt": "curl -sS --max-time 10 -X POST \"https://<tenant>.okta.com/api/v1/authn\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity-okta-attack/SKILL.md",
+        "line": 110,
+        "excerpt": "curl -sS --max-time 10 \"https://<tenant>.okta.com/api/v1/sessions/me\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-okta-attack/SKILL.md",
+        "line": 110,
+        "excerpt": "curl -sS --max-time 10 \"https://<tenant>.okta.com/api/v1/sessions/me\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-okta-attack/SKILL.md",
+        "line": 126,
+        "excerpt": "# Tampering with login_hint param can reveal user existence on some configs",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity-okta-attack/SKILL.md",
+        "line": 127,
+        "excerpt": "curl -sS --max-time 10I \"https://<tenant>.okta.com/oauth2/v1/authorize?client_id=<id>&response_type=code&scope=openid&redirect_uri=https://example.com&login_hin",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "example.com&login_hint="
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-okta-attack/SKILL.md",
+        "line": 136,
+        "excerpt": "# Initial auth — observe what factors come back",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity-okta-attack/SKILL.md",
+        "line": 137,
+        "excerpt": "curl -sS --max-time 10 -X POST \"https://<tenant>.okta.com/api/v1/authn\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-okta-attack/SKILL.md",
+        "line": 184,
+        "excerpt": "# Same /api/v1/authn — see authentication flow above",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-okta-attack/SKILL.md",
+        "line": 208,
+        "excerpt": "# Initiate factor verification",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity-okta-attack/SKILL.md",
+        "line": 209,
+        "excerpt": "curl -sS --max-time 10 -X POST \"https://<tenant>.okta.com/api/v1/authn/factors/<factor_id>/verify\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-okta-attack/SKILL.md",
+        "line": 223,
+        "excerpt": "# Get the app's authorize endpoint",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity-okta-attack/SKILL.md",
+        "line": 224,
+        "excerpt": "curl -sS --max-time 10 \"https://<tenant>.okta.com/.well-known/openid-configuration\" | python3 -m json.tool",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity-okta-attack/SKILL.md",
+        "line": 235,
+        "excerpt": "code=$(curl -sS --max-time 10 -o /dev/null -w \"%{http_code}\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-okta-attack/SKILL.md",
+        "line": 249,
+        "excerpt": "# Iterate known app IDs (find via the org's app list — usually in JS bundles or initial login redirects)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity-okta-attack/SKILL.md",
+        "line": 250,
+        "excerpt": "curl -sS --max-time 10 \"https://<tenant>.okta.com/app/<app_id>/sso/saml/metadata\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-okta-attack/SKILL.md",
+        "line": 265,
+        "excerpt": "# Get session token",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity-okta-attack/SKILL.md",
+        "line": 266,
+        "excerpt": "curl -sS --max-time 10 -X POST \"https://<tenant>.okta.com/api/v1/authn\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity-okta-attack/SKILL.md",
+        "line": 273,
+        "excerpt": "curl -sS --max-time 10 -H \"Authorization: SSWS <token>\" \"https://<tenant>.okta.com/api/v1/users\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity-okta-attack/SKILL.md",
+        "line": 274,
+        "excerpt": "curl -sS --max-time 10 -H \"Authorization: SSWS <token>\" \"https://<tenant>.okta.com/api/v1/groups\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity-okta-attack/SKILL.md",
+        "line": 275,
+        "excerpt": "curl -sS --max-time 10 -H \"Authorization: SSWS <token>\" \"https://<tenant>.okta.com/api/v1/apps\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity-okta-attack/SKILL.md",
+        "line": 276,
+        "excerpt": "curl -sS --max-time 10 -H \"Authorization: SSWS <token>\" \"https://<tenant>.okta.com/api/v1/logs\"      # audit log",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-okta-attack/SKILL.md",
+        "line": 430,
+        "excerpt": "# Read-only first step; confirm scope before anything active.",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 13,
+      "network": 15
+    },
+    "score": 90,
+    "band": "low",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "b89b2f59bcd776f96526ce61d77fcb9bd0821a9f",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 90,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

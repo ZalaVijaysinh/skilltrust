@@ -1,0 +1,99 @@
+{
+  "id": "b-open-io__prompts__modules~research~skills~x-user-lookup",
+  "owner": "b-open-io",
+  "repo": "prompts",
+  "path": "modules/research/skills/x-user-lookup",
+  "name": "x-user-lookup",
+  "description": "Get X/Twitter user profile by username. Use when user asks \"who is @username\", \"get X profile\", \"lookup Twitter user\", \"find X account\", \"user details\", \"follower count for\". Requires X_BEARER_TOKEN.",
+  "stars": 15,
+  "category": "other",
+  "commit": "f4b302aadb0c99023b03e1f1b38ffed3697fbedf",
+  "contentHash": "288d5eac762d84352ec0d7d0dc00ecc85f034a634065ef241590b414b06a9866",
+  "repoCreatedAt": "2025-06-03T14:42:57Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "modules/research/skills/x-user-lookup/SKILL.md",
+        "line": 15,
+        "excerpt": "export X_BEARER_TOKEN=\"your-token\"  # https://developer.x.com/en/portal/dashboard",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "modules/research/skills/x-user-lookup/SKILL.md",
+        "line": 21,
+        "excerpt": "${CLAUDE_SKILL_DIR}/scripts/lookup.sh <username>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "modules/research/skills/x-user-lookup/SKILL.md",
+        "line": 27,
+        "excerpt": "${CLAUDE_SKILL_DIR}/scripts/lookup.sh kurtwuckertjr",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "modules/research/skills/x-user-lookup/scripts/lookup.sh",
+        "line": 14,
+        "excerpt": "if [ -z \"$X_BEARER_TOKEN\" ]; then",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "modules/research/skills/x-user-lookup/scripts/lookup.sh",
+        "line": 20,
+        "excerpt": "curl -s \"https://api.x.com/2/users/by/username/${USERNAME}?user.fields=id,name,username,description,public_metrics,verified,created_at,profile_image_url\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.x.com"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "modules/research/skills/x-user-lookup/scripts/lookup.sh",
+        "line": 21,
+        "excerpt": "-H \"Authorization: Bearer $X_BEARER_TOKEN\" | jq '.'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "modules/research/skills/x-user-lookup/scripts/setup.sh",
+        "line": 23,
+        "excerpt": "echo 'export X_BEARER_TOKEN=\"paste-token-here\"' >> ~/.zshrc",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 3,
+      "reads-secrets": 2,
+      "network": 1,
+      "writes-outside": 1
+    },
+    "score": 60,
+    "band": "review",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 5,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "f4b302aadb0c99023b03e1f1b38ffed3697fbedf",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 60,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

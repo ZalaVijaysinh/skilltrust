@@ -1,0 +1,302 @@
+{
+  "id": "elementalsouls__claude-bughunter__skills~apk-redteam-pipeline",
+  "owner": "elementalsouls",
+  "repo": "Claude-BugHunter",
+  "path": "skills/apk-redteam-pipeline",
+  "name": "apk-redteam-pipeline",
+  "description": "End-to-end Android APK red-team pipeline — automated APK acquisition (Play Store + apkpure + apkmirror fallback), jadx decompilation, secret/URL/JWT/Firebase grep, pinned-cert extraction, exported-component enumeration, Frida runtime instrumentation templates, intent-injection probes. Built from an authorized external red-team engagement where 7 APKs were pulled manually, 4 download attempts truncated, and a hardcoded JWT + 30 internal API endpoints were recovered from one of the apps. Use when target has a mobile app catalogue (Play Store developer page), when you find an APK URL hosted on a web server, or when post-recon mentions \"mobile app\" in scope.",
+  "stars": 5465,
+  "category": "security",
+  "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
+  "contentHash": "512b0a1f73c96f8206c7a2bf3ee7c46529e1e885b647c6f677d778b909c6f7a4",
+  "repoCreatedAt": "2026-05-05T11:22:32Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/apk-redteam-pipeline/SKILL.md",
+        "line": 28,
+        "excerpt": "# Find developer page from the target's brand name",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/apk-redteam-pipeline/SKILL.md",
+        "line": 29,
+        "excerpt": "curl -sk -A \"Mozilla/5.0\" \"https://play.google.com/store/apps/developer?id=<Brand+Name>\" -o /tmp/dev.html",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "play.google.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/apk-redteam-pipeline/SKILL.md",
+        "line": 65,
+        "excerpt": "# Follow 302 redirects to actual download",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/apk-redteam-pipeline/SKILL.md",
+        "line": 66,
+        "excerpt": "curl -sk -L --max-time 60 \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/apk-redteam-pipeline/SKILL.md",
+        "line": 75,
+        "excerpt": "curl -sk -A \"Mozilla/5.0\" \"https://www.apkmirror.com/?post_type=app_release&searchtype=apk&s=<brand>\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "www.apkmirror.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/apk-redteam-pipeline/SKILL.md",
+        "line": 75,
+        "excerpt": "curl -sk -A \"Mozilla/5.0\" \"https://www.apkmirror.com/?post_type=app_release&searchtype=apk&s=<brand>\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/apk-redteam-pipeline/SKILL.md",
+        "line": 81,
+        "excerpt": "curl -sk \"https://apkpure.com/search?q=<brand>\" | grep -oE 'data-dt-app=\"[^\"]+\"'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "apkpure.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/apk-redteam-pipeline/SKILL.md",
+        "line": 81,
+        "excerpt": "curl -sk \"https://apkpure.com/search?q=<brand>\" | grep -oE 'data-dt-app=\"[^\"]+\"'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/apk-redteam-pipeline/SKILL.md",
+        "line": 90,
+        "excerpt": "# Standard unzip (works for clean APK)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/apk-redteam-pipeline/SKILL.md",
+        "line": 108,
+        "excerpt": "# Install",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/apk-redteam-pipeline/SKILL.md",
+        "line": 109,
+        "excerpt": "brew install jadx          # macOS",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/apk-redteam-pipeline/SKILL.md",
+        "line": 111,
+        "excerpt": "wget https://github.com/skylot/jadx/releases/latest/download/jadx-1.5.x.zip",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "github.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/apk-redteam-pipeline/SKILL.md",
+        "line": 124,
+        "excerpt": "find extracted_<package> -name \"classes*.dex\" -exec strings -8 {} \\; > strings_<package>.txt",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/apk-redteam-pipeline/SKILL.md",
+        "line": 132,
+        "excerpt": "# URL grep — owned-domain references",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/apk-redteam-pipeline/SKILL.md",
+        "line": 184,
+        "excerpt": "# Find .cer / .der / .pem files in assets/",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/apk-redteam-pipeline/SKILL.md",
+        "line": 208,
+        "excerpt": "# Decode binary AndroidManifest if needed",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/apk-redteam-pipeline/SKILL.md",
+        "line": 228,
+        "excerpt": "# google-services.json — full Firebase config",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/apk-redteam-pipeline/SKILL.md",
+        "line": 237,
+        "excerpt": "curl -s \"https://firestore.googleapis.com/v1/projects/<project_id>/databases/(default)/documents/users\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "firestore.googleapis.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/apk-redteam-pipeline/SKILL.md",
+        "line": 240,
+        "excerpt": "curl -s \"https://<project_id>.firebaseio.com/.json\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/apk-redteam-pipeline/SKILL.md",
+        "line": 243,
+        "excerpt": "curl -s \"https://firebasestorage.googleapis.com/v0/b/<bucket>/o\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "firebasestorage.googleapis.com"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/apk-redteam-pipeline/SKILL.md",
+        "line": 254,
+        "excerpt": "pip install --break-system-packages frida-tools objection",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/apk-redteam-pipeline/SKILL.md",
+        "line": 254,
+        "excerpt": "pip install --break-system-packages frida-tools objection",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/apk-redteam-pipeline/SKILL.md",
+        "line": 282,
+        "excerpt": "frida -U -l frida-script-pinning-bypass.js -f <package_id> --no-pause",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/apk-redteam-pipeline/SKILL.md",
+        "line": 304,
+        "excerpt": "objection --gadget com.target.app explore",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/apk-redteam-pipeline/SKILL.md",
+        "line": 316,
+        "excerpt": "# Run mitmproxy on host",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/apk-redteam-pipeline/SKILL.md",
+        "line": 361,
+        "excerpt": "brew install jadx p7zip",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/apk-redteam-pipeline/SKILL.md",
+        "line": 361,
+        "excerpt": "brew install jadx p7zip",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/apk-redteam-pipeline/SKILL.md",
+        "line": 362,
+        "excerpt": "pip install --break-system-packages frida-tools objection",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/apk-redteam-pipeline/SKILL.md",
+        "line": 368,
+        "excerpt": "download-apk() {",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/apk-redteam-pipeline/SKILL.md",
+        "line": 370,
+        "excerpt": "curl -sk -L --max-time 60 \"https://d.apkpure.net/b/APK/$pkg?version=latest\" -o \"$pkg.apk\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "d.apkpure.net"
+        ]
+      }
+    ],
+    "findingTotals": {
+      "shell": 17,
+      "network": 9,
+      "downloads-code": 4
+    },
+    "score": 79,
+    "band": "review",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 79,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

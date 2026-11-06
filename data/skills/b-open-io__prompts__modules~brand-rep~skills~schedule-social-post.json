@@ -1,0 +1,198 @@
+{
+  "id": "b-open-io__prompts__modules~brand-rep~skills~schedule-social-post",
+  "owner": "b-open-io",
+  "repo": "prompts",
+  "path": "modules/brand-rep/skills/schedule-social-post",
+  "name": "schedule-social-post",
+  "description": "This skill should be used when the user asks to \"schedule a post\", \"queue this on X\", \"draft a thread for bopen\", \"put this on the social calendar\", \"preview the post on bopen.ai\", \"make a carousel for X\", or wants an agent to draft, attach images to, and plan an X post through the bopen.ai social scheduler from any agent harness. It covers the auth.md agent login, the social:draft API, thread and split-carousel rules, and the private review page where the user confirms. Not for Typefully, Buffer, or other schedulers, and not for LinkedIn or Threads, which bopen.ai does not publish to.",
+  "stars": 15,
+  "category": "marketing",
+  "commit": "f4b302aadb0c99023b03e1f1b38ffed3697fbedf",
+  "contentHash": "23e37ad5196b867ac330962fe3f7a561a3018c8da4875cc2dd7ddc1c3df19b9e",
+  "repoCreatedAt": "2025-06-03T14:42:57Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "modules/brand-rep/skills/schedule-social-post/SKILL.md",
+        "line": 87,
+        "excerpt": "SCRIPT=\"${CLAUDE_PLUGIN_ROOT}/skills/schedule-social-post/scripts/bopen-social.sh\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "modules/brand-rep/skills/schedule-social-post/SKILL.md",
+        "line": 101,
+        "excerpt": "\"$SCRIPT\" accounts                       # pick an account id, check publishHealth",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "modules/brand-rep/skills/schedule-social-post/SKILL.md",
+        "line": 130,
+        "excerpt": "\"$SCRIPT\" review-url <postId>     # https://bopen.ai/social/review/<token>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "modules/brand-rep/skills/schedule-social-post/scripts/bopen-social.sh",
+        "line": 8,
+        "excerpt": "TOKEN_FILE=\"${BOPEN_TOKEN_FILE:-$STATE_DIR/access-token}\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "modules/brand-rep/skills/schedule-social-post/scripts/bopen-social.sh",
+        "line": 72,
+        "excerpt": "if [ -n \"${BOPEN_ACCESS_TOKEN:-}\" ]; then printf '%s' \"$BOPEN_ACCESS_TOKEN\"; return; fi",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "modules/brand-rep/skills/schedule-social-post/scripts/bopen-social.sh",
+        "line": 73,
+        "excerpt": "if [ -s \"$TOKEN_FILE\" ]; then cat \"$TOKEN_FILE\"; return; fi",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "modules/brand-rep/skills/schedule-social-post/scripts/bopen-social.sh",
+        "line": 80,
+        "excerpt": "curl -sS -X \"$method\" \"$SITE$path\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "modules/brand-rep/skills/schedule-social-post/scripts/bopen-social.sh",
+        "line": 88,
+        "excerpt": "resource=\"$(curl -sS \"$SITE/.well-known/oauth-protected-resource\")\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "modules/brand-rep/skills/schedule-social-post/scripts/bopen-social.sh",
+        "line": 91,
+        "excerpt": "meta=\"$(curl -sS \"${issuer%/}/.well-known/oauth-authorization-server\")\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "modules/brand-rep/skills/schedule-social-post/scripts/bopen-social.sh",
+        "line": 95,
+        "excerpt": "[ -n \"$TOKEN_ENDPOINT\" ] && [ -n \"$IDENTITY_ENDPOINT\" ] || {",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "modules/brand-rep/skills/schedule-social-post/scripts/bopen-social.sh",
+        "line": 112,
+        "excerpt": "reg=\"$(curl -sS -X POST \"$IDENTITY_ENDPOINT\" -H \"Content-Type: application/json\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "modules/brand-rep/skills/schedule-social-post/scripts/bopen-social.sh",
+        "line": 130,
+        "excerpt": "res=\"$(curl -sS -X POST \"$TOKEN_ENDPOINT\" -H \"Content-Type: application/x-www-form-urlencoded\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "modules/brand-rep/skills/schedule-social-post/scripts/bopen-social.sh",
+        "line": 130,
+        "excerpt": "res=\"$(curl -sS -X POST \"$TOKEN_ENDPOINT\" -H \"Content-Type: application/x-www-form-urlencoded\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "modules/brand-rep/skills/schedule-social-post/scripts/bopen-social.sh",
+        "line": 139,
+        "excerpt": "save_secret \"$TOKEN_FILE\" \"$access\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "modules/brand-rep/skills/schedule-social-post/scripts/bopen-social.sh",
+        "line": 141,
+        "excerpt": "echo \"Logged in. Access token stored at $TOKEN_FILE (expires in $(printf '%s' \"$res\" | json_get expires_in)s).\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "modules/brand-rep/skills/schedule-social-post/scripts/bopen-social.sh",
+        "line": 148,
+        "excerpt": "fresh=\"$(curl -sS -X POST \"$CLAIM_ENDPOINT\" -H \"Content-Type: application/json\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "modules/brand-rep/skills/schedule-social-post/scripts/bopen-social.sh",
+        "line": 165,
+        "excerpt": "res=\"$(curl -sS -X POST \"$TOKEN_ENDPOINT\" -H \"Content-Type: application/x-www-form-urlencoded\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "modules/brand-rep/skills/schedule-social-post/scripts/bopen-social.sh",
+        "line": 165,
+        "excerpt": "res=\"$(curl -sS -X POST \"$TOKEN_ENDPOINT\" -H \"Content-Type: application/x-www-form-urlencoded\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "modules/brand-rep/skills/schedule-social-post/scripts/bopen-social.sh",
+        "line": 171,
+        "excerpt": "save_secret \"$TOKEN_FILE\" \"$access\"",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 3,
+      "reads-secrets": 9,
+      "network": 7
+    },
+    "score": 82,
+    "band": "low",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 5,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "f4b302aadb0c99023b03e1f1b38ffed3697fbedf",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 82,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

@@ -1,0 +1,314 @@
+{
+  "id": "datarobot-oss__datarobot-agent-skills__skills~datarobot-agent-assist~agent-assist-deploy-workload",
+  "owner": "datarobot-oss",
+  "repo": "datarobot-agent-skills",
+  "path": "skills/datarobot-agent-assist/agent-assist-deploy-workload",
+  "name": "datarobot-agent-assist-deploy-workload",
+  "description": "Use when an agent assist user wants to deploy their agent, put it on DataRobot, get a link to it, or share it with others, the agent can run as a single container, and the project has no `infra/Pulumi.yaml`. Not for agents built from the agent template, which deploy with Pulumi through datarobot-agent-assist. Users usually just say \"deploy\" or \"deploy to DataRobot\" and won't mention containers, workloads or the CLI.",
+  "stars": 32,
+  "category": "devops",
+  "commit": "356938cf5739b947a176fd3bc42a3ac7ef407877",
+  "contentHash": "57d52c57f71045b13b26985ea091406295e63a6139e1bee003ea6f78895abeaa",
+  "repoCreatedAt": "2025-12-14T04:08:33Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/datarobot-agent-assist/agent-assist-deploy-workload/SKILL.md",
+        "line": 22,
+        "excerpt": "1. `dr --version`. If missing, run `curl https://cli.datarobot.com/install | sh`.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/datarobot-agent-assist/agent-assist-deploy-workload/SKILL.md",
+        "line": 22,
+        "excerpt": "1. `dr --version`. If missing, run `curl https://cli.datarobot.com/install | sh`.",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "cli.datarobot.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/datarobot-agent-assist/agent-assist-deploy-workload/SKILL.md",
+        "line": 34,
+        "excerpt": "dr workload config --yes --skip-env --dir <target_dir> \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/datarobot-agent-assist/agent-assist-deploy-workload/SKILL.md",
+        "line": 63,
+        "excerpt": "dr workload up --yes --output-format json --dir <target_dir>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/datarobot-agent-assist/agent-assist-deploy-workload/SKILL.md",
+        "line": 89,
+        "excerpt": "eval \"$(dr auth export)\"   # never print the token",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/datarobot-agent-assist/agent-assist-deploy-workload/SKILL.md",
+        "line": 90,
+        "excerpt": "curl -sS -w \"\\n%{http_code}\\n\" \"<endpoint>healthz\"   # no token: expect 401",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/datarobot-agent-assist/agent-assist-deploy-workload/SKILL.md",
+        "line": 97,
+        "excerpt": "Then send one example from the spec's `examples` to the chat API with `-H \"Authorization: Bearer $DATAROBOT_API_TOKEN\"`. With no spec, send a simple request tha",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/datarobot-agent-assist/agent-assist-deploy-workload/references/deploy-fallback.md",
+        "line": 9,
+        "excerpt": "For REST, get credentials into the shell without printing them: `eval \"$(dr auth export)\"`. Base URL is `$DATAROBOT_ENDPOINT` (ends in `/api/v2`), header `Autho",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/datarobot-agent-assist/agent-assist-deploy-workload/references/deploy-path.md",
+        "line": 20,
+        "excerpt": "curl -sS -H \"Authorization: Bearer $DATAROBOT_API_TOKEN\" \"$DATAROBOT_ENDPOINT/workloads/?limit=1\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/datarobot-agent-assist/agent-assist-deploy-workload/references/deploy-path.md",
+        "line": 20,
+        "excerpt": "curl -sS -H \"Authorization: Bearer $DATAROBOT_API_TOKEN\" \"$DATAROBOT_ENDPOINT/workloads/?limit=1\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/datarobot-agent-assist/agent-assist-deploy-workload/references/tool-secrets.md",
+        "line": 14,
+        "excerpt": "r = httpx.post(f\"{os.environ['DATAROBOT_ENDPOINT']}/credentials/\",",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/datarobot-agent-assist/agent-assist-deploy-workload/references/tool-secrets.md",
+        "line": 15,
+        "excerpt": "headers={\"Authorization\": f\"Bearer {os.environ['DATAROBOT_API_TOKEN']}\"},",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/datarobot-agent-assist/agent-assist-build/SKILL.md",
+        "line": 155,
+        "excerpt": "python <skill_scripts_dir>/rehearsal.py --init --spec <target_dir>/agent_spec.yaml --target-dir <target_dir>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/datarobot-agent-assist/agent-assist-build/SKILL.md",
+        "line": 171,
+        "excerpt": "python <skill_scripts_dir>/rehearsal.py --report --session {session_dir}",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/datarobot-agent-assist/agent-assist-build/SKILL.md",
+        "line": 289,
+        "excerpt": "python <skill_scripts_dir>/list_llm_models.py \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/datarobot-agent-assist/agent-assist-build/SKILL.md",
+        "line": 302,
+        "excerpt": "python <skill_scripts_dir>/clone_template.py",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/datarobot-agent-assist/agent-assist-build/SKILL.md",
+        "line": 307,
+        "excerpt": "python <skill_scripts_dir>/clone_template.py \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/datarobot-agent-assist/agent-assist-build/SKILL.md",
+        "line": 316,
+        "excerpt": "python <skill_scripts_dir>/setup_template.py \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/datarobot-agent-assist/agent-assist-build/SKILL.md",
+        "line": 329,
+        "excerpt": "python <skill_scripts_dir>/select_framework.py \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/datarobot-agent-assist/agent-assist-build/references/dr-cli-setup.md",
+        "line": 21,
+        "excerpt": "curl https://cli.datarobot.com/install | sh",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/datarobot-agent-assist/agent-assist-build/references/dr-cli-setup.md",
+        "line": 21,
+        "excerpt": "curl https://cli.datarobot.com/install | sh",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "cli.datarobot.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/datarobot-agent-assist/agent-assist-simulate/SKILL.md",
+        "line": 26,
+        "excerpt": "<python> -c \"import sys; assert sys.version_info >= (3, 11)\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/datarobot-agent-assist/agent-assist-simulate/SKILL.md",
+        "line": 27,
+        "excerpt": "<python> -c \"import pydantic, yaml\" 2>/dev/null || <python> -m pip install pydantic pyyaml",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/datarobot-agent-assist/agent-assist-simulate/SKILL.md",
+        "line": 37,
+        "excerpt": "dr opencode upgrade && export PATH=\"$PATH:$HOME/.opencode/bin\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/datarobot-agent-assist/agent-assist-simulate/SKILL.md",
+        "line": 43,
+        "excerpt": "dr auth check",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/datarobot-agent-assist/agent-assist-simulate/SKILL.md",
+        "line": 106,
+        "excerpt": "dr opencode serve --port 4096 2>/dev/null &",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/datarobot-agent-assist/agent-assist-simulate/SKILL.md",
+        "line": 107,
+        "excerpt": "until curl -sf http://127.0.0.1:4096/global/health >/dev/null 2>&1; do sleep 0.25; done",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/datarobot-agent-assist/agent-assist-simulate/SKILL.md",
+        "line": 115,
+        "excerpt": "<python> <skill_scripts_dir>/native_scenarios.py configure agent_spec.yaml \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/datarobot-agent-assist/agent-assist-simulate/SKILL.md",
+        "line": 128,
+        "excerpt": "<python> <skill_scripts_dir>/native_scenarios.py prepare agent_spec.yaml \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/datarobot-agent-assist/agent-assist-simulate/SKILL.md",
+        "line": 138,
+        "excerpt": "<python> <skill_scripts_dir>/gateway_worker.py \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/datarobot-agent-assist/agent-assist-simulate/SKILL.md",
+        "line": 150,
+        "excerpt": "<python> <skill_scripts_dir>/gateway_worker.py \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/datarobot-agent-assist/agent-assist-simulate/SKILL.md",
+        "line": 162,
+        "excerpt": "<python> <skill_scripts_dir>/gateway_worker.py \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/datarobot-agent-assist/agent-assist-simulate/SKILL.md",
+        "line": 174,
+        "excerpt": "<python> <skill_scripts_dir>/native_scenarios.py finalize",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "downloads-code": 3,
+      "network": 6,
+      "shell": 28,
+      "reads-secrets": 4
+    },
+    "score": 69,
+    "band": "review",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 21,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "356938cf5739b947a176fd3bc42a3ac7ef407877",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 69,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

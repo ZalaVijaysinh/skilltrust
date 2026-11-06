@@ -1,0 +1,192 @@
+{
+  "id": "iradoweck__antigravity-awesome-skills__plugins~agentic-awesome-skills-claude~skills~hunt-csrf",
+  "owner": "iradoweck",
+  "repo": "antigravity-awesome-skills",
+  "path": "plugins/agentic-awesome-skills-claude/skills/hunt-csrf",
+  "name": "hunt-csrf",
+  "description": "Hunting skill for csrf vulnerabilities.",
+  "stars": 30,
+  "category": "other",
+  "commit": "2984de11956e413008c6f98121cd141c499e47a3",
+  "contentHash": "dc9ee5da72584af74bfb7b20e8cde2a40ac1f2c4bed395f50348a25ff9d36f3f",
+  "repoCreatedAt": "2026-05-25T19:06:03Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "plugins/agentic-awesome-skills-claude/skills/hunt-csrf/SKILL.md",
+        "line": 127,
+        "excerpt": "fetch('/api/heartbeat', {method: 'POST', body: JSON.stringify(data)})",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agentic-awesome-skills-claude/skills/hunt-csrf/SKILL.md",
+        "line": 201,
+        "excerpt": "# Capture a valid request, then replay without token",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agentic-awesome-skills-claude/skills/hunt-csrf/SKILL.md",
+        "line": 202,
+        "excerpt": "curl -s -X POST https://target.com/settings/email \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "target.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agentic-awesome-skills-claude/skills/hunt-csrf/SKILL.md",
+        "line": 210,
+        "excerpt": "# Get token from session A",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agentic-awesome-skills-claude/skills/hunt-csrf/SKILL.md",
+        "line": 211,
+        "excerpt": "TOKEN_A=$(curl -s https://target.com/settings -H \"Cookie: session=SESSION_A\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "target.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agentic-awesome-skills-claude/skills/hunt-csrf/SKILL.md",
+        "line": 215,
+        "excerpt": "curl -s -X POST https://target.com/settings/update \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "target.com"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/agentic-awesome-skills-claude/skills/hunt-csrf/SKILL.md",
+        "line": 217,
+        "excerpt": "-d \"authenticity_token=$TOKEN_A&email=test@test.com\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agentic-awesome-skills-claude/skills/hunt-csrf/SKILL.md",
+        "line": 223,
+        "excerpt": "# Find CSRF token fields in HTML responses",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agentic-awesome-skills-claude/skills/hunt-csrf/SKILL.md",
+        "line": 230,
+        "excerpt": "curl -sI https://target.com/login | grep -i \"set-cookie\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "target.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agentic-awesome-skills-claude/skills/hunt-csrf/SKILL.md",
+        "line": 238,
+        "excerpt": "curl -s https://monitoring.target.com/api/health | jq '.version'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "monitoring.target.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agentic-awesome-skills-claude/skills/hunt-csrf/SKILL.md",
+        "line": 238,
+        "excerpt": "curl -s https://monitoring.target.com/api/health | jq '.version'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agentic-awesome-skills-claude/skills/hunt-csrf/SKILL.md",
+        "line": 326,
+        "excerpt": "- Payload: hosted on `marketing.victim.com`, target `argocd.internal.victim.com` → `fetch('https://argocd.internal.victim.com/api/v1/applications', {method:'POS",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "argocd.internal.victim.com",
+          "attacker"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agentic-awesome-skills-claude/skills/hunt-csrf/SKILL.md",
+        "line": 366,
+        "excerpt": "**Payload shape:** from a logged-in low-priv session, `fetch('/bff/admin/users/delete?id=42', {credentials:'include', headers:{'X-CSRF':'1'}})` — succeeds if th",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agentic-awesome-skills-claude/skills/hunt-csrf/SKILL.md",
+        "line": 372,
+        "excerpt": "**Payload shape:** cross-origin page opens `new WebSocket(\"wss://bff.example.com/hubs/admin\")` — browser sends session cookie, no `X-CSRF` required, attacker in",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agentic-awesome-skills-claude/skills/hunt-csrf/SKILL.md",
+        "line": 384,
+        "excerpt": "1. `curl https://target/bff/user -H 'X-CSRF: 1' -b '<session>'` — dumps the full claim set including internal IDs, role names, tenant IDs (info disclosure on it",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "target"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agentic-awesome-skills-claude/skills/hunt-csrf/SKILL.md",
+        "line": 414,
+        "excerpt": "# Read-only first step; confirm scope before anything active.",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "network": 10,
+      "shell": 5,
+      "reads-secrets": 1
+    },
+    "score": 80,
+    "band": "low",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "2984de11956e413008c6f98121cd141c499e47a3",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 80,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

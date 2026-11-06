@@ -1,0 +1,275 @@
+{
+  "id": "elementalsouls__claude-bughunter__skills~okta-attack",
+  "owner": "elementalsouls",
+  "repo": "Claude-BugHunter",
+  "path": "skills/okta-attack",
+  "name": "okta-attack",
+  "description": "Okta-as-IdP red-team attack chain — tenant discovery, user enumeration (multiple vectors), authentication flow analysis (factors enumeration, push-notification fatigue, SMS bypass), password spray with lockout discipline, Okta-specific phishing primitives (kits, FastPass abuse, OIDC redirect_uri tampering), MFA enumeration, post-compromise admin API surface. Many enterprise orgs use Okta instead of (or alongside) Entra ID. Distinct endpoints, distinct rate-limiting, distinct factor flows. Use when recon shows `<tenant>.okta.com`, `<tenant>.okta-emea.com`, `<tenant>.oktapreview.com`, or autodiscover-style records pointing at Okta IdP.",
+  "stars": 5465,
+  "category": "security",
+  "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
+  "contentHash": "f8b1667c7e00df99d42defe431509c2c34ce1a9280be07c303813ec39c4171b8",
+  "repoCreatedAt": "2026-05-05T11:22:32Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/okta-attack/SKILL.md",
+        "line": 29,
+        "excerpt": "# Tenant subdomains often match the brand",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/okta-attack/SKILL.md",
+        "line": 34,
+        "excerpt": "code=$(curl -sk -o /dev/null -w \"%{http_code}\" --max-time 8 \"https://$host/\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$host"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/okta-attack/SKILL.md",
+        "line": 42,
+        "excerpt": "# Look for CNAME records pointing to Okta",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/okta-attack/SKILL.md",
+        "line": 54,
+        "excerpt": "# Visit corporate-app login, follow redirects",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/okta-attack/SKILL.md",
+        "line": 55,
+        "excerpt": "curl -skL -o /dev/null -w \"%{redirect_url}\\n\" \"https://app.target.com/login\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "app.target.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/okta-attack/SKILL.md",
+        "line": 67,
+        "excerpt": "# Probe single user — DON'T spray, this counts as auth attempt!",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/okta-attack/SKILL.md",
+        "line": 68,
+        "excerpt": "curl -sk -X POST \"https://<tenant>.okta.com/api/v1/authn\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/okta-attack/SKILL.md",
+        "line": 86,
+        "excerpt": "curl -sk \"https://<tenant>.okta.com/api/v1/sessions/me\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/okta-attack/SKILL.md",
+        "line": 86,
+        "excerpt": "curl -sk \"https://<tenant>.okta.com/api/v1/sessions/me\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/okta-attack/SKILL.md",
+        "line": 102,
+        "excerpt": "# Tampering with login_hint param can reveal user existence on some configs",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/okta-attack/SKILL.md",
+        "line": 103,
+        "excerpt": "curl -skI \"https://<tenant>.okta.com/oauth2/v1/authorize?client_id=<id>&response_type=code&scope=openid&redirect_uri=https://example.com&login_hint=<email>\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "example.com&login_hint="
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/okta-attack/SKILL.md",
+        "line": 112,
+        "excerpt": "# Initial auth — observe what factors come back",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/okta-attack/SKILL.md",
+        "line": 113,
+        "excerpt": "curl -sk -X POST \"https://<tenant>.okta.com/api/v1/authn\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/okta-attack/SKILL.md",
+        "line": 160,
+        "excerpt": "# Same /api/v1/authn — see authentication flow above",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/okta-attack/SKILL.md",
+        "line": 184,
+        "excerpt": "# Initiate factor verification",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/okta-attack/SKILL.md",
+        "line": 185,
+        "excerpt": "curl -sk -X POST \"https://<tenant>.okta.com/api/v1/authn/factors/<factor_id>/verify\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/okta-attack/SKILL.md",
+        "line": 199,
+        "excerpt": "# Get the app's authorize endpoint",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/okta-attack/SKILL.md",
+        "line": 200,
+        "excerpt": "curl -sk \"https://<tenant>.okta.com/.well-known/openid-configuration\" | python3 -m json.tool",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/okta-attack/SKILL.md",
+        "line": 211,
+        "excerpt": "code=$(curl -sk -o /dev/null -w \"%{http_code}\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/okta-attack/SKILL.md",
+        "line": 225,
+        "excerpt": "# Iterate known app IDs (find via the org's app list — usually in JS bundles or initial login redirects)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/okta-attack/SKILL.md",
+        "line": 226,
+        "excerpt": "curl -sk \"https://<tenant>.okta.com/app/<app_id>/sso/saml/metadata\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/okta-attack/SKILL.md",
+        "line": 241,
+        "excerpt": "# Get session token",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/okta-attack/SKILL.md",
+        "line": 242,
+        "excerpt": "curl -sk -X POST \"https://<tenant>.okta.com/api/v1/authn\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/okta-attack/SKILL.md",
+        "line": 248,
+        "excerpt": "curl -sk -H \"Authorization: SSWS <token>\" \"https://<tenant>.okta.com/api/v1/users\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/okta-attack/SKILL.md",
+        "line": 249,
+        "excerpt": "curl -sk -H \"Authorization: SSWS <token>\" \"https://<tenant>.okta.com/api/v1/groups\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/okta-attack/SKILL.md",
+        "line": 250,
+        "excerpt": "curl -sk -H \"Authorization: SSWS <token>\" \"https://<tenant>.okta.com/api/v1/apps\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/okta-attack/SKILL.md",
+        "line": 251,
+        "excerpt": "curl -sk -H \"Authorization: SSWS <token>\" \"https://<tenant>.okta.com/api/v1/logs\"      # audit log",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 12,
+      "network": 15
+    },
+    "score": 90,
+    "band": "low",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 90,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

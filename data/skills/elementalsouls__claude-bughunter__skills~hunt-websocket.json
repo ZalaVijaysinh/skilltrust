@@ -1,0 +1,179 @@
+{
+  "id": "elementalsouls__claude-bughunter__skills~hunt-websocket",
+  "owner": "elementalsouls",
+  "repo": "Claude-BugHunter",
+  "path": "skills/hunt-websocket",
+  "name": "hunt-websocket",
+  "description": "Hunt WebSocket vulnerabilities — Cross-Site WebSocket Hijacking (CSWSH), missing/weak Origin validation on the WS handshake, no per-message authentication, message tampering, socket.io namespace/room authorization bypass, and handshake-layer Upgrade smuggling. Use when target has WebSocket endpoints (ws:// or wss://), socket.io / SignalR / Phoenix Channels, real-time features, chat, live dashboards, notifications, or trading platforms.",
+  "stars": 5465,
+  "category": "security",
+  "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
+  "contentHash": "183989b3d3205de109a2dc38d5791bf733cd2c7e19dab63683866dd259458a90",
+  "repoCreatedAt": "2026-05-05T11:22:32Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-websocket/SKILL.md",
+        "line": 43,
+        "excerpt": "# Grep JS for WS connections (handshake URLs, socket.io clients)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-websocket/SKILL.md",
+        "line": 44,
+        "excerpt": "grep -rE \"new WebSocket|io\\(|io\\.connect|socket\\.io|new SockJS|signalr|Phoenix\\.Socket|wss?://\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-websocket/SKILL.md",
+        "line": 53,
+        "excerpt": "curl -sI -o /dev/null -w \"%{http_code}\\n\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-websocket/SKILL.md",
+        "line": 60,
+        "excerpt": "curl -s \"https://$TARGET/socket.io/?EIO=4&transport=polling\" | head -c 300; echo",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-websocket/SKILL.md",
+        "line": 75,
+        "excerpt": "# Step 1 — Confirm handshake auth model in DevTools → Network → WS → Headers.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-websocket/SKILL.md",
+        "line": 98,
+        "excerpt": "var ws = new WebSocket(\"wss://TARGET/ws\");                     // attacker cannot forge Origin",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-websocket/SKILL.md",
+        "line": 126,
+        "excerpt": "# No cookie at all — does the server process app frames?",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-websocket/SKILL.md",
+        "line": 150,
+        "excerpt": "# Intercept + edit in Burp (Proxy → WebSockets history → right-click → Send to",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-websocket/SKILL.md",
+        "line": 171,
+        "excerpt": "# 1) Open the raw socket.io WebSocket (Engine.IO v4)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-websocket/SKILL.md",
+        "line": 204,
+        "excerpt": "# Detection is HTTP-layer, not frame-layer. Use Burp Repeater / send_http1_request",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-websocket/SKILL.md",
+        "line": 225,
+        "excerpt": "# Version + initial sid (handshake JSON after the leading Engine.IO digit)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-websocket/SKILL.md",
+        "line": 226,
+        "excerpt": "curl -s \"https://$TARGET/socket.io/?EIO=4&transport=polling\" | head -c 300; echo",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-websocket/SKILL.md",
+        "line": 238,
+        "excerpt": "curl -s \"https://$TARGET/socket.io/?EIO=4&transport=polling&sid=FAKE_OR_VICTIM_SID\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/hunt-websocket/SKILL.md",
+        "line": 247,
+        "excerpt": "npm install -g wscat                 # CLI WS client (raw + socket.io)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-websocket/SKILL.md",
+        "line": 247,
+        "excerpt": "npm install -g wscat                 # CLI WS client (raw + socket.io)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/hunt-websocket/SKILL.md",
+        "line": 248,
+        "excerpt": "brew install websocat                # alt client; supports text/binary + autoreconnect",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 8,
+      "network": 6,
+      "downloads-code": 2
+    },
+    "score": 77,
+    "band": "review",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 77,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

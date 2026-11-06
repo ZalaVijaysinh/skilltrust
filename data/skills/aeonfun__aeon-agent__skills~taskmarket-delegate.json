@@ -1,0 +1,157 @@
+{
+  "id": "aeonfun__aeon-agent__skills~taskmarket-delegate",
+  "owner": "aeonfun",
+  "repo": "aeon-agent",
+  "path": "skills/taskmarket-delegate",
+  "name": "taskmarket-delegate",
+  "description": "Delegate work to the TaskMarket agent-worker market - browse open tasks, create tasks with explicit authorization, and track/submit work, so an agent can outsource instead of burning inference on unreliable or low-confidence work.",
+  "stars": 12,
+  "category": "coding",
+  "commit": "dc82e8713b797fb62d4635c264f6ea8c4b31391d",
+  "contentHash": "1bdc89295016e355f2d345db801672e2d6d19102f373da24913eeb92cfe2b71c",
+  "repoCreatedAt": "2026-03-25T19:51:51Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/taskmarket-delegate/SKILL.md",
+        "line": 32,
+        "excerpt": "./notify \"taskmarket-delegate aborted: var empty — pass an action e.g. \\\"browse:mcp\\\"\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/taskmarket-delegate/SKILL.md",
+        "line": 42,
+        "excerpt": "- Auth for create/submit: `Authorization: Bearer $TASKMARKET_API_KEY` (env var; secret name `TASKMARKET_API_KEY` — read name via `gh api repos/:owner/:repo/acti",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/taskmarket-delegate/SKILL.md",
+        "line": 58,
+        "excerpt": "curl -s \"https://api.taskmarket.dev/api/tasks?limit=100\" -o /tmp/tm_tasks.json",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.taskmarket.dev"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/taskmarket-delegate/SKILL.md",
+        "line": 58,
+        "excerpt": "curl -s \"https://api.taskmarket.dev/api/tasks?limit=100\" -o /tmp/tm_tasks.json",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/taskmarket-delegate/SKILL.md",
+        "line": 63,
+        "excerpt": "jq -r '.tasks[] | select(.status==\"open\") | \"\\(.id[0:8]) reward=\\(.reward) subs=\\(.submissionCount) | \\(.description[0:80])\"' /tmp/tm_tasks.json | head -20",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/taskmarket-delegate/SKILL.md",
+        "line": 71,
+        "excerpt": "node skills/taskmarket-delegate/scripts/taskmarket.js create \"$TITLE\" \"$DESCRIPTION\" \"$REWARD\" \"$TAGS\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/taskmarket-delegate/SKILL.md",
+        "line": 74,
+        "excerpt": "`taskmarket.js` reads `TASKMARKET_API_KEY` from the run environment itself - never put the key on the command line (Aeon's Bash layer refuses a credential-shape",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/taskmarket-delegate/SKILL.md",
+        "line": 81,
+        "excerpt": "node skills/taskmarket-delegate/scripts/taskmarket.js submit \"$TASK_ID\" \"$MESSAGE\" \"$GITHUB_URL\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/taskmarket-delegate/scripts/taskmarket.js",
+        "line": 24,
+        "excerpt": "const res = await fetch(`${BASE}/api/tasks?limit=100`);",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/taskmarket-delegate/scripts/taskmarket.js",
+        "line": 42,
+        "excerpt": "if (!process.env.TASKMARKET_API_KEY) exit(3, 'TASKMARKET_API_KEY not set; write actions require it');",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/taskmarket-delegate/scripts/taskmarket.js",
+        "line": 48,
+        "excerpt": "const res = await fetch(`${BASE}/api/tasks`, {",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/taskmarket-delegate/scripts/taskmarket.js",
+        "line": 50,
+        "excerpt": "headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + process.env.TASKMARKET_API_KEY },",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/taskmarket-delegate/scripts/taskmarket.js",
+        "line": 70,
+        "excerpt": "const res = await fetch(`${BASE}/api/tasks/${taskId}/submit`, {",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/taskmarket-delegate/scripts/taskmarket.js",
+        "line": 72,
+        "excerpt": "headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + process.env.TASKMARKET_API_KEY },",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 5,
+      "reads-secrets": 5,
+      "network": 4
+    },
+    "score": 82,
+    "band": "low",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "dc82e8713b797fb62d4635c264f6ea8c4b31391d",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 82,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

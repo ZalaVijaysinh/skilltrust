@@ -1,0 +1,118 @@
+{
+  "id": "aeonfun__aeon__skills~mention-radar",
+  "owner": "aeonfun",
+  "repo": "aeon",
+  "path": "skills/mention-radar",
+  "name": "mention-radar",
+  "description": "Monitor external web and social mentions of the operator's active projects - surface what people are discovering, where they're confused, and where to engage",
+  "stars": 789,
+  "category": "coding",
+  "commit": "504a21d53c0c9b485f6e90c43db83000825e1d3c",
+  "contentHash": "020da38a910ebff484bd7d309ffa430881510a0cf7f113b08bf864348f594688",
+  "repoCreatedAt": "2026-03-04T19:44:49Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/mention-radar/SKILL.md",
+        "line": 40,
+        "excerpt": "date -u -d '7 days ago' +%Y-%m-%d",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/mention-radar/SKILL.md",
+        "line": 43,
+        "excerpt": "date -u +%Y-%m-%d",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/mention-radar/SKILL.md",
+        "line": 49,
+        "excerpt": "./secretcurl -s -o /tmp/tw-mr.json -w 'twitterapi http=%{http_code} bytes=%{size_download}\\n' --max-time 60 -G \"https://api.twitterapi.io/twitter/tweet/advanced",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/mention-radar/SKILL.md",
+        "line": 55,
+        "excerpt": "jq -r '.tweets[] | [.id, .author.userName, .text, .url, .createdAt, .likeCount, .retweetCount, .replyCount] | @tsv' /tmp/tw-mr.json",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/mention-radar/SKILL.md",
+        "line": 61,
+        "excerpt": "jq -n '{model:\"grok-4.7\", input:[{role:\"user\",content:\"Search X for posts by OTHER people mentioning the project \\\"<NAME>\\\" (also its site <DOMAIN> and repo <RE",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/mention-radar/SKILL.md",
+        "line": 62,
+        "excerpt": "| ./secretcurl -s -o /tmp/xai-mr.json -w '%{http_code}' --max-time 150 -X POST \"https://api.x.ai/v1/responses\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/mention-radar/SKILL.md",
+        "line": 78,
+        "excerpt": "gh api repos/OWNER/REPO --jq '{stars: .stargazers_count, forks: .forks_count, watchers: .watchers_count}'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/mention-radar/SKILL.md",
+        "line": 143,
+        "excerpt": "3. **Path B - xAI Grok `x_search` (fallback).** Only when Path A fails (non-2xx / empty / timeout) or `TWITTER_API_KEY` is unset. Direct `curl` to `https://api.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/mention-radar/SKILL.md",
+        "line": 145,
+        "excerpt": "jq -n '{...}' | ./secretcurl -s -o /tmp/xai-mr.json -w '%{http_code}' --max-time 150 -X POST \"https://api.x.ai/v1/responses\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/mention-radar/SKILL.md",
+        "line": 145,
+        "excerpt": "jq -n '{...}' | ./secretcurl -s -o /tmp/xai-mr.json -w '%{http_code}' --max-time 150 -X POST \"https://api.x.ai/v1/responses\" \\",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 7,
+      "paid-api": 3
+    },
+    "score": 87,
+    "band": "low",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "504a21d53c0c9b485f6e90c43db83000825e1d3c",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 87,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

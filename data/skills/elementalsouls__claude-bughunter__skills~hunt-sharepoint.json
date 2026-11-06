@@ -1,0 +1,241 @@
+{
+  "id": "elementalsouls__claude-bughunter__skills~hunt-sharepoint",
+  "owner": "elementalsouls",
+  "repo": "Claude-BugHunter",
+  "path": "skills/hunt-sharepoint",
+  "name": "hunt-sharepoint",
+  "description": "Hunt Microsoft SharePoint Server (2013/2016/2019/Subscription Edition) on-prem farms — anonymous endpoint enumeration, version disclosure, legacy SOAP login bypass (Authentication.asmx), ToolShell precondition chain (CVE-2025-53770), SafeControl reflection enumeration via Picker.aspx, NTLM Type-2 AD topology disclosure, custom-branding module discovery, EoL farm permanent-CVE-window exploitation, FormDigest anonymous issuance, file-extension blocklist NOT-an-oracle pattern, custom-zone Forms auth bridging on-prem AD. Use when target has SharePoint headers (SPRequestGuid, X-MS-InvokeApp, X-SharePointHealthScore, MicrosoftSharePointTeamServices) or paths (/_layouts/15/, /_vti_bin/, /_api/, /_catalogs/).",
+  "stars": 5465,
+  "category": "security",
+  "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
+  "contentHash": "d1868a87ffb7baa871b149187640aa0d7c7e1aa8dea9c5c75a52c259b6ee4f73",
+  "repoCreatedAt": "2026-05-05T11:22:32Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-sharepoint/SKILL.md",
+        "line": 104,
+        "excerpt": "# Method 1: _vti_inf.html (always anonymous, always present)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-sharepoint/SKILL.md",
+        "line": 105,
+        "excerpt": "curl -sk \"https://target.example/_vti_inf.html\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "target.example"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-sharepoint/SKILL.md",
+        "line": 109,
+        "excerpt": "curl -sk -X POST \"https://target.example/_api/contextinfo\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "target.example"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-sharepoint/SKILL.md",
+        "line": 115,
+        "excerpt": "curl -sk \"https://target.example/_layouts/15/start.aspx\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "target.example"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-sharepoint/SKILL.md",
+        "line": 156,
+        "excerpt": "# First: confirm Mode = Forms (else this attack vector is N/A)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-sharepoint/SKILL.md",
+        "line": 157,
+        "excerpt": "curl -sk -X POST \"https://target.example/_vti_bin/Authentication.asmx\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "target.example"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-sharepoint/SKILL.md",
+        "line": 174,
+        "excerpt": "# Sub-step a: anonymous GET on ToolPane.aspx",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-sharepoint/SKILL.md",
+        "line": 175,
+        "excerpt": "curl -sk \"https://target.example/_layouts/15/ToolPane.aspx?DisplayMode=Edit\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "target.example"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-sharepoint/SKILL.md",
+        "line": 180,
+        "excerpt": "curl -sk -X POST \"https://target.example/_api/contextinfo\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "target.example"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-sharepoint/SKILL.md",
+        "line": 186,
+        "excerpt": "curl -sk -X POST \"https://target.example/_layouts/15/ToolPane.aspx?DisplayMode=Edit\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "target.example"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-sharepoint/SKILL.md",
+        "line": 199,
+        "excerpt": "# Use Burp send_http1_request with keep-alive, or Python raw socket",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-sharepoint/SKILL.md",
+        "line": 214,
+        "excerpt": "for cls in \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-sharepoint/SKILL.md",
+        "line": 219,
+        "excerpt": "curl -sk \"https://target.example/_layouts/15/Picker.aspx?PickerDialogType=$(python3 -c 'import urllib.parse,sys;print(urllib.parse.quote(sys.argv[1]))' \"$cls\")&",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "target.example"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-sharepoint/SKILL.md",
+        "line": 237,
+        "excerpt": "for sub in pages Pages js Js JS css scripts handlers controls images config data services api; do",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-sharepoint/SKILL.md",
+        "line": 238,
+        "excerpt": "curl -sk -o /dev/null -w \"%{http_code} %{size_download}\\n\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-sharepoint/SKILL.md",
+        "line": 285,
+        "excerpt": "# Step 1: anon GET ToolPane.aspx",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-sharepoint/SKILL.md",
+        "line": 286,
+        "excerpt": "TP=$(curl -sk \"https://target.example/_layouts/15/ToolPane.aspx?DisplayMode=Edit\")",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "target.example"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-sharepoint/SKILL.md",
+        "line": 291,
+        "excerpt": "DIGEST=$(curl -sk -X POST \"https://target.example/_api/contextinfo\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "target.example"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-sharepoint/SKILL.md",
+        "line": 297,
+        "excerpt": "curl -sk -X POST -H \"X-RequestDigest: $DIGEST\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-sharepoint/SKILL.md",
+        "line": 323,
+        "excerpt": "curl -sk \"https://target.example/_layouts/15/Picker.aspx?PickerDialogType=Microsoft.SharePoint.WebPartPages.DataFormWebPart&typeName=System.String\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "target.example"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-sharepoint/SKILL.md",
+        "line": 323,
+        "excerpt": "curl -sk \"https://target.example/_layouts/15/Picker.aspx?PickerDialogType=Microsoft.SharePoint.WebPartPages.DataFormWebPart&typeName=System.String\" \\",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 8,
+      "network": 13
+    },
+    "score": 94,
+    "band": "low",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 94,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

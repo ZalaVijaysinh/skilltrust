@@ -1,0 +1,146 @@
+{
+  "id": "daishiman__harness-dev__.agents~skills~llm-cost-simulator",
+  "owner": "daishiman",
+  "repo": "harness-dev",
+  "path": ".agents/skills/llm-cost-simulator",
+  "name": "llm-cost-simulator",
+  "description": "任意のアプリのコードベースを解析して LLM API 呼び出し箇所を洗い出し、「1 回の処理(フロー)で どれだけのトークン/費用がかかるか」「N 件・DAU 規模でいくらか」を根拠付きで試算するスキル。 プロンプト/ツール定義/RAG/エージェントループ/キャッシュ/思考トークンまで合算し、無料 or 確認付き 有料の実測でグラウンディングする。成果物は Markdown レポート + 対話 HTML 計算機 + コスト JSON。 「このアプリの API コストはいくら」「モデル別/件数別の費用」「LLM の ROI 試算」「トークン数を数えて」 「1リクエストいくら」等で起動。既定スタックの必須スキルではない optional 群であり、AI 機能を含む要件で明示された場合、 または app-orchestrator が v1 前・AI 機能変更時の試算として指示した場合のみロードする。",
+  "stars": 10,
+  "category": "coding",
+  "commit": "e63e798003f124bad3096554beaaf9f8046c4c21",
+  "contentHash": "dfea89882a0aef43bce4182503d2cfc242d5121f80bc3b3fcf3e29a57a9c72d7",
+  "repoCreatedAt": "2026-01-15T05:28:17Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/llm-cost-simulator/SKILL.md",
+        "line": 47,
+        "excerpt": "# プロバイダ SDK / エンドポイント / モデル名 / 主要パラメータ",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/llm-cost-simulator/SKILL.md",
+        "line": 98,
+        "excerpt": "# T1: 無料の正確入力カウントのみ",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/llm-cost-simulator/SKILL.md",
+        "line": 115,
+        "excerpt": "python3 scripts/simulate.py scenario.json --out-dir <app>/cost_out/ \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/llm-cost-simulator/data/pricing.json",
+        "line": 13,
+        "excerpt": "\"how\": \"Use WebFetch on the provider pricing URL, extract input/output/cached prices per 1M tokens, then edit this file. Re-run the simulation afterwards.\",",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "paid-api",
+        "file": ".agents/skills/llm-cost-simulator/data/pricing.json",
+        "line": 17,
+        "excerpt": "\"openrouter_aggregator\": \"https://openrouter.ai/models  (cross-provider sanity check)\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": ".agents/skills/llm-cost-simulator/scripts/measure.py",
+        "line": 59,
+        "excerpt": "import anthropic  # type: ignore",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/llm-cost-simulator/scripts/measure.py",
+        "line": 59,
+        "excerpt": "import anthropic  # type: ignore",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.anthropic.com"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/llm-cost-simulator/scripts/measure.py",
+        "line": 61,
+        "excerpt": "_eprint(\"[T1] anthropic SDK not installed (pip install anthropic). Skipping exact count.\")",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": ".agents/skills/llm-cost-simulator/scripts/measure.py",
+        "line": 98,
+        "excerpt": "import anthropic  # type: ignore",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/llm-cost-simulator/scripts/measure.py",
+        "line": 98,
+        "excerpt": "import anthropic  # type: ignore",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.anthropic.com"
+        ]
+      },
+      {
+        "ruleId": "paid-api",
+        "file": ".agents/skills/llm-cost-simulator/scripts/measure.py",
+        "line": 127,
+        "excerpt": "from openai import OpenAI  # type: ignore",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/llm-cost-simulator/scripts/measure.py",
+        "line": 127,
+        "excerpt": "from openai import OpenAI  # type: ignore",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.openai.com"
+        ]
+      }
+    ],
+    "findingTotals": {
+      "shell": 3,
+      "network": 4,
+      "paid-api": 4,
+      "downloads-code": 1
+    },
+    "score": 65,
+    "band": "review",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 10,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "e63e798003f124bad3096554beaaf9f8046c4c21",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 65,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

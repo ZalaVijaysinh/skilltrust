@@ -1,0 +1,90 @@
+{
+  "id": "browser-act__skills__solutions~social-listening~wechat-article-search-api-skill",
+  "owner": "browser-act",
+  "repo": "skills",
+  "path": "solutions/social-listening/wechat-article-search-api-skill",
+  "name": "wechat-article-search-api-skill",
+  "description": "Search public WeChat articles by keyword through the BrowserAct API, with an article limit and a publication-date value or explicit unrestricted value, returning article metadata, source links and available full text. Use for WeChat article discovery, content research and monitoring.",
+  "stars": 6325,
+  "category": "coding",
+  "commit": "593316aa0f8ccd88bdf745c92b24a50641701973",
+  "contentHash": "e1316e9eeb5f43a60112c12ffd5774bfb92bcceab6d62de30372d42f33e8b242",
+  "repoCreatedAt": "2026-02-06T10:35:35Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "solutions/social-listening/wechat-article-search-api-skill/SKILL.md",
+        "line": 22,
+        "excerpt": "# Required date parameter: explicit non-empty unrestricted value.",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "solutions/social-listening/wechat-article-search-api-skill/SKILL.md",
+        "line": 31,
+        "excerpt": "uv run --with requests python -u scripts/wechat_article_search_api.py \"ai 选品\" 10 \"-\" --task-id \"EXISTING_TASK_ID\" --timeout 1800",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "solutions/social-listening/wechat-article-search-api-skill/scripts/wechat_article_search_api.py",
+        "line": 44,
+        "excerpt": "response = requests.post(f\"{API_BASE_URL}/run-task-by-template\", json=payload, headers=headers, timeout=30)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "solutions/social-listening/wechat-article-search-api-skill/scripts/wechat_article_search_api.py",
+        "line": 62,
+        "excerpt": "response = requests.get(f\"{API_BASE_URL}/get-task-status\", params={\"task_id\": task_id}, headers=headers, timeout=30)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "solutions/social-listening/wechat-article-search-api-skill/scripts/wechat_article_search_api.py",
+        "line": 90,
+        "excerpt": "response = requests.get(f\"{API_BASE_URL}/get-task\", params={\"task_id\": task_id}, headers=headers, timeout=30)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "solutions/social-listening/wechat-article-search-api-skill/scripts/wechat_article_search_api.py",
+        "line": 196,
+        "excerpt": "api_key = os.getenv(\"BROWSERACT_API_KEY\", \"\").strip()",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 2,
+      "network": 3,
+      "reads-secrets": 1
+    },
+    "score": 82,
+    "band": "low",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "593316aa0f8ccd88bdf745c92b24a50641701973",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 82,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

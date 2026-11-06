@@ -1,0 +1,332 @@
+{
+  "id": "datarobot-oss__datarobot-agent-skills__skills~datarobot-workload-api",
+  "owner": "datarobot-oss",
+  "repo": "datarobot-agent-skills",
+  "path": "skills/datarobot-workload-api",
+  "name": "datarobot-workload-api",
+  "description": "Use when the user wants to create, configure, scale, debug, observe, or roll out container workloads on DataRobot's Workload API. Triggers: deploy a container as a managed service; list/start/stop workloads; change replica counts or autoscaling; pick CPU/GPU compute bundles; inject DataRobot credentials as env vars; diagnose stuck/errored/crash-looping workloads (CrashLoopBackOff, ImagePullBackOff, OOMKilled, probe failures, exec format error); pull application logs/OpenTelemetry traces/metrics/request stats; create or iterate container artifacts; build images server-side; lock artifacts for production; zero-downtime rolling artifact replacement.",
+  "stars": 32,
+  "category": "coding",
+  "commit": "356938cf5739b947a176fd3bc42a3ac7ef407877",
+  "contentHash": "1f583e311b94cfc9083c1a60cfab60c7b89b2dfc60e833f10cf3e00590e1751c",
+  "repoCreatedAt": "2025-12-14T04:08:33Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/datarobot-workload-api/SKILL.md",
+        "line": 30,
+        "excerpt": "`DATAROBOT_ENDPOINT` (must end `/api/v2`) and `DATAROBOT_API_TOKEN`: required as env vars only for raw REST (`scripts/`, `httpx`/`curl`) or CI — these bypass CL",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/datarobot-workload-api/SKILL.md",
+        "line": 32,
+        "excerpt": "**Transport:** examples use Python `httpx` (`pip install httpx`); `curl` or the `pulumi-datarobot` provider work too.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/datarobot-workload-api/SKILL.md",
+        "line": 62,
+        "excerpt": "curl -sS \"${DATAROBOT_ENDPOINT}/openapi.yaml\" -o /tmp/wapi-spec.yaml",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/datarobot-workload-api/SKILL.md",
+        "line": 62,
+        "excerpt": "curl -sS \"${DATAROBOT_ENDPOINT}/openapi.yaml\" -o /tmp/wapi-spec.yaml",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/datarobot-workload-api/SKILL.md",
+        "line": 101,
+        "excerpt": "dr workload create --spec-file spec.yaml         # 4xx: 400=schema/limit, 403=cap (run check_limits.py), 409=name conflict",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/datarobot-workload-api/SKILL.md",
+        "line": 107,
+        "excerpt": "Raw fallback when CLI unavailable: `httpx.post(f\"{base}/workloads/\", headers=headers, json=spec)` + `r.raise_for_status()` + `r.json()[\"id\"]`; poll with `python",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/datarobot-workload-api/SKILL.md",
+        "line": 134,
+        "excerpt": "httpx.patch(",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/datarobot-workload-api/SKILL.md",
+        "line": 196,
+        "excerpt": "python scripts/diagnose_workload.py <workload_id>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/datarobot-workload-api/SKILL.md",
+        "line": 242,
+        "excerpt": "dr workload logs <wid> --level error --limit 100   # --follow streams; --output-format json",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/datarobot-workload-api/SKILL.md",
+        "line": 248,
+        "excerpt": "r = httpx.get(",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/datarobot-workload-api/SKILL.md",
+        "line": 265,
+        "excerpt": "traces = httpx.get(f\"{base}/otel/workload/{wid}/traces/\", headers=headers).json()[",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/datarobot-workload-api/SKILL.md",
+        "line": 273,
+        "excerpt": "trace = httpx.get(",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/datarobot-workload-api/SKILL.md",
+        "line": 287,
+        "excerpt": "stats = httpx.get(f\"{base}/workloads/{wid}/stats/\", headers=headers).json()",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/datarobot-workload-api/SKILL.md",
+        "line": 329,
+        "excerpt": "httpx.post(",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/datarobot-workload-api/references/code-to-workload.md",
+        "line": 23,
+        "excerpt": "curl -sS \"${DATAROBOT_ENDPOINT}/executionEnvironments/?limit=10\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/datarobot-workload-api/references/code-to-workload.md",
+        "line": 24,
+        "excerpt": "-H \"Authorization: Bearer ${DATAROBOT_API_TOKEN}\" | jq '.data[] | {id, name, programmingLanguage, useCases, latestSuccessfulVersion: .latestSuccessfulVersion.id",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/datarobot-workload-api/references/code-to-workload.md",
+        "line": 80,
+        "excerpt": "curl -sS -X POST \"${DATAROBOT_ENDPOINT}/artifacts/\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/datarobot-workload-api/references/code-to-workload.md",
+        "line": 81,
+        "excerpt": "-H \"Authorization: Bearer ${DATAROBOT_API_TOKEN}\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/datarobot-workload-api/references/code-to-workload.md",
+        "line": 119,
+        "excerpt": "curl -sS -X POST \"${DATAROBOT_ENDPOINT}/artifacts/${ARTIFACT_ID}/builds\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/datarobot-workload-api/references/code-to-workload.md",
+        "line": 120,
+        "excerpt": "-H \"Authorization: Bearer ${DATAROBOT_API_TOKEN}\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/datarobot-workload-api/references/schema-reference.md",
+        "line": 8,
+        "excerpt": "curl -sS \"${DATAROBOT_ENDPOINT}/openapi.yaml\" -o /tmp/wapi-spec.yaml",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/datarobot-workload-api/scripts/check_limits.py",
+        "line": 26,
+        "excerpt": "r = httpx.get(f\"{base}/account/info/\", headers=headers, timeout=15)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/datarobot-workload-api/scripts/check_limits.py",
+        "line": 46,
+        "excerpt": "token = os.environ.get(\"DATAROBOT_API_TOKEN\", \"\")",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/datarobot-workload-api/scripts/diagnose_workload.py",
+        "line": 32,
+        "excerpt": "r = httpx.get(f\"{base}/workloads/{wid}/\", headers=headers, timeout=30)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/datarobot-workload-api/scripts/diagnose_workload.py",
+        "line": 38,
+        "excerpt": "r = httpx.get(",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/datarobot-workload-api/scripts/diagnose_workload.py",
+        "line": 51,
+        "excerpt": "r = httpx.get(f\"{base}/workloads/{wid}/protons/\", headers=headers, timeout=30)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/datarobot-workload-api/scripts/diagnose_workload.py",
+        "line": 59,
+        "excerpt": "r = httpx.get(",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/datarobot-workload-api/scripts/diagnose_workload.py",
+        "line": 230,
+        "excerpt": "token = os.environ.get(\"DATAROBOT_API_TOKEN\", \"\")",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/datarobot-workload-api/scripts/wait_for_build.py",
+        "line": 55,
+        "excerpt": "r = httpx.get(",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/datarobot-workload-api/scripts/wait_for_build.py",
+        "line": 72,
+        "excerpt": "logs = httpx.get(",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/datarobot-workload-api/scripts/wait_for_build.py",
+        "line": 106,
+        "excerpt": "token = os.environ.get(\"DATAROBOT_API_TOKEN\", \"\")",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/datarobot-workload-api/scripts/wait_for_replacement.py",
+        "line": 45,
+        "excerpt": "r = httpx.get(",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/datarobot-workload-api/scripts/wait_for_replacement.py",
+        "line": 85,
+        "excerpt": "token = os.environ.get(\"DATAROBOT_API_TOKEN\", \"\")",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/datarobot-workload-api/scripts/wait_for_running.py",
+        "line": 81,
+        "excerpt": "token = os.environ.get(\"DATAROBOT_API_TOKEN\", \"\")",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "reads-secrets": 9,
+      "downloads-code": 1,
+      "network": 21,
+      "shell": 4
+    },
+    "score": 67,
+    "band": "review",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 15,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "356938cf5739b947a176fd3bc42a3ac7ef407877",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 67,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

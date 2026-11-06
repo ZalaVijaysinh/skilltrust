@@ -1,0 +1,130 @@
+{
+  "id": "elementalsouls__claude-bughunter__skills~hunt-spa-api",
+  "owner": "elementalsouls",
+  "repo": "Claude-BugHunter",
+  "path": "skills/hunt-spa-api",
+  "name": "hunt-spa-api",
+  "description": "Discover a single-page-app's hidden backend API from its public JS bundle, then test that API for broken access control / missing authentication. One of the highest-yield web plays in modern recon — SPAs ship their entire backend route map to the browser, and the API behind them is frequently missing the auth middleware the login page implies. Built from an authorized engagement where this play found an unauthenticated financial API that an ASM scan reporting hundreds of \"Criticals\" completely missed. Use whenever a target serves a JS-heavy SPA (React/Vue/Angular/Next), an \"app\"/\"console\"/\"dashboard\"/\"portal\" subdomain, or any `*api*` host shows up in recon. Leaked build artifacts (source maps / .env / .git / asset-manifest) are owned by hunt-source-leak; API version-inventory and behavioral diffing by hunt-shadow-api; this skill owns mapping a live SPA's backend routes from its JS bundle and testing them for broken access control / missing auth.",
+  "stars": 5465,
+  "category": "security",
+  "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
+  "contentHash": "9ad0f7121651e327416a3b5119f3a62abbde4dfaf613886300d2fddc090bcc4a",
+  "repoCreatedAt": "2026-05-05T11:22:32Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-spa-api/SKILL.md",
+        "line": 26,
+        "excerpt": "curl -s https://console.target.com/ -o index.html",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "console.target.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-spa-api/SKILL.md",
+        "line": 26,
+        "excerpt": "curl -s https://console.target.com/ -o index.html",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-spa-api/SKILL.md",
+        "line": 36,
+        "excerpt": "mkdir bundles",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-spa-api/SKILL.md",
+        "line": 38,
+        "excerpt": "curl -s \"https://console.target.com$j\" -o \"bundles/$(echo \"$j\"|tr '/' '_')\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "console.target.com$j"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-spa-api/SKILL.md",
+        "line": 44,
+        "excerpt": "B=bundles/*.js",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-spa-api/SKILL.md",
+        "line": 60,
+        "excerpt": "grep -oE '[0-9]+:\"[a-f0-9]+\"' bundles/*main*.js        # {chunkId:\"hash\"} pairs",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-spa-api/SKILL.md",
+        "line": 68,
+        "excerpt": "curl -s -X POST https://api.target.com/api/users -H 'Content-Type: application/json' -d '{}'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.target.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-spa-api/SKILL.md",
+        "line": 68,
+        "excerpt": "curl -s -X POST https://api.target.com/api/users -H 'Content-Type: application/json' -d '{}'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-spa-api/SKILL.md",
+        "line": 76,
+        "excerpt": "for r in <routes>; do",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-spa-api/SKILL.md",
+        "line": 77,
+        "excerpt": "curl -s -o /tmp/r -w \"[%{http_code}] $r\\n\" -X POST -H 'Content-Type: application/json' -d '{}' \"https://api.target.com/api/v2/$r\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.target.com"
+        ]
+      }
+    ],
+    "findingTotals": {
+      "network": 4,
+      "shell": 6
+    },
+    "score": 92,
+    "band": "low",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 92,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

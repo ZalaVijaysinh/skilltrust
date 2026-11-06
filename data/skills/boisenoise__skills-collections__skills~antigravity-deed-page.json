@@ -1,0 +1,144 @@
+{
+  "id": "boisenoise__skills-collections__skills~antigravity-deed-page",
+  "owner": "boisenoise",
+  "repo": "skills-collections",
+  "path": "skills/antigravity-deed-page",
+  "name": "deed-page",
+  "description": "Publish an HTML file or static folder to a permanent public https://<slug>.deed.page/ URL with one curl request. No account; the first publish returns a token for updates.",
+  "stars": 12,
+  "category": "other",
+  "commit": "b89b2f59bcd776f96526ce61d77fcb9bd0821a9f",
+  "contentHash": "fe9e6ad000fc4194303eb77a6879b1adc5cd24c2b87651863bbd6b54a7cc8101",
+  "repoCreatedAt": "2026-01-19T14:28:55Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-deed-page/SKILL.md",
+        "line": 48,
+        "excerpt": "set -e",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-deed-page/SKILL.md",
+        "line": 67,
+        "excerpt": "umask 077",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/antigravity-deed-page/SKILL.md",
+        "line": 69,
+        "excerpt": "if [ -n \"${DEEDPAGE_TOKEN:-}\" ]; then",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/antigravity-deed-page/SKILL.md",
+        "line": 70,
+        "excerpt": "case \"$DEEDPAGE_TOKEN\" in *[!A-Za-z0-9._~-]*) echo \"Unexpected token characters\" >&2; exit 1;; esac",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/antigravity-deed-page/SKILL.md",
+        "line": 71,
+        "excerpt": "printf 'header = \"Authorization: Bearer %s\"\\n' \"$DEEDPAGE_TOKEN\" > \"$UPLOAD_DIR/headers.conf\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity-deed-page/SKILL.md",
+        "line": 80,
+        "excerpt": "curl -sS -T report.html \"https://deed.page/v1/sites?slug=$SLUG&ref=$REF\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "deed.page"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-deed-page/SKILL.md",
+        "line": 80,
+        "excerpt": "curl -sS -T report.html \"https://deed.page/v1/sites?slug=$SLUG&ref=$REF\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-deed-page/SKILL.md",
+        "line": 88,
+        "excerpt": "tar -C ./site -czf \"$UPLOAD_DIR/site.tar.gz\" . &&",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity-deed-page/SKILL.md",
+        "line": 89,
+        "excerpt": "curl -sS -T \"$UPLOAD_DIR/site.tar.gz\" \"https://deed.page/v1/sites?slug=$SLUG&ref=$REF\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "deed.page"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/antigravity-deed-page/SKILL.md",
+        "line": 111,
+        "excerpt": "curl -sS -X DELETE \"https://deed.page/v1/sites/$SLUG\" -H \"Authorization: Bearer $DEEDPAGE_TOKEN\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity-deed-page/SKILL.md",
+        "line": 111,
+        "excerpt": "curl -sS -X DELETE \"https://deed.page/v1/sites/$SLUG\" -H \"Authorization: Bearer $DEEDPAGE_TOKEN\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "deed.page"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-deed-page/SKILL.md",
+        "line": 111,
+        "excerpt": "curl -sS -X DELETE \"https://deed.page/v1/sites/$SLUG\" -H \"Authorization: Bearer $DEEDPAGE_TOKEN\"",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 5,
+      "reads-secrets": 4,
+      "network": 3
+    },
+    "score": 84,
+    "band": "low",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "b89b2f59bcd776f96526ce61d77fcb9bd0821a9f",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 84,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

@@ -1,0 +1,189 @@
+{
+  "id": "browserbase__skills__skills~agent-experience",
+  "owner": "browserbase",
+  "repo": "skills",
+  "path": "skills/agent-experience",
+  "name": "agent-experience",
+  "description": "Audit the developer experience of a product, SDK, docs site, or SKILL.md by dropping multiple Claude subagents at it with only a tiny task prompt and real tools (WebFetch, Bash, Write). Agents must discover the docs themselves, install deps, ask for credentials if needed, and attempt real execution. The skill captures each agent's trace — tool calls, retries, wall time, errors — and scores on Setup Friction, Speed, Efficiency, Error Recovery, and Doc Quality, then emits an HTML report with an A–F grade and concrete fixes. Use when the user asks to audit agent experience, test a skill, audit docs for agents, check if a SDK is agent-friendly, validate a SKILL.md, measure agent DX, or benchmark how painful onboarding is for an AI agent. Triggers: 'audit agent experience', 'test this skill', 'audit docs for agents', 'is my SDK agent-friendly', 'run a DX audit', 'agent experience test', 'test my docs', 'how do agents do with my product'.",
+  "stars": 3755,
+  "category": "security",
+  "commit": "6811ca31163332d9d60309cff48e77f09de37a17",
+  "contentHash": "9f75a2f29956aa811a86bd6f01f54911a15f47540f2aed82209be695bae1c3a9",
+  "repoCreatedAt": "2025-10-12T08:44:05Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/agent-experience/SKILL.md",
+        "line": 106,
+        "excerpt": "2. Map the generic `API_KEY` value into whatever form the SDK requires — either re-export (`export BROWSERBASE_API_KEY=$API_KEY`) or pass inline in code (`new B",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/agent-experience/SKILL.md",
+        "line": 119,
+        "excerpt": "printenv | grep -iE '^[A-Z][A-Z0-9_]*_(API_KEY|TOKEN|SECRET|KEY)=' | cut -d= -f1",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/agent-experience/SKILL.md",
+        "line": 127,
+        "excerpt": "grep -hE '^[[:space:]]*export[[:space:]]+[A-Z][A-Z0-9_]*_(API_KEY|TOKEN|SECRET|KEY)=' \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "browser-secrets",
+        "file": "skills/agent-experience/SKILL.md",
+        "line": 140,
+        "excerpt": "- macOS Keychain: `security find-generic-password -l \"<expected-name>\" -w` — try once with the most likely name (e.g. `BROWSERBASE_API_KEY`); silent failure mea",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "browser-secrets",
+        "file": "skills/agent-experience/SKILL.md",
+        "line": 158,
+        "excerpt": "- Tier 3: `op read \"op://<vault>/<item>/<field>\"` or `security find-generic-password -l <NAME> -w`.",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/agent-experience/SKILL.md",
+        "line": 205,
+        "excerpt": "- Use your real tools (`WebFetch`, `Bash` if allowed, `Write`)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/agent-experience/SKILL.md",
+        "line": 217,
+        "excerpt": "**Verification of agent claims using orchestrator credentials.** Before scoring, if Step 2.5 retained product-specific credentials, the orchestrator may use the",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/agent-experience/SKILL.md",
+        "line": 217,
+        "excerpt": "**Verification of agent claims using orchestrator credentials.** Before scoring, if Step 2.5 retained product-specific credentials, the orchestrator may use the",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.browserbase.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/agent-experience/SKILL.md",
+        "line": 237,
+        "excerpt": "Classify each `WebFetch` URL into one of four provenance categories and render with the matching label + color:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/agent-experience/SKILL.md",
+        "line": 348,
+        "excerpt": "[+1.2s]     [TOOL_USE #1]   WebFetch",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/agent-experience/SKILL.md",
+        "line": 372,
+        "excerpt": "- Input/Output: visible inline as `.trace-io` blocks with colored left-border (orange for input, green for output, red for errors). `<pre>` block shows the **fu",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/agent-experience/SKILL.md",
+        "line": 423,
+        "excerpt": "rm -rf ./dx-audit-tmp/",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/agent-experience/references/subagent-brief.md",
+        "line": 18,
+        "excerpt": "- Use your real tools: WebFetch to read docs, Read/Write for files, {{EXEC_MODE_TOOLS}}.",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/agent-experience/references/subagent-brief.md",
+        "line": 53,
+        "excerpt": "{\"tool\": \"WebFetch\", \"count\": 4, \"purpose\": \"fetched docs pages\"},",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/agent-experience/references/subagent-brief.md",
+        "line": 73,
+        "excerpt": "{\"t_ms\": 1200, \"type\": \"tool_use\", \"n\": 1, \"tool\": \"WebFetch\", \"input\": {\"url\": \"https://docs.example.com\", \"prompt\": \"What is this?\"}},",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "docs.example.com"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/agent-experience/references/subagent-brief.md",
+        "line": 134,
+        "excerpt": "> To use them: (1) read the product's docs to find out what env var / config option the SDK actually expects (e.g. the docs might say \"set `FOOBAR_API_KEY`\"). (",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/agent-experience/references/subagent-brief.md",
+        "line": 150,
+        "excerpt": "- `{{EXEC_MODE_NOTE}}` → `Do not run any Bash commands. Draft the code you would run, list the commands you would execute, and score the docs based on what you ",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "reads-secrets": 3,
+      "shell": 3,
+      "browser-secrets": 2,
+      "network": 9
+    },
+    "score": 71,
+    "band": "review",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 6,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "6811ca31163332d9d60309cff48e77f09de37a17",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 71,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

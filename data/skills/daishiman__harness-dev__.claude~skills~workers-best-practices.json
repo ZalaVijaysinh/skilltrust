@@ -1,0 +1,265 @@
+{
+  "id": "daishiman__harness-dev__.claude~skills~workers-best-practices",
+  "owner": "daishiman",
+  "repo": "harness-dev",
+  "path": ".claude/skills/workers-best-practices",
+  "name": "workers-best-practices",
+  "description": "Cloudflare Workersのコードを本番運用品質のベストプラクティスに照らして作成・レビューする。新しいWorkerの実装、Workerコードのレビュー、wrangler.jsoncの設定、streaming・floating promises・global state・secrets・bindings・observabilityなどのanti-pattern確認で使用する。事前学習の記憶よりCloudflare公式ドキュメントからの取得を優先する。",
+  "stars": 10,
+  "category": "security",
+  "commit": "e63e798003f124bad3096554beaaf9f8046c4c21",
+  "contentHash": "14e4b274ac334b1b5652e4cd44a578640b1c0aa22fb06b0cc797fff49edf7ea8",
+  "repoCreatedAt": "2026-01-15T05:28:17Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/workers-best-practices/SKILL.md",
+        "line": 27,
+        "excerpt": "# Fetch latest workers types",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/workers-best-practices/SKILL.md",
+        "line": 94,
+        "excerpt": "| `await`も`waitUntil`もない裸の`fetch()` | floating promiseにより結果やerrorが失われる |",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/workers-best-practices/references/review.md",
+        "line": 60,
+        "excerpt": "- `fetch()` handlers must return `Promise<Response>`",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/workers-best-practices/references/rules.md",
+        "line": 48,
+        "excerpt": "async fetch(request: Request, env: Env): Promise<Response> {",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/workers-best-practices/references/rules.md",
+        "line": 105,
+        "excerpt": "async fetch(request: Request, env: Env): Promise<Response> {",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/workers-best-practices/references/rules.md",
+        "line": 106,
+        "excerpt": "const response = await fetch(\"https://api.example.com/large-dataset\");",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.example.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/workers-best-practices/references/rules.md",
+        "line": 113,
+        "excerpt": "async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/workers-best-practices/references/rules.md",
+        "line": 120,
+        "excerpt": "const response = await fetch(url);",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/workers-best-practices/references/rules.md",
+        "line": 137,
+        "excerpt": "const response = await fetch(\"https://api.example.com/large-dataset\");",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.example.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/workers-best-practices/references/rules.md",
+        "line": 151,
+        "excerpt": "async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/workers-best-practices/references/rules.md",
+        "line": 176,
+        "excerpt": "**Check**: no `fetch(\"https://api.cloudflare.com/client/v4/...\")` calls for services available as bindings.",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.cloudflare.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/workers-best-practices/references/rules.md",
+        "line": 186,
+        "excerpt": "const response = await fetch(",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/workers-best-practices/references/rules.md",
+        "line": 203,
+        "excerpt": "async fetch(request: Request, env: Env): Promise<Response> {",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/workers-best-practices/references/rules.md",
+        "line": 222,
+        "excerpt": "**Check**: Worker-to-Worker calls use `env.SERVICE_NAME.method()` (RPC) or `env.SERVICE_NAME.fetch()`, not `fetch(\"https://my-other-worker.example.com/...\")`.",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "my-other-worker.example.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/workers-best-practices/references/rules.md",
+        "line": 254,
+        "excerpt": "async fetch(request: Request, env: Env): Promise<Response> {",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/workers-best-practices/references/rules.md",
+        "line": 312,
+        "excerpt": "async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/workers-best-practices/references/rules.md",
+        "line": 326,
+        "excerpt": "async fetch(request: Request, env: Env): Promise<Response> {",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/workers-best-practices/references/rules.md",
+        "line": 337,
+        "excerpt": "**Check**: every `fetch()`, `env.*.put()`, `env.*.send()`, and any other async call is handled. Enable `no-floating-promises` lint rule.",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/workers-best-practices/references/rules.md",
+        "line": 349,
+        "excerpt": "const response = await fetch(\"https://api.example.com/process\", { method: \"POST\", body: JSON.stringify(data) });",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.example.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/workers-best-practices/references/rules.md",
+        "line": 352,
+        "excerpt": "ctx.waitUntil(fetch(\"https://api.example.com/webhook\", { method: \"POST\", body: JSON.stringify(data) }));",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.example.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/workers-best-practices/references/rules.md",
+        "line": 358,
+        "excerpt": "fetch(\"https://api.example.com/webhook\", { method: \"POST\", body: JSON.stringify(data) });",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.example.com"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": ".claude/skills/wrangler/references/ai-vectorize-hyperdrive.md",
+        "line": 79,
+        "excerpt": "--origin-password \"$DB_PASSWORD\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": ".claude/skills/wrangler/references/ai-vectorize-hyperdrive.md",
+        "line": 93,
+        "excerpt": "--origin-password \"$DB_PASSWORD\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": ".claude/skills/wrangler/references/containers.md",
+        "line": 49,
+        "excerpt": "--aws-access-key-id \"$AWS_ACCESS_KEY_ID\"",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 1,
+      "network": 47,
+      "reads-secrets": 3
+    },
+    "score": 82,
+    "band": "low",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 26,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "e63e798003f124bad3096554beaaf9f8046c4c21",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 82,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

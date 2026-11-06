@@ -1,0 +1,290 @@
+{
+  "id": "czlonkowski__n8n-skills__skills~n8n-self-hosting",
+  "owner": "czlonkowski",
+  "repo": "n8n-skills",
+  "path": "skills/n8n-self-hosting",
+  "name": "n8n-self-hosting",
+  "description": "Deploy a production self-hosted n8n end-to-end to a fresh Linux VM over SSH, using Docker Compose behind a Caddy reverse proxy with automatic HTTPS. Use whenever the user wants to self-host, install, provision, or deploy n8n on their own server/VPS (Hetzner, DigitalOcean, AWS EC2, bare metal) — single/regular mode or queue mode with workers — or to update, back up, restore, or harden such an instance, or make Python Code nodes run on it (task runners). For SELF-HOSTED n8n (Docker), not n8n Cloud and not building workflows. The skill makes the agent ask single-vs-queue first, collect domain/SSH/timezone inputs, generate fresh secrets on the box, and bring the stack up with TLS. Trigger on \"deploy n8n\", \"self-host n8n\", \"n8n docker compose\", \"n8n queue mode / workers\", \"n8n reverse proxy / SSL\", \"back up / update my n8n\", \"Python runner unavailable\" / \"n8nio/runners sidecar\", or \"we don't want to give every user the OAuth client secret\" / \"enable Sign in with Google\" (credential overwrites).",
+  "stars": 6598,
+  "category": "devops",
+  "commit": "e037563e101749e630e6688d121d04529fe6ee7b",
+  "contentHash": "06b7e33f3f3c1175b4862b5af339508df44bf4d47f0fd77527e23ff5e2eeb3ca",
+  "repoCreatedAt": "2025-10-20T05:51:27Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/n8n-self-hosting/CREDENTIAL_OVERWRITES.md",
+        "line": 37,
+        "excerpt": "- CREDENTIALS_OVERWRITE_ENDPOINT_AUTH_TOKEN=${CREDS_OVERWRITE_TOKEN}",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/n8n-self-hosting/CREDENTIAL_OVERWRITES.md",
+        "line": 51,
+        "excerpt": "curl -sS -X POST \"https://n8n.example.com/${CREDS_OVERWRITE_PATH}\" -H \"Authorization: Bearer ${CREDS_OVERWRITE_TOKEN}\" -H \"Content-Type: application/json\" -d '{",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/n8n-self-hosting/CREDENTIAL_OVERWRITES.md",
+        "line": 51,
+        "excerpt": "curl -sS -X POST \"https://n8n.example.com/${CREDS_OVERWRITE_PATH}\" -H \"Authorization: Bearer ${CREDS_OVERWRITE_TOKEN}\" -H \"Content-Type: application/json\" -d '{",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "n8n.example.com"
+        ]
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/n8n-self-hosting/DAY2.md",
+        "line": 26,
+        "excerpt": "(`docker run --rm --entrypoint cat n8nio/runners:<new-tag> /etc/n8n-task-runners.json`). A",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/n8n-self-hosting/DAY2.md",
+        "line": 100,
+        "excerpt": "sh -c 'pg_dump -U \"$POSTGRES_USER\" -d \"$POSTGRES_DB\"' \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/n8n-self-hosting/DAY2.md",
+        "line": 134,
+        "excerpt": "sh -c 'cd /data && tar xzf /backup/n8n_data-YYYY-MM-DD.tar.gz'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/n8n-self-hosting/DAY2.md",
+        "line": 144,
+        "excerpt": "docker compose exec -T postgres sh -c 'psql -U \"$POSTGRES_USER\" -d \"$POSTGRES_DB\"'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/n8n-self-hosting/QUEUE_MODE.md",
+        "line": 166,
+        "excerpt": "curl -fsS --retry 5 --retry-delay 10 https://<fqdn>/healthz",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/n8n-self-hosting/SINGLE_MODE.md",
+        "line": 66,
+        "excerpt": "docker compose exec n8n wget -qO- http://localhost:5678/healthz   # n8n itself up (internal)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/n8n-self-hosting/SINGLE_MODE.md",
+        "line": 68,
+        "excerpt": "curl -fsS --retry 5 --retry-delay 10 https://<fqdn>/healthz       # public; retry covers ACME delay",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/n8n-self-hosting/SKILL.md",
+        "line": 80,
+        "excerpt": "- **DNS must already point at the box.** Compare the box's public IP (`curl -s ifconfig.me`)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/n8n-self-hosting/SKILL.md",
+        "line": 130,
+        "excerpt": "- **n8n itself up (internal):** `docker compose exec n8n wget -qO- http://localhost:5678/healthz`",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/n8n-self-hosting/SKILL.md",
+        "line": 135,
+        "excerpt": "- **Public reachability (with retry):** `curl -fsS --retry 5 --retry-delay 10 https://<fqdn>/healthz`",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/n8n-self-hosting/TASK_RUNNERS.md",
+        "line": 57,
+        "excerpt": "- N8N_RUNNERS_AUTH_TOKEN=${N8N_RUNNERS_AUTH_TOKEN}",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/n8n-self-hosting/TASK_RUNNERS.md",
+        "line": 64,
+        "excerpt": "- N8N_RUNNERS_AUTH_TOKEN=${N8N_RUNNERS_AUTH_TOKEN}",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/n8n-self-hosting/TASK_RUNNERS.md",
+        "line": 102,
+        "excerpt": "N8N_RUNNERS_AUTH_TOKEN: ${N8N_RUNNERS_AUTH_TOKEN}",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/n8n-self-hosting/TASK_RUNNERS.md",
+        "line": 131,
+        "excerpt": "docker run --rm --entrypoint cat n8nio/runners:<tag> /etc/n8n-task-runners.json > n8n-task-runners.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/n8n-self-hosting/TASK_RUNNERS.md",
+        "line": 143,
+        "excerpt": "`RUN cd /opt/runners/task-runner-python && uv pip install pandas`. Then list them in",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/n8n-self-hosting/assets/docker-compose.queue.yml",
+        "line": 30,
+        "excerpt": "DB_POSTGRESDB_PASSWORD: ${POSTGRES_NON_ROOT_PASSWORD}",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/n8n-self-hosting/assets/init-data.sh",
+        "line": 9,
+        "excerpt": "if [ -n \"${POSTGRES_NON_ROOT_USER:-}\" ] && [ -n \"${POSTGRES_NON_ROOT_PASSWORD:-}\" ]; then",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/n8n-self-hosting/assets/init-data.sh",
+        "line": 11,
+        "excerpt": "CREATE USER ${POSTGRES_NON_ROOT_USER} WITH PASSWORD '${POSTGRES_NON_ROOT_PASSWORD}';",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 9,
+        "excerpt": "\"command\": \"${CLAUDE_PLUGIN_ROOT}/hooks/session-start.sh\"",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 20,
+        "excerpt": "\"command\": \"${CLAUDE_PLUGIN_ROOT}/hooks/pre-tool-use/get-node.sh\"",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 29,
+        "excerpt": "\"command\": \"${CLAUDE_PLUGIN_ROOT}/hooks/pre-tool-use/create-workflow.sh\"",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 38,
+        "excerpt": "\"command\": \"${CLAUDE_PLUGIN_ROOT}/hooks/pre-tool-use/update-workflow.sh\"",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 47,
+        "excerpt": "\"command\": \"${CLAUDE_PLUGIN_ROOT}/hooks/pre-tool-use/validate-workflow.sh\"",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 56,
+        "excerpt": "\"command\": \"${CLAUDE_PLUGIN_ROOT}/hooks/pre-tool-use/test-workflow.sh\"",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 65,
+        "excerpt": "\"command\": \"${CLAUDE_PLUGIN_ROOT}/hooks/pre-tool-use/instances.sh\"",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 74,
+        "excerpt": "\"command\": \"${CLAUDE_PLUGIN_ROOT}/hooks/pre-tool-use/manage-credentials.sh\"",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 85,
+        "excerpt": "\"command\": \"${CLAUDE_PLUGIN_ROOT}/hooks/post-tool-use/validate-workflow.sh\"",
+        "disclosed": false,
+        "automatic": true
+      }
+    ],
+    "findingTotals": {
+      "reads-secrets": 8,
+      "network": 7,
+      "writes-outside": 2,
+      "shell": 12,
+      "downloads-code": 1
+    },
+    "score": 57,
+    "band": "review",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 27,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "e037563e101749e630e6688d121d04529fe6ee7b",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 57,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

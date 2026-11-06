@@ -1,0 +1,79 @@
+{
+  "id": "elementalsouls__claude-bughunter__skills~hunt-rag-vector",
+  "owner": "elementalsouls",
+  "repo": "Claude-BugHunter",
+  "path": "skills/hunt-rag-vector",
+  "name": "hunt-rag-vector",
+  "description": "Hunt vector-store / embedding-layer weaknesses in RAG pipelines (OWASP LLM08 Vector and Embedding Weaknesses) — persistent corpus poisoning that survives across sessions and users (distinct from one-shot indirect prompt injection, which is owned by hunt-llm-ai), cross-tenant vector-database IDOR (unauthenticated or unscoped queries against Pinecone/Weaviate/Chroma/Milvus/Qdrant/pgvector), source-text/metadata leakage in similarity-search results, and retrieval-hijack via adversarial embedding proximity ('SEO poisoning' for RAG). Targets: any app with a shared knowledge base, document upload feeding a chatbot, or a directly reachable vector-DB port. Validate: a second, clean session/account must inherit a poisoned result, or a cross-tenant artifact must be independently verifiable — confabulation is not a finding, same bar as hunt-llm-ai. Use when target is RAG-backed, exposes a vector-DB port, or lets users upload documents that other users' queries later retrieve.",
+  "stars": 5465,
+  "category": "security",
+  "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
+  "contentHash": "27c0de63f4f2649e0c8dc21d9cd3f58ad79c0fa5f82f65bce41eabd4c4799652",
+  "repoCreatedAt": "2026-05-05T11:22:32Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-rag-vector/SKILL.md",
+        "line": 74,
+        "excerpt": "# Direct, unauthenticated vector-DB probing",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-rag-vector/SKILL.md",
+        "line": 75,
+        "excerpt": "curl -s http://$TARGET:8000/api/v1/heartbeat                     # Chroma — confirms reachability",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-rag-vector/SKILL.md",
+        "line": 76,
+        "excerpt": "curl -s http://$TARGET:6333/collections                           # Qdrant — lists all collections, no auth check",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-rag-vector/SKILL.md",
+        "line": 77,
+        "excerpt": "curl -s -X POST http://$TARGET:8080/v1/graphql \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      }
+    ],
+    "findingTotals": {
+      "shell": 1,
+      "network": 3
+    },
+    "score": 92,
+    "band": "low",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 92,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

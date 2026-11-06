@@ -1,0 +1,283 @@
+{
+  "id": "confluentinc__agent-skills__skills~confluent-cloud-cdc-tableflow",
+  "owner": "confluentinc",
+  "repo": "agent-skills",
+  "path": "skills/confluent-cloud-cdc-tableflow",
+  "name": "confluent-cloud-cdc-tableflow",
+  "description": "Set up end-to-end Change Data Capture (CDC) pipelines on Confluent Cloud using Debezium source connectors, Flink for transformation, and Tableflow for data lake integration. Supports JSON_SR, Avro, and Protobuf formats. Handles schemaless topics (plain JSON without SR) and multi-event topics. This skill handles the complete workflow from database to Iceberg/Delta tables. Use this skill when users want to capture database changes and materialize them into Iceberg or Delta Lake tables via Confluent Cloud Tableflow. Trigger phrases include \"CDC to Tableflow\", \"database to Iceberg\", \"database to Delta Lake\", \"stream database changes to data lake\", \"set up Tableflow pipeline\", \"schemaless topic to Tableflow\", or \"multi-event topic to Iceberg\". Do NOT trigger for general CDC, Debezium, or database replication requests that do not involve Tableflow or Iceberg/Delta Lake as the destination.",
+  "stars": 61,
+  "category": "data",
+  "commit": "204b36f10e9be41819557988e8f5291711fda986",
+  "contentHash": "a25f075fc09e5b76d64620bc2a61b4244491be54a24d8fc5f238422e3d7218c8",
+  "repoCreatedAt": "2026-03-13T14:31:16Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/confluent-cloud-cdc-tableflow/SKILL.md",
+        "line": 85,
+        "excerpt": "# Environment & cluster discovery",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/confluent-cloud-cdc-tableflow/SKILL.md",
+        "line": 162,
+        "excerpt": "confluent kafka topic list --cluster <cluster-id> --environment <env-id> | grep \"^<proposed-prefix>\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/confluent-cloud-cdc-tableflow/SKILL.md",
+        "line": 172,
+        "excerpt": "confluent schema-registry config update --subject \"<topic-prefix>.<schema>.<table>-value\" --compatibility FULL_TRANSITIVE --environment <env-id>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/confluent-cloud-cdc-tableflow/SKILL.md",
+        "line": 406,
+        "excerpt": "# Managed storage (Confluent manages S3)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/confluent-cloud-cdc-tableflow/SKILL.md",
+        "line": 442,
+        "excerpt": "confluent tableflow topic describe target_customers --cluster <cluster-id> --environment <env-id>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/confluent-cloud-cdc-tableflow/references/rest-api.md",
+        "line": 9,
+        "excerpt": "export CC_AUTH=\"-u ${CC_API_KEY}:${CC_API_SECRET}\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/confluent-cloud-cdc-tableflow/references/rest-api.md",
+        "line": 29,
+        "excerpt": "curl -s ${CC_AUTH} \"https://api.confluent.cloud/org/v2/environments\" | jq '.data[] | {id, display_name: .display_name}'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.confluent.cloud"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/confluent-cloud-cdc-tableflow/references/rest-api.md",
+        "line": 32,
+        "excerpt": "curl -s ${CC_AUTH} \"https://api.confluent.cloud/cmk/v2/clusters?environment=<env-id>\" | jq '.data[] | {id, display_name: .spec.display_name, cloud: .spec.cloud,",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.confluent.cloud"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/confluent-cloud-cdc-tableflow/references/rest-api.md",
+        "line": 35,
+        "excerpt": "curl -s ${CC_AUTH} \"https://api.confluent.cloud/srcm/v2/clusters?environment=<env-id>\" | jq '.data[0] | {id, endpoint: .spec.http_endpoint}'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.confluent.cloud"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/confluent-cloud-cdc-tableflow/references/rest-api.md",
+        "line": 44,
+        "excerpt": "curl -s ${CC_AUTH} \"https://api.confluent.cloud/connect/v1/environments/<env-id>/clusters/<cluster-id>/connectors\" | jq .",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.confluent.cloud"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/confluent-cloud-cdc-tableflow/references/rest-api.md",
+        "line": 47,
+        "excerpt": "curl -s -X POST ${CC_AUTH} -H \"Content-Type: application/json\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/confluent-cloud-cdc-tableflow/references/rest-api.md",
+        "line": 52,
+        "excerpt": "curl -s ${CC_AUTH} \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/confluent-cloud-cdc-tableflow/references/rest-api.md",
+        "line": 56,
+        "excerpt": "curl -s -X DELETE ${CC_AUTH} \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/confluent-cloud-cdc-tableflow/references/rest-api.md",
+        "line": 66,
+        "excerpt": "curl -s ${CC_AUTH} \"<sr-endpoint>/subjects\" | jq .",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/confluent-cloud-cdc-tableflow/references/rest-api.md",
+        "line": 69,
+        "excerpt": "curl -s ${CC_AUTH} \"<sr-endpoint>/config\" | jq .",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/confluent-cloud-cdc-tableflow/references/rest-api.md",
+        "line": 72,
+        "excerpt": "curl -s -X PUT ${CC_AUTH} -H \"Content-Type: application/json\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/confluent-cloud-cdc-tableflow/references/rest-api.md",
+        "line": 77,
+        "excerpt": "curl -s -X POST ${CC_AUTH} -H \"Content-Type: application/vnd.schemaregistry.v1+json\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/confluent-cloud-cdc-tableflow/references/rest-api.md",
+        "line": 90,
+        "excerpt": "curl -s ${CC_AUTH} \"https://api.confluent.cloud/iam/v2/users\" | jq '.data[0].id'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.confluent.cloud"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/confluent-cloud-cdc-tableflow/references/rest-api.md",
+        "line": 93,
+        "excerpt": "curl -s ${CC_AUTH} \"https://api.confluent.cloud/org/v2/environments\" | jq '.metadata'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.confluent.cloud"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/confluent-cloud-cdc-tableflow/references/rest-api.md",
+        "line": 104,
+        "excerpt": "curl -s -X POST ${CC_AUTH} -H \"Content-Type: application/json\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/confluent-cloud-cdc-tableflow/references/rest-api.md",
+        "line": 109,
+        "excerpt": "curl -s -X POST ${CC_AUTH} -H \"Content-Type: application/json\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/confluent-cloud-cdc-tableflow/references/rest-api.md",
+        "line": 125,
+        "excerpt": "curl -s ${CC_AUTH} \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/confluent-cloud-cdc-tableflow/references/rest-api.md",
+        "line": 129,
+        "excerpt": "curl -s -X DELETE ${CC_AUTH} \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/confluent-cloud-cdc-tableflow/references/rest-api.md",
+        "line": 139,
+        "excerpt": "curl -s -X POST ${CC_AUTH} -H \"Content-Type: application/json\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/confluent-cloud-cdc-tableflow/references/rest-api.md",
+        "line": 144,
+        "excerpt": "curl -s ${CC_AUTH} \"https://api.confluent.cloud/tableflow/v1/tableflow-topics?environment=<env-id>&spec.kafka_cluster=<cluster-id>\" | jq '.data[] | {name: .disp",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.confluent.cloud"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/confluent-cloud-cdc-tableflow/references/rest-api.md",
+        "line": 145,
+        "excerpt": "curl -s ${CC_AUTH} \"https://api.confluent.cloud/tableflow/v1/tableflow-topics/<id>\" | jq .",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.confluent.cloud"
+        ]
+      }
+    ],
+    "findingTotals": {
+      "shell": 5,
+      "reads-secrets": 1,
+      "network": 22
+    },
+    "score": 80,
+    "band": "low",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 8,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "204b36f10e9be41819557988e8f5291711fda986",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 80,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

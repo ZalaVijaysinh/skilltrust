@@ -1,0 +1,337 @@
+{
+  "id": "gemini-cli-extensions__alloydb__skills~alloydb-agent-mode-quickstart",
+  "owner": "gemini-cli-extensions",
+  "repo": "alloydb",
+  "path": "skills/alloydb-agent-mode-quickstart",
+  "name": "alloydb-agent-mode-quickstart",
+  "description": "Provisions AlloyDB agent pools and deploys AI data agents or multi-agent swarms on Vertex AI Agent Engine and Gemini Enterprise. Three capabilities: (1) provision an AlloyDB agent pool over Private Service Connect (PSC) using gcloud (and AlloyDB MCP tools when configured); (2) deploy a single agent querying the pool over MCP (get_schema, execute_sql_read_only) with optional per-session writable PostgreSQL scratch databases (Cloud Run Agent Workspace); (3) deploy an agent swarm with a coordinator that fans questions across parallel worker sessions. Use when the user wants to set up an AlloyDB agent pool, or deploy, update, validate, register in Gemini Enterprise, or tear down a data agent or agent swarm on an AlloyDB database (the agent generates and manages ./<name>.alloydb-agent.yaml automatically). Don't use for standard non-agent AlloyDB administration or standalone SQL query tuning.",
+  "stars": 24,
+  "category": "data",
+  "commit": "7d73976ac180e34556343824ede2b91a4b484554",
+  "contentHash": "75cddfb80261307e20a04890a0e8d876b2bfd2c588c83bea82c53d95ab2ba4aa",
+  "repoCreatedAt": "2025-09-12T15:32:54Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/alloydb-agent-mode-quickstart/SKILL.md",
+        "line": 176,
+        "excerpt": "\"<skill>\"/scripts/bootstrap_env.sh",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/alloydb-agent-mode-quickstart/SKILL.md",
+        "line": 222,
+        "excerpt": ".venv/bin/python \"<skill>\"/scripts/validate_config.py --config <config_path>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/alloydb-agent-mode-quickstart/SKILL.md",
+        "line": 262,
+        "excerpt": ".venv/bin/python \"<skill>\"/scripts/deploy_infra.py --config <config_path>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/alloydb-agent-mode-quickstart/SKILL.md",
+        "line": 303,
+        "excerpt": ".venv/bin/python \"<skill>\"/scripts/deploy_agent.py deploy --config <config_path>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/alloydb-agent-mode-quickstart/SKILL.md",
+        "line": 324,
+        "excerpt": ".venv/bin/python \"<skill>\"/scripts/deploy_agent.py validate --config <config_path>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/alloydb-agent-mode-quickstart/SKILL.md",
+        "line": 356,
+        "excerpt": ".venv/bin/python \"<skill>\"/scripts/deploy_agent.py register --config <config_path>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/alloydb-agent-mode-quickstart/assets/agent_engine/coordinator.py",
+        "line": 53,
+        "excerpt": "_API = f\"https://{TARGET_LOCATION}-aiplatform.googleapis.com/v1beta1\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/alloydb-agent-mode-quickstart/assets/agent_engine/coordinator.py",
+        "line": 58,
+        "excerpt": "# scope (no narrower read-only scope exists on aiplatform.googleapis.com);",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/alloydb-agent-mode-quickstart/assets/agent_engine/coordinator.py",
+        "line": 93,
+        "excerpt": "r = requests.get(",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/alloydb-agent-mode-quickstart/assets/agent_engine/utility.py",
+        "line": 55,
+        "excerpt": "from google.genai import Client",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/alloydb-agent-mode-quickstart/assets/agent_engine/utility.py",
+        "line": 55,
+        "excerpt": "from google.genai import Client",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "generativelanguage.googleapis.com"
+        ]
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/alloydb-agent-mode-quickstart/assets/agent_engine/utility.py",
+        "line": 56,
+        "excerpt": "from google.genai import types",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/alloydb-agent-mode-quickstart/assets/agent_engine/utility.py",
+        "line": 56,
+        "excerpt": "from google.genai import types",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "generativelanguage.googleapis.com"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/alloydb-agent-mode-quickstart/assets/agent_workspace/service/Dockerfile",
+        "line": 20,
+        "excerpt": "RUN pip install --no-cache-dir -r requirements.txt",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/alloydb-agent-mode-quickstart/assets/agent_workspace/service/server.py",
+        "line": 63,
+        "excerpt": "PROVISIONER_PASSWORD = os.environ[\"PROVISIONER_PASSWORD\"]",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/alloydb-agent-mode-quickstart/assets/terraform/project/main.tf",
+        "line": 58,
+        "excerpt": "\"aiplatform.googleapis.com\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/alloydb-agent-mode-quickstart/assets/terraform/project/main.tf",
+        "line": 194,
+        "excerpt": "service    = \"aiplatform.googleapis.com\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/alloydb-agent-mode-quickstart/references/agent_pool_setup.md",
+        "line": 75,
+        "excerpt": "dns.googleapis.com aiplatform.googleapis.com storage.googleapis.com \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/alloydb-agent-mode-quickstart/references/troubleshooting.md",
+        "line": 8,
+        "excerpt": "gcloud logging read 'resource.type=\"aiplatform.googleapis.com/ReasoningEngine\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/alloydb-agent-mode-quickstart/scripts/bootstrap_env.sh",
+        "line": 84,
+        "excerpt": "PYTHONPATH=\"\" uv pip install --python \"${VENV_DIR}/bin/python\" -r \"${SCRIPT_DIR}/requirements.txt\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/alloydb-agent-mode-quickstart/scripts/deploy_agent.py",
+        "line": 538,
+        "excerpt": "subprocess.CalledProcessError,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/alloydb-agent-mode-quickstart/scripts/deploy_agent.py",
+        "line": 588,
+        "excerpt": "subprocess.run(",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/alloydb-agent-mode-quickstart/scripts/deploy_agent.py",
+        "line": 630,
+        "excerpt": "res = subprocess.run(",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/alloydb-agent-mode-quickstart/scripts/deploy_agent.py",
+        "line": 888,
+        "excerpt": "resp = requests.request(",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/alloydb-agent-mode-quickstart/scripts/deploy_infra.py",
+        "line": 76,
+        "excerpt": "\"aiplatform.googleapis.com\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/alloydb-agent-mode-quickstart/scripts/deploy_infra.py",
+        "line": 832,
+        "excerpt": "proc = subprocess.Popen(apply_cmd, stderr=subprocess.PIPE, text=True)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/alloydb-agent-mode-quickstart/scripts/deploy_infra.py",
+        "line": 852,
+        "excerpt": "raise subprocess.CalledProcessError(proc.returncode, apply_cmd)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/alloydb-agent-mode-quickstart/scripts/deploy_infra.py",
+        "line": 873,
+        "excerpt": "res = subprocess.run(",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/alloydb-agent-mode-quickstart/scripts/deploy_infra.py",
+        "line": 983,
+        "excerpt": "subprocess.run(argv, check=True)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/alloydb-agent-mode-quickstart/scripts/deploy_infra.py",
+        "line": 988,
+        "excerpt": "return subprocess.run(argv, check=False, capture_output=True).returncode == 0",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/alloydb-agent-mode-quickstart/scripts/deploy_infra.py",
+        "line": 993,
+        "excerpt": "res = subprocess.run(argv, check=check, capture_output=True, text=True)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/alloydb-agent-mode-quickstart/scripts/deploy_infra.py",
+        "line": 997,
+        "excerpt": "def _capture(argv: list[str]) -> subprocess.CompletedProcess[str]:",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/alloydb-agent-mode-quickstart/scripts/deploy_infra.py",
+        "line": 999,
+        "excerpt": "return subprocess.run(argv, check=False, capture_output=True, text=True)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/alloydb-agent-mode-quickstart/scripts/deploy_infra.py",
+        "line": 1024,
+        "excerpt": "except subprocess.CalledProcessError as exc:",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude-plugin/plugin.json",
+        "line": 65,
+        "excerpt": "\"command\": \"npx\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude-plugin/plugin.json",
+        "line": 65,
+        "excerpt": "\"command\": \"npx\",",
+        "disclosed": false,
+        "automatic": true
+      }
+    ],
+    "findingTotals": {
+      "shell": 19,
+      "paid-api": 9,
+      "network": 4,
+      "downloads-code": 3,
+      "reads-secrets": 1
+    },
+    "score": 57,
+    "band": "review",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 25,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "7d73976ac180e34556343824ede2b91a4b484554",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 57,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

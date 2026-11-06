@@ -1,0 +1,71 @@
+{
+  "id": "chatcut-inc__agent-plugin__workbuddy~skills~asset-import",
+  "owner": "ChatCut-Inc",
+  "repo": "agent-plugin",
+  "path": "workbuddy/skills/asset-import",
+  "name": "asset-import",
+  "description": "Import local or attached media files, readable user-provided paths, existing ChatCut assets, and public media URLs into a ChatCut project from WorkBuddy.",
+  "stars": 1010,
+  "category": "media",
+  "commit": "5b93f3afca456dc1dd1da01661ea3825846f83a8",
+  "contentHash": "e9b7052b3f979ec630174d60e7b31116a3b381e5bb7d8aa56fab4ebe448caa92",
+  "repoCreatedAt": "2026-06-25T09:45:29Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "workbuddy/skills/asset-import/SKILL.md",
+        "line": 44,
+        "excerpt": "chatcut-upload-media --token \"<token>\" --endpoint \"<endpoint>\" \"/absolute/path/source-1.mp4\" \"/absolute/path/source-2.wav\" --json-out \"${TMPDIR:-/tmp}/chatcut-i",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "workbuddy/skills/asset-import/scripts/upload-media.mjs",
+        "line": 3,
+        "excerpt": "import { spawn, spawnSync } from \"node:child_process\";",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "workbuddy/skills/asset-import/scripts/upload-media.mjs",
+        "line": 104,
+        "excerpt": "return await fetch(url, { ...init, signal: controller.signal });",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "workbuddy/skills/asset-import/scripts/upload-media.mjs",
+        "line": 228,
+        "excerpt": "const result = spawnSync(bin, [\"-version\"], { stdio: \"ignore\" });",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 3,
+      "network": 1
+    },
+    "score": 92,
+    "band": "low",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "5b93f3afca456dc1dd1da01661ea3825846f83a8",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 92,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

@@ -1,0 +1,254 @@
+{
+  "id": "aeonfun__aeon__skills~fetch-tweets",
+  "owner": "aeonfun",
+  "repo": "aeon",
+  "path": "skills/fetch-tweets",
+  "name": "fetch-tweets",
+  "description": "Search and curate X/Twitter behind one selector - keyword, topic roundup, a single or tracked-account digest, an X list, or the AI-agent buzz preset - clustered into signal-scored sub-narratives.",
+  "stars": 789,
+  "category": "coding",
+  "commit": "504a21d53c0c9b485f6e90c43db83000825e1d3c",
+  "contentHash": "fb06fc8d1dea6aef40bf229658b6b5e370a1baea47023433317f5b6236b0dad9",
+  "repoCreatedAt": "2026-03-04T19:44:49Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/fetch-tweets/SKILL.md",
+        "line": 79,
+        "excerpt": "date -u -d yesterday +%Y-%m-%d",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/fetch-tweets/SKILL.md",
+        "line": 82,
+        "excerpt": "date -u +%Y-%m-%d",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/fetch-tweets/SKILL.md",
+        "line": 88,
+        "excerpt": "./secretcurl -s -o /tmp/tw-keyword.json -w 'twitterapi http=%{http_code} bytes=%{size_download}\\n' --max-time 60 -G \"https://api.twitterapi.io/twitter/tweet/adv",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/fetch-tweets/SKILL.md",
+        "line": 94,
+        "excerpt": "jq -r '.tweets[] | [.id, .author.userName, .text, .url, .createdAt, .likeCount, .retweetCount, .replyCount] | @tsv' /tmp/tw-keyword.json",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/fetch-tweets/SKILL.md",
+        "line": 100,
+        "excerpt": "jq -n '{model:\"grok-4.7\", input:[{role:\"user\",content:\"Search X for tweets about: <ARG>. Date range: <FROM_DATE> to <TO_DATE>. Return at least 15-20 candidate t",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/fetch-tweets/SKILL.md",
+        "line": 101,
+        "excerpt": "| ./secretcurl -s -o /tmp/xai.json -w '%{http_code}' --max-time 150 -X POST \"https://api.x.ai/v1/responses\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/fetch-tweets/SKILL.md",
+        "line": 167,
+        "excerpt": "date -u -d yesterday +%Y-%m-%d",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/fetch-tweets/SKILL.md",
+        "line": 170,
+        "excerpt": "date -u +%Y-%m-%d",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/fetch-tweets/SKILL.md",
+        "line": 176,
+        "excerpt": "./secretcurl -s -o /tmp/tw-topic.json -w 'twitterapi http=%{http_code} bytes=%{size_download}\\n' --max-time 60 -G \"https://api.twitterapi.io/twitter/tweet/advan",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/fetch-tweets/SKILL.md",
+        "line": 182,
+        "excerpt": "jq -r '.tweets[] | [.id, .author.userName, .text, .url, .createdAt, .likeCount, .retweetCount, .replyCount] | @tsv' /tmp/tw-topic.json",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/fetch-tweets/SKILL.md",
+        "line": 187,
+        "excerpt": "jq -n '{model:\"grok-4.7\", input:[{role:\"user\",content:\"Search X for recent tweets about: <TOPIC>. Date range: <FROM_DATE> to <TO_DATE>. Return up to 8 substanti",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/fetch-tweets/SKILL.md",
+        "line": 188,
+        "excerpt": "| ./secretcurl -s -o /tmp/xai-topic-out.json -X POST \"https://api.x.ai/v1/responses\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/fetch-tweets/SKILL.md",
+        "line": 239,
+        "excerpt": "./secretcurl -s -o /tmp/tw-account.json -w 'twitterapi http=%{http_code} bytes=%{size_download}\\n' --max-time 60 -G \"https://api.twitterapi.io/twitter/user/last",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/fetch-tweets/SKILL.md",
+        "line": 244,
+        "excerpt": "jq -r '.data.tweets[] | select((try (.createdAt | strptime(\"%a %b %d %H:%M:%S %z %Y\") | strftime(\"%Y-%m-%d\")) catch \"0000-00-00\") >= \"<FROM_2D>\") | [.id, .autho",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/fetch-tweets/SKILL.md",
+        "line": 248,
+        "excerpt": "jq -n '{model:\"grok-4.7\", input:[{role:\"user\",content:\"Search X for the latest tweets, replies, and quote tweets from @<ACCOUNT> in the last 2 days. Return each",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/fetch-tweets/SKILL.md",
+        "line": 249,
+        "excerpt": "| ./secretcurl -m 30 -s -o /tmp/xai-account-out.json -X POST \"https://api.x.ai/v1/responses\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/fetch-tweets/SKILL.md",
+        "line": 308,
+        "excerpt": "./secretcurl -s -o /tmp/tw-acct1.json -w 'twitterapi http=%{http_code} bytes=%{size_download}\\n' --max-time 60 -G \"https://api.twitterapi.io/twitter/user/last_t",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/fetch-tweets/SKILL.md",
+        "line": 313,
+        "excerpt": "jq -r '.data.tweets[] | select((try (.createdAt | strptime(\"%a %b %d %H:%M:%S %z %Y\") | strftime(\"%Y-%m-%d\")) catch \"0000-00-00\") >= \"<FROM_3D>\") | [.id, .autho",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/fetch-tweets/SKILL.md",
+        "line": 317,
+        "excerpt": "jq -n '{model:\"grok-4.7\", input:[{role:\"user\",content:\"Search X for the latest tweets from:<HANDLE> in the last 3 days. Return the 5 most interesting or substan",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/fetch-tweets/SKILL.md",
+        "line": 318,
+        "excerpt": "| ./secretcurl -m 30 -s -o /tmp/xai-acct1-out.json -X POST \"https://api.x.ai/v1/responses\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/fetch-tweets/SKILL.md",
+        "line": 365,
+        "excerpt": "jq -n '{model:\"grok-4.7\", input:[{role:\"user\",content:\"Look at X list https://x.com/i/lists/<LIST_ID>. Step 1: report the list name and a one-line description. ",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/fetch-tweets/SKILL.md",
+        "line": 366,
+        "excerpt": "| ./secretcurl -s -o /tmp/xai-list-out.json --max-time 180 -X POST \"https://api.x.ai/v1/responses\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/fetch-tweets/SKILL.md",
+        "line": 438,
+        "excerpt": "date -u -d '1 day ago' +%Y-%m-%d",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/fetch-tweets/SKILL.md",
+        "line": 441,
+        "excerpt": "date -u +%Y-%m-%d",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/fetch-tweets/SKILL.md",
+        "line": 447,
+        "excerpt": "./secretcurl -s -o /tmp/tw-buzz.json -w 'twitterapi http=%{http_code} bytes=%{size_download}\\n' --max-time 60 -G \"https://api.twitterapi.io/twitter/tweet/advanc",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/fetch-tweets/SKILL.md",
+        "line": 460,
+        "excerpt": "| ./secretcurl -s -o /tmp/xai-buzz-out.json -X POST \"https://api.x.ai/v1/responses\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/fetch-tweets/SKILL.md",
+        "line": 547,
+        "excerpt": "**Path B - xAI Grok x_search (fallback).** Only when Path A fails (non-2xx / empty / timeout) or `TWITTER_API_KEY` is unset. Direct `curl` to `https://api.x.ai/",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 23,
+      "paid-api": 7
+    },
+    "score": 87,
+    "band": "low",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "504a21d53c0c9b485f6e90c43db83000825e1d3c",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 87,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}

