@@ -1,16 +1,20 @@
 # SkillTrust
 
-TrustMRR for Claude skills: what every skill can do to your machine, in plain English.
+TrustMRR for AI agent skills: what every skill can do to your machine, in plain English. Works with every coding agent.
 
 Site: https://zalavijaysinh.github.io/skilltrust/
 
-SkillTrust scans public Claude skills on GitHub every day and gives each one a score out of 100, plus a plain-English list of what it can do: run commands, read your keys, send data to other websites, and so on.
+SkillTrust scans public AI agent skills on GitHub every day and gives each one a score out of 100, plus a plain-English list of what it can do: run commands, read your keys, send data to other websites, and so on. Skills use one shared format, so the same score applies whichever agent runs them.
 
 Early days: the first full scan builds up over several daily runs, so the site will not list every skill on day one.
 
+## Supported agents
+
+Claude Code, Codex, Antigravity, Cursor, Copilot, Gemini CLI and OpenCode. Any other agent that reads `~/.agents/skills` works too.
+
 ## Install the finder
 
-The finder is a Claude skill. Ask it for a skill and it recommends the safest matches, shows what each can do, and installs one only after you say yes.
+The finder is an agent skill. Ask it for a skill and it detects which agent you are in, recommends the safest matches, shows what each can do, and installs one only after you say yes. It installs into the shared `~/.agents/skills` folder and links it into your agent's own skills folder when that agent needs it. It never deletes or replaces anything. On Windows it links the trust page instead of installing.
 
 ```
 npx skills add ZalaVijaysinh/skilltrust
@@ -22,6 +26,10 @@ Or, in Claude Code:
 /plugin marketplace add ZalaVijaysinh/skilltrust
 /plugin install skilltrust@skilltrust
 ```
+
+## Trending
+
+The home page ranks skills by stars gained this week and this month, taken from daily star snapshots. Until there is enough history it shows "New and rising" instead. "Most installed" is coming later. Star history is backfilled from [OSS Insight](https://ossinsight.io); the backfill is paused for now.
 
 ## How scoring works
 

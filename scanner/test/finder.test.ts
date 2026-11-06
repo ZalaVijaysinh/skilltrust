@@ -50,7 +50,7 @@ test("the finder scores at least 80 under our own scanner", () => {
   expect(r.score).toBeGreaterThanOrEqual(80);
   const hit = new Set(r.findings.map((f) => f.ruleId));
   for (const id of ["obfuscated", "browser-secrets", "reads-secrets", "downloads-code", "paid-api"]) expect(hit.has(id as never), id).toBe(false);
-  // Installing must write into ~/.claude/skills, so writes-outside is allowed only when disclosed.
+  // Installing must write into ~/.agents/skills, so writes-outside is allowed only when disclosed.
   for (const f of r.findings.filter((x) => x.ruleId === "writes-outside")) expect(f.disclosed).toBe(true);
 });
 
@@ -98,8 +98,8 @@ test("filter script: keyword args failing the pattern are ignored", () => {
 
 test("the script never contains a single quote (it sits inside one)", () => expect(script).not.toContain("'"));
 
-const install = (entries: unknown[], ...args: string[]) => {
-  const r = run(JSON.stringify(entries), "--install", ...args);
+const install = (entries: unknown[], id?: string, agent = "claude-code", ...more: string[]) => {
+  const r = run(JSON.stringify(entries), "--install", ...(id === undefined ? [] : [id, agent]), ...more);
   return { ...r, lines: r.stdout.trim().split("\n") };
 };
 const valid = { ...entry("acme__tools__pdf", "PDF tool"), owner: "acme", repo: "tools", path: "skills/PDF_Tool", commit: "c".repeat(40) };
@@ -107,22 +107,63 @@ const valid = { ...entry("acme__tools__pdf", "PDF tool"), owner: "acme", repo: "
 test("install mode prints a check, the commit and the finished install command", () => {
   const r = install([entry("other", "x"), valid], "acme__tools__pdf");
   expect(r.status).toBe(0);
-  expect(r.lines).toEqual([
+  expect(r.lines.slice(0, 2)).toEqual([
     "check: git ls-remote 'https://github.com/acme/tools' HEAD",
     `commit: ${"c".repeat(40)}`,
-    `install: ${installCommand({ ...valid, name: "pdf_tool" })}`,
   ]);
-  expect(r.lines[2]).toContain("~/.claude/skills/'pdf-tool'");
+  const base = installCommand({ ...valid, name: "pdf_tool" });
+  expect(r.lines[2]).toBe(`install: ${base} && mkdir -p ~/.claude/skills && ${link("~/.claude/skills", "pdf-tool")}`);
+  expect(r.lines[2]).toContain("~/.agents/skills/'pdf-tool'");
   expect(r.lines[2]).toContain("A skill folder named pdf-tool already exists — not replacing it");
-  expect(spawnSync("bash", ["-n", "-c", r.lines[2].slice("install: ".length)]).status).toBe(0); // parse only
-  const root = install([{ ...valid, path: "" }], "acme__tools__pdf");
+  const root = install([{ ...valid, path: "" }], "acme__tools__pdf", "codex");
   expect(root.lines[2]).toBe(`install: ${installCommand({ ...valid, path: "", name: "tools" })}`);
+});
+
+const link = (dir: string, f: string) =>
+  `if [ -e ${dir}/'${f}' ] || [ -L ${dir}/'${f}' ]; then echo 'A skill named ${f} already exists in ${dir} — not linking' >&2; false; else ln -s ~/.agents/skills/'${f}' ${dir}/'${f}'; fi`;
+const dirs: Record<string, string> = { "claude-code": "~/.claude/skills", antigravity: "~/.gemini/config/skills", cursor: "~/.cursor/skills",
+  copilot: "~/.copilot/skills", "gemini-cli": "~/.gemini/skills", opencode: "~/.config/opencode/skills" };
+
+test("install mode links into each agent's folder, none for codex and other, and every variant parses", () => {
+  for (const agent of ["claude-code", "codex", "antigravity", "cursor", "copilot", "gemini-cli", "opencode", "other"]) {
+    const r = install([valid], "acme__tools__pdf", agent);
+    expect(r.status, agent).toBe(0);
+    const cmd = r.lines[2].slice("install: ".length);
+    const d = dirs[agent];
+    if (d) expect(cmd.endsWith(` && mkdir -p ${d} && ${link(d, "pdf-tool")}`), agent).toBe(true);
+    else expect(cmd, agent).toBe(installCommand({ ...valid, name: "pdf_tool" }));
+    expect(spawnSync("bash", ["-n", "-c", cmd]).status, agent).toBe(0); // parse only, never run
+    expect(cmd).not.toMatch(/\bexit\b/);
+  }
+});
+
+test("install mode refuses an unknown agent", () => {
+  for (const a of ["claude", "x;rm", "Codex", "", "__proto__", "toString"]) {
+    const r = install([valid], "acme__tools__pdf", a);
+    expect(r.stdout.trim(), a).toBe("cannot install");
+    expect(r.status).not.toBe(0);
+  }
+});
+
+test("SKILL.md pins agent detection order, the Windows rule and the universal wording", () => {
+  const order = ["AI_AGENT", "CLAUDECODE", "CODEX_THREAD_ID", "ANTIGRAVITY_AGENT", "CURSOR_AGENT", "COPILOT_MODEL", "GEMINI_CLI", "OPENCODE"].map((v) => skill.indexOf(v));
+  expect(order.every((i) => i > 0)).toBe(true);
+  expect([...order].sort((a, b) => a - b)).toEqual(order);
+  expect(skill).toContain("CURSOR_EXTENSION_HOST_ROLE=agent-exec");
+  expect(skill).toContain("OS=Windows_NT");
+  expect(skill).toMatch(/Windows[^\n]*no install/i);
+  expect(skill).toContain("--install 'ID' 'AGENT'");
+  expect(parseFrontmatter(skill).description).toMatch(/AI agent skills/);
+  for (const t of [skill, readme]) {
+    expect(t).toMatch(/AI agent skills/i);
+    for (const a of ["Claude Code", "Codex", "Antigravity", "Cursor", "Copilot", "Gemini CLI", "OpenCode"]) expect(t, a).toContain(a);
+  }
 });
 
 test("install mode ignores a poisoned name: the folder comes from the path", () => {
   const r = install([{ ...valid, name: "x'; rm -rf ~; echo '" }], "acme__tools__pdf");
   expect(r.status).toBe(0);
-  expect(r.lines[2]).toContain("~/.claude/skills/'pdf-tool'");
+  expect(r.lines[2]).toContain("~/.agents/skills/'pdf-tool'");
   expect(r.stdout).not.toContain("rm -rf ~;");
   expect(r.stdout).not.toContain("x'");
 });
@@ -141,8 +182,8 @@ test("install mode refuses poisoned paths, unknown or bad ids, and unusable entr
   refuse([{ ...valid, commit: "main" }], "acme__tools__pdf");
   refuse([{ ...valid, owner: "a;b" }], "acme__tools__pdf");
   refuse([valid]);
-  refuse([valid], "acme__tools__pdf", "extra");
-  const bad = run("{not json", "--install", "x");
+  refuse([valid], "acme__tools__pdf", "claude-code", "extra");
+  const bad = run("{not json", "--install", "x", "codex");
   expect(bad.stdout.trim()).toBe("cannot install");
   expect(bad.status).not.toBe(0);
 });

@@ -10,13 +10,13 @@ import { rec, SHA } from "./fixtures-record.js";
 const base = { owner: "acme", repo: "skills", path: "tools/pdf", commit: SHA, name: "pdf" };
 
 const sh = (c: string) => spawnSync("bash", ["-n", "-c", c], { encoding: "utf8" }); // -n: parse only, never runs
-const guard = (f: string) => `if [ -e ~/.claude/skills/'${f}' ] || [ -L ~/.claude/skills/'${f}' ]; then echo 'A skill folder named ${f} already exists — not replacing it' >&2; false; else `;
+const guard = (f: string) => `if [ -e ~/.agents/skills/'${f}' ] || [ -L ~/.agents/skills/'${f}' ]; then echo 'A skill folder named ${f} already exists — not replacing it' >&2; false; else `;
 
 describe("installCommand", () => {
   it("matches the quoted template and never replaces an existing folder", () => {
     const c = installCommand(base);
     expect(c).toBe(
-      `${guard("pdf")}d=$(mktemp -d) && git clone --quiet --filter=blob:none --no-checkout 'https://github.com/acme/skills' "$d" && git -C "$d" checkout --quiet '${SHA}' -- 'tools/pdf' && mkdir -p ~/.claude/skills && cp -R "$d"/'tools/pdf' ~/.claude/skills/'pdf' && rm -rf "$d"; fi`,
+      `${guard("pdf")}d=$(mktemp -d) && git clone --quiet --filter=blob:none --no-checkout 'https://github.com/acme/skills' "$d" && git -C "$d" checkout --quiet '${SHA}' -- 'tools/pdf' && mkdir -p ~/.agents/skills && cp -R "$d"/'tools/pdf' ~/.agents/skills/'pdf' && rm -rf "$d"; fi`,
     );
     expect(sh(c).status).toBe(0);
   });
@@ -24,24 +24,24 @@ describe("installCommand", () => {
     const c = installCommand({ ...base, path: "" });
     expect(c.startsWith(guard("pdf"))).toBe(true);
     expect(c).toContain(`-- '.'`);
-    expect(c).toContain(`cp -R "$d/." ~/.claude/skills/'pdf' && rm -rf ~/.claude/skills/'pdf'/.git && rm -rf "$d"; fi`);
+    expect(c).toContain(`cp -R "$d/." ~/.agents/skills/'pdf' && rm -rf ~/.agents/skills/'pdf'/.git && rm -rf "$d"; fi`);
     expect(sh(c).status).toBe(0);
   });
   it("only ever removes the temp dir and the new copy's .git", () => {
     for (const c of [installCommand(base), installCommand({ ...base, path: "" })])
-      for (const m of c.matchAll(/rm -rf ([^\s;]+)/g)) expect(['"$d"', "~/.claude/skills/'pdf'/.git"]).toContain(m[1]);
+      for (const m of c.matchAll(/rm -rf ([^\s;]+)/g)) expect(['"$d"', "~/.agents/skills/'pdf'/.git"]).toContain(m[1]);
   });
   it("turns hostile names into a safe slug", () => {
     const c = installCommand({ ...base, name: "x'; rm -rf ~; echo '" });
-    expect(c.includes(`cp -R "$d"/'tools/pdf' ~/.claude/skills/'x-rm-rf-echo'`)).toBe(true);
+    expect(c.includes(`cp -R "$d"/'tools/pdf' ~/.agents/skills/'x-rm-rf-echo'`)).toBe(true);
     expect(c).not.toContain("rm -rf ~;");
     expect(c).toContain("A skill folder named x-rm-rf-echo already exists");
     expect(sh(c).status).toBe(0);
-    expect(installCommand({ ...base, name: "$(reboot) `id` ../../etc" })).toContain(`~/.claude/skills/'reboot-id-etc'`);
+    expect(installCommand({ ...base, name: "$(reboot) `id` ../../etc" })).toContain(`~/.agents/skills/'reboot-id-etc'`);
   });
   it("falls back to the dir basename, then skill", () => {
-    expect(installCommand({ ...base, name: "!!!", path: "a/My Dir" })).toContain(`~/.claude/skills/'my-dir'`);
-    expect(installCommand({ ...base, name: "!!!", path: "" })).toContain(`~/.claude/skills/'skill'`);
+    expect(installCommand({ ...base, name: "!!!", path: "a/My Dir" })).toContain(`~/.agents/skills/'my-dir'`);
+    expect(installCommand({ ...base, name: "!!!", path: "" })).toContain(`~/.agents/skills/'skill'`);
   });
   it("caps slug at 64 chars", () => {
     expect(installCommand({ ...base, name: "a".repeat(200) })).toContain(`'${"a".repeat(64)}'`);
