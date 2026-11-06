@@ -124,6 +124,7 @@ describe("scan to site: identical copies collapse, riskier copies do not", () =>
   };
   const gh: GitHub = {
     async getStars() { return { counts: new Map(), failedBatches: 0 }; },
+    async searchRepos() { return { totalCount: 0, items: [] }; },
     async searchCode() {
       const items = Object.entries(repos).flatMap(([k, r]) => Object.keys(r.files).filter((p) => p.endsWith("SKILL.md")).map((path) => ({ owner: k.split("/")[0], repo: k.split("/")[1], path })));
       return { totalCount: items.length, items };

@@ -5,13 +5,19 @@ import { RateLimitExhausted, type GitHub } from "../src/github.js";
 function fake(opts: {
   search?: (q: string, page: number) => { totalCount: number; items: { owner: string; repo: string; path: string }[] };
   raw?: Record<string, string>;
+  repos?: (q: string, page: number) => { totalCount: number; items: { owner: string; repo: string }[] };
 }) {
   const queries: string[] = [];
+  const topicQueries: string[] = [];
   const reads: string[] = [];
   const gh = {
     searchCode: async (q: string, page: number) => {
       queries.push(`${q}#${page}`);
       return opts.search ? opts.search(q, page) : { totalCount: 0, items: [] };
+    },
+    searchRepos: async (q: string, page: number) => {
+      topicQueries.push(`${q}#${page}`);
+      return opts.repos ? opts.repos(q, page) : { totalCount: 0, items: [] };
     },
     readRaw: async (o: string, r: string, _ref: string, p: string) => {
       reads.push(`${o}/${r}/${p}`);
@@ -24,7 +30,7 @@ function fake(opts: {
     getHeadCommit: async () => { throw new Error("must not be called"); },
     remaining: () => Infinity,
   } as unknown as GitHub;
-  return { gh, queries, reads };
+  return { gh, queries, reads, topicQueries };
 }
 
 describe("discoverSkills", () => {
@@ -88,7 +94,7 @@ describe("discoverSkills", () => {
     expect((await discoverSkills(gh, { warn: (m) => void warned.push(m) })).length).toBe(1);
     expect(warned.filter((m) => m.includes("size:0..1000") && m.includes("search limit"))).toHaveLength(1);
     // every unreadable awesome list and the marketplace get their own warning, so a missing PAT shows in the log
-    expect(warned.filter((m) => m.includes("awesome") || m.includes("claude-plugins-official"))).toHaveLength(5);
+    expect(warned.filter((m) => m.includes("awesome") || m.includes("claude-plugins-official"))).toHaveLength(6);
     const { gh: bad } = fake({ search: () => { throw new RateLimitExhausted("x"); } });
     await expect(discoverSkills(bad)).rejects.toBeInstanceOf(RateLimitExhausted);
   });
@@ -148,6 +154,41 @@ describe("discoverSkills", () => {
       const state = newDiscoveryState();
       await expect(discoverSkills(f.gh, { state })).rejects.toBeInstanceOf(RateLimitExhausted);
       expect(state.queue[0]).toMatchObject({ lo: 0, hi: 1000, page: 1 });
+    });
+  });
+
+  describe("topic search", () => {
+    const page = (n: number, tag: string) => ({ totalCount: 999, items: Array.from({ length: n }, (_, i) => ({ owner: "t", repo: `${tag}${i}` })) });
+    it("runs after code search, adds path-less candidates, pages up to 10 and moves to the next topic", async () => {
+      const f = fake({ repos: (q, p) => (q === "topic:agent-skills" ? page(100, `a${p}-`) : page(0, "")) });
+      const state = newDiscoveryState();
+      await discoverSkills(f.gh, { state, budget: 0 });
+      expect(f.topicQueries.filter((q) => q.startsWith("topic:agent-skills"))).toHaveLength(10);
+      expect(f.topicQueries.slice(-2)).toEqual(["topic:claude-skills#1", "topic:codex-skills#1"]);
+      expect(state.candidates).toHaveLength(1000);
+      expect(state.candidates[0]).toMatchObject({ owner: "t", path: "" });
+      expect(state.topicQueue).toEqual([]);
+    });
+    it("stops at topicBudget and resumes from the saved topicQueue", async () => {
+      const a = fake({ repos: (_q, p) => page(100, `p${p}-`) });
+      const state = newDiscoveryState();
+      await discoverSkills(a.gh, { state, budget: 0, topicBudget: 3 });
+      expect(a.topicQueries).toEqual(["topic:agent-skills#1", "topic:agent-skills#2", "topic:agent-skills#3"]);
+      const saved = JSON.parse(JSON.stringify(state));
+      expect(saved.topicQueue[0]).toEqual({ topic: "agent-skills", page: 4 });
+      const b = fake({});
+      await discoverSkills(b.gh, { state: saved, budget: 0, topicBudget: 2 });
+      expect(b.topicQueries).toEqual(["topic:agent-skills#4", "topic:claude-skills#1"]);
+    });
+    it("skips a failing page with a warning but propagates RateLimitExhausted", async () => {
+      const warned: string[] = [];
+      const f = fake({ repos: () => { throw new Error("422"); } });
+      await discoverSkills(f.gh, { budget: 0, topicBudget: 2, warn: (m) => void warned.push(m) });
+      expect(warned.filter((m) => m.includes("topic search"))).toHaveLength(2);
+      const g = fake({ repos: () => { throw new RateLimitExhausted("x"); } });
+      const state = newDiscoveryState();
+      await expect(discoverSkills(g.gh, { state, budget: 0 })).rejects.toBeInstanceOf(RateLimitExhausted);
+      expect(state.topicQueue![0]).toEqual({ topic: "agent-skills", page: 1 });
     });
   });
 });

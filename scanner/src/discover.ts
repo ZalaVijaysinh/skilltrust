@@ -8,6 +8,7 @@ const SIZE_RANGES: [number, number][] = [
 const AWESOME_LISTS: [string, string][] = [
   ["ComposioHQ", "awesome-claude-skills"],
   ["VoltAgent", "awesome-agent-skills"],
+  ["heilcheng", "awesome-agent-skills"],
   ["sickn33", "agentic-awesome-skills"],
   ["hesreallyhim", "awesome-claude-code"],
 ];
@@ -28,7 +29,13 @@ const LINK = /github\.com\/([\w.-]{1,100})\/([\w.-]{1,100})(?:\/tree\/[^/\s)#?"'
 export interface Candidate extends SkillRef { firstSeen: string }
 /** A pending code-search slice; `page` is the next page to fetch. The queue is the resumable cursor. */
 export interface SliceTask { lo: number; hi: number; page: number }
+/** A pending topic search; `page` is the next page to fetch. */
+export interface TopicTask { topic: string; page: number }
+const TOPICS = ["agent-skills", "claude-skills", "codex-skills"];
+const freshTopics = (): TopicTask[] => TOPICS.map((topic) => ({ topic, page: 1 }));
 export interface DiscoveryState {
+  /** resumable repository-search cursor; refilled when empty */
+  topicQueue?: TopicTask[];
   candidates: Candidate[];
   queue: SliceTask[];
   lastFullSweep?: string;
@@ -50,14 +57,14 @@ export function newDiscoveryState(): DiscoveryState { return { candidates: [], q
  */
 export async function discoverSkills(
   gh: GitHub,
-  opts: { state?: DiscoveryState; budget?: number; now?: Date; warn?: (m: string) => void } = {},
+  opts: { state?: DiscoveryState; budget?: number; /** topic-search requests (default 40) */ topicBudget?: number; now?: Date; warn?: (m: string) => void } = {},
 ): Promise<SkillRef[]> {
   const state = opts.state ?? newDiscoveryState();
-  await run(gh, state, opts.budget ?? Infinity, (opts.now ?? new Date()).toISOString().slice(0, 10), opts.warn ?? console.warn);
+  await run(gh, state, opts.budget ?? Infinity, opts.topicBudget ?? 40, (opts.now ?? new Date()).toISOString().slice(0, 10), opts.warn ?? console.warn);
   return state.candidates.map(({ owner, repo, path }) => ({ owner, repo, path }));
 }
 
-async function run(gh: GitHub, state: DiscoveryState, budget: number, today: string, warn: (m: string) => void): Promise<void> {
+async function run(gh: GitHub, state: DiscoveryState, budget: number, topicBudget: number, today: string, warn: (m: string) => void): Promise<void> {
   const keyOf = (owner: string, repo: string, path: string) => `${owner.toLowerCase()}/${repo.toLowerCase()}/${path}`;
   const seen = new Set(state.candidates.map((c) => keyOf(c.owner, c.repo, c.path)));
   const add = (owner: string, repo: string, path: string) => {
@@ -125,5 +132,22 @@ async function run(gh: GitHub, state: DiscoveryState, budget: number, today: str
       state.queue = freshQueue();
       break;
     }
+  }
+
+  // 4. topic search (after code search), same resumable-cursor scheme; pages are capped at 10 (GitHub returns at most 1000 results)
+  if (!state.topicQueue?.length) state.topicQueue = freshTopics();
+  const tq = state.topicQueue;
+  for (let spent = 0; spent < topicBudget && tq.length; spent++) {
+    const { topic, page } = tq[0];
+    let res;
+    try { res = await gh.searchRepos(`topic:${topic}`, page); } catch (e) {
+      if (e instanceof RateLimitExhausted) throw e; // task stays queued
+      warn(`skilltrust: topic search "${topic}" page ${page} failed, skipping it: ${why(e)}`);
+      tq.shift();
+      continue;
+    }
+    tq.shift();
+    for (const i of res.items) add(i.owner, i.repo, "");
+    if (res.items.length === 100 && page < 10) tq.unshift({ topic, page: page + 1 });
   }
 }

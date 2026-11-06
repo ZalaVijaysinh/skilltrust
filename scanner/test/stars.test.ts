@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { mkdtemp, readFile, writeFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { loadStars, recordSnapshot, saveStars, type StarsFile } from "../src/stars.js";
+import { loadStars, recordSnapshot, saveStars, starGain, type StarsFile } from "../src/stars.js";
 
 const c = (stars: number) => new Map([["a/b", { stars, createdAt: "2024-01-01T00:00:00Z" }]]);
 
@@ -60,5 +60,22 @@ describe("stars", () => {
       await saveStars(f, s);
       expect(await loadStars(f, () => {})).toEqual(s);
     } finally { await rm(dir, { recursive: true, force: true }); }
+  });
+});
+
+describe("starGain", () => {
+  const T = "2026-11-07";
+  it("uses an exact 7-day-old point", () => expect(starGain([["2026-10-31", 100], [T, 130]], T, 7)).toBe(30));
+  it("uses a 9-day-old point when nothing is nearer", () => expect(starGain([["2026-10-29", 100], [T, 130]], T, 7)).toBe(30));
+  it("prefers the nearest point on or before the window", () => expect(starGain([["2026-10-29", 90], ["2026-10-30", 100], ["2026-11-03", 120], [T, 130]], T, 7)).toBe(30));
+  it("does not use a 10-day-old point", () => expect(starGain([["2026-10-28", 100], [T, 130]], T, 7)).toBeNull());
+  it("30-day window accepts up to 35 days", () => {
+    expect(starGain([["2026-10-03", 100], [T, 130]], T, 30)).toBe(30);
+    expect(starGain([["2026-10-02", 100], [T, 130]], T, 30)).toBeNull();
+  });
+  it("is null without a point for today or without a baseline", () => {
+    expect(starGain([["2026-10-31", 100]], T, 7)).toBeNull();
+    expect(starGain([[T, 130]], T, 7)).toBeNull();
+    expect(starGain([], T, 7)).toBeNull();
   });
 });

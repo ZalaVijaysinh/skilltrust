@@ -22,6 +22,7 @@ function fake(repos: Record<string, FakeRepo>) {
   const calls = { getTree: [] as string[], getRepo: [] as string[] };
   const gh: GitHub = {
     async getStars() { return { counts: new Map(), failedBatches: 0 }; },
+    async searchRepos() { return { totalCount: 0, items: [] }; },
     async searchCode() {
       const items = Object.entries(repos).flatMap(([k, r]) =>
         Object.keys(r.files).filter((p) => p.endsWith("SKILL.md")).map((p) => ({ owner: k.split("/")[0], repo: k.split("/")[1], path: p })));
@@ -398,5 +399,97 @@ describe("runScan", () => {
     await expect(run(fake({ "a/r": { files: skill("r") } }).gh, dir, 10, { clock: () => { if (n++ > 0) throw new Error("clock"); return 0; } })).rejects.toThrow("clock");
     expect(JSON.parse(await readFile(join(dir, "index.json"), "utf8"))).toHaveLength(1);
     expect((await discovery(dir)).candidates).toHaveLength(1);
+  });
+
+  describe("star snapshot and queue order", () => {
+    const stars = (m: Record<string, number>) => async (rs: { owner: string; repo: string }[]) => ({
+      counts: new Map(rs.flatMap((r) => { const k = `${r.owner}/${r.repo}`.toLowerCase(); return k in m ? [[k, { stars: m[k], createdAt: "2025-01-01T00:00:00Z" }] as const] : []; })),
+      failedBatches: 0,
+    });
+    const readStars = async (dir: string) => JSON.parse(await readFile(join(dir, "stars.json"), "utf8"));
+
+    it("snapshots every candidate before the repo loop, even when the deadline cuts it after one repo", async () => {
+      const dir = await mk();
+      const f = fake({ "a/one": { files: skill("one") }, "a/two": { files: skill("two") }, "a/tiny": { files: skill("tiny") } });
+      f.gh.getStars = stars({ "a/one": 50, "a/two": 60, "a/tiny": 3 });
+      const r = await run(f.gh, dir, 10, { maxMinutes: 1, clock: seqClock([0, 0]) });
+      expect(r.stoppedEarly).toBe(true);
+      expect(f.calls.getRepo).toHaveLength(1);
+      const s = await readStars(dir);
+      expect(s.repos).toEqual({
+        "a/one": { createdAt: "2025-01-01T00:00:00Z", points: [["2026-11-06", 50]] },
+        "a/two": { createdAt: "2025-01-01T00:00:00Z", points: [["2026-11-06", 60]] },
+      });
+    });
+
+    it("probes never-checked repos by descending stars, repos without a count last", async () => {
+      const dir = await mk();
+      const f = fake({ "a/x": { files: skill("x") }, "a/y": { files: skill("y") }, "a/z": { files: skill("z") }, "a/w": { files: skill("w") } });
+      f.gh.getStars = stars({ "a/x": 20, "a/y": 90, "a/z": 50 });
+      await run(f.gh, dir);
+      expect(f.calls.getRepo).toEqual(["a/y", "a/z", "a/x", "a/w"]);
+    });
+
+    it("scans a trending repo checked 30 h ago before a flat one checked 40 h ago", async () => {
+      const dir = await mk();
+      const h = (n: number) => new Date(NOW.getTime() - n * 3600_000).toISOString();
+      await writeFile(join(dir, "discovery.json"), JSON.stringify({
+        candidates: ["flat", "trend"].map((repo) => ({ owner: "a", repo, path: "", firstSeen: "2026-10-01" })),
+        queue: [], lastChecked: { "a/flat": h(40), "a/trend": h(30) },
+      }));
+      await writeFile(join(dir, "stars.json"), JSON.stringify({ repos: {
+        "a/flat": { createdAt: "2025-01-01T00:00:00Z", points: [["2026-10-30", 100]] },
+        "a/trend": { createdAt: "2025-01-01T00:00:00Z", points: [["2026-10-30", 100]] },
+      } }));
+      const f = fake({ "a/flat": { files: skill("flat") }, "a/trend": { files: skill("trend") } });
+      f.gh.getStars = stars({ "a/flat": 100, "a/trend": 300 });
+      await run(f.gh, dir, 10, { searchBudget: 0, topicBudget: 0 });
+      expect(f.calls.getRepo).toEqual(["a/trend", "a/flat"]);
+    });
+
+    it("does not boost a trending repo probed within 24 h", async () => {
+      const dir = await mk();
+      const h = (n: number) => new Date(NOW.getTime() - n * 3600_000).toISOString();
+      await writeFile(join(dir, "discovery.json"), JSON.stringify({
+        candidates: ["flat", "trend"].map((repo) => ({ owner: "a", repo, path: "", firstSeen: "2026-10-01" })),
+        queue: [], lastChecked: { "a/flat": h(40), "a/trend": h(5) },
+      }));
+      await writeFile(join(dir, "stars.json"), JSON.stringify({ repos: { "a/trend": { createdAt: "2025-01-01T00:00:00Z", points: [["2026-10-30", 100]] } } }));
+      const f = fake({ "a/flat": { files: skill("flat") }, "a/trend": { files: skill("trend") } });
+      f.gh.getStars = stars({ "a/trend": 300 });
+      await run(f.gh, dir, 10, { searchBudget: 0, topicBudget: 0 });
+      expect(f.calls.getRepo).toEqual(["a/flat", "a/trend"]);
+    });
+
+    it("a getStars failure warns and the repo loop still runs", async () => {
+      const dir = await mk();
+      const f = fake({ "a/r": { files: skill("r") } });
+      f.gh.getStars = async () => { throw new Error("GitHub 502 for /graphql"); };
+      const warn = vi.fn();
+      const r = await run(f.gh, dir, 10, { warn });
+      expect(r.scanned).toBe(1);
+      expect(warn.mock.calls.some((c) => String(c[0]).includes("star snapshot failed"))).toBe(true);
+    });
+
+    it("writes no day when every batch failed, and warns about failed batches", async () => {
+      const dir = await mk();
+      const f = fake({ "a/r": { files: skill("r") } });
+      f.gh.getStars = async () => ({ counts: new Map(), failedBatches: 1 });
+      const warn = vi.fn();
+      expect((await run(f.gh, dir, 10, { warn })).scanned).toBe(1);
+      expect((await readStars(dir)).repos).toEqual({});
+      expect(warn.mock.calls.some((c) => String(c[0]).includes("1 batch"))).toBe(true);
+    });
+
+    it("RateLimitExhausted from getStars stops the run cleanly and still rebuilds", async () => {
+      const dir = await mk();
+      const f = fake({ "a/r": { files: skill("r") } });
+      f.gh.getStars = async () => { throw new RateLimitExhausted("quota"); };
+      const r = await run(f.gh, dir);
+      expect(r).toMatchObject({ scanned: 0, stoppedEarly: true });
+      expect(f.calls.getRepo).toEqual([]);
+      await stat(join(dir, "stars.json"));
+      await stat(join(dir, "index.json"));
+    });
   });
 });

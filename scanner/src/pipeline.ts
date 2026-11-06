@@ -9,11 +9,15 @@ import { categorize } from "./category.js";
 import { contentHash, skillDirsInTree, skillId } from "./dedupe.js";
 import { parseFrontmatter, rebuildIndex, writeAtomic, writeRecords, type SkillRecord } from "./records.js";
 import type { SkillFile } from "./types.js";
+import { loadStars, recordSnapshot, saveStars, starGain } from "./stars.js";
+import { backfillStars } from "./backfill.js";
 
-export interface ScanSummary { scanned: number; skipped: number; unavailable: number; stoppedEarly: boolean; writeSkipped: string[] }
+export interface ScanSummary { scanned: number; skipped: number; unavailable: number; stoppedEarly: boolean; writeSkipped: string[]; snapshotted?: number; backfilled?: number }
 
 const CONCURRENCY = 8;
 const BELOW_FLOOR_RECHECK_MS = 7 * 24 * 3600_000;
+const TRENDING_TOP = 50;
+const TRENDING_RECHECK_MS = 24 * 3600_000;
 const MAX_READ = 1_000_000;
 const BINARY = /\.(png|jpe?g|gif|webp|ico|pdf|zip|gz|tgz|woff2?|ttf|mp[34]|wasm|lock)$/i;
 const key = (o: string, r: string) => `${o}/${r}`.toLowerCase();
@@ -118,6 +122,7 @@ function validState(d: any): DiscoveryState | null {
     lastChecked,
     partial: Array.isArray(d.partial) ? d.partial.filter(isStr) : [],
     belowFloor,
+    topicQueue: Array.isArray(d.topicQueue) ? d.topicQueue.filter((t: any) => t && isStr(t.topic) && Number.isFinite(t.page)) : undefined,
   };
 }
 
@@ -137,10 +142,14 @@ export async function runScan(opts: {
   /** code-search requests per run */ searchBudget?: number;
   /** wall-clock limit for the repo loop */ maxMinutes?: number;
   clock?: () => number;
+  /** UTC YYYY-MM-DD of the star snapshot; default: from `now` */ today?: string;
+  /** topic-search requests per run */ topicBudget?: number;
   /** discovery warnings (failed sources and search slices) */
   warn?: (m: string) => void;
 }): Promise<ScanSummary> {
   const { gh, dataDir, now, minStars } = opts;
+  const today = opts.today ?? now.toISOString().slice(0, 10);
+  const warn = opts.warn ?? console.warn;
   const clock = opts.clock ?? Date.now;
   const deadline = clock() + (opts.maxMinutes ?? 240) * 60_000;
   const sum: ScanSummary = { scanned: 0, skipped: 0, unavailable: 0, stoppedEarly: false, writeSkipped: [] };
@@ -157,8 +166,10 @@ export async function runScan(opts: {
   const belowFloor = (state.belowFloor ??= {});
   const partial = new Set(state.partial ?? []);
   const saveState = () => writeAtomic(discoveryFile, JSON.stringify({ ...state, partial: [...partial] }, null, 2) + "\n");
+  const starsFile = join(dataDir, "stars.json");
+  let stars: Awaited<ReturnType<typeof loadStars>> | undefined;
   try {
-    try { await discoverSkills(gh, { state, budget: opts.searchBudget ?? 120, now, warn: opts.warn }); } catch (e) {
+    try { await discoverSkills(gh, { state, budget: opts.searchBudget ?? 120, topicBudget: opts.topicBudget, now, warn: opts.warn }); } catch (e) {
       if (!(e instanceof RateLimitExhausted)) throw e;
       sum.stoppedEarly = true;
     }
@@ -166,12 +177,39 @@ export async function runScan(opts: {
     // discovery paths are only candidates; the tree decides what is a skill
     const repos = new Map<string, { owner: string; repo: string }>();
     for (const r of state.candidates) if (!repos.has(key(r.owner, r.repo))) repos.set(key(r.owner, r.repo), { owner: r.owner, repo: r.repo });
-    // never-checked first, then least recently probed; records' scannedAt stands in for repos without a probe time
+    // snapshot first: today's star counts for every candidate and every recorded repo, so a deadline cut cannot lose them
+    stars = await loadStars(starsFile, warn);
+    const targets = new Map(repos);
+    for (const [k, rs] of byRepo) if (!targets.has(k)) targets.set(k, { owner: rs[0].owner, repo: rs[0].repo });
+    const counts = new Map<string, { stars: number; createdAt: string }>();
+    try {
+      const r = await gh.getStars([...targets.values()]);
+      for (const [k, v] of r.counts) counts.set(k, v);
+      if (r.failedBatches > 0) warn(`skilltrust: star snapshot: ${r.failedBatches} batch(es) failed`);
+      if (r.counts.size > 0 || r.failedBatches === 0) { recordSnapshot(stars, today, r.counts, minStars); sum.snapshotted = r.counts.size; }
+    } catch (e) {
+      if (e instanceof RateLimitExhausted) sum.stoppedEarly = true;
+      else warn(`skilltrust: star snapshot failed: ${e instanceof Error ? e.message : String(e)}`);
+    }
+    try { sum.backfilled = (await backfillStars(stars, { today, warn })).filled; } catch (e) { warn(`skilltrust: star backfill failed: ${e instanceof Error ? e.message : String(e)}`); }
+    await saveStars(starsFile, stars);
+
+    // never-checked first (most stars first), then the top 50 by 7-day gain not probed for 24 h, then least recently probed;
+    // records' scannedAt stands in for repos without a probe time
     const oldest = (k: string) => lastChecked[k] ?? byRepo.get(k)?.reduce((m, r) => (r.scannedAt < m ? r.scannedAt : m), "\uffff") ?? "";
-    const order = [...repos.entries()].sort(([a], [b]) => {
-      const x = oldest(a), y = oldest(b);
-      return x === y ? (a < b ? -1 : a > b ? 1 : 0) : x < y ? -1 : 1;
-    });
+    const alpha = (a: string, b: string) => (a < b ? -1 : a > b ? 1 : 0);
+    const byOldest = (a: string, b: string) => alpha(oldest(a), oldest(b)) || alpha(a, b);
+    const all = [...repos.keys()];
+    const never = all.filter((k) => oldest(k) === "").sort((a, b) => (counts.get(b)?.stars ?? -1) - (counts.get(a)?.stars ?? -1) || alpha(a, b));
+    const cutoff = new Date(now.getTime() - TRENDING_RECHECK_MS).toISOString();
+    const gain = new Map<string, number>();
+    for (const k of all) {
+      const g = oldest(k) !== "" && oldest(k) < cutoff ? starGain(stars.repos[k]?.points ?? [], today, 7) : null;
+      if (g !== null && g > 0) gain.set(k, g);
+    }
+    const trending = [...gain.keys()].sort((a, b) => gain.get(b)! - gain.get(a)! || alpha(a, b)).slice(0, TRENDING_TOP);
+    const picked = new Set([...never, ...trending]);
+    const order = [...never, ...trending, ...all.filter((k) => !picked.has(k)).sort(byOldest)].map((k) => [k, repos.get(k)!] as const);
     const expired = () => clock() > deadline;
 
     for (const [k, { owner, repo }] of order) {
@@ -225,6 +263,7 @@ export async function runScan(opts: {
   } finally {
     // index.json and report.json are rebuilt once per run, from everything on disk
     await saveState();
+    if (stars) await saveStars(starsFile, stars).catch((e) => warn(`skilltrust: could not save stars.json: ${String(e)}`));
     sum.writeSkipped.push(...(await rebuildIndex(dataDir)).skipped);
   }
   return sum;

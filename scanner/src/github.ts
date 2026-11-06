@@ -24,6 +24,8 @@ export interface TreeEntry {
 
 export interface GitHub {
   searchCode(q: string, page: number): Promise<{ totalCount: number; items: { owner: string; repo: string; path: string }[] }>;
+  /** REST /search/repositories, 100 per page. */
+  searchRepos(q: string, page: number): Promise<{ totalCount: number; items: { owner: string; repo: string }[] }>;
   getRepo(owner: string, repo: string): Promise<RepoMeta | null>;
   getHeadCommit(owner: string, repo: string, branch: string): Promise<string | null>;
   getTree(owner: string, repo: string, commit: string): Promise<TreeEntry[]>;
@@ -122,6 +124,10 @@ export function createGitHub(opts: {
         totalCount: d.total_count,
         items: d.items.map((i: any) => ({ owner: i.repository.owner.login, repo: i.repository.name, path: i.path })),
       };
+    },
+    async searchRepos(q, page) {
+      const d = await json<any>(`/search/repositories?q=${encodeURIComponent(q)}&per_page=100&page=${page}`);
+      return { totalCount: d.total_count, items: d.items.map((i: any) => ({ owner: i.owner.login, repo: i.name })) };
     },
     async getRepo(owner, repo) {
       const d = await json<any>(repoPath(owner, repo), true);
