@@ -4,6 +4,7 @@ import { loadData, fileUrl } from "../../lib/data";
 import { base, sentence, PARTIAL } from "../../lib/view";
 import { bandLabel } from "../../../../scanner/src/score";
 import type { IndexEntry, SkillRecord } from "../../../../scanner/src/records";
+import type { RuleId } from "../../../../scanner/src/types";
 
 export function getStaticPaths() {
   const { index, records } = loadData();
@@ -12,6 +13,13 @@ export function getStaticPaths() {
 const { entry, record } = Astro.props as { entry: IndexEntry; record: SkillRecord };
 const repoUrl = `https://github.com/${entry.owner}/${entry.repo}`;
 const findings = record.scan.findings;
+// "and N more places" goes after the last shown finding of each rule; records from before findingTotals have none
+const lastOf = new Map(findings.map((f, i) => [f.ruleId, i]));
+const more = (ruleId: RuleId, i: number) => {
+  if (lastOf.get(ruleId) !== i) return 0;
+  const total = Number(record.scan.findingTotals?.[ruleId] ?? 0);
+  return Math.max(0, total - findings.filter((f) => f.ruleId === ruleId).length);
+};
 const short = (c: string) => String(c).slice(0, 7);
 ---
 <Base title={`${entry.name}: ${bandLabel(entry.band)} | SkillTrust`} description="What this Claude skill can do to your computer, in plain English.">
@@ -31,8 +39,9 @@ const short = (c: string) => String(c).slice(0, 7);
   <h2>What this skill can do</h2>
   {findings.length === 0 ? (
     <p>We found nothing in the files we read that matches our rules. That does not prove the skill is safe: <a href={`${base}/how-we-score/#limits`}>see the limits of static scanning</a>.</p>
-  ) : findings.map((f) => {
+  ) : findings.map((f, i) => {
     const url = fileUrl(entry, f.file, f.line);
+    const n = more(f.ruleId, i);
     return (
       <div class="finding">
         <h3>{sentence(f)}</h3>
@@ -44,6 +53,7 @@ const short = (c: string) => String(c).slice(0, 7);
           {url ? <a href={url} rel="noopener">{f.file}, line {f.line}</a> : <span>{f.file}, line {f.line}</span>}
           <code class="excerpt">{f.excerpt}</code>
         </p>
+        {n > 0 && <p class="meta">and {n} more places</p>}
       </div>
     );
   })}

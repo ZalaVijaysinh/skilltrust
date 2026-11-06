@@ -48,6 +48,8 @@ describe("site build with fixtures", () => {
     expect(html).toContain(sha("b").slice(0, 7));
     expect((html.match(/<tr class="history-row"/g) ?? []).length).toBe(2);
     expect(html).toContain("2026-10-01");
+    expect(t).toContain("and 23 more places");
+    expect(t.match(/more places/g)).toHaveLength(1);
   });
 
   it("shows stale and partial-scan notices", () => {

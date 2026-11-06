@@ -3,6 +3,7 @@ import { scoreFindings } from "./score.js";
 import type { Finding, ScanResult, SkillFile } from "./types.js";
 
 export const MAX_FILE_BYTES = 512 * 1024;
+export const MAX_FINDINGS_PER_RULE = 20;
 
 const URL_RE = /https?:\/\/([^\s/'"`<>)\]:?#\\]+)/gi;
 // Namespace and loopback hosts are not data leaving the machine.
@@ -122,5 +123,8 @@ export function scanFiles(files: SkillFile[], disclosureText: string): ScanResul
     const req = RULES.find((r) => r.id === f.ruleId)?.requires;
     return !req || findings.some((x) => x.ruleId === req);
   });
-  return { findings: kept, ...scoreFindings(kept), rulesVersion: RULES_VERSION, filesScanned, filesSkipped };
+  // Scoring sees every finding; the record keeps the first few per rule plus a count.
+  const findingTotals: ScanResult["findingTotals"] = {};
+  const shown = kept.filter((f) => (findingTotals[f.ruleId] = (findingTotals[f.ruleId] ?? 0) + 1) <= MAX_FINDINGS_PER_RULE);
+  return { findings: shown, findingTotals, ...scoreFindings(kept), rulesVersion: RULES_VERSION, filesScanned, filesSkipped };
 }

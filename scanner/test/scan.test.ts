@@ -218,3 +218,11 @@ test("bare words do not disclose high-penalty rules; specific phrases do", () =>
   expect(disclosedFor("paid-api", "u='https://api.openai.com'", "Needs an API key.")).toBe(false);
   expect(disclosedFor("paid-api", "u='https://api.openai.com'", "Uses the OpenAI API, billed to your account.")).toBe(true);
 });
+
+test("keeps at most 20 findings per rule and counts the rest", () => {
+  const r = scanFiles([file("a.js", "fetch(u)\n".repeat(20_000))], "");
+  expect(r.findings).toHaveLength(20);
+  expect(r.findingTotals).toEqual({ network: 20_000 });
+  expect(r.score).toBe(95);
+  expect(scanFiles([file("a.py", "subprocess.run(['ls'])")], "").findingTotals).toEqual({ shell: 1 });
+});

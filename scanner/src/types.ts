@@ -23,7 +23,10 @@ export interface Finding {
 }
 
 export interface ScanResult {
+  /** at most MAX_FINDINGS_PER_RULE per rule */
   findings: Finding[];
+  /** every match per rule, including those left out of `findings` */
+  findingTotals: Partial<Record<RuleId, number>>;
   score: number;
   band: Band;
   rulesVersion: string;
