@@ -223,4 +223,45 @@ describe("github client", () => {
     const { fetchImpl } = fake([json({ truncated: false, tree: [{ path: "a", type: "blob", sha: "1", size: 2 }] })]);
     expect(await createGitHub({ fetchImpl }).getTree("o", "r", "abc")).toHaveLength(1);
   });
+  describe("getStars", () => {
+    const repos = (n: number) => Array.from({ length: n }, (_, i) => ({ owner: `O${i}`, repo: `r${i}` }));
+    const gql = (data: Record<string, unknown>, errors?: unknown[]) =>
+      json({ data, ...(errors ? { errors } : {}) }, 200, { "x-ratelimit-resource": "graphql", "x-ratelimit-remaining": "3" });
+
+    it("batches 250 repos into 3 POSTs of at most 100 aliases, keyed lowercase", async () => {
+      const bodies: any[] = [];
+      const fetchImpl = (async (_u: string, init?: RequestInit) => {
+        const b = JSON.parse(String(init?.body));
+        bodies.push({ method: init?.method, ...b });
+        const data: Record<string, unknown> = {};
+        for (const k of Object.keys(b.variables).filter((k) => k.startsWith("o"))) {
+          data["r" + k.slice(1)] = { stargazerCount: 5, createdAt: "2024-01-01T00:00:00Z" };
+        }
+        return gql(data);
+      }) as unknown as typeof fetch;
+      const gh = createGitHub({ fetchImpl });
+      const m = await gh.getStars(repos(250));
+      expect(bodies).toHaveLength(3);
+      expect(bodies.every((b) => b.method === "POST")).toBe(true);
+      expect(bodies.map((b) => Object.keys(b.variables).length / 2)).toEqual([100, 100, 50]);
+      expect(bodies[0].query).not.toContain("O0"); // names go through variables
+      expect(m.size).toBe(250);
+      expect(m.get("o7/r7")).toEqual({ stars: 5, createdAt: "2024-01-01T00:00:00Z" });
+      expect(gh.remaining()).toBe(Infinity); // graphql must not trip the core floor
+    });
+
+    it("skips null aliases when errors accompany data", async () => {
+      const data: Record<string, unknown> = {};
+      for (let i = 0; i < 10; i++) data["r" + i] = i === 7 ? null : { stargazerCount: i, createdAt: "t" };
+      const { fetchImpl } = fake([gql(data, [{ type: "NOT_FOUND", path: ["r7"] }])]);
+      const m = await createGitHub({ fetchImpl }).getStars(repos(10));
+      expect(m.size).toBe(9);
+      expect(m.has("o7/r7")).toBe(false);
+    });
+
+    it("throws on HTTP failure", async () => {
+      const { fetchImpl } = fake([json({}, 500)]);
+      await expect(createGitHub({ fetchImpl }).getStars(repos(1))).rejects.toThrow();
+    });
+  });
 });

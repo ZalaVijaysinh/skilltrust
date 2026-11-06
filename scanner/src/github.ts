@@ -29,11 +29,14 @@ export interface GitHub {
   getTree(owner: string, repo: string, commit: string): Promise<TreeEntry[]>;
   /** `commit` is any git ref (branch or SHA). Not counted against API quota. */
   readRaw(owner: string, repo: string, commit: string, path: string): Promise<string>;
+  /** Batched GraphQL lookup, 100 repos per request. Key is lowercase `owner/repo`; missing repos are absent. */
+  getStars(repos: { owner: string; repo: string }[]): Promise<Map<string, { stars: number; createdAt: string }>>;
   /** Last seen `x-ratelimit-remaining` (Infinity before any API call). */
   remaining(): number;
 }
 
 const MAX_RETRIES = 3;
+const STARS_BATCH = 100;
 /** A stalled socket must fail (and the repo be skipped) instead of hanging the run. */
 const FETCH_TIMEOUT_MS = 30_000;
 const MAX_WAIT_MS = 60_000;
@@ -63,7 +66,7 @@ export function createGitHub(opts: {
   if (opts.token) headers.Authorization = `Bearer ${opts.token}`;
 
   /** Returns the response (any status except retried 403/429); callers handle 404. */
-  async function api(path: string): Promise<Response> {
+  async function api(path: string, body?: string): Promise<Response> {
     for (let attempt = 0; ; attempt++) {
       if (remaining < floor) {
         const wakeAt = resetAt + 5000;
@@ -71,7 +74,7 @@ export function createGitHub(opts: {
         await sleep(Math.max(wakeAt - now(), 0));
         remaining = Infinity; // quota refilled at reset
       }
-      const res = await doFetch(`https://api.github.com${path}`, { headers, signal: AbortSignal.timeout(FETCH_TIMEOUT_MS) });
+      const res = await doFetch(`https://api.github.com${path}`, { headers, signal: AbortSignal.timeout(FETCH_TIMEOUT_MS), ...(body === undefined ? {} : { method: "POST", body }) });
       const resource = res.headers.get("x-ratelimit-resource") ?? "core";
       const rem = res.headers.get("x-ratelimit-remaining");
       // Only core quota drives remaining()/floor; search has its own small budget.
@@ -149,6 +152,25 @@ export function createGitHub(opts: {
       const res = await doFetch(url, { headers: { "User-Agent": "skilltrust" }, signal: AbortSignal.timeout(FETCH_TIMEOUT_MS) });
       if (!res.ok) throw new Error(`raw read ${res.status} for ${owner}/${repo}@${commit}:${path}`);
       return res.text();
+    },
+    async getStars(repos) {
+      const out = new Map<string, { stars: number; createdAt: string }>();
+      for (let i = 0; i < repos.length; i += STARS_BATCH) {
+        const batch = repos.slice(i, i + STARS_BATCH);
+        const decl = batch.map((_, j) => `$o${j}: String!, $n${j}: String!`).join(", ");
+        const body = batch.map((_, j) => `r${j}: repository(owner: $o${j}, name: $n${j}) { stargazerCount createdAt }`).join(" ");
+        const variables: Record<string, string> = {};
+        batch.forEach((r, j) => { variables[`o${j}`] = r.owner; variables[`n${j}`] = r.repo; });
+        const res = await api("/graphql", JSON.stringify({ query: `query(${decl}) { ${body} }`, variables }));
+        if (!res.ok) throw new Error(`GitHub ${res.status} for /graphql`);
+        const d = (await res.json()) as { data?: Record<string, { stargazerCount: number; createdAt: string } | null> | null };
+        if (!d.data) throw new Error("GitHub graphql returned no data");
+        batch.forEach((r, j) => {
+          const v = d.data![`r${j}`];
+          if (v) out.set(`${r.owner}/${r.repo}`.toLowerCase(), { stars: v.stargazerCount, createdAt: v.createdAt });
+        });
+      }
+      return out;
     },
     remaining: () => remaining,
   };

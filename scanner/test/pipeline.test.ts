@@ -21,6 +21,7 @@ interface FakeRepo {
 function fake(repos: Record<string, FakeRepo>) {
   const calls = { getTree: [] as string[], getRepo: [] as string[] };
   const gh: GitHub = {
+    async getStars() { return new Map(); },
     async searchCode() {
       const items = Object.entries(repos).flatMap(([k, r]) =>
         Object.keys(r.files).filter((p) => p.endsWith("SKILL.md")).map((p) => ({ owner: k.split("/")[0], repo: k.split("/")[1], path: p })));

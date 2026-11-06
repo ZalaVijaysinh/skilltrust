@@ -1,0 +1,45 @@
+import { describe, it, expect } from "vitest";
+import { mkdtemp, readFile, writeFile, rm } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { loadStars, recordSnapshot, saveStars, type StarsFile } from "../src/stars.js";
+
+const c = (stars: number) => new Map([["a/b", { stars, createdAt: "2024-01-01T00:00:00Z" }]]);
+
+describe("stars", () => {
+  it("same-day snapshot replaces the point", () => {
+    const s: StarsFile = { repos: {} };
+    recordSnapshot(s, "2026-11-07", c(20), 10);
+    recordSnapshot(s, "2026-11-07", c(25), 10);
+    expect(s.repos["a/b"].points).toEqual([["2026-11-07", 25]]);
+  });
+
+  it("trims points older than 40 days, keeps sorted", () => {
+    const s: StarsFile = { repos: { "a/b": { createdAt: "x", points: [["2026-09-27", 1], ["2026-09-28", 2], ["2026-10-01", 3]] } } };
+    recordSnapshot(s, "2026-11-07", c(30), 10); // 09-27 is 41 days old, 09-28 is 40
+    expect(s.repos["a/b"].points.map((p) => p[0])).toEqual(["2026-09-28", "2026-10-01", "2026-11-07"]);
+  });
+
+  it("drops repos under minStars, including existing ones", () => {
+    const s: StarsFile = { repos: { "a/b": { createdAt: "x", points: [["2026-11-06", 50]] } } };
+    recordSnapshot(s, "2026-11-07", c(9), 10);
+    expect(s.repos["a/b"]).toBeUndefined();
+  });
+
+  it("corrupt file -> .bak, warn, empty; missing -> empty; save round-trips", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "stars-"));
+    try {
+      const f = join(dir, "stars.json");
+      const warns: string[] = [];
+      expect(await loadStars(f, (m) => warns.push(m))).toEqual({ repos: {} });
+      expect(warns).toHaveLength(0);
+      await writeFile(f, "{bad");
+      expect(await loadStars(f, (m) => warns.push(m))).toEqual({ repos: {} });
+      expect(warns).toHaveLength(1);
+      expect(await readFile(f + ".bak", "utf8")).toBe("{bad");
+      const s: StarsFile = { repos: { "a/b": { createdAt: "x", points: [["2026-11-07", 12]] } } };
+      await saveStars(f, s);
+      expect(await loadStars(f, () => {})).toEqual(s);
+    } finally { await rm(dir, { recursive: true, force: true }); }
+  });
+});
