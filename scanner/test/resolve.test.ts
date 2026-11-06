@@ -38,13 +38,19 @@ describe("resolveSkillFiles", () => {
     expect(r.referenced).toEqual(["o/a.md", "o/b.md"]);
   });
 
-  it("caps at 300 files", async () => {
+  it("never caps files inside the skill dir", async () => {
+    const big = await resolveSkillFiles(tree(...Array.from({ length: 350 }, (_, i) => `s/f${i}.md`)), "s", reader({}));
+    expect(big.skill.length).toBe(350);
+  });
+
+  it("caps referenced files at 300; pluginAuto is uncapped and not counted", async () => {
     const paths = ["s/SKILL.md", ...Array.from({ length: 400 }, (_, i) => `r/f${i}.md`)];
     const text = Array.from({ length: 400 }, (_, i) => `\`../r/f${i}.md\``).join(" ");
     const r = await resolveSkillFiles(tree(...paths), "s", reader({ "s/SKILL.md": text }));
-    expect(r.skill.length + r.referenced.length + r.pluginAuto.length).toBe(300);
-    const big = await resolveSkillFiles(tree(...Array.from({ length: 400 }, (_, i) => `s/f${i}.md`)), "s", reader({}));
-    expect(big.skill.length).toBe(300);
+    expect(r.referenced.length).toBe(300);
+    const hooks = Array.from({ length: 320 }, (_, i) => `p/hooks/h${i}.sh`);
+    const pr = await resolveSkillFiles(tree("p/.claude-plugin/plugin.json", "p/skills/x/SKILL.md", ...hooks), "p/skills/x", reader({}));
+    expect(pr.pluginAuto.length).toBe(321);
   });
 
   it("returns plugin hooks, .mcp.json and plugin.json for an ancestor plugin", async () => {

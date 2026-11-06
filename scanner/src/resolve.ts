@@ -28,7 +28,7 @@ export async function resolveSkillFiles(
     if (d === "") break;
   }
 
-  const skill = all.filter((p) => p.startsWith(prefix)).slice(0, MAX_FILES);
+  const skill = all.filter((p) => p.startsWith(prefix));
   const inSkill = new Set(skill);
   const pluginAuto: string[] = [];
   if (pluginRoot !== null) {
@@ -38,7 +38,6 @@ export async function resolveSkillFiles(
       if (inSkill.has(p)) continue;
       if (autos.has(p) || p.startsWith(`${pre}hooks/`)) pluginAuto.push(p);
     }
-    pluginAuto.splice(Math.max(0, MAX_FILES - skill.length));
   }
   const taken = new Set([...skill, ...pluginAuto]);
   const referenced: string[] = [];
@@ -74,7 +73,7 @@ export async function resolveSkillFiles(
         for (const b of bases) {
           const norm = posix.normalize(posix.join(b, tok));
           for (const hit of lookup(norm)) {
-            if (taken.has(hit) || skill.length + pluginAuto.length + referenced.length >= MAX_FILES) continue;
+            if (taken.has(hit) || referenced.length >= MAX_FILES) continue;
             taken.add(hit);
             referenced.push(hit);
             queue.push(hit);
