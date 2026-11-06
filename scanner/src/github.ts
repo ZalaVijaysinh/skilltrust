@@ -58,17 +58,31 @@ export function createGitHub(opts: {
     for (let attempt = 0; ; attempt++) {
       if (remaining < floor) throw new RateLimitExhausted(`GitHub quota low: ${remaining} < ${floor}`);
       const res = await doFetch(`https://api.github.com${path}`, { headers });
+      const resource = res.headers.get("x-ratelimit-resource") ?? "core";
       const rem = res.headers.get("x-ratelimit-remaining");
-      if (rem !== null && !Number.isNaN(Number(rem))) remaining = Number(rem);
+      // Only core quota drives remaining()/floor; search has its own small budget.
+      if (resource === "core" && rem !== null && !Number.isNaN(Number(rem))) remaining = Number(rem);
       if (res.status !== 403 && res.status !== 429) return res;
       const ra = res.headers.get("retry-after");
-      if (res.status === 403 && ra === null) {
-        // Plain 403 (no retry-after): quota gone or forbidden; retrying won't help.
-        if (remaining === 0) throw new RateLimitExhausted("GitHub quota exhausted");
+      let waitMs: number;
+      if (ra !== null) {
+        waitMs = Math.max(Number(ra) || 1, 0) * 1000;
+      } else if (rem === "0") {
+        const reset = Number(res.headers.get("x-ratelimit-reset"));
+        const untilReset = reset * 1000 - Date.now();
+        if (!(untilReset <= 120_000)) {
+          if (resource === "core") throw new RateLimitExhausted("GitHub quota exhausted");
+          throw new Error(`GitHub ${res.status} for ${path}: ${resource} limit exhausted`);
+        }
+        waitMs = Math.max(untilReset, 0) + 1000;
+        if (resource === "core") remaining = Infinity; // quota refills at reset
+      } else if (res.status === 429) {
+        waitMs = 1000;
+      } else {
         throw new Error(`GitHub 403 for ${path}`);
       }
       if (attempt >= MAX_RETRIES) throw new Error(`GitHub ${res.status} for ${path} after ${MAX_RETRIES} retries`);
-      await sleep(Math.min(Math.max(Number(ra ?? 1) || 1, 0) * 1000, MAX_WAIT_MS));
+      await sleep(Math.min(waitMs, MAX_WAIT_MS));
     }
   }
 

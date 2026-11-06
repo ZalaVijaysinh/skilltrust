@@ -137,4 +137,52 @@ describe("github client", () => {
     expect(gh.remaining()).toBe(Infinity);
     await expect(gh.readRaw("o", "r", "main", "x.md")).rejects.toThrow(/404/);
   });
+
+  const reset = (secs: number) => String(Math.floor(Date.now() / 1000) + secs);
+
+  it("waits for reset on search-resource 403 and leaves core remaining alone", async () => {
+    const { fetchImpl, calls } = fake([
+      json({}, 200, { "x-ratelimit-remaining": "4000" }),
+      json({}, 403, { "x-ratelimit-resource": "code_search", "x-ratelimit-remaining": "0", "x-ratelimit-reset": reset(30) }),
+      json({ total_count: 0, items: [] }, 200, { "x-ratelimit-resource": "code_search", "x-ratelimit-remaining": "29" }),
+    ]);
+    const waits: number[] = [];
+    const gh = createGitHub({ fetchImpl, sleep: async (ms) => void waits.push(ms) });
+    await gh.getRepo("a", "b");
+    expect((await gh.searchCode("q", 1)).totalCount).toBe(0);
+    expect(calls).toHaveLength(3);
+    expect(waits).toHaveLength(1);
+    expect(waits[0]).toBeGreaterThan(29_000);
+    expect(waits[0]).toBeLessThanOrEqual(31_000);
+    expect(gh.remaining()).toBe(4000);
+  });
+
+  it("throws RateLimitExhausted on core 403 with distant reset", async () => {
+    const { fetchImpl } = fake([
+      json({}, 403, { "x-ratelimit-remaining": "0", "x-ratelimit-reset": reset(3600) }),
+    ]);
+    const gh = createGitHub({ fetchImpl, sleep: noSleep });
+    await expect(gh.getRepo("a", "b")).rejects.toBeInstanceOf(RateLimitExhausted);
+  });
+
+  it("throws a normal error on non-core 403 with distant reset", async () => {
+    const { fetchImpl } = fake([
+      json({}, 403, { "x-ratelimit-resource": "search", "x-ratelimit-remaining": "0", "x-ratelimit-reset": reset(3600) }),
+    ]);
+    const gh = createGitHub({ fetchImpl, sleep: noSleep });
+    const err = await gh.searchCode("q", 1).catch((e) => e);
+    expect(err).toBeInstanceOf(Error);
+    expect(err).not.toBeInstanceOf(RateLimitExhausted);
+  });
+
+  it("search remaining does not trip the core floor", async () => {
+    const { fetchImpl } = fake([
+      json({ total_count: 0, items: [] }, 200, { "x-ratelimit-resource": "search", "x-ratelimit-remaining": "5" }),
+      json({}, 404),
+    ]);
+    const gh = createGitHub({ fetchImpl });
+    await gh.searchCode("q", 1);
+    expect(gh.remaining()).toBe(Infinity);
+    expect(await gh.getRepo("a", "b")).toBeNull();
+  });
 });
