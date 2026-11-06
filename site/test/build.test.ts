@@ -90,9 +90,11 @@ describe("site build with fixtures", () => {
     expect(t).toContain("If the skill's SKILL.md or README tells you about it");
   });
 
-  it("report page shows the numbers", () => {
+  it("report page shows the numbers, and a rule missing from report.json counts as 0", () => {
     const t = text(page("report/index.html"));
     expect(t).toContain("3 skills");
+    expect(JSON.parse(readFileSync(join(fixtures, "report.json"), "utf8")).byRule["writes-outside"]).toBeUndefined();
+    expect(t).toContain("Changes files outside its own folder 0 0% 0");
   });
 
   it("publishes index.json unchanged", () => {
@@ -144,7 +146,7 @@ describe("scan to site: identical copies collapse, riskier copies do not", () =>
   const data = join(tmp, "data");
   const out3 = join(tmp, "dist");
   beforeAll(async () => {
-    await runScan({ gh, dataDir: data, now: new Date("2026-11-06T00:00:00Z"), minStars: 10, warn: () => {} } as Parameters<typeof runScan>[0]);
+    await runScan({ gh, dataDir: data, now: new Date("2026-11-06T00:00:00Z"), minStars: 10, warn: () => {} });
     build(data, out3);
   }, 120_000);
 

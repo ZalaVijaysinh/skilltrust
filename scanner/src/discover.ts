@@ -50,27 +50,29 @@ export function newDiscoveryState(): DiscoveryState { return { candidates: [], q
  */
 export async function discoverSkills(
   gh: GitHub,
-  opts: { state?: DiscoveryState; budget?: number; now?: Date } = {},
+  opts: { state?: DiscoveryState; budget?: number; now?: Date; warn?: (m: string) => void } = {},
 ): Promise<SkillRef[]> {
   const state = opts.state ?? newDiscoveryState();
-  await run(gh, state, opts.budget ?? Infinity, (opts.now ?? new Date()).toISOString().slice(0, 10));
+  await run(gh, state, opts.budget ?? Infinity, (opts.now ?? new Date()).toISOString().slice(0, 10), opts.warn ?? console.warn);
   return state.candidates.map(({ owner, repo, path }) => ({ owner, repo, path }));
 }
 
-async function run(gh: GitHub, state: DiscoveryState, budget: number, today: string): Promise<void> {
+async function run(gh: GitHub, state: DiscoveryState, budget: number, today: string, warn: (m: string) => void): Promise<void> {
   const keyOf = (owner: string, repo: string, path: string) => `${owner.toLowerCase()}/${repo.toLowerCase()}/${path}`;
   const seen = new Set(state.candidates.map((c) => keyOf(c.owner, c.repo, c.path)));
   const add = (owner: string, repo: string, path: string) => {
     const key = keyOf(owner, repo, path);
     if (!seen.has(key)) { seen.add(key); state.candidates.push({ owner, repo, path, firstSeen: today }); }
   };
-  const tolerate = async (f: () => Promise<void>) => {
-    try { await f(); } catch (e) { if (e instanceof RateLimitExhausted) throw e; }
+  const why = (e: unknown) => (e instanceof Error ? e.message : String(e));
+  // a failing source is skipped, but said out loud: a missing token must show in the Actions log
+  const tolerate = async (what: string, f: () => Promise<void>) => {
+    try { await f(); } catch (e) { if (e instanceof RateLimitExhausted) throw e; warn(`skilltrust: could not read ${what}: ${why(e)}`); }
   };
 
   // 1. awesome lists (links only; no per-repo API calls)
   for (const [o, r] of AWESOME_LISTS) {
-    await tolerate(async () => {
+    await tolerate(`${o}/${r} README.md`, async () => {
       const md = await gh.readRaw(o, r, "HEAD", "README.md");
       for (const m of md.matchAll(LINK)) {
         const owner = m[1];
@@ -82,7 +84,7 @@ async function run(gh: GitHub, state: DiscoveryState, budget: number, today: str
   }
 
   // 2. official marketplace
-  await tolerate(async () => {
+  await tolerate("anthropics/claude-plugins-official marketplace.json", async () => {
     const text = await gh.readRaw("anthropics", "claude-plugins-official", "HEAD", ".claude-plugin/marketplace.json");
     for (const p of JSON.parse(text).plugins ?? []) {
       const s = p?.source;
@@ -106,6 +108,7 @@ async function run(gh: GitHub, state: DiscoveryState, budget: number, today: str
     let res;
     try { res = await gh.searchCode(q, page); } catch (e) {
       if (e instanceof RateLimitExhausted) throw e; // task stays queued
+      warn(`skilltrust: code search "${q}" page ${page} failed, skipping it: ${why(e)}`);
       state.queue.shift(); // skip a failing slice
       continue;
     }

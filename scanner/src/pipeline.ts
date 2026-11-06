@@ -137,6 +137,8 @@ export async function runScan(opts: {
   /** code-search requests per run */ searchBudget?: number;
   /** wall-clock limit for the repo loop */ maxMinutes?: number;
   clock?: () => number;
+  /** discovery warnings (failed sources and search slices) */
+  warn?: (m: string) => void;
 }): Promise<ScanSummary> {
   const { gh, dataDir, now, minStars } = opts;
   const clock = opts.clock ?? Date.now;
@@ -156,7 +158,7 @@ export async function runScan(opts: {
   const partial = new Set(state.partial ?? []);
   const saveState = () => writeAtomic(discoveryFile, JSON.stringify({ ...state, partial: [...partial] }, null, 2) + "\n");
   try {
-    try { await discoverSkills(gh, { state, budget: opts.searchBudget ?? 120, now }); } catch (e) {
+    try { await discoverSkills(gh, { state, budget: opts.searchBudget ?? 120, now, warn: opts.warn }); } catch (e) {
       if (!(e instanceof RateLimitExhausted)) throw e;
       sum.stoppedEarly = true;
     }

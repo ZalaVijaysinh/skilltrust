@@ -84,7 +84,11 @@ describe("discoverSkills", () => {
         return { totalCount: 1, items: [{ owner: "o", repo: "r", path: "SKILL.md" }] };
       },
     });
-    expect((await discoverSkills(gh)).length).toBe(1);
+    const warned: string[] = [];
+    expect((await discoverSkills(gh, { warn: (m) => void warned.push(m) })).length).toBe(1);
+    expect(warned.filter((m) => m.includes("size:0..1000") && m.includes("search limit"))).toHaveLength(1);
+    // every unreadable awesome list and the marketplace get their own warning, so a missing PAT shows in the log
+    expect(warned.filter((m) => m.includes("awesome") || m.includes("claude-plugins-official"))).toHaveLength(5);
     const { gh: bad } = fake({ search: () => { throw new RateLimitExhausted("x"); } });
     await expect(discoverSkills(bad)).rejects.toBeInstanceOf(RateLimitExhausted);
   });

@@ -54,7 +54,7 @@ const skill = (name: string, extra = "") => ({ "SKILL.md": `---\nname: ${name}\n
 const mk = async () => mkdtemp(join(tmpdir(), "st-"));
 const load = async (dir: string): Promise<SkillRecord[]> =>
   Promise.all((await readdir(join(dir, "skills"))).sort().map(async (f) => JSON.parse(await readFile(join(dir, "skills", f), "utf8"))));
-const run = (gh: GitHub, dataDir: string, minStars = 10, extra: Partial<Parameters<typeof runScan>[0]> = {}) => runScan({ gh, dataDir, now: NOW, minStars, ...extra });
+const run = (gh: GitHub, dataDir: string, minStars = 10, extra: Partial<Parameters<typeof runScan>[0]> = {}) => runScan({ gh, dataDir, now: NOW, minStars, warn: () => {}, ...extra });
 
 describe("runScan", () => {
   const seqClock = (vals: number[]) => () => vals.shift() ?? 5 * 60_000;

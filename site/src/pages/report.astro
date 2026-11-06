@@ -6,6 +6,8 @@ import { bandLabel } from "../../../scanner/src/score";
 const { report } = loadData();
 const plain = (s: string) => s.replace(/:?\s*\{hosts\}/, "");
 const cats = report ? Object.entries(report.byCategory).sort((a, b) => b[1] - a[1]) : [];
+// a rule added since the last scan is not in report.json yet: show 0 rather than break the deploy
+const row = (id: string) => report?.byRule?.[id as keyof typeof report.byRule] ?? { count: 0, percent: 0, disclosed: 0 };
 ---
 <Base title="State of Claude skill safety | SkillTrust">
   <h1>State of Claude skill safety</h1>
@@ -25,7 +27,7 @@ const cats = report ? Object.entries(report.byCategory).sort((a, b) => b[1] - a[
           <thead><tr><th>Capability</th><th>Skills</th><th>Share</th><th>Disclosed by author</th></tr></thead>
           <tbody>
             {RULES.map((r) => (
-              <tr><td>{plain(r.sentence)}</td><td>{report.byRule[r.id].count}</td><td>{report.byRule[r.id].percent}%</td><td>{report.byRule[r.id].disclosed}</td></tr>
+              <tr><td>{plain(r.sentence)}</td><td>{row(r.id).count}</td><td>{row(r.id).percent}%</td><td>{row(r.id).disclosed}</td></tr>
             ))}
           </tbody>
         </table>
