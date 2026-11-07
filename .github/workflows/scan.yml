@@ -39,11 +39,9 @@ jobs:
             git commit -m "data: daily scan $(date -u +%F)"
             git remote set-url origin "https://x-access-token:${PUSH_TOKEN}@github.com/${GITHUB_REPOSITORY}"
             for i in 1 2 3; do
-              # on a data conflict keep this run's files (-X theirs = the commit being replayed), then rebuild the index from the union
+              # on a data conflict keep this run's files (-X theirs = the commit being replayed); index.json is not committed
+              # (over GitHub's 100 MB file limit), deploy rebuilds it from the records
               if git pull --rebase -X theirs --autostash; then
-                npm run rebuild-index
-                git add data
-                git diff --cached --quiet || git commit -m "data: rebuild index after merge"
                 git push && exit 0
               else
                 git rebase --abort || true

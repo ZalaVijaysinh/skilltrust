@@ -17,14 +17,15 @@ test("scan workflow starts from the latest main, not the commit it was queued on
   expect(read("scan.yml")).toMatch(/actions\/checkout@[0-9a-f]{40} # v4[.\d]*\n\s+with:\n(\s+(#.*|\w[\w-]*: .*)\n)*\s+ref: main\n/);
 });
 
-test("scan workflow keeps this run's data on a conflict and rebuilds the index from the union", () => {
+test("scan workflow keeps this run's data on a conflict; deploy rebuilds the uncommitted index", () => {
   const commitStep = read("scan.yml").slice(read("scan.yml").indexOf("- name: Commit data"));
   expect(commitStep).toContain("git pull --rebase -X theirs --autostash");
   expect(commitStep).toContain("git rebase --abort");
-  const pull = commitStep.indexOf("git pull --rebase");
-  const rebuild = commitStep.indexOf("npm run rebuild-index");
-  expect(rebuild).toBeGreaterThan(pull);
-  expect(commitStep.indexOf("git push")).toBeGreaterThan(rebuild);
+  const ignored = readFileSync(new URL("../../.gitignore", import.meta.url), "utf8").split("\n");
+  expect(ignored).toEqual(expect.arrayContaining(["data/index.json", "data/report.json"]));
+  const deploy = read("deploy.yml");
+  expect(deploy.indexOf("npm run rebuild-index")).toBeGreaterThan(0);
+  expect(deploy.indexOf("npm run site:build")).toBeGreaterThan(deploy.indexOf("npm run rebuild-index"));
   const pkg = JSON.parse(readFileSync(new URL("../../package.json", import.meta.url), "utf8"));
   expect(pkg.scripts["rebuild-index"]).toBe("tsx scanner/src/rebuild.ts");
 });
