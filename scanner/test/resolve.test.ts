@@ -34,9 +34,23 @@ describe("resolveSkillFiles", () => {
   });
 
   it("terminates on cycles", async () => {
-    const t = tree("s/SKILL.md", "o/a.md", "o/b.md");
-    const r = await resolveSkillFiles(t, "s", reader({ "s/SKILL.md": "`../o/a.md`", "o/a.md": "`b.md`", "o/b.md": "`a.md`" }));
-    expect(r.referenced).toEqual(["o/a.md", "o/b.md"]);
+    const t = tree("s/SKILL.md", "o/a.js", "o/b.js");
+    const r = await resolveSkillFiles(t, "s", reader({ "s/SKILL.md": "`../o/a.js`", "o/a.js": 'import "./b.js"', "o/b.js": 'import "./a.js"' }));
+    expect(r.referenced).toEqual(["o/a.js", "o/b.js"]);
+  });
+
+  it("reads a doc the skill links to but not that doc's own links (no crawling the whole repo)", async () => {
+    const t = tree("s/SKILL.md", "docs/a.md", "docs/b.md", "docs/c.sh");
+    const r = await resolveSkillFiles(t, "s", reader({ "s/SKILL.md": "[a](../docs/a.md)", "docs/a.md": "[b](b.md) `c.sh`" }));
+    expect(r.referenced).toEqual(["docs/a.md"]);
+  });
+
+  it("skips CI workflows and other skills' folders, but not folders that contain this skill", async () => {
+    const t = tree("p/SKILL.md", "p/skills/x/SKILL.md", "p/skills/x/run.sh", "p/skills/y/SKILL.md", "p/skills/y/tool.sh", ".github/workflows/ci.yml", "p/lib/util.sh");
+    const r = await resolveSkillFiles(t, "p/skills/x", reader({ "p/skills/x/run.sh": "source ../y/tool.sh; source ../../lib/util.sh; cat ../../../.github/workflows/ci.yml" }));
+    expect(r.referenced).toEqual(["p/lib/util.sh"]);
+    const root = await resolveSkillFiles(tree("SKILL.md", "run.sh", ".github/workflows/ci.yml"), "", reader({}));
+    expect(root.skill).toEqual(["SKILL.md", "run.sh"]);
   });
 
   it("never caps files inside the skill dir", async () => {

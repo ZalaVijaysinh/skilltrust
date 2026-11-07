@@ -15,6 +15,12 @@ const PATTERNS = [
 
 export const PLUGIN_MANIFESTS = ["plugin.json", ".claude-plugin/plugin.json", ".codex-plugin/plugin.json", ".cursor-plugin/plugin.json", ".antigravity-plugin/plugin.json", ".plugin/plugin.json", "gemini-extension.json"];
 const PLUGIN_EXTRA = ["hooks.json", ".mcp.json", "mcp.json", "config.toml"];
+// References are followed onward only from code: a doc the skill links to is read, but its own links are not
+// (following doc links crawled whole repos: CI files, TODOs, other skills).
+const CODE = /\.(m?[jt]sx?|cjs|py|sh|bash|zsh|rb|go|rs|ps1|pl|php|lua)$/i;
+const followsRefs = (p: string) => CODE.test(p) || !posix.basename(p).includes(".");
+// CI workflows run on GitHub, not on the user's machine.
+const isCi = (p: string) => p.startsWith(".github/") || p.includes("/.github/");
 
 export async function resolveSkillFiles(
   tree: TreeEntry[],
@@ -23,7 +29,16 @@ export async function resolveSkillFiles(
 ): Promise<{ skill: string[]; referenced: string[]; pluginAuto: string[] }> {
   const blobs = new Map(tree.filter((e) => e.type === "blob").map((e) => [e.path, e]));
   const prefix = skillDir ? `${skillDir}/` : "";
-  const all = [...blobs.keys()].sort();
+  const all = [...blobs.keys()].filter((p) => !isCi(p)).sort();
+  // Another skill's folder belongs to that skill. Folders holding this skill (ancestors) do not count.
+  const skillDirs = new Set(all.filter((p) => p.endsWith("/SKILL.md")).map((p) => posix.dirname(p)));
+  const inOtherSkill = (p: string): boolean => {
+    for (let d = posix.dirname(p); d !== "."; d = posix.dirname(d)) {
+      if (d === skillDir || skillDir.startsWith(`${d}/`)) return false;
+      if (skillDirs.has(d)) return true;
+    }
+    return false;
+  };
 
   // nearest ancestor (or self) directory holding any plugin manifest
   let pluginRoot: string | null = null;
@@ -42,7 +57,8 @@ export async function resolveSkillFiles(
   }
   const auto = new Set(pluginAuto);
   const skill = all.filter((p) => p.startsWith(prefix) && !auto.has(p));
-  const taken = new Set([...skill, ...pluginAuto]);
+  const own = new Set([...skill, ...pluginAuto]);
+  const taken = new Set(own);
   const referenced: string[] = [];
 
   const lookup = (p: string): string[] => {
@@ -57,6 +73,7 @@ export async function resolveSkillFiles(
     const file = queue.shift()!;
     if (visited.has(file) || BINARY.test(file)) continue;
     visited.add(file);
+    if (!own.has(file) && !followsRefs(file)) continue;
     const size = blobs.get(file)?.size;
     if (size !== undefined && size > MAX_READ) continue;
     let text: string;
@@ -77,7 +94,7 @@ export async function resolveSkillFiles(
         for (const b of bases) {
           const norm = posix.normalize(posix.join(b, tok));
           for (const hit of lookup(norm)) {
-            if (taken.has(hit) || referenced.length >= MAX_FILES) continue;
+            if (taken.has(hit) || referenced.length >= MAX_FILES || isCi(hit) || inOtherSkill(hit)) continue;
             taken.add(hit);
             referenced.push(hit);
             queue.push(hit);

@@ -41,13 +41,13 @@ export const VERDICT: Record<Band, string> = {
 
 /** Abilities a skill of this category usually needs, with the reason shown next to them. */
 export const EXPECTED: Record<string, { rules: RuleId[]; why: string }> = {
-  media: { rules: ["paid-api", "network", "reads-secrets"], why: "a media skill usually calls an AI service over the internet with your API key" },
+  media: { rules: ["paid-api", "network"], why: "a media skill usually calls an AI service over the internet" },
   research: { rules: ["network"], why: "a research skill usually looks things up on the internet" },
-  marketing: { rules: ["network", "reads-secrets"], why: "a marketing skill usually talks to online services with your API key" },
+  marketing: { rules: ["network"], why: "a marketing skill usually talks to online services" },
   data: { rules: ["network", "reads-secrets"], why: "a data skill usually connects to databases or online services with your credentials" },
   coding: { rules: ["shell"], why: "a coding skill usually runs build and test commands" },
   devops: { rules: ["shell", "network", "downloads-code", "reads-secrets"], why: "a devops skill usually runs commands, installs tools and uses cloud credentials" },
   security: { rules: ["shell", "network"], why: "a security skill usually runs scanners and checks websites" },
-  productivity: { rules: ["network", "reads-secrets"], why: "a productivity skill usually connects to your mail, calendar or notes with an API key" },
+  productivity: { rules: ["network"], why: "a productivity skill usually connects to your mail, calendar or notes" },
 };
 export const expected = (category: string, ruleId: RuleId) => EXPECTED[category]?.rules.includes(ruleId) ?? false;
