@@ -3,7 +3,7 @@ import { mkdir, readdir, readFile, rename, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import type { Band, RuleId, ScanResult } from "./types.js";
 import { buildReport } from "./report.js";
-import { mergeDuplicates } from "./dedupe.js";
+import { groupSameName, mergeDuplicates } from "./dedupe.js";
 
 export interface SkillRecord {
   id: string;
@@ -18,6 +18,8 @@ export interface SkillRecord {
   contentHash: string;
   repoCreatedAt: string;
   alsoFoundIn: string[];
+  /** other folders of the same repo with a skill of the same name; set in rebuildIndex only */
+  copies?: SkillCopy[];
   status: "ok" | "unavailable";
   /** a file the scan needed could not be read (after one retry): the score may be too good */
   incomplete: boolean;
@@ -44,7 +46,11 @@ export interface IndexEntry {
   installCommand: string;
   /** `owner/repo/path` of identical copies merged into this entry */
   alsoFoundIn: string[];
+  /** same repo, same skill name, other folder (may differ): this entry is the lowest-scoring copy */
+  copies: SkillCopy[];
 }
+
+export interface SkillCopy { path: string; score: number; band: Band }
 
 /** Minimal YAML-ish frontmatter reader: name and description only. Never throws. */
 export function parseFrontmatter(text: string): { name?: string; description?: string } {
@@ -112,7 +118,7 @@ export function toIndexEntry(r: SkillRecord): IndexEntry {
     owner: r.owner, repo: r.repo, path: r.path, stars: r.stars, category: r.category,
     score: r.scan.score, band: r.scan.band, commit: r.commit,
     ruleIds: [...new Set(r.scan.findings.map((f) => f.ruleId))],
-    status: r.status, incomplete: !!r.incomplete, installCommand: cmd, alsoFoundIn: r.alsoFoundIn ?? [],
+    status: r.status, incomplete: !!r.incomplete, installCommand: cmd, alsoFoundIn: r.alsoFoundIn ?? [], copies: r.copies ?? [],
   };
 }
 
@@ -142,7 +148,7 @@ export async function writeRecords(dir: string, records: SkillRecord[], warn: (m
   return { skipped };
 }
 
-/** Rebuilds index.json and report.json from every record in skills/ (duplicates collapsed, oldest repo wins). Never deletes. */
+/** Rebuilds index.json and report.json from every record in skills/ (identical copies collapsed, oldest repo wins; then one entry per repo + name). Never deletes. */
 export async function rebuildIndex(dir: string, warn: (m: string) => void = console.warn): Promise<{ skipped: string[] }> {
   const skills = join(dir, "skills");
   await mkdir(skills, { recursive: true });
@@ -152,7 +158,7 @@ export async function rebuildIndex(dir: string, warn: (m: string) => void = cons
     try { all.push(JSON.parse(await readFile(join(skills, f), "utf8"))); }
     catch { skipped.push(f); warn(`skilltrust: skipped ${f}: unparseable JSON`); }
   }
-  const merged = mergeDuplicates(all);
+  const merged = groupSameName(mergeDuplicates(all));
   const index = merged.map(toIndexEntry).sort((a, b) => b.score - a.score || b.stars - a.stars || (a.id < b.id ? -1 : 1));
   await writeAtomic(join(dir, "index.json"), JSON.stringify(index, null, 2) + "\n");
   await writeAtomic(join(dir, "report.json"), JSON.stringify(buildReport(merged), null, 2) + "\n");

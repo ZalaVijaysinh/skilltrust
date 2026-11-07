@@ -1,7 +1,7 @@
 import type { Band, RuleId } from "./types.js";
 import { PENALTIES } from "./score.js";
 import type { SkillRecord } from "./records.js";
-import { mergeDuplicates } from "./dedupe.js";
+import { groupSameName, mergeDuplicates } from "./dedupe.js";
 
 export interface Report {
   generatedAt: string;
@@ -12,9 +12,9 @@ export interface Report {
   byCategory: Record<string, number>;
 }
 
-/** Counts ok records only, once per contentHash (oldest repo wins). percent is of totalSkills, one decimal. */
+/** Counts ok records only, once per contentHash (oldest repo wins) and once per repo + skill name. percent is of totalSkills, one decimal. */
 export function buildReport(records: SkillRecord[]): Report {
-  const skills = mergeDuplicates(records).filter((r) => r.status === "ok");
+  const skills = groupSameName(mergeDuplicates(records)).filter((r) => r.status === "ok");
   const byBand: Record<Band, number> = { low: 0, review: 0, high: 0 };
   const byRule = Object.fromEntries(
     (Object.keys(PENALTIES) as RuleId[]).map((id) => [id, { count: 0, percent: 0, disclosed: 0 }]),

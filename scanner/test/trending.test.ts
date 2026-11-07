@@ -11,7 +11,7 @@ function entry(owner: string, repo: string, o: Partial<IndexEntry> = {}): IndexE
   const name = o.name ?? "s";
   return {
     id: `${owner}__${repo}__${name}`, name, description: "", owner, repo, path: name, stars: 0, category: "other",
-    score: 90, band: "low", commit: "a", ruleIds: [], status: "ok", incomplete: false, installCommand: "", alsoFoundIn: [], ...o,
+    score: 90, band: "low", commit: "a", ruleIds: [], status: "ok", incomplete: false, installCommand: "", alsoFoundIn: [], copies: [], ...o,
   };
 }
 const file = (repos: Record<string, { createdAt?: string; points: StarPoint[] }>): StarsFile => ({

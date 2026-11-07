@@ -33,8 +33,9 @@ describe("dedupe", () => {
   });
 });
 
-import { mergeDuplicates } from "../src/dedupe.js";
-import { rec } from "./fixtures-record.js";
+import { groupSameName, mergeDuplicates } from "../src/dedupe.js";
+import type { SkillRecord } from "../src/records.js";
+import { rec, withScan } from "./fixtures-record.js";
 
 describe("mergeDuplicates", () => {
   it("keeps the oldest repo's record and lists the others", () => {
@@ -51,5 +52,22 @@ describe("mergeDuplicates", () => {
     const out = mergeDuplicates([rec({ id: "b" }), rec({ id: "a" })]);
     expect(out.map((r) => r.id)).toEqual(["a"]);
     expect(out[0].alsoFoundIn).toEqual(["o/r/s"]);
+  });
+});
+
+describe("groupSameName", () => {
+  const r = (id: string, path: string, score: number, o: Partial<SkillRecord> = {}) =>
+    withScan(rec({ id, path, name: "Tool", contentHash: id, ...o }), { score, band: score >= 80 ? "low" : score >= 50 ? "review" : "high" });
+  it("keeps one entry per repo + name: the lowest-scoring copy, the others listed with their scores", () => {
+    const out = groupSameName([r("a", "skills/tool", 100), r("b", ".agents/skills/tool", 95), r("c", "x/tool", 95, { name: "tool" }), r("d", "y", 40, { repo: "other" })]);
+    // equal scores: the shortest path stands for the group
+    expect(out.map((x) => x.id).sort()).toEqual(["c", "d"]);
+    expect(out.find((x) => x.id === "c")!.copies).toEqual([{ path: ".agents/skills/tool", score: 95, band: "low" }, { path: "skills/tool", score: 100, band: "low" }]);
+    expect(out.find((x) => x.id === "d")!.copies).toEqual([]);
+  });
+  it("never groups unavailable records or nameless ones, and is idempotent", () => {
+    const once = groupSameName([r("a", "p", 90, { status: "unavailable" }), r("b", "q", 90), r("c", "s", 90, { name: "" }), r("d", "t", 90, { name: "" })]);
+    expect(once.map((x) => x.id).sort()).toEqual(["a", "b", "c", "d"]);
+    expect(groupSameName(once)).toEqual(once);
   });
 });
