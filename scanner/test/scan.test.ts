@@ -8,8 +8,8 @@ const ids = (r: ReturnType<typeof scanFiles>) => r.findings.map((f) => f.ruleId)
 const scan = (path: string, text: string) => ids(scanFiles([file(path, text)], ""));
 
 test("rules are versioned and use the exact sentences", () => {
-  expect(RULES_VERSION).toBe("1.1.0");
-  expect(scanFiles([], "").rulesVersion).toBe("1.1.0");
+  expect(RULES_VERSION).toBe("1.2.0");
+  expect(scanFiles([], "").rulesVersion).toBe("1.2.0");
   expect(RULES.map((r) => r.id).sort()).toEqual(
     ["browser-secrets", "downloads-code", "network", "obfuscated", "paid-api", "reads-secrets", "shell", "writes-outside"]);
   expect(RULES.find((r) => r.id === "network")?.sentence).toBe("Sends data to these websites: {hosts}");
@@ -250,4 +250,17 @@ test("a ~500 KB TOML line of spaces scans fast and still finds the command", () 
 test("auto-run files of a skill-folder plugin root scan as automatic", () => {
   const r = scanFiles([file("s/config.toml", 'command = "bash x.sh"', "plugin-auto"), file("s/hooks/hooks.json", '{"command":"bash x.sh"}', "plugin-auto")], "");
   expect(r.findings.filter((f) => f.ruleId === "shell" && f.automatic).map((f) => f.file).sort()).toEqual(["s/config.toml", "s/hooks/hooks.json"]);
+});
+
+test("comment lines never count, for any rule; crontab lines still do", () => {
+  for (const line of ["# pip install requests", "// subprocess.run(['ls'])", " * True when the current process is a Cursor hook subprocess: subprocess.run(['ls'])", "/* eval(atob('ZXZpbA==')) */", "<!-- pip install requests -->"])
+    expect(scan("a.py", line), line).toEqual([]);
+  expect(scan("cron.txt", "* * * * * pip install requests")).toContain("downloads-code");
+  expect(scan("cron.txt", "*/5 * * * * pip install requests")).toContain("downloads-code");
+  expect(scan("a.py", "subprocess.run(['ls'])  # runs ls")).toContain("shell");
+});
+
+test("a shell fence that opens with a comment flags its first command line, not the comment", () => {
+  const r = scanFiles([file("SKILL.md", "```bash\n# set up\nnpm test\n```\n")], "");
+  expect(r.findings.filter((f) => f.ruleId === "shell").map((f) => f.line)).toEqual([3]);
 });

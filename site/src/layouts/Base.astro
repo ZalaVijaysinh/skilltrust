@@ -2,6 +2,8 @@
 interface Props { title: string; description?: string }
 const { title, description = "What each public AI agent skill can do to your computer, explained in plain English." } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+// titles carry scanned skill names; attribute escaping covers quotes, this keeps markup out of previews too
+const plain = (s: string) => s.replace(/[<>]/g, "");
 ---
 <!doctype html>
 <html lang="en">
@@ -10,7 +12,16 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="light dark" />
     <title>{title}</title>
-    <meta name="description" content={description} />
+    <meta name="description" content={plain(description)} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="SkillTrust" />
+    <meta property="og:title" content={plain(title)} />
+    <meta property="og:description" content={plain(description)} />
+    <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site).href} />
+    <meta property="og:image" content={new URL(`${base}/og.png`, Astro.site).href} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href={`${base}/favicon.svg`} type="image/svg+xml" />
   </head>
   <body>
@@ -88,6 +99,12 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
   code, pre { font: .85rem ui-monospace, SFMono-Regular, Menlo, monospace; }
   pre { background: var(--card); border: 1px solid var(--line); padding: .75rem; overflow-x: auto; border-radius: 6px; white-space: pre-wrap; overflow-wrap: anywhere; }
   .excerpt { display: block; overflow-wrap: anywhere; color: var(--muted); }
+  ul.where { list-style: none; padding-left: 0; margin: .25rem 0; }
+  ul.where li { margin: .35rem 0; }
+  details summary { cursor: pointer; }
+  .verdict { font-size: 1.1rem; }
+  .mix { display: flex; flex-wrap: wrap; gap: .5rem; padding: 0; list-style: none; }
+  input[type=search] { font: inherit; font-family: ui-sans-serif, system-ui, sans-serif; padding: .3rem .5rem; min-width: min(100%, 18rem); }
   table { border-collapse: collapse; width: 100%; font-size: .92rem; }
   th, td { text-align: left; padding: .5rem .5rem .5rem 0; border-bottom: 1px solid var(--line); vertical-align: top; }
   .tablewrap { overflow-x: auto; }

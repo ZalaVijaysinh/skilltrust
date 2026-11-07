@@ -1,6 +1,6 @@
 import type { RuleId } from "./types.js";
 
-export const RULES_VERSION = "1.1.0";
+export const RULES_VERSION = "1.2.0";
 
 export interface Rule {
   id: RuleId;

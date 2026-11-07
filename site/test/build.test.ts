@@ -26,21 +26,30 @@ const sha = (c: string) => c.repeat(40);
 describe("site build with fixtures", () => {
   beforeAll(() => build(fixtures, out), 120_000);
 
-  it("lists skills in score order with band labels", () => {
+  it("lists skills by popularity (stars) with band labels, and has a search box", () => {
     const html = page("index.html");
-    const order = ["PDF Helper", "Stale Skill", "Web Fetch", "Sneaky"].map((n) => html.indexOf(n, html.indexOf("All skills")));
+    expect(html).toMatch(/<input type="search" id="q"/);
+    expect(html).toMatch(/<option value="stars"[^>]*>Stars<\/option>\s*<option value="trust"/);
+    const order = ["PDF Helper", "Web Fetch", "Stale Skill", "Sneaky"].map((n) => html.indexOf(n, html.indexOf("All skills")));
     expect(order.every((i) => i > 0)).toBe(true);
     expect([...order].sort((a, b) => a - b)).toEqual(order);
     expect(html).toContain('href="/skilltrust/skills/acme__tools__pdf-helper/"');
     expect(html).toContain("Low risk");
     expect(html).toContain("High risk");
+    // the count is in the HTML: the full rows file only loads when a filter or "Show more" is used
+    expect(text(html)).toContain("4 skills");
+    expect(html).toMatch(/<button id="?more"?[^>]*hidden/);
   });
 
   it("skill page shows findings, links, disclosure, install command and history", () => {
     const html = page("skills/bob__stuff__web-fetch/index.html");
     const t = text(html);
+    // one card per ability: both network findings share a card, hosts merged, places counted
     expect(t).toContain("Sends data to these websites: api.example.com, cdn.example.org");
-    expect(t).toContain("Connects to the internet");
+    expect(t).not.toContain("Connects to the internet");
+    expect(html.match(/<h3>/g)).toHaveLength(3);
+    expect(t).toContain("Found in 25 places.");
+    expect(t).toContain("Found in 1 place.");
     expect(t).not.toContain("{hosts}");
     expect(t).toContain("Runs commands on your computer");
     expect(html).toContain(`https://github.com/bob/stuff/blob/${sha("b")}/scripts/get.py#L12`);
@@ -102,8 +111,12 @@ describe("site build with fixtures", () => {
     expect(t).toContain("Changes files outside its own folder 0 0% 0");
   });
 
-  it("publishes index.json unchanged", () => {
-    expect(readFileSync(join(out, "index.json"), "utf8")).toBe(readFileSync(join(fixtures, "index.json"), "utf8"));
+  it("publishes index.json minified, without installCommand, every other field intact", () => {
+    const published = readFileSync(join(out, "index.json"), "utf8");
+    const source = JSON.parse(readFileSync(join(fixtures, "index.json"), "utf8")) as Record<string, unknown>[];
+    expect(published.trimEnd()).not.toContain("\n");
+    expect(published).not.toContain("installCommand");
+    expect(JSON.parse(published)).toEqual(source.map(({ installCommand: _, ...e }) => e));
   });
 });
 
@@ -175,6 +188,70 @@ describe("trending home page", () => {
       expect(text(home)).toMatch(/AI agent skills/);
       expect(text(page("skills/bob__stuff__web-fetch/index.html"))).toContain("Works with any agent that supports SKILL.md skills");
     });
+  });
+});
+
+describe("verdicts, alternatives, copies, badges, repo pages and previews", () => {
+  const tmp = mkdtempSync(join(tmpdir(), "skilltrust-features-"));
+  const data = join(tmp, "data");
+  const out5 = join(tmp, "dist");
+  const p5 = (f: string) => readFileSync(join(out5, f), "utf8");
+  beforeAll(() => {
+    cpSync(fixtures, data, { recursive: true });
+    const index = JSON.parse(readFileSync(join(data, "index.json"), "utf8"));
+    const sneaky = index.find((e: { id: string }) => e.id === "evil__x__sneaky");
+    // a risky PDF skill with two more copies in its repo; PDF Helper (another repo, low risk) is the related alternative
+    Object.assign(sneaky, { name: "Sneaky <i>PDF</i> helper", category: "documents", description: "Converts PDF files", copies: [{ path: "a/b/sneaky", score: 60, band: "review" }, { path: "../x", score: 90, band: "low" }] });
+    writeFileSync(join(data, "index.json"), JSON.stringify(index));
+    build(data, out5);
+  }, 120_000);
+
+  it("skill pages lead with a plain verdict and say when an ability is expected", () => {
+    expect(text(p5("skills/evil__x__sneaky/index.html"))).toContain("Only if you trust the author.");
+    const t = text(p5("skills/bob__stuff__web-fetch/index.html"));
+    expect(t).toContain("Fine to try. Some of what it can do is expected: a research skill usually looks things up on the internet.");
+    expect(t).toContain("Expected for a research skill.");
+  });
+
+  it("risky skills list related low-risk alternatives from other repos; low-risk skills do not", () => {
+    const t = text(p5("skills/evil__x__sneaky/index.html"));
+    expect(t).toContain("Safer alternatives");
+    expect(p5("skills/evil__x__sneaky/index.html")).toContain('href="/skilltrust/skills/acme__tools__pdf-helper/"');
+    expect(text(p5("skills/acme__tools__pdf-helper/index.html"))).not.toContain("Safer alternatives");
+  });
+
+  it("lists the other copies in the repo with their scores, linking only safe paths", () => {
+    const html = p5("skills/evil__x__sneaky/index.html");
+    expect(text(html)).toContain("has 2 more folders with a skill named");
+    expect(text(html)).toContain("60/100 · Review before installing");
+    expect(html).toContain(`https://github.com/evil/x/tree/${sha("c")}/a/b/sneaky`);
+    expect(html).not.toContain("/tree/" + sha("c") + "/../x");
+  });
+
+  it("publishes a README badge per skill and shows its snippet", () => {
+    const svg = p5("badges/acme__tools__pdf-helper.svg");
+    expect(svg).toMatch(/^<svg /);
+    expect(svg).toContain("100 · Low risk");
+    expect(p5("badges/evil__x__sneaky.svg")).toContain("35 · High risk");
+    expect(text(p5("skills/acme__tools__pdf-helper/index.html"))).toContain("[![SkillTrust](https://zalavijaysinh.github.io/skilltrust/badges/acme__tools__pdf-helper.svg)](https://zalavijaysinh.github.io/skilltrust/skills/acme__tools__pdf-helper/)");
+  });
+
+  it("builds a page per repo with its risk mix and skills, linked from skill pages", () => {
+    const t = text(p5("repos/bob/stuff/index.html"));
+    expect(t).toContain("bob/stuff");
+    expect(t).toMatch(/1 Low risk 0 Review before installing 0 High risk/);
+    expect(t).toContain("Web Fetch");
+    expect(t).toContain("Connects to the internet: 1 of 1");
+    expect(p5("skills/bob__stuff__web-fetch/index.html")).toContain('href="/skilltrust/repos/bob/stuff/"');
+  });
+
+  it("every page has preview-card tags with absolute URLs, and skill titles carry the score", () => {
+    const html = p5("skills/evil__x__sneaky/index.html");
+    expect(html).toContain('property="og:image" content="https://zalavijaysinh.github.io/skilltrust/og.png"');
+    expect(html).toContain('property="og:url" content="https://zalavijaysinh.github.io/skilltrust/skills/evil__x__sneaky/"');
+    expect(html).toMatch(/property="og:title" content="Sneaky iPDF\/i helper: 35\/100, High risk/);
+    expect(html).toContain('name="twitter:card" content="summary_large_image"');
+    expect(existsSync(join(out5, "og.png"))).toBe(true);
   });
 });
 

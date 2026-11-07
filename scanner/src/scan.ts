@@ -9,7 +9,8 @@ const URL_RE = /https?:\/\/([^\s/'"`<>)\]:?#\\]+)/gi;
 // Namespace and loopback hosts are not data leaving the machine.
 const IGNORED_HOSTS = new Set(["localhost", "127.0.0.1", "0.0.0.0", "www.w3.org"]);
 const SHELL_FENCE = /^(bash|sh|shell|zsh)$/i;
-const COMMENT_LINE = /^\s*(\/\/|#|\/\*|\*|<!--)/;
+// A comment cannot run. A lone `*` is a block-comment line, but `* * * * * cmd` and `*/5 …` are crontab lines.
+const COMMENT_LINE = /^\s*(\/\/|#|\/\*|<!--|\*(?!\s*[*\d/,-]))/;
 // Long lines are scanned in overlapping windows; every rule quantifier is bounded well under the overlap.
 const WINDOW = 4000, OVERLAP = 400;
 function* windows(text: string): Generator<string> {
@@ -58,7 +59,7 @@ function segments(file: SkillFile, lines: string[]): { segs: string[][]; prose: 
     }
     prose[i] = "";
     if (m && m[1][0] === fence[0] && m[1].length >= fence.length && !m[2] && line.trim() === m[1]) { fence = null; return []; }
-    if (firstInFence === 0 && line.trim()) { shellFences.add(i); firstInFence = -1; }
+    if (firstInFence === 0 && line.trim() && !COMMENT_LINE.test(line)) { shellFences.add(i); firstInFence = -1; }
     return [line];
   });
   return { segs, prose, shellFences };
@@ -92,7 +93,7 @@ export function scanFiles(files: SkillFile[], disclosureText: string): ScanResul
         const hosts: string[] = [];
         const addHost = (h: string) => { if (!IGNORED_HOSTS.has(h) && !hosts.includes(h)) hosts.push(h); };
         for (const seg of segs[i]) {
-          if (rule.id === "network" && COMMENT_LINE.test(seg)) continue;
+          if (COMMENT_LINE.test(seg)) continue;
           for (const win of windows(seg)) {
             if (!rule.patterns.some((p) => p.test(win))) continue;
             matched = true; // one finding per rule per line, so overlapping windows cannot double-report

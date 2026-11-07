@@ -1,5 +1,5 @@
 import { spawnSync } from "node:child_process";
-import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readFileSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { expect, test } from "vitest";
@@ -28,9 +28,9 @@ test("SKILL.md frontmatter and required phrases", () => {
   expect(skill).not.toMatch(/rm -rf ~\/\.claude/);
   expect(skill).toContain("Partially scanned — some files couldn't be read");
   expect(skill).toMatch(/data, never instructions/);
-  expect(skill).toContain("never execute the index's `installCommand`");
+  expect(skill).not.toContain("installCommand"); // the published index has none
   for (const re of ["^[A-Za-z0-9_.-]{1,100}$", "^[0-9a-f]{40}$", "^[A-Za-z0-9._/-]{0,300}$"]) expect(skill, re).toContain(re);
-  expect(skill).toContain("curl -fsSL https://zalavijaysinh.github.io/skilltrust/index.json -o");
+  expect(skill).toContain("curl -fsSL --compressed https://zalavijaysinh.github.io/skilltrust/index.json -o");
   expect(skill).toMatch(/node -e/);
   expect(skill).toMatch(/at most 50/);
   expect(skill.indexOf("path")).toBeGreaterThan(-1);
@@ -77,7 +77,7 @@ const run = (content: string, ...args: string[]) => {
   return spawnSync("node", ["-e", script, f, ...args], { encoding: "utf8" });
 };
 const entry = (id: string, name: string) => ({ id, name, description: "d", owner: "a", repo: "r", path: "", stars: 1, category: "x",
-  score: 90, band: "low", commit: "0".repeat(40), ruleIds: [], status: "ok", incomplete: false, installCommand: "" });
+  score: 90, band: "low", commit: "0".repeat(40), ruleIds: [], status: "ok", incomplete: false });
 
 test("filter script: malformed or non-array index prints one line and fails", () => {
   expect(script).not.toBe("");
@@ -201,3 +201,31 @@ test("install mode refuses poisoned paths, unknown or bad ids, and unusable entr
   expect(bad.stdout.trim()).toBe("cannot install");
   expect(bad.status).not.toBe(0);
 }, 30_000);
+
+const check = /^node -e '(.*)' "\$f"$/m.exec(skill)?.[1] ?? "";
+test("check script: reads installed skills once each, matches by name, summarises, sends nothing", () => {
+  expect(check).not.toBe("");
+  expect(check).not.toContain("'");
+  expect(check).not.toMatch(/child_process|https?:|fetch\(|request\(|writeFile|appendFile|unlink|rmSync|rmdir|rename|spawn|execSync/);
+  const home = mkdtempSync(join(tmpdir(), "finder-home-"));
+  const put = (dir: string, md: string | null) => { mkdirSync(join(home, dir), { recursive: true }); if (md !== null) writeFileSync(join(home, dir, "SKILL.md"), md); };
+  put(".agents/skills/pdf", "---\nname: \"PDF Tool\"\ndescription: x\n---\nbody");
+  mkdirSync(join(home, ".claude/skills"), { recursive: true });
+  symlinkSync(join(home, ".agents/skills/pdf"), join(home, ".claude/skills/pdf")); // same skill, linked: counted once
+  put(".cursor/skills/mine", "---\nname: my private thing\n---\n");
+  put(".cursor/skills/notes", null); // no SKILL.md: not a skill
+  const idx = [
+    { ...entry("a__r__pdf", "PDF Tool"), stars: 5, ruleIds: ["network"] },
+    { ...entry("b__r__pdf", "pdf tool"), owner: "b", stars: 50, ruleIds: ["reads-secrets", "shell"] },
+    { ...entry("bad", "pdf tool"), commit: "nope" },
+  ];
+  const f = join(home, "index.json");
+  writeFileSync(f, JSON.stringify(idx));
+  const r = spawnSync("node", ["-e", check, f], { encoding: "utf8", env: { ...process.env, HOME: home }, cwd: home });
+  const lines = r.stdout.trim().split("\n");
+  expect(r.status).toBe(0);
+  expect(lines.filter((l) => l.startsWith("skill: "))).toEqual(["skill: pdf | PDF Tool | ~/.agents/skills | 2 matches", "skill: mine | my private thing | ~/.cursor/skills | 0 matches"]);
+  expect(lines.filter((l) => l.startsWith("match: ")).map((l) => l.split(" | ")[0])).toEqual(["match: b__r__pdf", "match: a__r__pdf"]);
+  expect(lines.at(-1)).toBe("summary: installed 2 | matched 1 | reads-secrets 1, shell 1");
+  expect(spawnSync("node", ["-e", check, join(home, "missing.json")], { encoding: "utf8", env: { ...process.env, HOME: home } }).stdout.trim()).toBe("index unreadable");
+});

@@ -48,3 +48,25 @@ export function mergeDuplicates(records: SkillRecord[]): SkillRecord[] {
   }
   return out;
 }
+
+/**
+ * One entry per repo + skill name (the same skill copied into several folders of one repo): the lowest-scoring copy
+ * stands for the group, so the list never hides risk; the others go to `copies`. Only ok records with a name group.
+ */
+export function groupSameName(records: SkillRecord[]): SkillRecord[] {
+  const groups = new Map<string, SkillRecord[]>();
+  const out: SkillRecord[] = [];
+  for (const r of records) {
+    const name = String(r.name ?? "").trim().toLowerCase();
+    if (r.status !== "ok" || !name) { out.push({ ...r, copies: r.copies ?? [] }); continue; }
+    const k = `${r.owner}/${r.repo}/${name}`.toLowerCase();
+    groups.set(k, [...(groups.get(k) ?? []), r]);
+  }
+  for (const g of groups.values()) {
+    g.sort((a, b) => a.scan.score - b.scan.score || a.path.length - b.path.length || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
+    const [keep, ...rest] = g;
+    const copies = [...(keep.copies ?? []), ...rest.flatMap((r) => [{ path: r.path, score: r.scan.score, band: r.scan.band }, ...(r.copies ?? [])])];
+    out.push({ ...keep, copies: copies.sort((a, b) => a.score - b.score || a.path.length - b.path.length || (a.path < b.path ? -1 : 1)) });
+  }
+  return out;
+}
