@@ -47,7 +47,7 @@ A skill starts at 100. Each rule below that matches takes points off, once per r
 | --- | --- | --- |
 | `obfuscated` | Contains code that is hidden or hard to read | 25 |
 | `browser-secrets` | Reads your browser cookies or saved passwords | 25 |
-| `reads-secrets` | Reads your API keys or secrets | 20 |
+| `reads-secrets` | Reads your saved credentials, such as SSH keys or .env files | 20 |
 | `downloads-code` | Downloads and installs other software | 15 |
 | `writes-outside` | Changes files outside its own folder | 10 |
 | `paid-api` | Can call paid AI services billed to you | 10 |

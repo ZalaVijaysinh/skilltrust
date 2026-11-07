@@ -20,7 +20,6 @@ function* windows(text: string): Generator<string> {
     if (at + WINDOW >= text.length) return;
   }
 }
-const JS_LIKE = /\.(m?js|cjs|jsx|tsx?)$/i;
 
 /** Linear inline-code splitter: a span is a backtick run closed by the next run of the same length. */
 function inlineCode(line: string): { code: string[]; prose: string } {
@@ -84,16 +83,22 @@ export function scanFiles(files: SkillFile[], disclosureText: string): ScanResul
     const lines = file.text.split(/\r?\n/);
     const { segs, shellFences } = segments(file, lines);
     const commandJson = COMMAND_JSON.test(file.path);
+    const markdown = /\.(md|markdown)$/i.test(file.path);
     // a config.toml only counts at a plugin root; one inside the skill folder is just a file
     const commandToml = file.origin === "plugin-auto" && COMMAND_TOML.test(file.path);
+    // a JSON data file (a logo catalog, a price list) naming an AI host calls nothing; only command JSON can
+    const dataJson = /\.json$/i.test(file.path) && !commandJson;
     lines.forEach((line, i) => {
       if (!segs[i].length && !shellFences.has(i)) return;
       for (const rule of RULES) {
+        if (dataJson && rule.id === "paid-api") continue;
         let matched = rule.id === "shell" && shellFences.has(i);
         const hosts: string[] = [];
         const addHost = (h: string) => { if (!IGNORED_HOSTS.has(h) && !hosts.includes(h)) hosts.push(h); };
         for (const seg of segs[i]) {
           if (COMMENT_LINE.test(seg)) continue;
+          // in Markdown a lone path (`~/.ssh/config`) names a file; reading it takes a command
+          if (rule.id === "reads-secrets" && markdown && !/\s/.test(seg.trim())) continue;
           for (const win of windows(seg)) {
             if (!rule.patterns.some((p) => p.test(win))) continue;
             matched = true; // one finding per rule per line, so overlapping windows cannot double-report
@@ -106,8 +111,6 @@ export function scanFiles(files: SkillFile[], disclosureText: string): ScanResul
         // Claude Code runs every "command" in hook, MCP and plugin.json files.
         if (rule.id === "shell" && commandJson && COMMAND_KEY.test(line)) matched = true;
         if (rule.id === "shell" && commandToml && TOML_COMMAND_LINE.test(line)) matched = true;
-        // shortcut: minified = very long, almost space-free line in a JS file; tune if it misfires.
-        if (rule.id === "obfuscated" && JS_LIKE.test(file.path) && line.length > 1000 && line.split(" ").length < line.length / 40) matched = true;
         if (!matched) continue;
         const finding: Finding = {
           ruleId: rule.id,

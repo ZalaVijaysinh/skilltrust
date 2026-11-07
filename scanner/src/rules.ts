@@ -1,6 +1,6 @@
 import type { RuleId } from "./types.js";
 
-export const RULES_VERSION = "1.2.0";
+export const RULES_VERSION = "1.3.0";
 
 export interface Rule {
   id: RuleId;
@@ -17,8 +17,6 @@ const HOME = String.raw`(~/|\$HOME|\$\{HOME\}|os\.homedir|Path\.home|expanduser|
 const WRITE = String.raw`(writeFile\w{0,40}|write_text|write_bytes|appendFile\w{0,40}|copyFile\w{0,40}|shutil\.(copy\w{0,40}|move)|os\.(rename|remove|unlink)|\b(cp|mv|tee|ln|rm|mkdir|touch|install)\b)`;
 // Not preceded by a word char or dot, so `u.profile` (JS property access) is not a shell rc file.
 const RC = String.raw`(?<![\w.])\.(bashrc|zshrc|zprofile|bash_profile|profile)\b`;
-// Whole name segments, so MAX_TOKENS does not match but GITHUB_TOKEN and OPENAI_API_KEY do.
-const SECRET_VAR = String.raw`([A-Z0-9]{1,30}_){0,10}(API_KEY|APIKEY|SECRET|SECRET_KEY|ACCESS_KEY|TOKEN|PASSWORD)(_[A-Z0-9]{1,30}){0,10}(?![A-Za-z0-9])`;
 const B64 = String.raw`[A-Za-z0-9+/=]{200,4000}`;
 
 // Paid AI SDKs as imported. Python: `import x` / `from x import` at line start (not `import x from '...'`, which is JS).
@@ -75,17 +73,20 @@ export const RULES: Rule[] = [
   },
   {
     id: "reads-secrets",
-    sentence: "Reads your API keys or secrets",
+    sentence: "Reads your saved credentials, such as SSH keys or .env files",
     requires: "network",
     patterns: [
       /~\/\.(ssh|aws|gnupg|netrc|npmrc|pypirc|kube|docker\/config)\b/,
       /\.ssh\/(id_\w{1,40}|config|known_hosts)|\.aws\/credentials/,
       /\b(open|readFile\w{0,40}|read_text|cat|source|load_dotenv|dotenv_values)\b[^\n]{0,200}['"/\s]\.env(\.\w{1,20})?(['"\s)]|$)/,
-      new RegExp(String.raw`process\.env\.${SECRET_VAR}|process\.env\[\s{0,20}['"]${SECRET_VAR}`),
-      new RegExp(String.raw`os\.environ(\.get)?\s{0,20}[\[(]\s{0,20}['"]${SECRET_VAR}|os\.getenv\(\s{0,20}['"]${SECRET_VAR}`),
-      new RegExp(String.raw`\$\{?${SECRET_VAR}\}?`),
+      /\.config\/gcloud\/|\.azure\/(accessTokens|credentials)|\.docker\/config\.json|\.git-credentials\b/,
+      // Every environment variable at once. Reading one named key (OPENAI_API_KEY) to call that API is ordinary use:
+      // nearly every API skill does it, and paid-api already says when it is billed to you.
+      /JSON\.stringify\(\s{0,20}process\.env\s{0,20}\)|(?<![\w.])dict\(\s{0,20}os\.environ\s{0,20}\)|json\.dumps\(\s{0,20}(dict\()?os\.environ\b/,
+      // `env | grep X` filters; piping the whole environment into a network or encoding tool sends it
+      /\b(env|printenv)\s{0,20}\|\s{0,20}(curl|wget|nc|ncat|base64|gzip)\b/,
     ],
-    disclosureWords: ["reads your api key", "uses your api key", "reads your api keys", "uses your api keys", "credential", "credentials", "ssh key", "ssh keys", ".env file", "environment variable", "environment variables"],
+    disclosureWords: ["credential", "credentials", "ssh key", "ssh keys", ".env file", "environment variables"],
   },
   {
     id: "downloads-code",
@@ -109,10 +110,11 @@ export const RULES: Rule[] = [
     sentence: "Changes files outside its own folder",
     patterns: [
       new RegExp(String.raw`${WRITE}[^\n]{0,200}${HOME}`),
-      new RegExp(String.raw`>>?\s{0,20}["']?(~|\$HOME|\$\{HOME\}|/etc|/usr)/`),
-      new RegExp(String.raw`>>?\s{0,20}\S{0,100}${RC}|\b(echo|tee|sed\s{1,20}-i|cat)\b[^\n]{0,200}${RC}`),
+      new RegExp(String.raw`(?<![^\s;|&(])>>?\s{0,20}["']?(~|\$HOME|\$\{HOME\}|/etc|/usr)/`),
+      new RegExp(String.raw`(?<![^\s;|&(])>>?\s{0,20}\S{0,100}${RC}|\b(echo|tee|sed\s{1,20}-i|cat)\b[^\n]{0,200}${RC}`),
       new RegExp(String.raw`open\([^\n]{0,200}${HOME}[^\n]{0,200},\s{0,20}['"][wa]b?\+?['"]`),
-      /\.claude\/(skills|settings\.json|hooks)[^\n]{0,200}\b(cp|mv|ln|write\w{0,40}|mkdir)\b|\b(cp|mv|ln|write\w{0,40}|mkdir)\b[^\n]{0,200}\.claude\/(skills|settings\.json|hooks)/,
+      // writeFile etc., not a CLI subcommand named "write" (`.claude/skills/x/scripts/x storage write ...`)
+      /\.claude\/(skills|settings\.json|hooks)[^\n]{0,200}\b(cp|mv|ln|writeFile\w{0,40}|write_text|write_bytes|mkdir)\b|\b(cp|mv|ln|writeFile\w{0,40}|write_text|write_bytes|mkdir)\b[^\n]{0,200}\.claude\/(skills|settings\.json|hooks)/,
     ],
     disclosureWords: ["writes to", "writes files", "modifies", "home directory", "bashrc", "zshrc", "outside its", "config file"],
   },
@@ -120,7 +122,7 @@ export const RULES: Rule[] = [
     id: "paid-api",
     sentence: "Can call paid AI services billed to you",
     patterns: [
-      /\b(api\.openai\.com|api\.anthropic\.com|generativelanguage\.googleapis\.com|aiplatform\.googleapis\.com|api\.x\.ai|api\.elevenlabs\.io|api\.replicate\.com|fal\.run|openrouter\.ai|api\.perplexity\.ai)\b/,
+      /\b(api\.openai\.com|api\.anthropic\.com|generativelanguage\.googleapis\.com|aiplatform\.googleapis\.com|api\.x\.ai|api\.elevenlabs\.io|api\.replicate\.com|fal\.run|openrouter\.ai\/api|api\.perplexity\.ai)\b/,
       ...SDK_IMPORTS,
     ],
     disclosureWords: ["paid api", "billed", "api credits", "usage costs", "openai api", "anthropic api", "gemini api", "elevenlabs api", "replicate api", "openrouter"],
