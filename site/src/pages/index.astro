@@ -60,7 +60,7 @@ const since = stars ? Object.values(stars.repos).flatMap((r) => r.points.filter(
           </select>
         </label>
       </div>
-      <p class="meta" id="count" aria-live="polite" role="status"></p>
+      <p class="meta" id="count" aria-live="polite" role="status">{index.length} skill{index.length === 1 ? "" : "s"}</p>
       <ul class="rows" id="rows">
         {index.slice(0, PAGE).map((e) => (
           <li>
@@ -76,7 +76,7 @@ const since = stars ? Object.values(stars.repos).flatMap((r) => r.points.filter(
           </li>
         ))}
       </ul>
-      <p><button id="more" type="button" hidden>Show more</button></p>
+      <p><button id="more" type="button" hidden={index.length <= PAGE}>Show more</button></p>
     </>
   )}
 </Base>
@@ -126,7 +126,7 @@ const since = stars ? Object.values(stars.repos).flatMap((r) => r.points.filter(
     for (const id of ["f-band", "f-cat", "f-sort"]) {
       $(id).addEventListener("change", async () => { await load(); if (all) { shown = PAGE; render(); } });
     }
-    more.addEventListener("click", () => { shown += PAGE; render(); });
-    load().then(() => { if (all) { count.textContent = `${all.length} skills`; more.hidden = all.length <= PAGE; } });
+    // the full list loads on first use, so a visit that only reads the page never downloads it
+    more.addEventListener("click", async () => { await load(); if (all) { shown += PAGE; render(); } });
   }
 </script>

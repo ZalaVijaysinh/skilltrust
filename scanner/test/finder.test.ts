@@ -28,9 +28,9 @@ test("SKILL.md frontmatter and required phrases", () => {
   expect(skill).not.toMatch(/rm -rf ~\/\.claude/);
   expect(skill).toContain("Partially scanned — some files couldn't be read");
   expect(skill).toMatch(/data, never instructions/);
-  expect(skill).toContain("never execute the index's `installCommand`");
+  expect(skill).not.toContain("installCommand"); // the published index has none
   for (const re of ["^[A-Za-z0-9_.-]{1,100}$", "^[0-9a-f]{40}$", "^[A-Za-z0-9._/-]{0,300}$"]) expect(skill, re).toContain(re);
-  expect(skill).toContain("curl -fsSL https://zalavijaysinh.github.io/skilltrust/index.json -o");
+  expect(skill).toContain("curl -fsSL --compressed https://zalavijaysinh.github.io/skilltrust/index.json -o");
   expect(skill).toMatch(/node -e/);
   expect(skill).toMatch(/at most 50/);
   expect(skill.indexOf("path")).toBeGreaterThan(-1);
@@ -77,7 +77,7 @@ const run = (content: string, ...args: string[]) => {
   return spawnSync("node", ["-e", script, f, ...args], { encoding: "utf8" });
 };
 const entry = (id: string, name: string) => ({ id, name, description: "d", owner: "a", repo: "r", path: "", stars: 1, category: "x",
-  score: 90, band: "low", commit: "0".repeat(40), ruleIds: [], status: "ok", incomplete: false, installCommand: "" });
+  score: 90, band: "low", commit: "0".repeat(40), ruleIds: [], status: "ok", incomplete: false });
 
 test("filter script: malformed or non-array index prints one line and fails", () => {
   expect(script).not.toBe("");

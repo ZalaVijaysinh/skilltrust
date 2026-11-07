@@ -34,6 +34,9 @@ describe("site build with fixtures", () => {
     expect(html).toContain('href="/skilltrust/skills/acme__tools__pdf-helper/"');
     expect(html).toContain("Low risk");
     expect(html).toContain("High risk");
+    // the count is in the HTML: the full rows file only loads when a filter or "Show more" is used
+    expect(text(html)).toContain("4 skills");
+    expect(html).toMatch(/<button id="?more"?[^>]*hidden/);
   });
 
   it("skill page shows findings, links, disclosure, install command and history", () => {
@@ -102,8 +105,12 @@ describe("site build with fixtures", () => {
     expect(t).toContain("Changes files outside its own folder 0 0% 0");
   });
 
-  it("publishes index.json unchanged", () => {
-    expect(readFileSync(join(out, "index.json"), "utf8")).toBe(readFileSync(join(fixtures, "index.json"), "utf8"));
+  it("publishes index.json minified, without installCommand, every other field intact", () => {
+    const published = readFileSync(join(out, "index.json"), "utf8");
+    const source = JSON.parse(readFileSync(join(fixtures, "index.json"), "utf8")) as Record<string, unknown>[];
+    expect(published.trimEnd()).not.toContain("\n");
+    expect(published).not.toContain("installCommand");
+    expect(JSON.parse(published)).toEqual(source.map(({ installCommand: _, ...e }) => e));
   });
 });
 
