@@ -33,7 +33,7 @@ Ask the finder to check your installed skills. It reads the skill folders of eve
 
 ## Badges
 
-Every skill page has a README badge (`SkillTrust: 92 · Low risk`) you can paste into your repository. Repository pages show the risk mix of all skills in one repo.
+Every repository gets a README badge (`SkillTrust: 92 · Low risk`) showing the score of its lowest-scoring skill; the snippet is on its repository page and on each of its skill pages. Repository pages show the risk mix of all skills in one repo.
 
 ## Trending
 

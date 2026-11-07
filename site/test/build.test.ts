@@ -228,12 +228,15 @@ describe("verdicts, alternatives, copies, badges, repo pages and previews", () =
     expect(html).not.toContain("/tree/" + sha("c") + "/../x");
   });
 
-  it("publishes a README badge per skill and shows its snippet", () => {
-    const svg = p5("badges/acme__tools__pdf-helper.svg");
+  it("publishes one README badge per repo (no per-skill badges) and shows its snippet on skill and repo pages", () => {
+    const svg = p5("badges/acme/tools.svg");
     expect(svg).toMatch(/^<svg /);
     expect(svg).toContain("100 · Low risk");
-    expect(p5("badges/evil__x__sneaky.svg")).toContain("35 · High risk");
-    expect(text(p5("skills/acme__tools__pdf-helper/index.html"))).toContain("[![SkillTrust](https://zalavijaysinh.github.io/skilltrust/badges/acme__tools__pdf-helper.svg)](https://zalavijaysinh.github.io/skilltrust/skills/acme__tools__pdf-helper/)");
+    expect(p5("badges/evil/x.svg")).toContain("35 · High risk");
+    expect(existsSync(join(out5, "badges/acme__tools__pdf-helper.svg"))).toBe(false);
+    const snippet = "[![SkillTrust](https://zalavijaysinh.github.io/skilltrust/badges/acme/tools.svg)](https://zalavijaysinh.github.io/skilltrust/repos/acme/tools/)";
+    expect(text(p5("skills/acme__tools__pdf-helper/index.html"))).toContain(snippet);
+    expect(text(p5("repos/acme/tools/index.html"))).toContain(snippet);
   });
 
   it("builds a page per repo with its risk mix and skills, linked from skill pages", () => {

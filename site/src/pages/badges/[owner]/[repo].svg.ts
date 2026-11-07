@@ -1,10 +1,18 @@
 import type { APIRoute } from "astro";
-import { loadData } from "../../lib/data.js";
-import { bandLabel } from "../../../../scanner/src/score.js";
-import type { Band } from "../../../../scanner/src/types.js";
+import { loadData } from "../../../lib/data.js";
+import { bandLabel } from "../../../../../scanner/src/score.js";
+import type { Band } from "../../../../../scanner/src/types.js";
+import type { IndexEntry } from "../../../../../scanner/src/records.js";
 
+// One badge per repository (a README belongs to a repo), showing its lowest-scoring skill. Per-skill badges doubled the
+// site's file count past what GitHub Pages can publish within its 10-minute limit.
 export function getStaticPaths() {
-  return loadData().index.map((e) => ({ params: { id: e.id }, props: { score: e.score, band: e.band } }));
+  const worst = new Map<string, IndexEntry>();
+  for (const e of loadData().index) {
+    const k = `${e.owner}/${e.repo}`, w = worst.get(k);
+    if (!w || e.score < w.score) worst.set(k, e);
+  }
+  return [...worst.values()].map((e) => ({ params: { owner: e.owner, repo: e.repo }, props: { score: e.score, band: e.band } }));
 }
 
 const COLOR: Record<Band, string> = { low: "#1a7f37", review: "#9a6700", high: "#cf222e" };

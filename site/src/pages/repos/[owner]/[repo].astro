@@ -1,7 +1,7 @@
 ---
 import Base from "../../../layouts/Base.astro";
 import { loadData } from "../../../lib/data";
-import { base, skillHref, siteToday, ruleSentence } from "../../../lib/view";
+import { base, skillHref, siteToday, ruleSentence, repoBadge } from "../../../lib/view";
 import { bandLabel } from "../../../../../scanner/src/score";
 import { starGain } from "../../../../../scanner/src/stars";
 import type { IndexEntry } from "../../../../../scanner/src/records";
@@ -30,6 +30,7 @@ const can = new Map<RuleId, number>();
 for (const s of skills) for (const r of s.ruleIds) can.set(r, (can.get(r) ?? 0) + 1);
 const abilities = [...can].sort((a, b) => b[1] - a[1]);
 const stars = Math.max(...skills.map((s) => s.stars));
+const badge = repoBadge(owner, repo);
 ---
 <Base title={`${owner}/${repo}: ${skills.length} AI agent skill${skills.length === 1 ? "" : "s"} | SkillTrust`} description={`What the ${skills.length} AI agent skills in ${owner}/${repo} can do to your computer: ${mix.map((m) => `${m.count} ${bandLabel(m.b).toLowerCase()}`).join(", ")}.`}>
   <p class="back"><a href={`${base}/`}>&larr; All skills</a></p>
@@ -50,6 +51,11 @@ const stars = Math.max(...skills.map((s) => s.stars));
       <ul>{abilities.map(([r, c]) => <li>{ruleSentence(r)}: {c} of {skills.length}</li>)}</ul>
     </>
   )}
+
+  <h2>Badge for your README</h2>
+  <p class="meta">Shows the score of this repository's lowest-scoring skill.</p>
+  <p><img src={badge.src} alt={`SkillTrust badge for ${owner}/${repo}`} height="20" /></p>
+  <pre>{badge.markdown}</pre>
 
   <h2>{skills.length} skill{skills.length === 1 ? "" : "s"}</h2>
   <ul class="rows">
