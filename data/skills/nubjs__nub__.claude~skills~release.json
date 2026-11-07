@@ -1,0 +1,134 @@
+{
+  "id": "nubjs__nub__.claude~skills~release",
+  "owner": "nubjs",
+  "repo": "nub",
+  "path": ".claude/skills/release",
+  "name": "release",
+  "description": "Cut a Nub patch release end-to-end in one invocation. Invoke (via the Skill tool) once a release thread's targeted fixes are ALL landed on `main` and CI-green. Encodes the full runbook: pick the version (patch bump in the 0.0.x/0.1.x pre-release regime), audit `@nubjs/types`, run `make version` + `make version-check`, commit + push to `main`, write the FACTUAL + NEUTRAL release notes from the full changeset, then dispatch release.yml with publish=true and the notes as its input (that dispatch runs the 8-platform build → glibc and pre-publish native gates → immutable 32-asset DRAFT release carrying the notes → signed packslip → npm OIDC STAGE → a held run until the maintainer approves with 2FA → the `v<ver>` tag and `v0` pushed with the release deploy key → stable GitHub Release), `stager await` the approval with no timeout, then comment the version + release link on every closed issue + merged PR the release ships (mandatory maintainer hygiene). Do NOT cut until all fixes are green.",
+  "stars": 4435,
+  "category": "coding",
+  "commit": "742e6987d0d9ad42effce026af6b0f70af69c584",
+  "contentHash": "18b0b727417e076d537038b524594c75599ccdbf0bb1a401c4a171b06a41383e",
+  "repoCreatedAt": "2026-06-03T18:36:21Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release/SKILL.md",
+        "line": 43,
+        "excerpt": "git -C \"$(git rev-parse --show-toplevel)\" switch main && git pull --ff-only",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release/SKILL.md",
+        "line": 59,
+        "excerpt": "make version V=<ver>      # sets all 10 npm packages + Cargo.toml + runtime/version.mjs in lockstep",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release/SKILL.md",
+        "line": 70,
+        "excerpt": "git status                # The shared tree usually carries another agent's WIP, so `git add -A`",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release/SKILL.md",
+        "line": 122,
+        "excerpt": "stager                              # the maintainer: `a` approves every ready version, Enter, sign in on the npm",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release/SKILL.md",
+        "line": 200,
+        "excerpt": "gh api repos/nubjs/nub/releases/generate-notes \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release/SKILL.md",
+        "line": 209,
+        "excerpt": "gh release edit v<ver> --notes-file notes.md",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release/SKILL.md",
+        "line": 240,
+        "excerpt": "gh pr list --repo nubjs/nub --state merged --search \"merged:<PREV-date>..<cut-date>\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release/SKILL.md",
+        "line": 253,
+        "excerpt": "REL=\"https://github.com/nubjs/nub/releases/tag/v<ver>\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release/SKILL.md",
+        "line": 265,
+        "excerpt": "gh api repos/nubjs/nub/releases/latest --jq .tag_name   # MUST print v<ver> — this endpoint IS the",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release/SKILL.md",
+        "line": 316,
+        "excerpt": "gh api repos/nubjs/homebrew-tap/contents/Formula/nub.rb --jq '.content' | base64 -d | grep -E 'version|bin\\.install'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/release/SKILL.md",
+        "line": 319,
+        "excerpt": "brew update && brew install nubjs/tap/nub && nub --version && nubx --help | head -1",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/release/SKILL.md",
+        "line": 321,
+        "excerpt": "docker run --rm homebrew/brew brew install nubjs/tap/nub",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 10,
+      "downloads-code": 2
+    },
+    "score": 89,
+    "band": "low",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "742e6987d0d9ad42effce026af6b0f70af69c584",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 89,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

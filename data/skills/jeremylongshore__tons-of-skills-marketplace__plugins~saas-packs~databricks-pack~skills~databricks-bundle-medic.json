@@ -1,0 +1,110 @@
+{
+  "id": "jeremylongshore__tons-of-skills-marketplace__plugins~saas-packs~databricks-pack~skills~databricks-bundle-medic",
+  "owner": "jeremylongshore",
+  "repo": "tons-of-skills-marketplace",
+  "path": "plugins/saas-packs/databricks-pack/skills/databricks-bundle-medic",
+  "name": "databricks-bundle-medic",
+  "description": "Fix the deploy-time foot-guns of Databricks Asset Bundles (DAB) and the\ninfrastructure operations around them: the bundle-bind gap for UC catalogs and\nexternal locations, the \"unexpected EOF reading terraform.tfstate\" redeploy failure,\nthe schema-GRANT-ordering bug that fails the first deploy, customer-managed-key (CMK)\nrotation that requires draining the whole workspace, and the PrivateLink cost leak\nwhere S3/STS/Kinesis still traverse the NAT. Includes a PreToolUse hook that backs up\nand validates the bundle's terraform state before every deploy, and a PostToolUse\nhook that recognises the transient GRANT-ordering failure and recommends a single\nretry. Use when a databricks bundle deploy fails, before rotating a CMK, when a UC\nresource cannot be bound to a bundle, or when auditing PrivateLink networking cost.\nTrigger with \"bundle deploy failed\", \"unexpected EOF terraform.tfstate\", \"bundle bind\nexternal location\", \"User does not have CREATE TABLE on Schema\", \"rotate CMK\",\n\"privatelink still using NAT\".",
+  "stars": 2905,
+  "category": "devops",
+  "commit": "0500b275e963c027f6b410e8c49c0446945c574e",
+  "contentHash": "04e14531b4287fcd441450d90f686b6006c66f1af8d4298df5b0b9d3646ad72e",
+  "repoCreatedAt": "2025-10-10T01:01:00Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "plugins/saas-packs/databricks-pack/skills/databricks-bundle-medic/SKILL.md",
+        "line": 96,
+        "excerpt": "DATABRICKS_BUNDLE_ENGINE=direct databricks bundle deploy -t \"$TARGET\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/saas-packs/databricks-pack/skills/databricks-bundle-medic/SKILL.md",
+        "line": 115,
+        "excerpt": "python3 \"${CLAUDE_SKILL_DIR}/scripts/import-uc-resource-to-bundle.py\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/saas-packs/databricks-pack/skills/databricks-bundle-medic/SKILL.md",
+        "line": 128,
+        "excerpt": "databricks clusters list --output json > /tmp/inv-clusters.json   # + warehouses, pools",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/saas-packs/databricks-pack/skills/databricks-bundle-medic/SKILL.md",
+        "line": 144,
+        "excerpt": "python3 \"${CLAUDE_SKILL_DIR}/scripts/audit-vpc-endpoints.py\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/saas-packs/databricks-pack/.mcp.json",
+        "line": 4,
+        "excerpt": "\"command\": \"npx\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/saas-packs/databricks-pack/.mcp.json",
+        "line": 4,
+        "excerpt": "\"command\": \"npx\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/saas-packs/databricks-pack/hooks/hooks.json",
+        "line": 11,
+        "excerpt": "\"command\": \"python3 \\\"${CLAUDE_PLUGIN_ROOT}/skills/databricks-streaming-guardian/hooks/streaming-guard-hook.py\\\"\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/saas-packs/databricks-pack/hooks/hooks.json",
+        "line": 24,
+        "excerpt": "\"command\": \"python3 \\\"${CLAUDE_PLUGIN_ROOT}/skills/databricks-bundle-medic/hooks/bundle-deploy-guard.py\\\"\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/saas-packs/databricks-pack/hooks/hooks.json",
+        "line": 39,
+        "excerpt": "\"command\": \"python3 \\\"${CLAUDE_PLUGIN_ROOT}/skills/databricks-bundle-medic/hooks/bundle-grant-retry.py\\\"\",",
+        "disclosed": false,
+        "automatic": true
+      }
+    ],
+    "findingTotals": {
+      "shell": 8,
+      "downloads-code": 1
+    },
+    "score": 80,
+    "band": "low",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 20,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "0500b275e963c027f6b410e8c49c0446945c574e",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 80,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

@@ -1,0 +1,129 @@
+{
+  "id": "wshobson__agents__plugins~signed-audit-trails~skills~signed-audit-trails-recipe",
+  "owner": "wshobson",
+  "repo": "agents",
+  "path": "plugins/signed-audit-trails/skills/signed-audit-trails-recipe",
+  "name": "signed-audit-trails-recipe",
+  "description": "Step-by-step cookbook for setting up cryptographically signed audit trails on Claude Code tool calls. Use when explaining, evaluating, or demonstrating the pattern before committing to the protect-mcp runtime hooks. Covers Cedar policy, Ed25519 receipts, offline verification, tamper detection, CI/CD integration, and SLSA composition.",
+  "stars": 42280,
+  "category": "coding",
+  "commit": "4bde3168b43c0655c4d00ea2726e631719908a6d",
+  "contentHash": "24a4d9e16fac5f2559cda5f2dd96ffbc5b94d34a32a7639d1f6a4615469e8de2",
+  "repoCreatedAt": "2025-07-24T23:28:14Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "plugins/signed-audit-trails/skills/signed-audit-trails-recipe/SKILL.md",
+        "line": 14,
+        "excerpt": "Every tool call (`Bash`, `Edit`, `Write`, `WebFetch`) is:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/signed-audit-trails/skills/signed-audit-trails-recipe/SKILL.md",
+        "line": 49,
+        "excerpt": "if [ ! -e ./protect-mcp.key ]; then",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/signed-audit-trails/skills/signed-audit-trails-recipe/SKILL.md",
+        "line": 50,
+        "excerpt": "d=$(mktemp -d) && npx protect-mcp@0.32.4 init --dir \"$d\" && mv \"$d/keys/gateway.json\" ./protect-mcp.key",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/signed-audit-trails/skills/signed-audit-trails-recipe/SKILL.md",
+        "line": 61,
+        "excerpt": "echo \"/protect-mcp.key\" >> .gitignore",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/signed-audit-trails/skills/signed-audit-trails-recipe/SKILL.md",
+        "line": 95,
+        "excerpt": "tail -n 1 ./receipts/receipts.jsonl | python3 -m json.tool",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/signed-audit-trails/skills/signed-audit-trails-recipe/SKILL.md",
+        "line": 107,
+        "excerpt": "PUB=$(node -p 'JSON.parse(require(\"fs\").readFileSync(\"./protect-mcp.key\")).publicKey')",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/signed-audit-trails/skills/signed-audit-trails-recipe/SKILL.md",
+        "line": 108,
+        "excerpt": "npx @veritasacta/verify@0.9.2 --replay-chain ./receipts/receipts.jsonl --key \"$PUB\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/signed-audit-trails/skills/signed-audit-trails-recipe/SKILL.md",
+        "line": 124,
+        "excerpt": "python3 -c \"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/signed-audit-trails/skills/signed-audit-trails-recipe/SKILL.md",
+        "line": 134,
+        "excerpt": "npx @veritasacta/verify@0.9.2 --replay-chain ./receipts/receipts.jsonl --key \"$PUB\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/signed-audit-trails/skills/signed-audit-trails-recipe/references/cedar-policy.md",
+        "line": 13,
+        "excerpt": "resource == Tool::\"Grep\" || resource == Tool::\"WebSearch\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/signed-audit-trails/skills/signed-audit-trails-recipe/references/ci-cd.md",
+        "line": 46,
+        "excerpt": "run: npx @veritasacta/verify@0.9.2 --replay-chain receipts/receipts.jsonl --key \"$PUB\"",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "network": 2,
+      "shell": 5,
+      "downloads-code": 4
+    },
+    "score": 79,
+    "band": "review",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 7,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "4bde3168b43c0655c4d00ea2726e631719908a6d",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 79,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

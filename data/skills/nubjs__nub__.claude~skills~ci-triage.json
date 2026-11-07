@@ -1,0 +1,93 @@
+{
+  "id": "nubjs__nub__.claude~skills~ci-triage",
+  "owner": "nubjs",
+  "repo": "nub",
+  "path": ".claude/skills/ci-triage",
+  "name": "ci-triage",
+  "description": "Find and diagnose RED CI with the gh CLI — answer \"is anything failing?\" and \"why?\" correctly, without being handed a URL. Invoke (via the Skill tool) whenever you need to check whether a branch, commit, or PR is green, whenever someone reports failing CI, before cutting a release, and before claiming any commit is green. THE FAILURE THIS SKILL EXISTS TO PREVENT: `gh run list` reports a RUN-level `conclusion`, and a run whose rollup is `cancelled` can contain a job whose conclusion is `failure` — so filtering runs on `conclusion==\"failure\"` silently misses real red, and taking the latest run per workflow hides an older failed run on the same SHA. The authoritative instrument is the commit's CHECK-RUNS, which is what the GitHub UI renders. Pairs with `ci-watch` (blocking until a run is terminal) and `ci-adhoc-test` (running a probe on a real OS).",
+  "stars": 4435,
+  "category": "devops",
+  "commit": "742e6987d0d9ad42effce026af6b0f70af69c584",
+  "contentHash": "f7db5f931ad35bc90621b57738970e72b7daf7f8c296fe90fcc36bcc4757bc9f",
+  "repoCreatedAt": "2026-06-03T18:36:21Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/ci-triage/SKILL.md",
+        "line": 39,
+        "excerpt": "SHA=$(git rev-parse origin/main)   # or a PR head, or any commit",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/ci-triage/SKILL.md",
+        "line": 53,
+        "excerpt": "gh api repos/nubjs/nub/commits/$SHA/check-runs --paginate --jq '[.check_runs[]|select(.conclusion==\"failure\")]|length'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/ci-triage/SKILL.md",
+        "line": 60,
+        "excerpt": "gh api repos/nubjs/nub/commits/$SHA/check-runs --paginate --slurp \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/ci-triage/SKILL.md",
+        "line": 71,
+        "excerpt": "gh run view <run-id> --json name,status,conclusion,headBranch,headSha,event,createdAt",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/ci-triage/SKILL.md",
+        "line": 87,
+        "excerpt": "gh run list --workflow <file>.yml --limit 30 \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/ci-triage/SKILL.md",
+        "line": 99,
+        "excerpt": "[[ \"$smoke\" == \"success\" || \"$smoke\" == \"skipped\" ]] || { echo \"smoke failed\"; exit 1; }",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/ci-triage/SKILL.md",
+        "line": 105,
+        "excerpt": "[[ \"$smoke\" == \"success\" || \"$smoke\" == \"skipped\" || \"$smoke\" == \"cancelled\" ]] || { echo \"smoke failed\"; exit 1; }",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 7
+    },
+    "score": 97,
+    "band": "low",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "742e6987d0d9ad42effce026af6b0f70af69c584",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 97,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

@@ -1,0 +1,128 @@
+{
+  "id": "tanstack__ai__.claude~skills~pr-sweep",
+  "owner": "TanStack",
+  "repo": "ai",
+  "path": ".claude/skills/pr-sweep",
+  "name": "pr-sweep",
+  "description": "Sweep open (or listed) PRs with up to 100 parallel agents: security-scan outside contributors, rebase onto main when behind (push --force-with-lease), approve pending first-time-contributor CI when relevant, optionally rebase in-house PRs, and report who should review. Supports full, changed-only, behind-only, and conflict-only scopes for cheap daily runs. Use when the user runs /pr-sweep (or /pr-inbound-sweep), or asks to \"sweep PRs\", \"sweep inbound PRs\", \"security-check outside PRs\", \"rebase outsider PRs\", \"rebase our PRs\", \"approve waiting CI on PRs\", \"daily PR sweep\", or \"prep external PRs for review\".",
+  "stars": 3339,
+  "category": "coding",
+  "commit": "c32f6417f40d8e3d06ae9006cea79683ca128601",
+  "contentHash": "2b66bbd047ab86cea7a97162eee768ed49a3072f7e7b5aac9b9b3b0767bc442f",
+  "repoCreatedAt": "2025-10-08T17:52:48Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/pr-sweep/SKILL.md",
+        "line": 114,
+        "excerpt": "gh auth status",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/pr-sweep/SKILL.md",
+        "line": 140,
+        "excerpt": "OWNER_REPO=$(gh repo view --json nameWithOwner --jq '.nameWithOwner')",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/pr-sweep/SKILL.md",
+        "line": 151,
+        "excerpt": "gh api orgs/$OWNER/members --paginate --jq '.[].login' 2>/dev/null",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/pr-sweep/SKILL.md",
+        "line": 155,
+        "excerpt": "gh api repos/$OWNER/$REPO/collaborators --paginate --jq '.[] | select(.permissions.admin or .permissions.maintain or .permissions.push) | .login'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/pr-sweep/SKILL.md",
+        "line": 165,
+        "excerpt": "gh pr list --state open --limit 200 \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/pr-sweep/SKILL.md",
+        "line": 310,
+        "excerpt": "BEFORE=$(gh pr view <N> --json headRefOid --jq .headRefOid)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/pr-sweep/SKILL.md",
+        "line": 357,
+        "excerpt": "gh api -X POST repos/$OWNER/$REPO/actions/runs/<RUN_ID>/approve",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/pr-sweep/SKILL.md",
+        "line": 371,
+        "excerpt": "gh gist create .agent/pr-sweep/SWEEP-YYYY-MM-DD.md --desc \"PR sweep — <OWNER/REPO> — <date>\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/pr-sweep/references/security-checklist.md",
+        "line": 12,
+        "excerpt": "6. **Obfuscation** — long base64 blobs, `eval`, `Function(`, `child_process`, `curl|bash`, `wget`, reverse shells, encoded PowerShell.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/pr-sweep/references/security-checklist.md",
+        "line": 12,
+        "excerpt": "6. **Obfuscation** — long base64 blobs, `eval`, `Function(`, `child_process`, `curl|bash`, `wget`, reverse shells, encoded PowerShell.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/pr-sweep/references/security-checklist.md",
+        "line": 13,
+        "excerpt": "7. **Secrets & exfil** — reading `process.env` for tokens/keys and sending outbound (`fetch`, `axios`, `http`, `https`, `dns`, unexpected WebSocket).",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 9,
+      "downloads-code": 1,
+      "network": 1
+    },
+    "score": 75,
+    "band": "review",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 4,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "c32f6417f40d8e3d06ae9006cea79683ca128601",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 75,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

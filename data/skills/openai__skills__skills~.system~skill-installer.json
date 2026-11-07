@@ -1,0 +1,82 @@
+{
+  "id": "openai__skills__skills~.system~skill-installer",
+  "owner": "openai",
+  "repo": "skills",
+  "path": "skills/.system/skill-installer",
+  "name": "skill-installer",
+  "description": "Install Codex skills into $CODEX_HOME/skills from a curated list or a GitHub repo path. Use when a user asks to list installable skills, install a curated skill, or install a skill from another repo (including private repos).",
+  "stars": 28579,
+  "category": "other",
+  "commit": "49f948faa9258a0c61caceaf225e179651397431",
+  "contentHash": "29d6b2b926be81bd30a436dbd24077ee10b7daa5de4164dad751e0c4d9bc40a4",
+  "repoCreatedAt": "2025-11-25T06:25:42Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "skills/.system/skill-installer/scripts/github_utils.py",
+        "line": 7,
+        "excerpt": "import urllib.request",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/.system/skill-installer/scripts/github_utils.py",
+        "line": 12,
+        "excerpt": "token = os.environ.get(\"GITHUB_TOKEN\") or os.environ.get(\"GH_TOKEN\")",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.system/skill-installer/scripts/github_utils.py",
+        "line": 15,
+        "excerpt": "req = urllib.request.Request(url, headers=headers)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.system/skill-installer/scripts/github_utils.py",
+        "line": 16,
+        "excerpt": "with urllib.request.urlopen(req) as resp:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/.system/skill-installer/scripts/install-skill-from-github.py",
+        "line": 100,
+        "excerpt": "result = subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "network": 3,
+      "reads-secrets": 1,
+      "shell": 1
+    },
+    "score": 82,
+    "band": "low",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 7,
+    "filesSkipped": 1
+  },
+  "history": [
+    {
+      "commit": "49f948faa9258a0c61caceaf225e179651397431",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 82,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

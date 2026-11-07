@@ -1,0 +1,127 @@
+{
+  "id": "borghei__claude-skills__engineering~runbook-generator",
+  "owner": "borghei",
+  "repo": "Claude-Skills",
+  "path": "engineering/runbook-generator",
+  "name": "runbook-generator",
+  "description": "Generate operational runbooks from codebase analysis covering deployment, incident response, scaling, and monitoring, with copy-paste commands and rollback steps. Use when bootstrapping ops docs, preparing for on-call, or post-incident.",
+  "stars": 1067,
+  "category": "coding",
+  "commit": "2c12c7efaad13a70bdea6e205698a6c4f93a0682",
+  "contentHash": "c930a574c6d9dce53f19142af780465b4942d663b684e1dc32c92be9d550b2c5",
+  "repoCreatedAt": "2026-01-13T16:15:31Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "engineering/runbook-generator/references/runbook-templates.md",
+        "line": 116,
+        "excerpt": "curl -sf https://myapp.com/api/health | jq .",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "myapp.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "engineering/runbook-generator/references/runbook-templates.md",
+        "line": 119,
+        "excerpt": "curl -sf https://myapp.com/api/v1/me \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "myapp.com"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "engineering/runbook-generator/references/runbook-templates.md",
+        "line": 120,
+        "excerpt": "-H \"Authorization: Bearer $TEST_TOKEN\" | jq '.id'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "engineering/runbook-generator/references/runbook-templates.md",
+        "line": 194,
+        "excerpt": "curl -sw \"%{http_code}\" https://myapp.com/api/health -o /dev/null",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "myapp.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "engineering/runbook-generator/scripts/runbook_scaffolder.py",
+        "line": 104,
+        "excerpt": "health_checks += f\"curl -sf {url} | jq .\\n\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "engineering/runbook-generator/scripts/runbook_scaffolder.py",
+        "line": 106,
+        "excerpt": "health_checks = \"curl -sf https://$APP_HOST/api/health | jq .\\n\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$app_host"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "engineering/runbook-generator/scripts/runbook_scaffolder.py",
+        "line": 227,
+        "excerpt": "curl -sw \"%{{http_code}}\" https://$APP_HOST/api/health -o /dev/null",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$app_host"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "engineering/runbook-generator/scripts/staleness_checker.py",
+        "line": 94,
+        "excerpt": "result = subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "engineering/runbook-generator/scripts/staleness_checker.py",
+        "line": 104,
+        "excerpt": "except (subprocess.TimeoutExpired, FileNotFoundError, OSError):",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "network": 6,
+      "reads-secrets": 1,
+      "shell": 2
+    },
+    "score": 72,
+    "band": "review",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 8,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "2c12c7efaad13a70bdea6e205698a6c4f93a0682",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 72,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

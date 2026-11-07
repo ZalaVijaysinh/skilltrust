@@ -1,0 +1,197 @@
+{
+  "id": "jeremylongshore__tons-of-skills-marketplace__skills~.curated~detecting-command-injection-patterns",
+  "owner": "jeremylongshore",
+  "repo": "tons-of-skills-marketplace",
+  "path": "skills/.curated/detecting-command-injection-patterns",
+  "name": "detecting-command-injection-patterns",
+  "description": "Scan a source tree for command-injection vulnerable patterns:\nshell=True calls in Python subprocess, os.system / os.popen with\ninterpolated strings, Node child_process.exec with template\nliterals, Ruby backticks / Kernel#system / Kernel#exec with\ninterpolation, Go exec.Command with shell wrapping, PHP system /\npassthru / shell_exec / backticks with $-interpolation, Java\nRuntime.exec with concatenated args.\nUse when: pre-commit gate on code that calls out to shell utilities,\naudit of file-processing / archive-handling / image-conversion\ncode, post-bug-report investigation for \"we shell out to a tool.\"\nThreshold: any shell-invocation API called with a string that\ncontains a variable interpolation, OR shell=True with anything\nother than a fixed literal.\nTrigger with: \"scan command injection\", \"shell=True audit\",\n\"find exec calls\", \"check os.system\".",
+  "stars": 2905,
+  "category": "coding",
+  "commit": "0500b275e963c027f6b410e8c49c0446945c574e",
+  "contentHash": "080673bed284549be8e8849b2339ac3cd9822f0d2d8ce18138a414b049c580cb",
+  "repoCreatedAt": "2025-10-10T01:01:00Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/.curated/detecting-command-injection-patterns/SKILL.md",
+        "line": 58,
+        "excerpt": "| Python `subprocess.run(..., shell=True)` with interpolation | **CRITICAL** | f-string / concat / format argument with `shell=True` | CWE-78 |",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/.curated/detecting-command-injection-patterns/SKILL.md",
+        "line": 59,
+        "excerpt": "| Python `os.system(...)` with interpolation | **CRITICAL** | non-literal argument | CWE-78 |",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/.curated/detecting-command-injection-patterns/SKILL.md",
+        "line": 60,
+        "excerpt": "| Python `os.popen(...)` with interpolation | **CRITICAL** | non-literal argument | CWE-78 |",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/.curated/detecting-command-injection-patterns/SKILL.md",
+        "line": 61,
+        "excerpt": "| Node `child_process.exec(...)` with template literal | **CRITICAL** | `${...}` in the command string | CWE-78 |",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/.curated/detecting-command-injection-patterns/SKILL.md",
+        "line": 62,
+        "excerpt": "| Node `child_process.execSync(...)` with template | **CRITICAL** | same | CWE-78 |",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/.curated/detecting-command-injection-patterns/SKILL.md",
+        "line": 79,
+        "excerpt": "python3 ${CLAUDE_PLUGIN_ROOT}/skills/detecting-command-injection-patterns/scripts/scan_cmdi.py /path/to/repo",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/.curated/detecting-command-injection-patterns/SKILL.md",
+        "line": 114,
+        "excerpt": "python3 ${CLAUDE_PLUGIN_ROOT}/skills/detecting-command-injection-patterns/scripts/scan_cmdi.py \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/.curated/detecting-command-injection-patterns/references/PLAYBOOK.md",
+        "line": 12,
+        "excerpt": "subprocess.run(f\"convert {filename} out.png\", shell=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/.curated/detecting-command-injection-patterns/references/PLAYBOOK.md",
+        "line": 19,
+        "excerpt": "subprocess.run([\"convert\", filename, \"out.png\"], check=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/.curated/detecting-command-injection-patterns/references/PLAYBOOK.md",
+        "line": 26,
+        "excerpt": "subprocess.run(f\"cat {filename} | grep error\", shell=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/.curated/detecting-command-injection-patterns/references/PLAYBOOK.md",
+        "line": 29,
+        "excerpt": "with subprocess.Popen([\"cat\", filename], stdout=subprocess.PIPE) as p1:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/.curated/detecting-command-injection-patterns/references/PLAYBOOK.md",
+        "line": 30,
+        "excerpt": "subprocess.run([\"grep\", \"error\"], stdin=p1.stdout, check=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/.curated/detecting-command-injection-patterns/references/PLAYBOOK.md",
+        "line": 36,
+        "excerpt": "result = subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/.curated/detecting-command-injection-patterns/references/PLAYBOOK.md",
+        "line": 48,
+        "excerpt": "const { exec } = require('child_process');",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/.curated/detecting-command-injection-patterns/references/PLAYBOOK.md",
+        "line": 55,
+        "excerpt": "const { execFile } = require('child_process');",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/.curated/detecting-command-injection-patterns/references/PLAYBOOK.md",
+        "line": 62,
+        "excerpt": "const { spawn } = require('child_process');",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/.curated/detecting-command-injection-patterns/references/PLAYBOOK.md",
+        "line": 71,
+        "excerpt": "import { execFile as execFileCallback } from 'child_process';",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/.curated/detecting-command-injection-patterns/references/PLAYBOOK.md",
+        "line": 140,
+        "excerpt": "Runtime.getRuntime().exec(\"convert \" + filename + \" out.png\");",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/.curated/detecting-command-injection-patterns/references/PLAYBOOK.md",
+        "line": 245,
+        "excerpt": "you wanted one, you'd have to explicitly invoke `sh -c` yourself.",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/.curated/detecting-command-injection-patterns/references/PLAYBOOK.md",
+        "line": 300,
+        "excerpt": "findings on `shell=True` with verified static-string arguments are",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 41
+    },
+    "score": 97,
+    "band": "low",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 4,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "0500b275e963c027f6b410e8c49c0446945c574e",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 97,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

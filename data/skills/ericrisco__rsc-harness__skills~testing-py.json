@@ -1,0 +1,196 @@
+{
+  "id": "ericrisco__rsc-harness__skills~testing-py",
+  "owner": "ericrisco",
+  "repo": "rsc-harness",
+  "path": "skills/testing-py",
+  "name": "testing-py",
+  "description": "Use when writing or fixing Python tests with pytest — especially when the suite is green but bugs still ship, when you must decide where to patch a mocked dependency, when coverage is high but catches nothing, when fixture scope leaks state, or when adding property-based tests for parsers and invariants. NOT browser end-to-end flows (that is `e2e-testing`), NOT JS/TS unit tests (that is `testing-web`), NOT Go tests (that is `testing-go`).",
+  "stars": 539,
+  "category": "coding",
+  "commit": "726aaf3ba87c584329fc821f243a7ce5e62450fd",
+  "contentHash": "1b1711bbf74d2b5fca47ef751106dc368074c564e4314a779dca2ba2b54999f8",
+  "repoCreatedAt": "2026-05-31T08:00:19Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "skills/testing-py/SKILL.md",
+        "line": 109,
+        "excerpt": "**Patch the name where it is looked up, not where it is defined.** This is the single most common mocking bug. If `mymod` does `from httpx import get`, then `ge",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/testing-py/SKILL.md",
+        "line": 113,
+        "excerpt": "with patch(\"httpx.get\") as m:        # no effect on mymod.get",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/testing-py/SKILL.md",
+        "line": 114,
+        "excerpt": "result = mymod.fetch(url)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/testing-py/SKILL.md",
+        "line": 119,
+        "excerpt": "result = mymod.fetch(url)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/testing-py/SKILL.md",
+        "line": 137,
+        "excerpt": "pytest --cov=mypkg --cov-branch --cov-report=term-missing --cov-fail-under=85",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/testing-py/SKILL.md",
+        "line": 148,
+        "excerpt": "mutmut run                    # whole source tree",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/testing-py/SKILL.md",
+        "line": 180,
+        "excerpt": "| Patching the definition site (`httpx.get`) | the mock never applies to the module under test | patch the use site (`mymod.get`) |",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/testing-py/SKILL.md",
+        "line": 194,
+        "excerpt": "scripts/verify.sh tests/",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/testing-py/evals/cases.yaml",
+        "line": 39,
+        "excerpt": "- \"patches the name in the module under test (the use site, e.g. mymod.Client), NOT httpx.Client globally — or injects the client as a dependency\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/testing-py/references/mocking.md",
+        "line": 13,
+        "excerpt": "def fetch(url: str) -> dict:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/testing-py/references/mocking.md",
+        "line": 27,
+        "excerpt": "with patch(\"httpx.Client\") as m:        # NO EFFECT on mymod.Client",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/testing-py/references/mocking.md",
+        "line": 28,
+        "excerpt": "mymod.fetch(\"https://x\")            # makes a real request",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "x"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/testing-py/references/mocking.md",
+        "line": 32,
+        "excerpt": "fake_client = create_autospec(httpx.Client, instance=True)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/testing-py/references/mocking.md",
+        "line": 33,
+        "excerpt": "resp = create_autospec(httpx.Response, instance=True)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/testing-py/references/mocking.md",
+        "line": 40,
+        "excerpt": "assert mymod.fetch(\"https://x\") == {\"ok\": True}   # assert on behavior",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "x"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/testing-py/references/mocking.md",
+        "line": 106,
+        "excerpt": "route = respx.get(\"https://x\").mock(return_value=httpx.Response(200, json={\"ok\": True}))",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "x"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/testing-py/references/mocking.md",
+        "line": 107,
+        "excerpt": "assert mymod.fetch(\"https://x\") == {\"ok\": True}",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "x"
+        ]
+      }
+    ],
+    "findingTotals": {
+      "network": 14,
+      "shell": 3
+    },
+    "score": 92,
+    "band": "low",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 6,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "726aaf3ba87c584329fc821f243a7ce5e62450fd",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 92,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

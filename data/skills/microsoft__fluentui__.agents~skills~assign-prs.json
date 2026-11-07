@@ -1,0 +1,157 @@
+{
+  "id": "microsoft__fluentui__.agents~skills~assign-prs",
+  "owner": "microsoft",
+  "repo": "fluentui",
+  "path": ".agents/skills/assign-prs",
+  "name": "assign-prs",
+  "description": "Assign reviewers to open pull requests awaiting review from the Fluent UI team queues across microsoft/fluentui, fluentui-system-icons, fluentui-contrib and monosize. Routes each PR that lacks coverage by area ownership and then lowest current review load, requesting only the shortfall. Always presents a dry-run plan and requires explicit approval before requesting a review.",
+  "stars": 20390,
+  "category": "design",
+  "commit": "19e2d5cd2bf81a2406327709b8856242ec38a966",
+  "contentHash": "c5a97eb3724114711d674a65cf8d83926dd44ff5e422f713a89125cdb4fc4be2",
+  "repoCreatedAt": "2016-06-06T15:03:44Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/assign-prs/SKILL.md",
+        "line": 35,
+        "excerpt": "gh auth status --active",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/assign-prs/SKILL.md",
+        "line": 43,
+        "excerpt": "gh auth switch --user \"$ACCOUNT\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/assign-prs/SKILL.md",
+        "line": 51,
+        "excerpt": "gh api \"repos/${REPO}\" -q '.permissions'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/assign-prs/SKILL.md",
+        "line": 61,
+        "excerpt": "for TEAM in \"${TEAMS[@]}\"; do",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/assign-prs/SKILL.md",
+        "line": 72,
+        "excerpt": "node ./.agents/skills/assign-prs/scripts/plan.mjs --account LOGIN",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/assign-prs/SKILL.md",
+        "line": 107,
+        "excerpt": "TEAM_ORG=\"$(jq -r '.team.org' \"$CONFIG\")\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/assign-prs/SKILL.md",
+        "line": 142,
+        "excerpt": "gh api \"search/issues?q=repo:${REPO}+reviewed-by:${LOGIN}&per_page=1\" --jq .total_count",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/assign-prs/SKILL.md",
+        "line": 155,
+        "excerpt": "gh api \"orgs/${TEAM_ORG}/teams/${TEAM_SLUG}/members\" --paginate -q '.[].login' | LC_ALL=C sort > live.txt",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/assign-prs/SKILL.md",
+        "line": 197,
+        "excerpt": "jq -r '.reviewers[] | select(.eligible)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/assign-prs/SKILL.md",
+        "line": 305,
+        "excerpt": "gh pr edit \"$PR\" --repo \"$REPO\" --add-reviewer \"$LOGIN\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/assign-prs/scripts/plan.mjs",
+        "line": 1,
+        "excerpt": "import { execFileSync } from 'node:child_process';",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/assign-prs/scripts/plan.mjs",
+        "line": 13,
+        "excerpt": "return execFileSync('gh', args, {",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/assign-prs/scripts/planner.test.mjs",
+        "line": 2,
+        "excerpt": "import { spawnSync } from 'node:child_process';",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/assign-prs/scripts/planner.test.mjs",
+        "line": 208,
+        "excerpt": "const unconfigured = spawnSync(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/assign-prs/scripts/planner.test.mjs",
+        "line": 216,
+        "excerpt": "const unknown = spawnSync(process.execPath, [command, '--repo', 'microsoft/not-configured'], { encoding: 'utf8' });",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 15
+    },
+    "score": 97,
+    "band": "low",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 10,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "19e2d5cd2bf81a2406327709b8856242ec38a966",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 97,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

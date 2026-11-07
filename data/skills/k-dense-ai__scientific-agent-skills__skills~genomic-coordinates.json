@@ -1,0 +1,115 @@
+{
+  "id": "k-dense-ai__scientific-agent-skills__skills~genomic-coordinates",
+  "owner": "K-Dense-AI",
+  "repo": "scientific-agent-skills",
+  "path": "skills/genomic-coordinates",
+  "name": "genomic-coordinates",
+  "description": "Converts genomic intervals between coordinate conventions, normalises and compares variant representations, and detects assembly or contig-naming mismatches before they corrupt an analysis. Used whenever coordinates cross a format, tool, or assembly boundary - converting between BED, GFF/GTF, VCF, SAM/BAM, WIG, PSL, genePred, Picard interval_list, or region strings; reconciling 0-based half-open with 1-based inclusive; left-aligning or trimming indels; checking whether two variant records describe the same change; mapping genomic to transcript, CDS, or protein positions; auditing a BED/GTF/VCF for convention violations; or diagnosing GRCh37 vs hg19 vs GRCh38 vs T2T, chr-prefix, and liftover problems. Triggers include \"off by one\", \"0-based\", \"1-based\", \"half-open\", \"coordinate system\", \"left-align\", \"normalize variant\", \"bcftools norm\", \"chr prefix\", \"wrong genome build\", \"liftover\", \"REF mismatch\", and \"HGVS\".",
+  "stars": 56386,
+  "category": "data",
+  "commit": "a25cf9ec00e2745d03f8704acf6f6919694ccd9a",
+  "contentHash": "f506caa4a287c18b655d93a02af9b900f5edba0176bee63df178ec67e632f586",
+  "repoCreatedAt": "2025-10-19T20:54:15Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/genomic-coordinates/SKILL.md",
+        "line": 61,
+        "excerpt": "cd skills/genomic-coordinates/scripts",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/genomic-coordinates/SKILL.md",
+        "line": 99,
+        "excerpt": "python3 normalize_variant.py --fasta ref.fa chr1 7 CAC C",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/genomic-coordinates/SKILL.md",
+        "line": 132,
+        "excerpt": "python3 check_contigs.py --identify unknown.fa.fai",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/genomic-coordinates/SKILL.md",
+        "line": 160,
+        "excerpt": "python3 audit_intervals.py peaks.bed",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/genomic-coordinates/references/format-conventions.md",
+        "line": 153,
+        "excerpt": "`pysam.AlignmentFile.fetch(contig, start, end)` takes **0-based half-open**",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/genomic-coordinates/references/format-conventions.md",
+        "line": 154,
+        "excerpt": "coordinates, but `fetch(region=\"chr1:100-200\")` takes a **1-based inclusive**",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/genomic-coordinates/scripts/_common.py",
+        "line": 297,
+        "excerpt": "def fetch(self, contig: str, start0: int, end0: int) -> str:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/genomic-coordinates/scripts/normalize_variant.py",
+        "line": 106,
+        "excerpt": "observed = reference.fetch(contig, pos - 1, pos - 1 + len(ref))",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/genomic-coordinates/scripts/normalize_variant.py",
+        "line": 134,
+        "excerpt": "base = reference.fetch(contig, pos - 2, pos - 1)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 4,
+      "network": 5
+    },
+    "score": 92,
+    "band": "low",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 11,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "a25cf9ec00e2745d03f8704acf6f6919694ccd9a",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 92,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

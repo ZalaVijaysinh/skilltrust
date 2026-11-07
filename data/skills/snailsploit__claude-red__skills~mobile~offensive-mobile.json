@@ -1,0 +1,161 @@
+{
+  "id": "snailsploit__claude-red__skills~mobile~offensive-mobile",
+  "owner": "SnailSploit",
+  "repo": "Claude-Red",
+  "path": "Skills/mobile/offensive-mobile",
+  "name": "offensive-mobile",
+  "description": "Mobile (Android + iOS) application penetration testing methodology. Covers static analysis (apktool/jadx for Android, class-dump/Hopper/IDA for iOS), dynamic instrumentation with Frida and Objection, SSL pinning bypass strategies, root/jailbreak detection bypass, deep-link / URL-scheme abuse, exported component attacks (Android activities, services, providers, receivers; iOS XPC, URL schemes, universal links), insecure data storage (SharedPrefs, KeyStore misuse, NSUserDefaults, Keychain ACL bypass), IPC / Intent redirection, WebView vulnerabilities (JavaScriptInterface, file:// access), Firebase/AWS/Azure misconfiguration leakage, mobile API testing, biometric/Face ID/Touch ID bypass, app-cloning and runtime patching, and mobile malware/RAT analysis primitives. Use for mobile pentest, bug bounty mobile triage, or app-store reconnaissance.",
+  "stars": 10468,
+  "category": "coding",
+  "commit": "a8de813edc9f66f60d44cfe42d47750e89d9930b",
+  "contentHash": "7eda2588bd986bfd280af8bfc39d6f204ccdb231a02265477b78e65ab3b1a2b4",
+  "repoCreatedAt": "2026-03-04T05:52:35Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "Skills/mobile/offensive-mobile/SKILL.md",
+        "line": 38,
+        "excerpt": "apktool d app.apk -o app",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/mobile/offensive-mobile/SKILL.md",
+        "line": 50,
+        "excerpt": "grep -rE '(https?://[a-z0-9.-]+|api[_-]?key|secret|token|firebase|amazonaws|appspot)' app_src/",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/mobile/offensive-mobile/SKILL.md",
+        "line": 62,
+        "excerpt": "frida-ios-dump -o app.ipa \"com.vendor.app\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/mobile/offensive-mobile/SKILL.md",
+        "line": 79,
+        "excerpt": "plutil -p Payload/App.app/Info.plist",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/mobile/offensive-mobile/SKILL.md",
+        "line": 123,
+        "excerpt": "objection -g com.vendor.app explore",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/mobile/offensive-mobile/SKILL.md",
+        "line": 143,
+        "excerpt": "apktool b app -o app-patched.apk",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/mobile/offensive-mobile/SKILL.md",
+        "line": 160,
+        "excerpt": "drozer console connect",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/mobile/offensive-mobile/SKILL.md",
+        "line": 185,
+        "excerpt": "plutil -p Payload/App.app/Info.plist | grep -A 5 CFBundleURLTypes",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/mobile/offensive-mobile/SKILL.md",
+        "line": 204,
+        "excerpt": "adb shell \"su -c 'tar -cz /data/data/com.vendor.app'\" > app_data.tgz",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/mobile/offensive-mobile/SKILL.md",
+        "line": 223,
+        "excerpt": "ios keychain dump",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/mobile/offensive-mobile/SKILL.md",
+        "line": 300,
+        "excerpt": "strings app.apk | grep -E \"https://[a-z0-9-]+\\.firebaseio\\.com\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "Skills/mobile/offensive-mobile/SKILL.md",
+        "line": 302,
+        "excerpt": "curl https://target-app.firebaseio.com/.json",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "target-app.firebaseio.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/mobile/offensive-mobile/SKILL.md",
+        "line": 319,
+        "excerpt": "truffleHog filesystem app_src/",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/mobile/offensive-mobile/SKILL.md",
+        "line": 342,
+        "excerpt": "sed -i 's/return-void/const\\/4 v0, 0x1\\n    return v0/' app/smali/com/vendor/Premium.smali",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/mobile/offensive-mobile/SKILL.md",
+        "line": 357,
+        "excerpt": "codesign -d --entitlements - Payload/App.app/App",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 14,
+      "network": 1
+    },
+    "score": 92,
+    "band": "low",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "a8de813edc9f66f60d44cfe42d47750e89d9930b",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 92,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

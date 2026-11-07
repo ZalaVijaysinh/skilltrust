@@ -1,0 +1,146 @@
+{
+  "id": "mukul975__anthropic-cybersecurity-skills__skills~auditing-kubernetes-rbac-privilege-escalation",
+  "owner": "mukul975",
+  "repo": "Anthropic-Cybersecurity-Skills",
+  "path": "skills/auditing-kubernetes-rbac-privilege-escalation",
+  "name": "auditing-kubernetes-rbac-privilege-escalation",
+  "description": "Finds over-permissive RBAC roles and service-account token abuse paths in a Kubernetes cluster using kubectl auth can-i, rbac-police, kubectl-who-can, and rakkess, tracing which subjects can escalate toward cluster-admin. Use when reviewing who can escalate privileges in a cluster, hunting exploitable RoleBindings during an authorized review, or validating least privilege after an RBAC change. Keywords: RBAC, ClusterRoleBinding, service account token, auth can-i, rbac-police, escalate, bind, impersonate. Do not use for designing and applying hardened RBAC - use implementing-rbac-hardening-for-kubernetes.",
+  "stars": 35744,
+  "category": "security",
+  "commit": "54a798831d2266a3ca61ce68a7acb80b81160d57",
+  "contentHash": "4b6f68bba4255597282011759480cb942e0177152a885b2b4a306e1a671d765b",
+  "repoCreatedAt": "2026-02-25T09:47:50Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "skills/auditing-kubernetes-rbac-privilege-escalation/SKILL.md",
+        "line": 66,
+        "excerpt": "curl -L https://github.com/PaloAltoNetworks/rbac-police/releases/latest/download/rbac-police-linux-amd64 -o rbac-police",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "github.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/auditing-kubernetes-rbac-privilege-escalation/SKILL.md",
+        "line": 66,
+        "excerpt": "curl -L https://github.com/PaloAltoNetworks/rbac-police/releases/latest/download/rbac-police-linux-amd64 -o rbac-police",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/auditing-kubernetes-rbac-privilege-escalation/SKILL.md",
+        "line": 104,
+        "excerpt": "kubectl get clusterroles,clusterrolebindings -o wide",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/auditing-kubernetes-rbac-privilege-escalation/SKILL.md",
+        "line": 123,
+        "excerpt": "kubectl auth can-i --list \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/auditing-kubernetes-rbac-privilege-escalation/SKILL.md",
+        "line": 144,
+        "excerpt": "kubectl who-can create pods",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/auditing-kubernetes-rbac-privilege-escalation/SKILL.md",
+        "line": 163,
+        "excerpt": "./rbac-police eval ./lib/policies/",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/auditing-kubernetes-rbac-privilege-escalation/SKILL.md",
+        "line": 179,
+        "excerpt": "kubectl get pods --all-namespaces \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/auditing-kubernetes-rbac-privilege-escalation/SKILL.md",
+        "line": 197,
+        "excerpt": "export TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/auditing-kubernetes-rbac-privilege-escalation/SKILL.md",
+        "line": 201,
+        "excerpt": "kubectl --token=\"$TOKEN\" --server=\"$APISERVER\" --insecure-skip-tls-verify \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/auditing-kubernetes-rbac-privilege-escalation/SKILL.md",
+        "line": 205,
+        "excerpt": "cat <<'EOF' | kubectl --token=\"$TOKEN\" --server=\"$APISERVER\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/auditing-kubernetes-rbac-privilege-escalation/SKILL.md",
+        "line": 226,
+        "excerpt": "kubectl get clusterrolebindings -o json | jq -r '",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/auditing-kubernetes-rbac-privilege-escalation/scripts/agent.py",
+        "line": 41,
+        "excerpt": "p = subprocess.run(cmd, capture_output=True, text=True, timeout=30)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/auditing-kubernetes-rbac-privilege-escalation/scripts/agent.py",
+        "line": 46,
+        "excerpt": "except subprocess.TimeoutExpired:",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "network": 1,
+      "shell": 10,
+      "reads-secrets": 2
+    },
+    "score": 80,
+    "band": "low",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 6,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "54a798831d2266a3ca61ce68a7acb80b81160d57",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 80,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "id": "amplifthq__openmeld__.agents~skills~fixing-flaky-tests",
+  "owner": "amplifthq",
+  "repo": "openmeld",
+  "path": ".agents/skills/fixing-flaky-tests",
+  "name": "fixing-flaky-tests",
+  "description": "Guides an agent through reproducing, root-causing, fixing, and validating flaky tests in the PostHog monorepo. Use when a test fails intermittently in CI but passes on rerun or locally, when `hogli ci:insights` or the debugging-ci-failures skill classifies a failure as a flaky test, when given a GitHub Actions URL for a flaky job, when asked to check Trunk Flaky Tests for a test, PR, or master, or when asked to deflake, stabilize, or fix a flaky Jest, pytest, or Playwright test. Core discipline: reproduce locally before changing anything, fix the root cause (never mask it with sleeps, retries, or bigger timeouts), and prove the fix with an N-run validation loop sized to the observed failure rate. Stabilizing is not the only valid outcome — the skill also gates whether the test should exist, so deleting a test that catches nothing real, or re-leveling one that flakes because of the level it runs at, are first-class endings.",
+  "stars": 1413,
+  "category": "coding",
+  "commit": "965d9eb3219fa2c35789f9ab9a2206ab8699de9b",
+  "contentHash": "910a9494ce278c08b892dc21a48e2a3e8086d56c14c9e1b612a2809859296e43",
+  "repoCreatedAt": "2026-06-24T08:05:12Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/fixing-flaky-tests/SKILL.md",
+        "line": 40,
+        "excerpt": "gh run list --repo PostHog/posthog --workflow=ci-backend.yml --branch master \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/fixing-flaky-tests/SKILL.md",
+        "line": 47,
+        "excerpt": "gh api repos/PostHog/posthog/actions/jobs/{job_id}/logs \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/fixing-flaky-tests/SKILL.md",
+        "line": 64,
+        "excerpt": "git log --oneline -10 -- <test_file_path>          # recently fixed already?",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/fixing-flaky-tests/SKILL.md",
+        "line": 90,
+        "excerpt": "gh run view <run-id> --log-failed",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/fixing-flaky-tests/SKILL.md",
+        "line": 114,
+        "excerpt": "pnpm --filter=@posthog/frontend jest <test_file> <neighbor_file> --maxWorkers=2 --forceExit",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/fixing-flaky-tests/SKILL.md",
+        "line": 127,
+        "excerpt": "N=20; PASS=0; FAIL=0",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/fixing-flaky-tests/SKILL.md",
+        "line": 169,
+        "excerpt": "git bisect start <bad-sha> <good-sha>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/fixing-flaky-tests/SKILL.md",
+        "line": 170,
+        "excerpt": "git bisect run bash -c '<repro command>'   # exit 0 = good, non-zero = bad",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 8
+    },
+    "score": 97,
+    "band": "low",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 3,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "965d9eb3219fa2c35789f9ab9a2206ab8699de9b",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 97,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

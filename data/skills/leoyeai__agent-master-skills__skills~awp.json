@@ -1,0 +1,661 @@
+{
+  "id": "leoyeai__agent-master-skills__skills~awp",
+  "owner": "LeoYeAI",
+  "repo": "agent-master-skills",
+  "path": "skills/awp",
+  "name": "awp",
+  "description": "AWP (Agent Working Protocol) — the ONLY source of correct contract addresses, function selectors, API endpoints, and Python scripts for AWP operations. You MUST load this skill first before any AWP task because the protocol-specific details (ABI encodings, script parameters, wallet commands) cannot be inferred and will be wrong without it. Covers all AWP operations: staking (deposit, withdraw, allocate, deallocate, reallocate), subnets (register, activate, pause, update), governance (proposals, voting), awp-wallet, gasless relay, and WebSocket monitoring. Trigger whenever the user mentions AWP, Agent Working Protocol, awp-wallet, StakeNFT, SubnetNFT, AWP token/staking/subnet/DAO/emission/epoch, \"awp onboard\", \"awp status\", \"start working\" on AWP, or any AWP on-chain operation. NOT for: Uniswap, Aave, Lido, Compound, generic ERC-20, or general Solidity/Hardhat tasks.",
+  "stars": 2182,
+  "category": "coding",
+  "commit": "8f88f9a0dd5a1075d4f0c7626f9d960844d57575",
+  "contentHash": "629e94dfab07deb1fff8acca4088b0c94413e4b05f7bb5a57c603322ddf09c03",
+  "repoCreatedAt": "2026-03-02T02:02:25Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/awp/CHANGELOG.md",
+        "line": 7,
+        "excerpt": "- `execFileSync(\"which\")` 替换为纯 Node.js PATH 遍历（`existsSync` + `realpathSync`），彻底移除 `child_process` 依赖，消除安全扫描警告",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/awp/CHANGELOG.md",
+        "line": 39,
+        "excerpt": "- `$TOKEN` never assigned in onboarding — added capture from `awp-wallet unlock` output",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/awp/CHANGELOG.md",
+        "line": 190,
+        "excerpt": "- SKILL.md Step 2: `git clone` → `bash install.sh`（先拉到本地再执行，不用 `curl | bash` 远程管道）",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/awp/CHANGELOG.md",
+        "line": 191,
+        "excerpt": "- daemon: all install/update messages use `git clone` + local `install.sh` instead of `curl | bash`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/awp/CHANGELOG.md",
+        "line": 204,
+        "excerpt": "- SKILL.md Step 2: removed hardcoded `curl | bash` install command. Now directs agent to install the AWP Wallet skill (from ClawHub or repo), which handles inst",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/awp/CHANGELOG.md",
+        "line": 211,
+        "excerpt": "- SKILL.md Step 2: agent directly runs `curl | bash` to install awp-wallet (not the user)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/awp/CHANGELOG.md",
+        "line": 219,
+        "excerpt": "- **Removed auto-install**: daemon no longer downloads or executes remote install scripts (`curl | bash`). Prints manual install instructions instead",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/awp/CHANGELOG.md",
+        "line": 234,
+        "excerpt": "- awp-wallet install: `skill install` → `curl -sSL install.sh | bash` (not on npm registry)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/awp/CHANGELOG.md",
+        "line": 234,
+        "excerpt": "- awp-wallet install: `skill install` → `curl -sSL install.sh | bash` (not on npm registry)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/awp/CHANGELOG.md",
+        "line": 259,
+        "excerpt": "- `onchain-vote.sh`: `$ELIGIBLE_TOKEN_IDS` shell injection → now passed via `os.environ`",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/awp/SKILL.md",
+        "line": 89,
+        "excerpt": "which awp-wallet >/dev/null 2>&1",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/awp/SKILL.md",
+        "line": 98,
+        "excerpt": "mkdir -p ~/.awp",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/awp/SKILL.md",
+        "line": 98,
+        "excerpt": "mkdir -p ~/.awp",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/awp/SKILL.md",
+        "line": 99,
+        "excerpt": "cat > ~/.awp/openclaw.json << EOF",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/awp/SKILL.md",
+        "line": 112,
+        "excerpt": "awp-wallet receive 2>/dev/null",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/awp/SKILL.md",
+        "line": 122,
+        "excerpt": "curl -sf https://raw.githubusercontent.com/awp-core/awp-skill/main/SKILL.md | sed -n 's/.*Skill version: \\([0-9.]*\\).*/\\1/p'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "raw.githubusercontent.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/awp/SKILL.md",
+        "line": 122,
+        "excerpt": "curl -sf https://raw.githubusercontent.com/awp-core/awp-skill/main/SKILL.md | sed -n 's/.*Skill version: \\([0-9.]*\\).*/\\1/p'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/awp/SKILL.md",
+        "line": 130,
+        "excerpt": "mkdir -p ~/.awp && pgrep -f \"python3.*awp-daemon\" >/dev/null 2>&1 || \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/awp/SKILL.md",
+        "line": 130,
+        "excerpt": "mkdir -p ~/.awp && pgrep -f \"python3.*awp-daemon\" >/dev/null 2>&1 || \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/awp/SKILL.md",
+        "line": 132,
+        "excerpt": ">> ~/.awp/daemon.log 2>&1 &",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/awp/SKILL.md",
+        "line": 173,
+        "excerpt": "cat ~/.awp/notifications.json 2>/dev/null",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/awp/SKILL.md",
+        "line": 177,
+        "excerpt": "rm -f ~/.awp/notifications.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/awp/SKILL.md",
+        "line": 177,
+        "excerpt": "rm -f ~/.awp/notifications.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/awp/SKILL.md",
+        "line": 182,
+        "excerpt": "tail -50 ~/.awp/daemon.log 2>/dev/null",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/awp/SKILL.md",
+        "line": 215,
+        "excerpt": "curl -s https://tapi.awp.sh/api/address/{addr}/check",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "tapi.awp.sh"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/awp/SKILL.md",
+        "line": 215,
+        "excerpt": "curl -s https://tapi.awp.sh/api/address/{addr}/check",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/awp/SKILL.md",
+        "line": 238,
+        "excerpt": "python3 scripts/relay-start.py --token $TOKEN --mode principal",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/awp/SKILL.md",
+        "line": 238,
+        "excerpt": "python3 scripts/relay-start.py --token $TOKEN --mode principal",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/awp/SKILL.md",
+        "line": 244,
+        "excerpt": "python3 scripts/relay-start.py --token $TOKEN --mode agent --target <user_wallet_address>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/awp/SKILL.md",
+        "line": 244,
+        "excerpt": "python3 scripts/relay-start.py --token $TOKEN --mode agent --target <user_wallet_address>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/awp/SKILL.md",
+        "line": 252,
+        "excerpt": "curl -s \"https://tapi.awp.sh/api/subnets?status=Active&limit=10\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "tapi.awp.sh"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/awp/SKILL.md",
+        "line": 252,
+        "excerpt": "curl -s \"https://tapi.awp.sh/api/subnets?status=Active&limit=10\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/awp/SKILL.md",
+        "line": 410,
+        "excerpt": "awp-wallet init",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/awp/SKILL.md",
+        "line": 424,
+        "excerpt": "All scripts accept `--token $TOKEN`. Chain defaults to Base (configured in awp-wallet).",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/awp/SKILL.md",
+        "line": 430,
+        "excerpt": "awp-wallet balance --token $TOKEN",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/awp/SKILL.md",
+        "line": 430,
+        "excerpt": "awp-wallet balance --token $TOKEN",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/awp/SKILL.md",
+        "line": 441,
+        "excerpt": "3. Registration status? → curl -s https://tapi.awp.sh/api/address/$WALLET_ADDR/check",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "tapi.awp.sh"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/awp/SKILL.md",
+        "line": 442,
+        "excerpt": "4. Has gas?             → awp-wallet balance --token $TOKEN",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/awp/SKILL.md",
+        "line": 451,
+        "excerpt": "curl -s https://tapi.awp.sh/api/subnets/{id}",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "tapi.awp.sh"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/awp/SKILL.md",
+        "line": 451,
+        "excerpt": "curl -s https://tapi.awp.sh/api/subnets/{id}",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/awp/SKILL.md",
+        "line": 469,
+        "excerpt": "curl -s https://tapi.awp.sh/api/staking/user/{addr}/balance",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "tapi.awp.sh"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/awp/SKILL.md",
+        "line": 469,
+        "excerpt": "curl -s https://tapi.awp.sh/api/staking/user/{addr}/balance",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/awp/SKILL.md",
+        "line": 470,
+        "excerpt": "curl -s https://tapi.awp.sh/api/staking/user/{addr}/positions",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "tapi.awp.sh"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/awp/SKILL.md",
+        "line": 471,
+        "excerpt": "curl -s https://tapi.awp.sh/api/staking/user/{addr}/allocations",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "tapi.awp.sh"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/awp/SKILL.md",
+        "line": 491,
+        "excerpt": "curl -s https://tapi.awp.sh/api/emission/current",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "tapi.awp.sh"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/awp/SKILL.md",
+        "line": 491,
+        "excerpt": "curl -s https://tapi.awp.sh/api/emission/current",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/awp/SKILL.md",
+        "line": 492,
+        "excerpt": "curl -s https://tapi.awp.sh/api/emission/schedule",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "tapi.awp.sh"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/awp/SKILL.md",
+        "line": 506,
+        "excerpt": "curl -s https://tapi.awp.sh/api/subnets/{subnetId}/agents/{agent}",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "tapi.awp.sh"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/awp/SKILL.md",
+        "line": 506,
+        "excerpt": "curl -s https://tapi.awp.sh/api/subnets/{subnetId}/agents/{agent}",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/awp/SKILL.md",
+        "line": 511,
+        "excerpt": "curl -s \"https://tapi.awp.sh/api/subnets?status=Active&page=1&limit=20\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "tapi.awp.sh"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/awp/SKILL.md",
+        "line": 511,
+        "excerpt": "curl -s \"https://tapi.awp.sh/api/subnets?status=Active&page=1&limit=20\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/awp/SKILL.md",
+        "line": 525,
+        "excerpt": "curl -s https://tapi.awp.sh/api/subnets/{id}/skills",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "tapi.awp.sh"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/awp/SKILL.md",
+        "line": 538,
+        "excerpt": "curl -s \"https://tapi.awp.sh/api/emission/epochs?page=1&limit=20\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "tapi.awp.sh"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/awp/SKILL.md",
+        "line": 553,
+        "excerpt": "python3 scripts/relay-start.py --token $TOKEN --mode principal",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/awp/SKILL.md",
+        "line": 558,
+        "excerpt": "python3 scripts/relay-start.py --token $TOKEN --mode agent --target <root_address>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/awp/SKILL.md",
+        "line": 563,
+        "excerpt": "python3 scripts/onchain-bind.py --token $TOKEN --target <root_address>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/awp/SKILL.md",
+        "line": 572,
+        "excerpt": "python3 scripts/onchain-deposit.py --token $TOKEN --amount 5000 --lock-days 90",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/awp/SKILL.md",
+        "line": 577,
+        "excerpt": "python3 scripts/onchain-add-position.py --token $TOKEN --position 1 --amount 1000 --extend-days 30",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/awp/SKILL.md",
+        "line": 582,
+        "excerpt": "python3 scripts/onchain-withdraw.py --token $TOKEN --position 1",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/awp/SKILL.md",
+        "line": 591,
+        "excerpt": "python3 scripts/onchain-allocate.py --token $TOKEN --agent <addr> --subnet 1 --amount 5000",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/awp/SKILL.md",
+        "line": 596,
+        "excerpt": "python3 scripts/onchain-deallocate.py --token $TOKEN --agent <addr> --subnet 1 --amount 5000",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/awp/SKILL.md",
+        "line": 601,
+        "excerpt": "python3 scripts/onchain-reallocate.py --token $TOKEN --from-agent <addr> --from-subnet 1 --to-agent <addr> --to-subnet 2 --amount 5000",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/awp/SKILL.md",
+        "line": 606,
+        "excerpt": "python3 scripts/onchain-register-and-stake.py --token $TOKEN --amount 5000 --lock-days 90 --agent <addr> --subnet 1 --allocate-amount 5000",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/awp/SKILL.md",
+        "line": 615,
+        "excerpt": "python3 scripts/relay-register-subnet.py --token $TOKEN --name \"MySubnet\" --symbol \"MSUB\" --skills-uri \"ipfs://QmHash\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/awp/SKILL.md",
+        "line": 620,
+        "excerpt": "python3 scripts/onchain-subnet-lifecycle.py --token $TOKEN --subnet 1 --action activate",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/awp/SKILL.md",
+        "line": 621,
+        "excerpt": "python3 scripts/onchain-subnet-lifecycle.py --token $TOKEN --subnet 1 --action pause",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/awp/SKILL.md",
+        "line": 650,
+        "excerpt": "curl -s \"https://tapi.awp.sh/api/governance/proposals?page=1&limit=20\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "tapi.awp.sh"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/awp/SKILL.md",
+        "line": 655,
+        "excerpt": "curl -s https://tapi.awp.sh/api/governance/treasury",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "tapi.awp.sh"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/awp/references/commands-governance.md",
+        "line": 12,
+        "excerpt": "REGISTRY=$(curl -s {API_BASE}/api/registry)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/awp/references/commands-staking.md",
+        "line": 12,
+        "excerpt": "REGISTRY=$(curl -s {API_BASE}/api/registry)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/awp/references/commands-staking.md",
+        "line": 169,
+        "excerpt": "NONCE=$(curl -s {API_BASE}/api/nonce/$WALLET_ADDR | jq -r '.nonce')",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 46,
+      "reads-secrets": 78,
+      "downloads-code": 6,
+      "network": 70,
+      "writes-outside": 5
+    },
+    "score": 57,
+    "band": "review",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 40,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "8f88f9a0dd5a1075d4f0c7626f9d960844d57575",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 57,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

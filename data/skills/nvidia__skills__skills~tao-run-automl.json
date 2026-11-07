@@ -1,0 +1,394 @@
+{
+  "id": "nvidia__skills__skills~tao-run-automl",
+  "owner": "NVIDIA",
+  "repo": "skills",
+  "path": "skills/tao-run-automl",
+  "name": "tao-run-automl",
+  "description": "Run container-backed AutoML / hyperparameter optimization (HPO) for NVIDIA TAO networks using AutoMLRunner. Handles algorithm",
+  "stars": 3888,
+  "category": "coding",
+  "commit": "fce3cca4170be75e82c64920654d56ee2811b005",
+  "contentHash": "12aa4e00542bc4ce180ec49224f37c18fd2095d7352078e9f648cac711e061c3",
+  "repoCreatedAt": "2026-02-25T21:54:05Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-automl/SKILL.md",
+        "line": 83,
+        "excerpt": "python -c \"import tao_automl; from tao_automl.runner import AutoMLRunner; print('OK')\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-automl/SKILL.md",
+        "line": 95,
+        "excerpt": "SB=\"${TAO_SKILL_BANK_PATH:-~/tao-skill-bank}\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/tao-run-automl/SKILL.md",
+        "line": 96,
+        "excerpt": "pip install \"$($SB/scripts/resolve_versions_key.py wheels.tao_automl_<platform>)\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-automl/cards/00-preflight.md",
+        "line": 5,
+        "excerpt": "bash -c 'grep -h \"ok$\\|FAIL$\" $RD/progress.log 2>/dev/null | tail -3; echo \"---GATE-END---\"'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-automl/cards/00-preflight.md",
+        "line": 21,
+        "excerpt": "bash -c 'docker image inspect $TRAIN_IMG --format \"image OK: {{.Id}}\" | head -1 && nvidia-smi --query-gpu=name,memory.total --format=csv,noheader'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-automl/cards/00-preflight.md",
+        "line": 26,
+        "excerpt": "bash -c 'grep -m1 \"automl_enabled\" $SB/skills/models/tao-train-visual-changenet/references/skill_info.yaml; $VENV/bin/python3 -c \"import json;json.load(open(\\\"$",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-automl/cards/00-preflight.md",
+        "line": 32,
+        "excerpt": "bash -c 'mkdir -p $RD/{runner,review,baseline,automl_workspace}; touch $RD/commands.log; [ -f $RD/state.json ] || echo \"{}\" > $RD/state.json; echo \"preflight ok",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-automl/cards/10-baseline-eval.md",
+        "line": 10,
+        "excerpt": "bash -c 'grep -h \"baseline_eval ok\" $RD/progress.log 2>/dev/null | tail -1; [ -f $RD/baseline/BASELINE_JOB_DONE ] && echo MARKER_DONE; [ -f $RD/baseline/job.pid",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-automl/cards/10-baseline-eval.md",
+        "line": 22,
+        "excerpt": "bash -c 'cp $WS/specs/baseline_spec.yaml $RD/baseline/baseline_lr0_spec.yaml && sed -i -E -e \"0,/^results_dir:/s|^results_dir:.*|results_dir: /results|\" -e \"s|^",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-automl/cards/10-baseline-eval.md",
+        "line": 28,
+        "excerpt": "bash -c 'printf \"#!/bin/bash\\ndocker run --rm --gpus all --shm-size=8g -v $WS:/data/workspace -v $RD/baseline:/results -v $WS/kpi/images:/data/datasets/NV_PCB_S",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-automl/cards/10-baseline-eval.md",
+        "line": 34,
+        "excerpt": "bash -c 'set -e; tail -2 $RD/baseline/train.log | grep -q \"Execution status: PASS\" || { echo \"baseline_eval FAIL\" >> $RD/progress.log; exit 0; }; $VENV/bin/pyth",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-automl/cards/20-launch-recs.md",
+        "line": 5,
+        "excerpt": "bash -c 'grep -hE \"recs_launched ok|baseline_eval ok\" $RD/progress.log 2>/dev/null | sort -u; echo ---GATE-END---'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-automl/cards/20-launch-recs.md",
+        "line": 21,
+        "excerpt": "bash -c 'BL=$($VENV/bin/python3 -c \"import json;print(json.load(open(\\\"$RD/state.json\\\")).get(\\\"baseline_val_loss\\\",\\\"MISSING\\\"))\"); printf \"# AutoML Launch Rev",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-automl/cards/20-launch-recs.md",
+        "line": 26,
+        "excerpt": "bash -c 'cat > $RD/runner/driver.py <<PYEOF",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-automl/cards/20-launch-recs.md",
+        "line": 106,
+        "excerpt": "bash -c 'cd $RD/runner && nohup $VENV/bin/python3 $RD/runner/driver.py > $RD/runner/driver.log 2>&1 & echo \"runner PID $!\"; sleep 20; tail -8 $RD/runner/driver.",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-automl/cards/30-interpret.md",
+        "line": 5,
+        "excerpt": "bash -c 'grep -h \"done ok\" $RD/progress.log 2>/dev/null | tail -1; [ -f $RD/automl_result.json ] && echo RESULT_EXISTS; pgrep -f \"$RD/runner/driver.py\" >/dev/nu",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-automl/cards/30-interpret.md",
+        "line": 13,
+        "excerpt": "| none (runner dead, no result, no FAIL) | runner was killed mid-flight: relaunch with resume — `bash -c 'cd $RD/runner && AUTOML_RESUME=1 nohup $VENV/bin/pytho",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-automl/cards/30-interpret.md",
+        "line": 54,
+        "excerpt": "bash -c 'echo \"done ok\" >> $RD/progress.log && touch $RD/AUTOML_DONE.marker && tail -3 $RD/progress.log'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/tao-run-automl/cards/driver.sh",
+        "line": 54,
+        "excerpt": "nim/*) [ -n \"${NVIDIA_INFERENCE_API_KEY:-}\" ] || { echo \"[a-driver] ABORT: export NVIDIA_INFERENCE_API_KEY\" >&2; exit 1; } ;;",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/tao-run-automl/cards/driver.sh",
+        "line": 55,
+        "excerpt": "anthropic/*) [ -n \"${ANTHROPIC_API_KEY:-}\" ] || { echo \"[a-driver] ABORT: export ANTHROPIC_API_KEY\" >&2; exit 1; } ;;",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/tao-run-automl/config/skillspector-baseline.yaml",
+        "line": 12,
+        "excerpt": "reason: \"Reviewed FP (#67): documented infrastructure path reference (e.g. ~/.docker/config.json, ~/.ssh keys) appearing in documentation or example config; the",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/tao-run-automl/eval.config",
+        "line": 5,
+        "excerpt": "\"prompt\": \"Run TAO AutoML to tune image-classification training on my dataset.\\n\\n## Mandatory completion\\nThis eval grades end-to-end completion. Do NOT stop a",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/tao-run-automl/eval.config",
+        "line": 5,
+        "excerpt": "\"prompt\": \"Run TAO AutoML to tune image-classification training on my dataset.\\n\\n## Mandatory completion\\nThis eval grades end-to-end completion. Do NOT stop a",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/tao-run-automl/eval.config",
+        "line": 21,
+        "excerpt": "\"description\": \"S3 secret key paired with ACCESS_KEY. The runner writes it into ~/.aws/credentials but does NOT export AWS_SECRET_ACCESS_KEY; the prompt exports",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/tao-run-automl/eval.config",
+        "line": 25,
+        "excerpt": "\"description\": \"NVIDIA Artifactory PyPI user. versions.yaml pins internal RC wheels (nvidia-tao-automl 7.1.0rc33, nvidia-tao-sdk 7.1.0rc42) that are NOT publish",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/tao-run-automl/references/automl-advanced-monitoring.md",
+        "line": 396,
+        "excerpt": "- **LLM endpoint unreachable** (llm/hybrid/autoresearch only) — the brain falls back to random sampling. Check `AUTOML_LLM_ENDPOINT` and `AUTOML_LLM_API_KEY`. V",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/tao-run-automl/references/automl-advanced-monitoring.md",
+        "line": 396,
+        "excerpt": "- **LLM endpoint unreachable** (llm/hybrid/autoresearch only) — the brain falls back to random sampling. Check `AUTOML_LLM_ENDPOINT` and `AUTOML_LLM_API_KEY`. V",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/tao-run-automl/references/automl-advanced-monitoring.md",
+        "line": 425,
+        "excerpt": "12. **`openai` package not installed.** The `llm`, `hybrid`, and `autoresearch` algorithms require the `openai` Python package. Install with `pip install openai",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/tao-run-automl/references/automl-examples.md",
+        "line": 63,
+        "excerpt": "\"llm_api_key\": os.environ[\"AUTOML_LLM_API_KEY\"],",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/tao-run-automl/references/automl-examples.md",
+        "line": 93,
+        "excerpt": "\"llm_api_key\": os.environ[\"AUTOML_LLM_API_KEY\"],",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/tao-run-automl/references/automl-preflight-concepts.md",
+        "line": 46,
+        "excerpt": "echo \"  pip install \\\"$($SB/scripts/resolve_versions_key.py wheels.tao_automl_slurm)\\\"       # on-prem SLURM cluster\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/tao-run-automl/references/automl-preflight-concepts.md",
+        "line": 47,
+        "excerpt": "echo \"  pip install \\\"$($SB/scripts/resolve_versions_key.py wheels.tao_automl_kubernetes)\\\"  # K8s (EKS / GKE / on-prem)\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/tao-run-automl/references/automl-preflight-concepts.md",
+        "line": 48,
+        "excerpt": "echo \"  pip install \\\"$($SB/scripts/resolve_versions_key.py wheels.tao_automl_docker)\\\"      # local Docker daemon\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/tao-run-automl/references/automl-preflight-concepts.md",
+        "line": 49,
+        "excerpt": "echo \"  pip install \\\"$($SB/scripts/resolve_versions_key.py wheels.tao_automl_brev)\\\"        # Brev GPU instances\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/tao-run-automl/references/automl-preflight-concepts.md",
+        "line": 50,
+        "excerpt": "echo \"  pip install \\\"$($SB/scripts/resolve_versions_key.py wheels.tao_automl_all)\\\"         # all platforms\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/tao-run-automl/references/automl-preflight-concepts.md",
+        "line": 56,
+        "excerpt": "(For local development against a checkout: `pip install -e '~/tao-run-automl[brev]'` from the cloned repo.)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/tao-run-automl/references/automl-preflight-concepts.md",
+        "line": 56,
+        "excerpt": "(For local development against a checkout: `pip install -e '~/tao-run-automl[brev]'` from the cloned repo.)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/tao-run-automl/references/automl-preflight-concepts.md",
+        "line": 125,
+        "excerpt": "pip install \"$($SB/scripts/resolve_versions_key.py wheels.tao_automl_brev)\"   # or _slurm, _kubernetes, _docker, _all",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/tao-run-automl/references/automl-preflight-concepts.md",
+        "line": 127,
+        "excerpt": "pip install \"$($SB/scripts/resolve_versions_key.py wheels.tao_automl_brev | sed 's/]/,llm]/')\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/tao-run-automl/references/automl-preflight-concepts.md",
+        "line": 129,
+        "excerpt": "For local development against a checkout: `pip install -e '~/tao-run-automl[brev]'`.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/tao-run-automl/references/automl-preflight-concepts.md",
+        "line": 129,
+        "excerpt": "For local development against a checkout: `pip install -e '~/tao-run-automl[brev]'`.",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/tao-run-automl/references/automl-runner-configuration.md",
+        "line": 28,
+        "excerpt": "- `pip install \"$(${TAO_SKILL_BANK_PATH:?}/scripts/resolve_versions_key.py wheels.tao_automl_brev | sed 's/]/,wandb]/')\"`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/tao-run-automl/references/automl-runner-configuration.md",
+        "line": 334,
+        "excerpt": "pip install wandb",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-automl/tests/test_resolve_automl_session.py",
+        "line": 99,
+        "excerpt": "result = subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 18,
+      "downloads-code": 14,
+      "reads-secrets": 8,
+      "writes-outside": 3,
+      "network": 1
+    },
+    "score": 64,
+    "band": "review",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 26,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "fce3cca4170be75e82c64920654d56ee2811b005",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 64,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

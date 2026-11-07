@@ -1,0 +1,340 @@
+{
+  "id": "sundial-org__awesome-openclaw-skills__skills~proxmox",
+  "owner": "sundial-org",
+  "repo": "awesome-openclaw-skills",
+  "path": "skills/proxmox",
+  "name": "proxmox",
+  "description": "Manage Proxmox VE clusters via REST API. Use when user asks to list, start, stop, restart VMs or LXC containers, check node status, create snapshots, view tasks, or manage Proxmox infrastructure. Requires API token or credentials configured.",
+  "stars": 674,
+  "category": "coding",
+  "commit": "b80cde2ef85241dd4fd54a1b934f5e22835f78ba",
+  "contentHash": "1708318d31f5060dc0fedcd4ceeb0d9c48a8448fa00cdbed95a4835509eb405b",
+  "repoCreatedAt": "2026-02-01T05:53:14Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/proxmox/SKILL.md",
+        "line": 14,
+        "excerpt": "export PROXMOX_HOST=\"https://192.168.1.100:8006\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/proxmox/SKILL.md",
+        "line": 19,
+        "excerpt": "cat > ~/.proxmox-credentials << 'EOF'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/proxmox/SKILL.md",
+        "line": 33,
+        "excerpt": "source ~/.proxmox-credentials 2>/dev/null",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/proxmox/SKILL.md",
+        "line": 36,
+        "excerpt": "AUTH=\"Authorization: PVEAPIToken=$PROXMOX_TOKEN_ID=$PROXMOX_TOKEN_SECRET\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/proxmox/SKILL.md",
+        "line": 45,
+        "excerpt": "curl -ks -H \"$AUTH\" \"$PROXMOX_HOST/api2/json/cluster/status\" | jq",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/proxmox/SKILL.md",
+        "line": 45,
+        "excerpt": "curl -ks -H \"$AUTH\" \"$PROXMOX_HOST/api2/json/cluster/status\" | jq",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/proxmox/SKILL.md",
+        "line": 48,
+        "excerpt": "curl -ks -H \"$AUTH\" \"$PROXMOX_HOST/api2/json/nodes\" | jq '.data[] | {node, status, cpu, mem: (.mem/.maxmem*100|round)}'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/proxmox/SKILL.md",
+        "line": 51,
+        "excerpt": "curl -ks -H \"$AUTH\" \"$PROXMOX_HOST/api2/json/nodes/{node}/status\" | jq",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/proxmox/SKILL.md",
+        "line": 58,
+        "excerpt": "curl -ks -H \"$AUTH\" \"$PROXMOX_HOST/api2/json/nodes/{node}/qemu\" | jq '.data[] | {vmid, name, status, mem: .mem, cpu: (.cpu*100|round)}'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/proxmox/SKILL.md",
+        "line": 58,
+        "excerpt": "curl -ks -H \"$AUTH\" \"$PROXMOX_HOST/api2/json/nodes/{node}/qemu\" | jq '.data[] | {vmid, name, status, mem: .mem, cpu: (.cpu*100|round)}'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/proxmox/SKILL.md",
+        "line": 61,
+        "excerpt": "curl -ks -H \"$AUTH\" \"$PROXMOX_HOST/api2/json/nodes/{node}/lxc\" | jq '.data[] | {vmid, name, status}'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/proxmox/SKILL.md",
+        "line": 64,
+        "excerpt": "curl -ks -H \"$AUTH\" \"$PROXMOX_HOST/api2/json/cluster/resources?type=vm\" | jq '.data[] | {node, vmid, name, type, status}'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/proxmox/SKILL.md",
+        "line": 71,
+        "excerpt": "curl -ks -X POST -H \"$AUTH\" \"$PROXMOX_HOST/api2/json/nodes/{node}/qemu/{vmid}/status/start\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/proxmox/SKILL.md",
+        "line": 71,
+        "excerpt": "curl -ks -X POST -H \"$AUTH\" \"$PROXMOX_HOST/api2/json/nodes/{node}/qemu/{vmid}/status/start\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/proxmox/SKILL.md",
+        "line": 74,
+        "excerpt": "curl -ks -X POST -H \"$AUTH\" \"$PROXMOX_HOST/api2/json/nodes/{node}/qemu/{vmid}/status/stop\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/proxmox/SKILL.md",
+        "line": 77,
+        "excerpt": "curl -ks -X POST -H \"$AUTH\" \"$PROXMOX_HOST/api2/json/nodes/{node}/qemu/{vmid}/status/shutdown\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/proxmox/SKILL.md",
+        "line": 80,
+        "excerpt": "curl -ks -X POST -H \"$AUTH\" \"$PROXMOX_HOST/api2/json/nodes/{node}/qemu/{vmid}/status/reboot\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/proxmox/SKILL.md",
+        "line": 89,
+        "excerpt": "curl -ks -H \"$AUTH\" \"$PROXMOX_HOST/api2/json/nodes/{node}/qemu/{vmid}/snapshot\" | jq",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/proxmox/SKILL.md",
+        "line": 89,
+        "excerpt": "curl -ks -H \"$AUTH\" \"$PROXMOX_HOST/api2/json/nodes/{node}/qemu/{vmid}/snapshot\" | jq",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/proxmox/SKILL.md",
+        "line": 92,
+        "excerpt": "curl -ks -X POST -H \"$AUTH\" \"$PROXMOX_HOST/api2/json/nodes/{node}/qemu/{vmid}/snapshot\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/proxmox/SKILL.md",
+        "line": 96,
+        "excerpt": "curl -ks -X POST -H \"$AUTH\" \"$PROXMOX_HOST/api2/json/nodes/{node}/qemu/{vmid}/snapshot/{snapname}/rollback\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/proxmox/SKILL.md",
+        "line": 99,
+        "excerpt": "curl -ks -X DELETE -H \"$AUTH\" \"$PROXMOX_HOST/api2/json/nodes/{node}/qemu/{vmid}/snapshot/{snapname}\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/proxmox/SKILL.md",
+        "line": 106,
+        "excerpt": "curl -ks -H \"$AUTH\" \"$PROXMOX_HOST/api2/json/nodes/{node}/tasks\" | jq '.data[:10] | .[] | {upid, type, status, user}'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/proxmox/SKILL.md",
+        "line": 106,
+        "excerpt": "curl -ks -H \"$AUTH\" \"$PROXMOX_HOST/api2/json/nodes/{node}/tasks\" | jq '.data[:10] | .[] | {upid, type, status, user}'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/proxmox/SKILL.md",
+        "line": 109,
+        "excerpt": "curl -ks -H \"$AUTH\" \"$PROXMOX_HOST/api2/json/nodes/{node}/tasks/{upid}/log\" | jq -r '.data[].t'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/proxmox/SKILL.md",
+        "line": 116,
+        "excerpt": "curl -ks -H \"$AUTH\" \"$PROXMOX_HOST/api2/json/nodes/{node}/storage\" | jq '.data[] | {storage, type, active, used_fraction: (.used/.total*100|round|tostring + \"%\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/proxmox/SKILL.md",
+        "line": 116,
+        "excerpt": "curl -ks -H \"$AUTH\" \"$PROXMOX_HOST/api2/json/nodes/{node}/storage\" | jq '.data[] | {storage, type, active, used_fraction: (.used/.total*100|round|tostring + \"%\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/proxmox/SKILL.md",
+        "line": 119,
+        "excerpt": "curl -ks -H \"$AUTH\" \"$PROXMOX_HOST/api2/json/nodes/{node}/storage/{storage}/content\" | jq",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/proxmox/SKILL.md",
+        "line": 126,
+        "excerpt": "curl -ks -H \"$AUTH\" \"$PROXMOX_HOST/api2/json/nodes/{node}/storage/{storage}/content?content=backup\" | jq",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/proxmox/SKILL.md",
+        "line": 126,
+        "excerpt": "curl -ks -H \"$AUTH\" \"$PROXMOX_HOST/api2/json/nodes/{node}/storage/{storage}/content?content=backup\" | jq",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/proxmox/SKILL.md",
+        "line": 129,
+        "excerpt": "curl -ks -X POST -H \"$AUTH\" \"$PROXMOX_HOST/api2/json/nodes/{node}/vzdump\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/proxmox/SKILL.md",
+        "line": 138,
+        "excerpt": "./scripts/pve.sh status          # Cluster overview",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/proxmox/scripts/pve.sh",
+        "line": 12,
+        "excerpt": ": \"${PROXMOX_TOKEN_ID:?Set PROXMOX_TOKEN_ID}\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/proxmox/scripts/pve.sh",
+        "line": 13,
+        "excerpt": ": \"${PROXMOX_TOKEN_SECRET:?Set PROXMOX_TOKEN_SECRET}\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/proxmox/scripts/pve.sh",
+        "line": 15,
+        "excerpt": "AUTH=\"Authorization: PVEAPIToken=$PROXMOX_TOKEN_ID=$PROXMOX_TOKEN_SECRET\"",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 10,
+      "writes-outside": 1,
+      "reads-secrets": 4,
+      "network": 21
+    },
+    "score": 70,
+    "band": "review",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "b80cde2ef85241dd4fd54a1b934f5e22835f78ba",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 70,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

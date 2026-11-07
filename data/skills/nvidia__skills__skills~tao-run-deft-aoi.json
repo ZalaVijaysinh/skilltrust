@@ -1,0 +1,223 @@
+{
+  "id": "nvidia__skills__skills~tao-run-deft-aoi",
+  "owner": "NVIDIA",
+  "repo": "skills",
+  "path": "skills/tao-run-deft-aoi",
+  "name": "tao-run-deft-aoi",
+  "description": "Run the full DEFT AOI improvement loop for NVIDIA TAO VisualChangeNet / ChangeNet PCB inspection models: baseline evaluate, RCA, Cosmos AnomalyGen / AMP synthetic defects, k-NN mining, retraining, and deployment gating against a customer-defined primary metric and optional constraints. Use only when the request identifies an AOI / automated-optical-inspection, PCB-defect, VisualChangeNet, or ChangeNet workflow. Supports air-gapped/offline runs with pre-staged assets. Never infer AOI from generic iterative-improvement language. Do not use for CLIP / SigLIP image retrieval, attribute-labelled image data, standalone TAO training, one-off inference, generic anomaly generation, or RCA-only analysis.",
+  "stars": 3888,
+  "category": "coding",
+  "commit": "fce3cca4170be75e82c64920654d56ee2811b005",
+  "contentHash": "f5ffe4ed0abab6f08a128725df04ec72b6c4ac0fc171bef4430092af16945acd",
+  "repoCreatedAt": "2026-02-25T21:54:05Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-deft-aoi/cards/00-init-baseline-train.md",
+        "line": 5,
+        "excerpt": "bash -c '[ -f $RD/deft_state.json ] && echo STATE_EXISTS || echo NO_STATE; [ -s $RD/baseline/train/train.log ] && echo TRAINLOG_EXISTS || echo NO_TRAINLOG'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-deft-aoi/cards/00-init-baseline-train.md",
+        "line": 28,
+        "excerpt": "bash -c 'cp $WS/specs/baseline_spec.yaml $RD/specs/baseline_spec.yaml && sed -i -E -e \"0,/^results_dir:/s|^results_dir:.*|results_dir: /results/baseline|\" -e \"s",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-deft-aoi/cards/10-post-train.md",
+        "line": 14,
+        "excerpt": "- `FileNotFoundError: .../C-RADIOv2_B.pth` → `bash -c 'sed -i \"s|pretrained_backbone_path:.*|pretrained_backbone_path: /data/pretrained_models/C-RADIOv2_B.safet",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-deft-aoi/cards/10-post-train.md",
+        "line": 15,
+        "excerpt": "- `FileNotFoundError: /home/...model_epoch...` (host path in `pretrained_model_path`) → `bash -c 'sed -i -E \"s|(pretrained_model_path:) *$WS|\\1 /data/workspace|",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-deft-aoi/cards/10-post-train.md",
+        "line": 21,
+        "excerpt": "bash -c 'set -e; T=$RD/$ITER/train; SEL=$($DPY -c \"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-deft-aoi/cards/10-post-train.md",
+        "line": 41,
+        "excerpt": "bash -c 'set -e; SPEC=$RD/specs/$([ \"$ITER\" = baseline ] && echo baseline_spec.yaml || echo ${ITER}_spec.yaml); T=$RD/$ITER/train; CKB=$(basename $(ls $T/model_",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-deft-aoi/cards/20-evaluate.md",
+        "line": 9,
+        "excerpt": "bash -c 'ls $RD/$ITER/inference/best_val/inference/inference.csv $RD/$ITER/inference/latest/inference/inference.csv 2>/dev/null | wc -l'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-deft-aoi/cards/20-evaluate.md",
+        "line": 19,
+        "excerpt": "bash -c 'set -e; for N in best_val latest; do $DPY $SKILL_ROOT/scripts/analyze_kpi.py $RD/$ITER/inference/$N/inference/inference.csv --output-dir $RD/$ITER/infe",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-deft-aoi/cards/20-evaluate.md",
+        "line": 24,
+        "excerpt": "bash -c 'set -e; W=$($DPY -c \"import json;a=json.load(open(\\\"$RD/$ITER/inference/best_val_eval/metric_result.json\\\"));b=json.load(open(\\\"$RD/$ITER/inference/lat",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-deft-aoi/cards/30-post-evaluate.md",
+        "line": 18,
+        "excerpt": "bash -c 'set -e; OUT=$RD/$ITER/rca_results/$(date +%s); mkdir -p $OUT; WIN=$($DPY -c \"import json;print(json.load(open(\\\"$RD/deft_state.json\\\"))[\\\"iterations\\\"]",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-deft-aoi/cards/30-post-evaluate.md",
+        "line": 24,
+        "excerpt": "bash -c 'set -e; OUT=$(ls -td $RD/$ITER/rca_results/*/ | head -1); TH=$($DPY -c \"import json;print(json.load(open(\\\"$RD/deft_state.json\\\"))[\\\"iterations\\\"][\\\"$I",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-deft-aoi/cards/40-routing.md",
+        "line": 16,
+        "excerpt": "bash -c 'set -e; OUT=$RD/$ITER/routing_results/$(date +%s); mkdir -p $OUT; $DPY -c \"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-deft-aoi/cards/40-routing.md",
+        "line": 37,
+        "excerpt": "bash -c 'set -e; OUT=$(ls -td $RD/$ITER/routing_results/*/ | head -1); $DPY $SKILL_ROOT/scripts/commit_stage.py --duration-sec $(( $(date +%s) - STAGE_T0 + 1 ))",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-deft-aoi/cards/50-mining.md",
+        "line": 11,
+        "excerpt": "bash -c '$DPY -c \"import json,pandas as pd;st=json.load(open(\\\"$RD/deft_state.json\\\"));p=st[\\\"iterations\\\"][\\\"$ITER\\\"][\\\"routing_mining_parquet\\\"];print(\\\"ROWS=",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-deft-aoi/cards/50-mining.md",
+        "line": 20,
+        "excerpt": "bash -c 'set -e; MF=$RD/$ITER/mining_filter; mkdir -p $MF/pkg_specs/{embedding,tmm}; TP=$($DPY -c \"import json;print(json.load(open(\\\"$RD/deft_state.json\\\"))[\\\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-deft-aoi/cards/50-mining.md",
+        "line": 45,
+        "excerpt": "bash -c 'set -e; MF=$RD/$ITER/mining_filter; K=$($DPY -c \"import json;print(json.load(open(\\\"$RD/$ITER/mining_filter/mining_history_summary.json\\\"))[\\\"selected_",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-deft-aoi/cards/60-merge-train.md",
+        "line": 12,
+        "excerpt": "bash -c 'set -e; $DPY -c \"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-deft-aoi/cards/60-merge-train.md",
+        "line": 50,
+        "excerpt": "bash -c 'set -e; SPEC=$RD/specs/${ITER}_spec.yaml; cp $RD/specs/baseline_spec.yaml $SPEC; PREV=$($DPY -c \"import json;st=json.load(open(\\\"$RD/deft_state.json\\\")",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/tao-run-deft-aoi/eval.config",
+        "line": 17,
+        "excerpt": "\"prompt\": \"Run the full DEFT Loop end-to-end as a smoke test on subset data with AnomalyGen + Data Mining.\\n\\n## Mandatory completion\\nThis eval grades end-to-e",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/tao-run-deft-aoi/eval.slow-manual.config",
+        "line": 16,
+        "excerpt": "\"prompt\": \"Run the full DEFT Loop end-to-end as a smoke test on subset data with AnomalyGen + Data Mining.\\n\\n## Plugin Installation\\nThis eval depends on the `",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-deft-aoi/eval.slow-manual.config",
+        "line": 16,
+        "excerpt": "\"prompt\": \"Run the full DEFT Loop end-to-end as a smoke test on subset data with AnomalyGen + Data Mining.\\n\\n## Plugin Installation\\nThis eval depends on the `",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/tao-run-deft-aoi/references/network-bootstrap.md",
+        "line": 11,
+        "excerpt": "<workspace>/.venv/bin/pip install pandas numpy matplotlib pyarrow pillow pyyaml huggingface_hub boto3",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-deft-aoi/scripts/deft_exec.py",
+        "line": 159,
+        "excerpt": "return subprocess.run(command, env=environment, check=False).returncode",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 22,
+      "writes-outside": 2,
+      "downloads-code": 1
+    },
+    "score": 72,
+    "band": "review",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 60,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "fce3cca4170be75e82c64920654d56ee2811b005",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 72,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

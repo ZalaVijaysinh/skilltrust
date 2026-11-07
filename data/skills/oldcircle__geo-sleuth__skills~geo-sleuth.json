@@ -1,0 +1,339 @@
+{
+  "id": "oldcircle__geo-sleuth__skills~geo-sleuth",
+  "owner": "Oldcircle",
+  "repo": "geo-sleuth",
+  "path": "skills/geo-sleuth",
+  "name": "geo-sleuth",
+  "description": "Geolocate or chronolocate a photo with tool-verified reasoning (where was this taken / when was it taken / photo geolocation / geo-guessing). Given one or more photos, intake.py does metadata, OCR and reverse image search (Baidu/Yandex) in one command; clues and candidates go on a candidate board (board.py) that ranks them and gives the next step; clues.py looks up calling codes, driving side, plates and area codes from region packs; for satellite and street view the machine ranks first and you look only at the top few (CLIP in sat_scan.py, DINOv2+SIFT in match.py); plus sun and shadow math, OSM Overpass and DEM skylines. Every conclusion is checked against real data; output is coordinates + error radius, evidence images and tiered confidence. Use when the user shares a photo and asks where was this taken / geolocate this / when was this taken / 这是哪 / 在哪拍的 / 帮我定位这张照片 / 网络迷踪 / 图寻 / 几点拍的.",
+  "stars": 6415,
+  "category": "media",
+  "commit": "5aeec412c5496136b4b36259679f79b8a2d09cec",
+  "contentHash": "4d1163a60d9698744a6710c23a34e327cbafe88bb80dbea008eea5a67e2e21b0",
+  "repoCreatedAt": "2026-09-18T08:51:34Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/geo-sleuth/SKILL.md",
+        "line": 43,
+        "excerpt": "uv run ${CLAUDE_SKILL_DIR}/scripts/intake.py photo.jpg --out-dir intake/ [--box x0,y0,x1,y1 ...]",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/geo-sleuth/SKILL.md",
+        "line": 61,
+        "excerpt": "uv run ${CLAUDE_SKILL_DIR}/scripts/board.py children <parent admin area>          # municipality → all districts; country → first-level admin divisions (gazette",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/geo-sleuth/SKILL.md",
+        "line": 95,
+        "excerpt": "uv run ${CLAUDE_SKILL_DIR}/scripts/sat_scan.py grid --bbox <scan_bbox> --zoom 17 --preset track --multi-scale --top 30 --out sat.json --sheet sat_top.jpg --heat",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/geo-sleuth/SKILL.md",
+        "line": 108,
+        "excerpt": "uv run ${CLAUDE_SKILL_DIR}/scripts/baidu_pano.py scan <lat,lon> --radius 300 --out panos.json                     # the street-view script the region card names",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/geo-sleuth/SKILL.md",
+        "line": 125,
+        "excerpt": "uv run ${CLAUDE_SKILL_DIR}/scripts/board.py check                      # before concluding: do exclusions have files, does the main answer have verified evidenc",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/geo-sleuth/SKILL.md",
+        "line": 166,
+        "excerpt": "- Reverse image search uses local Google Chrome, with automatic fallback to Playwright Chromium (`uvx playwright install chromium`). If neither starts, use `int",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/geo-sleuth/SKILL.md",
+        "line": 169,
+        "excerpt": "- macOS has no `timeout` command; in zsh `$var` doesn't word-split, so use `bash -c` or `${=var}` in loops. A province-wide Overpass query can take several minu",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/geo-sleuth/references/search.md",
+        "line": 133,
+        "excerpt": "curl -s -G https://query.wikidata.org/sparql --data-urlencode query@pool.rq \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "query.wikidata.org"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/geo-sleuth/references/search.md",
+        "line": 140,
+        "excerpt": "[ -s \"thumbs/$qid.jpg\" ] || curl -sfL -A \"$UA\" \"$url?width=480\" -o \"thumbs/$qid.jpg\"; sleep 1",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/geo-sleuth/scripts/_browser.py",
+        "line": 25,
+        "excerpt": "\"Run `uvx playwright install chromium` and retry; on Linux, missing system libraries \"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/geo-sleuth/scripts/_browser.py",
+        "line": 26,
+        "excerpt": "\"may require `uvx playwright install --with-deps chromium`. \"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/geo-sleuth/scripts/_net.py",
+        "line": 26,
+        "excerpt": "result = subprocess.run(cmd + [url], capture_output=True, timeout=timeout + 5)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/geo-sleuth/scripts/board.py",
+        "line": 124,
+        "excerpt": "def _run(cmd: list[str], live: bool = False) -> subprocess.CompletedProcess:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/geo-sleuth/scripts/board.py",
+        "line": 127,
+        "excerpt": "return subprocess.run(cmd, text=True, encoding=\"utf-8\", errors=\"replace\", stdout=subprocess.PIPE,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/geo-sleuth/scripts/board.py",
+        "line": 128,
+        "excerpt": "stderr=None if live else subprocess.PIPE, env={**os.environ, \"PYTHONUTF8\": \"1\"})",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/geo-sleuth/scripts/doctor.py",
+        "line": 58,
+        "excerpt": "result = subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/geo-sleuth/scripts/doctor.py",
+        "line": 70,
+        "excerpt": "except (OSError, subprocess.TimeoutExpired):",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/geo-sleuth/scripts/doctor.py",
+        "line": 78,
+        "excerpt": "result = subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/geo-sleuth/scripts/doctor.py",
+        "line": 83,
+        "excerpt": "except (OSError, subprocess.TimeoutExpired):",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/geo-sleuth/scripts/doctor.py",
+        "line": 110,
+        "excerpt": "\"Install Chrome or run `uvx playwright install chromium`. Until then, use intake.py --no-rev.\")",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/geo-sleuth/scripts/doctor.py",
+        "line": 119,
+        "excerpt": "result = subprocess.run([found or tool, \"--version\"], capture_output=True, timeout=5)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/geo-sleuth/scripts/doctor.py",
+        "line": 121,
+        "excerpt": "except (OSError, subprocess.TimeoutExpired):",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/geo-sleuth/scripts/evidence.py",
+        "line": 10,
+        "excerpt": "\"map\": \"area.jpg\",                         # required: output of tiles.py fetch (needs the same-name .json next to it)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/geo-sleuth/scripts/gsv.py",
+        "line": 59,
+        "excerpt": "r = subprocess.run(cmd + [url], capture_output=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/geo-sleuth/scripts/intake.py",
+        "line": 58,
+        "excerpt": "r = subprocess.run(cmd, text=True, encoding=\"utf-8\", errors=\"replace\", capture_output=True, cwd=cwd, timeout=timeout,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/geo-sleuth/scripts/intake.py",
+        "line": 61,
+        "excerpt": "except subprocess.TimeoutExpired:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/geo-sleuth/scripts/osm.py",
+        "line": 56,
+        "excerpt": "import urllib.request",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/geo-sleuth/scripts/osm.py",
+        "line": 79,
+        "excerpt": "r = subprocess.run(cmd, capture_output=True, text=True, encoding=\"utf-8\", errors=\"replace\")",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/geo-sleuth/scripts/osm.py",
+        "line": 84,
+        "excerpt": "opener = urllib.request.build_opener(urllib.request.ProxyHandler({\"http\": value, \"https\": value} if value else {}))",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/geo-sleuth/scripts/osm.py",
+        "line": 85,
+        "excerpt": "req = urllib.request.Request(ep, data=urllib.parse.urlencode({\"data\": ql}).encode(), headers={\"User-Agent\": UA})",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/geo-sleuth/scripts/revimg.py",
+        "line": 28,
+        "excerpt": "Run `uvx playwright install chromium` if neither is installed; `doctor.py` checks that the browser can start.",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/geo-sleuth/scripts/revimg.py",
+        "line": 105,
+        "excerpt": "def fetch(url: str):",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/geo-sleuth/scripts/tiles.py",
+        "line": 54,
+        "excerpt": "def fetch(center: tuple[float, float], zoom: int, radius: int, out: Path, source: str,",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/geo-sleuth/scripts/tiles.py",
+        "line": 265,
+        "excerpt": "pl.add_argument(\"image\", type=Path, help=\"mosaic from tiles.py fetch (needs the same-name .json next to it)\")",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/geo-sleuth/scripts/tiles.py",
+        "line": 295,
+        "excerpt": "meta = fetch((lat, lon), args.zoom, args.radius, args.out, args.source, args.proxy, args.cache)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/geo-sleuth/tests/test_runtime.py",
+        "line": 160,
+        "excerpt": "with self.assertRaisesRegex(RuntimeError, \"uvx playwright install chromium\"):",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 34,
+      "downloads-code": 6,
+      "network": 10
+    },
+    "score": 86,
+    "band": "low",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 98,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "5aeec412c5496136b4b36259679f79b8a2d09cec",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 86,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

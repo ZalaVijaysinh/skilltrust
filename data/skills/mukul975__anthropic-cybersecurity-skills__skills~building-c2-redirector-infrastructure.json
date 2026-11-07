@@ -1,0 +1,182 @@
+{
+  "id": "mukul975__anthropic-cybersecurity-skills__skills~building-c2-redirector-infrastructure",
+  "owner": "mukul975",
+  "repo": "Anthropic-Cybersecurity-Skills",
+  "path": "skills/building-c2-redirector-infrastructure",
+  "name": "building-c2-redirector-infrastructure",
+  "description": "Build dumb-pipe and traffic-filtering C2 redirectors with nginx (proxy_pass) and Apache (mod_rewrite), deriving filter rules from a Malleable C2 profile, layering Let's Encrypt TLS, and applying OPSEC controls like domain fronting and UA/geo filtering. Use when standing up red-team C2 that must survive blue-team triage or ensuring only profile-matching implant traffic reaches the hidden team server.",
+  "stars": 35744,
+  "category": "security",
+  "commit": "54a798831d2266a3ca61ce68a7acb80b81160d57",
+  "contentHash": "6b8801872434065a78e199bf9796f7fea756d74840cc79db2c61d4abe04062cd",
+  "repoCreatedAt": "2026-02-25T09:47:50Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/building-c2-redirector-infrastructure/SKILL.md",
+        "line": 50,
+        "excerpt": "sudo apt update",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/building-c2-redirector-infrastructure/SKILL.md",
+        "line": 51,
+        "excerpt": "sudo apt install -y nginx apache2 socat certbot python3-certbot-nginx git",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/building-c2-redirector-infrastructure/SKILL.md",
+        "line": 58,
+        "excerpt": "git clone https://github.com/threatexpress/cs2modrewrite",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/building-c2-redirector-infrastructure/SKILL.md",
+        "line": 87,
+        "excerpt": "sudo ufw default deny incoming",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/building-c2-redirector-infrastructure/SKILL.md",
+        "line": 97,
+        "excerpt": "socat TCP4-LISTEN:443,fork,reuseaddr TCP4:10.0.0.2:443",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/building-c2-redirector-infrastructure/SKILL.md",
+        "line": 135,
+        "excerpt": "sudo ln -s /etc/nginx/sites-available/redirector.conf /etc/nginx/sites-enabled/",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/building-c2-redirector-infrastructure/SKILL.md",
+        "line": 135,
+        "excerpt": "sudo ln -s /etc/nginx/sites-available/redirector.conf /etc/nginx/sites-enabled/",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/building-c2-redirector-infrastructure/SKILL.md",
+        "line": 155,
+        "excerpt": "sudo a2ensite redirector && sudo apache2ctl configtest && sudo systemctl reload apache2",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/building-c2-redirector-infrastructure/SKILL.md",
+        "line": 161,
+        "excerpt": "cd cs2modrewrite",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/building-c2-redirector-infrastructure/SKILL.md",
+        "line": 167,
+        "excerpt": "-r https://www.legitimate-decoy.com -H cdn.example.com > /etc/nginx/sites-available/c2.conf",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/building-c2-redirector-infrastructure/SKILL.md",
+        "line": 173,
+        "excerpt": "sudo certbot --nginx -d cdn.example.com --agree-tos -m ops@example.com --redirect",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/building-c2-redirector-infrastructure/SKILL.md",
+        "line": 184,
+        "excerpt": "curl -k https://cdn.example.com/                       # expect 302 to decoy",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "cdn.example.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/building-c2-redirector-infrastructure/SKILL.md",
+        "line": 184,
+        "excerpt": "curl -k https://cdn.example.com/                       # expect 302 to decoy",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/building-c2-redirector-infrastructure/SKILL.md",
+        "line": 185,
+        "excerpt": "curl -k -A \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/building-c2-redirector-infrastructure/scripts/agent.py",
+        "line": 73,
+        "excerpt": "sys.exit(\"[!] pip install requests for --validate\")",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/building-c2-redirector-infrastructure/scripts/agent.py",
+        "line": 79,
+        "excerpt": "r1 = requests.get(base + \"/\", allow_redirects=False, verify=False, timeout=15)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/building-c2-redirector-infrastructure/scripts/agent.py",
+        "line": 87,
+        "excerpt": "r2 = requests.get(base + c2_path, headers={\"User-Agent\": args.user_agent},",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 9,
+      "downloads-code": 2,
+      "writes-outside": 2,
+      "network": 4
+    },
+    "score": 67,
+    "band": "review",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 6,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "54a798831d2266a3ca61ce68a7acb80b81160d57",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 67,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

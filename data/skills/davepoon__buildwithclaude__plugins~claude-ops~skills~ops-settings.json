@@ -1,0 +1,183 @@
+{
+  "id": "davepoon__buildwithclaude__plugins~claude-ops~skills~ops-settings",
+  "owner": "davepoon",
+  "repo": "buildwithclaude",
+  "path": "plugins/claude-ops/skills/ops-settings",
+  "name": "ops-settings",
+  "description": "Post-setup credential manager. Shows current integration status (configured/missing/expired) and lets you update individual credentials without re-running the full setup wizard. Runs a smoke test after each update.",
+  "stars": 3733,
+  "category": "coding",
+  "commit": "6e596ad8c5fbf6138a8a13cbcb14bc58f592a704",
+  "contentHash": "de1fe92d2bfaa8019b1eee7fab46986be61716a910b386d9be2c42431affc4da",
+  "repoCreatedAt": "2025-07-25T02:26:45Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "plugins/claude-ops/skills/ops-settings/SKILL.md",
+        "line": 72,
+        "excerpt": "| Stripe | `curl -s -o /dev/null -w \"%{http_code}\" -u \"${stripe_key}:\" https://api.stripe.com/v1/balance` | 200 |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.stripe.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/claude-ops/skills/ops-settings/SKILL.md",
+        "line": 92,
+        "excerpt": "tmp=$(mktemp)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/claude-ops/skills/ops-settings/SKILL.md",
+        "line": 102,
+        "excerpt": "| Stripe | `curl -s -u \"${new_key}:\" https://api.stripe.com/v1/balance \\| jq .object` → must be \"balance\" |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.stripe.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/claude-ops/skills/ops-settings/SKILL.md",
+        "line": 103,
+        "excerpt": "| RevenueCat | `curl -s -H \"Authorization: Bearer ${new_key}\" \"https://api.revenuecat.com/v2/projects\" \\| jq '.items \\| length'` → non-zero |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.revenuecat.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/claude-ops/skills/ops-settings/SKILL.md",
+        "line": 105,
+        "excerpt": "| Slack | `curl -s -H \"Authorization: Bearer ${new_token}\" https://slack.com/api/auth.test \\| jq .ok` → true |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "slack.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/claude-ops/skills/ops-settings/SKILL.md",
+        "line": 106,
+        "excerpt": "| Shopify | `curl -s -H \"X-Shopify-Access-Token: ${new_token}\" \"https://${store_url}/admin/api/2024-01/shop.json\" \\| jq .shop.name` → non-null |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "${store_url}"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/claude-ops/skills/ops-settings/SKILL.md",
+        "line": 107,
+        "excerpt": "| Klaviyo | `curl -s -H \"Authorization: Klaviyo-API-Key ${new_key}\" https://a.klaviyo.com/api/accounts/ \\| jq '.data[0].id'` → non-null |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "a.klaviyo.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/claude-ops/skills/ops-settings/SKILL.md",
+        "line": 108,
+        "excerpt": "| Datadog | `curl -s -H \"DD-API-KEY: ${new_key}\" https://api.datadoghq.com/api/v1/validate \\| jq .valid` → true |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.datadoghq.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/claude-ops/skills/ops-settings/SKILL.md",
+        "line": 109,
+        "excerpt": "| New Relic | `curl -s -H \"Api-Key: ${new_key}\" https://api.newrelic.com/v2/applications.json \\| jq '.applications | length'` → numeric |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.newrelic.com"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/claude-ops/skills/ops-settings/SKILL.md",
+        "line": 110,
+        "excerpt": "| Doppler MCP | `npx -y @dopplerhq/mcp-server --help 2>&1` with DOPPLER_TOKEN set | exits 0 |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/claude-ops/hooks/hooks.json",
+        "line": 8,
+        "excerpt": "\"command\": \"bash ${CLAUDE_PLUGIN_ROOT}/bin/ops-welcome 2>/dev/null || true\"",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/claude-ops/hooks/hooks.json",
+        "line": 12,
+        "excerpt": "\"command\": \"${CLAUDE_PLUGIN_ROOT}/scripts/setup.sh 2>/dev/null | grep '✗' | head -3 || true\"",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/claude-ops/hooks/hooks.json",
+        "line": 16,
+        "excerpt": "\"command\": \"bash ${CLAUDE_PLUGIN_ROOT}/scripts/ops-daemon-manager.sh ensure-current --plugin-root ${CLAUDE_PLUGIN_ROOT} 2>/dev/null || true\"",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/claude-ops/hooks/hooks.json",
+        "line": 27,
+        "excerpt": "\"command\": \"bash ${CLAUDE_PLUGIN_ROOT}/bin/ops-pretool-wacli-health \\\"$TOOL_INPUT\\\" 2>/dev/null || true\"",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/claude-ops/hooks/hooks.json",
+        "line": 37,
+        "excerpt": "\"command\": \"bash ${CLAUDE_PLUGIN_ROOT}/bin/ops-post-session-cleanup 2>/dev/null || true\"",
+        "disclosed": false,
+        "automatic": true
+      }
+    ],
+    "findingTotals": {
+      "network": 8,
+      "shell": 6,
+      "downloads-code": 1
+    },
+    "score": 75,
+    "band": "review",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 3,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "6e596ad8c5fbf6138a8a13cbcb14bc58f592a704",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 75,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

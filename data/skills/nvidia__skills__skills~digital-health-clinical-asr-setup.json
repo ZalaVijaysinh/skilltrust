@@ -1,0 +1,196 @@
+{
+  "id": "nvidia__skills__skills~digital-health-clinical-asr-setup",
+  "owner": "NVIDIA",
+  "repo": "skills",
+  "path": "skills/digital-health-clinical-asr-setup",
+  "name": "digital-health-clinical-asr-setup",
+  "description": "Stage 1 of Clinical ASR Flywheel. Use when bootstrapping a cycle: NVCF+MW disclosure, NVIDIA_API_KEY check, deps install, TTS+ASR smoke test.",
+  "stars": 3888,
+  "category": "coding",
+  "commit": "fce3cca4170be75e82c64920654d56ee2811b005",
+  "contentHash": "261ac191a0ba0844312ee29fbb8d4f9fdfbdd9bc0d30c22a74e83fb9899751c0",
+  "repoCreatedAt": "2026-02-25T21:54:05Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/digital-health-clinical-asr-setup/SKILL.md",
+        "line": 92,
+        "excerpt": "| `nvidia-riva-client`, `pandas`, `soundfile`, `requests` | **Required** | TTS + ASR clients, manifest I/O, MW lookup | `pip install nvidia-riva-client pandas s",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/digital-health-clinical-asr-setup/SKILL.md",
+        "line": 94,
+        "excerpt": "| `jiwer` | Optional | Reference WER/CER against the inlined Levenshtein implementation | `pip install jiwer` — the eval skill includes a pure-Python fallback |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/digital-health-clinical-asr-setup/SKILL.md",
+        "line": 105,
+        "excerpt": "export NVIDIA_API_KEY=nvapi-...     # from https://build.nvidia.com",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/digital-health-clinical-asr-setup/SKILL.md",
+        "line": 108,
+        "excerpt": "test -n \"$NVIDIA_API_KEY\" && echo \"NVIDIA_API_KEY len=${#NVIDIA_API_KEY}\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/digital-health-clinical-asr-setup/SKILL.md",
+        "line": 116,
+        "excerpt": "python3 -m venv .venv",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/digital-health-clinical-asr-setup/SKILL.md",
+        "line": 118,
+        "excerpt": "pip install nvidia-riva-client pandas soundfile requests",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/digital-health-clinical-asr-setup/SKILL.md",
+        "line": 120,
+        "excerpt": "pip install jiwer",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/digital-health-clinical-asr-setup/SKILL.md",
+        "line": 129,
+        "excerpt": "- The agent harness reads `$NVIDIA_API_KEY` from the shell and passes it as an **explicit function argument** to `smoke_test(api_key=…)`.",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/digital-health-clinical-asr-setup/SKILL.md",
+        "line": 132,
+        "excerpt": "- Do **not** let the recipe read `os.environ[\"NVIDIA_API_KEY\"]` itself — the explicit-argument pattern is the auditability guarantee.",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/digital-health-clinical-asr-setup/SKILL.md",
+        "line": 157,
+        "excerpt": "\"\"\"Caller passes api_key (the harness reads $NVIDIA_API_KEY at the shell;",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/digital-health-clinical-asr-setup/SKILL.md",
+        "line": 198,
+        "excerpt": "- Network/TLS errors → corporate proxy or DNS issue. Test `curl https://build.nvidia.com` first.",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "build.nvidia.com"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/digital-health-clinical-asr-setup/SKILL.md",
+        "line": 207,
+        "excerpt": "test -n \"$DICTIONARY_API_KEY\" && echo \"DICTIONARY_API_KEY len=${#DICTIONARY_API_KEY}\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/digital-health-clinical-asr-setup/SKILL.md",
+        "line": 207,
+        "excerpt": "test -n \"$DICTIONARY_API_KEY\" && echo \"DICTIONARY_API_KEY len=${#DICTIONARY_API_KEY}\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/digital-health-clinical-asr-setup/SKILL.md",
+        "line": 216,
+        "excerpt": "curl -fsS -o /dev/null -w \"merriam-webster.com reachable, HTTP %{http_code}\\n\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/digital-health-clinical-asr-setup/SKILL.md",
+        "line": 216,
+        "excerpt": "curl -fsS -o /dev/null -w \"merriam-webster.com reachable, HTTP %{http_code}\\n\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/digital-health-clinical-asr-setup/SKILL.md",
+        "line": 228,
+        "excerpt": "**Returning user, env already up.** User says *\"I already have the env, just confirm I'm good to go.\"* → Skip the venv + `pip install` (1b). Run only the length",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/digital-health-clinical-asr-setup/SKILL.md",
+        "line": 246,
+        "excerpt": "- **`ModuleNotFoundError: riva.client`** → step 1b was skipped or the venv isn't activated. `source .venv/bin/activate && pip install nvidia-riva-client`.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/digital-health-clinical-asr-setup/evals/evals.json",
+        "line": 21,
+        "excerpt": "\"ground_truth\": \"There is no install script and no setup.py — the skill family is methodology + inlined recipes only. Each of the four digital-health-clinical-a",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/digital-health-clinical-asr-setup/evals/evals.json",
+        "line": 25,
+        "excerpt": "\"Walked the user through the three-step Stage 1 install (key export → venv + pip install → smoke_test)\",",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "downloads-code": 8,
+      "shell": 4,
+      "reads-secrets": 5,
+      "network": 2
+    },
+    "score": 69,
+    "band": "review",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 6,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "fce3cca4170be75e82c64920654d56ee2811b005",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 69,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

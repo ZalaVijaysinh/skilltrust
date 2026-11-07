@@ -1,0 +1,111 @@
+{
+  "id": "jimliu__baoyu-skills__skills~baoyu-wechat-summary",
+  "owner": "JimLiu",
+  "repo": "baoyu-skills",
+  "path": "skills/baoyu-wechat-summary",
+  "name": "baoyu-wechat-summary",
+  "description": "Summarizes WeChat group chat highlights into a structured digest using the local wx-cli binary (https://github.com/jackwener/wx-cli). Generates a normal digest by default; a roast (毒舌) version is opt-in. Maintains per-group history (history.json + history-digests.jsonl), per-user profiles, and per-group fact memory (memory.md) across runs, with privacy guardrails baked in. Use when the user asks to \"总结群聊\", \"群聊精华\", \"群聊摘要\", \"summarize group chat\", \"group chat digest\", mentions a WeChat group name with a time range, says \"帮我看看 XX 群最近聊了什么\", \"XX 群有什么值得看的\", or asks to \"回溯画像\" / \"初始化画像\" / \"backfill profiles\". Adds the roast version when the user says \"毒舌版\", \"roast 版\", \"再来个毒舌的\", or similar.",
+  "stars": 27372,
+  "category": "other",
+  "commit": "ca703c2d7c2c4399a1dc0cf82224f8551e05a96d",
+  "contentHash": "93c10857d34dc86c3a877306be7e2474db0daabc2b69aaf8b2eec718ba07f9a6",
+  "repoCreatedAt": "2026-01-13T03:04:56Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/baoyu-wechat-summary/SKILL.md",
+        "line": 91,
+        "excerpt": "wx contacts --query \"<group_name>\" --json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/baoyu-wechat-summary/SKILL.md",
+        "line": 113,
+        "excerpt": "wx members \"<group_name_or_id>\" --json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/baoyu-wechat-summary/SKILL.md",
+        "line": 127,
+        "excerpt": "wx history \"<group_name_or_id>\" --since YYYY-MM-DD --until YYYY-MM-DD -n 5000 --json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/baoyu-wechat-summary/SKILL.md",
+        "line": 133,
+        "excerpt": "wx history \"<group_name_or_id>\" --since YYYY-MM-DD --until YYYY-MM-DD -n 5000 --json > \"$TMPDIR/wx-messages.json\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/baoyu-wechat-summary/SKILL.md",
+        "line": 314,
+        "excerpt": "grep \"原话片段\" \"$TMPDIR/wx-messages.json\"   # or jq 'map(select(.content | contains(\"原话片段\")))'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/baoyu-wechat-summary/references/setup.md",
+        "line": 9,
+        "excerpt": "1. **wx-cli installed** — run `wx --version`. If missing, tell the user to install it themselves (`npm install -g @jackwener/wx-cli` or use one of the alternati",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/baoyu-wechat-summary/references/setup.md",
+        "line": 17,
+        "excerpt": "sudo rm -f ~/.wx-cli/daemon.pid ~/.wx-cli/daemon.sock",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/baoyu-wechat-summary/references/setup.md",
+        "line": 45,
+        "excerpt": "| `无法写入 /Users/<u>/.wx-cli` / `Permission denied` | `~/.wx-cli` is owned by root (legacy `sudo wx init`) | `sudo chown -R $(whoami) ~/.wx-cli && sudo rm -f ~/.w",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/baoyu-wechat-summary/references/setup.md",
+        "line": 46,
+        "excerpt": "| `wx history` hangs / times out / returns nothing | Daemon is stuck | `wx daemon stop && rm -f ~/.wx-cli/daemon.{pid,sock} && wx daemon start`, then retry |",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 5,
+      "downloads-code": 1,
+      "writes-outside": 3
+    },
+    "score": 70,
+    "band": "review",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 8,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "ca703c2d7c2c4399a1dc0cf82224f8551e05a96d",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 70,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

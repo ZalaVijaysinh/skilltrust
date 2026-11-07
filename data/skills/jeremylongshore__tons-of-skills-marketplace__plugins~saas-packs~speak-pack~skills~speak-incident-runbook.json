@@ -1,0 +1,150 @@
+{
+  "id": "jeremylongshore__tons-of-skills-marketplace__plugins~saas-packs~speak-pack~skills~speak-incident-runbook",
+  "owner": "jeremylongshore",
+  "repo": "tons-of-skills-marketplace",
+  "path": "plugins/saas-packs/speak-pack/skills/speak-incident-runbook",
+  "name": "speak-incident-runbook",
+  "description": "'Incident response for Speak API outages: triage, fallback to offline",
+  "stars": 2905,
+  "category": "coding",
+  "commit": "0500b275e963c027f6b410e8c49c0446945c574e",
+  "contentHash": "e27483ac5bfcf0e55a75675968c076c956aa581bb83e676d2fe0ccf98b8aaac5",
+  "repoCreatedAt": "2025-10-10T01:01:00Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/saas-packs/speak-pack/skills/speak-incident-runbook/SKILL.md",
+        "line": 44,
+        "excerpt": "apiKey: process.env.SPEAK_API_KEY!,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/saas-packs/speak-pack/skills/speak-incident-runbook/SKILL.md",
+        "line": 69,
+        "excerpt": "npm test",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/saas-packs/speak-pack/skills/speak-incident-runbook/references/implementation-guide.md",
+        "line": 26,
+        "excerpt": "curl -s https://status.speak.com/api/status | jq '.status'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "status.speak.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/saas-packs/speak-pack/skills/speak-incident-runbook/references/implementation-guide.md",
+        "line": 31,
+        "excerpt": "curl -s https://api.yourapp.com/health | jq '.services.speak'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.yourapp.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/saas-packs/speak-pack/skills/speak-incident-runbook/references/implementation-guide.md",
+        "line": 36,
+        "excerpt": "curl -s \"localhost:9090/api/v1/query?query=speak_active_sessions\" | jq '.data.result[0].value[1]'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/saas-packs/speak-pack/skills/speak-incident-runbook/references/implementation-guide.md",
+        "line": 41,
+        "excerpt": "curl -s \"localhost:9090/api/v1/query?query=rate(speak_api_errors_total[5m])\" | jq '.data.result'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/saas-packs/speak-pack/skills/speak-incident-runbook/references/implementation-guide.md",
+        "line": 46,
+        "excerpt": "curl -s \"localhost:9090/api/v1/query?query=rate(speak_lessons_completed_total[1h])/rate(speak_lessons_started_total[1h])\" | jq '.data.result[0].value[1]'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/saas-packs/speak-pack/skills/speak-incident-runbook/references/implementation-guide.md",
+        "line": 93,
+        "excerpt": "curl -v https://api.speak.com/v1/health \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.speak.com"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/saas-packs/speak-pack/skills/speak-incident-runbook/references/implementation-guide.md",
+        "line": 94,
+        "excerpt": "-H \"Authorization: Bearer ${SPEAK_API_KEY}\" 2>&1 | grep -i \"rate\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/saas-packs/speak-pack/skills/speak-incident-runbook/references/implementation-guide.md",
+        "line": 122,
+        "excerpt": "curl -s \"localhost:9090/api/v1/query?query=speak_audio_queue_depth\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/saas-packs/speak-pack/skills/speak-incident-runbook/references/implementation-guide.md",
+        "line": 240,
+        "excerpt": "curl \"localhost:9090/api/v1/query_range?query=speak_api_errors_total&start=$(date -d '2 hours ago' +%s)&end=$(date +%s)&step=60\" > \"$INCIDENT_DIR/errors.json\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/saas-packs/speak-pack/skills/speak-incident-runbook/references/implementation-guide.md",
+        "line": 242,
+        "excerpt": "curl \"localhost:9090/api/v1/query_range?query=speak_lessons_started_total&start=$(date -d '2 hours ago' +%s)&end=$(date +%s)&step=60\" > \"$INCIDENT_DIR/lessons.j",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "reads-secrets": 2,
+      "shell": 1,
+      "network": 9
+    },
+    "score": 82,
+    "band": "low",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 3,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "0500b275e963c027f6b410e8c49c0446945c574e",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 82,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

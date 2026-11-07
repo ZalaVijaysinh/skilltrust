@@ -1,0 +1,92 @@
+{
+  "id": "mukul975__anthropic-cybersecurity-skills__skills~implementing-network-policies-for-kubernetes",
+  "owner": "mukul975",
+  "repo": "Anthropic-Cybersecurity-Skills",
+  "path": "skills/implementing-network-policies-for-kubernetes",
+  "name": "implementing-network-policies-for-kubernetes",
+  "description": "Writes portable upstream Kubernetes NetworkPolicy YAML - default-deny-all, DNS egress, namespace and pod selector rules - that works on any conformant CNI such as Calico or Cilium. Use when segmentation must stay CNI-portable, introducing a default-deny posture, or restricting east-west traffic between pods and namespaces without depending on a vendor CRD. Keywords: NetworkPolicy, default deny, podSelector, namespaceSelector, ingress, egress, CNI portable. Do not use for Calico-specific resources - use implementing-kubernetes-network-policy-with-calico.",
+  "stars": 35744,
+  "category": "security",
+  "commit": "54a798831d2266a3ca61ce68a7acb80b81160d57",
+  "contentHash": "a65e39963c01452e8e24dcd882535becbe51df1a066405b4835d764939114dae",
+  "repoCreatedAt": "2026-02-25T09:47:50Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/implementing-network-policies-for-kubernetes/SKILL.md",
+        "line": 228,
+        "excerpt": "kubectl get networkpolicies -n production",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/implementing-network-policies-for-kubernetes/SKILL.md",
+        "line": 231,
+        "excerpt": "kubectl run test-pod --image=busybox --restart=Never -n production -- wget -qO- --timeout=2 http://database-service:5432",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "database-service"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/implementing-network-policies-for-kubernetes/SKILL.md",
+        "line": 235,
+        "excerpt": "kubectl run frontend-test --image=busybox --labels=app=frontend --restart=Never -n production -- wget -qO- --timeout=2 http://backend-service:8080",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "backend-service"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/implementing-network-policies-for-kubernetes/scripts/agent.py",
+        "line": 17,
+        "excerpt": "result = subprocess.run(cmd, capture_output=True, text=True, timeout=120)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/implementing-network-policies-for-kubernetes/scripts/process.py",
+        "line": 26,
+        "excerpt": "result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/implementing-network-policies-for-kubernetes/scripts/process.py",
+        "line": 30,
+        "excerpt": "except (subprocess.TimeoutExpired, json.JSONDecodeError, FileNotFoundError):",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 4,
+      "network": 2
+    },
+    "score": 92,
+    "band": "low",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 9,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "54a798831d2266a3ca61ce68a7acb80b81160d57",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 92,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

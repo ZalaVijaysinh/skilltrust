@@ -1,0 +1,91 @@
+{
+  "id": "sundial-org__awesome-openclaw-skills__skills~openrouter-transcribe",
+  "owner": "sundial-org",
+  "repo": "awesome-openclaw-skills",
+  "path": "skills/openrouter-transcribe",
+  "name": "openrouter-transcribe",
+  "description": "Transcribe audio files via OpenRouter using audio-capable models (Gemini, GPT-4o-audio, etc).",
+  "stars": 674,
+  "category": "media",
+  "commit": "b80cde2ef85241dd4fd54a1b934f5e22835f78ba",
+  "contentHash": "d26954c6238131901a7ea994670d4a2410c98ed58819314d0377fdf37a81b9a9",
+  "repoCreatedAt": "2026-02-01T05:53:14Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/openrouter-transcribe/SKILL.md",
+        "line": 15,
+        "excerpt": "{baseDir}/scripts/transcribe.sh /path/to/audio.m4a",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/openrouter-transcribe/SKILL.md",
+        "line": 24,
+        "excerpt": "{baseDir}/scripts/transcribe.sh audio.ogg --model openai/gpt-4o-audio-preview",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/openrouter-transcribe/scripts/transcribe.sh",
+        "line": 69,
+        "excerpt": "if [[ \"${OPENROUTER_API_KEY:-}\" == \"\" ]]; then",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/openrouter-transcribe/scripts/transcribe.sh",
+        "line": 108,
+        "excerpt": "response=$(curl -sS \"https://openrouter.ai/api/v1/chat/completions\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/openrouter-transcribe/scripts/transcribe.sh",
+        "line": 108,
+        "excerpt": "response=$(curl -sS \"https://openrouter.ai/api/v1/chat/completions\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "openrouter.ai"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/openrouter-transcribe/scripts/transcribe.sh",
+        "line": 109,
+        "excerpt": "-H \"Authorization: Bearer $OPENROUTER_API_KEY\" \\",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 2,
+      "reads-secrets": 2,
+      "paid-api": 1,
+      "network": 1
+    },
+    "score": 67,
+    "band": "review",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "b80cde2ef85241dd4fd54a1b934f5e22835f78ba",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 67,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

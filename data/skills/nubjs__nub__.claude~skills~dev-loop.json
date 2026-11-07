@@ -1,0 +1,93 @@
+{
+  "id": "nubjs__nub__.claude~skills~dev-loop",
+  "owner": "nubjs",
+  "repo": "nub",
+  "path": ".claude/skills/dev-loop",
+  "name": "dev-loop",
+  "description": "Build and test nub during development. Invoke (via the Skill tool) whenever you need to compile the dev `nub` binary, set up a worktree for fast incremental iteration, run a specific test file or a single test, or get oriented in the codebase (the crate map). Encodes the measured fast-build loop: the `fast` profile built through `scripts/rust-build.sh`, which shares ONE CARGO_TARGET_DIR across worktrees (`~/.cache/nub/shared-target`) so deps are reused and only the workspace crates recompile — but auto-isolates a worktree to a private target dir the moment it diverges a depended-on crate (vendor/aube, nub-core, …), which is when a shared dir would clobber a sibling and fail with a phantom compile error on correct source (the `rust-build` skill). A shared cross-worktree compiler-WRAPPER cache (sccache) was separately measured to give 0% Rust speedup and is NOT used. Covers the real incantations (`cargo build -p nub-cli --profile fast`, `make install-dev`, `make addon-fast`), the test invocations, and the exact CI cheap gates. SCOPE — the local loop is the EXCEPTION, not the default: a cold build, `clippy --all-targets --all-features`, a full `cargo test`, a `release` build or a multi-fixture sweep goes OFF-HOST, via a CI-run test or the `remote-build` skill. This skill covers only what must stay local — the ~5s warm rebuild you are actively iterating against, and macOS-native checks.",
+  "stars": 4435,
+  "category": "coding",
+  "commit": "742e6987d0d9ad42effce026af6b0f70af69c584",
+  "contentHash": "db572a5f25b8ac51b9428032b5e5e4b4046fc324a5a5453fc350fa3ba3cc8dc8",
+  "repoCreatedAt": "2026-06-03T18:36:21Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/dev-loop/SKILL.md",
+        "line": 43,
+        "excerpt": "cd ~/.cache/nub/worktrees/<slug>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/dev-loop/SKILL.md",
+        "line": 53,
+        "excerpt": "cargo build -p nub-cli --profile fast",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/dev-loop/SKILL.md",
+        "line": 91,
+        "excerpt": "cargo test -p nub-cli --test pm_verbs",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/dev-loop/SKILL.md",
+        "line": 127,
+        "excerpt": "cargo test 2>&1 | tail -80        # ← the pipe's status is tail's, not cargo's",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/dev-loop/SKILL.md",
+        "line": 139,
+        "excerpt": "cargo test; echo \"EXIT=$?\"                      # status is cargo's",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/dev-loop/SKILL.md",
+        "line": 153,
+        "excerpt": "NUB_ALLOW_INCOMPLETE_RUNTIME=1 cargo clippy --all-targets --all-features --profile fast -- -D warnings",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/dev-loop/SKILL.md",
+        "line": 192,
+        "excerpt": "cd ~/.cache/nub/worktrees/<slug>",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 7
+    },
+    "score": 95,
+    "band": "low",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "742e6987d0d9ad42effce026af6b0f70af69c584",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 95,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

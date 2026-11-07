@@ -1,0 +1,101 @@
+{
+  "id": "nubjs__nub__.claude~skills~ad-hoc-test",
+  "owner": "nubjs",
+  "repo": "nub",
+  "path": ".claude/skills/ad-hoc-test",
+  "name": "ad-hoc-test",
+  "description": "Verify new nub functionality end-to-end by building the dev binary and exercising it against real throwaway fixtures. Invoke (via the Skill tool) in BOTH directions, and the second is the one that gets skipped. (1) CONFIRM — after implementing or changing a subcommand/flag/behavior, check the feature ACTUALLY works, not just that tests pass. (2) FALSIFY — before opening a PR on behavior, and again before calling a review round done, SELF-REVIEW by sweeping many adversarial fixtures for what the change BROKE somewhere you were not looking: boundary abuse, real installed registry packages, monorepo and symlink layouts, the tier x module-format matrix. Green gates plus a working reported-case is NOT that sweep. Reviewers read code and cannot run it, so they systematically miss the silent wrong answer — the resolution that returns a different module with no error — which only a fixture run can catch, by checking WHICH file answered rather than that something did. The loop: create fixtures in a tmp dir, build the dev `nub`, run against them, and diff every result three ways — plain node, a build of your branch's MERGE-BASE, and your build. Use the merge-base, NEVER the shipped release: the release can trail `main` by dozens of unrelated commits, so a difference against it is not attributable to your change and every \"pre-existing, not mine\" verdict resting on it is unfounded. Ad-hoc e2e is a valid verification method on its own; this skill also covers when to promote a durable check into the committed test suite. Pairs with the `dev-loop` build skill and AGENTS.md's pre-push loop.",
+  "stars": 4435,
+  "category": "coding",
+  "commit": "742e6987d0d9ad42effce026af6b0f70af69c584",
+  "contentHash": "c48188510e4b5a63d279f0eae80fc19e908272eec8990806adf52ae265b3cfd2",
+  "repoCreatedAt": "2026-06-03T18:36:21Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/ad-hoc-test/SKILL.md",
+        "line": 54,
+        "excerpt": "git worktree add /tmp/base $(git merge-base origin/main HEAD)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/ad-hoc-test/SKILL.md",
+        "line": 74,
+        "excerpt": "FIX=$(mktemp -d /tmp/nub-fix.XXXX)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/ad-hoc-test/SKILL.md",
+        "line": 93,
+        "excerpt": "scripts/rust-build.sh build -p nub-cli --profile fast",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/ad-hoc-test/SKILL.md",
+        "line": 106,
+        "excerpt": "cd \"$FIX\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/ad-hoc-test/SKILL.md",
+        "line": 117,
+        "excerpt": "ls -la node_modules/.bin/ ; cat the-file-it-should-have-written",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/ad-hoc-test/SKILL.md",
+        "line": 129,
+        "excerpt": "\"$NUB\" <cmd> --flag-variant        # each flag/alias you touched",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/ad-hoc-test/SKILL.md",
+        "line": 140,
+        "excerpt": "rm -rf \"$FIX\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/ad-hoc-test/SKILL.md",
+        "line": 156,
+        "excerpt": "FIX=$(mktemp -d /tmp/nub-fix.XXXX); cd \"$FIX\"        # 1. fixture",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 8
+    },
+    "score": 95,
+    "band": "low",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "742e6987d0d9ad42effce026af6b0f70af69c584",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 95,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

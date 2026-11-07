@@ -1,0 +1,240 @@
+{
+  "id": "coreyhaines31__makerskills__skills~watch-video",
+  "owner": "coreyhaines31",
+  "repo": "makerskills",
+  "path": "skills/watch-video",
+  "name": "watch-video",
+  "description": "When you want to extract content from a video — YouTube, Loom, Vimeo, Riverside, Zoom recording, local MP4, X/IG video, anything yt-dlp supports. Three depth modes user picks per invocation — transcript (just words, fast/free), visual (transcript + ffmpeg frame extraction + Claude vision pass on key moments), multimodal (Gemini native video ingestion if $GEMINI_API_KEY set, else dense Claude vision). Uses local Whisper for transcription (MLX-Whisper on Apple Silicon, faster-whisper elsewhere), falls back to platform-provided transcripts when available (Loom, Riverside, YouTube auto-subs). Saves to ~/Documents/videos/<source>-<slug>-<date>/ and optionally captures summary to second-brain raw/ as call-/meeting-/note-. Triggers on \"/watch-video <url>,\" \"watch this video,\" \"transcribe this loom,\" \"analyze this video,\" \"summarize this recording,\" \"key moments from this,\" \"what happened in this video.\" For a post's text and engagement, use social-fetch.",
+  "stars": 892,
+  "category": "media",
+  "commit": "0f20eaf6e4479ce03858ee09a56fe93e7440ed1b",
+  "contentHash": "fe3298df7ec1bb5dbbc19106a9deecd43f4fd366f98aee9265e4c65b4d9c843b",
+  "repoCreatedAt": "2026-06-03T23:23:24Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/watch-video/SKILL.md",
+        "line": 32,
+        "excerpt": "| `/watch-video <url> multimodal` | multimodal | Native video to Gemini (if `$GEMINI_API_KEY`), else dense Claude vision frame-by-frame |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/watch-video/SKILL.md",
+        "line": 41,
+        "excerpt": "yt-dlp --print \"%(title)s|%(uploader)s|%(duration_string)s|%(upload_date>%Y-%m-%d)s|%(description)s\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/watch-video/SKILL.md",
+        "line": 50,
+        "excerpt": "ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 \"<file>\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/watch-video/SKILL.md",
+        "line": 70,
+        "excerpt": "- Loom: fetch via `https://www.loom.com/share/<id>` page metadata or Loom API if `$LOOM_API_KEY` set",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/watch-video/SKILL.md",
+        "line": 77,
+        "excerpt": "python3 -c \"import mlx_whisper; mlx_whisper.transcribe('<file>', path_or_hf_repo='mlx-community/whisper-large-v3-turbo')\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/watch-video/SKILL.md",
+        "line": 82,
+        "excerpt": "3. **Not on Apple Silicon** (Linux, Intel Mac, Windows, cloud agents): `faster-whisper` (`pip install faster-whisper`, CPU or CUDA) or `whisper.cpp`. Same model",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/watch-video/SKILL.md",
+        "line": 87,
+        "excerpt": "yt-dlp -f \"bv*[height<=720]+ba/b[height<=720]\" -o \"<workdir>/video.%(ext)s\" \"<url>\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/watch-video/SKILL.md",
+        "line": 96,
+        "excerpt": "awk '",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/watch-video/SKILL.md",
+        "line": 130,
+        "excerpt": "mkdir -p \"<workdir>/frames\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/watch-video/SKILL.md",
+        "line": 137,
+        "excerpt": "ffmpeg -i \"<workdir>/video.mp4\" -vf \"select='gt(scene,0.3)',showinfo\" -vsync vfr \"<workdir>/frames/scene-%04d.png\" 2> \"<workdir>/scene-detection.log\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/watch-video/SKILL.md",
+        "line": 200,
+        "excerpt": "1. **Gemini native** if `$GEMINI_API_KEY` is set (much cheaper + faster than per-frame for long videos):",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/watch-video/SKILL.md",
+        "line": 206,
+        "excerpt": "FILE_URI=$(curl -s -X POST \"https://generativelanguage.googleapis.com/upload/v1beta/files?key=$GEMINI_API_KEY\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/watch-video/SKILL.md",
+        "line": 206,
+        "excerpt": "FILE_URI=$(curl -s -X POST \"https://generativelanguage.googleapis.com/upload/v1beta/files?key=$GEMINI_API_KEY\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/watch-video/SKILL.md",
+        "line": 206,
+        "excerpt": "FILE_URI=$(curl -s -X POST \"https://generativelanguage.googleapis.com/upload/v1beta/files?key=$GEMINI_API_KEY\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "generativelanguage.googleapis.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/watch-video/SKILL.md",
+        "line": 206,
+        "excerpt": "FILE_URI=$(curl -s -X POST \"https://generativelanguage.googleapis.com/upload/v1beta/files?key=$GEMINI_API_KEY\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/watch-video/SKILL.md",
+        "line": 213,
+        "excerpt": "STATE=$(curl -s \"$FILE_URI?key=$GEMINI_API_KEY\" | jq -r '.state')",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/watch-video/SKILL.md",
+        "line": 213,
+        "excerpt": "STATE=$(curl -s \"$FILE_URI?key=$GEMINI_API_KEY\" | jq -r '.state')",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/watch-video/SKILL.md",
+        "line": 219,
+        "excerpt": "curl -s -X POST \"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=$GEMINI_API_KEY\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/watch-video/SKILL.md",
+        "line": 219,
+        "excerpt": "curl -s -X POST \"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=$GEMINI_API_KEY\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/watch-video/SKILL.md",
+        "line": 219,
+        "excerpt": "curl -s -X POST \"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=$GEMINI_API_KEY\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "generativelanguage.googleapis.com"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/watch-video/SKILL.md",
+        "line": 306,
+        "excerpt": "| No subtitles + Whisper not installed | Tell the user: `pip install mlx-whisper` (Apple Silicon) or `pip install faster-whisper` (anything else) |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/watch-video/SKILL.md",
+        "line": 307,
+        "excerpt": "| ffmpeg missing (for visual/multimodal) | Tell the user: `brew install ffmpeg` |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/watch-video/SKILL.md",
+        "line": 309,
+        "excerpt": "| Multimodal requested but no `$GEMINI_API_KEY` and >30min video | Warn cost, offer to fall back to visual mode |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/watch-video/SKILL.md",
+        "line": 310,
+        "excerpt": "| `yt-dlp` binary missing | `brew install yt-dlp` |",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "reads-secrets": 7,
+      "shell": 8,
+      "downloads-code": 4,
+      "paid-api": 2,
+      "network": 3
+    },
+    "score": 47,
+    "band": "high",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "0f20eaf6e4479ce03858ee09a56fe93e7440ed1b",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 47,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

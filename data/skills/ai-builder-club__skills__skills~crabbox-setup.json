@@ -1,0 +1,134 @@
+{
+  "id": "ai-builder-club__skills__skills~crabbox-setup",
+  "owner": "AI-Builder-Club",
+  "repo": "skills",
+  "path": "skills/crabbox-setup",
+  "name": "crabbox-setup",
+  "description": "Scaffold an isolated CLOUD dev box per agent (via crabbox + Daytona) for any codebase — the parallel-safe counterpart to dev-local-setup. Each agent gets its own full stack (own DB + dev server) and an in-box browser for e2e, so concurrent loops never collide on ports/state. Sets up the snapshot image, .crabbox.yaml, an idempotent setup.sh (also boots the stack locally), and a cbx.sh wrapper. Use when the user says \"set up crabbox\", \"give each agent its own box\", \"add cloud testing\", \"make this repo testable in the cloud / on Daytona\", \"parallel-test this\", or when setup-codebase-harness needs true per-agent isolation.",
+  "stars": 1309,
+  "category": "coding",
+  "commit": "917780c3925919fb2a4ba7b1ac2439a3f4ab5d17",
+  "contentHash": "12b1351b2ab1e87cb23c2143fd3ca10d4e5d289e38e108872f636cf8c37e1802",
+  "repoCreatedAt": "2026-06-14T13:47:44Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/crabbox-setup/SKILL.md",
+        "line": 55,
+        "excerpt": "daytona snapshot create <NAME> --dockerfile devbox/Dockerfile --context devbox \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/crabbox-setup/SKILL.md",
+        "line": 77,
+        "excerpt": "bash cbx.sh up   <name>            # warmup + run setup.sh (bg+poll) → STACK READY",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/crabbox-setup/SKILL.md",
+        "line": 92,
+        "excerpt": "bash cbx.sh up demo                          # → ✓ STACK READY",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/crabbox-setup/assets/Dockerfile",
+        "line": 14,
+        "excerpt": "RUN apt-get update && apt-get install -y --no-install-recommends \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/crabbox-setup/assets/Dockerfile",
+        "line": 24,
+        "excerpt": "RUN curl -fsSL \"https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER_VERSION}.tgz\" -o /tmp/docker.tgz \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "download.docker.com"
+        ]
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/crabbox-setup/assets/Dockerfile",
+        "line": 29,
+        "excerpt": "RUN echo 'ALL ALL=(root) NOPASSWD: /usr/local/bin/dockerd, /usr/bin/dockerd, /usr/sbin/dockerd' > /etc/sudoers.d/dockerd \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/crabbox-setup/assets/Dockerfile",
+        "line": 47,
+        "excerpt": "RUN npx --yes playwright@${PLAYWRIGHT_VERSION} install --with-deps chrome \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/crabbox-setup/assets/Dockerfile",
+        "line": 48,
+        "excerpt": "&& npm install -g @playwright/cli@${PLAYWRIGHT_CLI_VERSION} \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/crabbox-setup/assets/setup.sh",
+        "line": 70,
+        "excerpt": "if curl -sf \"http://127.0.0.1:${APP_PORT}\" >/dev/null 2>&1; then",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/crabbox-setup/assets/setup.sh",
+        "line": 75,
+        "excerpt": "for i in $(seq 1 60); do curl -sf \"http://127.0.0.1:${APP_PORT}\" >/dev/null 2>&1 && break; sleep 2; done",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/crabbox-setup/assets/setup.sh",
+        "line": 76,
+        "excerpt": "curl -sf \"http://127.0.0.1:${APP_PORT}\" >/dev/null 2>&1 || { echo \"[setup] dev server not up\"; tail -20 /tmp/dev.log; exit 1; }",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 3,
+      "downloads-code": 3,
+      "network": 4,
+      "writes-outside": 1
+    },
+    "score": 67,
+    "band": "review",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 7,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "917780c3925919fb2a4ba7b1ac2439a3f4ab5d17",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 67,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

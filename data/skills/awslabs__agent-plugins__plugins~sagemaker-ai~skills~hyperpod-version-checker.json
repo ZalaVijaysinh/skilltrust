@@ -1,0 +1,102 @@
+{
+  "id": "awslabs__agent-plugins__plugins~sagemaker-ai~skills~hyperpod-version-checker",
+  "owner": "awslabs",
+  "repo": "agent-plugins",
+  "path": "plugins/sagemaker-ai/skills/hyperpod-version-checker",
+  "name": "hyperpod-version-checker",
+  "description": "Check and compare software component versions on SageMaker HyperPod cluster nodes - NVIDIA drivers, CUDA toolkit, cuDNN, NCCL, EFA, AWS OFI NCCL, GDRCopy, MPI, Neuron SDK (Trainium/Inferentia), Python, and PyTorch. Use when checking component versions, verifying CUDA/driver compatibility, detecting version mismatches across nodes, planning upgrades, documenting cluster configuration, or troubleshooting version-related issues on HyperPod. Triggers on requests about versions, compatibility, component checks, or upgrade planning for HyperPod clusters.",
+  "stars": 937,
+  "category": "coding",
+  "commit": "fbefb3764e67558fe10ac834dd85db49734aa9b6",
+  "contentHash": "0ab2dc2423da27e073d8965d3aeac09f0f12bb23ea1093f726d10191ab864a77",
+  "repoCreatedAt": "2026-02-05T19:29:31Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "plugins/sagemaker-ai/skills/hyperpod-version-checker/SKILL.md",
+        "line": 16,
+        "excerpt": "bash hyperpod_check_versions.sh",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/sagemaker-ai/skills/hyperpod-version-checker/scripts/hyperpod_check_versions.sh",
+        "line": 67,
+        "excerpt": "IMDS_TOKEN=$(curl -s -m 2 -X PUT \"http://169.254.169.254/latest/api/token\" -H \"X-aws-ec2-metadata-token-ttl-seconds: 60\" 2>/dev/null) || true",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "169.254.169.254"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/sagemaker-ai/skills/hyperpod-version-checker/scripts/hyperpod_check_versions.sh",
+        "line": 68,
+        "excerpt": "if [[ -z \"$IMDS_TOKEN\" ]]; then",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/sagemaker-ai/skills/hyperpod-version-checker/scripts/hyperpod_check_versions.sh",
+        "line": 72,
+        "excerpt": "INSTANCE_TYPE=$(curl -s -m 2 -H \"X-aws-ec2-metadata-token: $IMDS_TOKEN\" http://169.254.169.254/latest/meta-data/instance-type 2>/dev/null) || true",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/sagemaker-ai/skills/hyperpod-version-checker/scripts/hyperpod_check_versions.sh",
+        "line": 72,
+        "excerpt": "INSTANCE_TYPE=$(curl -s -m 2 -H \"X-aws-ec2-metadata-token: $IMDS_TOKEN\" http://169.254.169.254/latest/meta-data/instance-type 2>/dev/null) || true",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "169.254.169.254"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/sagemaker-ai/.mcp.json",
+        "line": 4,
+        "excerpt": "\"command\": \"uvx\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/sagemaker-ai/.mcp.json",
+        "line": 4,
+        "excerpt": "\"command\": \"uvx\",",
+        "disclosed": false,
+        "automatic": true
+      }
+    ],
+    "findingTotals": {
+      "shell": 2,
+      "network": 2,
+      "reads-secrets": 2,
+      "downloads-code": 1
+    },
+    "score": 57,
+    "band": "review",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 5,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "fbefb3764e67558fe10ac834dd85db49734aa9b6",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 57,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

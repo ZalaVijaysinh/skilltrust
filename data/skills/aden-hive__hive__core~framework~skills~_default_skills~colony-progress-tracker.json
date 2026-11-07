@@ -1,0 +1,101 @@
+{
+  "id": "aden-hive__hive__core~framework~skills~_default_skills~colony-progress-tracker",
+  "owner": "aden-hive",
+  "repo": "hive",
+  "path": "core/framework/skills/_default_skills/colony-progress-tracker",
+  "name": "hive.colony-progress-tracker",
+  "description": "Claim tasks, record step progress, and verify SOP gates in the colony SQLite queue. Applies when your spawn message includes a db_path field.",
+  "stars": 11142,
+  "category": "coding",
+  "commit": "4ede54992e1ef4cfeb6a78bda45ba864dc2643a9",
+  "contentHash": "6698660c17e6b688ba08b4af3df5ea31ac61d980eeee2c1b51253bc3f4e0241c",
+  "repoCreatedAt": "2026-01-12T00:04:22Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "core/framework/skills/_default_skills/colony-progress-tracker/SKILL.md",
+        "line": 21,
+        "excerpt": "sqlite3 \"<db_path>\" <<'SQL'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "core/framework/skills/_default_skills/colony-progress-tracker/SKILL.md",
+        "line": 37,
+        "excerpt": "sqlite3 \"<db_path>\" <<'SQL'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "core/framework/skills/_default_skills/colony-progress-tracker/SKILL.md",
+        "line": 52,
+        "excerpt": "sqlite3 \"<db_path>\" \"SELECT seq, id, title, status FROM steps WHERE task_id='<task-id>' ORDER BY seq;\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "core/framework/skills/_default_skills/colony-progress-tracker/SKILL.md",
+        "line": 62,
+        "excerpt": "sqlite3 \"<db_path>\" \"UPDATE steps SET status='in_progress', worker_id='<worker-id>', started_at=datetime('now') WHERE id='<step-id>';\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "core/framework/skills/_default_skills/colony-progress-tracker/SKILL.md",
+        "line": 66,
+        "excerpt": "sqlite3 \"<db_path>\" \"UPDATE steps SET status='done', evidence='<what you did>', completed_at=datetime('now') WHERE id='<step-id>';\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "core/framework/skills/_default_skills/colony-progress-tracker/SKILL.md",
+        "line": 72,
+        "excerpt": "sqlite3 \"<db_path>\" \"SELECT key, description FROM sop_checklist WHERE task_id='<task-id>' AND required=1 AND done_at IS NULL;\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "core/framework/skills/_default_skills/colony-progress-tracker/SKILL.md",
+        "line": 79,
+        "excerpt": "sqlite3 \"<db_path>\" \"UPDATE sop_checklist SET done_at=datetime('now'), done_by='<worker-id>', note='<why>' WHERE task_id='<task-id>' AND key='<key>';\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "core/framework/skills/_default_skills/colony-progress-tracker/SKILL.md",
+        "line": 88,
+        "excerpt": "sqlite3 \"<db_path>\" \"UPDATE tasks SET status='done', completed_at=datetime('now'), updated_at=datetime('now') WHERE id='<task-id>' AND worker_id='<worker-id>';\"",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 8
+    },
+    "score": 95,
+    "band": "low",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "4ede54992e1ef4cfeb6a78bda45ba864dc2643a9",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 95,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

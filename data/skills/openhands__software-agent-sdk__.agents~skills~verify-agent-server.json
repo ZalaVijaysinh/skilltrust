@@ -1,0 +1,621 @@
+{
+  "id": "openhands__software-agent-sdk__.agents~skills~verify-agent-server",
+  "owner": "OpenHands",
+  "repo": "software-agent-sdk",
+  "path": ".agents/skills/verify-agent-server",
+  "name": "verify-agent-server",
+  "description": "This skill should be used to \"verify Agent Server APIs\", \"test the REST or WebSocket API like an agent would\", \"drive the agent-server\", \"check an API change against a real server\", \"create or update the agent-server feature map\", or \"run the weekly API audit\". Ships control-agent-server (launch, doctor, api, ws, llm, conversations, fixtures, exec, assert, evidence, map) and the maintained map of every agent-facing feature.",
+  "stars": 1357,
+  "category": "coding",
+  "commit": "ff3a0b855d57eac804d66c4753843b36675ef677",
+  "contentHash": "759fff8f931af6431355709bfb36c8446182ba0c1e6bf97371449bba20443966",
+  "repoCreatedAt": "2025-08-23T20:34:39Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/verify-agent-server/SKILL.md",
+        "line": 43,
+        "excerpt": "export PATH=\"$PWD/.agents/skills/verify-agent-server/scripts:$PATH\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/verify-agent-server/SKILL.md",
+        "line": 73,
+        "excerpt": "export AGENT_SERVER_VERIFY_RUN=$(control-agent-server launch --new --print-run)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": ".agents/skills/verify-agent-server/SKILL.md",
+        "line": 75,
+        "excerpt": "control-agent-server llm preset deepseek        # deepseek-flash (active) + deepseek-pro from $DEEPSEEK_API_KEY",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": ".agents/skills/verify-agent-server/SKILL.md",
+        "line": 156,
+        "excerpt": "CLI redacts the run's keys, `$DEEPSEEK_API_KEY` and cipher-encrypted values",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F02-auth-and-sessions.md",
+        "line": 127,
+        "excerpt": "if [ \"$auth\" = key ]; then set -- \"$@\" -H \"X-Session-API-Key: $SESSION_API_KEY\"; fi",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F02-auth-and-sessions.md",
+        "line": 129,
+        "excerpt": "out=$(curl -sS --noproxy '*' -D - -b \"$jar\" -c \"$jar\" -X \"$method\" -w '\\nstatus=%{http_code}\\n' \"$@\" \"$AGENT_SERVER_URL$path\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F02-auth-and-sessions.md",
+        "line": 362,
+        "excerpt": "--check stdout not-contains \"$KEY\" --check stdout not-contains \"$SECRET\" --save F02.keys-hidden-from-commands/env",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F03-deferred-init.md",
+        "line": 114,
+        "excerpt": "since `/ready` is 200 even while dormant). `$DEEPSEEK_API_KEY` is needed",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F03-deferred-init.md",
+        "line": 460,
+        "excerpt": "\"agent\": {\"llm\": {\"model\": \"deepseek/deepseek-flash\", \"api_key\": os.environ[\"DEEPSEEK_API_KEY\"]},",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F04-conversation-lifecycle.md",
+        "line": 128,
+        "excerpt": "`$DEEPSEEK_API_KEY` is set; the block below saves the DeepSeek profiles.",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F04-conversation-lifecycle.md",
+        "line": 167,
+        "excerpt": "import json, os, sys, urllib.error, urllib.parse, urllib.request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F04-conversation-lifecycle.md",
+        "line": 172,
+        "excerpt": "request = urllib.request.Request(",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F04-conversation-lifecycle.md",
+        "line": 174,
+        "excerpt": "headers={\"X-Session-API-Key\": os.environ[\"SESSION_API_KEY\"]},",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F04-conversation-lifecycle.md",
+        "line": 177,
+        "excerpt": "with urllib.request.urlopen(request, timeout=60) as response:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F04-conversation-lifecycle.md",
+        "line": 197,
+        "excerpt": "--check agent.llm.api_key ne \"$DEEPSEEK_API_KEY\" --check tags.qa eq f04 --check title missing \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F05-run-pause-interrupt.md",
+        "line": 122,
+        "excerpt": "and `$DEEPSEEK_API_KEY` set; the block below saves the DeepSeek profiles.",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F06-conversation-events.md",
+        "line": 104,
+        "excerpt": "- `$DEEPSEEK_API_KEY` is set; the preset makes `deepseek-flash` the active",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F07-session-socket.md",
+        "line": 86,
+        "excerpt": "`$DEEPSEEK_API_KEY` is set (three bullets run deepseek-flash: one sent",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F07-session-socket.md",
+        "line": 203,
+        "excerpt": "ws.send(json.dumps({\"type\": \"auth\", \"session_api_key\": os.environ[\"SESSION_API_KEY\"]}))",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F07-session-socket.md",
+        "line": 549,
+        "excerpt": "auth = json.dumps({\"type\": \"auth\", \"session_api_key\": os.environ[\"SESSION_API_KEY\"]}).encode()",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F07-session-socket.md",
+        "line": 589,
+        "excerpt": "auth = json.dumps({\"type\": \"auth\", \"session_api_key\": os.environ[\"SESSION_API_KEY\"]})",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F08-confirmation-security-secrets.md",
+        "line": 103,
+        "excerpt": "- A run of this checkout, `doctor` ok, `$DEEPSEEK_API_KEY` set; the block",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F08-confirmation-security-secrets.md",
+        "line": 114,
+        "excerpt": "`rm -rf qa-f08-victim`, an `echo`, finish), `$SECRET_AGENT` (write",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F08-confirmation-security-secrets.md",
+        "line": 115,
+        "excerpt": "`$QA_F08_TOKEN` to a file and echo it, finish, twice), `$ROTATE_AGENT`",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F08-confirmation-security-secrets.md",
+        "line": 145,
+        "excerpt": "SECRET_STEP='tool:terminal:{\"command\":\"printf %s \\\"$QA_F08_TOKEN\\\" > qa-f08-token.txt; echo \\\"token=$QA_F08_TOKEN\\\"\"}'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F08-confirmation-security-secrets.md",
+        "line": 146,
+        "excerpt": "SECRET_AGENT=$(stub_agent qa-f08-secret --step \"$SECRET_STEP\" --step \"$FINISH\" --step \"$SECRET_STEP\" --step \"$FINISH\")",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F09-model-switching-plugins.md",
+        "line": 723,
+        "excerpt": "except httpx.HTTPStatusError as e:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F09-model-switching-plugins.md",
+        "line": 732,
+        "excerpt": "The unknown plugin raises `httpx.HTTPStatusError` with status 404 (the SDK",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F13-bash.md",
+        "line": 820,
+        "excerpt": "- Commands run through `/bin/sh -c` (dash on Debian and Ubuntu), not bash:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F14-files.md",
+        "line": 660,
+        "excerpt": "curl -sS -o \"$CC/$r-$i.zip\" -w '%{http_code}' -H \"X-Session-API-Key: $SESSION_API_KEY\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F15-git.md",
+        "line": 590,
+        "excerpt": "except httpx.HTTPStatusError as e:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F16-workspace-serving-and-vscode.md",
+        "line": 544,
+        "excerpt": "| xargs curl -sS --noproxy '*' --location \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F18-settings-and-secrets.md",
+        "line": 826,
+        "excerpt": "flock -x \"$AP/.agent-profiles.lock\" sh -c \"touch '$HELD'; sleep 75\" >/dev/null 2>&1 &",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F19-mcp.md",
+        "line": 165,
+        "excerpt": "import urllib.request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F19-mcp.md",
+        "line": 196,
+        "excerpt": "opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F19-mcp.md",
+        "line": 243,
+        "excerpt": "for i in $(seq 1 80); do curl -s --noproxy '*' -o /dev/null \"http://127.0.0.1:$port/mcp\" && break; sleep 0.25; done",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F19-mcp.md",
+        "line": 245,
+        "excerpt": "test \"$(curl -s --noproxy '*' -o /dev/null -w '%{http_code}' \"http://127.0.0.1:$BEARER_PORT/mcp\")\" = 401",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F19-mcp.md",
+        "line": 246,
+        "excerpt": "test \"$(curl -s --noproxy '*' -o /dev/null -w '%{http_code}' \"http://127.0.0.1:$OAUTH_PORT/mcp\")\" = 401",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F19-mcp.md",
+        "line": 247,
+        "excerpt": "test \"$(curl -s --noproxy '*' -o /dev/null -w '%{http_code}' \"http://127.0.0.1:$NONE_PORT/mcp\")\" != 000",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F19-mcp.md",
+        "line": 499,
+        "excerpt": "CALLBACK=$(curl -s --noproxy '*' -o /dev/null -w '%{redirect_url}' \"$AUTH_URL\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F19-mcp.md",
+        "line": 555,
+        "excerpt": "VCB=$(curl -s --noproxy '*' -o /dev/null -w '%{redirect_url}' \"$(control-agent-server api GET \"/api/mcp/oauth/status/$JV\" --field authorization_url)\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F19-mcp.md",
+        "line": 585,
+        "excerpt": "DCB=$(curl -s --noproxy '*' -o /dev/null -w '%{redirect_url}' \"$DAU\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F19-mcp.md",
+        "line": 815,
+        "excerpt": "- `pgrep -f` with a plain substring also matches the `bash -c` that runs the",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F19-mcp.md",
+        "line": 842,
+        "excerpt": "(`curl -w '%{redirect_url}'`). Following it delivers the code to the probe",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F20-llm-profiles.md",
+        "line": 400,
+        "excerpt": "flock -x \"$P/.profiles.lock\" sh -c \"touch '$HELD'; sleep 34\" &",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F20-llm-profiles.md",
+        "line": 429,
+        "excerpt": "flock -x \"$P/.profiles.lock\" sh -c \"touch '$HELD'; sleep 34\" &",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F22-meta-profiles.md",
+        "line": 539,
+        "excerpt": "flock -x \"$M/.meta-profiles.lock\" sh -c \"touch '$HELD'; sleep 66\" &",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F22-meta-profiles.md",
+        "line": 582,
+        "excerpt": "flock -x \"$M/.meta-profiles.lock\" sh -c \"touch '$HELD'; sleep 40\" &",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F23-llm-catalog-and-connections.md",
+        "line": 592,
+        "excerpt": "flock -x \"$(dirname \"$CF\")/.provider-connections.lock\" sh -c \"touch '$HELD'; sleep 34\" &",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F23-llm-catalog-and-connections.md",
+        "line": 622,
+        "excerpt": "flock -x \"$(dirname \"$CF\")/.provider-connections.lock\" sh -c \"touch '$HELD'; sleep 16\" &",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F23-llm-catalog-and-connections.md",
+        "line": 686,
+        "excerpt": "control-agent-server exec --env QA_FILL=64 --expect-output created=64 -- bash -c 'n=0; for i in $(seq \"$QA_FILL\"); do",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F23-llm-catalog-and-connections.md",
+        "line": 687,
+        "excerpt": "s=$(curl -sS --noproxy \"*\" -o /dev/null -w \"%{http_code}\" -H \"X-Session-API-Key: $SESSION_API_KEY\" -H \"Content-Type: application/json\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F23-llm-catalog-and-connections.md",
+        "line": 699,
+        "excerpt": "control-agent-server exec --env \"QA_IDS=$IDS\" --expect-output deleted=64 -- bash -c 'n=0; for id in $QA_IDS; do",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F27-hooks-subagents-tools.md",
+        "line": 413,
+        "excerpt": "--check agents.3.mcp_config.fetch.command eq uvx --check agents.3.mcp_servers.fetch.command eq uvx \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F28-canvas-extensions.md",
+        "line": 179,
+        "excerpt": "body = str(subprocess.Popen([\"/bin/sleep\", \"300\"]).pid).encode()",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F30-openai-gateway.md",
+        "line": 903,
+        "excerpt": "from openai import OpenAI",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F34-typescript-client.md",
+        "line": 22,
+        "excerpt": "Needs: `llm`, `node`, `uvx`, `git`, `tmux`, `network`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F34-typescript-client.md",
+        "line": 156,
+        "excerpt": "with `uvx` (about 200 packages, cached after the first time).",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F34-typescript-client.md",
+        "line": 1379,
+        "excerpt": "the agent server, installed with `uvx`, attached and stopped inside the",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F34-typescript-client.md",
+        "line": 1389,
+        "excerpt": "uvx --python 3.13 --from 'openhands-agent-server==1.22.0' --with 'openhands-sdk==1.22.0' --with 'openhands-tools==1.22.0' \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/verify-agent-server/references/feature-map/F34-typescript-client.md",
+        "line": 1493,
+        "excerpt": "call. `F34.version-gate-old` needs PyPI (or a cached `uvx` environment) for",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/verify-agent-server/references/mapping.md",
+        "line": 96,
+        "excerpt": "vocabulary (`llm`, `tmux`, `git`, `node`, `uvx`, `docker`, `chromium`,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/verify-agent-server/scripts/control_agent_server.py",
+        "line": 178,
+        "excerpt": "out = subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/verify-agent-server/scripts/control_agent_server.py",
+        "line": 181,
+        "excerpt": "except (OSError, subprocess.CalledProcessError):",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/verify-agent-server/scripts/control_agent_server.py",
+        "line": 579,
+        "excerpt": "process = subprocess.Popen(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/verify-agent-server/scripts/control_agent_server.py",
+        "line": 583,
+        "excerpt": "stdin=subprocess.DEVNULL,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/verify-agent-server/scripts/control_agent_server.py",
+        "line": 585,
+        "excerpt": "stderr=subprocess.STDOUT,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/verify-agent-server/scripts/control_agent_server.py",
+        "line": 1758,
+        "excerpt": "process = subprocess.Popen(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/verify-agent-server/scripts/control_agent_server.py",
+        "line": 4542,
+        "excerpt": "\"uvx\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/verify-agent-server/scripts/control_agent_server.py",
+        "line": 4625,
+        "excerpt": "\"uvx\": (bool(shutil.which(\"uvx\")), shutil.which(\"uvx\")),",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 38,
+      "reads-secrets": 221,
+      "network": 57,
+      "downloads-code": 9,
+      "paid-api": 1
+    },
+    "score": 57,
+    "band": "review",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 43,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "ff3a0b855d57eac804d66c4753843b36675ef677",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 57,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

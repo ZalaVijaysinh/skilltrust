@@ -1,0 +1,254 @@
+{
+  "id": "jeremylongshore__tons-of-skills-marketplace__plugins~saas-packs~hubspot-pack~skills~hubspot-webhook-handlers",
+  "owner": "jeremylongshore",
+  "repo": "tons-of-skills-marketplace",
+  "path": "plugins/saas-packs/hubspot-pack/skills/hubspot-webhook-handlers",
+  "name": "hubspot-webhook-handlers",
+  "description": "Build and harden HubSpot v3 webhook handlers that survive production: HMAC-SHA256\nsignature verification, Redis SET NX deduplication, async batch processing with\nimmediate 200 ACK, dead-letter queuing for permanent failures, and event-ordering\nguards for property-change streams. Use when implementing HubSpot webhooks for the\nfirst time, hardening an existing handler against retry storms or duplicate\nprocessing, debugging signature verification failures, or designing a reliable\nevent pipeline for contact, company, or deal change events. Trigger with \"hubspot\nwebhook\", \"hubspot signature verification\", \"hubspot webhook dedup\", \"hubspot\nwebhook retry storm\", \"hubspot event handler\", \"hubspot property change webhook\",\n\"hubspot list membership webhook\", \"hubspot dead letter queue\".",
+  "stars": 2905,
+  "category": "coding",
+  "commit": "0500b275e963c027f6b410e8c49c0446945c574e",
+  "contentHash": "7504d99acc0db55f46f59c4226c2af9531c0aa772e5a5f8f0b21783832ffec22",
+  "repoCreatedAt": "2025-10-10T01:01:00Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/saas-packs/hubspot-pack/skills/hubspot-webhook-handlers/SKILL.md",
+        "line": 119,
+        "excerpt": "const expected = createHmac(\"sha256\", process.env.HUBSPOT_CLIENT_SECRET!)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/saas-packs/hubspot-pack/skills/hubspot-webhook-handlers/SKILL.md",
+        "line": 380,
+        "excerpt": "curl -X POST \"https://api.hubapi.com/webhooks/v3/{appId}/subscriptions\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.hubapi.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/saas-packs/hubspot-pack/skills/hubspot-webhook-handlers/SKILL.md",
+        "line": 380,
+        "excerpt": "curl -X POST \"https://api.hubapi.com/webhooks/v3/{appId}/subscriptions\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/saas-packs/hubspot-pack/skills/hubspot-webhook-handlers/SKILL.md",
+        "line": 381,
+        "excerpt": "-H \"Authorization: Bearer $HUBSPOT_ACCESS_TOKEN\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/saas-packs/hubspot-pack/skills/hubspot-webhook-handlers/SKILL.md",
+        "line": 398,
+        "excerpt": "curl -s \"https://api.hubapi.com/webhooks/v3/{appId}/subscriptions\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.hubapi.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/saas-packs/hubspot-pack/skills/hubspot-webhook-handlers/SKILL.md",
+        "line": 398,
+        "excerpt": "curl -s \"https://api.hubapi.com/webhooks/v3/{appId}/subscriptions\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/saas-packs/hubspot-pack/skills/hubspot-webhook-handlers/SKILL.md",
+        "line": 399,
+        "excerpt": "-H \"Authorization: Bearer $HUBSPOT_ACCESS_TOKEN\" | jq '.results[] | {id, eventType, propertyName, active}'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/saas-packs/hubspot-pack/skills/hubspot-webhook-handlers/SKILL.md",
+        "line": 447,
+        "excerpt": "CLIENT_SECRET=\"your-client-secret\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/saas-packs/hubspot-pack/skills/hubspot-webhook-handlers/SKILL.md",
+        "line": 454,
+        "excerpt": "openssl dgst -sha256 -hmac \"$CLIENT_SECRET\" | awk '{print $2}')",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/saas-packs/hubspot-pack/skills/hubspot-webhook-handlers/SKILL.md",
+        "line": 456,
+        "excerpt": "curl -X POST \"$URI\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/saas-packs/hubspot-pack/skills/hubspot-webhook-handlers/SKILL.md",
+        "line": 467,
+        "excerpt": "redis-cli LRANGE hubspot:dlq:contact.propertyChange 0 -1 | python3 -m json.tool",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/saas-packs/hubspot-pack/skills/hubspot-webhook-handlers/SKILL.md",
+        "line": 470,
+        "excerpt": "redis-cli KEYS \"hubspot:dlq:*\" | xargs -I{} sh -c 'echo \"{}: $(redis-cli LLEN {})\"'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/saas-packs/hubspot-pack/skills/hubspot-webhook-handlers/SKILL.md",
+        "line": 482,
+        "excerpt": "APP_ID=\"your-app-id\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/saas-packs/hubspot-pack/skills/hubspot-webhook-handlers/SKILL.md",
+        "line": 483,
+        "excerpt": "TOKEN=\"$HUBSPOT_ACCESS_TOKEN\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/saas-packs/hubspot-pack/skills/hubspot-webhook-handlers/SKILL.md",
+        "line": 488,
+        "excerpt": "curl -s -X POST \"$BASE\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/saas-packs/hubspot-pack/skills/hubspot-webhook-handlers/SKILL.md",
+        "line": 489,
+        "excerpt": "-H \"Authorization: Bearer $TOKEN\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/saas-packs/hubspot-pack/skills/hubspot-webhook-handlers/references/implementation-guide.md",
+        "line": 103,
+        "excerpt": "const expected = createHmac(\"sha256\", process.env.HUBSPOT_CLIENT_SECRET!)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/saas-packs/hubspot-pack/skills/hubspot-webhook-handlers/references/implementation-guide.md",
+        "line": 141,
+        "excerpt": "password: process.env.REDIS_PASSWORD,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/saas-packs/hubspot-pack/skills/hubspot-webhook-handlers/references/implementation-guide.md",
+        "line": 422,
+        "excerpt": "const res = await fetch(",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/saas-packs/hubspot-pack/skills/hubspot-webhook-handlers/references/implementation-guide.md",
+        "line": 427,
+        "excerpt": "Authorization: `Bearer ${process.env.HUBSPOT_ACCESS_TOKEN}`,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/saas-packs/hubspot-pack/skills/hubspot-webhook-handlers/references/implementation-guide.md",
+        "line": 590,
+        "excerpt": "os.environ[\"HUBSPOT_CLIENT_SECRET\"].encode(),",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/saas-packs/hubspot-pack/skills/hubspot-webhook-handlers/references/implementation-guide.md",
+        "line": 727,
+        "excerpt": "curl -X PUT \"https://api.hubapi.com/webhooks/v3/$APP_ID/settings\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.hubapi.com"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/saas-packs/hubspot-pack/skills/hubspot-webhook-handlers/references/implementation-guide.md",
+        "line": 728,
+        "excerpt": "-H \"Authorization: Bearer $HUBSPOT_ACCESS_TOKEN\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/saas-packs/hubspot-pack/skills/hubspot-webhook-handlers/references/implementation-guide.md",
+        "line": 736,
+        "excerpt": "curl -s \"https://api.hubapi.com/webhooks/v3/$APP_ID/settings\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.hubapi.com"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/saas-packs/hubspot-pack/skills/hubspot-webhook-handlers/references/implementation-guide.md",
+        "line": 737,
+        "excerpt": "-H \"Authorization: Bearer $HUBSPOT_ACCESS_TOKEN\" | jq '.'",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "reads-secrets": 12,
+      "network": 7,
+      "shell": 6
+    },
+    "score": 82,
+    "band": "low",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 4,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "0500b275e963c027f6b410e8c49c0446945c574e",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 82,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

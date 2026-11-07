@@ -1,0 +1,166 @@
+{
+  "id": "huytieu__cog-second-brain__skills~release-video",
+  "owner": "huytieu",
+  "repo": "COG-second-brain",
+  "path": "skills/release-video",
+  "name": "release-video",
+  "description": "Turn a product release (the list of shipped items plus real screen recordings) into a motion recap video and one explained demo per feature, with sound effects tied to on-screen motion and a composed music bed. Deterministic HTML scenes rendered frame by frame, ElevenLabs for sound effects and music, ffmpeg for the mix. Use when asked for a release video, a changelog video, a feature recap reel, or demo clips for release notes and docs.",
+  "stars": 1341,
+  "category": "media",
+  "commit": "144c7a3a959cc99538b7dfee9c22c4b065a0e156",
+  "contentHash": "74d6b34b5aabc4a239522c1bd0b58cf470f8998ea5a516c9ef38e12887f519cf",
+  "repoCreatedAt": "2025-10-15T03:50:52Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/release-video/scripts/compose_demo.py",
+        "line": 108,
+        "excerpt": "ff = subprocess.Popen([\"ffmpeg\", \"-v\", \"error\", \"-y\", \"-f\", \"rawvideo\", \"-pix_fmt\", \"rgb24\", \"-s\", f\"{W}x{H}\", \"-r\", str(FPS), \"-i\", \"-\",",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/release-video/scripts/compose_demo.py",
+        "line": 109,
+        "excerpt": "\"-c:v\", \"libx264\", \"-pix_fmt\", \"yuv420p\", \"-crf\", \"18\", \"-preset\", \"medium\", \"-movflags\", \"+faststart\", str(out)], stdin=subprocess.PIPE)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/release-video/scripts/gen_audio.sh",
+        "line": 6,
+        "excerpt": ": \"${ELEVENLABS_API_KEY:?set ELEVENLABS_API_KEY}\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/release-video/scripts/gen_audio.sh",
+        "line": 11,
+        "excerpt": "curl -sf -X POST \"https://api.elevenlabs.io/v1/sound-generation\" -H \"xi-api-key: $ELEVENLABS_API_KEY\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/release-video/scripts/gen_audio.sh",
+        "line": 11,
+        "excerpt": "curl -sf -X POST \"https://api.elevenlabs.io/v1/sound-generation\" -H \"xi-api-key: $ELEVENLABS_API_KEY\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/release-video/scripts/gen_audio.sh",
+        "line": 11,
+        "excerpt": "curl -sf -X POST \"https://api.elevenlabs.io/v1/sound-generation\" -H \"xi-api-key: $ELEVENLABS_API_KEY\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.elevenlabs.io"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/release-video/scripts/gen_audio.sh",
+        "line": 15,
+        "excerpt": "curl -sf -X POST \"https://api.elevenlabs.io/v1/music\" -H \"xi-api-key: $ELEVENLABS_API_KEY\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/release-video/scripts/gen_audio.sh",
+        "line": 15,
+        "excerpt": "curl -sf -X POST \"https://api.elevenlabs.io/v1/music\" -H \"xi-api-key: $ELEVENLABS_API_KEY\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/release-video/scripts/gen_audio.sh",
+        "line": 15,
+        "excerpt": "curl -sf -X POST \"https://api.elevenlabs.io/v1/music\" -H \"xi-api-key: $ELEVENLABS_API_KEY\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.elevenlabs.io"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/release-video/scripts/mix_sfx.py",
+        "line": 33,
+        "excerpt": "raw = subprocess.run([\"ffmpeg\", \"-v\", \"error\", \"-i\", str(SFX / f\"{name}.mp3\"), \"-ac\", \"2\", \"-ar\", str(SR), \"-f\", \"f32le\", \"-\"],",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/release-video/scripts/mix_sfx.py",
+        "line": 85,
+        "excerpt": "subprocess.run([\"ffmpeg\", \"-v\", \"error\", \"-y\", \"-f\", \"s16le\", \"-ar\", str(SR), \"-ac\", \"2\", \"-i\", \"-\", str(out)], input=pcm, check=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/release-video/scripts/music_check.py",
+        "line": 11,
+        "excerpt": "raw = subprocess.run(['ffmpeg','-v','error','-i',f,'-ac','1','-ar',str(sr),'-f','f32le','-'],capture_output=True).stdout",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/release-video/scripts/plain_demo.py",
+        "line": 36,
+        "excerpt": "ff = subprocess.Popen([\"ffmpeg\", \"-v\", \"error\", \"-y\", \"-f\", \"rawvideo\", \"-pix_fmt\", \"rgb24\", \"-s\", f\"{W}x{H}\", \"-r\", str(FPS), \"-i\", \"-\",",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/release-video/scripts/plain_demo.py",
+        "line": 37,
+        "excerpt": "\"-c:v\", \"libx264\", \"-pix_fmt\", \"yuv420p\", \"-crf\", \"18\", \"-preset\", \"medium\", \"-movflags\", \"+faststart\", out], stdin=subprocess.PIPE)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/release-video/scripts/render.py",
+        "line": 101,
+        "excerpt": "subprocess.run(cmd, check=True)",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 8,
+      "reads-secrets": 3,
+      "paid-api": 2,
+      "network": 2
+    },
+    "score": 62,
+    "band": "review",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 19,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "144c7a3a959cc99538b7dfee9c22c4b065a0e156",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 62,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

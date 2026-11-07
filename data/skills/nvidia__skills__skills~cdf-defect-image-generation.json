@@ -1,0 +1,321 @@
+{
+  "id": "nvidia__skills__skills~cdf-defect-image-generation",
+  "owner": "NVIDIA",
+  "repo": "skills",
+  "path": "skills/cdf-defect-image-generation",
+  "name": "cdf-defect-image-generation",
+  "description": "Generate synthetic PCB inspection images on Kubernetes with the SMT Defect Image Generation (DIG) DAG in CDF Orchestration. The DAG renders components in simulation, turns the renders into realistic golden images (sim2real), and uses AnomalyGen to add texture defects such as solder bridges, excess solder or missing components. Simulation can also render shift, tombstone and sideflip pose defects. Use it to build DIG payloads, pick a pipeline mode (full, simulation, sim2real or defect-only), check GPU readiness, follow a run, and match each defect image to its golden and simulated source. Not for running Simulation, Augmentation or AnomalyGen on their own.",
+  "stars": 3888,
+  "category": "coding",
+  "commit": "fce3cca4170be75e82c64920654d56ee2811b005",
+  "contentHash": "5ee33c9b012aa6c6b2f16594a38e203616f94891eb8bafa48d24edd232031f1c",
+  "repoCreatedAt": "2026-02-25T21:54:05Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/cdf-defect-image-generation/SKILL.md",
+        "line": 134,
+        "excerpt": "REPO_ROOT=/path/to/cdf-orchestration",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/cdf-defect-image-generation/SKILL.md",
+        "line": 182,
+        "excerpt": "python3 skills/cdf-orchestration-preflight/scripts/storage_check.py --payload <payload.json>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/cdf-defect-image-generation/SKILL.md",
+        "line": 254,
+        "excerpt": "kubectl port-forward -n sdg-workflow service/sdg-workflow-controller-api-server 8080:8080",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/cdf-defect-image-generation/evals/test_payload.py",
+        "line": 235,
+        "excerpt": "result = subprocess.run(command, capture_output=True, text=True, timeout=30)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/cdf-defect-image-generation/evals/test_payload.py",
+        "line": 241,
+        "excerpt": "result = subprocess.run(command, capture_output=True, text=True, timeout=30)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/cdf-defect-image-generation/references/airflow-direct-api.md",
+        "line": 13,
+        "excerpt": "curl -s --max-time 8 \"$AIRFLOW_URL/api/v2/version\" || echo \"ClusterIP not routable; use a port-forward\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/cdf-defect-image-generation/references/airflow-direct-api.md",
+        "line": 27,
+        "excerpt": "python3 -c 'import json, os; print(json.dumps({\"username\": os.environ[\"AIRFLOW_USER\"], \"password\": os.environ[\"AIRFLOW_PASSWORD\"]}))' > \"$AUTH_BODY\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/cdf-defect-image-generation/references/airflow-direct-api.md",
+        "line": 28,
+        "excerpt": "RESPONSE=$(curl -s -X POST \"$AIRFLOW_URL/auth/token\" -H \"Content-Type: application/json\" -d @\"$AUTH_BODY\")",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/cdf-defect-image-generation/references/airflow-direct-api.md",
+        "line": 32,
+        "excerpt": "api() { curl -s -H @\"$AUTH_HEADER\" \"$@\"; }",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/cdf-orchestration-preflight/SKILL.md",
+        "line": 26,
+        "excerpt": "`~/.kube/config`: use the supplied `KUBECONFIG` path for an existing cluster. For a new cluster,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/cdf-orchestration-preflight/SKILL.md",
+        "line": 46,
+        "excerpt": "python3 skills/cdf-orchestration-preflight/scripts/preflight.py audit \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/cdf-orchestration-preflight/SKILL.md",
+        "line": 125,
+        "excerpt": "python3 skills/cdf-orchestration-preflight/scripts/storage_check.py --payload <payload.json>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/cdf-orchestration-preflight/SKILL.md",
+        "line": 160,
+        "excerpt": "cp secrets.env.example secrets.env       # only when secrets.env does not already exist",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/cdf-orchestration-preflight/references/bootstrap.md",
+        "line": 113,
+        "excerpt": "printf 'net.ipv4.ip_forward = 1\\n' | sudo tee /etc/sysctl.d/99-cdf-kubernetes.conf >/dev/null",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/cdf-orchestration-preflight/references/bootstrap.md",
+        "line": 130,
+        "excerpt": "mkdir -p \"$HOME/.kube\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/cdf-orchestration-preflight/references/bootstrap.md",
+        "line": 305,
+        "excerpt": ": \"${AIRFLOW_TOKEN:?Authenticate through the setup skill first}\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/cdf-orchestration-setup/SKILL.md",
+        "line": 69,
+        "excerpt": "ls airflow/dags/workflows/*/configs/*osmo*manifest*.yaml",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/cdf-orchestration-setup/SKILL.md",
+        "line": 184,
+        "excerpt": "kubectl exec -n sdg-workflow deploy/sdg-workflow-controller-scheduler -c scheduler -- \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/cdf-orchestration-setup/SKILL.md",
+        "line": 213,
+        "excerpt": "POOLS_JSON=$(curl -s -H \"Authorization: Bearer $TOKEN\" \"$AIRFLOW_URL/api/v2/pools\")",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/cdf-orchestration-setup/SKILL.md",
+        "line": 213,
+        "excerpt": "POOLS_JSON=$(curl -s -H \"Authorization: Bearer $TOKEN\" \"$AIRFLOW_URL/api/v2/pools\")",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/cdf-orchestration-setup/SKILL.md",
+        "line": 224,
+        "excerpt": "IAA_DAG_JSON=$(curl -s -H \"Authorization: Bearer $TOKEN\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/cdf-orchestration-setup/SKILL.md",
+        "line": 224,
+        "excerpt": "IAA_DAG_JSON=$(curl -s -H \"Authorization: Bearer $TOKEN\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/cdf-orchestration-setup/SKILL.md",
+        "line": 227,
+        "excerpt": "EVG_DAG_JSON=$(curl -s -H \"Authorization: Bearer $TOKEN\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/cdf-orchestration-setup/SKILL.md",
+        "line": 227,
+        "excerpt": "EVG_DAG_JSON=$(curl -s -H \"Authorization: Bearer $TOKEN\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/cdf-orchestration-setup/SKILL.md",
+        "line": 251,
+        "excerpt": "AIRFLOW_URL=\"http://$(kubectl get svc -n sdg-workflow \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/cdf-orchestration-setup/SKILL.md",
+        "line": 262,
+        "excerpt": "AUTH_RESPONSE=$(curl -s -X POST \"$AIRFLOW_URL/auth/token\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/cdf-orchestration-setup/SKILL.md",
+        "line": 262,
+        "excerpt": "AUTH_RESPONSE=$(curl -s -X POST \"$AIRFLOW_URL/auth/token\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/cdf-orchestration-setup/SKILL.md",
+        "line": 267,
+        "excerpt": "test -n \"$TOKEN\" && echo \"auth OK\" || echo \"auth FAILED\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/cdf-orchestration-setup/SKILL.md",
+        "line": 274,
+        "excerpt": "make port-forward   # blocks until interrupted — run it in a terminal you own",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/cdf-orchestration-setup/SKILL.md",
+        "line": 292,
+        "excerpt": "ps -ef | grep \"port-forward\" | grep -v grep",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/cdf-orchestration-setup/SKILL.md",
+        "line": 299,
+        "excerpt": "curl -s -o /dev/null -w \"%{http_code}\\n\" --max-time 5 http://localhost:8080",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/cdf-orchestration-setup/SKILL.md",
+        "line": 299,
+        "excerpt": "curl -s -o /dev/null -w \"%{http_code}\\n\" --max-time 5 http://localhost:8080",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/cdf-orchestration-setup/SKILL.md",
+        "line": 300,
+        "excerpt": "curl -s -o /dev/null -w \"%{http_code}\\n\" --max-time 5 http://<host-ip>:8080",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/cdf-orchestration-setup/SKILL.md",
+        "line": 307,
+        "excerpt": "make build sdg-controller     # rebuilds and pushes the image with current DAGs/plugins",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 16,
+      "network": 9,
+      "reads-secrets": 7,
+      "writes-outside": 2
+    },
+    "score": 72,
+    "band": "review",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 23,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "fce3cca4170be75e82c64920654d56ee2811b005",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 72,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

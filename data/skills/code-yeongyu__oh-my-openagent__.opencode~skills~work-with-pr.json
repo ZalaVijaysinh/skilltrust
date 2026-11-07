@@ -1,0 +1,149 @@
+{
+  "id": "code-yeongyu__oh-my-openagent__.opencode~skills~work-with-pr",
+  "owner": "code-yeongyu",
+  "repo": "oh-my-openagent",
+  "path": ".opencode/skills/work-with-pr",
+  "name": "work-with-pr",
+  "description": "Full PR lifecycle in a fresh task-owned git worktree: implement via the ulw-loop skill with mandatory evidence-bound manual QA → reviewer-readable English PR → verification loop (CI + Cubic, where Cubic is skipped only when its quota is exhausted) → merge by default → worktree cleanup. Decomposes one task into the smallest atomic, independently-mergeable PRs and builds the independent ones concurrently via one worktree per PR driven by parallel subagents or a team. Unbounded loop: any failing gate sends you back to fix-and-re-QA inside that PR's worktree. Use whenever implementation work needs to land as a PR. Triggers: 'create a PR', 'implement and PR', 'work on this and make a PR', 'implement issue', 'land this as a PR', 'split into atomic PRs', 'parallel PRs', 'work-with-pr', 'PR workflow', 'implement end to end', even when user just says 'implement X' if the context implies PR delivery.",
+  "stars": 70767,
+  "category": "coding",
+  "commit": "a815fdfbf3c5d8374df8b03dd58dcd16d6d2eaaf",
+  "contentHash": "c160173d7e099d7a39ce6efddbd775d385b1efa748e8321f41bf0d8bbfaddbf8",
+  "repoCreatedAt": "2025-12-03T01:40:05Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".opencode/skills/work-with-pr/SKILL.md",
+        "line": 49,
+        "excerpt": "REPO=$(gh repo view --json nameWithOwner -q .nameWithOwner)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".opencode/skills/work-with-pr/SKILL.md",
+        "line": 60,
+        "excerpt": "BRANCH_NAME=\"feature/$(echo \"$TASK_SUMMARY\" | tr '[:upper:] ' '[:lower:]-' | head -c 50)\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".opencode/skills/work-with-pr/SKILL.md",
+        "line": 70,
+        "excerpt": "WORKTREE_PATH=\"../${REPO_NAME}-wt/${BRANCH_NAME}\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".opencode/skills/work-with-pr/SKILL.md",
+        "line": 80,
+        "excerpt": "cd \"$WORKTREE_PATH\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".opencode/skills/work-with-pr/SKILL.md",
+        "line": 118,
+        "excerpt": "bun run typecheck",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".opencode/skills/work-with-pr/SKILL.md",
+        "line": 136,
+        "excerpt": "git push -u origin \"$BRANCH_NAME\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".opencode/skills/work-with-pr/SKILL.md",
+        "line": 144,
+        "excerpt": "gh pr create \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".opencode/skills/work-with-pr/SKILL.md",
+        "line": 174,
+        "excerpt": "PR_NUMBER=$(gh pr view --json number -q .number)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".opencode/skills/work-with-pr/SKILL.md",
+        "line": 219,
+        "excerpt": "RUN_ID=$(gh run list --branch \"$BRANCH_NAME\" --status failure --json databaseId --jq '.[0].databaseId')",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".opencode/skills/work-with-pr/SKILL.md",
+        "line": 239,
+        "excerpt": "CUBIC_REVIEW=$(gh api \"repos/${REPO}/pulls/${PR_NUMBER}/reviews\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".opencode/skills/work-with-pr/SKILL.md",
+        "line": 299,
+        "excerpt": "gh pr merge \"$PR_NUMBER\" --merge --auto --delete-branch",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".opencode/skills/work-with-pr/SKILL.md",
+        "line": 326,
+        "excerpt": "if [ -d \"$WORKTREE_PATH/.omo\" ]; then",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".opencode/skills/work-with-pr/SKILL.md",
+        "line": 337,
+        "excerpt": "cd \"$ORIGINAL_DIR\"  # Return to original working directory",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".opencode/skills/work-with-pr/SKILL.md",
+        "line": 375,
+        "excerpt": "cd \"$WORKTREE_PATH\"",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 14
+    },
+    "score": 97,
+    "band": "low",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "a815fdfbf3c5d8374df8b03dd58dcd16d6d2eaaf",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 97,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

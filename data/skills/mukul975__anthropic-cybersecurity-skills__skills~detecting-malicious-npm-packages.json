@@ -1,0 +1,243 @@
+{
+  "id": "mukul975__anthropic-cybersecurity-skills__skills~detecting-malicious-npm-packages",
+  "owner": "mukul975",
+  "repo": "Anthropic-Cybersecurity-Skills",
+  "path": "skills/detecting-malicious-npm-packages",
+  "name": "detecting-malicious-npm-packages",
+  "description": "Triage npm packages and lockfiles for install-script malware, credential exfiltration, and worming behavior using GuardDog, manual tarball inspection, and dynamic detonation with network/filesystem monitoring. Use when vetting a new dependency, reviewing a package.json/package-lock.json during code review, checking lockfiles against a supply-chain advisory's known-bad versions, or investigating a host suspected of installing a trojanized package.",
+  "stars": 35744,
+  "category": "security",
+  "commit": "54a798831d2266a3ca61ce68a7acb80b81160d57",
+  "contentHash": "d1a04be4896651bc0c660db77d51048e36b68c960b93641531c4a856c95d3f8a",
+  "repoCreatedAt": "2026-02-25T09:47:50Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/detecting-malicious-npm-packages/SKILL.md",
+        "line": 31,
+        "excerpt": "Typical malicious behaviors are: exfiltrating environment variables, `~/.npmrc` tokens, SSH keys, and cloud credentials to an attacker-controlled URL; opening r",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/detecting-malicious-npm-packages/SKILL.md",
+        "line": 48,
+        "excerpt": "pip install guarddog",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/detecting-malicious-npm-packages/SKILL.md",
+        "line": 48,
+        "excerpt": "pip install guarddog",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/detecting-malicious-npm-packages/SKILL.md",
+        "line": 56,
+        "excerpt": "go install github.com/google/osv-scanner/cmd/osv-scanner@v1",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/detecting-malicious-npm-packages/SKILL.md",
+        "line": 56,
+        "excerpt": "go install github.com/google/osv-scanner/cmd/osv-scanner@v1",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/detecting-malicious-npm-packages/SKILL.md",
+        "line": 75,
+        "excerpt": "| T1552.001 | Unsecured Credentials: Credentials In Files | Packages steal `~/.npmrc`, `.env`, SSH keys, and cloud credential files. |",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/detecting-malicious-npm-packages/SKILL.md",
+        "line": 84,
+        "excerpt": "mkdir triage && cd triage",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/detecting-malicious-npm-packages/SKILL.md",
+        "line": 89,
+        "excerpt": "curl -sL \"$(npm view some-pkg@1.2.3 dist.tarball)\" -o some-pkg.tgz",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/detecting-malicious-npm-packages/SKILL.md",
+        "line": 97,
+        "excerpt": "guarddog npm scan express",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/detecting-malicious-npm-packages/SKILL.md",
+        "line": 110,
+        "excerpt": "guarddog npm verify /path/to/repo/package.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/detecting-malicious-npm-packages/SKILL.md",
+        "line": 116,
+        "excerpt": "guarddog npm scan some-pkg \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/detecting-malicious-npm-packages/SKILL.md",
+        "line": 129,
+        "excerpt": "guarddog npm scan some-pkg --output-format=json   > guarddog.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/detecting-malicious-npm-packages/SKILL.md",
+        "line": 137,
+        "excerpt": "jq '.scripts' package/package.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/detecting-malicious-npm-packages/SKILL.md",
+        "line": 140,
+        "excerpt": "grep -rEn \"child_process|exec\\(|spawn|eval\\(|Buffer\\.from\\(.*base64|process\\.env|https?://\" package/ \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/detecting-malicious-npm-packages/SKILL.md",
+        "line": 148,
+        "excerpt": "jq -r '.packages | to_entries[] | select(.key|startswith(\"node_modules/\")) | \"\\(.key|ltrimstr(\"node_modules/\"))@\\(.value.version)\"' package-lock.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/detecting-malicious-npm-packages/SKILL.md",
+        "line": 158,
+        "excerpt": "npm install ./some-pkg.tgz            # scripts WILL run — sandbox only",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/detecting-malicious-npm-packages/SKILL.md",
+        "line": 166,
+        "excerpt": "grep -rhoE \"https?://[a-zA-Z0-9./?=_%:-]+\" package/ | sort -u > urls.txt",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/detecting-malicious-npm-packages/SKILL.md",
+        "line": 173,
+        "excerpt": "python scripts/agent.py --package some-pkg --version 1.2.3 --output verdict.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/detecting-malicious-npm-packages/references/api-reference.md",
+        "line": 5,
+        "excerpt": "Install: `pip install guarddog`  |  Docker: `ghcr.io/datadog/guarddog`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/detecting-malicious-npm-packages/scripts/agent.py",
+        "line": 20,
+        "excerpt": "import urllib.request",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/detecting-malicious-npm-packages/scripts/agent.py",
+        "line": 25,
+        "excerpt": "r\"child_process|\\bexec\\s*\\(|\\bspawn\\b|\\beval\\s*\\(|Buffer\\.from\\([^)]*base64|process\\.env\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/detecting-malicious-npm-packages/scripts/agent.py",
+        "line": 41,
+        "excerpt": "p = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/detecting-malicious-npm-packages/scripts/agent.py",
+        "line": 45,
+        "excerpt": "except subprocess.SubprocessError as exc:",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/detecting-malicious-npm-packages/scripts/agent.py",
+        "line": 51,
+        "excerpt": "return {\"error\": \"guarddog not installed (pip install guarddog)\"}",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/detecting-malicious-npm-packages/scripts/agent.py",
+        "line": 73,
+        "excerpt": "urllib.request.urlretrieve(url, tgz)  # noqa: S310 - registry URL from npm",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "reads-secrets": 2,
+      "downloads-code": 4,
+      "shell": 16,
+      "network": 3
+    },
+    "score": 67,
+    "band": "review",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 6,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "54a798831d2266a3ca61ce68a7acb80b81160d57",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 67,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

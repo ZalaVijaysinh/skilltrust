@@ -1,0 +1,148 @@
+{
+  "id": "nvidia__skills__skills~bionemo-proteinmpnn-nim",
+  "owner": "NVIDIA",
+  "repo": "skills",
+  "path": "skills/bionemo-proteinmpnn-nim",
+  "name": "proteinmpnn-nim",
+  "description": "Run ProteinMPNN inverse folding via NVIDIA NIM to design protein sequences for a target backbone. Sends user-provided PDB files and design parameters to NVIDIA's hosted API, authenticated with an environment API key, or to a user-selected local NIM. Use for sequence design, backbone redesign, fixed chains and residues, omit_AAs, sampling temperature, soluble model, local Docker, and multi-FASTA output.",
+  "stars": 3888,
+  "category": "coding",
+  "commit": "fce3cca4170be75e82c64920654d56ee2811b005",
+  "contentHash": "ad9de05667773c17710b57c6f04bf07e7e0abd6bc8bed4ffa2742b574545fb93",
+  "repoCreatedAt": "2026-02-25T21:54:05Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/bionemo-proteinmpnn-nim/SKILL.md",
+        "line": 39,
+        "excerpt": "Local inference paths do not include `/v1/`. Hosted requests use `Authorization: Bearer $NGC_API_KEY`. Supported local Docker",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bionemo-proteinmpnn-nim/SKILL.md",
+        "line": 80,
+        "excerpt": "proteinmpnn_nim_url=\"${PROTEINMPNN_NIM_URL:-http://localhost:8000}\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/bionemo-proteinmpnn-nim/SKILL.md",
+        "line": 81,
+        "excerpt": "until curl -sf \"${proteinmpnn_nim_url%/}/v1/health/ready\"; do sleep 5; done",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bionemo-proteinmpnn-nim/SKILL.md",
+        "line": 111,
+        "excerpt": "python scripts/design.py --mode hosted \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/bionemo-proteinmpnn-nim/evals/harbor/proteinmpnn-local-design/task.toml",
+        "line": 28,
+        "excerpt": "command = \"curl -fsS http://127.0.0.1:8000/v1/health/ready\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/bionemo-proteinmpnn-nim/evals/harbor/proteinmpnn-local-design/tests/grader.py",
+        "line": 12,
+        "excerpt": "from urllib.request import Request, urlopen",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/bionemo-proteinmpnn-nim/evals/harbor/proteinmpnn-local-design/tests/grader.py",
+        "line": 89,
+        "excerpt": "with urlopen(request, timeout=timeout) as response:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/bionemo-proteinmpnn-nim/references/api.md",
+        "line": 114,
+        "excerpt": "if [ -z \"${NGC_API_KEY:-}\" ] && [ -n \"${NVIDIA_API_KEY:-}\" ]; then",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/bionemo-proteinmpnn-nim/references/api.md",
+        "line": 115,
+        "excerpt": "export NGC_API_KEY=\"$NVIDIA_API_KEY\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/bionemo-proteinmpnn-nim/references/api.md",
+        "line": 117,
+        "excerpt": ": \"${NGC_API_KEY:?Set NGC_API_KEY or NVIDIA_API_KEY in the environment or repo-root .env}\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/bionemo-proteinmpnn-nim/references/api.md",
+        "line": 124,
+        "excerpt": "printf '%s\\n' \"${NGC_API_KEY}\" | docker login nvcr.io --username '$oauthtoken' --password-stdin && \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/bionemo-proteinmpnn-nim/scripts/design.py",
+        "line": 118,
+        "excerpt": "key = os.getenv(\"NGC_API_KEY\")",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/bionemo-proteinmpnn-nim/scripts/design.py",
+        "line": 157,
+        "excerpt": "response = requests.post(url, headers=headers, json=payload, timeout=(10, args.timeout), allow_redirects=False)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "reads-secrets": 6,
+      "shell": 2,
+      "network": 5
+    },
+    "score": 82,
+    "band": "low",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 23,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "fce3cca4170be75e82c64920654d56ee2811b005",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 82,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

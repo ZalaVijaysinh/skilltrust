@@ -1,0 +1,209 @@
+{
+  "id": "nubjs__nub__.claude~skills~babysit",
+  "owner": "nubjs",
+  "repo": "nub",
+  "path": ".claude/skills/babysit",
+  "name": "babysit",
+  "description": "Bring one nubjs/nub pull request to merge-readiness — pull the inline reviews, verify each finding against the code, re-verify every fix round locally, fix CI, and loop. Invoke (via the Skill tool) when asked to babysit a PR, to get one merge-ready, or when you own a PR and are waiting on reviews or CI. Scope — babysit ENDS at merge-readiness and hands back; only an instruction to babysit it TO MERGE authorizes the merge, and that phrasing also delegates the readiness judgment, so decide rather than ask. Carries the traps that each cost a round trip: the GitHub CLI's PR-view JSON silently omits the inline review comments where the real findings live, the CI gate aggregator check registers LAST so a partial green rollup is not done, and PR CI is opt-in, so a pull request nobody labelled has no checks at all and a re-based or re-targeted branch keeps the checks of its old head.",
+  "stars": 4435,
+  "category": "coding",
+  "commit": "742e6987d0d9ad42effce026af6b0f70af69c584",
+  "contentHash": "51b3c1352eb0a5d54fc5dda8c054475553cd64da16ebc48c7972c8861797ad0c",
+  "repoCreatedAt": "2026-06-03T18:36:21Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/babysit/SKILL.md",
+        "line": 21,
+        "excerpt": "nub scripts/pr-reviews.ts <pr> | jq '.reviewThreads[] | select(.isResolved | not)'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/babysit/SKILL.md",
+        "line": 33,
+        "excerpt": "gh api graphql -f query='mutation($id:ID!){resolveReviewThread(input:{threadId:$id}){thread{isResolved}}}' -F id=<thread-id>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/babysit/SKILL.md",
+        "line": 49,
+        "excerpt": "gh pr edit <N> --add-label ci      # requests CI against the current head; the label is removed again immediately",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/babysit/SKILL.md",
+        "line": 84,
+        "excerpt": "gh pr merge <N> --squash --admin",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/ad-hoc-test/SKILL.md",
+        "line": 54,
+        "excerpt": "git worktree add /tmp/base $(git merge-base origin/main HEAD)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/ad-hoc-test/SKILL.md",
+        "line": 74,
+        "excerpt": "FIX=$(mktemp -d /tmp/nub-fix.XXXX)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/ad-hoc-test/SKILL.md",
+        "line": 93,
+        "excerpt": "scripts/rust-build.sh build -p nub-cli --profile fast",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/ad-hoc-test/SKILL.md",
+        "line": 106,
+        "excerpt": "cd \"$FIX\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/ad-hoc-test/SKILL.md",
+        "line": 117,
+        "excerpt": "ls -la node_modules/.bin/ ; cat the-file-it-should-have-written",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/ad-hoc-test/SKILL.md",
+        "line": 129,
+        "excerpt": "\"$NUB\" <cmd> --flag-variant        # each flag/alias you touched",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/ad-hoc-test/SKILL.md",
+        "line": 140,
+        "excerpt": "rm -rf \"$FIX\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/ad-hoc-test/SKILL.md",
+        "line": 156,
+        "excerpt": "FIX=$(mktemp -d /tmp/nub-fix.XXXX); cd \"$FIX\"        # 1. fixture",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/ci-triage/SKILL.md",
+        "line": 39,
+        "excerpt": "SHA=$(git rev-parse origin/main)   # or a PR head, or any commit",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/ci-triage/SKILL.md",
+        "line": 53,
+        "excerpt": "gh api repos/nubjs/nub/commits/$SHA/check-runs --paginate --jq '[.check_runs[]|select(.conclusion==\"failure\")]|length'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/ci-triage/SKILL.md",
+        "line": 60,
+        "excerpt": "gh api repos/nubjs/nub/commits/$SHA/check-runs --paginate --slurp \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/ci-triage/SKILL.md",
+        "line": 71,
+        "excerpt": "gh run view <run-id> --json name,status,conclusion,headBranch,headSha,event,createdAt",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/ci-triage/SKILL.md",
+        "line": 87,
+        "excerpt": "gh run list --workflow <file>.yml --limit 30 \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/ci-triage/SKILL.md",
+        "line": 99,
+        "excerpt": "[[ \"$smoke\" == \"success\" || \"$smoke\" == \"skipped\" ]] || { echo \"smoke failed\"; exit 1; }",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/ci-triage/SKILL.md",
+        "line": 105,
+        "excerpt": "[[ \"$smoke\" == \"success\" || \"$smoke\" == \"skipped\" || \"$smoke\" == \"cancelled\" ]] || { echo \"smoke failed\"; exit 1; }",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/ci-watch.ts",
+        "line": 63,
+        "excerpt": "import { execFileSync } from \"node:child_process\";",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "scripts/pr-reviews.ts",
+        "line": 83,
+        "excerpt": "const res = await fetch(\"https://api.github.com/graphql\", {",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.github.com"
+        ]
+      }
+    ],
+    "findingTotals": {
+      "shell": 27,
+      "network": 1
+    },
+    "score": 90,
+    "band": "low",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 8,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "742e6987d0d9ad42effce026af6b0f70af69c584",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 90,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

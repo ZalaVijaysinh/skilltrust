@@ -1,0 +1,294 @@
+{
+  "id": "nvidia__skills__skills~tao-run-on-kubernetes",
+  "owner": "NVIDIA",
+  "repo": "skills",
+  "path": "skills/tao-run-on-kubernetes",
+  "name": "tao-run-on-kubernetes",
+  "description": "Kubernetes execution platform — submits TAO container jobs as k8s Jobs with NVIDIA GPU scheduling; single-pod",
+  "stars": 3888,
+  "category": "coding",
+  "commit": "fce3cca4170be75e82c64920654d56ee2811b005",
+  "contentHash": "0dd37fa2fc9698f0a535024a156ea2e1a1cbb6cf86144faa1812144402c4ca6f",
+  "repoCreatedAt": "2026-02-25T21:54:05Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-on-kubernetes/SKILL.md",
+        "line": 38,
+        "excerpt": "if [ \"${TAO_K8S_SKIP_NODE_RUNTIME_CHECK:-0}\" != \"1\" ]; then",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/tao-run-on-kubernetes/SKILL.md",
+        "line": 57,
+        "excerpt": "echo \"MISSING: no reachable cluster (kubeconfig at ~/.kube/config, \\$KUBECONFIG, or in-pod service account).\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/tao-run-on-kubernetes/SKILL.md",
+        "line": 86,
+        "excerpt": "- `~/.kube/config` — default discovery path",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-on-kubernetes/SKILL.md",
+        "line": 114,
+        "excerpt": "ALLOC=$(kubectl get nodes -o jsonpath='{range .items[*]}{.status.allocatable.nvidia\\.com/gpu}{\"\\n\"}{end}' | awk '{s+=$1} END{print s+0}')",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-on-kubernetes/SKILL.md",
+        "line": 137,
+        "excerpt": "JOB_ID=$(\"$BANK/scripts/tao_job_record.py\" open --platform kubernetes --image \"$IMAGE\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-on-kubernetes/SKILL.md",
+        "line": 160,
+        "excerpt": "kubectl get job \"$K8S_JOB_NAME\" -n \"$NAMESPACE\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-on-kubernetes/SKILL.md",
+        "line": 175,
+        "excerpt": "kubectl logs -n \"$NAMESPACE\" -l \"job-name=$K8S_JOB_NAME\" --tail \"${N:-200}\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-on-kubernetes/SKILL.md",
+        "line": 181,
+        "excerpt": "kubectl delete job \"$K8S_JOB_NAME\" -n \"$NAMESPACE\" --cascade=foreground",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/tao-run-on-kubernetes/SKILL.md",
+        "line": 182,
+        "excerpt": "if [ -n \"${CRED_SECRET:-}\" ]; then",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/tao-run-on-kubernetes/SKILL.md",
+        "line": 183,
+        "excerpt": "kubectl delete secret \"$CRED_SECRET\" -n \"$NAMESPACE\" --ignore-not-found",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-on-kubernetes/SKILL.md",
+        "line": 226,
+        "excerpt": "The simple single-pod template invokes its command via `/bin/sh -c` (POSIX sh,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-on-kubernetes/SKILL.md",
+        "line": 232,
+        "excerpt": "script is preserved verbatim under `/bin/sh -c`; the renderer never constructs",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-on-kubernetes/SKILL.md",
+        "line": 240,
+        "excerpt": "bash skills/platform/tao-setup-nvidia-gpu-host/scripts/setup-nvidia-gpu-host.sh --backend kubernetes --install --yes",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-on-kubernetes/SKILL.md",
+        "line": 246,
+        "excerpt": "helm repo add nvidia https://helm.ngc.nvidia.com/nvidia",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-on-kubernetes/SKILL.md",
+        "line": 282,
+        "excerpt": "torchrun --nnodes=$NNODES --nproc-per-node=$NPROC_PER_NODE --node-rank=$NODE_RANK \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-on-kubernetes/SKILL.md",
+        "line": 320,
+        "excerpt": "set -a; source /path/to/.env; set +a   # omit if already exported",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/tao-run-on-kubernetes/eval.config",
+        "line": 5,
+        "excerpt": "\"prompt\": \"Run a short-lived Job on a local Kubernetes cluster end to end using the `tao-run-on-kubernetes` skill, and report its final state.\\n\\nThis eval chec",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/tao-run-on-kubernetes/eval.config",
+        "line": 5,
+        "excerpt": "\"prompt\": \"Run a short-lived Job on a local Kubernetes cluster end to end using the `tao-run-on-kubernetes` skill, and report its final state.\\n\\nThis eval chec",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/tao-run-on-kubernetes/references/action-request.md",
+        "line": 84,
+        "excerpt": "\"$AWS_ACCESS_KEY_ID\" \"$AWS_SECRET_ACCESS_KEY\" \"$HF_TOKEN\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/tao-run-on-kubernetes/references/action-request.md",
+        "line": 85,
+        "excerpt": "| kubectl create secret generic \"$CRED_SECRET\" -n \"$NAMESPACE\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-on-kubernetes/references/action-request.md",
+        "line": 110,
+        "excerpt": "verbatim under `/bin/sh -c`; values from the config are never interpolated as",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/tao-run-on-kubernetes/references/action-request.md",
+        "line": 115,
+        "excerpt": "if [ -n \"${CRED_SECRET:-}\" ]; then",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/tao-run-on-kubernetes/references/action-request.md",
+        "line": 116,
+        "excerpt": "RENDER_ARGS+=(--credential-secret \"$CRED_SECRET\")",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/tao-run-on-kubernetes/references/action-request.md",
+        "line": 118,
+        "excerpt": "if [ -n \"${IMAGE_PULL_SECRET:-}\" ]; then",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/tao-run-on-kubernetes/references/action-request.md",
+        "line": 119,
+        "excerpt": "RENDER_ARGS+=(--image-pull-secret \"$IMAGE_PULL_SECRET\")",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/tao-run-on-kubernetes/references/local-cluster.md",
+        "line": 15,
+        "excerpt": "mkdir -p \"$HOME/.local/bin\"; export PATH=\"$HOME/.local/bin:$PATH\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/tao-run-on-kubernetes/references/local-cluster.md",
+        "line": 18,
+        "excerpt": "curl -fsSLo \"$HOME/.local/bin/kubectl\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/tao-run-on-kubernetes/references/local-cluster.md",
+        "line": 19,
+        "excerpt": "\"https://dl.k8s.io/release/$(curl -fsSL https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "dl.k8s.io"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/tao-run-on-kubernetes/references/local-cluster.md",
+        "line": 23,
+        "excerpt": "curl -fsSLo \"$HOME/.local/bin/minikube\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/tao-run-on-kubernetes/references/skill_info.yaml",
+        "line": 2,
+        "excerpt": "required_credentials: []  # Auth via kubeconfig (~/.kube/config) or in-cluster service account",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/tao-run-on-kubernetes/references/skill_info.yaml",
+        "line": 12,
+        "excerpt": "description: Alternate kubeconfig path (defaults to ~/.kube/config).",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 13,
+      "reads-secrets": 12,
+      "downloads-code": 1,
+      "writes-outside": 2,
+      "network": 3
+    },
+    "score": 59,
+    "band": "review",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 12,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "fce3cca4170be75e82c64920654d56ee2811b005",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 59,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

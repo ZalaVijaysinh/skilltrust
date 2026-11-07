@@ -1,0 +1,224 @@
+{
+  "id": "snailsploit__claude-red__skills~cloud~offensive-cloud",
+  "owner": "SnailSploit",
+  "repo": "Claude-Red",
+  "path": "Skills/cloud/offensive-cloud",
+  "name": "offensive-cloud",
+  "description": "Cloud security attack methodology covering AWS, Azure, and GCP. Includes credential harvesting (IMDS, ~/.aws, env vars, leaked CI secrets, instance roles), enumeration with cloud-specific tools (pacu, ScoutSuite, Prowler, ROADtools, gcp_enum), privilege escalation paths (IAM PassRole, AssumeRole chains, Lambda/Functions privilege flips, Azure Owner-on-self, GCP serviceAccountTokenCreator), persistence techniques (IAM user/key creation, AAD app registration, GCP svc account key creation, EventBridge/Logic Apps backdoors), data exfiltration (S3/Blob/GCS, snapshot share, RDS/CosmosDB/Cloud SQL exfil), cloud-native lateral movement (cross-account assume, Azure AD multi-tenant, GCP project hierarchy), serverless attacks (Lambda env vars, layer hijack, Step Functions), Kubernetes-on-cloud (EKS/AKS/GKE-specific paths to node and AWS metadata), and CSPM evasion (CloudTrail blind spots, GuardDuty mute, Sentinel rule shaping). Use when the engagement scope is cloud accounts, when you've stolen cloud credentials, or when assessing cloud posture.",
+  "stars": 10468,
+  "category": "devops",
+  "commit": "a8de813edc9f66f60d44cfe42d47750e89d9930b",
+  "contentHash": "3bfe3d7cf187b997826b51897a839d69468f5d131696fdd7f840c7bb89bab46e",
+  "repoCreatedAt": "2026-03-04T05:52:35Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "Skills/cloud/offensive-cloud/SKILL.md",
+        "line": 23,
+        "excerpt": "aws sts get-caller-identity",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "Skills/cloud/offensive-cloud/SKILL.md",
+        "line": 34,
+        "excerpt": "curl http://169.254.169.254/latest/meta-data/iam/security-credentials/<role>",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "169.254.169.254"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/cloud/offensive-cloud/SKILL.md",
+        "line": 34,
+        "excerpt": "curl http://169.254.169.254/latest/meta-data/iam/security-credentials/<role>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "Skills/cloud/offensive-cloud/SKILL.md",
+        "line": 37,
+        "excerpt": "TOKEN=$(curl -X PUT \"http://169.254.169.254/latest/api/token\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "169.254.169.254"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "Skills/cloud/offensive-cloud/SKILL.md",
+        "line": 39,
+        "excerpt": "curl -H \"X-aws-ec2-metadata-token: $TOKEN\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "Skills/cloud/offensive-cloud/SKILL.md",
+        "line": 39,
+        "excerpt": "curl -H \"X-aws-ec2-metadata-token: $TOKEN\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/cloud/offensive-cloud/SKILL.md",
+        "line": 62,
+        "excerpt": "pacu",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/cloud/offensive-cloud/SKILL.md",
+        "line": 72,
+        "excerpt": "aws iam list-roles --query 'Roles[?AssumeRolePolicyDocument!=null]'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/cloud/offensive-cloud/SKILL.md",
+        "line": 84,
+        "excerpt": "aws s3api list-buckets",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/cloud/offensive-cloud/SKILL.md",
+        "line": 107,
+        "excerpt": "aws configservice put-delivery-channel ...  # Rare but devastating",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/cloud/offensive-cloud/SKILL.md",
+        "line": 126,
+        "excerpt": "az account show",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "Skills/cloud/offensive-cloud/SKILL.md",
+        "line": 137,
+        "excerpt": "curl -H \"Metadata:true\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/cloud/offensive-cloud/SKILL.md",
+        "line": 137,
+        "excerpt": "curl -H \"Metadata:true\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/cloud/offensive-cloud/SKILL.md",
+        "line": 158,
+        "excerpt": "roadrecon auth -u user@tenant -p pass",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/cloud/offensive-cloud/SKILL.md",
+        "line": 170,
+        "excerpt": "az storage account keys list -g RG -n SA",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/cloud/offensive-cloud/SKILL.md",
+        "line": 187,
+        "excerpt": "az ad app credential reset --id <app-id> --append",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/cloud/offensive-cloud/SKILL.md",
+        "line": 206,
+        "excerpt": "gcloud auth list",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "Skills/cloud/offensive-cloud/SKILL.md",
+        "line": 215,
+        "excerpt": "curl -H \"Metadata-Flavor: Google\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/cloud/offensive-cloud/SKILL.md",
+        "line": 215,
+        "excerpt": "curl -H \"Metadata-Flavor: Google\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/cloud/offensive-cloud/SKILL.md",
+        "line": 235,
+        "excerpt": "git clone https://github.com/google/gcp_scanner",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/cloud/offensive-cloud/SKILL.md",
+        "line": 247,
+        "excerpt": "gcloud storage ls",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/cloud/offensive-cloud/SKILL.md",
+        "line": 264,
+        "excerpt": "gcloud organizations list",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 16,
+      "network": 5,
+      "reads-secrets": 1
+    },
+    "score": 80,
+    "band": "low",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "a8de813edc9f66f60d44cfe42d47750e89d9930b",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 80,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

@@ -1,0 +1,114 @@
+{
+  "id": "jeremylongshore__tons-of-skills-marketplace__skills~.curated~podium-call-transcript-pipeline",
+  "owner": "jeremylongshore",
+  "repo": "tons-of-skills-marketplace",
+  "path": "skills/.curated/podium-call-transcript-pipeline",
+  "name": "podium-call-transcript-pipeline",
+  "description": "Durable, idempotent ingest pipeline for Podium call transcripts — the layer between",
+  "stars": 2905,
+  "category": "coding",
+  "commit": "0500b275e963c027f6b410e8c49c0446945c574e",
+  "contentHash": "922a3414e89c9e7a213d629b2835eb632b6b7f4944cf7639ebd2f6fad5d54514",
+  "repoCreatedAt": "2025-10-10T01:01:00Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/.curated/podium-call-transcript-pipeline/SKILL.md",
+        "line": 248,
+        "excerpt": "uvicorn podium_call_transcript_pipeline.webhook_ingest:app --host 0.0.0.0 --port 8080 &",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/.curated/podium-call-transcript-pipeline/SKILL.md",
+        "line": 256,
+        "excerpt": "python3 scripts/pii_redact.py --input transcript-raw.json --output transcript-redacted.json --audit-log redactions.jsonl",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/.curated/podium-call-transcript-pipeline/SKILL.md",
+        "line": 262,
+        "excerpt": "python3 scripts/transcript_poller.py --since-hours 12 --max-age-hours 4 --location-uid \"{location-uid}\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/.curated/podium-call-transcript-pipeline/SKILL.md",
+        "line": 268,
+        "excerpt": "python3 scripts/transcript_chunker.py --input transcript-redacted.json --output chunks.json --target-tokens 1500 --overlap-tokens 200",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.curated/podium-call-transcript-pipeline/scripts/transcript_poller.py",
+        "line": 38,
+        "excerpt": "import urllib.request",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/.curated/podium-call-transcript-pipeline/scripts/transcript_poller.py",
+        "line": 63,
+        "excerpt": "csec = os.environ.get(\"PODIUM_CLIENT_SECRET\")",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/.curated/podium-call-transcript-pipeline/scripts/transcript_poller.py",
+        "line": 64,
+        "excerpt": "refresh_file = Path(os.environ.get(\"PODIUM_REFRESH_TOKEN_FILE\", \"\"))",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.curated/podium-call-transcript-pipeline/scripts/transcript_poller.py",
+        "line": 77,
+        "excerpt": "req = urllib.request.Request(url, headers={\"Authorization\": f\"Bearer {token}\"})",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.curated/podium-call-transcript-pipeline/scripts/transcript_poller.py",
+        "line": 79,
+        "excerpt": "with urllib.request.urlopen(req, timeout=timeout) as resp:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 4,
+      "network": 3,
+      "reads-secrets": 2
+    },
+    "score": 82,
+    "band": "low",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 11,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "0500b275e963c027f6b410e8c49c0446945c574e",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 82,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}

