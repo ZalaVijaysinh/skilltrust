@@ -27,6 +27,14 @@ Or, in Claude Code:
 /plugin install skilltrust@skilltrust
 ```
 
+## Check the skills you already have
+
+Ask the finder to check your installed skills. It reads the skill folders of every supported agent (read-only), matches each skill by name against the index and tells you, for example, "3 of your 14 installed skills can read your API keys". Your list of skills never leaves your machine: the finder only downloads the public index.
+
+## Badges
+
+Every skill page has a README badge (`SkillTrust: 92 · Low risk`) you can paste into your repository. Repository pages show the risk mix of all skills in one repo.
+
 ## Trending
 
 The home page ranks skills by stars gained this week and this month, taken from daily star snapshots. Until there is enough history it shows "New and rising" instead. "Most installed" is coming later. Star history may later be backfilled from [OSS Insight](https://ossinsight.io) (paused: its API is currently failing).
@@ -52,7 +60,7 @@ Bands:
 - 50–79: Review before installing
 - 0–49: High risk
 
-Each skill has its own page with the exact lines that triggered each rule.
+Each skill has its own page with the exact lines that triggered each rule. Prose in Markdown and comment lines in code never count. When one repository has the same skill in several folders, the site lists it once, showing the lowest-scoring copy.
 
 ## Limits of static scanning
 

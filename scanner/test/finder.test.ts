@@ -1,5 +1,5 @@
 import { spawnSync } from "node:child_process";
-import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readFileSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { expect, test } from "vitest";
@@ -201,3 +201,31 @@ test("install mode refuses poisoned paths, unknown or bad ids, and unusable entr
   expect(bad.stdout.trim()).toBe("cannot install");
   expect(bad.status).not.toBe(0);
 }, 30_000);
+
+const check = /^node -e '(.*)' "\$f"$/m.exec(skill)?.[1] ?? "";
+test("check script: reads installed skills once each, matches by name, summarises, sends nothing", () => {
+  expect(check).not.toBe("");
+  expect(check).not.toContain("'");
+  expect(check).not.toMatch(/child_process|https?:|fetch\(|request\(|writeFile|appendFile|unlink|rmSync|rmdir|rename|spawn|execSync/);
+  const home = mkdtempSync(join(tmpdir(), "finder-home-"));
+  const put = (dir: string, md: string | null) => { mkdirSync(join(home, dir), { recursive: true }); if (md !== null) writeFileSync(join(home, dir, "SKILL.md"), md); };
+  put(".agents/skills/pdf", "---\nname: \"PDF Tool\"\ndescription: x\n---\nbody");
+  mkdirSync(join(home, ".claude/skills"), { recursive: true });
+  symlinkSync(join(home, ".agents/skills/pdf"), join(home, ".claude/skills/pdf")); // same skill, linked: counted once
+  put(".cursor/skills/mine", "---\nname: my private thing\n---\n");
+  put(".cursor/skills/notes", null); // no SKILL.md: not a skill
+  const idx = [
+    { ...entry("a__r__pdf", "PDF Tool"), stars: 5, ruleIds: ["network"] },
+    { ...entry("b__r__pdf", "pdf tool"), owner: "b", stars: 50, ruleIds: ["reads-secrets", "shell"] },
+    { ...entry("bad", "pdf tool"), commit: "nope" },
+  ];
+  const f = join(home, "index.json");
+  writeFileSync(f, JSON.stringify(idx));
+  const r = spawnSync("node", ["-e", check, f], { encoding: "utf8", env: { ...process.env, HOME: home }, cwd: home });
+  const lines = r.stdout.trim().split("\n");
+  expect(r.status).toBe(0);
+  expect(lines.filter((l) => l.startsWith("skill: "))).toEqual(["skill: pdf | PDF Tool | ~/.agents/skills | 2 matches", "skill: mine | my private thing | ~/.cursor/skills | 0 matches"]);
+  expect(lines.filter((l) => l.startsWith("match: ")).map((l) => l.split(" | ")[0])).toEqual(["match: b__r__pdf", "match: a__r__pdf"]);
+  expect(lines.at(-1)).toBe("summary: installed 2 | matched 1 | reads-secrets 1, shell 1");
+  expect(spawnSync("node", ["-e", check, join(home, "missing.json")], { encoding: "utf8", env: { ...process.env, HOME: home } }).stdout.trim()).toBe("index unreadable");
+});

@@ -1,0 +1,71 @@
+---
+import Base from "../../../layouts/Base.astro";
+import { loadData } from "../../../lib/data";
+import { base, skillHref, siteToday, ruleSentence } from "../../../lib/view";
+import { bandLabel } from "../../../../../scanner/src/score";
+import { starGain } from "../../../../../scanner/src/stars";
+import type { IndexEntry } from "../../../../../scanner/src/records";
+import type { Band, RuleId } from "../../../../../scanner/src/types";
+
+export function getStaticPaths() {
+  const { index, stars } = loadData();
+  const repos = new Map<string, IndexEntry[]>();
+  for (const e of index) { const k = `${e.owner}/${e.repo}`; repos.set(k, [...(repos.get(k) ?? []), e]); }
+  const today = siteToday();
+  return [...repos.values()].map((skills) => {
+    const { owner, repo } = skills[0];
+    const points = stars?.repos[`${owner}/${repo}`]?.points ?? Object.entries(stars?.repos ?? {}).find(([k]) => k.toLowerCase() === `${owner}/${repo}`.toLowerCase())?.[1].points;
+    return {
+      params: { owner, repo },
+      props: { skills, week: points ? starGain(points, today, 7) : null, month: points ? starGain(points, today, 30) : null },
+    };
+  });
+}
+const { skills, week, month } = Astro.props as { skills: IndexEntry[]; week: number | null; month: number | null };
+const { owner, repo } = skills[0];
+const n = (x: number) => x.toLocaleString("en-US");
+const mix = (["low", "review", "high"] as Band[]).map((b) => ({ b, count: skills.filter((s) => s.band === b).length }));
+// how many of this repo's skills can do each thing, most common first
+const can = new Map<RuleId, number>();
+for (const s of skills) for (const r of s.ruleIds) can.set(r, (can.get(r) ?? 0) + 1);
+const abilities = [...can].sort((a, b) => b[1] - a[1]);
+const stars = Math.max(...skills.map((s) => s.stars));
+---
+<Base title={`${owner}/${repo}: ${skills.length} AI agent skill${skills.length === 1 ? "" : "s"} | SkillTrust`} description={`What the ${skills.length} AI agent skills in ${owner}/${repo} can do to your computer: ${mix.map((m) => `${m.count} ${bandLabel(m.b).toLowerCase()}`).join(", ")}.`}>
+  <p class="back"><a href={`${base}/`}>&larr; All skills</a></p>
+  <h1>{owner}/{repo}</h1>
+  <p class="meta">
+    <a href={`https://github.com/${owner}/${repo}`} rel="noopener">On GitHub</a> · ★ {n(stars)} stars
+    {week !== null && <> · <b>+{n(week)}</b> this week</>}
+    {month !== null && <> · +{n(month)} this month</>}
+  </p>
+
+  <h2>Risk mix</h2>
+  <ul class="mix">
+    {mix.map((m) => <li><span class={`badge band-${m.b}`}><b>{m.count}</b> {bandLabel(m.b)}</span></li>)}
+  </ul>
+  {abilities.length > 0 && (
+    <>
+      <p>What these skills can do:</p>
+      <ul>{abilities.map(([r, c]) => <li>{ruleSentence(r)}: {c} of {skills.length}</li>)}</ul>
+    </>
+  )}
+
+  <h2>{skills.length} skill{skills.length === 1 ? "" : "s"}</h2>
+  <ul class="rows">
+    {skills.map((e) => (
+      <li>
+        <a class="row" href={skillHref(e.id)}>
+          <span class={`badge band-${e.band}`}><b>{e.score}</b> {bandLabel(e.band)}</span>
+          <span class="name">{e.name}</span>
+          <span class="meta">
+            {e.path || "(repository root)"} · {e.ruleIds.length === 0 ? "nothing flagged" : `${e.ruleIds.length} thing${e.ruleIds.length === 1 ? "" : "s"} flagged`}
+            {e.copies?.length > 0 && <> · {e.copies.length + 1} copies</>}
+            {e.status === "unavailable" && <> · no longer available</>}
+            {e.incomplete && <> · Partially scanned</>}
+          </span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</Base>

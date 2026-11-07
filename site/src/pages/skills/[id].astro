@@ -1,37 +1,53 @@
 ---
 import Base from "../../layouts/Base.astro";
 import { loadData, fileUrl } from "../../lib/data";
-import { base, sentence, PARTIAL } from "../../lib/view";
+import { base, sentence, ruleSentence, skillHref, repoHref, PARTIAL, SITE, VERDICT, EXPECTED, expected } from "../../lib/view";
+import { saferAlternatives } from "../../lib/related";
 import { bandLabel } from "../../../../scanner/src/score";
 import { skillFolder, type IndexEntry, type SkillRecord } from "../../../../scanner/src/records";
-import type { RuleId } from "../../../../scanner/src/types";
+import type { Finding, RuleId } from "../../../../scanner/src/types";
 
 export function getStaticPaths() {
   const { index, records } = loadData();
-  return index.map((entry) => ({ params: { id: entry.id }, props: { entry, record: records.get(entry.id)! } }));
+  return index.map((entry) => ({ params: { id: entry.id }, props: { entry, record: records.get(entry.id)!, alternatives: saferAlternatives(entry, index) } }));
 }
-const { entry, record } = Astro.props as { entry: IndexEntry; record: SkillRecord };
+const { entry, record, alternatives } = Astro.props as { entry: IndexEntry; record: SkillRecord; alternatives: IndexEntry[] };
 const folder = skillFolder(entry);
 const repoUrl = `https://github.com/${entry.owner}/${entry.repo}`;
-const findings = record.scan.findings;
-// "and N more places" goes after the last shown finding of each rule; records from before findingTotals have none
-const lastOf = new Map(findings.map((f, i) => [f.ruleId, i]));
-const more = (ruleId: RuleId, i: number) => {
-  if (lastOf.get(ruleId) !== i) return 0;
-  const total = Number(record.scan.findingTotals?.[ruleId] ?? 0);
-  return Math.max(0, total - findings.filter((f) => f.ruleId === ruleId).length);
-};
+const SHOWN = 3;
+
+// One card per ability, in the order first found. Records keep at most 20 findings per rule; findingTotals counts all.
+const byRule = new Map<RuleId, Finding[]>();
+for (const f of record.scan.findings) byRule.set(f.ruleId, [...(byRule.get(f.ruleId) ?? []), f]);
+const cards = [...byRule].map(([ruleId, fs]) => {
+  const hosts = [...new Set(fs.flatMap((f) => (Array.isArray(f.hosts) ? f.hosts : [])))];
+  return {
+    ruleId, fs,
+    title: sentence({ ...fs[0], hosts }),
+    disclosed: fs.every((f) => f.disclosed),
+    automatic: fs.some((f) => f.automatic),
+    total: Math.max(fs.length, Number(record.scan.findingTotals?.[ruleId] ?? 0) || 0),
+  };
+});
+const usual = cards.some((c) => expected(entry.category, c.ruleId)) ? EXPECTED[entry.category] : undefined;
 const short = (c: string) => String(c).slice(0, 7);
+const places = (n: number) => `${n} place${n === 1 ? "" : "s"}`;
 // merged in rebuildIndex; the record file on disk only knows itself
 const alsoFoundIn = Array.isArray(entry.alsoFoundIn) ? entry.alsoFoundIn.map(String) : [];
+const copies = Array.isArray(entry.copies) ? entry.copies : [];
+const treeUrl = (path: string) => fileUrl(entry, path)?.replace(`/blob/${entry.commit}/`, `/tree/${entry.commit}/`) ?? null;
+const badgeUrl = `${SITE}/badges/${encodeURIComponent(entry.id)}.svg`;
+const pageUrl = `${SITE}/skills/${encodeURIComponent(entry.id)}/`;
+const abilities = cards.map((c) => ruleSentence(c.ruleId)).join("; ");
 ---
-<Base title={`${entry.name}: ${bandLabel(entry.band)} | SkillTrust`} description="What this AI agent skill can do to your computer, in plain English.">
+<Base title={`${entry.name}: ${entry.score}/100, ${bandLabel(entry.band)} | SkillTrust`} description={`${VERDICT[entry.band]}. ${abilities ? `It can: ${abilities}.` : "No risky behaviour found by the scan."} What this AI agent skill can do to your computer, in plain English.`}>
   <p class="back"><a href={`${base}/`}>&larr; All skills</a></p>
   <h1>{entry.name}</h1>
   <p>
     <span class={`badge band-${entry.band}`}><b>{entry.score}</b> / 100 · {bandLabel(entry.band)}</span>
   </p>
-  <p class="meta">By <a href={repoUrl} rel="noopener">{entry.owner}/{entry.repo}</a> · {entry.category} · {entry.stars.toLocaleString("en-US")} stars · scanned at commit <code>{short(entry.commit)}</code></p>
+  <p class="verdict"><strong>{VERDICT[entry.band]}.</strong>{usual && <> Some of what it can do is expected: {usual.why}.</>}</p>
+  <p class="meta">By <a href={repoHref(entry.owner, entry.repo)}>{entry.owner}/{entry.repo}</a> (<a href={repoUrl} rel="noopener">GitHub</a>) · {entry.category} · {entry.stars.toLocaleString("en-US")} stars · scanned at commit <code>{short(entry.commit)}</code></p>
   {entry.description && <p>{entry.description}</p>}
   <p class="meta">Works with any agent that supports SKILL.md skills.</p>
 
@@ -41,26 +57,66 @@ const alsoFoundIn = Array.isArray(entry.alsoFoundIn) ? entry.alsoFoundIn.map(Str
   {entry.incomplete && <p class="notice">{PARTIAL}</p>}
 
   <h2>What this skill can do</h2>
-  {findings.length === 0 ? (
+  {cards.length === 0 ? (
     <p>We found nothing in the files we read that matches our rules. That does not prove the skill is safe: <a href={`${base}/how-we-score/#limits`}>see the limits of static scanning</a>.</p>
-  ) : findings.map((f, i) => {
-    const url = fileUrl(entry, f.file, f.line);
-    const n = more(f.ruleId, i);
-    return (
-      <div class="finding">
-        <h3>{sentence(f)}</h3>
-        <p class="meta">
-          {f.disclosed ? "This is disclosed by the author in the skill's SKILL.md or README." : "The author does not mention this."}
-          {f.automatic && " It runs automatically when the plugin is installed."}
-        </p>
-        <p class="meta">
+  ) : cards.map((c) => {
+    const loc = (f: Finding) => {
+      const url = fileUrl(entry, f.file, f.line);
+      return (
+        <li>
           {url ? <a href={url} rel="noopener">{f.file}, line {f.line}</a> : <span>{f.file}, line {f.line}</span>}
           <code class="excerpt">{f.excerpt}</code>
+        </li>
+      );
+    };
+    return (
+      <div class="finding">
+        <h3>{c.title}</h3>
+        <p class="meta">
+          {c.disclosed ? "This is disclosed by the author in the skill's SKILL.md or README." : "The author does not mention this."}
+          {c.automatic && " It runs automatically when the plugin is installed."}
+          {expected(entry.category, c.ruleId) && ` Expected for a ${entry.category} skill.`}
         </p>
-        {n > 0 && <p class="meta">and {n} more places</p>}
+        <p class="meta">Found in {places(c.total)}.</p>
+        <ul class="where meta">{c.fs.slice(0, SHOWN).map(loc)}</ul>
+        {c.fs.length > SHOWN && (
+          <details class="meta"><summary>Show {c.fs.length - SHOWN} more</summary><ul class="where">{c.fs.slice(SHOWN).map(loc)}</ul></details>
+        )}
+        {c.total > c.fs.length && <p class="meta">and {c.total - c.fs.length} more places</p>}
       </div>
     );
   })}
+
+  {alternatives.length > 0 && (
+    <>
+      <h2>Safer alternatives</h2>
+      <p class="meta">Low-risk skills in the same category ({entry.category}) that look related. Check that one does what you need.</p>
+      <ul class="rows">
+        {alternatives.map((a) => (
+          <li>
+            <a class="row" href={skillHref(a.id)}>
+              <span class={`badge band-${a.band}`}><b>{a.score}</b> {bandLabel(a.band)}</span>
+              <span class="name">{a.name}</span>
+              <span class="meta">{a.owner}/{a.repo} · {a.stars.toLocaleString("en-US")} stars</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </>
+  )}
+
+  {copies.length > 0 && (
+    <>
+      <h2>Other copies in this repository</h2>
+      <p class="meta">{entry.owner}/{entry.repo} has {copies.length} more {copies.length === 1 ? "folder" : "folders"} with a skill named {entry.name}. This page shows the lowest-scoring copy.</p>
+      <ul>
+        {copies.map((c) => {
+          const url = treeUrl(String(c.path));
+          return <li>{url ? <a href={url} rel="noopener">{String(c.path) || "(repository root)"}</a> : <span>{String(c.path)}</span>} <span class="meta">{c.score}/100 · {bandLabel(c.band)}</span></li>;
+        })}
+      </ul>
+    </>
+  )}
 
   <h2>Install</h2>
   {entry.installCommand ? (
@@ -70,6 +126,10 @@ const alsoFoundIn = Array.isArray(entry.alsoFoundIn) ? entry.alsoFoundIn.map(Str
       <p>Codex reads ~/.agents/skills directly. For Claude Code, Cursor, Copilot, Gemini CLI, Antigravity or OpenCode, also link it. For Claude Code: <code>{`ln -s ~/.agents/skills/'${folder}' ~/.claude/skills/'${folder}'`}</code> (other agents: ~/.cursor/skills, ~/.copilot/skills, ~/.gemini/skills, ~/.gemini/config/skills, ~/.config/opencode/skills). Or install through the finder skill, which does both.</p>
     </>
   ) : <p>No install command is available for this skill. Open the <a href={repoUrl} rel="noopener">repository</a> instead.</p>}
+
+  <h2>Badge for your README</h2>
+  <p><img src={`${base}/badges/${encodeURIComponent(entry.id)}.svg`} alt={`SkillTrust: ${entry.score} · ${bandLabel(entry.band)}`} height="20" /></p>
+  <pre>{`[![SkillTrust](${badgeUrl})](${pageUrl})`}</pre>
 
   <h2>Score history</h2>
   <div class="tablewrap">
