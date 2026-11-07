@@ -1,7 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import { loadData, fileUrl } from "../../lib/data";
-import { base, sentence, ruleSentence, skillHref, repoHref, PARTIAL, SITE, VERDICT, EXPECTED, expected } from "../../lib/view";
+import { base, sentence, ruleSentence, skillHref, repoHref, repoBadge, PARTIAL, VERDICT, EXPECTED, expected } from "../../lib/view";
 import { saferAlternatives } from "../../lib/related";
 import { bandLabel } from "../../../../scanner/src/score";
 import { skillFolder, type IndexEntry, type SkillRecord } from "../../../../scanner/src/records";
@@ -36,8 +36,7 @@ const places = (n: number) => `${n} place${n === 1 ? "" : "s"}`;
 const alsoFoundIn = Array.isArray(entry.alsoFoundIn) ? entry.alsoFoundIn.map(String) : [];
 const copies = Array.isArray(entry.copies) ? entry.copies : [];
 const treeUrl = (path: string) => fileUrl(entry, path)?.replace(`/blob/${entry.commit}/`, `/tree/${entry.commit}/`) ?? null;
-const badgeUrl = `${SITE}/badges/${encodeURIComponent(entry.id)}.svg`;
-const pageUrl = `${SITE}/skills/${encodeURIComponent(entry.id)}/`;
+const badge = repoBadge(entry.owner, entry.repo);
 const abilities = cards.map((c) => ruleSentence(c.ruleId)).join("; ");
 ---
 <Base title={`${entry.name}: ${entry.score}/100, ${bandLabel(entry.band)} | SkillTrust`} description={`${VERDICT[entry.band]}. ${abilities ? `It can: ${abilities}.` : "No risky behaviour found by the scan."} What this AI agent skill can do to your computer, in plain English.`}>
@@ -128,8 +127,9 @@ const abilities = cards.map((c) => ruleSentence(c.ruleId)).join("; ");
   ) : <p>No install command is available for this skill. Open the <a href={repoUrl} rel="noopener">repository</a> instead.</p>}
 
   <h2>Badge for your README</h2>
-  <p><img src={`${base}/badges/${encodeURIComponent(entry.id)}.svg`} alt={`SkillTrust: ${entry.score} · ${bandLabel(entry.band)}`} height="20" /></p>
-  <pre>{`[![SkillTrust](${badgeUrl})](${pageUrl})`}</pre>
+  <p class="meta">The badge for {entry.owner}/{entry.repo} shows the score of its lowest-scoring skill.</p>
+  <p><img src={badge.src} alt={`SkillTrust badge for ${entry.owner}/${entry.repo}`} height="20" /></p>
+  <pre>{badge.markdown}</pre>
 
   <h2>Score history</h2>
   <div class="tablewrap">

@@ -25,6 +25,12 @@ export const siteToday = (env: string | undefined = process.env.SKILLTRUST_TODAY
 
 export const repoHref = (owner: string, repo: string) => `${base}/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}/`;
 export const SITE = "https://zalavijaysinh.github.io/skilltrust";
+const badgePath = (owner: string, repo: string) => `badges/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}.svg`;
+/** README badge for a repo (its lowest-scoring skill): the image URL and the Markdown to paste. */
+export const repoBadge = (owner: string, repo: string) => {
+  const page = `${SITE}/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}/`;
+  return { src: `${base}/${badgePath(owner, repo)}`, markdown: `[![SkillTrust](${SITE}/${badgePath(owner, repo)})](${page})` };
+};
 
 /** One-line verdict per band. */
 export const VERDICT: Record<Band, string> = {
