@@ -146,6 +146,20 @@ describe("runScan", () => {
     expect(calls.getRepo).toEqual(["a/fresh", "a/old", "a/newer"]);
   });
 
+  it("rescans repos with records on older rules before new repos, most stars first", async () => {
+    const dir = await mk();
+    const oldRules = (o: Parameters<typeof rec>[0]) => { const r = rec(o); r.scan.rulesVersion = "0.9.0"; return r; };
+    await writeData(dir, [
+      rec({ id: "a__current___root", owner: "a", repo: "current", path: "", commit: sha("1"), scannedAt: "2026-01-01T00:00:00Z", contentHash: "x1" }),
+      oldRules({ id: "a__few___root", owner: "a", repo: "few", path: "", commit: sha("1"), scannedAt: "2026-06-01T00:00:00Z", contentHash: "x2" }),
+      oldRules({ id: "a__many___root", owner: "a", repo: "many", path: "", commit: sha("1"), scannedAt: "2026-06-01T00:00:00Z", contentHash: "x3" }),
+    ]);
+    const f = fake({ "a/current": { files: skill("current") }, "a/few": { files: skill("few") }, "a/many": { files: skill("many") }, "a/fresh": { files: skill("fresh") } });
+    f.gh.getStars = async (rs) => ({ counts: new Map(rs.map((r) => [`${r.owner}/${r.repo}`, { stars: ({ "a/many": 90, "a/few": 20, "a/fresh": 500, "a/current": 5 } as Record<string, number>)[`${r.owner}/${r.repo}`] ?? 0, createdAt: "2025-01-01T00:00:00Z" }] as const)), failedBatches: 0 });
+    await run(f.gh, dir);
+    expect(f.calls.getRepo).toEqual(["a/many", "a/few", "a/fresh", "a/current"]);
+  });
+
   it("marks a vanished repo unavailable, keeping its scan, and drops it from report counts", async () => {
     const dir = await mk();
     await run(fake({ "a/r": { files: skill("r") }, "a/keep": { files: skill("keep", "z") } }).gh, dir);

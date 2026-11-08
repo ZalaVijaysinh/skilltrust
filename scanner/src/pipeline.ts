@@ -194,7 +194,8 @@ export async function runScan(opts: {
     try { sum.backfilled = (await backfillStars(stars, { today, warn })).filled; } catch (e) { warn(`skilltrust: star backfill failed: ${e instanceof Error ? e.message : String(e)}`); }
     await saveStars(starsFile, stars);
 
-    // never-checked first (most stars first), then the top 50 by 7-day gain not probed for 24 h, then least recently probed;
+    // repos with records on older rules first (their published scores are out of date; most stars first), then
+    // never-checked (most stars first), then the top 50 by 7-day gain not probed for 24 h, then least recently probed;
     // records' scannedAt stands in for repos without a probe time
     const oldest = (k: string) => lastChecked[k] ?? byRepo.get(k)?.reduce((m, r) => (r.scannedAt < m ? r.scannedAt : m), "\uffff") ?? "";
     const alpha = (a: string, b: string) => (a < b ? -1 : a > b ? 1 : 0);
@@ -207,9 +208,12 @@ export async function runScan(opts: {
       const g = byRepo.has(k) && oldest(k) !== "" && oldest(k) < cutoff ? starGain(stars.repos[k]?.points ?? [], today, 7) : null;
       if (g !== null && g > 0) gain.set(k, g);
     }
-    const trending = [...gain.keys()].sort((a, b) => gain.get(b)! - gain.get(a)! || alpha(a, b)).slice(0, TRENDING_TOP);
-    const picked = new Set([...never, ...trending]);
-    const order = [...never, ...trending, ...all.filter((k) => !picked.has(k)).sort(byOldest)].map((k) => [k, repos.get(k)!] as const);
+    const byStars = (a: string, b: string) => (counts.get(b)?.stars ?? -1) - (counts.get(a)?.stars ?? -1) || byOldest(a, b);
+    const outdated = all.filter((k) => byRepo.get(k)?.some((r) => r.scan.rulesVersion !== RULES_VERSION)).sort(byStars);
+    const stale = new Set(outdated);
+    const trending = [...gain.keys()].filter((k) => !stale.has(k)).sort((a, b) => gain.get(b)! - gain.get(a)! || alpha(a, b)).slice(0, TRENDING_TOP);
+    const picked = new Set([...outdated, ...never, ...trending]);
+    const order = [...outdated, ...never, ...trending, ...all.filter((k) => !picked.has(k)).sort(byOldest)].map((k) => [k, repos.get(k)!] as const);
     const expired = () => clock() > deadline;
 
     for (const [k, { owner, repo }] of order) {
