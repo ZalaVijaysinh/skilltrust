@@ -5,15 +5,15 @@
   "path": "skills/hunt-session",
   "name": "hunt-session",
   "description": "Hunt Session Management vulnerabilities — session fixation (no regeneration on login), insufficient invalidation on logout / password-change / email-change, predictable or low-entropy session IDs, JWT-as-session with no exp/revocation, refresh-token rotation/reuse-detection gaps, OAuth/SSO session linkage, device-bound-session (DBSC) downgrade, and cookie attribute issues (Secure/HttpOnly/SameSite/__Host-). Validate with TWO real sessions (attacker A + victim B), body-diff every 200, and OOB confirmation for theft chains. Medium to Critical (fixation→admin hijack, no-invalidation→persistent ATO).",
-  "stars": 5465,
+  "stars": 5490,
   "category": "security",
-  "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
+  "commit": "42a3ab1bb96426beb98f964d178695c1144c61ea",
   "contentHash": "51febba90028a35dc655fbb3b89798dafefe557673dc526ee23e4f4660980642",
   "repoCreatedAt": "2026-05-05T11:22:32Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
       {
@@ -21,14 +21,6 @@
         "file": "skills/hunt-session/SKILL.md",
         "line": 92,
         "excerpt": "TARGET=target.com",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/hunt-session/SKILL.md",
-        "line": 109,
-        "excerpt": "# Step 1: grab a pre-auth session the SERVER hands an anonymous client.",
         "disclosed": true,
         "automatic": false
       },
@@ -42,6 +34,14 @@
         "hosts": [
           "$target"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-session/SKILL.md",
+        "line": 110,
+        "excerpt": "curl -s -L -c \"$JAR_A\" \"https://$TARGET/login\" -o /dev/null",
+        "disclosed": true,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -66,14 +66,6 @@
         ]
       },
       {
-        "ruleId": "shell",
-        "file": "skills/hunt-session/SKILL.md",
-        "line": 133,
-        "excerpt": "# A logs in for real (fresh jar), capture A's live session.",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/hunt-session/SKILL.md",
         "line": 134,
@@ -83,6 +75,14 @@
         "hosts": [
           "$target"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-session/SKILL.md",
+        "line": 134,
+        "excerpt": "curl -s -L -c \"$JAR_A\" -X POST \"https://$TARGET/api/login\" \\",
+        "disclosed": true,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -118,14 +118,6 @@
         ]
       },
       {
-        "ruleId": "shell",
-        "file": "skills/hunt-session/SKILL.md",
-        "line": 157,
-        "excerpt": "# This is the real two-session flow. A = attacker holding a stolen/old session.",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/hunt-session/SKILL.md",
         "line": 163,
@@ -135,6 +127,14 @@
         "hosts": [
           "$target"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-session/SKILL.md",
+        "line": 163,
+        "excerpt": "curl -s -L -c \"$JAR_A\" -X POST \"https://$TARGET/api/login\" \\",
+        "disclosed": true,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -202,8 +202,8 @@
       {
         "ruleId": "shell",
         "file": "skills/hunt-session/SKILL.md",
-        "line": 200,
-        "excerpt": "# Collect a LARGE sample (200+) of freshly-issued IDs. -L is required: a 302",
+        "line": 202,
+        "excerpt": "N=200; SAMP=$(mktemp)",
         "disclosed": true,
         "automatic": false
       },
@@ -227,14 +227,6 @@
         "automatic": false
       },
       {
-        "ruleId": "shell",
-        "file": "skills/hunt-session/SKILL.md",
-        "line": 232,
-        "excerpt": "# 1) Obtain a refresh token (login or /oauth/token), then rotate it once.",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/hunt-session/SKILL.md",
         "line": 233,
@@ -244,6 +236,14 @@
         "hosts": [
           "$target"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-session/SKILL.md",
+        "line": 233,
+        "excerpt": "RT1=$(curl -s -L -X POST \"https://$TARGET/api/login\" \\",
+        "disclosed": true,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -279,14 +279,6 @@
         ]
       },
       {
-        "ruleId": "shell",
-        "file": "skills/hunt-session/SKILL.md",
-        "line": 256,
-        "excerpt": "# SSO linkage: after IdP callback, is the app session bound to the IdP session?",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/hunt-session/SKILL.md",
         "line": 261,
@@ -296,6 +288,14 @@
         "hosts": [
           "$target"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-session/SKILL.md",
+        "line": 261,
+        "excerpt": "curl -s -L -H \"Cookie: $A\" \"https://$TARGET/api/me\" -w '\\n[%{http_code}]'",
+        "disclosed": true,
+        "automatic": false
       }
     ],
     "findingTotals": {
@@ -304,7 +304,7 @@
     },
     "score": 94,
     "band": "low",
-    "rulesVersion": "1.0.0",
+    "rulesVersion": "1.3.0",
     "filesScanned": 2,
     "filesSkipped": 0
   },
@@ -314,6 +314,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 94,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "42a3ab1bb96426beb98f964d178695c1144c61ea",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 94,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

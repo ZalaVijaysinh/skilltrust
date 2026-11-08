@@ -5,22 +5,22 @@
   "path": "skills/hunt-grpc",
   "name": "hunt-grpc",
   "description": "Hunt gRPC vulnerabilities — server reflection enabled (enumerate all services/methods), missing authentication / metadata-stripping on internal endpoints, plaintext gRPC over HTTP/2, internal endpoint disclosure, proto file leakage, gRPC-Web/grpc-gateway transcoding injection, and HTTP/2 Rapid Reset DoS (CVE-2023-44487). Use when target exposes port 50051 / 443 / 8443 / 9090 with HTTP/2, when grpcurl/grpcui detects reflection, when an Envoy or grpc-gateway proxy is fronting a microservice, or when recon reveals a microservice architecture.",
-  "stars": 5465,
+  "stars": 5490,
   "category": "security",
-  "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
+  "commit": "42a3ab1bb96426beb98f964d178695c1144c61ea",
   "contentHash": "fcc790ce418b355344df71961c3b6c4d708ad3609b7c1622955ed5d6527112b3",
   "repoCreatedAt": "2026-05-05T11:22:32Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "skills/hunt-grpc/SKILL.md",
-        "line": 26,
-        "excerpt": "# Common gRPC ports (50051 native; 443/8443 via TLS+ALPN h2; 9090/8080 h2c)",
+        "line": 27,
+        "excerpt": "nmap -sV -p 50051,50052,443,9090,8080,8443,6565,9000 $TARGET 2>/dev/null | grep open",
         "disclosed": false,
         "automatic": false
       },
@@ -65,24 +65,24 @@
       {
         "ruleId": "shell",
         "file": "skills/hunt-grpc/SKILL.md",
-        "line": 81,
-        "excerpt": "# Baseline: call a sensitive method with NO auth metadata",
+        "line": 82,
+        "excerpt": "grpcurl -plaintext $TARGET:50051 -d '{}' admin.AdminService/ListUsers",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/hunt-grpc/SKILL.md",
-        "line": 102,
-        "excerpt": "# (a) Forged bearer / alg=none JWT in the authorization metadata",
+        "line": 103,
+        "excerpt": "grpcurl -plaintext $TARGET:50051 \\",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/hunt-grpc/SKILL.md",
-        "line": 130,
-        "excerpt": "# Proxies (Envoy/grpc-gateway) sometimes serve descriptors or swagger",
+        "line": 131,
+        "excerpt": "for P in proto api/proto swagger.json openapiv2 service.swagger.json descriptor.pb; do",
         "disclosed": false,
         "automatic": false
       },
@@ -98,14 +98,6 @@
         ]
       },
       {
-        "ruleId": "shell",
-        "file": "skills/hunt-grpc/SKILL.md",
-        "line": 154,
-        "excerpt": "# (a) grpc-gateway maps gRPC methods to REST. Reflection-derived method names often",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/hunt-grpc/SKILL.md",
         "line": 156,
@@ -115,6 +107,14 @@
         "hosts": [
           "$target"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-grpc/SKILL.md",
+        "line": 156,
+        "excerpt": "curl -s -X POST \"https://$TARGET/v1/admin/users:list\" -H 'content-type: application/json' -d '{}'",
+        "disclosed": false,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -163,16 +163,8 @@
       {
         "ruleId": "shell",
         "file": "skills/hunt-grpc/SKILL.md",
-        "line": 195,
-        "excerpt": "# CERT/CC + community tracking and PoCs for CVE-2023-44487:",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/hunt-grpc/SKILL.md",
-        "line": 211,
-        "excerpt": "# Fingerprint the HTTP/2 implementation and version (patched versions are known):",
+        "line": 199,
+        "excerpt": "git clone https://github.com/secengjeff/rapidresetclient",
         "disclosed": false,
         "automatic": false
       },
@@ -190,6 +182,14 @@
       {
         "ruleId": "shell",
         "file": "skills/hunt-grpc/SKILL.md",
+        "line": 212,
+        "excerpt": "curl -sI --http2 https://$TARGET/ | grep -i '^server:'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-grpc/SKILL.md",
         "line": 223,
         "excerpt": "grpcurl   # primary CLI client (list/describe/call, -protoset for reflection-off)",
         "disclosed": false,
@@ -203,7 +203,7 @@
     },
     "score": 77,
     "band": "review",
-    "rulesVersion": "1.0.0",
+    "rulesVersion": "1.3.0",
     "filesScanned": 2,
     "filesSkipped": 0
   },
@@ -213,6 +213,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 77,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "42a3ab1bb96426beb98f964d178695c1144c61ea",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 77,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

@@ -3,19 +3,68 @@
   "owner": "LeoYeAI",
   "repo": "agent-master-skills",
   "path": "skills/multi-agent-industry-research",
-  "name": "multi-agent-industry-research",
-  "description": "",
-  "stars": 2182,
-  "category": "coding",
+  "name": "industry-research",
+  "description": "Multi-agent collaborative industry research for OpenClaw. Dynamically assigns\nresearch roles, runs parallel research via sessions_spawn with codex/gemini/claude\nCLI augmentation, iterative quality review, merge & converge, outputs structured\nMarkdown report.\n\nAll parameters are configurable via environment variables or interactive setup.\n\nTrigger: /research, 行业调研, industry research, 调研报告",
+  "stars": 2184,
+  "category": "research",
   "commit": "8f88f9a0dd5a1075d4f0c7626f9d960844d57575",
   "contentHash": "7aabee32b28ccf73d6280dff7fdfda90f521171791bbb42bf7a916640dd1a936",
   "repoCreatedAt": "2026-03-02T02:02:25Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/multi-agent-industry-research/SKILL.md",
+        "line": 97,
+        "excerpt": "ls -d */round-1 */merged */output 2>/dev/null | sed 's|/.*||' | sort -u",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/multi-agent-industry-research/SKILL.md",
+        "line": 116,
+        "excerpt": "echo \"RESEARCH_DEPTH=${RESEARCH_DEPTH:-standard}\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/multi-agent-industry-research/SKILL.md",
+        "line": 133,
+        "excerpt": "command -v codex && codex --version || echo \"CODEX_UNAVAILABLE\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/multi-agent-industry-research/SKILL.md",
+        "line": 144,
+        "excerpt": "curl -s http://localhost:18789/api/session/info 2>/dev/null | python3 -c \"import json,sys; print(json.load(sys.stdin).get('model','UNKNOWN'))\" || echo \"UNKNOWN\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/multi-agent-industry-research/SKILL.md",
+        "line": 144,
+        "excerpt": "curl -s http://localhost:18789/api/session/info 2>/dev/null | python3 -c \"import json,sys; print(json.load(sys.stdin).get('model','UNKNOWN'))\" || echo \"UNKNOWN\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/multi-agent-industry-research/SKILL.md",
+        "line": 159,
+        "excerpt": "mkdir -p \"{topic-slug}/round-1\" \"{topic-slug}/merged\" \"{topic-slug}/output\"",
+        "disclosed": false,
+        "automatic": false
+      },
       {
         "ruleId": "network",
         "file": "skills/multi-agent-industry-research/references/tool-mapping.md",
@@ -36,13 +85,14 @@
       }
     ],
     "findingTotals": {
-      "network": 2
+      "shell": 5,
+      "network": 3
     },
-    "score": 95,
+    "score": 90,
     "band": "low",
-    "rulesVersion": "1.2.0",
-    "filesScanned": 1,
-    "filesSkipped": 3
+    "rulesVersion": "1.3.0",
+    "filesScanned": 4,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -50,6 +100,12 @@
       "scannedAt": "2026-11-07T16:26:42.053Z",
       "score": 95,
       "rulesVersion": "1.2.0"
+    },
+    {
+      "commit": "8f88f9a0dd5a1075d4f0c7626f9d960844d57575",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 90,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

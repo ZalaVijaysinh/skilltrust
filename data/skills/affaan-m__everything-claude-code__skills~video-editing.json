@@ -5,15 +5,15 @@
   "path": "skills/video-editing",
   "name": "video-editing",
   "description": "AI-assisted video editing workflows for cutting, structuring, and augmenting real footage. Covers the full pipeline from raw capture through FFmpeg, Remotion, ElevenLabs, fal.ai, and final polish in Descript or CapCut. Use when the user wants to edit video, cut footage, create vlogs, or build video content.",
-  "stars": 298486,
+  "stars": 299277,
   "category": "coding",
-  "commit": "b38be6a7f6350964d59328b52f0624e1d1d552d1",
-  "contentHash": "1eca928b027b9feec959c34c25a1143ba2f073844a903844c0399d781daa20f5",
+  "commit": "d2ef2680594f9a17526a6e1a2e18b3d242c5d17b",
+  "contentHash": "3a0a3877fe722dbd8fc3cff23a08bbc362089f395ead3fefadae434180af35fb",
   "repoCreatedAt": "2026-01-18T00:51:51Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
       {
@@ -27,16 +27,16 @@
       {
         "ruleId": "shell",
         "file": "skills/video-editing/SKILL.md",
-        "line": 97,
-        "excerpt": "#!/bin/bash",
+        "line": 99,
+        "excerpt": "while IFS=, read -r start end label; do",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/video-editing/SKILL.md",
-        "line": 107,
-        "excerpt": "# Create file list",
+        "line": 108,
+        "excerpt": "for f in segments/*.mp4; do echo \"file '$f'\"; done > concat.txt",
         "disclosed": false,
         "automatic": false
       },
@@ -98,34 +98,26 @@
         "automatic": false
       },
       {
-        "ruleId": "reads-secrets",
+        "ruleId": "shell",
         "file": "skills/video-editing/SKILL.md",
-        "line": 203,
-        "excerpt": "\"xi-api-key\": os.environ[\"ELEVENLABS_API_KEY\"],",
+        "line": 268,
+        "excerpt": "ffmpeg -i input.mp4 -vf \"crop=ih*9/16:ih,scale=1080:1920\" vertical.mp4",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/video-editing/SKILL.md",
-        "line": 267,
-        "excerpt": "# 16:9 to 9:16 (center crop)",
+        "line": 289,
+        "excerpt": "ffmpeg -i input.mp4 -vf \"select='gt(scene,0.3)',showinfo\" -vsync vfr -f null - 2>&1 | grep showinfo",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/video-editing/SKILL.md",
-        "line": 288,
-        "excerpt": "# Detect scene changes (threshold 0.3 = moderate sensitivity)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/video-editing/SKILL.md",
-        "line": 295,
-        "excerpt": "# Find silent segments (useful for cutting dead air)",
+        "line": 296,
+        "excerpt": "ffmpeg -i input.mp4 -af silencedetect=noise=-30dB:d=2 -f null - 2>&1 | grep silence",
         "disclosed": false,
         "automatic": false
       },
@@ -187,14 +179,6 @@
       },
       {
         "ruleId": "shell",
-        "file": "scripts/lib/agent-data-home.js",
-        "line": 78,
-        "excerpt": "* True when the current process is a Cursor hook subprocess.",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
         "file": "scripts/lib/llm-summary.js",
         "line": 15,
         "excerpt": "const { spawnSync } = require('child_process');",
@@ -206,6 +190,14 @@
         "file": "scripts/lib/llm-summary.js",
         "line": 180,
         "excerpt": "const result = spawnSync('claude', ['--model', getLLMModel(), '-p'], {",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/lib/observer-sessions.js",
+        "line": 5,
+        "excerpt": "const { spawnSync } = require('child_process');",
         "disclosed": false,
         "automatic": false
       },
@@ -227,17 +219,16 @@
       }
     ],
     "findingTotals": {
-      "shell": 59,
+      "shell": 56,
       "downloads-code": 3,
       "network": 1,
-      "paid-api": 1,
-      "reads-secrets": 1
+      "paid-api": 1
     },
-    "score": 47,
-    "band": "high",
-    "rulesVersion": "1.0.0",
-    "filesScanned": 50,
-    "filesSkipped": 0
+    "score": 67,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 52,
+    "filesSkipped": 1
   },
   "history": [
     {
@@ -245,6 +236,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 47,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "d2ef2680594f9a17526a6e1a2e18b3d242c5d17b",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 67,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

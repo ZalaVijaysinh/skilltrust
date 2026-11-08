@@ -5,22 +5,22 @@
   "path": "pi/core/skills/quarkus-verification",
   "name": "quarkus-verification",
   "description": "Verification loop for Quarkus projects: build, static analysis (Checkstyle, PMD, SpotBugs), tests with JaCoCo coverage, OWASP dependency and container security scans, GraalVM native compilation, health checks, and config validation. Use when verifying a Quarkus service before a PR, after major refactoring or dependency upgrades, or pre-deploy.",
-  "stars": 298483,
+  "stars": 299277,
   "category": "coding",
-  "commit": "b38be6a7f6350964d59328b52f0624e1d1d552d1",
-  "contentHash": "1d4a637ad02ac7384effadcd9fcdf330cd1f866a1a055207576bf18a241890b0",
+  "commit": "d2ef2680594f9a17526a6e1a2e18b3d242c5d17b",
+  "contentHash": "0c0bb04349578862fd5068b54dfe7b9e2f1e150166c9769a7cf2eb7c1734a7ca",
   "repoCreatedAt": "2026-01-18T00:51:51Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "pi/core/skills/quarkus-verification/SKILL.md",
-        "line": 24,
-        "excerpt": "# Maven",
+        "line": 25,
+        "excerpt": "mvn clean verify -DskipTests",
         "disclosed": false,
         "automatic": false
       },
@@ -41,18 +41,10 @@
         "automatic": false
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "pi/core/skills/quarkus-verification/SKILL.md",
-        "line": 47,
-        "excerpt": "-Dsonar.login=${SONAR_TOKEN}",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "shell",
         "file": "pi/core/skills/quarkus-verification/SKILL.md",
-        "line": 60,
-        "excerpt": "# Run all tests",
+        "line": 61,
+        "excerpt": "mvn clean test",
         "disclosed": false,
         "automatic": false
       },
@@ -67,8 +59,8 @@
       {
         "ruleId": "shell",
         "file": "pi/core/skills/quarkus-verification/SKILL.md",
-        "line": 180,
-        "excerpt": "# Check vulnerable extensions",
+        "line": 181,
+        "excerpt": "mvn quarkus:audit",
         "disclosed": false,
         "automatic": false
       },
@@ -83,8 +75,8 @@
       {
         "ruleId": "shell",
         "file": "pi/core/skills/quarkus-verification/SKILL.md",
-        "line": 211,
-        "excerpt": "# Build native executable",
+        "line": 212,
+        "excerpt": "mvn package -Dnative",
         "disclosed": false,
         "automatic": false
       },
@@ -124,14 +116,6 @@
         "automatic": false
       },
       {
-        "ruleId": "shell",
-        "file": "pi/core/skills/quarkus-verification/SKILL.md",
-        "line": 280,
-        "excerpt": "# Liveness",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "pi/core/skills/quarkus-verification/SKILL.md",
         "line": 281,
@@ -139,6 +123,14 @@
         "disclosed": false,
         "automatic": false,
         "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "pi/core/skills/quarkus-verification/SKILL.md",
+        "line": 281,
+        "excerpt": "curl http://localhost:8080/q/health/live",
+        "disclosed": false,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -170,24 +162,24 @@
       {
         "ruleId": "shell",
         "file": "pi/core/skills/quarkus-verification/SKILL.md",
-        "line": 309,
-        "excerpt": "# Build container image",
+        "line": 310,
+        "excerpt": "mvn package -Dquarkus.container-image.build=true",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "pi/core/skills/quarkus-verification/SKILL.md",
-        "line": 326,
-        "excerpt": "# Trivy",
+        "line": 327,
+        "excerpt": "trivy image myorg/my-quarkus-app:1.0.0",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "pi/core/skills/quarkus-verification/SKILL.md",
-        "line": 336,
-        "excerpt": "# Check all configuration properties",
+        "line": 337,
+        "excerpt": "mvn quarkus:info",
         "disclosed": false,
         "automatic": false
       },
@@ -220,8 +212,8 @@
       {
         "ruleId": "shell",
         "file": "pi/core/skills/quarkus-verification/SKILL.md",
-        "line": 402,
-        "excerpt": "#!/bin/bash",
+        "line": 403,
+        "excerpt": "set -e",
         "disclosed": false,
         "automatic": false
       },
@@ -283,16 +275,15 @@
       }
     ],
     "findingTotals": {
-      "shell": 62,
-      "reads-secrets": 1,
+      "shell": 59,
       "network": 9,
       "downloads-code": 2
     },
-    "score": 65,
+    "score": 75,
     "band": "review",
-    "rulesVersion": "1.0.0",
-    "filesScanned": 38,
-    "filesSkipped": 0
+    "rulesVersion": "1.3.0",
+    "filesScanned": 40,
+    "filesSkipped": 1
   },
   "history": [
     {
@@ -300,6 +291,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 65,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "d2ef2680594f9a17526a6e1a2e18b3d242c5d17b",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 75,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

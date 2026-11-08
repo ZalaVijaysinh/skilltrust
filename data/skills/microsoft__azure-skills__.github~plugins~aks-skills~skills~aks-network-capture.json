@@ -5,200 +5,22 @@
   "path": ".github/plugins/aks-skills/skills/aks-network-capture",
   "name": "aks-network-capture",
   "description": "Collects bounded packet captures from AKS nodes and Azure network configuration for wire-level evidence. WHEN: \"capture packets on an AKS node\", \"take a pcap\", \"run tcpdump on AKS\", \"prove where packets drop\". Use for explicit packet-capture intent after read-only diagnostics, not general AKS connectivity or ingress troubleshooting.",
-  "stars": 1625,
+  "stars": 1627,
   "category": "other",
   "commit": "299b16bf063bdf37c783e08bcae27ca57fface38",
-  "contentHash": "b97788d5d71fda08d54d62f7e77a48b2054229a886d9f6093283f61a73e980a2",
+  "contentHash": "eff20ea08a21525d32e7be4af2ce9422c3c248707f713f47b0dfb132ea0e8c3b",
   "repoCreatedAt": "2026-02-26T18:13:14Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
-    "findings": [
-      {
-        "ruleId": "reads-secrets",
-        "file": ".github/plugins/aks-skills/skills/aks-network-capture/scripts/create-capture.sh",
-        "line": 280,
-        "excerpt": "RUN_ID=\"${TIMESTAMP}-${RUN_TOKEN}\"",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": ".github/plugins/aks-skills/skills/aks-network-capture/scripts/create-capture.sh",
-        "line": 304,
-        "excerpt": "job_prefix=\"${capture_slug}-${node_prefix}-${RUN_TOKEN}-\"",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "network",
-        "file": ".github/plugins/aks-skills/skills/aks-network-capture/scripts/generate-test-traffic.ps1",
-        "line": 112,
-        "excerpt": "http)  wget -q -O /dev/null -T 5 \"http://$url_host:$port/\" && echo \"http ok\" || echo \"http fail\" ;;",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": [
-          "$url_host"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": ".github/plugins/aks-skills/skills/aks-network-capture/scripts/generate-test-traffic.ps1",
-        "line": 113,
-        "excerpt": "https) wget -q -O /dev/null -T 5 --no-check-certificate \"https://$url_host:$port/\" && echo \"https ok\" || echo \"https fail\" ;;",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": [
-          "$url_host"
-        ]
-      },
-      {
-        "ruleId": "shell",
-        "file": ".github/plugins/aks-skills/skills/aks-network-capture/scripts/generate-test-traffic.ps1",
-        "line": 123,
-        "excerpt": "& kubectl exec -n $SourceNamespace $SourcePod -- sh -c \"exit 0\" 2>$null",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": ".github/plugins/aks-skills/skills/aks-network-capture/scripts/generate-test-traffic.ps1",
-        "line": 127,
-        "excerpt": "& kubectl exec -n $SourceNamespace $SourcePod -- sh -c $PodScript _ `",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": ".github/plugins/aks-skills/skills/aks-network-capture/scripts/generate-test-traffic.ps1",
-        "line": 142,
-        "excerpt": "--target=$($targetContainer.Trim()) -q -- sh -c $PodScript _ `",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "network",
-        "file": ".github/plugins/aks-skills/skills/aks-network-capture/scripts/generate-test-traffic.sh",
-        "line": 149,
-        "excerpt": "http)  wget -q -O /dev/null -T 5 \"http://$url_host:$port/\" && echo \"http ok\" || echo \"http fail\" ;;",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": [
-          "$url_host"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": ".github/plugins/aks-skills/skills/aks-network-capture/scripts/generate-test-traffic.sh",
-        "line": 150,
-        "excerpt": "https) wget -q -O /dev/null -T 5 --no-check-certificate \"https://$url_host:$port/\" && echo \"https ok\" || echo \"https fail\" ;;",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": [
-          "$url_host"
-        ]
-      },
-      {
-        "ruleId": "shell",
-        "file": ".github/plugins/aks-skills/skills/aks-network-capture/scripts/generate-test-traffic.sh",
-        "line": 160,
-        "excerpt": "if kubectl exec -n \"$SOURCE_NAMESPACE\" \"$SOURCE_POD\" -- sh -c 'exit 0' >/dev/null 2>&1; then",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": ".github/plugins/aks-skills/skills/aks-network-capture/scripts/generate-test-traffic.sh",
-        "line": 162,
-        "excerpt": "sh -c \"$POD_SCRIPT\" _ \"$TARGET\" \"$TARGET_PORT\" \"$DURATION_SECONDS\" \"$INTERVAL\" \"$TRAFFIC_TYPE\"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": ".github/plugins/aks-skills/skills/aks-network-capture/scripts/generate-test-traffic.sh",
-        "line": 173,
-        "excerpt": "sh -c \"$POD_SCRIPT\" _ \"$TARGET\" \"$TARGET_PORT\" \"$DURATION_SECONDS\" \"$INTERVAL\" \"$TRAFFIC_TYPE\"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": ".github/plugins/aks-skills/skills/aks-network-capture/scripts/retrieve-captures.ps1",
-        "line": 227,
-        "excerpt": "& kubectl exec -n $Namespace $tempPodName -c retrieve -- sh -c `",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": ".github/plugins/aks-skills/skills/aks-network-capture/scripts/retrieve-captures.sh",
-        "line": 243,
-        "excerpt": "kubectl exec -n \"$NAMESPACE\" \"$TEMP_POD_NAME\" -c retrieve -- sh -c \\",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": ".github/plugins/aks-skills/hooks/claude-hooks.json",
-        "line": 8,
-        "excerpt": "\"command\": \"bash \\\"${CLAUDE_PLUGIN_ROOT}/hooks/scripts/track-telemetry.sh\\\"\"",
-        "disclosed": true,
-        "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": ".github/plugins/aks-skills/hooks/claude-hooks.json",
-        "line": 18,
-        "excerpt": "\"command\": \"bash \\\"${CLAUDE_PLUGIN_ROOT}/hooks/scripts/track-telemetry.sh\\\"\"",
-        "disclosed": true,
-        "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": ".github/plugins/aks-skills/hooks/cursor-hooks.json",
-        "line": 7,
-        "excerpt": "\"command\": \"bash \\\"${CURSOR_PLUGIN_ROOT}/hooks/scripts/track-telemetry.sh\\\"\"",
-        "disclosed": true,
-        "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": ".github/plugins/aks-skills/hooks/cursor-hooks.json",
-        "line": 13,
-        "excerpt": "\"command\": \"bash \\\"${CURSOR_PLUGIN_ROOT}/hooks/scripts/track-telemetry.sh\\\"\"",
-        "disclosed": true,
-        "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": ".github/plugins/aks-skills/hooks/cursor-hooks.json",
-        "line": 19,
-        "excerpt": "\"command\": \"bash \\\"${CURSOR_PLUGIN_ROOT}/hooks/scripts/track-telemetry.sh\\\"\"",
-        "disclosed": true,
-        "automatic": true
-      },
-      {
-        "ruleId": "network",
-        "file": ".github/plugins/aks-skills/hooks/scripts/install-telemetry.ps1",
-        "line": 212,
-        "excerpt": "Invoke-WebRequest `",
-        "disclosed": true,
-        "automatic": true,
-        "hosts": []
-      }
-    ],
-    "findingTotals": {
-      "reads-secrets": 2,
-      "network": 5,
-      "shell": 13
-    },
-    "score": 74,
-    "band": "review",
-    "rulesVersion": "1.2.0",
-    "filesScanned": 32,
+    "findings": [],
+    "findingTotals": {},
+    "score": 100,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 0,
     "filesSkipped": 0
   },
   "history": [
@@ -207,6 +29,12 @@
       "scannedAt": "2026-11-07T16:26:42.053Z",
       "score": 74,
       "rulesVersion": "1.2.0"
+    },
+    {
+      "commit": "299b16bf063bdf37c783e08bcae27ca57fface38",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 100,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

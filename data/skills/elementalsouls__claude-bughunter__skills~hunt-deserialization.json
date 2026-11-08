@@ -5,15 +5,15 @@
   "path": "skills/hunt-deserialization",
   "name": "hunt-deserialization",
   "description": "Hunt Insecure Deserialization — Java gadget chains (ysoserial), PHP object injection (phpggc), Python pickle RCE, .NET BinaryFormatter, Ruby Marshal.load, JNDI/Log4Shell. RCE via deserialization is almost always Critical. Use when target runs Java, PHP serialization, Python pickle, .NET, or Ruby on Rails.",
-  "stars": 5465,
+  "stars": 5490,
   "category": "security",
-  "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
+  "commit": "42a3ab1bb96426beb98f964d178695c1144c61ea",
   "contentHash": "d4e4e044dd6d12682511427affb2f1758aca80ac7f6b1f033887e7411d2265e7",
   "repoCreatedAt": "2026-05-05T11:22:32Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
       {
@@ -27,8 +27,8 @@
       {
         "ruleId": "shell",
         "file": "skills/hunt-deserialization/SKILL.md",
-        "line": 28,
-        "excerpt": "# Java serialized objects start with AC ED 00 05 (hex) or rO0A (base64)",
+        "line": 29,
+        "excerpt": "echo \"rO0ABXQ=\" | base64 -d | xxd | head -1  # shows: ac ed 00 05",
         "disclosed": false,
         "automatic": false
       },
@@ -55,14 +55,6 @@
         ]
       },
       {
-        "ruleId": "shell",
-        "file": "skills/hunt-deserialization/SKILL.md",
-        "line": 56,
-        "excerpt": "# Install ysoserial",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/hunt-deserialization/SKILL.md",
         "line": 57,
@@ -72,6 +64,14 @@
         "hosts": [
           "github.com"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-deserialization/SKILL.md",
+        "line": 57,
+        "excerpt": "wget https://github.com/frohoff/ysoserial/releases/latest/download/ysoserial-all.jar",
+        "disclosed": false,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -98,16 +98,16 @@
       {
         "ruleId": "shell",
         "file": "skills/hunt-deserialization/SKILL.md",
-        "line": 75,
-        "excerpt": "# Find unserialize() calls in source",
+        "line": 76,
+        "excerpt": "grep -r \"unserialize(\" --include=\"*.php\" .",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/hunt-deserialization/SKILL.md",
-        "line": 90,
-        "excerpt": "# Generate OOB payload",
+        "line": 91,
+        "excerpt": "python3 -c \"",
         "disclosed": false,
         "automatic": false
       },
@@ -174,8 +174,8 @@
       {
         "ruleId": "shell",
         "file": "skills/hunt-deserialization/SKILL.md",
-        "line": 118,
-        "excerpt": "# Check if ViewState is unsigned (MAC disabled)",
+        "line": 122,
+        "excerpt": "dotnet YSoSerial.exe -f BinaryFormatter -g TypeConfuseDelegate \\",
         "disclosed": false,
         "automatic": false
       },
@@ -193,8 +193,8 @@
       {
         "ruleId": "shell",
         "file": "skills/hunt-deserialization/SKILL.md",
-        "line": 128,
-        "excerpt": "# Test all user-controlled inputs",
+        "line": 129,
+        "excerpt": "COLLAB=\"COLLAB_HOST\"",
         "disclosed": false,
         "automatic": false
       },
@@ -223,16 +223,16 @@
       {
         "ruleId": "shell",
         "file": "skills/hunt-deserialization/SKILL.md",
-        "line": 142,
-        "excerpt": "# Look for Marshal.load in source",
+        "line": 143,
+        "excerpt": "grep -r \"Marshal.load\\|Marshal.restore\" --include=\"*.rb\" .",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/hunt-deserialization/SKILL.md",
-        "line": 164,
-        "excerpt": "# OOB listener",
+        "line": 165,
+        "excerpt": "interactsh-client -v -n 5",
         "disclosed": false,
         "automatic": false
       }
@@ -243,7 +243,7 @@
     },
     "score": 90,
     "band": "low",
-    "rulesVersion": "1.0.0",
+    "rulesVersion": "1.3.0",
     "filesScanned": 2,
     "filesSkipped": 0
   },
@@ -253,6 +253,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 90,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "42a3ab1bb96426beb98f964d178695c1144c61ea",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 90,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

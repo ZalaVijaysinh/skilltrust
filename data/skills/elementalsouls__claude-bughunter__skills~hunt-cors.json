@@ -5,22 +5,22 @@
   "path": "skills/hunt-cors",
   "name": "hunt-cors",
   "description": "Hunt CORS Misconfiguration — origin-reflection with credentials, null-origin trust, subdomain-regex bypass (unanchored vs unescaped-dot vs prefix-only), pre-flight (OPTIONS) gating bypass, postMessage origin checks. High only when an attacker-controlled origin can perform a CREDENTIALED cross-origin read of sensitive data and you have proven it in a browser. Use when testing API endpoints, SPAs, or any app emitting Access-Control-* headers.",
-  "stars": 5465,
+  "stars": 5490,
   "category": "security",
-  "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
+  "commit": "42a3ab1bb96426beb98f964d178695c1144c61ea",
   "contentHash": "69b770a3c6efa78d5576b070b5a4aa8ae8db315134607ea0eb119aac57cf1c36",
   "repoCreatedAt": "2026-05-05T11:22:32Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "skills/hunt-cors/SKILL.md",
-        "line": 69,
-        "excerpt": "# Probe API endpoints. Use GET (not -I): some servers only emit CORS on GET,",
+        "line": 71,
+        "excerpt": "while read url; do",
         "disclosed": false,
         "automatic": false
       },
@@ -34,14 +34,6 @@
         "hosts": []
       },
       {
-        "ruleId": "shell",
-        "file": "skills/hunt-cors/SKILL.md",
-        "line": 85,
-        "excerpt": "# Does the server reflect an arbitrary Origin back?",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/hunt-cors/SKILL.md",
         "line": 86,
@@ -51,6 +43,14 @@
         "hosts": [
           "$target"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-cors/SKILL.md",
+        "line": 86,
+        "excerpt": "curl -s -D - -o /dev/null https://$TARGET/api/me \\",
+        "disclosed": false,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -66,8 +66,8 @@
       {
         "ruleId": "shell",
         "file": "skills/hunt-cors/SKILL.md",
-        "line": 120,
-        "excerpt": "# Send each class-specific payload and watch what the server reflects.",
+        "line": 121,
+        "excerpt": "for ORIGIN in \\",
         "disclosed": false,
         "automatic": false
       },
@@ -146,21 +146,21 @@
       {
         "ruleId": "shell",
         "file": "skills/hunt-cors/SKILL.md",
-        "line": 222,
-        "excerpt": "# Find message handlers that don't strictly validate event.origin.",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/hunt-cors/SKILL.md",
-        "line": 239,
-        "excerpt": "# corsy — fast reflection/null/pre-domain checks",
+        "line": 223,
+        "excerpt": "grep -rEn \"addEventListener\\(['\\\"]message\" recon/$TARGET/ --include=\"*.js\" \\",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
+        "file": "skills/hunt-cors/SKILL.md",
+        "line": 240,
+        "excerpt": "pip3 install corsy",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
         "file": "skills/hunt-cors/SKILL.md",
         "line": 240,
         "excerpt": "pip3 install corsy",
@@ -175,7 +175,7 @@
     },
     "score": 77,
     "band": "review",
-    "rulesVersion": "1.0.0",
+    "rulesVersion": "1.3.0",
     "filesScanned": 2,
     "filesSkipped": 0
   },
@@ -185,6 +185,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 77,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "42a3ab1bb96426beb98f964d178695c1144c61ea",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 77,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

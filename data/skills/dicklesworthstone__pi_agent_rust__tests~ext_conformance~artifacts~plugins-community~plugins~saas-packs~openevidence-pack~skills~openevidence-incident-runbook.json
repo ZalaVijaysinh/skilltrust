@@ -5,25 +5,17 @@
   "path": "tests/ext_conformance/artifacts/plugins-community/plugins/saas-packs/openevidence-pack/skills/openevidence-incident-runbook",
   "name": "openevidence-incident-runbook",
   "description": "Execute OpenEvidence incident response procedures with triage, mitigation, and postmortem.\nUse when responding to OpenEvidence-related outages, investigating errors,\nor running post-incident reviews for clinical AI integration failures.\nTrigger with phrases like \"openevidence incident\", \"openevidence outage\",\n\"openevidence down\", \"openevidence emergency\", \"clinical ai broken\".",
-  "stars": 1968,
+  "stars": 1970,
   "category": "coding",
-  "commit": "b57cea1c7408d05bdeee82663c191ae6eb900fcb",
+  "commit": "b41008f438c9936a4f0ccda72e2ca1dec4fa67b1",
   "contentHash": "42d16728e9e46bd4ad9a4a171bf43a36bafaf1d688dd8642e76c3bcb84f028bc",
   "repoCreatedAt": "2026-02-02T20:58:01Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
-      {
-        "ruleId": "shell",
-        "file": "tests/ext_conformance/artifacts/plugins-community/plugins/saas-packs/openevidence-pack/skills/openevidence-incident-runbook/SKILL.md",
-        "line": 48,
-        "excerpt": "# 1. Check OpenEvidence status",
-        "disclosed": false,
-        "automatic": false
-      },
       {
         "ruleId": "network",
         "file": "tests/ext_conformance/artifacts/plugins-community/plugins/saas-packs/openevidence-pack/skills/openevidence-incident-runbook/SKILL.md",
@@ -34,6 +26,14 @@
         "hosts": [
           "status.openevidence.com"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "tests/ext_conformance/artifacts/plugins-community/plugins/saas-packs/openevidence-pack/skills/openevidence-incident-runbook/SKILL.md",
+        "line": 49,
+        "excerpt": "curl -sf https://status.openevidence.com/api/v2/summary.json | jq '.status'",
+        "disclosed": false,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -58,24 +58,8 @@
       {
         "ruleId": "shell",
         "file": "tests/ext_conformance/artifacts/plugins-community/plugins/saas-packs/openevidence-pack/skills/openevidence-incident-runbook/SKILL.md",
-        "line": 76,
-        "excerpt": "# Verify API key is set",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "tests/ext_conformance/artifacts/plugins-community/plugins/saas-packs/openevidence-pack/skills/openevidence-incident-runbook/SKILL.md",
-        "line": 96,
-        "excerpt": "# Check current rate limit status",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "tests/ext_conformance/artifacts/plugins-community/plugins/saas-packs/openevidence-pack/skills/openevidence-incident-runbook/SKILL.md",
-        "line": 97,
-        "excerpt": "curl -s -H \"Authorization: Bearer ${OPENEVIDENCE_API_KEY}\" \\",
+        "line": 77,
+        "excerpt": "kubectl get secret openevidence-secrets -o jsonpath='{.data.api-key}' | base64 -d | wc -c",
         "disclosed": false,
         "automatic": false
       },
@@ -87,6 +71,14 @@
         "disclosed": false,
         "automatic": false,
         "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "tests/ext_conformance/artifacts/plugins-community/plugins/saas-packs/openevidence-pack/skills/openevidence-incident-runbook/SKILL.md",
+        "line": 97,
+        "excerpt": "curl -s -H \"Authorization: Bearer ${OPENEVIDENCE_API_KEY}\" \\",
+        "disclosed": false,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -98,22 +90,6 @@
         "hosts": []
       },
       {
-        "ruleId": "shell",
-        "file": "tests/ext_conformance/artifacts/plugins-community/plugins/saas-packs/openevidence-pack/skills/openevidence-incident-runbook/SKILL.md",
-        "line": 112,
-        "excerpt": "# Confirm it's OpenEvidence-side",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "tests/ext_conformance/artifacts/plugins-community/plugins/saas-packs/openevidence-pack/skills/openevidence-incident-runbook/SKILL.md",
-        "line": 113,
-        "excerpt": "curl -v -H \"Authorization: Bearer ${OPENEVIDENCE_API_KEY}\" \\",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "tests/ext_conformance/artifacts/plugins-community/plugins/saas-packs/openevidence-pack/skills/openevidence-incident-runbook/SKILL.md",
         "line": 113,
@@ -125,8 +101,16 @@
       {
         "ruleId": "shell",
         "file": "tests/ext_conformance/artifacts/plugins-community/plugins/saas-packs/openevidence-pack/skills/openevidence-incident-runbook/SKILL.md",
-        "line": 128,
-        "excerpt": "# Check current timeout setting",
+        "line": 113,
+        "excerpt": "curl -v -H \"Authorization: Bearer ${OPENEVIDENCE_API_KEY}\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tests/ext_conformance/artifacts/plugins-community/plugins/saas-packs/openevidence-pack/skills/openevidence-incident-runbook/SKILL.md",
+        "line": 129,
+        "excerpt": "kubectl get deployment clinical-evidence-api -o jsonpath='{.spec.template.spec.containers[0].env}' | jq '.[] | select(.name==\"OPENEVIDENCE_TIMEOUT\")'",
         "disclosed": false,
         "automatic": false
       },
@@ -144,8 +128,8 @@
       {
         "ruleId": "shell",
         "file": "tests/ext_conformance/artifacts/plugins-community/plugins/saas-packs/openevidence-pack/skills/openevidence-incident-runbook/SKILL.md",
-        "line": 173,
-        "excerpt": "#!/bin/bash",
+        "line": 176,
+        "excerpt": "MESSAGE=\"[Clinical Alert] AI clinical decision support (OpenEvidence) is experiencing issues.",
         "disclosed": false,
         "automatic": false
       },
@@ -161,8 +145,8 @@
       {
         "ruleId": "shell",
         "file": "tests/ext_conformance/artifacts/plugins-community/plugins/saas-packs/openevidence-pack/skills/openevidence-incident-runbook/SKILL.md",
-        "line": 239,
-        "excerpt": "#!/bin/bash",
+        "line": 242,
+        "excerpt": "INCIDENT_ID=${1:-$(date +%Y%m%d-%H%M)}",
         "disclosed": false,
         "automatic": false
       },
@@ -194,14 +178,6 @@
         "hosts": []
       },
       {
-        "ruleId": "shell",
-        "file": "tests/ext_conformance/artifacts/plugins-community/plugins/saas-packs/openevidence-pack/skills/openevidence-incident-runbook/SKILL.md",
-        "line": 319,
-        "excerpt": "# One-line health check",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "tests/ext_conformance/artifacts/plugins-community/plugins/saas-packs/openevidence-pack/skills/openevidence-incident-runbook/SKILL.md",
         "line": 320,
@@ -211,6 +187,14 @@
         "hosts": [
           "api.yourhealthcare.com"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "tests/ext_conformance/artifacts/plugins-community/plugins/saas-packs/openevidence-pack/skills/openevidence-incident-runbook/SKILL.md",
+        "line": 320,
+        "excerpt": "curl -sf https://api.yourhealthcare.com/health/openevidence | jq '.status' || echo \"UNHEALTHY\"",
+        "disclosed": false,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -234,13 +218,12 @@
       }
     ],
     "findingTotals": {
-      "shell": 8,
       "network": 14,
-      "reads-secrets": 2
+      "shell": 8
     },
-    "score": 70,
-    "band": "review",
-    "rulesVersion": "1.0.0",
+    "score": 90,
+    "band": "low",
+    "rulesVersion": "1.3.0",
     "filesScanned": 2,
     "filesSkipped": 0
   },
@@ -250,6 +233,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 70,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "b41008f438c9936a4f0ccda72e2ca1dec4fa67b1",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 90,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

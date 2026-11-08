@@ -5,15 +5,15 @@
   "path": "skills/hunt-misc",
   "name": "hunt-misc",
   "description": "Hunting skill for misc vulnerabilities. Built from 225 public bug bounty reports. Use when hunting misc on any target.",
-  "stars": 5465,
+  "stars": 5490,
   "category": "security",
-  "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
+  "commit": "42a3ab1bb96426beb98f964d178695c1144c61ea",
   "contentHash": "f487009acf01261df2c1fbf9e56af1bb01c78e1e88ee0f01857d6260dbc1cef6",
   "repoCreatedAt": "2026-05-05T11:22:32Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
       {
@@ -26,14 +26,6 @@
         "hosts": []
       },
       {
-        "ruleId": "shell",
-        "file": "skills/hunt-misc/SKILL.md",
-        "line": 106,
-        "excerpt": "# Test CRLF in header values",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/hunt-misc/SKILL.md",
         "line": 107,
@@ -43,6 +35,14 @@
         "hosts": [
           "target.com"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-misc/SKILL.md",
+        "line": 107,
+        "excerpt": "curl -v \"https://target.com/path\" \\",
+        "disclosed": true,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -68,14 +68,6 @@
         ]
       },
       {
-        "ruleId": "shell",
-        "file": "skills/hunt-misc/SKILL.md",
-        "line": 119,
-        "excerpt": "# Accept invitation without email verification",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/hunt-misc/SKILL.md",
         "line": 120,
@@ -85,6 +77,14 @@
         "hosts": [
           "target.com"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-misc/SKILL.md",
+        "line": 120,
+        "excerpt": "curl -X POST \"https://target.com/invitations/INVITE_TOKEN/accept\" \\",
+        "disclosed": true,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -98,14 +98,6 @@
         ]
       },
       {
-        "ruleId": "shell",
-        "file": "skills/hunt-misc/SKILL.md",
-        "line": 131,
-        "excerpt": "# Call privileged endpoint with minimal-scope token",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/hunt-misc/SKILL.md",
         "line": 132,
@@ -115,6 +107,14 @@
         "hosts": []
       },
       {
+        "ruleId": "shell",
+        "file": "skills/hunt-misc/SKILL.md",
+        "line": 132,
+        "excerpt": "curl -H \"Authorization: token ghp_MINIMAL_SCOPE_TOKEN\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
         "ruleId": "network",
         "file": "skills/hunt-misc/SKILL.md",
         "line": 136,
@@ -122,14 +122,6 @@
         "disclosed": false,
         "automatic": false,
         "hosts": []
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/hunt-misc/SKILL.md",
-        "line": 142,
-        "excerpt": "# Change Sentry URL to internal listener",
-        "disclosed": true,
-        "automatic": false
       },
       {
         "ruleId": "network",
@@ -145,8 +137,16 @@
       {
         "ruleId": "shell",
         "file": "skills/hunt-misc/SKILL.md",
-        "line": 150,
-        "excerpt": "# Test Ruby URI parser",
+        "line": 143,
+        "excerpt": "curl -X PUT \"https://gitlab.com/api/v4/projects/PROJECT_ID/services/sentry\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-misc/SKILL.md",
+        "line": 151,
+        "excerpt": "ruby -e 'require \"uri\"; URI.parse(\"http://a.com?\" + \"a\"*5000 + \"##\")'",
         "disclosed": true,
         "automatic": false
       },
@@ -175,16 +175,16 @@
       {
         "ruleId": "shell",
         "file": "skills/hunt-misc/SKILL.md",
-        "line": 163,
-        "excerpt": "# Find SAML signature verification",
+        "line": 164,
+        "excerpt": "grep -r \"validate_signature\\|verify_signature\\|skip.*signature\" --include=\"*.rb\"",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/hunt-misc/SKILL.md",
-        "line": 178,
-        "excerpt": "# Check for obsolete DNS records",
+        "line": 179,
+        "excerpt": "dig CNAME handbook.gitlab.com",
         "disclosed": true,
         "automatic": false
       },
@@ -206,7 +206,7 @@
     },
     "score": 92,
     "band": "low",
-    "rulesVersion": "1.0.0",
+    "rulesVersion": "1.3.0",
     "filesScanned": 2,
     "filesSkipped": 0
   },
@@ -216,6 +216,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 92,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "42a3ab1bb96426beb98f964d178695c1144c61ea",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

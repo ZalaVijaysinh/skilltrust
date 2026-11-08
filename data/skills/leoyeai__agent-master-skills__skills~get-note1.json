@@ -5,24 +5,46 @@
   "path": "skills/get-note1",
   "name": "Get笔记",
   "description": "Get笔记 - 个人笔记和知识库管理工具。\n\n当用户提到以下意图时使用此技能：\n「记一下」「存到笔记」「保存到Get笔记」「记录到Get笔记」\n「保存这个链接」「保存这张图」「查我的笔记」「找一下笔记」\n「加标签」「删标签」「删笔记」\n「查知识库」「建知识库」「把笔记加到知识库」「从知识库移除」\n「知识库里订阅了哪些博主」「博主发了什么内容」「直播总结」「直播原文」\n「搜一下」「找找我哪些笔记提到了 XX」「在我的 XX 知识库搜一下 XX」\n\n支持：纯文本笔记、链接笔记（自动抓取网页内容并生成摘要）、图片笔记（OCR识别）、知识库管理（含博主订阅列表、直播总结）、语义搜索召回（全局或指定知识库范围）。",
-  "stars": 2182,
+  "stars": 2184,
   "category": "coding",
   "commit": "8f88f9a0dd5a1075d4f0c7626f9d960844d57575",
   "contentHash": "3ed3923c9853381a7f271d69a20f061b1d7c5831134df8579e64999a5b2df839",
   "repoCreatedAt": "2026-03-02T02:02:25Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/get-note1/SKILL.md",
-        "line": 87,
-        "excerpt": "- `Authorization: $GETNOTE_API_KEY`（格式：`gk_live_xxx`）",
+        "ruleId": "writes-outside",
+        "file": "skills/get-note1/README.md",
+        "line": 97,
+        "excerpt": "mkdir -p ~/.openclaw/workspace/skills/getnote",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/get-note1/README.md",
+        "line": 99,
+        "excerpt": "curl -sL https://raw.githubusercontent.com/iswalle/getnote-openclaw/main/SKILL.md -o SKILL.md",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "raw.githubusercontent.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/get-note1/README.md",
+        "line": 100,
+        "excerpt": "curl -sL https://raw.githubusercontent.com/iswalle/getnote-openclaw/main/package.json -o package.json",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "raw.githubusercontent.com"
+        ]
       },
       {
         "ruleId": "network",
@@ -40,18 +62,56 @@
         "excerpt": "curl -X POST \"$host\" \\",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/get-note1/scripts/upload_image.py",
+        "line": 26,
+        "excerpt": "print(\"运行: pip install requests\")",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/get-note1/scripts/upload_image.py",
+        "line": 60,
+        "excerpt": "resp = requests.get(",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/get-note1/scripts/upload_image.py",
+        "line": 99,
+        "excerpt": "resp = requests.post(host, data=form_data, files=files)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/get-note1/scripts/upload_image.py",
+        "line": 147,
+        "excerpt": "print(f'   curl -X POST \"https://openapi.biji.com/open/api/v1/resource/note/save?task_id=...\"')",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "openapi.biji.com"
+        ]
       }
     ],
     "findingTotals": {
-      "reads-secrets": 1,
-      "network": 1,
-      "shell": 1
+      "writes-outside": 1,
+      "network": 6,
+      "shell": 1,
+      "downloads-code": 1
     },
-    "score": 72,
+    "score": 67,
     "band": "review",
-    "rulesVersion": "1.2.0",
-    "filesScanned": 3,
-    "filesSkipped": 4
+    "rulesVersion": "1.3.0",
+    "filesScanned": 6,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -59,6 +119,12 @@
       "scannedAt": "2026-11-07T16:26:42.053Z",
       "score": 72,
       "rulesVersion": "1.2.0"
+    },
+    {
+      "commit": "8f88f9a0dd5a1075d4f0c7626f9d960844d57575",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 67,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

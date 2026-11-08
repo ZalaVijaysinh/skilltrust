@@ -5,46 +5,38 @@
   "path": "skills/cloud-iam-deep",
   "name": "cloud-iam-deep",
   "description": "Cloud IAM red-team attack chain across AWS, Azure, GCP — focused on EXTERNAL exploitation paths and post-credential-discovery privilege analysis. Covers IAM enumeration (aws iam, az role, gcloud iam), STS/AssumeRole chaining, Azure Managed Identity abuse (via SSRF/leak), GCP service account JSON abuse, IMDSv1/v2 attacks via SSRF, K8s ServiceAccount token privilege analysis once held (token discovery / cluster exposure is owned by hunt-k8s), role-trust-policy confused-deputy, cross-account assume-role enumeration, IAM privilege escalation patterns (24+ AWS, 8+ Azure, 6+ GCP), and AWS Cognito Identity Pool unauthenticated-role attack chain (GetId → GetCredentialsForIdentity → IAM role abuse). Built for the case where recon yields a credential (key, JSON, token) and you need to know what it grants and how to escalate. Use when an AWS key / Azure secret / GCP service account JSON / K8s SA token surfaces from a code repo, JS bundle, APK, breach corpus, or SSRF chain.",
-  "stars": 5465,
+  "stars": 5490,
   "category": "security",
-  "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
+  "commit": "42a3ab1bb96426beb98f964d178695c1144c61ea",
   "contentHash": "30aef661a68bea5e7fa29bf27f4ed81bee9fc645a00ac6c3320a1b8c44eacfa1",
   "repoCreatedAt": "2026-05-05T11:22:32Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "skills/cloud-iam-deep/SKILL.md",
-        "line": 27,
-        "excerpt": "# AWS access key patterns",
+        "line": 28,
+        "excerpt": "AKIA[0-9A-Z]{16}                # IAM user access key (long-term)",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/cloud-iam-deep/SKILL.md",
-        "line": 59,
-        "excerpt": "# Set credential",
+        "line": 60,
+        "excerpt": "export AWS_ACCESS_KEY_ID=\"AKIA...\"",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/cloud-iam-deep/SKILL.md",
-        "line": 132,
-        "excerpt": "# Enumerate roles you can assume across accounts",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/cloud-iam-deep/SKILL.md",
-        "line": 157,
-        "excerpt": "# IMDSv1 (legacy, still common — straight GET):",
+        "line": 133,
+        "excerpt": "aws iam list-roles --query 'Roles[].[RoleName,AssumeRolePolicyDocument]' --output json > /tmp/roles.json",
         "disclosed": false,
         "automatic": false
       },
@@ -58,6 +50,14 @@
         "hosts": [
           "169.254.169.254"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/cloud-iam-deep/SKILL.md",
+        "line": 158,
+        "excerpt": "curl http://169.254.169.254/latest/meta-data/iam/security-credentials/",
+        "disclosed": false,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -82,14 +82,6 @@
         ]
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/cloud-iam-deep/SKILL.md",
-        "line": 167,
-        "excerpt": "curl -H \"X-aws-ec2-metadata-token: $TOKEN\" http://169.254.169.254/latest/meta-data/iam/security-credentials/",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/cloud-iam-deep/SKILL.md",
         "line": 167,
@@ -103,16 +95,8 @@
       {
         "ruleId": "shell",
         "file": "skills/cloud-iam-deep/SKILL.md",
-        "line": 179,
-        "excerpt": "# Login with a credential",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/cloud-iam-deep/SKILL.md",
-        "line": 206,
-        "excerpt": "# From inside Azure VM (post-RCE or SSRF to IMDS-equivalent):",
+        "line": 180,
+        "excerpt": "az login --service-principal -u <appId> -p <password> --tenant <tenantId>",
         "disclosed": false,
         "automatic": false
       },
@@ -126,11 +110,11 @@
         "hosts": []
       },
       {
-        "ruleId": "reads-secrets",
+        "ruleId": "shell",
         "file": "skills/cloud-iam-deep/SKILL.md",
-        "line": 213,
-        "excerpt": "curl -H \"Authorization: Bearer $TOKEN\" \"https://management.azure.com/subscriptions?api-version=2020-01-01\"",
-        "disclosed": true,
+        "line": 208,
+        "excerpt": "curl -H \"Metadata: true\" \\",
+        "disclosed": false,
         "automatic": false
       },
       {
@@ -165,16 +149,8 @@
       {
         "ruleId": "shell",
         "file": "skills/cloud-iam-deep/SKILL.md",
-        "line": 245,
-        "excerpt": "# Activate",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/cloud-iam-deep/SKILL.md",
-        "line": 292,
-        "excerpt": "# GCP IMDS endpoint:",
+        "line": 246,
+        "excerpt": "gcloud auth activate-service-account --key-file=sa-leaked.json",
         "disclosed": false,
         "automatic": false
       },
@@ -188,11 +164,11 @@
         "hosts": []
       },
       {
-        "ruleId": "reads-secrets",
+        "ruleId": "shell",
         "file": "skills/cloud-iam-deep/SKILL.md",
-        "line": 298,
-        "excerpt": "curl -H \"Authorization: Bearer $TOKEN\" \\",
-        "disclosed": true,
+        "line": 293,
+        "excerpt": "curl -H \"Metadata-Flavor: Google\" \\",
+        "disclosed": false,
         "automatic": false
       },
       {
@@ -203,14 +179,6 @@
         "disclosed": true,
         "automatic": false,
         "hosts": []
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/cloud-iam-deep/SKILL.md",
-        "line": 307,
-        "excerpt": "# Check anonymous access on K8s API",
-        "disclosed": false,
-        "automatic": false
       },
       {
         "ruleId": "network",
@@ -224,6 +192,14 @@
         ]
       },
       {
+        "ruleId": "shell",
+        "file": "skills/cloud-iam-deep/SKILL.md",
+        "line": 308,
+        "excerpt": "curl -sk \"https://k8s.target.com:6443/api/v1/namespaces\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
         "ruleId": "network",
         "file": "skills/cloud-iam-deep/SKILL.md",
         "line": 311,
@@ -235,42 +211,10 @@
         ]
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/cloud-iam-deep/SKILL.md",
-        "line": 315,
-        "excerpt": "kubectl --token=$TOKEN --server=https://k8s.target.com:6443 --insecure-skip-tls-verify get namespaces",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/cloud-iam-deep/SKILL.md",
-        "line": 316,
-        "excerpt": "kubectl --token=$TOKEN --server=https://k8s.target.com:6443 --insecure-skip-tls-verify auth can-i --list",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/cloud-iam-deep/SKILL.md",
-        "line": 317,
-        "excerpt": "kubectl --token=$TOKEN --server=https://k8s.target.com:6443 --insecure-skip-tls-verify get pods -A",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/cloud-iam-deep/SKILL.md",
-        "line": 318,
-        "excerpt": "kubectl --token=$TOKEN --server=https://k8s.target.com:6443 --insecure-skip-tls-verify get secrets -A",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "shell",
         "file": "skills/cloud-iam-deep/SKILL.md",
-        "line": 415,
-        "excerpt": "# JS bundle / SPA regex (against *.js, *.html, source-map files)",
+        "line": 416,
+        "excerpt": "grep -ErohE \"identityPoolId[\\\"'`\\s:=]+[\\\"']([a-z]{2}-[a-z]+-[0-9]:[0-9a-f-]{36})[\\\"']\" .",
         "disclosed": false,
         "automatic": false
       },
@@ -309,12 +253,11 @@
     ],
     "findingTotals": {
       "shell": 14,
-      "network": 12,
-      "reads-secrets": 7
+      "network": 12
     },
-    "score": 82,
+    "score": 92,
     "band": "low",
-    "rulesVersion": "1.0.0",
+    "rulesVersion": "1.3.0",
     "filesScanned": 2,
     "filesSkipped": 0
   },
@@ -324,6 +267,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 82,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "42a3ab1bb96426beb98f964d178695c1144c61ea",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

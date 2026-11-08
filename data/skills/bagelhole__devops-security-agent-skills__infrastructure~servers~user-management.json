@@ -5,7 +5,7 @@
   "path": "infrastructure/servers/user-management",
   "name": "user-management",
   "description": "Manage users, groups, and permissions on Linux systems. Configure sudo and access controls. Use when managing system access.",
-  "stars": 1197,
+  "stars": 1196,
   "category": "devops",
   "commit": "0365f57a079b1332f95cf26e31dd2d5332a8399f",
   "contentHash": "9067b8227384978b2e218816547e67c8adac7ea5a6ed897aab13e3cb5f42ca45",
@@ -13,17 +13,9 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
-      {
-        "ruleId": "shell",
-        "file": "infrastructure/servers/user-management/SKILL.md",
-        "line": 36,
-        "excerpt": "# Create a user with home directory, default shell, and comment",
-        "disclosed": true,
-        "automatic": false
-      },
       {
         "ruleId": "shell",
         "file": "infrastructure/servers/user-management/SKILL.md",
@@ -35,64 +27,56 @@
       {
         "ruleId": "shell",
         "file": "infrastructure/servers/user-management/SKILL.md",
-        "line": 58,
-        "excerpt": "# Add a user to a supplementary group (preserving existing groups with -a)",
+        "line": 59,
+        "excerpt": "usermod -aG sudo jsmith",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "infrastructure/servers/user-management/SKILL.md",
-        "line": 93,
-        "excerpt": "# Remove a user and their home directory",
+        "line": 94,
+        "excerpt": "userdel -r jsmith",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "infrastructure/servers/user-management/SKILL.md",
-        "line": 106,
-        "excerpt": "# Create a new group",
+        "line": 107,
+        "excerpt": "groupadd developers",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "infrastructure/servers/user-management/SKILL.md",
-        "line": 140,
-        "excerpt": "# Always edit sudoers via visudo (syntax validation prevents lockout)",
+        "line": 141,
+        "excerpt": "visudo",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "infrastructure/servers/user-management/SKILL.md",
-        "line": 178,
-        "excerpt": "# Validate sudoers syntax without applying",
+        "line": 179,
+        "excerpt": "visudo -c",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "infrastructure/servers/user-management/SKILL.md",
-        "line": 191,
-        "excerpt": "# Standard permissions",
+        "line": 192,
+        "excerpt": "chmod 755 /opt/myapp           # rwxr-xr-x",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "infrastructure/servers/user-management/SKILL.md",
-        "line": 231,
-        "excerpt": "# PAM config files are in /etc/pam.d/",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "infrastructure/servers/user-management/SKILL.md",
-        "line": 267,
-        "excerpt": "# Install SSSD and realmd for AD integration (Ubuntu/Debian)",
+        "line": 236,
+        "excerpt": "password requisite pam_pwquality.so retry=3 minlen=12 dcredit=-1 ucredit=-1 ocredit=-1 lcredit=-1",
         "disclosed": true,
         "automatic": false
       },
@@ -102,6 +86,14 @@
         "line": 268,
         "excerpt": "apt install -y sssd realmd adcli sssd-tools libnss-sss libpam-sss",
         "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "infrastructure/servers/user-management/SKILL.md",
+        "line": 268,
+        "excerpt": "apt install -y sssd realmd adcli sssd-tools libnss-sss libpam-sss",
+        "disclosed": true,
         "automatic": false
       },
       {
@@ -123,28 +115,28 @@
       {
         "ruleId": "shell",
         "file": "infrastructure/servers/user-management/SKILL.md",
-        "line": 304,
-        "excerpt": "#!/bin/bash",
+        "line": 309,
+        "excerpt": "CSV_FILE=\"${1:?Usage: $0 <users.csv>}\"",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "infrastructure/servers/user-management/SKILL.md",
-        "line": 336,
-        "excerpt": "# List non-system users (UID >= 1000)",
+        "line": 337,
+        "excerpt": "awk -F: '$3 >= 1000 && $3 < 65534 { printf \"%-20s UID=%-6s Shell=%s\\n\", $1, $3, $7 }' /etc/passwd",
         "disclosed": true,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 12,
+      "shell": 11,
       "downloads-code": 2,
       "writes-outside": 1
     },
     "score": 77,
     "band": "review",
-    "rulesVersion": "1.0.0",
+    "rulesVersion": "1.3.0",
     "filesScanned": 1,
     "filesSkipped": 0
   },
@@ -154,6 +146,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 77,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "0365f57a079b1332f95cf26e31dd2d5332a8399f",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 77,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

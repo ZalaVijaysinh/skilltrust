@@ -5,7 +5,7 @@
   "path": "infrastructure/servers/gpu-server-management",
   "name": "gpu-server-management",
   "description": "Set up and manage NVIDIA GPU servers for AI workloads — driver installation, CUDA toolkit, container toolkit, MIG partitioning, GPU health monitoring, and multi-GPU configuration for LLM inference and training.",
-  "stars": 1197,
+  "stars": 1196,
   "category": "devops",
   "commit": "0365f57a079b1332f95cf26e31dd2d5332a8399f",
   "contentHash": "610d5c5abf2ec954c3be7deeae470977db496e84183879a51aba4ca93d3f6204",
@@ -13,14 +13,14 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "infrastructure/servers/gpu-server-management/SKILL.md",
-        "line": 33,
-        "excerpt": "# Remove old drivers",
+        "line": 34,
+        "excerpt": "sudo apt purge -y 'nvidia*' 'cuda*' 'libcuda*'",
         "disclosed": false,
         "automatic": false
       },
@@ -73,16 +73,16 @@
       {
         "ruleId": "shell",
         "file": "infrastructure/servers/gpu-server-management/SKILL.md",
-        "line": 65,
-        "excerpt": "# Enable persistence mode (reduces driver initialization latency)",
+        "line": 66,
+        "excerpt": "sudo nvidia-smi -pm 1",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "infrastructure/servers/gpu-server-management/SKILL.md",
-        "line": 81,
-        "excerpt": "# Real-time monitoring (like htop for GPUs)",
+        "line": 82,
+        "excerpt": "watch -n 1 nvidia-smi",
         "disclosed": false,
         "automatic": false
       },
@@ -97,29 +97,29 @@
       {
         "ruleId": "shell",
         "file": "infrastructure/servers/gpu-server-management/SKILL.md",
-        "line": 105,
-        "excerpt": "# Deploy DCGM Exporter for Prometheus scraping",
+        "line": 106,
+        "excerpt": "docker run -d \\",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "infrastructure/servers/gpu-server-management/SKILL.md",
-        "line": 129,
-        "excerpt": "# Enable MIG mode (requires reboot or restart of all processes)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "infrastructure/servers/gpu-server-management/SKILL.md",
-        "line": 159,
-        "excerpt": "# Increase file descriptor limits",
+        "line": 130,
+        "excerpt": "sudo nvidia-smi -mig 1",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "writes-outside",
+        "file": "infrastructure/servers/gpu-server-management/SKILL.md",
+        "line": 160,
+        "excerpt": "echo '* soft nofile 1048576' | sudo tee -a /etc/security/limits.conf",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
         "file": "infrastructure/servers/gpu-server-management/SKILL.md",
         "line": 160,
         "excerpt": "echo '* soft nofile 1048576' | sudo tee -a /etc/security/limits.conf",
@@ -145,8 +145,8 @@
       {
         "ruleId": "shell",
         "file": "infrastructure/servers/gpu-server-management/SKILL.md",
-        "line": 185,
-        "excerpt": "# Check NVLink and PCIe topology",
+        "line": 186,
+        "excerpt": "nvidia-smi topo -m",
         "disclosed": false,
         "automatic": false
       }
@@ -159,7 +159,7 @@
     },
     "score": 67,
     "band": "review",
-    "rulesVersion": "1.0.0",
+    "rulesVersion": "1.3.0",
     "filesScanned": 1,
     "filesSkipped": 0
   },
@@ -169,6 +169,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 67,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "0365f57a079b1332f95cf26e31dd2d5332a8399f",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 67,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

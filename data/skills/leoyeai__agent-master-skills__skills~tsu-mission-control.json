@@ -3,9 +3,9 @@
   "owner": "LeoYeAI",
   "repo": "agent-master-skills",
   "path": "skills/tsu-mission-control",
-  "name": "tsu-mission-control",
-  "description": "",
-  "stars": 2182,
+  "name": "mission-control",
+  "description": "Integrate with Mission Control dashboard to report task progress, publish documents to the Library, request approvals, and submit project requests. Use this skill whenever you start, complete, or fail a task, need human approval, want to publish research/reports/documentation, or need to submit a new project request. This skill provides the HTTP endpoints and event formats for communicating with the Mission Control backend.",
+  "stars": 2184,
   "category": "coding",
   "commit": "8f88f9a0dd5a1075d4f0c7626f9d960844d57575",
   "contentHash": "c418bbbe716489ac7d8e963f77c23382a2be9eabfc3ed17c1eea8c6974556591",
@@ -13,22 +13,50 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
       {
-        "ruleId": "writes-outside",
-        "file": "skills/tsu-mission-control/docs/CHANGELOG.md",
-        "line": 30,
-        "excerpt": "rm ~/.openclaw/mission-control/backend/data/mission-control.db",
+        "ruleId": "network",
+        "file": "skills/tsu-mission-control/app/backend/src/services/dispatcher.js",
+        "line": 59,
+        "excerpt": "fetch(hookUrl, {",
         "disclosed": false,
-        "automatic": false
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/tsu-mission-control/app/backend/src/services/gateway.js",
+        "line": 29,
+        "excerpt": "ws = new WebSocket(GATEWAY_URL, { headers });",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/tsu-mission-control/docs/TROUBLESHOOTING.md",
+        "line": 81,
+        "excerpt": "curl http://localhost:8000/api/inbox/counts",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/tsu-mission-control/docs/TROUBLESHOOTING.md",
+        "line": 107,
+        "excerpt": "curl -X POST http://localhost:8000/api/hooks/event \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
       },
       {
         "ruleId": "reads-secrets",
-        "file": "skills/tsu-mission-control/hook.ts",
-        "line": 34,
-        "excerpt": "const HOOK_SECRET = process.env.MISSION_CONTROL_HOOK_SECRET || \"\";",
+        "file": "skills/tsu-mission-control/docs/TROUBLESHOOTING.md",
+        "line": 173,
+        "excerpt": "3. Verify all configuration with: `cat backend/.env` and `cat ~/.openclaw/openclaw.json`",
         "disclosed": false,
         "automatic": false
       },
@@ -43,15 +71,14 @@
       }
     ],
     "findingTotals": {
-      "writes-outside": 1,
-      "reads-secrets": 1,
-      "network": 1
+      "network": 5,
+      "reads-secrets": 1
     },
-    "score": 65,
+    "score": 75,
     "band": "review",
-    "rulesVersion": "1.2.0",
-    "filesScanned": 26,
-    "filesSkipped": 40
+    "rulesVersion": "1.3.0",
+    "filesScanned": 51,
+    "filesSkipped": 14
   },
   "history": [
     {
@@ -59,6 +86,12 @@
       "scannedAt": "2026-11-07T16:26:42.053Z",
       "score": 65,
       "rulesVersion": "1.2.0"
+    },
+    {
+      "commit": "8f88f9a0dd5a1075d4f0c7626f9d960844d57575",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 75,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

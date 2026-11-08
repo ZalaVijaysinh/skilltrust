@@ -5,22 +5,22 @@
   "path": "skills/hunt-ssrf",
   "name": "hunt-ssrf",
   "description": "Hunting skill for ssrf vulnerabilities. Built from 15 public bug bounty reports including AWS metadata SSRF (HackerOne $25k Analytics PDF, Shopify Exchange $25k, Capital One 106M-record breach, Dropbox/HelloSign $4,913), GCP metadata SSRF (Snapchat $4k), Azure IMDS SSRF (Azure DevOps $15k chain, ChatGPT Custom Actions MSRC), DNS rebinding SSRF (Concrete CMS, GitLab UrlBlocker), gopher-protocol-to-Redis-RCE (Yahoo Mail $15k), link-preview SSRF (Reddit Matrix $6k), and headless-browser PDF-generator SSRF chains. Use when hunting SSRF on any target — OOB Collaborator confirmation mandatory for blind cases.",
-  "stars": 5465,
+  "stars": 5490,
   "category": "security",
-  "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
+  "commit": "42a3ab1bb96426beb98f964d178695c1144c61ea",
   "contentHash": "f6c483db4ce00340953ce2b1a8bc9b8690e317242a10e2f91021120199d47127",
   "repoCreatedAt": "2026-05-05T11:22:32Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "skills/hunt-ssrf/SKILL.md",
-        "line": 96,
-        "excerpt": "# one request settles it: fetch something with a known, recognisable body",
+        "line": 97,
+        "excerpt": "-d '{\"url\":\"https://example.com/\"}'",
         "disclosed": false,
         "automatic": false
       },
@@ -72,8 +72,8 @@
       {
         "ruleId": "shell",
         "file": "skills/hunt-ssrf/SKILL.md",
-        "line": 222,
-        "excerpt": "# Using interactsh-client",
+        "line": 223,
+        "excerpt": "interactsh-client -v",
         "disclosed": false,
         "automatic": false
       },
@@ -103,16 +103,16 @@
       {
         "ruleId": "shell",
         "file": "skills/hunt-ssrf/SKILL.md",
-        "line": 236,
-        "excerpt": "# GCP - requires Metadata-Flavor header (test if server adds it automatically)",
+        "line": 237,
+        "excerpt": "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/hunt-ssrf/SKILL.md",
-        "line": 260,
-        "excerpt": "# Kubernetes internals",
+        "line": 261,
+        "excerpt": "http://127.0.0.1:6443/api/v1/namespaces",
         "disclosed": false,
         "automatic": false
       },
@@ -148,14 +148,6 @@
         "hosts": []
       },
       {
-        "ruleId": "shell",
-        "file": "skills/hunt-ssrf/SKILL.md",
-        "line": 308,
-        "excerpt": "# Find URL fetch operations",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/hunt-ssrf/SKILL.md",
         "line": 309,
@@ -163,6 +155,14 @@
         "disclosed": true,
         "automatic": false,
         "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-ssrf/SKILL.md",
+        "line": 309,
+        "excerpt": "grep -rE \"(fetch|curl|urllib|requests\\.get|http\\.get|axios\\.get)\\s*\\(\" --include=\"*.py\" --include=\"*.js\" --include=\"*.go\"",
+        "disclosed": false,
+        "automatic": false
       },
       {
         "ruleId": "shell",
@@ -179,7 +179,7 @@
     },
     "score": 92,
     "band": "low",
-    "rulesVersion": "1.0.0",
+    "rulesVersion": "1.3.0",
     "filesScanned": 2,
     "filesSkipped": 0
   },
@@ -189,6 +189,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 92,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "42a3ab1bb96426beb98f964d178695c1144c61ea",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

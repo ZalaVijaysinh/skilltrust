@@ -5,7 +5,7 @@
   "path": "infrastructure/local-ai/mac-mini-llm-lab",
   "name": "mac-mini-llm-lab",
   "description": "Configure a Mac mini as a reliable local LLM server with remote access, observability, and power-safe operation. Use when building an always-on private AI inference server on Apple Silicon.",
-  "stars": 1197,
+  "stars": 1196,
   "category": "devops",
   "commit": "0365f57a079b1332f95cf26e31dd2d5332a8399f",
   "contentHash": "bc6719177c0955c6728b5dacb188371bd981370dd26c475d589f7e7caf473a13",
@@ -13,14 +13,14 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "infrastructure/local-ai/mac-mini-llm-lab/SKILL.md",
-        "line": 33,
-        "excerpt": "# Update macOS",
+        "line": 34,
+        "excerpt": "softwareupdate --install --all",
         "disclosed": false,
         "automatic": false
       },
@@ -76,14 +76,6 @@
         "automatic": false
       },
       {
-        "ruleId": "shell",
-        "file": "infrastructure/local-ai/mac-mini-llm-lab/SKILL.md",
-        "line": 55,
-        "excerpt": "# Install Ollama",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "downloads-code",
         "file": "infrastructure/local-ai/mac-mini-llm-lab/SKILL.md",
         "line": 56,
@@ -94,13 +86,21 @@
       {
         "ruleId": "shell",
         "file": "infrastructure/local-ai/mac-mini-llm-lab/SKILL.md",
-        "line": 85,
-        "excerpt": "# Install MLX",
+        "line": 56,
+        "excerpt": "brew install ollama",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
+        "file": "infrastructure/local-ai/mac-mini-llm-lab/SKILL.md",
+        "line": 86,
+        "excerpt": "uv pip install mlx mlx-lm",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
         "file": "infrastructure/local-ai/mac-mini-llm-lab/SKILL.md",
         "line": 86,
         "excerpt": "uv pip install mlx mlx-lm",
@@ -118,24 +118,16 @@
       {
         "ruleId": "shell",
         "file": "infrastructure/local-ai/mac-mini-llm-lab/SKILL.md",
-        "line": 140,
-        "excerpt": "# Load the service",
+        "line": 141,
+        "excerpt": "launchctl load ~/Library/LaunchAgents/com.ollama.serve.plist",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "infrastructure/local-ai/mac-mini-llm-lab/SKILL.md",
-        "line": 153,
-        "excerpt": "# Prevent sleep (keeps running with lid closed on Mac mini)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "infrastructure/local-ai/mac-mini-llm-lab/SKILL.md",
-        "line": 173,
-        "excerpt": "# Install Tailscale for easy secure remote access",
+        "line": 154,
+        "excerpt": "sudo pmset -a disablesleep 1",
         "disclosed": false,
         "automatic": false
       },
@@ -150,8 +142,16 @@
       {
         "ruleId": "shell",
         "file": "infrastructure/local-ai/mac-mini-llm-lab/SKILL.md",
-        "line": 183,
-        "excerpt": "# Enable remote login",
+        "line": 174,
+        "excerpt": "brew install --cask tailscale",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "infrastructure/local-ai/mac-mini-llm-lab/SKILL.md",
+        "line": 184,
+        "excerpt": "sudo systemsetup -setremotelogin on",
         "disclosed": false,
         "automatic": false
       },
@@ -174,8 +174,8 @@
       {
         "ruleId": "shell",
         "file": "infrastructure/local-ai/mac-mini-llm-lab/SKILL.md",
-        "line": 228,
-        "excerpt": "# Run Open WebUI via Docker",
+        "line": 229,
+        "excerpt": "docker run -d \\",
         "disclosed": false,
         "automatic": false
       },
@@ -188,15 +188,15 @@
         "automatic": false
       },
       {
-        "ruleId": "shell",
+        "ruleId": "writes-outside",
         "file": "infrastructure/local-ai/mac-mini-llm-lab/SKILL.md",
-        "line": 245,
-        "excerpt": "# Health check script",
+        "line": 246,
+        "excerpt": "cat > ~/scripts/llm-health.sh << 'SCRIPT'",
         "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "writes-outside",
+        "ruleId": "shell",
         "file": "infrastructure/local-ai/mac-mini-llm-lab/SKILL.md",
         "line": 246,
         "excerpt": "cat > ~/scripts/llm-health.sh << 'SCRIPT'",
@@ -222,26 +222,18 @@
         "hosts": []
       },
       {
-        "ruleId": "writes-outside",
+        "ruleId": "shell",
         "file": "infrastructure/local-ai/mac-mini-llm-lab/SKILL.md",
-        "line": 268,
-        "excerpt": "# */5 * * * * ~/scripts/llm-health.sh >> ~/logs/llm-health.log 2>&1",
+        "line": 285,
+        "excerpt": "sudo fdesetup enable",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "infrastructure/local-ai/mac-mini-llm-lab/SKILL.md",
-        "line": 284,
-        "excerpt": "# Enable FileVault disk encryption",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "infrastructure/local-ai/mac-mini-llm-lab/SKILL.md",
-        "line": 305,
-        "excerpt": "# Increase file descriptor limits for concurrent requests",
+        "line": 306,
+        "excerpt": "sudo launchctl limit maxfiles 65536 200000",
         "disclosed": false,
         "automatic": false
       }
@@ -250,11 +242,11 @@
       "shell": 13,
       "downloads-code": 10,
       "network": 3,
-      "writes-outside": 2
+      "writes-outside": 1
     },
     "score": 67,
     "band": "review",
-    "rulesVersion": "1.0.0",
+    "rulesVersion": "1.3.0",
     "filesScanned": 1,
     "filesSkipped": 0
   },
@@ -264,6 +256,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 67,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "0365f57a079b1332f95cf26e31dd2d5332a8399f",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 67,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

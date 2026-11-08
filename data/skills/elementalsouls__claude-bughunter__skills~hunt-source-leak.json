@@ -5,22 +5,22 @@
   "path": "skills/hunt-source-leak",
   "name": "hunt-source-leak",
   "description": "Hunt source code and build artifact leakage — JavaScript source maps (.js.map) reconstructing TypeScript/ES6 source, Swagger/OpenAPI JSON endpoint discovery, .env/.git exposure, webpack chunks with hardcoded secrets, robots.txt/security.txt recon, build-info files, asset-manifest.json API route discovery, .DS_Store file listing. Use at the START of every recon session — these findings often unlock the entire attack surface.",
-  "stars": 5465,
+  "stars": 5490,
   "category": "security",
-  "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
+  "commit": "42a3ab1bb96426beb98f964d178695c1144c61ea",
   "contentHash": "e8f05850f4c18c255d8170e3d05452f8a54275e8f0fd642a3c4466fd25ac29e3",
   "repoCreatedAt": "2026-05-05T11:22:32Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "skills/hunt-source-leak/SKILL.md",
-        "line": 27,
-        "excerpt": "# These 10 requests take <30 seconds and often yield Critical findings",
+        "line": 28,
+        "excerpt": "for PATH in \\",
         "disclosed": false,
         "automatic": false
       },
@@ -36,14 +36,6 @@
         ]
       },
       {
-        "ruleId": "shell",
-        "file": "skills/hunt-source-leak/SKILL.md",
-        "line": 80,
-        "excerpt": "# Step 1: Get asset manifest to find all JS bundle paths",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/hunt-source-leak/SKILL.md",
         "line": 81,
@@ -53,6 +45,14 @@
         "hosts": [
           "$target"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-source-leak/SKILL.md",
+        "line": 81,
+        "excerpt": "curl -s \"https://$TARGET/asset-manifest.json\" | python3 -m json.tool 2>/dev/null",
+        "disclosed": false,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -121,8 +121,8 @@
       {
         "ruleId": "shell",
         "file": "skills/hunt-source-leak/SKILL.md",
-        "line": 122,
-        "excerpt": "# Common paths",
+        "line": 123,
+        "excerpt": "SWAGGER_PATHS=(",
         "disclosed": false,
         "automatic": false
       },
@@ -138,14 +138,6 @@
         ]
       },
       {
-        "ruleId": "shell",
-        "file": "skills/hunt-source-leak/SKILL.md",
-        "line": 158,
-        "excerpt": "# Check if .git directory is accessible",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/hunt-source-leak/SKILL.md",
         "line": 159,
@@ -155,6 +147,14 @@
         "hosts": [
           "$target"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-source-leak/SKILL.md",
+        "line": 159,
+        "excerpt": "curl -s \"https://$TARGET/.git/HEAD\" | grep -q \"ref:\" && echo \"[+] .git exposed!\"",
+        "disclosed": false,
+        "automatic": false
       },
       {
         "ruleId": "downloads-code",
@@ -167,8 +167,8 @@
       {
         "ruleId": "shell",
         "file": "skills/hunt-source-leak/SKILL.md",
-        "line": 180,
-        "excerpt": "# Build artifacts and debug files",
+        "line": 181,
+        "excerpt": "DEBUG_PATHS=(",
         "disclosed": false,
         "automatic": false
       },
@@ -184,14 +184,6 @@
         ]
       },
       {
-        "ruleId": "shell",
-        "file": "skills/hunt-source-leak/SKILL.md",
-        "line": 212,
-        "excerpt": "# .DS_Store files on macOS-deployed web servers reveal directory structure",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/hunt-source-leak/SKILL.md",
         "line": 213,
@@ -203,18 +195,18 @@
         ]
       },
       {
-        "ruleId": "downloads-code",
+        "ruleId": "shell",
         "file": "skills/hunt-source-leak/SKILL.md",
-        "line": 216,
-        "excerpt": "pip3 install ds_store",
+        "line": 213,
+        "excerpt": "curl -s \"https://$TARGET/.DS_Store\" | xxd | head -10",
         "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "shell",
+        "ruleId": "downloads-code",
         "file": "skills/hunt-source-leak/SKILL.md",
-        "line": 234,
-        "excerpt": "# Download and analyze webpack chunks for hardcoded values",
+        "line": 216,
+        "excerpt": "pip3 install ds_store",
         "disclosed": false,
         "automatic": false
       },
@@ -228,6 +220,14 @@
         "hosts": [
           "$target"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-source-leak/SKILL.md",
+        "line": 236,
+        "excerpt": "curl -s https://$TARGET/ | grep -oP '\"[^\"]*\\.chunk\\.js\"' | tr -d '\"' | while read chunk; do",
+        "disclosed": false,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -263,15 +263,15 @@
         ]
       },
       {
-        "ruleId": "shell",
+        "ruleId": "downloads-code",
         "file": "skills/hunt-source-leak/SKILL.md",
-        "line": 272,
-        "excerpt": "# git-dumper (reconstruct exposed .git)",
+        "line": 273,
+        "excerpt": "pip3 install git-dumper",
         "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "downloads-code",
+        "ruleId": "shell",
         "file": "skills/hunt-source-leak/SKILL.md",
         "line": 273,
         "excerpt": "pip3 install git-dumper",
@@ -302,7 +302,7 @@
     },
     "score": 75,
     "band": "review",
-    "rulesVersion": "1.0.0",
+    "rulesVersion": "1.3.0",
     "filesScanned": 2,
     "filesSkipped": 0
   },
@@ -312,6 +312,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 75,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "42a3ab1bb96426beb98f964d178695c1144c61ea",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 75,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

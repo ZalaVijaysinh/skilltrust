@@ -5,54 +5,46 @@
   "path": "tests/ext_conformance/artifacts/plugins-community/plugins/saas-packs/speak-pack/skills/speak-debug-bundle",
   "name": "speak-debug-bundle",
   "description": "Collect Speak debug evidence for support tickets and troubleshooting.\nUse when encountering persistent issues, preparing support tickets,\nor collecting diagnostic information for Speak problems.\nTrigger with phrases like \"speak debug\", \"speak support bundle\",\n\"collect speak logs\", \"speak diagnostic\".",
-  "stars": 1968,
+  "stars": 1970,
   "category": "coding",
-  "commit": "b57cea1c7408d05bdeee82663c191ae6eb900fcb",
+  "commit": "b41008f438c9936a4f0ccda72e2ca1dec4fa67b1",
   "contentHash": "1f76baf45f58f8c6758706ebb2ff70b522c8f379f544116d93f553bd6a117edf",
   "repoCreatedAt": "2026-02-02T20:58:01Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "tests/ext_conformance/artifacts/plugins-community/plugins/saas-packs/speak-pack/skills/speak-debug-bundle/SKILL.md",
-        "line": 29,
-        "excerpt": "#!/bin/bash",
+        "line": 32,
+        "excerpt": "BUNDLE_DIR=\"speak-debug-$(date +%Y%m%d-%H%M%S)\"",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "tests/ext_conformance/artifacts/plugins-community/plugins/saas-packs/speak-pack/skills/speak-debug-bundle/SKILL.md",
-        "line": 42,
-        "excerpt": "# Environment info",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "tests/ext_conformance/artifacts/plugins-community/plugins/saas-packs/speak-pack/skills/speak-debug-bundle/SKILL.md",
-        "line": 54,
-        "excerpt": "echo \"SPEAK_API_KEY: ${SPEAK_API_KEY:+[SET]}\" >> \"$BUNDLE_DIR/summary.txt\"",
+        "line": 43,
+        "excerpt": "echo \"--- Environment ---\" >> \"$BUNDLE_DIR/summary.txt\"",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "tests/ext_conformance/artifacts/plugins-community/plugins/saas-packs/speak-pack/skills/speak-debug-bundle/SKILL.md",
-        "line": 61,
-        "excerpt": "# SDK version",
+        "line": 62,
+        "excerpt": "echo \"--- SDK Version ---\" >> \"$BUNDLE_DIR/summary.txt\"",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "tests/ext_conformance/artifacts/plugins-community/plugins/saas-packs/speak-pack/skills/speak-debug-bundle/SKILL.md",
-        "line": 87,
-        "excerpt": "# Network connectivity test",
+        "line": 88,
+        "excerpt": "echo \"--- Network Tests ---\" >> \"$BUNDLE_DIR/summary.txt\"",
         "disclosed": false,
         "automatic": false
       },
@@ -64,14 +56,6 @@
         "disclosed": true,
         "automatic": false,
         "hosts": []
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "tests/ext_conformance/artifacts/plugins-community/plugins/saas-packs/speak-pack/skills/speak-debug-bundle/SKILL.md",
-        "line": 92,
-        "excerpt": "-H \"Authorization: Bearer ${SPEAK_API_KEY}\" \\",
-        "disclosed": false,
-        "automatic": false
       },
       {
         "ruleId": "network",
@@ -98,16 +82,16 @@
       {
         "ruleId": "shell",
         "file": "tests/ext_conformance/artifacts/plugins-community/plugins/saas-packs/speak-pack/skills/speak-debug-bundle/SKILL.md",
-        "line": 112,
-        "excerpt": "# Audio system info",
+        "line": 113,
+        "excerpt": "echo \"--- Audio System ---\" >> \"$BUNDLE_DIR/summary.txt\"",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "tests/ext_conformance/artifacts/plugins-community/plugins/saas-packs/speak-pack/skills/speak-debug-bundle/SKILL.md",
-        "line": 132,
-        "excerpt": "# Configuration (redacted - secrets masked)",
+        "line": 133,
+        "excerpt": "echo \"--- Config (redacted) ---\" >> \"$BUNDLE_DIR/summary.txt\"",
         "disclosed": false,
         "automatic": false
       },
@@ -122,24 +106,16 @@
       {
         "ruleId": "shell",
         "file": "tests/ext_conformance/artifacts/plugins-community/plugins/saas-packs/speak-pack/skills/speak-debug-bundle/SKILL.md",
-        "line": 150,
-        "excerpt": "# Create final archive",
+        "line": 151,
+        "excerpt": "tar -czf \"$BUNDLE_DIR.tar.gz\" \"$BUNDLE_DIR\"",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "tests/ext_conformance/artifacts/plugins-community/plugins/saas-packs/speak-pack/skills/speak-debug-bundle/SKILL.md",
-        "line": 169,
-        "excerpt": "#!/bin/bash",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "tests/ext_conformance/artifacts/plugins-community/plugins/saas-packs/speak-pack/skills/speak-debug-bundle/SKILL.md",
-        "line": 192,
-        "excerpt": "SPEAK_API_KEY: ${SPEAK_API_KEY:+[SET]}${SPEAK_API_KEY:-[NOT SET]}",
+        "line": 172,
+        "excerpt": "set -e",
         "disclosed": false,
         "automatic": false
       },
@@ -157,12 +133,12 @@
     ],
     "findingTotals": {
       "shell": 8,
-      "reads-secrets": 4,
-      "network": 4
+      "network": 4,
+      "reads-secrets": 1
     },
     "score": 72,
     "band": "review",
-    "rulesVersion": "1.0.0",
+    "rulesVersion": "1.3.0",
     "filesScanned": 2,
     "filesSkipped": 0
   },
@@ -172,6 +148,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 72,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "b41008f438c9936a4f0ccda72e2ca1dec4fa67b1",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 72,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

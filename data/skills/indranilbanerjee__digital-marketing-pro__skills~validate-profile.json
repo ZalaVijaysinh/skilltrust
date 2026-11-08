@@ -5,45 +5,45 @@
   "path": "skills/validate-profile",
   "name": "validate-profile",
   "description": "Validate the brand profile is production-ready: fields, compliance, connectors. \"is the brand setup correct\"",
-  "stars": 931,
+  "stars": 934,
   "category": "marketing",
-  "commit": "cc45ca06eaf48abde3bb60fb79d31c41229c58db",
-  "contentHash": "5442605fa55a9927accb9ec5d3833b102435dc3e22692a834732f27e56b07704",
+  "commit": "be4142b25bba6d424962a7788432dd813e6b768c",
+  "contentHash": "1c7d41608eaf54d11883bee83745bfb8f12ef8a220e748de0ce4799c5a02407f",
   "repoCreatedAt": "2026-02-11T07:57:53Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "skills/validate-profile/SKILL.md",
-        "line": 53,
+        "line": 57,
         "excerpt": "BRAND_DIR=\"$HOME/.claude-marketing/brands/{brand}\"",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/validate-profile/SKILL.md",
-        "line": 76,
+        "line": 80,
         "excerpt": "python \"${CLAUDE_PLUGIN_ROOT}/scripts/connector-status.py\" \\",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/validate-profile/SKILL.md",
-        "line": 88,
+        "line": 92,
         "excerpt": "for url in $(jq -r '.mcpServers[] | select(.type==\"http\") | .url' .mcp.json); do",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "network",
         "file": "skills/validate-profile/SKILL.md",
-        "line": 89,
+        "line": 93,
         "excerpt": "code=$(curl -sS -o /dev/null -w \"%{http_code}\" -m 5 \"$url\" || echo \"000\")",
         "disclosed": true,
         "automatic": false,
@@ -52,17 +52,17 @@
       {
         "ruleId": "shell",
         "file": "skills/validate-profile/SKILL.md",
-        "line": 99,
+        "line": 103,
         "excerpt": "test -w \"$HOME/.claude-marketing/brands/{brand}/\" || echo \"BLOCK: brand directory is not writeable\"",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/validate-profile/SKILL.md",
-        "line": 111,
+        "line": 115,
         "excerpt": "python \"${CLAUDE_PLUGIN_ROOT}/scripts/resolve_model.py\" --registry-age",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false
       },
       {
@@ -98,35 +98,97 @@
         "automatic": false
       },
       {
-        "ruleId": "shell",
-        "file": "scripts/eval-runner.py",
-        "line": 249,
-        "excerpt": "\"\"\"Run a sibling Python script via subprocess.",
-        "disclosed": false,
+        "ruleId": "network",
+        "file": "scripts/connector_executor.py",
+        "line": 62,
+        "excerpt": "import urllib.request",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "scripts/connector_executor.py",
+        "line": 403,
+        "excerpt": "env = dict(os.environ)",
+        "disclosed": true,
         "automatic": false
       },
       {
-        "ruleId": "shell",
-        "file": "scripts/eval-runner.py",
-        "line": 260,
-        "excerpt": "result = subprocess.run(",
-        "disclosed": false,
+        "ruleId": "network",
+        "file": "scripts/connector_executor.py",
+        "line": 504,
+        "excerpt": "req = urllib.request.Request(url, data=body_bytes, method=method)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "scripts/connector_executor.py",
+        "line": 514,
+        "excerpt": "response = urllib.request.urlopen(req, timeout=timeout)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "scripts/connector_executor.py",
+        "line": 656,
+        "excerpt": "env = dict(os.environ)",
+        "disclosed": true,
         "automatic": false
       },
       {
-        "ruleId": "shell",
-        "file": "scripts/eval-runner.py",
-        "line": 266,
-        "excerpt": "except subprocess.TimeoutExpired:",
-        "disclosed": false,
+        "ruleId": "reads-secrets",
+        "file": "scripts/connector_executor.py",
+        "line": 835,
+        "excerpt": "env = dict(os.environ)",
+        "disclosed": true,
         "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "scripts/connector_executor.py",
+        "line": 919,
+        "excerpt": "def probe(connector: str, env: dict | None = None, timeout: int = 15, urlopen=None) -> dict:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "scripts/connector_executor.py",
+        "line": 925,
+        "excerpt": "env = dict(os.environ) if env is None else env",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "scripts/connector_executor.py",
+        "line": 944,
+        "excerpt": "req = urllib.request.Request(url, method=\"GET\")",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "scripts/connector_executor.py",
+        "line": 948,
+        "excerpt": "with (urlopen or urllib.request.urlopen)(req, timeout=timeout) as resp:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
       },
       {
         "ruleId": "shell",
         "file": "scripts/setup.py",
         "line": 296,
         "excerpt": "subprocess.check_call(",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false
       },
       {
@@ -134,39 +196,47 @@
         "file": "scripts/setup.py",
         "line": 318,
         "excerpt": "except subprocess.CalledProcessError as e:",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "skills/check/SKILL.md",
-        "line": 157,
-        "excerpt": "python \"${CLAUDE_PLUGIN_ROOT}/scripts/goldfish-review.py\" --action pack --deliverable plan.md --brief brief.md --brand {slug}",
-        "disclosed": false,
+        "file": "tests/test_live_write_gate.py",
+        "line": 80,
+        "excerpt": "def run_hook(stdin: str) -> subprocess.CompletedProcess:",
+        "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "skills/check/SKILL.md",
-        "line": 178,
-        "excerpt": "python \"${CLAUDE_PLUGIN_ROOT}/scripts/ai-tell-scan.py\"          --file <input>   # Tier 1: surface",
-        "disclosed": false,
+        "file": "tests/test_live_write_gate.py",
+        "line": 81,
+        "excerpt": "return subprocess.run([sys.executable, str(HOOK)], input=stdin, capture_output=True, text=True, timeout=30)",
+        "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "skills/switch-brand/SKILL.md",
-        "line": 21,
-        "excerpt": "python \"${CLAUDE_PLUGIN_ROOT}/scripts/setup.py\" --list-brands",
-        "disclosed": false,
+        "file": "tests/test_live_write_gate.py",
+        "line": 182,
+        "excerpt": "\"\"\"Run the hooks.json command string the way Claude Code does (sh -c, or Git Bash on Windows).\"\"\"",
+        "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "skills/switch-brand/SKILL.md",
-        "line": 29,
-        "excerpt": "python \"${CLAUDE_PLUGIN_ROOT}/scripts/setup.py\" --switch-brand BRAND_SLUG",
-        "disclosed": false,
+        "file": "tests/test_live_write_gate.py",
+        "line": 192,
+        "excerpt": "proc = subprocess.run([sh, \"-c\", cmd], input=live, capture_output=True, text=True, env=env, timeout=60)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tests/test_live_write_gate.py",
+        "line": 195,
+        "excerpt": "quiet = subprocess.run([sh, \"-c\", cmd], input=json.dumps({\"tool_input\": {\"command\": \"ls\"}}),",
+        "disclosed": true,
         "automatic": false
       },
       {
@@ -174,19 +244,52 @@
         "file": "hooks/hooks-reference.example.json",
         "line": 10,
         "excerpt": "\"command\": \"timeout 30 python3 ${CLAUDE_PLUGIN_ROOT}/scripts/setup.py --check-deps --summary\"",
-        "disclosed": false,
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 10,
+        "excerpt": "\"command\": \"python3 \\\"${CLAUDE_PLUGIN_ROOT}/hooks/gate_live_writes.py\\\" 2>/dev/null || python \\\"${CLAUDE_PLUGIN_ROOT}/hooks/gate_live_writes.py\\\"\",",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 16,
+        "excerpt": "\"command\": \"python3 \\\"${CLAUDE_PLUGIN_ROOT}/hooks/gate_live_writes.py\\\" 2>/dev/null || python \\\"${CLAUDE_PLUGIN_ROOT}/hooks/gate_live_writes.py\\\"\",",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 22,
+        "excerpt": "\"command\": \"python3 \\\"${CLAUDE_PLUGIN_ROOT}/hooks/gate_live_writes.py\\\" 2>/dev/null || python \\\"${CLAUDE_PLUGIN_ROOT}/hooks/gate_live_writes.py\\\"\",",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 28,
+        "excerpt": "\"command\": \"python3 \\\"${CLAUDE_PLUGIN_ROOT}/hooks/gate_live_writes.py\\\" 2>/dev/null || python \\\"${CLAUDE_PLUGIN_ROOT}/hooks/gate_live_writes.py\\\"\",",
+        "disclosed": true,
         "automatic": true
       }
     ],
     "findingTotals": {
-      "shell": 15,
-      "network": 1,
-      "downloads-code": 4
+      "shell": 17,
+      "network": 7,
+      "downloads-code": 4,
+      "reads-secrets": 4
     },
-    "score": 77,
+    "score": 69,
     "band": "review",
-    "rulesVersion": "1.0.0",
-    "filesScanned": 19,
+    "rulesVersion": "1.3.0",
+    "filesScanned": 18,
     "filesSkipped": 1
   },
   "history": [
@@ -195,6 +298,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 77,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "be4142b25bba6d424962a7788432dd813e6b768c",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 69,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

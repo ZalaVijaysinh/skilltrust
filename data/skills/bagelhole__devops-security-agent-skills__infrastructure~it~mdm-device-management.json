@@ -5,7 +5,7 @@
   "path": "infrastructure/it/mdm-device-management",
   "name": "mdm-device-management",
   "description": "Manage and secure company devices with MDM solutions — enroll macOS, Windows, iOS, and Android devices, enforce security policies, and automate software deployment. Use when setting up device management for a growing team.",
-  "stars": 1197,
+  "stars": 1196,
   "category": "devops",
   "commit": "0365f57a079b1332f95cf26e31dd2d5332a8399f",
   "contentHash": "b4daf4bedde4ea4ba81e31531cb35f2c56768442b4f54aea383b2db00f9184b2",
@@ -13,54 +13,14 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
       {
-        "ruleId": "reads-secrets",
-        "file": "infrastructure/it/mdm-device-management/SKILL.md",
-        "line": 78,
-        "excerpt": "MYSQL_ROOT_PASSWORD: \"${FLEET_MYSQL_ROOT_PASSWORD}\"",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "infrastructure/it/mdm-device-management/SKILL.md",
-        "line": 81,
-        "excerpt": "MYSQL_PASSWORD: \"${FLEET_MYSQL_PASSWORD}\"",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "infrastructure/it/mdm-device-management/SKILL.md",
-        "line": 107,
-        "excerpt": "FLEET_MYSQL_PASSWORD: \"${FLEET_MYSQL_PASSWORD}\"",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "shell",
         "file": "infrastructure/it/mdm-device-management/SKILL.md",
-        "line": 126,
-        "excerpt": "# Generate TLS certs (use real certs in production)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "infrastructure/it/mdm-device-management/SKILL.md",
-        "line": 140,
-        "excerpt": "--password \"${FLEET_ADMIN_PASSWORD}\" \\",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "infrastructure/it/mdm-device-management/SKILL.md",
-        "line": 147,
-        "excerpt": "# Install fleetctl",
+        "line": 127,
+        "excerpt": "mkdir -p tls",
         "disclosed": false,
         "automatic": false
       },
@@ -75,40 +35,40 @@
       {
         "ruleId": "shell",
         "file": "infrastructure/it/mdm-device-management/SKILL.md",
-        "line": 234,
-        "excerpt": "# In ABM (business.apple.com):",
+        "line": 148,
+        "excerpt": "brew install fleetdm/tap/fleetctl",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "infrastructure/it/mdm-device-management/SKILL.md",
-        "line": 247,
-        "excerpt": "# Generate enrollment profile URL (Fleet example)",
+        "line": 241,
+        "excerpt": "fleetctl get mdm-apple",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "infrastructure/it/mdm-device-management/SKILL.md",
-        "line": 302,
-        "excerpt": "# Enable firewall via MDM command or script",
+        "line": 248,
+        "excerpt": "fleetctl get enrollment-profile > enrollment.mobileconfig",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "infrastructure/it/mdm-device-management/SKILL.md",
-        "line": 408,
-        "excerpt": "# macOS — require password after sleep/screensaver (via script or profile)",
+        "line": 303,
+        "excerpt": "sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "infrastructure/it/mdm-device-management/SKILL.md",
-        "line": 468,
-        "excerpt": "# Deploy Brewfile on a new Mac",
+        "line": 409,
+        "excerpt": "sudo defaults write /Library/Preferences/com.apple.screensaver askForPassword -int 1",
         "disclosed": false,
         "automatic": false
       },
@@ -142,16 +102,16 @@
       {
         "ruleId": "shell",
         "file": "infrastructure/it/mdm-device-management/SKILL.md",
-        "line": 506,
-        "excerpt": "# macOS — enable automatic updates via MDM or command",
+        "line": 507,
+        "excerpt": "sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate AutomaticCheckEnabled -bool true",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "infrastructure/it/mdm-device-management/SKILL.md",
-        "line": 588,
-        "excerpt": "# Lock a device immediately with a 6-digit PIN",
+        "line": 589,
+        "excerpt": "fleetctl mdm lock --host \"serial=C02X12345678\"",
         "disclosed": false,
         "automatic": false
       },
@@ -167,18 +127,10 @@
         ]
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "infrastructure/it/mdm-device-management/SKILL.md",
-        "line": 596,
-        "excerpt": "-H \"Authorization: Bearer ${FLEET_API_TOKEN}\"",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "shell",
         "file": "infrastructure/it/mdm-device-management/SKILL.md",
-        "line": 635,
-        "excerpt": "#!/usr/bin/env bash",
+        "line": 637,
+        "excerpt": "set -euo pipefail",
         "disclosed": false,
         "automatic": false
       },
@@ -214,14 +166,13 @@
       }
     ],
     "findingTotals": {
-      "reads-secrets": 5,
-      "shell": 12,
+      "shell": 11,
       "downloads-code": 2,
       "network": 4
     },
-    "score": 62,
-    "band": "review",
-    "rulesVersion": "1.0.0",
+    "score": 82,
+    "band": "low",
+    "rulesVersion": "1.3.0",
     "filesScanned": 1,
     "filesSkipped": 0
   },
@@ -231,6 +182,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 62,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "0365f57a079b1332f95cf26e31dd2d5332a8399f",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 82,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

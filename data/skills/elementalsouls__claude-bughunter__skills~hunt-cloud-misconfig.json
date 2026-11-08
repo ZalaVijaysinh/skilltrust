@@ -5,25 +5,17 @@
   "path": "skills/hunt-cloud-misconfig",
   "name": "hunt-cloud-misconfig",
   "description": "Hunt cloud / infrastructure misconfigurations. AWS: public S3 buckets (s3:GetObject anonymous), permissive bucket policies (PutObjectAcl public-write), exposed CloudFront origin, public Lambda function URL, public RDS snapshot, IAM credentials in JS bundles, AWS metadata accessible via SSRF. GCP: public GCS buckets, exposed Cloud Run services, leaked service account JSON. Azure: public blob containers, exposed Function App. (Kubernetes/Docker exposure is owned by hunt-k8s; CI/CD pipeline attacks by hunt-cicd; post-credential IAM escalation by cloud-iam-deep.) Detection: targeted dorking, certificate transparency, JS bundle secret extraction, port scan for known service ports. Validate: actual data read / write / RCE. Use when hunting cloud-native storage and compute misconfig (S3/GCS/Blob, IMDS-via-SSRF, serverless, public managed services).",
-  "stars": 5465,
+  "stars": 5490,
   "category": "security",
-  "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
+  "commit": "42a3ab1bb96426beb98f964d178695c1144c61ea",
   "contentHash": "c6d049686155b6552100141de4e75feb59fa775715be8cfeaacba18b9b3b93bc",
   "repoCreatedAt": "2026-05-05T11:22:32Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
-      {
-        "ruleId": "shell",
-        "file": "skills/hunt-cloud-misconfig/SKILL.md",
-        "line": 12,
-        "excerpt": "# S3 listing",
-        "disclosed": false,
-        "automatic": false
-      },
       {
         "ruleId": "network",
         "file": "skills/hunt-cloud-misconfig/SKILL.md",
@@ -34,6 +26,14 @@
         "hosts": [
           "target-name.s3.amazonaws.com"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-cloud-misconfig/SKILL.md",
+        "line": 13,
+        "excerpt": "curl -s \"https://TARGET-NAME.s3.amazonaws.com/?max-keys=10\"",
+        "disclosed": false,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -79,16 +79,16 @@
       {
         "ruleId": "shell",
         "file": "skills/hunt-cloud-misconfig/SKILL.md",
-        "line": 51,
-        "excerpt": "# LocalStack 3.0 community (pin the version — 4.x requires a Pro license)",
+        "line": 52,
+        "excerpt": "docker run -d --name lab-localstack -p 14566:4566 localstack/localstack:3.0",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/hunt-cloud-misconfig/SKILL.md",
-        "line": 99,
-        "excerpt": "# Detect RUM init",
+        "line": 100,
+        "excerpt": "grep -REn \"cwr\\(['\\\"]init['\\\"]|from\\s+['\\\"]aws-rum-web['\\\"]|new\\s+AwsRum\\(\" .",
         "disclosed": false,
         "automatic": false
       },
@@ -110,12 +110,12 @@
       }
     ],
     "findingTotals": {
-      "shell": 6,
-      "network": 4
+      "network": 4,
+      "shell": 6
     },
     "score": 92,
     "band": "low",
-    "rulesVersion": "1.0.0",
+    "rulesVersion": "1.3.0",
     "filesScanned": 2,
     "filesSkipped": 0
   },
@@ -125,6 +125,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 92,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "42a3ab1bb96426beb98f964d178695c1144c61ea",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

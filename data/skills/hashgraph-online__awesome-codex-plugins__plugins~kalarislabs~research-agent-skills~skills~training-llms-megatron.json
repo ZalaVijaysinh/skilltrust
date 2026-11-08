@@ -5,22 +5,22 @@
   "path": "plugins/KalarisLabs/research-agent-skills/skills/training-llms-megatron",
   "name": "training-llms-megatron",
   "description": "Trains large language models (2B-462B parameters) with NVIDIA Megatron-Core using tensor, pipeline, sequence, context, and expert parallelism, plus FP8 on H100 and MoE configuration for Mixtral-style models. Covers choosing TP/PP/DP/CP sizes, launching distributed training, tuning micro-batch size, and fixing low MFU, out-of-memory errors, and diverging loss. Use when training models above 10B parameters on NVIDIA A100/H100 GPUs, when setting up 3D parallelism for a LLaMA-style model, when configuring expert parallelism for MoE training, or when trying to raise MFU toward 40-47%. Use PyTorch FSDP, DeepSpeed, or HuggingFace Accelerate instead for models under 70B or simpler setups.",
-  "stars": 1520,
+  "stars": 1537,
   "category": "coding",
-  "commit": "e012fe109c04b715dcf37f859469a28eaf6471b6",
-  "contentHash": "afe7f1f8697f2064ef21b994406e9c53e85fc1fc2a84598a540cee3fb1cd6515",
+  "commit": "057d7896b4db0d6cf69f0222cb601b23c953736b",
+  "contentHash": "bd9daa55341dec5e63d7e3d422de6b6a4229582289268ce432ce6619c8d11b82",
   "repoCreatedAt": "2026-03-28T02:38:44Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "plugins/KalarisLabs/research-agent-skills/skills/training-llms-megatron/SKILL.md",
-        "line": 21,
-        "excerpt": "# Docker (recommended)",
+        "line": 22,
+        "excerpt": "docker run --gpus all -it --rm nvcr.io/nvidia/pytorch:25.04-py3",
         "disclosed": false,
         "automatic": false
       },
@@ -35,32 +35,32 @@
       {
         "ruleId": "shell",
         "file": "plugins/KalarisLabs/research-agent-skills/skills/training-llms-megatron/SKILL.md",
-        "line": 30,
-        "excerpt": "# Train with 2 GPUs using data parallelism",
+        "line": 31,
+        "excerpt": "torchrun --nproc_per_node=2 examples/run_simple_mcore_train_loop.py",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "plugins/KalarisLabs/research-agent-skills/skills/training-llms-megatron/SKILL.md",
-        "line": 65,
-        "excerpt": "#!/bin/bash",
+        "line": 68,
+        "excerpt": "GPUS_PER_NODE=8",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "plugins/KalarisLabs/research-agent-skills/skills/training-llms-megatron/SKILL.md",
-        "line": 118,
-        "excerpt": "# Single node (8 GPUs)",
+        "line": 119,
+        "excerpt": "bash train_llama_70b.sh",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "plugins/KalarisLabs/research-agent-skills/skills/training-llms-megatron/SKILL.md",
-        "line": 149,
-        "excerpt": "# Mixtral 8x7B example",
+        "line": 150,
+        "excerpt": "TENSOR_PARALLEL=2",
         "disclosed": false,
         "automatic": false
       },
@@ -91,16 +91,16 @@
       {
         "ruleId": "shell",
         "file": "plugins/KalarisLabs/research-agent-skills/skills/training-llms-megatron/SKILL.md",
-        "line": 229,
-        "excerpt": "# Start with 1, increase until OOM",
+        "line": 230,
+        "excerpt": "for MBS in 1 2 4 8; do",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "plugins/KalarisLabs/research-agent-skills/skills/training-llms-megatron/SKILL.md",
-        "line": 286,
-        "excerpt": "# Increase micro-batch",
+        "line": 287,
+        "excerpt": "--micro-batch-size 4  # Was 1",
         "disclosed": false,
         "automatic": false
       },
@@ -151,8 +151,8 @@
     },
     "score": 80,
     "band": "low",
-    "rulesVersion": "1.0.0",
-    "filesScanned": 5,
+    "rulesVersion": "1.3.0",
+    "filesScanned": 8,
     "filesSkipped": 0
   },
   "history": [
@@ -161,6 +161,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 80,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "057d7896b4db0d6cf69f0222cb601b23c953736b",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 80,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

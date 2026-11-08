@@ -5,62 +5,62 @@
   "path": "plugins/nyldn/claude-octopus/skills/skill-rollback",
   "name": "skill-rollback",
   "description": "Roll back to a previous checkpoint via git — use when a change went wrong and you need to revert",
-  "stars": 1520,
+  "stars": 1537,
   "category": "coding",
-  "commit": "e012fe109c04b715dcf37f859469a28eaf6471b6",
-  "contentHash": "3f617fcaaab468c6a1ad7a448077081a5e4df24deb960e29a1115ceb18506833",
+  "commit": "057d7896b4db0d6cf69f0222cb601b23c953736b",
+  "contentHash": "c5078c32f3875c201df34e18bf4a09e9b57cc93aae0f55ef51304f68d4cf262d",
   "repoCreatedAt": "2026-03-28T02:38:44Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "plugins/nyldn/claude-octopus/skills/skill-rollback/SKILL.md",
-        "line": 35,
-        "excerpt": "# List all octo checkpoints with dates",
+        "line": 36,
+        "excerpt": "git tag -l \"octo-checkpoint-*\" --sort=-creatordate --format='%(refname:short)|%(creatordate:short)|%(contents:subject)'",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "plugins/nyldn/claude-octopus/skills/skill-rollback/SKILL.md",
-        "line": 66,
-        "excerpt": "# Check if tag exists",
+        "line": 67,
+        "excerpt": "git tag -l \"$CHECKPOINT_TAG\" | grep -q . || echo \"TAG_NOT_FOUND\"",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "plugins/nyldn/claude-octopus/skills/skill-rollback/SKILL.md",
-        "line": 83,
-        "excerpt": "# Get list of files that will be changed",
+        "line": 84,
+        "excerpt": "git diff --name-status HEAD $CHECKPOINT_TAG",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "plugins/nyldn/claude-octopus/skills/skill-rollback/SKILL.md",
-        "line": 126,
-        "excerpt": "# Generate timestamp",
+        "line": 127,
+        "excerpt": "TIMESTAMP=$(date +%Y%m%d-%H%M%S)",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "plugins/nyldn/claude-octopus/skills/skill-rollback/SKILL.md",
-        "line": 144,
-        "excerpt": "# Save current LESSONS.md if it exists",
+        "line": 145,
+        "excerpt": "if [ -f \".octo/LESSONS.md\" ]; then",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "plugins/nyldn/claude-octopus/skills/skill-rollback/SKILL.md",
-        "line": 154,
-        "excerpt": "# Restore files from checkpoint (does NOT move HEAD)",
+        "line": 155,
+        "excerpt": "git checkout $CHECKPOINT_TAG -- .",
         "disclosed": true,
         "automatic": false
       },
@@ -86,8 +86,8 @@
     },
     "score": 97,
     "band": "low",
-    "rulesVersion": "1.0.0",
-    "filesScanned": 2,
+    "rulesVersion": "1.3.0",
+    "filesScanned": 5,
     "filesSkipped": 0
   },
   "history": [
@@ -96,6 +96,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 97,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "057d7896b4db0d6cf69f0222cb601b23c953736b",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 97,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

@@ -5,31 +5,117 @@
   "path": "skills/ab-test-plan",
   "name": "ab-test-plan",
   "description": "Plan an A/B test by script: sample size per variant, days to run, stopping rules. \"how many visitors per variant\"",
-  "stars": 931,
+  "stars": 934,
   "category": "marketing",
-  "commit": "cc45ca06eaf48abde3bb60fb79d31c41229c58db",
-  "contentHash": "181e767c9fe327fe37ebcf7e9428f68407fdd25e830d401ef7a66708c3205eca",
+  "commit": "be4142b25bba6d424962a7788432dd813e6b768c",
+  "contentHash": "de9022dd687d24db4e4239d4e5968dce98e6297d22dc0d9979152743949c0ecb",
   "repoCreatedAt": "2026-02-11T07:57:53Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "skills/ab-test-plan/SKILL.md",
-        "line": 34,
-        "excerpt": "# Absolute MDE — detect a 1.0 percentage-point lift on a 5% baseline (5.0% → 6.0%)",
+        "line": 39,
+        "excerpt": "python \"${CLAUDE_PLUGIN_ROOT}/scripts/sample-size-calculator.py\" --baseline-rate 0.05 --mde 0.01 --mde-type absolute --significance 0.95 --power 0.80",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "scripts/connector_executor.py",
+        "line": 62,
+        "excerpt": "import urllib.request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "scripts/connector_executor.py",
+        "line": 403,
+        "excerpt": "env = dict(os.environ)",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "scripts/connector_executor.py",
+        "line": 504,
+        "excerpt": "req = urllib.request.Request(url, data=body_bytes, method=method)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "scripts/connector_executor.py",
+        "line": 514,
+        "excerpt": "response = urllib.request.urlopen(req, timeout=timeout)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "scripts/connector_executor.py",
+        "line": 656,
+        "excerpt": "env = dict(os.environ)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "scripts/connector_executor.py",
+        "line": 835,
+        "excerpt": "env = dict(os.environ)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "scripts/connector_executor.py",
+        "line": 919,
+        "excerpt": "def probe(connector: str, env: dict | None = None, timeout: int = 15, urlopen=None) -> dict:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "scripts/connector_executor.py",
+        "line": 925,
+        "excerpt": "env = dict(os.environ) if env is None else env",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "scripts/connector_executor.py",
+        "line": 944,
+        "excerpt": "req = urllib.request.Request(url, method=\"GET\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "scripts/connector_executor.py",
+        "line": 948,
+        "excerpt": "with (urlopen or urllib.request.urlopen)(req, timeout=timeout) as resp:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
       },
       {
         "ruleId": "shell",
         "file": "scripts/setup.py",
         "line": 296,
         "excerpt": "subprocess.check_call(",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false
       },
       {
@@ -37,7 +123,47 @@
         "file": "scripts/setup.py",
         "line": 318,
         "excerpt": "except subprocess.CalledProcessError as e:",
-        "disclosed": false,
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tests/test_live_write_gate.py",
+        "line": 80,
+        "excerpt": "def run_hook(stdin: str) -> subprocess.CompletedProcess:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tests/test_live_write_gate.py",
+        "line": 81,
+        "excerpt": "return subprocess.run([sys.executable, str(HOOK)], input=stdin, capture_output=True, text=True, timeout=30)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tests/test_live_write_gate.py",
+        "line": 182,
+        "excerpt": "\"\"\"Run the hooks.json command string the way Claude Code does (sh -c, or Git Bash on Windows).\"\"\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tests/test_live_write_gate.py",
+        "line": 192,
+        "excerpt": "proc = subprocess.run([sh, \"-c\", cmd], input=live, capture_output=True, text=True, env=env, timeout=60)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tests/test_live_write_gate.py",
+        "line": 195,
+        "excerpt": "quiet = subprocess.run([sh, \"-c\", cmd], input=json.dumps({\"tool_input\": {\"command\": \"ls\"}}),",
+        "disclosed": true,
         "automatic": false
       },
       {
@@ -45,17 +171,51 @@
         "file": "hooks/hooks-reference.example.json",
         "line": 10,
         "excerpt": "\"command\": \"timeout 30 python3 ${CLAUDE_PLUGIN_ROOT}/scripts/setup.py --check-deps --summary\"",
-        "disclosed": false,
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 10,
+        "excerpt": "\"command\": \"python3 \\\"${CLAUDE_PLUGIN_ROOT}/hooks/gate_live_writes.py\\\" 2>/dev/null || python \\\"${CLAUDE_PLUGIN_ROOT}/hooks/gate_live_writes.py\\\"\",",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 16,
+        "excerpt": "\"command\": \"python3 \\\"${CLAUDE_PLUGIN_ROOT}/hooks/gate_live_writes.py\\\" 2>/dev/null || python \\\"${CLAUDE_PLUGIN_ROOT}/hooks/gate_live_writes.py\\\"\",",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 22,
+        "excerpt": "\"command\": \"python3 \\\"${CLAUDE_PLUGIN_ROOT}/hooks/gate_live_writes.py\\\" 2>/dev/null || python \\\"${CLAUDE_PLUGIN_ROOT}/hooks/gate_live_writes.py\\\"\",",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 28,
+        "excerpt": "\"command\": \"python3 \\\"${CLAUDE_PLUGIN_ROOT}/hooks/gate_live_writes.py\\\" 2>/dev/null || python \\\"${CLAUDE_PLUGIN_ROOT}/hooks/gate_live_writes.py\\\"\",",
+        "disclosed": true,
         "automatic": true
       }
     ],
     "findingTotals": {
-      "shell": 4
+      "shell": 13,
+      "network": 6,
+      "reads-secrets": 4
     },
-    "score": 95,
-    "band": "low",
-    "rulesVersion": "1.0.0",
-    "filesScanned": 9,
+    "score": 72,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 19,
     "filesSkipped": 1
   },
   "history": [
@@ -64,6 +224,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 95,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "be4142b25bba6d424962a7788432dd813e6b768c",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 72,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

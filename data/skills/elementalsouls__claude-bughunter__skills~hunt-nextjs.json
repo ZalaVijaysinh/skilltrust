@@ -5,25 +5,17 @@
   "path": "skills/hunt-nextjs",
   "name": "hunt-nextjs",
   "description": "Hunt Next.js specific vulnerabilities — Server Actions arbitrary function execution, Middleware auth bypass via static asset paths, ISR cache poisoning, Image Optimization SSRF (/_next/image), RSC payload leakage, getServerSideProps injection, source map exposure, debug endpoint leakage. Use when target runs Next.js 13/14/15 or any React SSR framework.",
-  "stars": 5465,
+  "stars": 5490,
   "category": "security",
-  "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
+  "commit": "42a3ab1bb96426beb98f964d178695c1144c61ea",
   "contentHash": "32d0e76615534e377cde9d4b3f6243bb496809744d63e72badb7293ac5d4114f",
   "repoCreatedAt": "2026-05-05T11:22:32Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
-      {
-        "ruleId": "shell",
-        "file": "skills/hunt-nextjs/SKILL.md",
-        "line": 40,
-        "excerpt": "# Confirm Next.js and get build ID",
-        "disclosed": false,
-        "automatic": false
-      },
       {
         "ruleId": "network",
         "file": "skills/hunt-nextjs/SKILL.md",
@@ -34,6 +26,14 @@
         "hosts": [
           "$target"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-nextjs/SKILL.md",
+        "line": 41,
+        "excerpt": "curl -s https://$TARGET/ | grep -oP '\"buildId\":\"[^\"]+\"'",
+        "disclosed": false,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -91,14 +91,6 @@
         ]
       },
       {
-        "ruleId": "shell",
-        "file": "skills/hunt-nextjs/SKILL.md",
-        "line": 61,
-        "excerpt": "# Server Actions in Next.js 14+ use x-action-id or Next-Action header",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/hunt-nextjs/SKILL.md",
         "line": 63,
@@ -108,6 +100,14 @@
         "hosts": [
           "$target"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-nextjs/SKILL.md",
+        "line": 63,
+        "excerpt": "curl -s https://$TARGET/ | grep -oP '\"action\":\"[a-f0-9]+\"'",
+        "disclosed": false,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -121,14 +121,6 @@
         ]
       },
       {
-        "ruleId": "shell",
-        "file": "skills/hunt-nextjs/SKILL.md",
-        "line": 82,
-        "excerpt": "# Next.js middleware runs on edge runtime and may skip certain paths",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/hunt-nextjs/SKILL.md",
         "line": 84,
@@ -138,6 +130,14 @@
         "hosts": [
           "$target"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-nextjs/SKILL.md",
+        "line": 84,
+        "excerpt": "curl -s -o /dev/null -w \"%{http_code}\" https://$TARGET/admin/dashboard",
+        "disclosed": false,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -203,14 +203,6 @@
         "automatic": false
       },
       {
-        "ruleId": "shell",
-        "file": "skills/hunt-nextjs/SKILL.md",
-        "line": 112,
-        "excerpt": "# Basic SSRF test — internal metadata",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/hunt-nextjs/SKILL.md",
         "line": 113,
@@ -221,6 +213,14 @@
           "$target",
           "169.254.169.254"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-nextjs/SKILL.md",
+        "line": 113,
+        "excerpt": "curl -s \"https://$TARGET/_next/image?url=http://169.254.169.254/latest/meta-data/&w=64&q=75\"",
+        "disclosed": false,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -256,14 +256,6 @@
         ]
       },
       {
-        "ruleId": "shell",
-        "file": "skills/hunt-nextjs/SKILL.md",
-        "line": 145,
-        "excerpt": "# Enumerate prerendered JSON for user-specific data",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/hunt-nextjs/SKILL.md",
         "line": 147,
@@ -273,6 +265,14 @@
         "hosts": [
           "$target"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-nextjs/SKILL.md",
+        "line": 147,
+        "excerpt": "curl -s \"https://$TARGET/_next/data/$BUILD_ID/profile.json\" \\",
+        "disclosed": false,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -288,35 +288,35 @@
       {
         "ruleId": "shell",
         "file": "skills/hunt-nextjs/SKILL.md",
-        "line": 165,
-        "excerpt": "# ISR pages regenerate on request after revalidation period",
+        "line": 173,
+        "excerpt": "MARK=\"zqx$(date +%s)\"",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/hunt-nextjs/SKILL.md",
-        "line": 199,
-        "excerpt": "# First confirm dev mode is actually exposed (anything but 404 = dev server in prod)",
+        "line": 200,
+        "excerpt": "curl -s -o /dev/null -w \"%{http_code}\" \\",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/hunt-nextjs/SKILL.md",
-        "line": 215,
-        "excerpt": "# NEXT_PUBLIC_* vars are baked into JS bundles — grep for secrets",
+        "line": 216,
+        "excerpt": "curl -s \"https://$TARGET/_next/static/chunks/pages/_app.js\" | \\",
         "disclosed": false,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 9,
-      "network": 30
+      "network": 30,
+      "shell": 9
     },
     "score": 92,
     "band": "low",
-    "rulesVersion": "1.0.0",
+    "rulesVersion": "1.3.0",
     "filesScanned": 2,
     "filesSkipped": 0
   },
@@ -326,6 +326,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 92,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "42a3ab1bb96426beb98f964d178695c1144c61ea",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

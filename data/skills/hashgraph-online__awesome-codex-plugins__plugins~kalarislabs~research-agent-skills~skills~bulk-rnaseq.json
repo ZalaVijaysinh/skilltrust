@@ -5,25 +5,17 @@
   "path": "plugins/KalarisLabs/research-agent-skills/skills/bulk-rnaseq",
   "name": "bulk-rnaseq",
   "description": "End-to-end bulk RNA-seq orchestrator — takes raw FASTQ reads through QC and trimming (FastQC, fastp/Trim Galore), alignment and quantification (STAR, Salmon, featureCounts), assembles a gene-level counts matrix, then hands off to differential expression (pydeseq2), pathway/GSEA enrichment (pathway-enrichment), and publication figures (scientific-visualization). Use whenever the user has bulk RNA-seq reads or quant output and wants a complete, reproducible differential-expression workflow — e.g. \"analyze my RNA-seq\", \"FASTQ to DESeq2\", \"run nf-core/rnaseq\", \"STAR/Salmon quantification\", \"build a counts matrix for DESeq2\", or \"go from reads to differentially expressed genes and enriched pathways\". Routes between an nf-core/rnaseq (Nextflow) path and a standalone STAR/Salmon path, and covers experimental design, strandedness, and QC gates. For single-cell RNA-seq use the scanpy skill instead.",
-  "stars": 1520,
+  "stars": 1537,
   "category": "coding",
-  "commit": "e012fe109c04b715dcf37f859469a28eaf6471b6",
-  "contentHash": "6cfae50f95cd7dc419913047a61ef5589fa2b625b7894955c5d42ca83bf48df8",
+  "commit": "057d7896b4db0d6cf69f0222cb601b23c953736b",
+  "contentHash": "6bf92d5c361ffaf76233d9c6dc38c1ab829ce17a663d5a47958a3ada039196b5",
   "repoCreatedAt": "2026-03-28T02:38:44Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
-      {
-        "ruleId": "shell",
-        "file": "plugins/KalarisLabs/research-agent-skills/skills/bulk-rnaseq/SKILL.md",
-        "line": 74,
-        "excerpt": "# This skill's glue (bridge + handoffs) — Python",
-        "disclosed": false,
-        "automatic": false
-      },
       {
         "ruleId": "downloads-code",
         "file": "plugins/KalarisLabs/research-agent-skills/skills/bulk-rnaseq/SKILL.md",
@@ -33,26 +25,18 @@
         "automatic": false
       },
       {
-        "ruleId": "downloads-code",
+        "ruleId": "shell",
         "file": "plugins/KalarisLabs/research-agent-skills/skills/bulk-rnaseq/SKILL.md",
-        "line": 78,
-        "excerpt": "#   pydeseq2 skill           -> uv pip install pydeseq2",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "plugins/KalarisLabs/research-agent-skills/skills/bulk-rnaseq/SKILL.md",
-        "line": 79,
-        "excerpt": "#   pathway-enrichment skill -> uv pip install gseapy gprofiler-official",
+        "line": 75,
+        "excerpt": "uv pip install pytximport pandas",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "plugins/KalarisLabs/research-agent-skills/skills/bulk-rnaseq/SKILL.md",
-        "line": 95,
-        "excerpt": "# 0. Validate the samplesheet first (catches the most common failures early)",
+        "line": 96,
+        "excerpt": "python scripts/validate_samplesheet.py --samplesheet samplesheet.csv",
         "disclosed": false,
         "automatic": false
       },
@@ -67,8 +51,8 @@
       {
         "ruleId": "shell",
         "file": "plugins/KalarisLabs/research-agent-skills/skills/bulk-rnaseq/SKILL.md",
-        "line": 130,
-        "excerpt": "# Path B only: assemble a gene x sample counts matrix + metadata template for PyDESeq2",
+        "line": 131,
+        "excerpt": "python scripts/build_counts_matrix.py --from salmon \\",
         "disclosed": false,
         "automatic": false
       },
@@ -87,32 +71,16 @@
         "excerpt": "sys.exit(\"Salmon mode needs pytximport. Install with: uv pip install pytximport\")",
         "disclosed": false,
         "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "plugins/KalarisLabs/research-agent-skills/skills/pathway-enrichment/scripts/run_enrichment.py",
-        "line": 26,
-        "excerpt": "Requires: gseapy, pandas, matplotlib (uv pip install gseapy).",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "plugins/KalarisLabs/research-agent-skills/skills/pathway-enrichment/scripts/run_enrichment.py",
-        "line": 41,
-        "excerpt": "print(\"Error: gseapy not installed. Install with: uv pip install gseapy\")",
-        "disclosed": false,
-        "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 4,
-      "downloads-code": 7
+      "downloads-code": 3,
+      "shell": 4
     },
     "score": 80,
     "band": "low",
-    "rulesVersion": "1.0.0",
-    "filesScanned": 8,
+    "rulesVersion": "1.3.0",
+    "filesScanned": 10,
     "filesSkipped": 0
   },
   "history": [
@@ -121,6 +89,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 80,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "057d7896b4db0d6cf69f0222cb601b23c953736b",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 80,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

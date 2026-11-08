@@ -7,20 +7,20 @@
   "description": "This skill should be used when user asks to \"fetch overleaf review comments\", \"address overleaf reviews\", \"apply overleaf comments\", \"review my overleaf paper\", \"sync overleaf feedback to local\", \"what comments are on my overleaf doc\", or wants to act on Overleaf reviewer feedback in a local git-tracked LaTeX repo.",
   "stars": 1200,
   "category": "coding",
-  "commit": "d7e0ad01db372611f01da4806e3bf8062f6b7e18",
-  "contentHash": "d84568f4d1fac37cad50d989d584f04e40b6923a3ad22df5dc52fe6429daf926",
+  "commit": "0574bbbae11bd710f063abe62cf2c1b5b6d157c4",
+  "contentHash": "d1cbd46e1391f4f1e7c1c90785cde4fa4c604d8011e41563a327c28069b9cb80",
   "repoCreatedAt": "2025-07-09T07:46:08Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "plugins/overleaf-skills/skills/review-overleaf/SKILL.md",
-        "line": 18,
-        "excerpt": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/overleaf_reviews.py --list-projects",
+        "line": 20,
+        "excerpt": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/overleaf.py --list-projects",
         "disclosed": false,
         "automatic": false
       },
@@ -28,23 +28,47 @@
         "ruleId": "shell",
         "file": "plugins/overleaf-skills/skills/review-overleaf/SKILL.md",
         "line": 41,
-        "excerpt": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/overleaf_reviews.py --json --repo . < project-id > --unresolved-only",
+        "excerpt": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/overleaf.py --json --repo . < project-id > --unresolved-only",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/overleaf-skills/skills/review-overleaf/SKILL.md",
+        "line": 68,
+        "excerpt": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/overleaf.py <project-id> --sync-github --compile",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "network",
-        "file": "plugins/overleaf-skills/scripts/overleaf_reviews.py",
-        "line": 29,
+        "file": "plugins/overleaf-skills/scripts/overleaf.py",
+        "line": 38,
         "excerpt": "import urllib.request",
         "disclosed": true,
         "automatic": false,
         "hosts": []
       },
       {
+        "ruleId": "browser-secrets",
+        "file": "plugins/overleaf-skills/scripts/overleaf.py",
+        "line": 45,
+        "excerpt": "\".config/google-chrome/DevToolsActivePort\",",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "browser-secrets",
+        "file": "plugins/overleaf-skills/scripts/overleaf.py",
+        "line": 46,
+        "excerpt": "\"Library/Application Support/Google/Chrome/DevToolsActivePort\",",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
         "ruleId": "network",
-        "file": "plugins/overleaf-skills/scripts/overleaf_reviews.py",
-        "line": 53,
+        "file": "plugins/overleaf-skills/scripts/overleaf.py",
+        "line": 58,
         "excerpt": "class _NoRedirect(urllib.request.HTTPRedirectHandler):",
         "disclosed": true,
         "automatic": false,
@@ -52,31 +76,80 @@
       },
       {
         "ruleId": "network",
-        "file": "plugins/overleaf-skills/scripts/overleaf_reviews.py",
-        "line": 82,
-        "excerpt": "return urllib.request.build_opener(_NoRedirect)",
+        "file": "plugins/overleaf-skills/scripts/overleaf.py",
+        "line": 67,
+        "excerpt": "OPENER = urllib.request.build_opener(_NoRedirect)",
         "disclosed": true,
         "automatic": false,
         "hosts": []
       },
       {
         "ruleId": "network",
-        "file": "plugins/overleaf-skills/scripts/overleaf_reviews.py",
-        "line": 87,
+        "file": "plugins/overleaf-skills/scripts/overleaf.py",
+        "line": 99,
         "excerpt": "req = urllib.request.Request(",
         "disclosed": true,
         "automatic": false,
         "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/overleaf-skills/scripts/overleaf.py",
+        "line": 130,
+        "excerpt": "else subprocess.run(",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/overleaf-skills/scripts/overleaf.py",
+        "line": 153,
+        "excerpt": "tunnel = subprocess.Popen(",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/overleaf-skills/scripts/overleaf.py",
+        "line": 165,
+        "excerpt": "stdin=subprocess.DEVNULL,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/overleaf-skills/scripts/overleaf.py",
+        "line": 166,
+        "excerpt": "stdout=subprocess.DEVNULL,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/overleaf-skills/scripts/overleaf.py",
+        "line": 167,
+        "excerpt": "stderr=subprocess.DEVNULL,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/overleaf-skills/scripts/overleaf.py",
+        "line": 179,
+        "excerpt": "return subprocess.run(",
+        "disclosed": false,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 2,
-      "network": 4
+      "shell": 9,
+      "network": 4,
+      "browser-secrets": 2
     },
-    "score": 92,
-    "band": "low",
-    "rulesVersion": "1.0.0",
-    "filesScanned": 3,
+    "score": 79,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 6,
     "filesSkipped": 0
   },
   "history": [
@@ -85,6 +158,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 92,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "0574bbbae11bd710f063abe62cf2c1b5b6d157c4",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 79,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

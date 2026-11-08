@@ -3,9 +3,9 @@
   "owner": "LeoYeAI",
   "repo": "agent-master-skills",
   "path": "skills/voice-agent-pro-v1",
-  "name": "voice-agent-pro-v1",
-  "description": "",
-  "stars": 2182,
+  "name": "voice-agent-pro-v3",
+  "description": "Gives any OpenClaw agent a complete voice layer via ElevenLabs. Clones the principal's voice from audio samples, converts any text to MP3 audio (VSL, podcasts, video narrations, nurturing sequences), and deploys a conversational AI agent for automated inbound and outbound calls via Twilio. Use when the agent needs to generate audio content, call leads, or answer prospects 24/7 in the principal's cloned voice. Requires ELEVENLABS_API_KEY and ELEVENLABS_VOICE_ID — see Setup section in SKILL.md.",
+  "stars": 2184,
   "category": "coding",
   "commit": "8f88f9a0dd5a1075d4f0c7626f9d960844d57575",
   "contentHash": "ac9c9da7d228f629461bae267430fba5831ef1d33fe61100d27d4fa1cb5a292f",
@@ -13,29 +13,96 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/voice-agent-pro-v1/voice_generator.py",
-        "line": 47,
-        "excerpt": "key = cfg.get(\"ELEVENLABS_API_KEY\") or os.environ.get(\"ELEVENLABS_API_KEY\")",
+        "ruleId": "downloads-code",
+        "file": "skills/voice-agent-pro-v1/SKILL.md",
+        "line": 78,
+        "excerpt": "`docker exec openclaw-yyvg-openclaw-1 pip install elevenlabs --break-system-packages`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/voice-agent-pro-v1/SKILL.md",
+        "line": 82,
+        "excerpt": "pip install elevenlabs --break-system-packages",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/voice-agent-pro-v1/SKILL.md",
+        "line": 82,
+        "excerpt": "pip install elevenlabs --break-system-packages",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/voice-agent-pro-v1/SKILL.md",
+        "line": 83,
+        "excerpt": "pip install twilio --break-system-packages",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/voice-agent-pro-v1/SKILL.md",
+        "line": 84,
+        "excerpt": "apt-get update && apt-get install -y ffmpeg",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/voice-agent-pro-v1/SKILL.md",
+        "line": 93,
+        "excerpt": "> flag resolves it. On older systems, plain `pip install elevenlabs` works.",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "paid-api",
-        "file": "skills/voice-agent-pro-v1/voice_generator.py",
-        "line": 106,
+        "file": "skills/voice-agent-pro-v1/SKILL.md",
+        "line": 115,
+        "excerpt": "curl -s https://api.elevenlabs.io/v1/user \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/voice-agent-pro-v1/SKILL.md",
+        "line": 115,
+        "excerpt": "curl -s https://api.elevenlabs.io/v1/user \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.elevenlabs.io"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/voice-agent-pro-v1/SKILL.md",
+        "line": 115,
+        "excerpt": "curl -s https://api.elevenlabs.io/v1/user \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/voice-agent-pro-v1/SKILL.md",
+        "line": 128,
         "excerpt": "from elevenlabs.client import ElevenLabs",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "network",
-        "file": "skills/voice-agent-pro-v1/voice_generator.py",
-        "line": 106,
+        "file": "skills/voice-agent-pro-v1/SKILL.md",
+        "line": 128,
         "excerpt": "from elevenlabs.client import ElevenLabs",
         "disclosed": false,
         "automatic": false,
@@ -45,84 +112,215 @@
       },
       {
         "ruleId": "paid-api",
-        "file": "skills/voice-agent-pro-v1/voice_generator.py",
-        "line": 118,
-        "excerpt": "url = f\"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}\"",
+        "file": "skills/voice-agent-pro-v1/SKILL.md",
+        "line": 155,
+        "excerpt": "VOICE_ID=$(curl -s -X POST https://api.elevenlabs.io/v1/voices/add \\",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "network",
-        "file": "skills/voice-agent-pro-v1/voice_generator.py",
-        "line": 129,
-        "excerpt": "resp = requests.post(url, json=data, headers=headers, timeout=30)",
+        "file": "skills/voice-agent-pro-v1/SKILL.md",
+        "line": 155,
+        "excerpt": "VOICE_ID=$(curl -s -X POST https://api.elevenlabs.io/v1/voices/add \\",
         "disclosed": false,
         "automatic": false,
-        "hosts": []
+        "hosts": [
+          "api.elevenlabs.io"
+        ]
       },
       {
         "ruleId": "shell",
-        "file": "skills/voice-agent-pro-v1/voice_generator.py",
-        "line": 161,
-        "excerpt": "result = subprocess.run(",
+        "file": "skills/voice-agent-pro-v1/SKILL.md",
+        "line": 155,
+        "excerpt": "VOICE_ID=$(curl -s -X POST https://api.elevenlabs.io/v1/voices/add \\",
         "disclosed": false,
         "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/voice-agent-pro-v1/voice_generator.py",
-        "line": 190,
-        "excerpt": "result = subprocess.run(",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/voice-agent-pro-v1/voice_generator.py",
-        "line": 322,
-        "excerpt": "import urllib.request",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/voice-agent-pro-v1/voice_generator.py",
-        "line": 325,
-        "excerpt": "req = urllib.request.Request(",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
       },
       {
         "ruleId": "paid-api",
-        "file": "skills/voice-agent-pro-v1/voice_generator.py",
-        "line": 326,
-        "excerpt": "\"https://api.elevenlabs.io/v1/user\",",
+        "file": "skills/voice-agent-pro-v1/SKILL.md",
+        "line": 171,
+        "excerpt": "curl -s https://api.elevenlabs.io/v1/voices \\",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "network",
-        "file": "skills/voice-agent-pro-v1/voice_generator.py",
-        "line": 329,
-        "excerpt": "with urllib.request.urlopen(req, timeout=10) as resp:",
+        "file": "skills/voice-agent-pro-v1/SKILL.md",
+        "line": 171,
+        "excerpt": "curl -s https://api.elevenlabs.io/v1/voices \\",
         "disclosed": false,
         "automatic": false,
-        "hosts": []
+        "hosts": [
+          "api.elevenlabs.io"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/voice-agent-pro-v1/SKILL.md",
+        "line": 171,
+        "excerpt": "curl -s https://api.elevenlabs.io/v1/voices \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/voice-agent-pro-v1/SKILL.md",
+        "line": 183,
+        "excerpt": "python3 -c \"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/voice-agent-pro-v1/SKILL.md",
+        "line": 184,
+        "excerpt": "from elevenlabs.client import ElevenLabs",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/voice-agent-pro-v1/SKILL.md",
+        "line": 184,
+        "excerpt": "from elevenlabs.client import ElevenLabs",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.elevenlabs.io"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/voice-agent-pro-v1/SKILL.md",
+        "line": 209,
+        "excerpt": "python3 /workspace/voice/scripts/voice_generator.py apply-config \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/voice-agent-pro-v1/SKILL.md",
+        "line": 281,
+        "excerpt": "python3 /workspace/voice/scripts/voice_generator.py tts \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/voice-agent-pro-v1/SKILL.md",
+        "line": 302,
+        "excerpt": "TWILIO_ACCOUNT_SID=ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/voice-agent-pro-v1/SKILL.md",
+        "line": 374,
+        "excerpt": "python3 /workspace/voice/scripts/voice_generator.py calls --action list",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/voice-agent-pro-v1/SKILL.md",
+        "line": 397,
+        "excerpt": "curl -X DELETE https://api.elevenlabs.io/v1/voices/$VOICE_ID \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/voice-agent-pro-v1/SKILL.md",
+        "line": 397,
+        "excerpt": "curl -X DELETE https://api.elevenlabs.io/v1/voices/$VOICE_ID \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.elevenlabs.io"
+        ]
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/voice-agent-pro-v1/SKILL.md",
+        "line": 404,
+        "excerpt": "curl -s https://api.elevenlabs.io/v1/voices \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/voice-agent-pro-v1/SKILL.md",
+        "line": 404,
+        "excerpt": "curl -s https://api.elevenlabs.io/v1/voices \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.elevenlabs.io"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/voice-agent-pro-v1/SKILL.md",
+        "line": 413,
+        "excerpt": "Solution: apt-get update && apt-get install -y ffmpeg",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/voice-agent-pro-v1/SKILL.md",
+        "line": 422,
+        "excerpt": "Base URL : https://api.elevenlabs.io",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/voice-agent-pro-v1/SKILL.md",
+        "line": 477,
+        "excerpt": "[ ] pip install elevenlabs --break-system-packages",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/voice-agent-pro-v1/SKILL.md",
+        "line": 478,
+        "excerpt": "[ ] pip install twilio --break-system-packages (if using calls)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/voice-agent-pro-v1/SKILL.md",
+        "line": 479,
+        "excerpt": "[ ] apt-get update && apt-get install -y ffmpeg",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/voice-agent-pro-v1/SKILL.md",
+        "line": 583,
+        "excerpt": "Action: apt-get update && apt-get install -y ffmpeg",
+        "disclosed": false,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "reads-secrets": 1,
-      "paid-api": 3,
-      "network": 5,
-      "shell": 2
+      "downloads-code": 10,
+      "shell": 9,
+      "paid-api": 8,
+      "network": 7
     },
-    "score": 60,
+    "score": 65,
     "band": "review",
-    "rulesVersion": "1.2.0",
-    "filesScanned": 3,
-    "filesSkipped": 5
+    "rulesVersion": "1.3.0",
+    "filesScanned": 2,
+    "filesSkipped": 6
   },
   "history": [
     {
@@ -130,6 +328,12 @@
       "scannedAt": "2026-11-07T16:26:42.053Z",
       "score": 60,
       "rulesVersion": "1.2.0"
+    },
+    {
+      "commit": "8f88f9a0dd5a1075d4f0c7626f9d960844d57575",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 65,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

@@ -3,19 +3,62 @@
   "owner": "LeoYeAI",
   "repo": "agent-master-skills",
   "path": "skills/ima-tts-ai",
-  "name": "ima-tts-ai",
-  "description": "",
-  "stars": 2182,
+  "name": "IMA Studio TTS",
+  "description": "Use when generating speech from text (text-to-speech) via IMA Open API. Use for: voice synthesis, TTS,朗读, 语音合成, 配音, 有声内容. Output: audio URL (mp3/wav). Flow: query products → create task → poll until done. Requires IMA API key. This skill targets seed-tts-2.0 only (seed-tts-1.1 is not supported). Default model is seed-tts-2.0.",
+  "stars": 2184,
   "category": "coding",
   "commit": "8f88f9a0dd5a1075d4f0c7626f9d960844d57575",
   "contentHash": "b0686a4d92102f88f0beef470b2e177e9e81bd06947485d2334348c9478710e2",
   "repoCreatedAt": "2026-03-02T02:02:25Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/ima-tts-ai/SKILL.md",
+        "line": 48,
+        "excerpt": "python3 {baseDir}/scripts/ima_tts_create.py --api-key $IMA_API_KEY --list-models",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/ima-tts-ai/SKILL.md",
+        "line": 201,
+        "excerpt": "python3 ima_tts_create.py --api-key $IMA_API_KEY --model-id seed-tts-2.0 \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/ima-tts-ai/SKILL.md",
+        "line": 403,
+        "excerpt": "r = requests.get(",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/ima-tts-ai/SKILL.md",
+        "line": 432,
+        "excerpt": "r = requests.post(f\"{BASE}/open/v1/tasks/create\", headers=HEADERS, json=body)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/ima-tts-ai/SKILL.md",
+        "line": 437,
+        "excerpt": "r = requests.post(f\"{BASE}/open/v1/tasks/detail\", headers=HEADERS, json={\"task_id\": task_id})",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
       {
         "ruleId": "downloads-code",
         "file": "skills/ima-tts-ai/scripts/ima_tts_create.py",
@@ -29,7 +72,7 @@
         "file": "skills/ima-tts-ai/scripts/ima_tts_create.py",
         "line": 93,
         "excerpt": "resp = requests.get(url, params=params, headers=headers, timeout=30)",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": []
       },
@@ -38,7 +81,7 @@
         "file": "skills/ima-tts-ai/scripts/ima_tts_create.py",
         "line": 299,
         "excerpt": "resp = requests.post(url, json=payload, headers=headers, timeout=30)",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": []
       },
@@ -47,7 +90,7 @@
         "file": "skills/ima-tts-ai/scripts/ima_tts_create.py",
         "line": 357,
         "excerpt": "resp = requests.post(url, json={\"task_id\": task_id},",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": []
       },
@@ -56,29 +99,21 @@
         "file": "skills/ima-tts-ai/scripts/ima_tts_create.py",
         "line": 554,
         "excerpt": "resp = requests.post(url, json=payload, headers=headers, timeout=30)",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": []
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/ima-tts-ai/scripts/ima_tts_create.py",
-        "line": 853,
-        "excerpt": "apikey = args.api_key or os.getenv(\"IMA_API_KEY\")",
-        "disclosed": false,
-        "automatic": false
       }
     ],
     "findingTotals": {
-      "downloads-code": 1,
-      "network": 4,
-      "reads-secrets": 1
+      "shell": 2,
+      "network": 7,
+      "downloads-code": 1
     },
-    "score": 60,
+    "score": 77,
     "band": "review",
-    "rulesVersion": "1.2.0",
-    "filesScanned": 5,
-    "filesSkipped": 4
+    "rulesVersion": "1.3.0",
+    "filesScanned": 9,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -86,6 +121,12 @@
       "scannedAt": "2026-11-07T16:26:42.053Z",
       "score": 60,
       "rulesVersion": "1.2.0"
+    },
+    {
+      "commit": "8f88f9a0dd5a1075d4f0c7626f9d960844d57575",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 77,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

@@ -3,19 +3,114 @@
   "owner": "LeoYeAI",
   "repo": "agent-master-skills",
   "path": "skills/deploy-on-render",
-  "name": "deploy-on-render",
-  "description": "",
-  "stars": 2182,
+  "name": "render",
+  "description": "Deploy and operate apps on Render (Blueprint + one-click Dashboard deeplink, same flow as Codex render-deploy). Use when the user wants to deploy, host, or publish an app; create or edit render.yaml; add web, static, workers, cron, Postgres, or Key Value; get the Blueprint deeplink to deploy; trigger or verify deploys via API when RENDER_API_KEY is set; connect Render MCP via mcporter for direct service creation; or configure env vars, health checks, scaling, previews, and projects.",
+  "stars": 2184,
   "category": "coding",
   "commit": "8f88f9a0dd5a1075d4f0c7626f9d960844d57575",
   "contentHash": "782982c28191e28effbae38b6cbfb9aee33fcb788ebff1d0c3d624138df6f504",
   "repoCreatedAt": "2026-03-02T02:02:25Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/deploy-on-render/SKILL.md",
+        "line": 30,
+        "excerpt": "[ -n \"$RENDER_API_KEY\" ] && echo \"RENDER_API_KEY is set\" || echo \"RENDER_API_KEY is not set\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/deploy-on-render/SKILL.md",
+        "line": 44,
+        "excerpt": "2. **Render CLI (optional)** – For local validation: `render blueprints validate render.yaml`. Install: `brew install render` or [Render CLI](https://github.com",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/deploy-on-render/SKILL.md",
+        "line": 101,
+        "excerpt": "Python example: `runtime: python`, `buildCommand: pip install -r requirements.txt`, `startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT` (or gunicor",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/deploy-on-render/SKILL.md",
+        "line": 262,
+        "excerpt": "- CLI: `render blueprints validate render.yaml` (install: `brew install render` or [Render CLI install](https://github.com/render-oss/cli)).",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/deploy-on-render/SKILL.md",
+        "line": 271,
+        "excerpt": "git add render.yaml",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/deploy-on-render/SKILL.md",
+        "line": 283,
+        "excerpt": "git remote get-url origin",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/deploy-on-render/SKILL.md",
+        "line": 324,
+        "excerpt": "curl -s -H \"Authorization: Bearer $RENDER_API_KEY\" \"https://api.render.com/v1/services\" | head -100",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.render.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/deploy-on-render/SKILL.md",
+        "line": 324,
+        "excerpt": "curl -s -H \"Authorization: Bearer $RENDER_API_KEY\" \"https://api.render.com/v1/services\" | head -100",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/deploy-on-render/SKILL.md",
+        "line": 325,
+        "excerpt": "curl -s -H \"Authorization: Bearer $RENDER_API_KEY\" \"https://api.render.com/v1/services/{serviceId}/deploys?limit=1\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.render.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/deploy-on-render/SKILL.md",
+        "line": 337,
+        "excerpt": "- **Deploy hook (no API key):** Dashboard → service → Settings → Deploy Hook. User can set that URL as an env var (e.g. `RENDER_DEPLOY_HOOK_URL`); then the agen",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/deploy-on-render/SKILL.md",
+        "line": 356,
+        "excerpt": "mcporter call render.list_services",
+        "disclosed": false,
+        "automatic": false
+      },
       {
         "ruleId": "downloads-code",
         "file": "skills/deploy-on-render/assets/python-web.yaml",
@@ -25,10 +120,18 @@
         "automatic": false
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/deploy-on-render/references/post-deploy-checks.md",
-        "line": 11,
-        "excerpt": "curl -s -H \"Authorization: Bearer $RENDER_API_KEY\" \"https://api.render.com/v1/services\" | head -200",
+        "ruleId": "downloads-code",
+        "file": "skills/deploy-on-render/references/codebase-analysis.md",
+        "line": 21,
+        "excerpt": "- `requirements.txt` (pip) → `pip install -r requirements.txt` / `gunicorn app:app`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/deploy-on-render/references/codebase-analysis.md",
+        "line": 45,
+        "excerpt": "- Build command (e.g., `npm ci`, `pip install -r requirements.txt`, `go build`)",
         "disclosed": false,
         "automatic": false
       },
@@ -44,14 +147,6 @@
         ]
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/deploy-on-render/references/post-deploy-checks.md",
-        "line": 14,
-        "excerpt": "curl -s -H \"Authorization: Bearer $RENDER_API_KEY\" \"https://api.render.com/v1/services/<serviceId>/deploys?limit=1\"",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/deploy-on-render/references/post-deploy-checks.md",
         "line": 14,
@@ -61,14 +156,6 @@
         "hosts": [
           "api.render.com"
         ]
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/deploy-on-render/references/post-deploy-checks.md",
-        "line": 37,
-        "excerpt": "curl -s -H \"Authorization: Bearer $RENDER_API_KEY\" \\",
-        "disclosed": false,
-        "automatic": false
       },
       {
         "ruleId": "network",
@@ -78,18 +165,40 @@
         "disclosed": false,
         "automatic": false,
         "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/deploy-on-render/references/rest-api-deployment.md",
+        "line": 8,
+        "excerpt": "curl -s \"https://api.render.com/v1/owners\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.render.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/deploy-on-render/references/rest-api-deployment.md",
+        "line": 45,
+        "excerpt": "curl -X POST \"https://api.render.com/v1/services\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.render.com"
+        ]
       }
     ],
     "findingTotals": {
-      "downloads-code": 1,
-      "reads-secrets": 3,
-      "network": 3
+      "shell": 5,
+      "downloads-code": 6,
+      "network": 8
     },
-    "score": 60,
+    "score": 75,
     "band": "review",
-    "rulesVersion": "1.2.0",
-    "filesScanned": 5,
-    "filesSkipped": 7
+    "rulesVersion": "1.3.0",
+    "filesScanned": 12,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -97,6 +206,12 @@
       "scannedAt": "2026-11-07T16:26:42.053Z",
       "score": 60,
       "rulesVersion": "1.2.0"
+    },
+    {
+      "commit": "8f88f9a0dd5a1075d4f0c7626f9d960844d57575",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 75,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

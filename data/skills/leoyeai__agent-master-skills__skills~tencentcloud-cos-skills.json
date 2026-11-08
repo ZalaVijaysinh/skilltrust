@@ -5,15 +5,15 @@
   "path": "skills/tencentcloud-cos-skills",
   "name": "tencent-cloud-cos",
   "description": "腾讯云对象存储(COS)和数据万象(CI)集成技能。当用户需要上传、下载、管理云存储文件， 或需要进行图片处理（质量评估、超分辨率、抠图、二维码识别、水印）、智能图片搜索、 文档转PDF、视频智能封面生成等操作时使用此技能。",
-  "stars": 2182,
+  "stars": 2184,
   "category": "coding",
   "commit": "8f88f9a0dd5a1075d4f0c7626f9d960844d57575",
   "contentHash": "6e1e6d8c20282c55f7350397ca4f17546e1a0e69108ef15ac87ea0243d3ad69c",
   "repoCreatedAt": "2026-03-02T02:02:25Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
       {
@@ -242,6 +242,14 @@
       },
       {
         "ruleId": "downloads-code",
+        "file": "skills/tencentcloud-cos-skills/config/template.json",
+        "line": 21,
+        "excerpt": "\"command\": \"npx\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
         "file": "skills/tencentcloud-cos-skills/install.sh",
         "line": 82,
         "excerpt": "npm install -g cos-mcp@latest",
@@ -261,14 +269,6 @@
         "file": "skills/tencentcloud-cos-skills/references/api_reference.md",
         "line": 152,
         "excerpt": "依赖 Python，通过 `pip install coscmd` 安装。首次使用需配置（写入 `~/.cos.conf`，后续无需重复）：",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/tencentcloud-cos-skills/references/config_template.json",
-        "line": 8,
-        "excerpt": "\"command\": \"npx\",",
         "disclosed": false,
         "automatic": false
       },
@@ -295,18 +295,58 @@
         "excerpt": "stderr=subprocess.PIPE,",
         "disclosed": true,
         "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/tencentcloud-cos-skills/scripts/setup.sh",
+        "line": 385,
+        "excerpt": "echo \"  • 不再使用时清理凭证：rm -f ~/.mcporter/mcporter.json ~/.cos.conf\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tencentcloud-cos-skills/test_skill.py",
+        "line": 62,
+        "excerpt": "result = subprocess.run(['node', '--version'], capture_output=True, text=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tencentcloud-cos-skills/test_skill.py",
+        "line": 73,
+        "excerpt": "result = subprocess.run(['npm', 'list', '-g', 'cos-mcp'], capture_output=True, text=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tencentcloud-cos-skills/test_skill.py",
+        "line": 253,
+        "excerpt": "result = subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tencentcloud-cos-skills/test_skill.py",
+        "line": 283,
+        "excerpt": "except subprocess.TimeoutExpired:",
+        "disclosed": true,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "downloads-code": 21,
-      "shell": 12,
-      "writes-outside": 3
+      "downloads-code": 27,
+      "shell": 16,
+      "writes-outside": 4
     },
     "score": 72,
     "band": "review",
-    "rulesVersion": "1.2.0",
-    "filesScanned": 9,
-    "filesSkipped": 9
+    "rulesVersion": "1.3.0",
+    "filesScanned": 18,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -314,6 +354,12 @@
       "scannedAt": "2026-11-07T16:26:42.053Z",
       "score": 72,
       "rulesVersion": "1.2.0"
+    },
+    {
+      "commit": "8f88f9a0dd5a1075d4f0c7626f9d960844d57575",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 72,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

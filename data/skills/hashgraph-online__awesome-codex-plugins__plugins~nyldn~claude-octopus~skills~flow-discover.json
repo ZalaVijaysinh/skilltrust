@@ -5,15 +5,15 @@
   "path": "plugins/nyldn/claude-octopus/skills/flow-discover",
   "name": "flow-discover",
   "description": "Multi-AI research using available external providers (Double Diamond Discover phase)",
-  "stars": 1520,
+  "stars": 1537,
   "category": "coding",
-  "commit": "e012fe109c04b715dcf37f859469a28eaf6471b6",
-  "contentHash": "3c81bc29140f42f2e5db1b1dbfb59cd651cc3c546cf6fa464fa63c33315c0bcd",
+  "commit": "057d7896b4db0d6cf69f0222cb601b23c953736b",
+  "contentHash": "e568a41007a82b5a332b160a9be4b77da588fd3d5014eacab95b62663a633256",
   "repoCreatedAt": "2026-03-28T02:38:44Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
       {
@@ -27,8 +27,8 @@
       {
         "ruleId": "shell",
         "file": "plugins/nyldn/claude-octopus/skills/flow-discover/SKILL.md",
-        "line": 57,
-        "excerpt": "# Check for native plan mode markers",
+        "line": 58,
+        "excerpt": "if [[ -n \"${PLAN_MODE_ACTIVE}\" ]] || claude-code plan status 2>/dev/null | grep -q \"active\"; then",
         "disclosed": true,
         "automatic": false
       },
@@ -36,15 +36,15 @@
         "ruleId": "shell",
         "file": "plugins/nyldn/claude-octopus/skills/flow-discover/SKILL.md",
         "line": 108,
-        "excerpt": "bash \"${HOME}/.claude-octopus/plugin/scripts/helpers/check-providers.sh\"",
+        "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT:-${CODEX_PLUGIN_ROOT:-${HOME}/.claude-octopus/plugin}}/scripts/helpers/check-providers.sh\"",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "plugins/nyldn/claude-octopus/skills/flow-discover/SKILL.md",
-        "line": 158,
-        "excerpt": "# Initialize state if needed",
+        "line": 159,
+        "excerpt": "\"${CLAUDE_PLUGIN_ROOT:-${CODEX_PLUGIN_ROOT:-${HOME}/.claude-octopus/plugin}}/scripts/state-manager.sh\" init_state",
         "disclosed": true,
         "automatic": false
       },
@@ -52,7 +52,7 @@
         "ruleId": "shell",
         "file": "plugins/nyldn/claude-octopus/skills/flow-discover/SKILL.md",
         "line": 193,
-        "excerpt": "FLEET_OUTPUT=$(\"${HOME}/.claude-octopus/plugin/scripts/helpers/build-fleet.sh\" research \"${INTENSITY}\" \"${PROMPT}\" 2>/dev/null)",
+        "excerpt": "FLEET_OUTPUT=$(\"${CLAUDE_PLUGIN_ROOT:-${CODEX_PLUGIN_ROOT:-${HOME}/.claude-octopus/plugin}}/scripts/helpers/build-fleet.sh\" research \"${INTENSITY}\" \"${PROMPT}\" ",
         "disclosed": true,
         "automatic": false
       },
@@ -60,22 +60,22 @@
         "ruleId": "shell",
         "file": "plugins/nyldn/claude-octopus/skills/flow-discover/SKILL.md",
         "line": 221,
-        "excerpt": "RUN_TIMESTAMP=\"$(date +%s)\"",
+        "excerpt": "OCTO_RESEARCH_ROOT=\"${CLAUDE_PLUGIN_ROOT:-${CODEX_PLUGIN_ROOT:-${HOME}/.claude-octopus/plugin}}\"",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "plugins/nyldn/claude-octopus/skills/flow-discover/SKILL.md",
-        "line": 275,
-        "excerpt": "\"${HOME}/.claude-octopus/plugin/scripts/orchestrate.sh\" agent-summary",
+        "line": 276,
+        "excerpt": "\"${CLAUDE_PLUGIN_ROOT:-${CODEX_PLUGIN_ROOT:-${HOME}/.claude-octopus/plugin}}/scripts/orchestrate.sh\" agent-summary",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "plugins/nyldn/claude-octopus/skills/flow-discover/SKILL.md",
-        "line": 307,
+        "line": 308,
         "excerpt": "SYNTHESIS_FILE=\"${HOME}/.claude-octopus/results/probe-synthesis-${RUN_ID}.md\"",
         "disclosed": true,
         "automatic": false
@@ -83,23 +83,23 @@
       {
         "ruleId": "shell",
         "file": "plugins/nyldn/claude-octopus/skills/flow-discover/SKILL.md",
-        "line": 316,
-        "excerpt": "if ! \"$HOME/.claude-octopus/plugin/scripts/orchestrate.sh\" research-verify \\",
+        "line": 317,
+        "excerpt": "if ! \"$OCTO_RESEARCH_ROOT/scripts/orchestrate.sh\" research-verify \\",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "plugins/nyldn/claude-octopus/skills/flow-discover/SKILL.md",
-        "line": 331,
-        "excerpt": "# Verify the synthesis file was written (matches probe-synthesis-*.md pattern)",
+        "line": 333,
+        "excerpt": "if [[ ! -f \"$SYNTHESIS_FILE\" ]]; then",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "plugins/nyldn/claude-octopus/skills/flow-discover/SKILL.md",
-        "line": 342,
+        "line": 343,
         "excerpt": "key_findings=$(head -50 \"$SYNTHESIS_FILE\" | grep -A 3 \"## Key Findings\\|## Summary\" | tail -3 | tr '\\n' ' ')",
         "disclosed": true,
         "automatic": false
@@ -107,31 +107,31 @@
       {
         "ruleId": "shell",
         "file": "plugins/nyldn/claude-octopus/skills/flow-discover/SKILL.md",
-        "line": 401,
-        "excerpt": "# Get task status summary from orchestrate.sh (v2.1.12+)",
+        "line": 403,
+        "excerpt": "task_status=$(\"${CLAUDE_PLUGIN_ROOT:-${CODEX_PLUGIN_ROOT:-${HOME}/.claude-octopus/plugin}}/scripts/orchestrate.sh\" get-task-status 2>/dev/null || echo \"\")",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "plugins/nyldn/claude-octopus/skills/flow-discover/SKILL.md",
-        "line": 503,
-        "excerpt": "${HOME}/.claude-octopus/plugin/scripts/orchestrate.sh discover \"<user's research question>\"",
+        "line": 504,
+        "excerpt": "\"${CLAUDE_PLUGIN_ROOT:-${CODEX_PLUGIN_ROOT:-${HOME}/.claude-octopus/plugin}}/scripts/orchestrate.sh\" discover \"<user's research question>\"",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "plugins/nyldn/claude-octopus/skills/flow-discover/SKILL.md",
-        "line": 763,
-        "excerpt": "# Uses validate_external_url() from orchestrate.sh",
+        "line": 765,
+        "excerpt": "validate_external_url \"$url\" || { echo \"Invalid URL\"; return 1; }",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "plugins/nyldn/claude-octopus/skills/flow-discover/SKILL.md",
-        "line": 769,
+        "line": 770,
         "excerpt": "url=$(transform_twitter_url \"$url\")",
         "disclosed": true,
         "automatic": false
@@ -139,7 +139,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/nyldn/claude-octopus/skills/flow-discover/SKILL.md",
-        "line": 774,
+        "line": 775,
         "excerpt": "content=$(wrap_untrusted_content \"$raw_content\" \"$source_url\")",
         "disclosed": true,
         "automatic": false
@@ -147,8 +147,8 @@
       {
         "ruleId": "shell",
         "file": "plugins/nyldn/claude-octopus/skills/flow-discover/SKILL.md",
-        "line": 820,
-        "excerpt": "# The phase remains incomplete unless there is a synthesis to present.",
+        "line": 822,
+        "excerpt": "if [[ ! -s \"${SYNTHESIS_FILE:-}\" ]]; then",
         "disclosed": true,
         "automatic": false
       }
@@ -158,8 +158,8 @@
     },
     "score": 97,
     "band": "low",
-    "rulesVersion": "1.0.0",
-    "filesScanned": 2,
+    "rulesVersion": "1.3.0",
+    "filesScanned": 5,
     "filesSkipped": 0
   },
   "history": [
@@ -168,6 +168,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 97,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "057d7896b4db0d6cf69f0222cb601b23c953736b",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 97,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

@@ -5,25 +5,17 @@
   "path": "skills/hunt-cache-poison",
   "name": "hunt-cache-poison",
   "description": "Hunting skill for cache poison vulnerabilities. Built from 10 public bug bounty reports including X-Forwarded-Host poisoning, X-HTTP-Method-Override / GCS cache, reflected→stored XSS via cache, classic Omer-Gil Web Cache Deception, Cloudflare Cache Deception Armor bypass, session-token cache deception, Akamai hop-by-hop smuggling → server-side edge poisoning, and Kettle's 2024 path-normalization WCD against Cloudflare/Fastly/GCP. Host/X-Forwarded-Host injection that reaches app logic (reset-link poisoning, routing SSRF, OAuth issuer) is owned by hunt-host-header; this skill owns the case where the poisoned response is CACHED and served to other users. Use when hunting cache poisoning, Web Cache Deception, CDN-fronted apps.",
-  "stars": 5465,
+  "stars": 5490,
   "category": "security",
-  "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
+  "commit": "42a3ab1bb96426beb98f964d178695c1144c61ea",
   "contentHash": "385cfacba62dd65b82461e0cfe888a6bdf3981b407df98c9c881afb403ef3594",
   "repoCreatedAt": "2026-05-05T11:22:32Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
-      {
-        "ruleId": "shell",
-        "file": "skills/hunt-cache-poison/SKILL.md",
-        "line": 132,
-        "excerpt": "# Send twice, compare Age header",
-        "disclosed": false,
-        "automatic": false
-      },
       {
         "ruleId": "network",
         "file": "skills/hunt-cache-poison/SKILL.md",
@@ -34,6 +26,14 @@
         "hosts": [
           "target.com"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-cache-poison/SKILL.md",
+        "line": 133,
+        "excerpt": "curl -s -I \"https://target.com/page\" | grep -i \"age\\|x-cache\\|cf-cache\"",
+        "disclosed": false,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -64,14 +64,6 @@
         "automatic": false
       },
       {
-        "ruleId": "shell",
-        "file": "skills/hunt-cache-poison/SKILL.md",
-        "line": 145,
-        "excerpt": "# Authenticated session cookie required",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/hunt-cache-poison/SKILL.md",
         "line": 146,
@@ -79,6 +71,14 @@
         "disclosed": true,
         "automatic": false,
         "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-cache-poison/SKILL.md",
+        "line": 146,
+        "excerpt": "curl -s -b \"session=YOUR_SESSION\" \\",
+        "disclosed": false,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -92,14 +92,6 @@
         ]
       },
       {
-        "ruleId": "shell",
-        "file": "skills/hunt-cache-poison/SKILL.md",
-        "line": 155,
-        "excerpt": "# Use a unique cache-busting query param to land on a fresh key — do NOT rely on",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/hunt-cache-poison/SKILL.md",
         "line": 158,
@@ -107,6 +99,14 @@
         "disclosed": true,
         "automatic": false,
         "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-cache-poison/SKILL.md",
+        "line": 158,
+        "excerpt": "curl -s -H \"X-Forwarded-Host: canary.attacker.com\" \\",
+        "disclosed": false,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -177,12 +177,12 @@
       }
     ],
     "findingTotals": {
-      "shell": 6,
-      "network": 11
+      "network": 11,
+      "shell": 6
     },
     "score": 92,
     "band": "low",
-    "rulesVersion": "1.0.0",
+    "rulesVersion": "1.3.0",
     "filesScanned": 2,
     "filesSkipped": 0
   },
@@ -192,6 +192,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 92,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "42a3ab1bb96426beb98f964d178695c1144c61ea",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

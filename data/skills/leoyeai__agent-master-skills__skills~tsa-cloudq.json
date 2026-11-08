@@ -5,7 +5,7 @@
   "path": "skills/tsa-cloudq",
   "name": "tencent-cloudq",
   "description": "腾讯云智能顾问助手 — 通过 AK/SK 鉴权调用腾讯云智能顾问 API，管理云架构图（查询目录、获取架构列表和详情、获取架构评估结果）及风险评估（查询评估项、按产品/分组/风险等级筛选）。当用户要求查看云架构、查询架构目录、获取架构详情、查看架构评估结果、查看风险评估项、巡检项、云资源风险等智能顾问相关操作时使用。",
-  "stars": 2182,
+  "stars": 2184,
   "category": "coding",
   "commit": "8f88f9a0dd5a1075d4f0c7626f9d960844d57575",
   "contentHash": "b175e659801d7e05e186fd25a36802de74e232513536f985218898cae792d0e9",
@@ -13,7 +13,7 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
       {
@@ -252,22 +252,6 @@
         "hosts": []
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/tsa-cloudq/check_env.py",
-        "line": 243,
-        "excerpt": "secret_id = os.environ.get(\"TENCENTCLOUD_SECRET_ID\", \"\")",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/tsa-cloudq/check_env.py",
-        "line": 244,
-        "excerpt": "secret_key = os.environ.get(\"TENCENTCLOUD_SECRET_KEY\", \"\")",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "writes-outside",
         "file": "skills/tsa-cloudq/check_env.py",
         "line": 257,
@@ -284,57 +268,52 @@
         "automatic": false
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/tsa-cloudq/check_env.py",
-        "line": 272,
-        "excerpt": "token = os.environ.get(\"TENCENTCLOUD_TOKEN\", \"\")",
-        "disclosed": false,
-        "automatic": false
+        "ruleId": "network",
+        "file": "skills/tsa-cloudq/scripts/login_url.py",
+        "line": 45,
+        "excerpt": "from urllib.request import Request, urlopen",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/tsa-cloudq/scripts/cleanup.py",
-        "line": 272,
-        "excerpt": "secret_id = os.environ.get(\"TENCENTCLOUD_SECRET_ID\", \"\")",
-        "disclosed": false,
-        "automatic": false
+        "ruleId": "network",
+        "file": "skills/tsa-cloudq/scripts/login_url.py",
+        "line": 236,
+        "excerpt": "with urlopen(req, context=ctx) as resp:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/tsa-cloudq/scripts/cleanup.py",
-        "line": 273,
-        "excerpt": "secret_key = os.environ.get(\"TENCENTCLOUD_SECRET_KEY\", \"\")",
-        "disclosed": false,
-        "automatic": false
+        "ruleId": "network",
+        "file": "skills/tsa-cloudq/scripts/tcloud_api.py",
+        "line": 39,
+        "excerpt": "from urllib.request import Request, urlopen",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/tsa-cloudq/scripts/setup_role.py",
-        "line": 189,
-        "excerpt": "secret_id = os.environ.get(\"TENCENTCLOUD_SECRET_ID\", \"\")",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/tsa-cloudq/scripts/setup_role.py",
-        "line": 190,
-        "excerpt": "secret_key = os.environ.get(\"TENCENTCLOUD_SECRET_KEY\", \"\")",
-        "disclosed": false,
-        "automatic": false
+        "ruleId": "network",
+        "file": "skills/tsa-cloudq/scripts/tcloud_api.py",
+        "line": 195,
+        "excerpt": "with urlopen(req, context=ctx, timeout=30) as resp:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
       }
     ],
     "findingTotals": {
       "writes-outside": 8,
       "shell": 28,
-      "network": 3,
-      "reads-secrets": 7
+      "network": 7
     },
-    "score": 64,
-    "band": "review",
-    "rulesVersion": "1.2.0",
-    "filesScanned": 4,
-    "filesSkipped": 10
+    "score": 84,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 9,
+    "filesSkipped": 5
   },
   "history": [
     {
@@ -342,6 +321,12 @@
       "scannedAt": "2026-11-07T16:26:42.053Z",
       "score": 64,
       "rulesVersion": "1.2.0"
+    },
+    {
+      "commit": "8f88f9a0dd5a1075d4f0c7626f9d960844d57575",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 84,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

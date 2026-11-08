@@ -5,15 +5,15 @@
   "path": "docs/zh-CN/skills/video-editing",
   "name": "video-editing",
   "description": "AI辅助的视频编辑工作流程，用于剪辑、构建和增强实拍素材。涵盖从原始拍摄到FFmpeg、Remotion、ElevenLabs、fal.ai，再到Descript或CapCut最终润色的完整流程。适用于用户想要编辑视频、剪辑素材、制作vlog或构建视频内容的情况。",
-  "stars": 298486,
+  "stars": 299277,
   "category": "coding",
-  "commit": "b38be6a7f6350964d59328b52f0624e1d1d552d1",
-  "contentHash": "ab2c1c19a0d631d2a4259285261b8ec18760a61e9adebabcd9588b003f0d530f",
+  "commit": "d2ef2680594f9a17526a6e1a2e18b3d242c5d17b",
+  "contentHash": "ae5f519cf46431884c7a006cda2bb8aeda2106d1500b6f9e5981a0e00fc95e77",
   "repoCreatedAt": "2026-01-18T00:51:51Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
       {
@@ -27,16 +27,16 @@
       {
         "ruleId": "shell",
         "file": "docs/zh-CN/skills/video-editing/SKILL.md",
-        "line": 78,
-        "excerpt": "#!/bin/bash",
+        "line": 80,
+        "excerpt": "while IFS=, read -r start end label; do",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "docs/zh-CN/skills/video-editing/SKILL.md",
-        "line": 88,
-        "excerpt": "# Create file list",
+        "line": 89,
+        "excerpt": "for f in segments/*.mp4; do echo \"file '$f'\"; done > concat.txt",
         "disclosed": false,
         "automatic": false
       },
@@ -98,34 +98,26 @@
         "automatic": false
       },
       {
-        "ruleId": "reads-secrets",
+        "ruleId": "shell",
         "file": "docs/zh-CN/skills/video-editing/SKILL.md",
-        "line": 184,
-        "excerpt": "\"xi-api-key\": os.environ[\"ELEVENLABS_API_KEY\"],",
+        "line": 253,
+        "excerpt": "ffmpeg -i input.mp4 -vf \"crop=ih*9/16:ih,scale=1080:1920\" vertical.mp4",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "docs/zh-CN/skills/video-editing/SKILL.md",
-        "line": 252,
-        "excerpt": "# 16:9 to 9:16 (center crop)",
+        "line": 274,
+        "excerpt": "ffmpeg -i input.mp4 -vf \"select='gt(scene,0.3)',showinfo\" -vsync vfr -f null - 2>&1 | grep showinfo",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "docs/zh-CN/skills/video-editing/SKILL.md",
-        "line": 273,
-        "excerpt": "# Detect scene changes (threshold 0.3 = moderate sensitivity)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "docs/zh-CN/skills/video-editing/SKILL.md",
-        "line": 280,
-        "excerpt": "# Find silent segments (useful for cutting dead air)",
+        "line": 281,
+        "excerpt": "ffmpeg -i input.mp4 -af silencedetect=noise=-30dB:d=2 -f null - 2>&1 | grep silence",
         "disclosed": false,
         "automatic": false
       },
@@ -171,14 +163,6 @@
       },
       {
         "ruleId": "shell",
-        "file": "scripts/lib/agent-data-home.js",
-        "line": 78,
-        "excerpt": "* True when the current process is a Cursor hook subprocess.",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
         "file": "scripts/lib/llm-summary.js",
         "line": 15,
         "excerpt": "const { spawnSync } = require('child_process');",
@@ -218,6 +202,14 @@
         "automatic": false
       },
       {
+        "ruleId": "shell",
+        "file": "scripts/lib/utils.js",
+        "line": 10,
+        "excerpt": "const { execSync, spawnSync } = require('child_process');",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
         "ruleId": "downloads-code",
         "file": ".mcp.json",
         "line": 4,
@@ -227,17 +219,16 @@
       }
     ],
     "findingTotals": {
-      "shell": 57,
+      "shell": 54,
       "downloads-code": 3,
       "network": 1,
-      "paid-api": 1,
-      "reads-secrets": 1
+      "paid-api": 1
     },
-    "score": 45,
-    "band": "high",
-    "rulesVersion": "1.0.0",
-    "filesScanned": 38,
-    "filesSkipped": 0
+    "score": 65,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 40,
+    "filesSkipped": 1
   },
   "history": [
     {
@@ -245,6 +236,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 45,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "d2ef2680594f9a17526a6e1a2e18b3d242c5d17b",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 65,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

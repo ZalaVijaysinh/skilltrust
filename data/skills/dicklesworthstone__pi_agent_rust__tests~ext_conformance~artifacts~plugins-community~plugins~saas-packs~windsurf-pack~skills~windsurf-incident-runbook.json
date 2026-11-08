@@ -5,25 +5,17 @@
   "path": "tests/ext_conformance/artifacts/plugins-community/plugins/saas-packs/windsurf-pack/skills/windsurf-incident-runbook",
   "name": "windsurf-incident-runbook",
   "description": "Execute Windsurf incident response procedures with triage, mitigation, and postmortem.\nUse when responding to Windsurf-related outages, investigating errors,\nor running post-incident reviews for Windsurf integration failures.\nTrigger with phrases like \"windsurf incident\", \"windsurf outage\",\n\"windsurf down\", \"windsurf on-call\", \"windsurf emergency\", \"windsurf broken\".",
-  "stars": 1968,
+  "stars": 1970,
   "category": "coding",
-  "commit": "b57cea1c7408d05bdeee82663c191ae6eb900fcb",
+  "commit": "b41008f438c9936a4f0ccda72e2ca1dec4fa67b1",
   "contentHash": "34c252c51c97da0e32390edc88df1b4e2917701355382c234bd474f6a7690b1e",
   "repoCreatedAt": "2026-02-02T20:58:01Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
-      {
-        "ruleId": "shell",
-        "file": "tests/ext_conformance/artifacts/plugins-community/plugins/saas-packs/windsurf-pack/skills/windsurf-incident-runbook/SKILL.md",
-        "line": 38,
-        "excerpt": "# 1. Check Windsurf status",
-        "disclosed": false,
-        "automatic": false
-      },
       {
         "ruleId": "network",
         "file": "tests/ext_conformance/artifacts/plugins-community/plugins/saas-packs/windsurf-pack/skills/windsurf-incident-runbook/SKILL.md",
@@ -34,6 +26,14 @@
         "hosts": [
           "status.windsurf.com"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "tests/ext_conformance/artifacts/plugins-community/plugins/saas-packs/windsurf-pack/skills/windsurf-incident-runbook/SKILL.md",
+        "line": 39,
+        "excerpt": "curl -s https://status.windsurf.com | jq",
+        "disclosed": false,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -58,16 +58,8 @@
       {
         "ruleId": "shell",
         "file": "tests/ext_conformance/artifacts/plugins-community/plugins/saas-packs/windsurf-pack/skills/windsurf-incident-runbook/SKILL.md",
-        "line": 67,
-        "excerpt": "# Verify API key is set",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "tests/ext_conformance/artifacts/plugins-community/plugins/saas-packs/windsurf-pack/skills/windsurf-incident-runbook/SKILL.md",
-        "line": 80,
-        "excerpt": "# Check rate limit headers",
+        "line": 68,
+        "excerpt": "kubectl get secret windsurf-secrets -o jsonpath='{.data.api-key}' | base64 -d",
         "disclosed": false,
         "automatic": false
       },
@@ -85,16 +77,24 @@
       {
         "ruleId": "shell",
         "file": "tests/ext_conformance/artifacts/plugins-community/plugins/saas-packs/windsurf-pack/skills/windsurf-incident-runbook/SKILL.md",
-        "line": 91,
-        "excerpt": "# Enable graceful degradation",
+        "line": 81,
+        "excerpt": "curl -v https://api.windsurf.com 2>&1 | grep -i rate",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "tests/ext_conformance/artifacts/plugins-community/plugins/saas-packs/windsurf-pack/skills/windsurf-incident-runbook/SKILL.md",
-        "line": 128,
-        "excerpt": "# Generate debug bundle",
+        "line": 92,
+        "excerpt": "kubectl set env deployment/windsurf-integration WINDSURF_FALLBACK=true",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tests/ext_conformance/artifacts/plugins-community/plugins/saas-packs/windsurf-pack/skills/windsurf-incident-runbook/SKILL.md",
+        "line": 129,
+        "excerpt": "./scripts/windsurf-debug-bundle.sh",
         "disclosed": false,
         "automatic": false
       },
@@ -128,12 +128,12 @@
       }
     ],
     "findingTotals": {
-      "shell": 6,
-      "network": 6
+      "network": 6,
+      "shell": 6
     },
     "score": 92,
     "band": "low",
-    "rulesVersion": "1.0.0",
+    "rulesVersion": "1.3.0",
     "filesScanned": 2,
     "filesSkipped": 0
   },
@@ -143,6 +143,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 92,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "b41008f438c9936a4f0ccda72e2ca1dec4fa67b1",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

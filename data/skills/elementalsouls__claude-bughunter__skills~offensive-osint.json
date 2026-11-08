@@ -5,15 +5,15 @@
   "path": "skills/offensive-osint",
   "name": "offensive-osint",
   "description": "Operational arsenal for authorized external red-team and bug-bounty recon. Concrete probes, wordlists, regexes, dorks, curl one-liners for: subdomain enum, GraphQL/Swagger/REST discovery, identity fabric (Entra/Okta/ADFS/Google/SAML/M365 deep — Teams/SharePoint/OneDrive), cloud bucket enum (S3/GCS/Azure), CDN/WAF bypass, origin discovery, vendor fingerprinting (Citrix/F5/Pulse/Fortinet/PaloAlto/Cisco/VMware), CI/CD exposure, 48-pattern secret-scan catalog (AWS/GCP/GitHub/Stripe/Slack/Anthropic/OpenAI/Atlassian/DataDog/npm/PyPI), Postman workspaces, breach correlation (HudsonRock/HIBP/DeHashed/IntelX), TLS/JA3 audit, certificate transparency, JS endpoint extraction, package registry leaks, mobile/APK recon, sat imagery, sector-specific recon (healthcare DICOM, finance SWIFT, ICS/SCADA Modbus/BACnet). Detail content in 15 modular reference files, loaded on demand. Use for any authorized recon: scoping, asset discovery, attack-path mapping, secret triage, severity scoring.",
-  "stars": 5465,
+  "stars": 5490,
   "category": "security",
-  "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
-  "contentHash": "b61be429ca493f4804b41d04d7000f2447e7ccce7082054b21527900cfe061a6",
+  "commit": "42a3ab1bb96426beb98f964d178695c1144c61ea",
+  "contentHash": "e338421dc01524bdfd258722b3bfe92b2a4df9814122f7bbecf0e1cd7445635e",
   "repoCreatedAt": "2026-05-05T11:22:32Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
       {
@@ -78,6 +78,14 @@
         ]
       },
       {
+        "ruleId": "reads-secrets",
+        "file": "skills/offensive-osint/references/dork-corpus.md",
+        "line": 166,
+        "excerpt": "\"{target}\" filename:.git-credentials",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
         "ruleId": "network",
         "file": "skills/offensive-osint/references/identity-fabric.md",
         "line": 172,
@@ -120,14 +128,6 @@
         "hosts": [
           "${stem}${s}.sharepoint.com"
         ]
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/offensive-osint/references/identity-fabric.md",
-        "line": 210,
-        "excerpt": "curl -sk -m 10 -I \"https://${STEM}-my.sharepoint.com/personal/${USER_TOKEN}/Documents/\" -w '%{http_code}\\n'",
-        "disclosed": true,
-        "automatic": false
       },
       {
         "ruleId": "network",
@@ -276,14 +276,6 @@
         "automatic": false
       },
       {
-        "ruleId": "downloads-code",
-        "file": "skills/offensive-osint/references/probes-and-wordlists.md",
-        "line": 516,
-        "excerpt": "# Install: go install github.com/projectdiscovery/httpx/cmd/httpx@latest",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "reads-secrets",
         "file": "skills/offensive-osint/references/probes-and-wordlists.md",
         "line": 520,
@@ -316,14 +308,6 @@
         "automatic": false
       },
       {
-        "ruleId": "downloads-code",
-        "file": "skills/offensive-osint/references/recon-stack.md",
-        "line": 245,
-        "excerpt": "# zdns: install via go install github.com/zmap/zdns/cmd/zdns@latest",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "paid-api",
         "file": "skills/offensive-osint/references/secret-validators.md",
         "line": 64,
@@ -336,22 +320,6 @@
         "file": "skills/offensive-osint/references/secret-validators.md",
         "line": 77,
         "excerpt": "GET https://api.openai.com/v1/models",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/offensive-osint/references/secret-validators.md",
-        "line": 189,
-        "excerpt": "H=\"Authorization: token $TOKEN\"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/offensive-osint/references/secret-validators.md",
-        "line": 214,
-        "excerpt": "H=\"Authorization: Bearer $TOKEN\"",
         "disclosed": true,
         "automatic": false
       },
@@ -516,10 +484,18 @@
         "automatic": false
       },
       {
-        "ruleId": "shell",
-        "file": "skills/offensive-osint/scripts/dashboard.py",
-        "line": 53,
-        "excerpt": "# Hard wall-clock cap for the HackerOne subprocess.",
+        "ruleId": "downloads-code",
+        "file": "skills/offensive-osint/references/tooling-install.md",
+        "line": 75,
+        "excerpt": "go install github.com/jaeles-project/gospider@latest",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/offensive-osint/references/tooling-install.md",
+        "line": 78,
+        "excerpt": "git clone https://github.com/GerbenJavado/LinkFinder && cd LinkFinder && pip install -r requirements.txt",
         "disclosed": false,
         "automatic": false
       },
@@ -538,172 +514,20 @@
         "excerpt": "except subprocess.TimeoutExpired:",
         "disclosed": false,
         "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "INSTALL.md",
-        "line": 32,
-        "excerpt": "mkdir -p ~/security-research && cd ~/security-research",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "INSTALL.md",
-        "line": 73,
-        "excerpt": "./scripts/install.sh --all          # also installs to ~/.agents/skills (Codex/OpenCode), ~/.hermes/skills (Hermes), and ~/.gemini/config/skills (AntiGravity)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "INSTALL.md",
-        "line": 221,
-        "excerpt": "rm -rf ~/Targets/acme-test",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "USAGE.md",
-        "line": 44,
-        "excerpt": "mkdir -p ~/security-research && cd ~/security-research",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "assets/harness-routing.svg",
-        "line": 43,
-        "excerpt": "<text x=\"14\" y=\"90\" class=\"mono muted\" font-size=\"11\" letter-spacing=\"0.4\">~/.claude/skills</text>",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "assets/harness-routing.svg",
-        "line": 51,
-        "excerpt": "<text x=\"14\" y=\"90\" class=\"mono muted\" font-size=\"11\" letter-spacing=\"0.4\">~/.agents/skills</text>",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "assets/harness-routing.svg",
-        "line": 59,
-        "excerpt": "<text x=\"14\" y=\"90\" class=\"mono muted\" font-size=\"11\" letter-spacing=\"0.4\">~/.agents/skills</text>",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "assets/harness-routing.svg",
-        "line": 67,
-        "excerpt": "<text x=\"14\" y=\"90\" class=\"mono muted\" font-size=\"11\" letter-spacing=\"0.4\">~/.hermes/skills</text>",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "assets/harness-routing.svg",
-        "line": 75,
-        "excerpt": "<text x=\"14\" y=\"90\" class=\"mono muted\" font-size=\"9.8\" letter-spacing=\"0.1\">~/.gemini/config/skills</text>",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "docs/assets/architecture-overview.svg",
-        "line": 231,
-        "excerpt": "<text x=\"456\" y=\"576\" text-anchor=\"middle\" style=\"fill:rgb(107, 114, 128);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linej",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "docs/cbh-cli.md",
-        "line": 41,
-        "excerpt": "ln -sf \"$(pwd)/scripts/cbh.py\" /usr/local/bin/cbh",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "docs/multi-harness.md",
-        "line": 33,
-        "excerpt": "bash scripts/install.sh --all          # Claude + ~/.agents/skills (Codex/OpenCode) + ~/.hermes/skills + ~/.gemini/config/skills",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "docs/multi-harness.md",
-        "line": 40,
-        "excerpt": "pwsh ./scripts/install.ps1 -All         # Claude + ~/.agents/skills (Codex/OpenCode) + ~/.hermes/skills + ~/.gemini/config/skills",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "docs/multi-harness.md",
-        "line": 48,
-        "excerpt": "bash scripts/install.sh --agents        # + Codex & OpenCode (~/.agents/skills)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "docs/multi-harness.md",
-        "line": 49,
-        "excerpt": "bash scripts/install.sh --hermes        # + Hermes Agent (~/.hermes/skills)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "docs/multi-harness.md",
-        "line": 50,
-        "excerpt": "bash scripts/install.sh --antigravity   # + Google AntiGravity (~/.gemini/config/skills)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "docs/multi-harness.md",
-        "line": 56,
-        "excerpt": "pwsh ./scripts/install.ps1 -Agents      # + Codex & OpenCode (~/.agents/skills)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "docs/multi-harness.md",
-        "line": 57,
-        "excerpt": "pwsh ./scripts/install.ps1 -Hermes      # + Hermes Agent (~/.hermes/skills)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "scripts/scan_identifiers.py",
-        "line": 79,
-        "excerpt": "out = subprocess.run(",
-        "disclosed": false,
-        "automatic": false
       }
     ],
     "findingTotals": {
-      "writes-outside": 32,
-      "network": 143,
-      "reads-secrets": 4,
-      "downloads-code": 50,
+      "writes-outside": 2,
+      "network": 142,
+      "reads-secrets": 2,
+      "downloads-code": 41,
       "paid-api": 10,
-      "shell": 5
+      "shell": 3
     },
     "score": 50,
     "band": "review",
-    "rulesVersion": "1.0.0",
-    "filesScanned": 57,
+    "rulesVersion": "1.3.0",
+    "filesScanned": 24,
     "filesSkipped": 1
   },
   "history": [
@@ -712,6 +536,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 50,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "42a3ab1bb96426beb98f964d178695c1144c61ea",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 50,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

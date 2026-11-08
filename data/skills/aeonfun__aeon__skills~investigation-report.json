@@ -7,37 +7,21 @@
   "description": "One-shot Base-token investigation - runs any subset of six onchain-security checks (rug-scan, contract-audit, deployer-trace, holder-concentration, honeypot, lp-lock) into one verdict. Keyless core.",
   "stars": 789,
   "category": "coding",
-  "commit": "504a21d53c0c9b485f6e90c43db83000825e1d3c",
+  "commit": "c910f9afaf69d57730d0c404223ebee05878afaa",
   "contentHash": "05e8313052aefa69ab40ac68c6fb9f396fdce6848edfd1b55bd0b7b7d2cb24ff",
   "repoCreatedAt": "2026-03-04T19:44:49Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/investigation-report/SKILL.md",
-        "line": 40,
-        "excerpt": "- `ETHERSCAN_API_KEY` (a.k.a. `BASESCAN_API_KEY` — same Etherscan v2 key) — appended to the Etherscan URL as `&apikey=…` via `./secretcurl`'s `{ETHERSCAN_API_KE",
-        "disclosed": false,
-        "automatic": false
-      },
       {
         "ruleId": "shell",
         "file": "skills/investigation-report/SKILL.md",
         "line": 56,
         "excerpt": "TOKEN=\"${var}\"",
         "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/investigation-report/SKILL.md",
-        "line": 57,
-        "excerpt": "./secretcurl -m 10 -s \"https://api.etherscan.io/v2/api?chainid=8453&module=contract&action=getsourcecode&address=${TOKEN}<KEYQ>\" | jq '.result[0]'",
-        "disclosed": false,
         "automatic": false
       },
       {
@@ -57,22 +41,6 @@
         "line": 76,
         "excerpt": "curl -m 10 -s -X POST \"${BASE_RPC_URL:-https://mainnet.base.org}\" -H \"Content-Type: application/json\" \\",
         "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/investigation-report/SKILL.md",
-        "line": 77,
-        "excerpt": "-d '{\"jsonrpc\":\"2.0\",\"method\":\"eth_call\",\"params\":[{\"to\":\"'\"$TOKEN\"'\",\"data\":\"0x8da5cb5b\"},\"latest\"],\"id\":1}' | jq -r '.result'",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/investigation-report/SKILL.md",
-        "line": 83,
-        "excerpt": "./secretcurl -m 10 -s \"https://api.etherscan.io/v2/api?chainid=8453&module=token&action=tokenholderlist&contractaddress=${TOKEN}&page=1&offset=10<KEYQ>\" | jq '.",
-        "disclosed": false,
         "automatic": false
       },
       {
@@ -154,22 +122,6 @@
         "automatic": false
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/investigation-report/SKILL.md",
-        "line": 172,
-        "excerpt": "./secretcurl -m 10 -s \"https://api.etherscan.io/v2/api?chainid=8453&module=stats&action=tokensupply&contractaddress=${TOKEN}<KEYQ>\" | jq -r '.result'",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/investigation-report/SKILL.md",
-        "line": 173,
-        "excerpt": "./secretcurl -m 10 -s \"https://api.etherscan.io/v2/api?chainid=8453&module=token&action=tokenholderlist&contractaddress=${TOKEN}&page=1&offset=100<KEYQ>\" | jq '",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "shell",
         "file": "skills/investigation-report/SKILL.md",
         "line": 211,
@@ -187,14 +139,6 @@
         "hosts": []
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/investigation-report/SKILL.md",
-        "line": 214,
-        "excerpt": "-d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"eth_getCode\",\"params\":[\"'\"$TOKEN\"'\",\"latest\"]}' | jq -r '.result'",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/investigation-report/SKILL.md",
         "line": 220,
@@ -209,14 +153,6 @@
         "line": 220,
         "excerpt": "curl -m 10 -s -X POST \"$RPC\" -H \"Content-Type: application/json\" -d '{",
         "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/investigation-report/SKILL.md",
-        "line": 222,
-        "excerpt": "\"fromBlock\":\"0x...\",\"toBlock\":\"latest\",\"address\":\"'\"$TOKEN\"'\",",
-        "disclosed": false,
         "automatic": false
       },
       {
@@ -237,14 +173,6 @@
         "hosts": []
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/investigation-report/SKILL.md",
-        "line": 232,
-        "excerpt": "-d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"eth_call\",\"params\":[{\"to\":\"'\"$TOKEN\"'\",\"data\":\"'\"$DATA\"'\"},\"latest\"]}' | jq -r '.result'",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "shell",
         "file": "skills/investigation-report/SKILL.md",
         "line": 237,
@@ -262,35 +190,11 @@
         "hosts": []
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/investigation-report/SKILL.md",
-        "line": 239,
-        "excerpt": "-d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"eth_call\",\"params\":[{\"from\":\"<holder>\",\"to\":\"'\"$TOKEN\"'\",\"data\":\"'\"$DATA\"'\"},\"latest\"]}'",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "shell",
         "file": "skills/investigation-report/SKILL.md",
         "line": 258,
         "excerpt": "TOKEN=\"${var}\"; RPC=\"${BASE_RPC_URL:-https://mainnet.base.org}\"",
         "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/investigation-report/SKILL.md",
-        "line": 259,
-        "excerpt": "# (1) eth_getLogs Transfer for $TOKEN, tally counterparties",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/investigation-report/SKILL.md",
-        "line": 260,
-        "excerpt": "# (2) for the busiest, eth_call token0()/token1() and keep the one whose pair includes $TOKEN",
-        "disclosed": false,
         "automatic": false
       },
       {
@@ -318,24 +222,15 @@
         "excerpt": "curl -m 10 -s -X POST \"$RPC\" -H \"Content-Type: application/json\" \\",
         "disclosed": true,
         "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/investigation-report/SKILL.md",
-        "line": 384,
-        "excerpt": "The Base RPC is public and keyless; Etherscan v2 is called through `./secretcurl` with the `{ETHERSCAN_API_KEY}` placeholder appended as `&apikey=…` (the `<KEYQ",
-        "disclosed": false,
-        "automatic": false
       }
     ],
     "findingTotals": {
-      "reads-secrets": 13,
       "shell": 15,
       "network": 9
     },
-    "score": 74,
-    "band": "review",
-    "rulesVersion": "1.0.0",
+    "score": 94,
+    "band": "low",
+    "rulesVersion": "1.3.0",
     "filesScanned": 1,
     "filesSkipped": 0
   },
@@ -345,6 +240,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 74,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "c910f9afaf69d57730d0c404223ebee05878afaa",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 94,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

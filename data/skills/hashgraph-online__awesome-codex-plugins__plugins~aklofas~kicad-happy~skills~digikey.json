@@ -5,15 +5,15 @@
   "path": "plugins/aklofas/kicad-happy/skills/digikey",
   "name": "digikey",
   "description": "Search DigiKey for electronic components and download datasheets — primary source for prototype orders and the preferred API method for fetching datasheets. Find parts by keyword or MPN, check pricing/stock, download datasheets via API, analyze specifications. Sync and maintain a local datasheets directory — extract components from schematics, download missing datasheets, keep them up to date. Also supports batch MPN-list seeding (`--mpn-list`) for bulk workflows without a KiCad project. Use when the user asks about electronic components, part specs, datasheets, pricing, stock, footprints, or needs to download a datasheet — even without mentioning \"DigiKey\". Also for \"sync datasheets\", \"download datasheets for my board/project\", or mentions a datasheets directory. DigiKey is the default distributor for prototyping. For BOM workflows, see the bom skill.",
-  "stars": 1520,
+  "stars": 1537,
   "category": "coding",
-  "commit": "e012fe109c04b715dcf37f859469a28eaf6471b6",
-  "contentHash": "eb59ccabba13639d850f0bbd147db8f105b0c1899306fd4e2454475795873c3f",
+  "commit": "057d7896b4db0d6cf69f0222cb601b23c953736b",
+  "contentHash": "b664bae11bb88c7f51cdb716dd45213345a1ed25973f8da74b72b152728a16f8",
   "repoCreatedAt": "2026-03-28T02:38:44Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
       {
@@ -52,33 +52,25 @@
         "automatic": false
       },
       {
-        "ruleId": "reads-secrets",
+        "ruleId": "shell",
         "file": "plugins/aklofas/kicad-happy/skills/digikey/SKILL.md",
-        "line": 68,
-        "excerpt": "-d \"client_id=${DIGIKEY_CLIENT_ID}&client_secret=${DIGIKEY_CLIENT_SECRET}&grant_type=client_credentials\"",
+        "line": 226,
+        "excerpt": "python3 <skill-path>/scripts/sync_datasheets_digikey.py <file.kicad_sch>",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "plugins/aklofas/kicad-happy/skills/digikey/SKILL.md",
-        "line": 225,
-        "excerpt": "# Sync datasheets for a KiCad project (creates datasheets/ next to the schematic)",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/aklofas/kicad-happy/skills/digikey/SKILL.md",
-        "line": 288,
-        "excerpt": "# Search by MPN (uses DigiKey API, requires credentials)",
+        "line": 289,
+        "excerpt": "python3 <skill-path>/scripts/fetch_datasheet_digikey.py --search \"TPS61023\" -o datasheet.pdf",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
         "file": "plugins/aklofas/kicad-happy/skills/digikey/SKILL.md",
-        "line": 307,
+        "line": 308,
         "excerpt": "- `pip install requests` (strongly recommended; urllib fallback can't handle HTTP/2 sites like analog.com)",
         "disclosed": false,
         "automatic": false
@@ -86,7 +78,7 @@
       {
         "ruleId": "downloads-code",
         "file": "plugins/aklofas/kicad-happy/skills/digikey/SKILL.md",
-        "line": 308,
+        "line": 309,
         "excerpt": "- `pip install playwright && playwright install chromium` (optional; enables headless browser fallback for JS-heavy sites)",
         "disclosed": false,
         "automatic": false
@@ -109,17 +101,9 @@
         "hosts": []
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "plugins/aklofas/kicad-happy/skills/digikey/scripts/provider_digikey.py",
-        "line": 67,
-        "excerpt": "client_secret = os.environ.get(\"DIGIKEY_CLIENT_SECRET\", \"\")",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "plugins/aklofas/kicad-happy/skills/digikey/scripts/provider_digikey.py",
-        "line": 92,
+        "line": 80,
         "excerpt": "req = urllib.request.Request(",
         "disclosed": true,
         "automatic": false,
@@ -128,7 +112,7 @@
       {
         "ruleId": "network",
         "file": "plugins/aklofas/kicad-happy/skills/digikey/scripts/provider_digikey.py",
-        "line": 97,
+        "line": 85,
         "excerpt": "with urllib.request.urlopen(req, timeout=15) as resp:",
         "disclosed": true,
         "automatic": false,
@@ -137,7 +121,7 @@
       {
         "ruleId": "network",
         "file": "plugins/aklofas/kicad-happy/skills/digikey/scripts/provider_digikey.py",
-        "line": 132,
+        "line": 111,
         "excerpt": "req = urllib.request.Request(",
         "disclosed": true,
         "automatic": false,
@@ -146,25 +130,26 @@
       {
         "ruleId": "network",
         "file": "plugins/aklofas/kicad-happy/skills/digikey/scripts/provider_digikey.py",
-        "line": 141,
+        "line": 120,
         "excerpt": "with urllib.request.urlopen(req, timeout=15) as resp:",
         "disclosed": true,
         "automatic": false,
         "hosts": []
       },
       {
-        "ruleId": "reads-secrets",
+        "ruleId": "network",
         "file": "plugins/aklofas/kicad-happy/skills/digikey/scripts/provider_digikey.py",
-        "line": 162,
-        "excerpt": "client_secret = os.environ.get(\"DIGIKEY_CLIENT_SECRET\", \"\")",
+        "line": 155,
+        "excerpt": "req = urllib.request.Request(",
         "disclosed": true,
-        "automatic": false
+        "automatic": false,
+        "hosts": []
       },
       {
         "ruleId": "network",
         "file": "plugins/aklofas/kicad-happy/skills/digikey/scripts/provider_digikey.py",
-        "line": 176,
-        "excerpt": "req = urllib.request.Request(",
+        "line": 160,
+        "excerpt": "with urllib.request.urlopen(req, timeout=15) as resp:",
         "disclosed": true,
         "automatic": false,
         "hosts": []
@@ -173,15 +158,6 @@
         "ruleId": "network",
         "file": "plugins/aklofas/kicad-happy/skills/digikey/scripts/provider_digikey.py",
         "line": 181,
-        "excerpt": "with urllib.request.urlopen(req, timeout=15) as resp:",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "plugins/aklofas/kicad-happy/skills/digikey/scripts/provider_digikey.py",
-        "line": 197,
         "excerpt": "req = urllib.request.Request(",
         "disclosed": true,
         "automatic": false,
@@ -190,7 +166,7 @@
       {
         "ruleId": "network",
         "file": "plugins/aklofas/kicad-happy/skills/digikey/scripts/provider_digikey.py",
-        "line": 206,
+        "line": 190,
         "excerpt": "with urllib.request.urlopen(req, timeout=15) as resp:",
         "disclosed": true,
         "automatic": false,
@@ -216,13 +192,12 @@
     "findingTotals": {
       "shell": 5,
       "network": 10,
-      "reads-secrets": 3,
       "downloads-code": 5
     },
-    "score": 69,
+    "score": 79,
     "band": "review",
-    "rulesVersion": "1.0.0",
-    "filesScanned": 5,
+    "rulesVersion": "1.3.0",
+    "filesScanned": 6,
     "filesSkipped": 0
   },
   "history": [
@@ -231,6 +206,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 69,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "057d7896b4db0d6cf69f0222cb601b23c953736b",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 79,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

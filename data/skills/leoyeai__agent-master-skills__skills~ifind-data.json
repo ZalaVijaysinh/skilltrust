@@ -4,31 +4,73 @@
   "repo": "agent-master-skills",
   "path": "skills/ifind-data",
   "name": "ifind-data",
-  "description": "",
-  "stars": 2182,
+  "description": "同花顺 iFinD (51ifind.com) 金融数据查询。支持 A 股/基金/债券/期货/指数的实时行情、历史行情、财务指标、宏观经济数据等 18 个 API 接口。\nChinese financial data query skill powered by THS iFinD (51ifind.com) API. Covers real-time quotes, historical data, financial indicators, macro economics, fund valuation, and more across 18 API endpoints for A-shares, funds, bonds, futures, and indices.",
+  "stars": 2184,
   "category": "coding",
   "commit": "8f88f9a0dd5a1075d4f0c7626f9d960844d57575",
   "contentHash": "c3144c9ff3ec9926f1ea8387b681c69d8d37d8c939d8e77f5081dc72e517b180",
   "repoCreatedAt": "2026-03-02T02:02:25Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/ifind-data/SKILL.md",
+        "line": 45,
+        "excerpt": "grep -q 'IFIND_REFRESH_TOKEN=.' ~/.openclaw/skills/ifind-data/.env 2>/dev/null && echo \"ok\" || echo \"missing\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/ifind-data/SKILL.md",
+        "line": 58,
+        "excerpt": "sed -i 's/^IFIND_REFRESH_TOKEN=.*/IFIND_REFRESH_TOKEN=用户提供的token/' ~/.openclaw/skills/ifind-data/.env",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/ifind-data/SKILL.md",
+        "line": 84,
+        "excerpt": "./scripts/ifind-api \"<api_endpoint>\" '<json_body>'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/ifind-data/SKILL.md",
+        "line": 635,
+        "excerpt": "./scripts/ifind-api \"get_data_volume\" '{}'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/ifind-data/references/iFinD HTTP API 用户手册.txt",
+        "line": 137,
+        "excerpt": "getAccessTokenResponse=requests.post(url=getAccessTokenUrl,headers=getAccessTokenHeader)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/ifind-data/references/iFinD HTTP API 用户手册.txt",
+        "line": 157,
+        "excerpt": "thsResponse = requests.post(url=thsUrl,json=thsPara,headers=thsHeaders)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
       {
         "ruleId": "reads-secrets",
         "file": "skills/ifind-data/scripts/ifind-api.sh",
         "line": 13,
         "excerpt": "set -a; source \"${SKILL_DIR}/.env\"; set +a",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/ifind-data/scripts/ifind-api.sh",
-        "line": 36,
-        "excerpt": "if [ -z \"${IFIND_REFRESH_TOKEN:-}\" ]; then",
         "disclosed": false,
         "automatic": false
       },
@@ -42,46 +84,6 @@
         "hosts": []
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/ifind-data/scripts/ifind-api.sh",
-        "line": 105,
-        "excerpt": "-H \"X-Api-Secret: ${IFIND_API_SECRET}\" \\",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/ifind-data/scripts/ifind-api.sh",
-        "line": 135,
-        "excerpt": "if [ -f \"$TOKEN_CACHE_FILE\" ]; then",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/ifind-data/scripts/ifind-api.sh",
-        "line": 137,
-        "excerpt": "cache_age=$(( $(date +%s) - $(stat -f %m \"$TOKEN_CACHE_FILE\" 2>/dev/null || stat -c %Y \"$TOKEN_CACHE_FILE\" 2>/dev/null || echo 0) ))",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/ifind-data/scripts/ifind-api.sh",
-        "line": 138,
-        "excerpt": "if [ \"$cache_age\" -lt \"$TOKEN_CACHE_TTL\" ]; then",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/ifind-data/scripts/ifind-api.sh",
-        "line": 139,
-        "excerpt": "cat \"$TOKEN_CACHE_FILE\"",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/ifind-data/scripts/ifind-api.sh",
         "line": 146,
@@ -91,22 +93,6 @@
         "hosts": []
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/ifind-data/scripts/ifind-api.sh",
-        "line": 148,
-        "excerpt": "-H \"refresh_token: ${IFIND_REFRESH_TOKEN}\")",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/ifind-data/scripts/ifind-api.sh",
-        "line": 158,
-        "excerpt": "echo -n \"$token\" > \"$TOKEN_CACHE_FILE\"",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/ifind-data/scripts/ifind-api.sh",
         "line": 172,
@@ -114,30 +100,6 @@
         "disclosed": false,
         "automatic": false,
         "hosts": []
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/ifind-data/scripts/ifind-api.sh",
-        "line": 191,
-        "excerpt": "RESULT=$(call_ifind_api \"$ACCESS_TOKEN\" \"$API_ENDPOINT\" \"$JSON_BODY\")",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/ifind-data/scripts/ifind-api.sh",
-        "line": 197,
-        "excerpt": "rm -f \"$TOKEN_CACHE_FILE\"",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/ifind-data/scripts/ifind-api.sh",
-        "line": 199,
-        "excerpt": "RESULT=$(call_ifind_api \"$ACCESS_TOKEN\" \"$API_ENDPOINT\" \"$JSON_BODY\")",
-        "disclosed": false,
-        "automatic": false
       },
       {
         "ruleId": "network",
@@ -168,14 +130,15 @@
       }
     ],
     "findingTotals": {
-      "reads-secrets": 12,
-      "network": 6
+      "shell": 4,
+      "network": 8,
+      "reads-secrets": 1
     },
-    "score": 75,
+    "score": 70,
     "band": "review",
-    "rulesVersion": "1.2.0",
-    "filesScanned": 5,
-    "filesSkipped": 5
+    "rulesVersion": "1.3.0",
+    "filesScanned": 9,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -183,6 +146,12 @@
       "scannedAt": "2026-11-07T16:26:42.053Z",
       "score": 75,
       "rulesVersion": "1.2.0"
+    },
+    {
+      "commit": "8f88f9a0dd5a1075d4f0c7626f9d960844d57575",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 70,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

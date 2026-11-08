@@ -5,7 +5,7 @@
   "path": "security/network/waf-setup",
   "name": "waf-setup",
   "description": "Deploy and tune Web Application Firewalls. Configure rules for OWASP Top 10 protection. Use when protecting web applications from common attacks.",
-  "stars": 1197,
+  "stars": 1196,
   "category": "devops",
   "commit": "0365f57a079b1332f95cf26e31dd2d5332a8399f",
   "contentHash": "dcb48e8af0ffc5c82c42152645c9f317d588857c0bb8cca555a5dfcab9145710",
@@ -13,30 +13,22 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "security/network/waf-setup/SKILL.md",
-        "line": 36,
-        "excerpt": "# Create Web ACL with AWS managed rules",
+        "line": 37,
+        "excerpt": "aws wafv2 create-web-acl \\",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "security/network/waf-setup/SKILL.md",
-        "line": 153,
-        "excerpt": "# Associate with Application Load Balancer",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "security/network/waf-setup/SKILL.md",
-        "line": 239,
-        "excerpt": "# List available WAF rulesets",
+        "line": 154,
+        "excerpt": "aws wafv2 associate-web-acl \\",
         "disclosed": false,
         "automatic": false
       },
@@ -52,10 +44,10 @@
         ]
       },
       {
-        "ruleId": "reads-secrets",
+        "ruleId": "shell",
         "file": "security/network/waf-setup/SKILL.md",
-        "line": 241,
-        "excerpt": "-H \"Authorization: Bearer ${CF_TOKEN}\" | jq '.result[] | {id, name, phase}'",
+        "line": 240,
+        "excerpt": "curl -s \"https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/rulesets\" \\",
         "disclosed": false,
         "automatic": false
       },
@@ -71,14 +63,6 @@
         ]
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "security/network/waf-setup/SKILL.md",
-        "line": 245,
-        "excerpt": "-H \"Authorization: Bearer ${CF_TOKEN}\" \\",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "security/network/waf-setup/SKILL.md",
         "line": 276,
@@ -88,22 +72,6 @@
         "hosts": [
           "api.cloudflare.com"
         ]
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "security/network/waf-setup/SKILL.md",
-        "line": 277,
-        "excerpt": "-H \"Authorization: Bearer ${CF_TOKEN}\" \\",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "security/network/waf-setup/SKILL.md",
-        "line": 327,
-        "excerpt": "# Install ModSecurity for Nginx (Ubuntu)",
-        "disclosed": false,
-        "automatic": false
       },
       {
         "ruleId": "downloads-code",
@@ -116,16 +84,24 @@
       {
         "ruleId": "shell",
         "file": "security/network/waf-setup/SKILL.md",
-        "line": 364,
-        "excerpt": "# /etc/nginx/modsec/main.conf",
+        "line": 328,
+        "excerpt": "apt install -y libmodsecurity3 libmodsecurity-dev nginx libnginx-mod-http-modsecurity",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "security/network/waf-setup/SKILL.md",
-        "line": 394,
-        "excerpt": "# Download and install OWASP CRS",
+        "line": 365,
+        "excerpt": "Include /etc/nginx/modsec/modsecurity.conf",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "security/network/waf-setup/SKILL.md",
+        "line": 395,
+        "excerpt": "cd /etc/nginx/modsec",
         "disclosed": false,
         "automatic": false
       },
@@ -140,16 +116,16 @@
       {
         "ruleId": "shell",
         "file": "security/network/waf-setup/SKILL.md",
-        "line": 430,
-        "excerpt": "# /etc/nginx/modsec/custom-rules.conf",
+        "line": 433,
+        "excerpt": "SecRule REQUEST_HEADERS:User-Agent \"@pm sqlmap nikto nmap masscan dirbuster\" \\",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "security/network/waf-setup/SKILL.md",
-        "line": 462,
-        "excerpt": "#!/bin/bash",
+        "line": 465,
+        "excerpt": "AUDIT_LOG=\"/var/log/modsec/modsec_audit.log\"",
         "disclosed": false,
         "automatic": false
       }
@@ -157,13 +133,12 @@
     "findingTotals": {
       "shell": 8,
       "network": 3,
-      "reads-secrets": 3,
       "downloads-code": 1,
       "writes-outside": 1
     },
-    "score": 47,
-    "band": "high",
-    "rulesVersion": "1.0.0",
+    "score": 67,
+    "band": "review",
+    "rulesVersion": "1.3.0",
     "filesScanned": 2,
     "filesSkipped": 0
   },
@@ -173,6 +148,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 47,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "0365f57a079b1332f95cf26e31dd2d5332a8399f",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 67,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

@@ -5,15 +5,15 @@
   "path": "plugins/labring/sealos-skills/plugins/sealos/skills/k8s-kaniko-job",
   "name": "k8s-kaniko-job",
   "description": "Sandbox build executor for Sealos deploys: build a container image from source with an in-cluster Kaniko Job and push it to GHCR, for environments without a Docker daemon (Brain managed Devbox sandboxes). Use only when a managed deploy (SEALAI_DEPLOY_MODE=managed) needs an image built from project source; local interactive deploys build with docker buildx instead (see the use-sealos skill).",
-  "stars": 1520,
+  "stars": 1537,
   "category": "devops",
-  "commit": "e012fe109c04b715dcf37f859469a28eaf6471b6",
-  "contentHash": "7735e7fab869e2f5960984d7cfb4866a5189b858e18e61e50b0542ae596cab4a",
+  "commit": "057d7896b4db0d6cf69f0222cb601b23c953736b",
+  "contentHash": "00861bc32af2e49879e27d62211b4118c35cf0382419740a73f257c4ff6cacf6",
   "repoCreatedAt": "2026-03-28T02:38:44Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
       {
@@ -30,14 +30,6 @@
         "line": 73,
         "excerpt": "kubectl create secret docker-registry <app>-pull \\",
         "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "plugins/labring/sealos-skills/plugins/sealos/skills/k8s-kaniko-job/SKILL.md",
-        "line": 75,
-        "excerpt": "--docker-password=\"$GITHUB_TOKEN\" \\",
-        "disclosed": true,
         "automatic": false
       },
       {
@@ -84,14 +76,6 @@
         "hosts": []
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "plugins/labring/sealos-skills/plugins/sealos/skills/k8s-kaniko-job/scripts/kaniko-build.py",
-        "line": 272,
-        "excerpt": "token = os.environ.get(\"GITHUB_TOKEN\", \"\").strip()",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "plugins/labring/sealos-skills/plugins/sealos/skills/k8s-kaniko-job/scripts/kaniko-build.py",
         "line": 307,
@@ -112,32 +96,8 @@
       {
         "ruleId": "reads-secrets",
         "file": "plugins/labring/sealos-skills/plugins/sealos/skills/k8s-kaniko-job/scripts/kaniko-build.py",
-        "line": 391,
-        "excerpt": "access_key = runtime.get(\"accessKeyId\") or os.environ.get(\"AWS_ACCESS_KEY_ID\", \"admin\")",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "plugins/labring/sealos-skills/plugins/sealos/skills/k8s-kaniko-job/scripts/kaniko-build.py",
-        "line": 403,
-        "excerpt": "os.environ.get(\"AWS_SECRET_ACCESS_KEY\")",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "plugins/labring/sealos-skills/plugins/sealos/skills/k8s-kaniko-job/scripts/kaniko-build.py",
-        "line": 404,
-        "excerpt": "or os.environ.get(\"SEALOS_DEVBOX_JWT_SECRET\")",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "plugins/labring/sealos-skills/plugins/sealos/skills/k8s-kaniko-job/scripts/kaniko-build.py",
-        "line": 405,
-        "excerpt": "or os.environ.get(\"DEVBOX_JWT_SECRET\")",
+        "line": 525,
+        "excerpt": "mountPath: /kaniko/.docker/config.json",
         "disclosed": true,
         "automatic": false
       },
@@ -156,26 +116,17 @@
         "excerpt": "result = subprocess.run(",
         "disclosed": false,
         "automatic": false
-      },
-      {
-        "ruleId": "network",
-        "file": "plugins/labring/sealos-skills/plugins/sealos/skills/use-sealos/references/deploy.md",
-        "line": 71,
-        "excerpt": "for login-walled apps). For SSR apps also `curl -sL` the page and reject",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
       }
     ],
     "findingTotals": {
       "shell": 6,
-      "reads-secrets": 6,
-      "network": 6
+      "network": 5,
+      "reads-secrets": 1
     },
     "score": 80,
     "band": "low",
-    "rulesVersion": "1.0.0",
-    "filesScanned": 8,
+    "rulesVersion": "1.3.0",
+    "filesScanned": 5,
     "filesSkipped": 0
   },
   "history": [
@@ -184,6 +135,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 80,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "057d7896b4db0d6cf69f0222cb601b23c953736b",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 80,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

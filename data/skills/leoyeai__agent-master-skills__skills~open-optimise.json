@@ -3,44 +3,84 @@
   "owner": "LeoYeAI",
   "repo": "agent-master-skills",
   "path": "skills/open-optimise",
-  "name": "open-optimise",
-  "description": "",
-  "stars": 2182,
+  "name": "cost-optimizer",
+  "description": "Smart cost optimization skill for OpenClaw. Reduces API costs by 70-97% through intelligent model routing, session management, output efficiency, and free model usage. Includes 29 executable scripts for auditing, monitoring, backup/restore, health checks, and automated reporting. Walks user through setup on first activation.",
+  "stars": 2184,
   "category": "coding",
   "commit": "8f88f9a0dd5a1075d4f0c7626f9d960844d57575",
   "contentHash": "8b00261ce93feaf06569affbf9e0164fd96dcdccee588f7cfead3abb481188a1",
   "repoCreatedAt": "2026-03-02T02:02:25Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
       {
-        "ruleId": "paid-api",
-        "file": "skills/open-optimise/scripts/setup-openrouter.sh",
-        "line": 20,
-        "excerpt": "echo \"Get your API key at: https://openrouter.ai/keys\"",
+        "ruleId": "downloads-code",
+        "file": "skills/open-optimise/GUIDE.md",
+        "line": 9,
+        "excerpt": "- **zip** (optional, for packaging — `apt install zip`)",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/open-optimise/GUIDE.md",
+        "line": 31,
+        "excerpt": "curl -L https://YOUR_DOWNLOAD_URL -o cost-optimizer.zip",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "your_download_url"
+        ]
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/open-optimise/GUIDE.md",
+        "line": 672,
+        "excerpt": "rm -rf ~/.openclaw/workspace/skills/cost-optimizer",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/open-optimise/scripts/model-test.sh",
+        "line": 59,
+        "excerpt": "STATUS=$(curl -s -o /dev/null -w \"%{http_code}\" --connect-timeout 5 \"$BASE_URL\" 2>/dev/null || echo \"000\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
       },
       {
         "ruleId": "paid-api",
         "file": "skills/open-optimise/scripts/setup-openrouter.sh",
         "line": 37,
         "excerpt": "\"baseUrl\": \"https://openrouter.ai/api/v1\",",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/open-optimise/scripts/webhook-report.sh",
+        "line": 131,
+        "excerpt": "RESPONSE=$(curl -s -w \"\\n%{http_code}\" -H \"Content-Type: application/json\" -d \"$PAYLOAD\" \"$WEBHOOK\" 2>&1)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
       }
     ],
     "findingTotals": {
-      "paid-api": 2
+      "downloads-code": 1,
+      "network": 3,
+      "writes-outside": 1,
+      "paid-api": 1
     },
-    "score": 90,
-    "band": "low",
-    "rulesVersion": "1.2.0",
-    "filesScanned": 13,
-    "filesSkipped": 29
+    "score": 65,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 41,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -48,6 +88,12 @@
       "scannedAt": "2026-11-07T16:26:42.053Z",
       "score": 90,
       "rulesVersion": "1.2.0"
+    },
+    {
+      "commit": "8f88f9a0dd5a1075d4f0c7626f9d960844d57575",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 65,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

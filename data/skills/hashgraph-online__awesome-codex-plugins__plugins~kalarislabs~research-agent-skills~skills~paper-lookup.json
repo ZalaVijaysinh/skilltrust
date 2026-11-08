@@ -5,15 +5,15 @@
   "path": "plugins/KalarisLabs/research-agent-skills/skills/paper-lookup",
   "name": "paper-lookup",
   "description": "Search 18 scholarly APIs for papers, preprints, citations, open-access full text, repository records, and journal OA status, and return results with reproducible provenance. Covers PubMed, PMC, Europe PMC, bioRxiv, medRxiv, arXiv, OpenAlex, Crossref, Semantic Scholar, CORE, Unpaywall, OpenCitations, PubTator3, Zenodo, Figshare, ROR, BioStudies, and DOAJ. Use when searching for papers, citations, DOI/PMID/arXiv lookups, abstracts, full text, open-access PDFs, preprints, citation graphs, author publications, biomedical entity annotations, deposited records (Zenodo, Figshare, BioStudies), institution ROR IDs, or any scholarly literature query. Triggers on mentions of any supported database or requests like \"find papers on X\", \"look up this DOI\", \"who cites this paper\", or \"get me the PDF\".",
-  "stars": 1520,
+  "stars": 1537,
   "category": "research",
-  "commit": "e012fe109c04b715dcf37f859469a28eaf6471b6",
-  "contentHash": "bb17c1702518c2191c20047f5f04e6fc0cdf924c8bc892b4c1fce2c5f54cee1b",
+  "commit": "057d7896b4db0d6cf69f0222cb601b23c953736b",
+  "contentHash": "b7633387cae038772fc6df0ee00a4fcb1e1642a072e7740e3fd7ac028a612bfa",
   "repoCreatedAt": "2026-03-28T02:38:44Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T05:42:07.685Z",
   "scan": {
     "findings": [
       {
@@ -32,30 +32,6 @@
         "file": "plugins/KalarisLabs/research-agent-skills/skills/paper-lookup/SKILL.md",
         "line": 86,
         "excerpt": "curl -s --get \"https://www.ebi.ac.uk/europepmc/webservices/rest/search\" \\",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "plugins/KalarisLabs/research-agent-skills/skills/paper-lookup/SKILL.md",
-        "line": 135,
-        "excerpt": "**Loading keys:** Check the environment first (`$NCBI_API_KEY`, etc.). If a key is absent there and a `.env` exists in the working directory, read **only** the ",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "plugins/KalarisLabs/research-agent-skills/skills/paper-lookup/SKILL.md",
-        "line": 143,
-        "excerpt": "- **Custom headers.** Semantic Scholar authenticates with `x-api-key: $S2_API_KEY`; CORE uses `Authorization: Bearer $CORE_API_KEY`.",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "plugins/KalarisLabs/research-agent-skills/skills/paper-lookup/SKILL.md",
-        "line": 150,
-        "excerpt": "curl -s -H \"Accept: application/json\" -H \"x-api-key: $S2_API_KEY\" \\",
         "disclosed": true,
         "automatic": false
       },
@@ -79,8 +55,8 @@
       {
         "ruleId": "shell",
         "file": "plugins/KalarisLabs/research-agent-skills/skills/paper-lookup/SKILL.md",
-        "line": 195,
-        "excerpt": "# Exhaustive preprint walk, reconciled against the reported total",
+        "line": 196,
+        "excerpt": "python3 scripts/paginate.py --api europepmc --query 'SRC:\"PPR\" AND \"organoid\"' --max-records 200",
         "disclosed": true,
         "automatic": false
       },
@@ -224,7 +200,7 @@
       {
         "ruleId": "network",
         "file": "plugins/KalarisLabs/research-agent-skills/skills/paper-lookup/scripts/arxiv_atom.py",
-        "line": 119,
+        "line": 123,
         "excerpt": "epilog='curl -s \"https://export.arxiv.org/api/query?id_list=1706.03762\" | %(prog)s -',",
         "disclosed": true,
         "automatic": false,
@@ -255,7 +231,7 @@
       {
         "ruleId": "network",
         "file": "plugins/KalarisLabs/research-agent-skills/skills/paper-lookup/scripts/openalex_abstract.py",
-        "line": 114,
+        "line": 116,
         "excerpt": "epilog='curl -s \"https://api.openalex.org/works/doi:10.7717/peerj.4375\" | %(prog)s -',",
         "disclosed": true,
         "automatic": false,
@@ -271,25 +247,16 @@
         "disclosed": true,
         "automatic": false,
         "hosts": []
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "plugins/KalarisLabs/research-agent-skills/skills/paper-lookup/scripts/paginate.py",
-        "line": 206,
-        "excerpt": "key = os.environ.get(\"OPENALEX_API_KEY\")",
-        "disclosed": true,
-        "automatic": false
       }
     ],
     "findingTotals": {
       "network": 24,
-      "shell": 3,
-      "reads-secrets": 4
+      "shell": 3
     },
-    "score": 84,
+    "score": 94,
     "band": "low",
-    "rulesVersion": "1.0.0",
-    "filesScanned": 24,
+    "rulesVersion": "1.3.0",
+    "filesScanned": 27,
     "filesSkipped": 0
   },
   "history": [
@@ -298,6 +265,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 84,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "057d7896b4db0d6cf69f0222cb601b23c953736b",
+      "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 94,
+      "rulesVersion": "1.3.0"
     }
   ]
 }
