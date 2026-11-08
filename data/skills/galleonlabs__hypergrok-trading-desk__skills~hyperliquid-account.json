@@ -1,0 +1,119 @@
+{
+  "id": "galleonlabs__hypergrok-trading-desk__skills~hyperliquid-account",
+  "owner": "galleonlabs",
+  "repo": "hypergrok-trading-desk",
+  "path": "skills/hyperliquid-account",
+  "name": "hyperliquid-account",
+  "description": "Read a Hyperliquid account from the desk computer - positions and margin, spot balances, open orders including trigger details, fills, funding paid, ledger updates, order status by oid or cloid, historical orders, portfolio history, fee tier and rate-limit budget - with curl and Python SDK examples. Read-only, needs only the account address. Use for sizing inputs, book checks, reconciliation and reviews.",
+  "stars": 402,
+  "category": "coding",
+  "commit": "01c2a46c8a36656a2f958d9063201a77556cae5d",
+  "contentHash": "8ef9e9690a1cd93f4d63100d46293678d971b4d9d5ccdd7e28898c16de0200b2",
+  "repoCreatedAt": "2026-08-16T08:31:44Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": true,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/hyperliquid-account/SKILL.md",
+        "line": 17,
+        "excerpt": "ADDR=$HYPERLIQUID_ACCOUNT_ADDRESS",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hyperliquid-account/SKILL.md",
+        "line": 19,
+        "excerpt": "hl() { curl -sS -m 15 -X POST \"$BASE/info\" -H 'Content-Type: application/json' -d \"$1\"; }",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hyperliquid-account/SKILL.md",
+        "line": 35,
+        "excerpt": "hl \"{\\\"type\\\":\\\"clearinghouseState\\\",\\\"user\\\":\\\"$ADDR\\\"}\" | jq '{",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hyperliquid-account/SKILL.md",
+        "line": 49,
+        "excerpt": "hl \"{\\\"type\\\":\\\"spotClearinghouseState\\\",\\\"user\\\":\\\"$ADDR\\\"}\" | jq '.balances[] | {coin, token, total, hold, entryNtl}'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hyperliquid-account/SKILL.md",
+        "line": 57,
+        "excerpt": "hl \"{\\\"type\\\":\\\"openOrders\\\",\\\"user\\\":\\\"$ADDR\\\"}\" | jq '.[] | {coin, side, limitPx, sz, oid, timestamp}'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hyperliquid-account/SKILL.md",
+        "line": 66,
+        "excerpt": "hl \"{\\\"type\\\":\\\"orderStatus\\\",\\\"user\\\":\\\"$ADDR\\\",\\\"oid\\\":1839201122}\" | jq '{status, order: .order.status, ts: .order.statusTimestamp, o: .order.order}'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hyperliquid-account/SKILL.md",
+        "line": 77,
+        "excerpt": "hl \"{\\\"type\\\":\\\"userFills\\\",\\\"user\\\":\\\"$ADDR\\\"}\" | jq '.[:20][] | {time, coin, side, px, sz, dir, closedPnl, fee, feeToken, crossed, oid, cloid, tid, hash}'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hyperliquid-account/SKILL.md",
+        "line": 87,
+        "excerpt": "hl \"{\\\"type\\\":\\\"userFunding\\\",\\\"user\\\":\\\"$ADDR\\\",\\\"startTime\\\":$START}\" | jq '.[] | {time, coin: .delta.coin, usdc: .delta.usdc, rate: .delta.fundingRate, szi: ",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hyperliquid-account/SKILL.md",
+        "line": 96,
+        "excerpt": "hl \"{\\\"type\\\":\\\"historicalOrders\\\",\\\"user\\\":\\\"$ADDR\\\"}\" | jq '.[:20][] | {status, statusTimestamp, o: (.order | {coin, side, limitPx, sz, origSz, oid, cloid, or",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hyperliquid-account/SKILL.md",
+        "line": 105,
+        "excerpt": "hl \"{\\\"type\\\":\\\"portfolio\\\",\\\"user\\\":\\\"$ADDR\\\"}\" | jq '.[] | select(.[0]==\"day\" or .[0]==\"week\") | {period: .[0], pnl: .[1].pnlHistory[-1], value: .[1].accountV",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 9,
+      "network": 1
+    },
+    "score": 92,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 3,
+    "filesSkipped": 6
+  },
+  "history": [
+    {
+      "commit": "01c2a46c8a36656a2f958d9063201a77556cae5d",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

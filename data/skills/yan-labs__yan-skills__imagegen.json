@@ -1,0 +1,106 @@
+{
+  "id": "yan-labs__yan-skills__imagegen",
+  "owner": "yan-labs",
+  "repo": "yan-skills",
+  "path": "imagegen",
+  "name": "imagegen",
+  "description": "当用户要求生成图片、配图、插图、logo、吉祥物、封面、海报、og 图、favicon 源图、真人场景图，或建站时页面缺图、仍有占位图时使用。包括“画一张”“出一套图”“网站需要配图”“image gen”。本 Skill 负责提示词、生成、三道验收、压缩与落盘；只是让 Codex CLI 做代码代理任务时用 codex，普通派单走 agent-fleet，页面 SEO 与上线闸门走 rankup。",
+  "stars": 232,
+  "category": "marketing",
+  "commit": "3164ecd574887ad6324a6b7c4b67f60c8a1aa117",
+  "contentHash": "f7c417b6124494966aa38b26cd992546a5bb15e88f853f49412364bed586ff4f",
+  "repoCreatedAt": "2026-07-05T07:14:39Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "downloads-code",
+        "file": "imagegen/README.md",
+        "line": 13,
+        "excerpt": "- 本机 `sips`（macOS 自带）；`cwebp` 可选（`brew install webp`），页内 WebP 用它；`magick`（ImageMagick）可选，抠透明与修主体占比用它。",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "imagegen/SKILL.md",
+        "line": 17,
+        "excerpt": "mkdir -p <outdir>                                # 先建目录，提示词里写它的绝对路径",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "imagegen/SKILL.md",
+        "line": 129,
+        "excerpt": "sips -s format jpeg -s formatOptions 82 in.png --out out.jpg   # 不透明图：JPEG，4 MB 一套压到 1 MB 内",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "imagegen/SKILL.md",
+        "line": 136,
+        "excerpt": "透明没做出来、或主体占比不达标时，用 ImageMagick 二次处理（先 `which magick`，没有就 `brew install imagemagick`）：",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "imagegen/SKILL.md",
+        "line": 139,
+        "excerpt": "magick in.png -fuzz 8% -transparent '#0F172A' out.png          # 纯色底抠透明（换成实际底色 hex）",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "imagegen/SKILL.md",
+        "line": 154,
+        "excerpt": "- 页面接线后 `curl -I` 每张图 200；仓库结构迁移后 favicon/og 静默 404 是踩过的坑。",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "imagegen/evals/evals.json",
+        "line": 36,
+        "excerpt": "\"cmd: curl -I\",",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "imagegen/evals/evals.json",
+        "line": 118,
+        "excerpt": "\"cmd: curl -I\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "downloads-code": 2,
+      "shell": 3,
+      "network": 3
+    },
+    "score": 77,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 3,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "3164ecd574887ad6324a6b7c4b67f60c8a1aa117",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 77,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

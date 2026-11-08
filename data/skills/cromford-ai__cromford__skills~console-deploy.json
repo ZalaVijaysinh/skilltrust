@@ -1,0 +1,179 @@
+{
+  "id": "cromford-ai__cromford__skills~console-deploy",
+  "owner": "cromford-ai",
+  "repo": "cromford",
+  "path": "skills/console-deploy",
+  "name": "console-deploy",
+  "description": "Deploy Mission Control (console-ui) to Cloudflare Pages (normally auto-deployed by harness-sync on the hub; this is the check and the fallback) and the harness-jobs worker/D1 that back it — Pages project env + D1 bindings via the Cloudflare API, npm ci + vite build, wrangler@3 pages deploy, and fail-closed anonymous probes as the verification. Use when console-ui or worker/ changed and the live console must be updated, or a console screen answers 503.",
+  "stars": 29,
+  "category": "devops",
+  "commit": "0d06b69a65fbb9a73383e7050c2b7e2a69aa0969",
+  "contentHash": "0f7f8dd350afb03ad76e522d17cf14c03af3db44cd75e30ea782b3cbe2785b91",
+  "repoCreatedAt": "2026-10-13T17:02:26Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/console-deploy/SKILL.md",
+        "line": 42,
+        "excerpt": "set -a; . /root/harness/env/cloudflare.env; set +a      # CLOUDFLARE_API_TOKEN (chmod 600, never echoed)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/console-deploy/SKILL.md",
+        "line": 60,
+        "excerpt": "`npx --yes wrangler@3 d1 list` and the project GET in step 1.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/console-deploy/SKILL.md",
+        "line": 62,
+        "excerpt": "**Wrangler is pinned to `wrangler@3`** (`npx --yes wrangler@3 …`). It prints an",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/console-deploy/SKILL.md",
+        "line": 75,
+        "excerpt": "curl -s \"https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/mission-control\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.cloudflare.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/console-deploy/SKILL.md",
+        "line": 75,
+        "excerpt": "curl -s \"https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/mission-control\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/console-deploy/SKILL.md",
+        "line": 86,
+        "excerpt": "set -a; . /root/harness/env/global.env; set +a",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/console-deploy/SKILL.md",
+        "line": 87,
+        "excerpt": "curl -s -X PATCH \"https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/mission-control\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.cloudflare.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/console-deploy/SKILL.md",
+        "line": 111,
+        "excerpt": "cd /root/harness-checkout/worker/jobs",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/console-deploy/SKILL.md",
+        "line": 113,
+        "excerpt": "npx --yes wrangler@3 d1 execute harness-jobs --remote --file=./schema.sql </dev/null",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/console-deploy/SKILL.md",
+        "line": 114,
+        "excerpt": "npx --yes wrangler@3 deploy </dev/null",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/console-deploy/SKILL.md",
+        "line": 130,
+        "excerpt": "cd /root/harness-checkout/console-ui",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/console-deploy/SKILL.md",
+        "line": 134,
+        "excerpt": "npx --yes wrangler@3 pages deploy dist --project-name mission-control --branch main \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/console-deploy/SKILL.md",
+        "line": 152,
+        "excerpt": "for p in api/coord/jobs api/ideas/list; do",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/console-deploy/SKILL.md",
+        "line": 153,
+        "excerpt": "printf '%s=%s ' \"$p\" \"$(curl -s -o /dev/null -w '%{http_code}' https://console.example.pages.dev/$p)\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "console.example.pages.dev"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/console-deploy/SKILL.md",
+        "line": 155,
+        "excerpt": "curl -s -o /dev/null -w 'spa=%{http_code}\\n' https://console.example.pages.dev/",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "console.example.pages.dev"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/console-deploy/SKILL.md",
+        "line": 180,
+        "excerpt": "echo \"$(date -u '+%Y-%m-%d %H:%M:%SZ') [$(hostname)] console deploy FAILED at <step>: <verbatim error> — live console is STALE at <last good deployment url>\" \\",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 7,
+      "downloads-code": 5,
+      "network": 4
+    },
+    "score": 75,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "0d06b69a65fbb9a73383e7050c2b7e2a69aa0969",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 75,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

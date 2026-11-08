@@ -1,0 +1,118 @@
+{
+  "id": "wquguru__skills__skills~pi-sub-agent",
+  "owner": "wquguru",
+  "repo": "skills",
+  "path": "skills/pi-sub-agent",
+  "name": "pi-sub-agent",
+  "description": "将具体执行委派给 pi coding agent + ZenMux 便宜执行模型（默认强档 deepseek/deepseek-v4-pro：1M 上下文、推理型；廉价快档 inclusionai/ling-3.0-flash：256K、非思考、更省），Claude 负责任务-模型匹配判断、任务书编写、驱动（一次性 pi -p 或 tmux 交互长程）、硬超时重试、独立验收与失败裁决。含双模型选型、3D 素材来源、Spec-Driven、强类型可验证节点、推理档位开关等最佳实践。触发词：pi 委派、把执行外包给便宜模型、deepseek、deepseek-v4-pro、v4 pro 执行、ling、ling-3.0-flash、ling flash 执行、pi sub agent",
+  "stars": 94,
+  "category": "coding",
+  "commit": "a432f940754e34ec8869b33ccf0790b4c53e08bd",
+  "contentHash": "03c9348b74070607d079155ade5e4279718d4b1f99e35494c728b2d534d3d64a",
+  "repoCreatedAt": "2026-03-26T04:26:05Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/pi-sub-agent/SKILL.md",
+        "line": 97,
+        "excerpt": "pi --list-models 2>/dev/null | grep -iE 'deepseek-v4-pro|ling-3.0-flash' || echo \"NOT-CONFIGURED\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/pi-sub-agent/SKILL.md",
+        "line": 129,
+        "excerpt": "（ZenMux catalog id 与实时价用 `curl -s https://zenmux.ai/api/v1/models -H \"Authorization: Bearer $ZENMUX_API_KEY\"` 复核。若无 ZenMux key，跑 `/pi-setup` 配一个。）加完 `pi --list-",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "zenmux.ai"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/pi-sub-agent/SKILL.md",
+        "line": 139,
+        "excerpt": "3. **资源**：外部 URL **Claude 先自己 `curl -sI -L` 验证过再写进任务书**；把\"先确认资源存在再用\"写成显式步骤。",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/pi-sub-agent/SKILL.md",
+        "line": 202,
+        "excerpt": "cd <工作目录> && pi --provider zenmux --model deepseek/deepseek-v4-pro -p \"<任务书>\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/pi-sub-agent/SKILL.md",
+        "line": 210,
+        "excerpt": "pi --provider zenmux --model deepseek/deepseek-v4-pro -p \"...\" & PID=$!",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/pi-sub-agent/SKILL.md",
+        "line": 216,
+        "excerpt": "超时后先 `curl -s -o /dev/null -w '%{http_code}' https://zenmux.ai/api/v1` 确认网关可达（秒回即可，404 也算通），然后原样重跑——瞬态故障重跑通常立刻成功。最多重试 2 次。",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "zenmux.ai"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/pi-sub-agent/SKILL.md",
+        "line": 223,
+        "excerpt": "tmux new-session -d -s pi-sub -x 220 -y 50 -c \"<工作目录>\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/pi-sub-agent/SKILL.md",
+        "line": 259,
+        "excerpt": "1. **外链**：产物里全部外部 URL `curl -sI -L` 逐个 200。",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/pi-sub-agent/SKILL.md",
+        "line": 262,
+        "excerpt": "awk '/<script type=\"module\">/{f=1;next} /<\\/script>/{f=0} f' index.html > /tmp/m.mjs && node --check /tmp/m.mjs",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 5,
+      "network": 4
+    },
+    "score": 92,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "a432f940754e34ec8869b33ccf0790b4c53e08bd",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

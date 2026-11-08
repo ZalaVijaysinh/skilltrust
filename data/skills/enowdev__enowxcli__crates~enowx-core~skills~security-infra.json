@@ -1,0 +1,97 @@
+{
+  "id": "enowdev__enowxcli__crates~enowx-core~skills~security-infra",
+  "owner": "enowdev",
+  "repo": "enowxcli",
+  "path": "crates/enowx-core/skills/security-infra",
+  "name": "security-infra",
+  "description": "Reviewing infrastructure and deployment security: cloud IAM and public exposure, storage buckets, security groups, instance metadata, container and Kubernetes privileges, network policies, TLS configuration, exposed admin panels and databases, logging and audit trails, and backup protection. Read before reviewing cloud, container or server configuration.",
+  "stars": 67,
+  "category": "coding",
+  "commit": "38293fe1b096e6bf3646c7344c38786ed688f464",
+  "contentHash": "1700128dec4431d647239b30ff3b041306d7f41ed949e4107bb622350cbdd2fd",
+  "repoCreatedAt": "2026-03-07T17:01:51Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "crates/enowx-core/skills/security-infra/SKILL.md",
+        "line": 64,
+        "excerpt": "rg -n '\"Action\"\\s*:\\s*\"(\\*|[a-z0-9-]+:\\*)\"|\"Resource\"\\s*:\\s*\"\\*\"|\"Principal\"\\s*:\\s*(\"\\*\"|\\{\\s*\"AWS\"\\s*:\\s*\"\\*\")|iam:PassRole|AdministratorAccess' .",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "crates/enowx-core/skills/security-infra/SKILL.md",
+        "line": 91,
+        "excerpt": "rg -n '0\\.0\\.0\\.0/0|::/0' -g '*.tf' -g '*.json' -g '*.y*ml' .",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "crates/enowx-core/skills/security-infra/SKILL.md",
+        "line": 125,
+        "excerpt": "rg -n 'privileged|docker\\.sock|cap_add|SYS_ADMIN|network_mode:\\s*host|pid:\\s*host|unconfined|hostPath|hostNetwork|hostPID|allowPrivilegeEscalation:\\s*true|runAs",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "crates/enowx-core/skills/security-infra/SKILL.md",
+        "line": 159,
+        "excerpt": "kubectl get clusterrolebindings -o wide",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "crates/enowx-core/skills/security-infra/SKILL.md",
+        "line": 189,
+        "excerpt": "rg -n 'sslmode=(disable|allow|prefer|require)\\b|ssl\\s*[:=]\\s*false|tls\\s*[:=]\\s*false|InsecureSkipVerify|rejectUnauthorized:\\s*false' .",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "crates/enowx-core/skills/security-infra/SKILL.md",
+        "line": 191,
+        "excerpt": "curl -sI https://host | grep -i strict-transport-security",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "host"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "crates/enowx-core/skills/security-infra/SKILL.md",
+        "line": 212,
+        "excerpt": "rg -n 'autoindex\\s+on|\\balias\\s|server_tokens\\s+on|api\\.insecure|PubliclyAccessible|publicly_accessible\\s*=\\s*true|protected-mode\\s+no' .",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 6,
+      "network": 1
+    },
+    "score": 94,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "38293fe1b096e6bf3646c7344c38786ed688f464",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 94,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

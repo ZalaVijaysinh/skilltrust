@@ -1,0 +1,178 @@
+{
+  "id": "posthog__ai-plugin__skills~exploring-mcp-tool-original-user-motive",
+  "owner": "PostHog",
+  "repo": "ai-plugin",
+  "path": "skills/exploring-mcp-tool-original-user-motive",
+  "name": "exploring-mcp-tool-original-user-motive",
+  "description": "Build a starting-point taxonomy for an MCP tool — what users were trying to accomplish before they reached the tool — and publish it as a PostHog notebook. Reconstructs each session's goal from its opening tool calls, then clusters those goals into named categories with size, share, and facet mix. Use when the user asks \"why do people use this tool?\", \"what are users actually trying to do?\", \"what problem brings people here?\", \"where do these sessions start?\", \"segment usage of <tool> by goal\", or wants a Clio-style taxonomy of MCP usage. Complements exploring-mcp-intent-clusters, which groups what agents did per call rather than why the session began. The agent running this skill writes the goal labels itself, reading the corpus query output session by session — the bundled scripts cover the mechanical facets but measurably lose the goal's altitude, so do not delegate that field to them.",
+  "stars": 100,
+  "category": "coding",
+  "commit": "6d4722d26ea7b2e2f2ae41a6c4695691178580c5",
+  "contentHash": "541a4372d14bf19821b30bc89bee653dbeb6ae847acaad57640f966d5ab158e3",
+  "repoCreatedAt": "2026-02-18T21:38:03Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/exploring-mcp-tool-original-user-motive/SKILL.md",
+        "line": 258,
+        "excerpt": "export OPENAI_API_KEY=$(op read \"$(grep -E '^OPENAI_API_KEY=' .env.local | cut -d= -f2- | tr -d '\"')\")",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/exploring-mcp-tool-original-user-motive/SKILL.md",
+        "line": 298,
+        "excerpt": "python scripts/audit_intentions.py facets.jsonl",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/exploring-mcp-tool-original-user-motive/scripts/audit_intentions.py",
+        "line": 36,
+        "excerpt": "from openai import OpenAI",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/exploring-mcp-tool-original-user-motive/scripts/audit_intentions.py",
+        "line": 36,
+        "excerpt": "from openai import OpenAI",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.openai.com"
+        ]
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/exploring-mcp-tool-original-user-motive/scripts/canonicalize_intentions.py",
+        "line": 32,
+        "excerpt": "from openai import OpenAI",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/exploring-mcp-tool-original-user-motive/scripts/canonicalize_intentions.py",
+        "line": 32,
+        "excerpt": "from openai import OpenAI",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.openai.com"
+        ]
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/exploring-mcp-tool-original-user-motive/scripts/extract_facets.py",
+        "line": 36,
+        "excerpt": "from openai import OpenAI",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/exploring-mcp-tool-original-user-motive/scripts/extract_facets.py",
+        "line": 36,
+        "excerpt": "from openai import OpenAI",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.openai.com"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "gemini-extension.json",
+        "line": 7,
+        "excerpt": "\"command\": \"npx\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "gemini-extension.json",
+        "line": 7,
+        "excerpt": "\"command\": \"npx\",",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/codex-hooks.json",
+        "line": 9,
+        "excerpt": "\"command\": \"\\\"${PLUGIN_ROOT}/hooks/codex-gate-exec-write.sh\\\"\",",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 10,
+        "excerpt": "\"command\": \"\\\"${CLAUDE_PLUGIN_ROOT:-$PLUGIN_ROOT}/hooks/skill-invoked.sh\\\"\",",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 21,
+        "excerpt": "\"command\": \"python3 \\\"${CLAUDE_PLUGIN_ROOT:-$PLUGIN_ROOT}/telemetry/hooks/session-end-llma.py\\\"\",",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 33,
+        "excerpt": "\"command\": \"\\\"${CLAUDE_PLUGIN_ROOT:-$PLUGIN_ROOT}/hooks/gate-exec-write.sh\\\"\",",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "network",
+        "file": "hooks/skill-invoked.sh",
+        "line": 140,
+        "excerpt": "curl -sf -m 3 -X POST \"$HOST/i/v0/e/\" \\",
+        "disclosed": true,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/user-prompt-expansion.json",
+        "line": 9,
+        "excerpt": "\"command\": \"\\\"${CLAUDE_PLUGIN_ROOT:-$PLUGIN_ROOT}/hooks/skill-invoked.sh\\\"\",",
+        "disclosed": true,
+        "automatic": true
+      }
+    ],
+    "findingTotals": {
+      "shell": 8,
+      "paid-api": 3,
+      "network": 4,
+      "downloads-code": 1
+    },
+    "score": 74,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 24,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "6d4722d26ea7b2e2f2ae41a6c4695691178580c5",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 74,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

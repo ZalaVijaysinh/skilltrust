@@ -1,0 +1,124 @@
+{
+  "id": "swotatmk__infinite-creation__harness-skills~ic-writer",
+  "owner": "SwotAtmk",
+  "repo": "infinite-creation",
+  "path": "harness-skills/ic-writer",
+  "name": "ic-writer",
+  "description": "把内容写进一个正在运行的 infinite-creation 实例（本地漫剧/短视频创作 Agent）：新建项目、写小说原文、写剧本、写分镜、写人物圣经/风格，也能改写**已经生成过的** LLM 产物。只走它的文本写入 API：读写一律通过 HTTP API，不直连数据库/文件；不触发生图/生视频/配音/配乐/导出，不删除项目。触发场景：用户要把小说/剧本/分镜「写进 infinite-creation」「导入项目」「批量建项目」「写入分镜表」，或要改写/覆盖已有项目里已生成的章节、剧本、分镜、提示词。不负责也无法触发生成链路（那些在应用界面里跑）。",
+  "stars": 270,
+  "category": "coding",
+  "commit": "1a1266cfea7c89dd1236f166e9cdab4432e3d8a3",
+  "contentHash": "358c069aefeef941f6859d794ae650840606d6a1fadeaed1b504c4c740adef94",
+  "repoCreatedAt": "2026-09-09T09:50:49Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "writes-outside",
+        "file": "harness-skills/ic-writer/README.md",
+        "line": 13,
+        "excerpt": "pnpm run install:ic-writer        # → ~/.agents/skills/ic-writer/",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "harness-skills/ic-writer/SKILL.md",
+        "line": 61,
+        "excerpt": "node -e \"fetch(process.env.IC_BASE_URL||'http://127.0.0.1:4600'+'/api/health').then(r=>r.json()).then(o=>console.log(o))\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "harness-skills/ic-writer/SKILL.md",
+        "line": 61,
+        "excerpt": "node -e \"fetch(process.env.IC_BASE_URL||'http://127.0.0.1:4600'+'/api/health').then(r=>r.json()).then(o=>console.log(o))\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "harness-skills/ic-writer/SKILL.md",
+        "line": 68,
+        "excerpt": "node -e \"fetch('http://127.0.0.1:4600/api/projects').then(r=>r.json()).then(o=>console.log(JSON.stringify(o,null,2)))\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "harness-skills/ic-writer/SKILL.md",
+        "line": 68,
+        "excerpt": "node -e \"fetch('http://127.0.0.1:4600/api/projects').then(r=>r.json()).then(o=>console.log(JSON.stringify(o,null,2)))\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "harness-skills/ic-writer/SKILL.md",
+        "line": 71,
+        "excerpt": "node -e \"const fs=require('fs');fetch('http://127.0.0.1:4600/api/projects/PID/chapters',{method:'POST',headers:{'content-type':'application/json'},body:fs.readF",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "harness-skills/ic-writer/SKILL.md",
+        "line": 136,
+        "excerpt": "BASE=http://127.0.0.1:4600",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "harness-skills/ic-writer/SKILL.md",
+        "line": 164,
+        "excerpt": "node -e \"fetch('$BASE/api/projects/PID/logs?limit=20').then(r=>r.json()).then(o=>{for(const l of o.items)console.log(l.ts,l.source,l.entity,l.action,l.entity_id",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "harness-skills/ic-writer/SKILL.md",
+        "line": 164,
+        "excerpt": "node -e \"fetch('$BASE/api/projects/PID/logs?limit=20').then(r=>r.json()).then(o=>{for(const l of o.items)console.log(l.ts,l.source,l.entity,l.action,l.entity_id",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "harness-skills/ic-writer/SKILL.md",
+        "line": 167,
+        "excerpt": "node -e \"fetch('$BASE/api/projects/PID/logs/rollback',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({batch_id:'BATCH_ID'})}).th",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "writes-outside": 1,
+      "network": 5,
+      "shell": 4
+    },
+    "score": 82,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "1a1266cfea7c89dd1236f166e9cdab4432e3d8a3",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 82,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

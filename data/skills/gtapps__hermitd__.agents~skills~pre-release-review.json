@@ -1,0 +1,94 @@
+{
+  "id": "gtapps__hermitd__.agents~skills~pre-release-review",
+  "owner": "gtapps",
+  "repo": "hermitd",
+  "path": ".agents/skills/pre-release-review",
+  "name": "pre-release-review",
+  "description": "Run the pre-release gate for this multi-plugin monorepo: establish each plugin's release boundary from its last reachable tag to HEAD, audit every changed plugin's [Unreleased] changelog against the actual code diff, identify contract-surface and breaking changes, and, per the objective the user picks up front, either run a dedicated Codex correctness review over the exact union release window or an adversarial design review of what shipped (overengineering, alternative designs, downstream-hermit impact) sourced from the PRs, issues, and proposals behind the window. Use when the user asks for a pre-release review, release audit, readiness check, release-window review, sanity check before tagging, whether accumulated unreleased work is ready to ship, whether any of it is overengineered, or whether you would design it differently. Run before release or fleet-release; never bump versions, create tags, commit, or push.",
+  "stars": 84,
+  "category": "coding",
+  "commit": "84942b77e465976992abc4e1444c09724b1770af",
+  "contentHash": "953f36ec2256a02824eaf5f51af2c87fc75dd839878b4c11affad86cde80991b",
+  "repoCreatedAt": "2026-03-23T18:33:11Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/pre-release-review/SKILL.md",
+        "line": 41,
+        "excerpt": "last_tag=$(git tag --list \"<slug>--v*\" | sort -V | tail -1)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/pre-release-review/SKILL.md",
+        "line": 54,
+        "excerpt": "review_base=$(for b in $in_scope_bases; do",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/pre-release-review/SKILL.md",
+        "line": 68,
+        "excerpt": "git log  \"$base\"..HEAD --oneline --decorate -- plugins/<slug>/",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/pre-release-review/SKILL.md",
+        "line": 89,
+        "excerpt": "git diff \"$base\"..HEAD --name-only -- plugins/<slug>/CHANGELOG.md | rg -q '.' \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/pre-release-review/SKILL.md",
+        "line": 128,
+        "excerpt": "git log --merges --format='%h %s' \"$base\"..HEAD -- plugins/<slug>/       # \"Merge pull request #NNN\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/pre-release-review/SKILL.md",
+        "line": 157,
+        "excerpt": "codex review \"Review only the committed diff in <review_base>...HEAD. Find concrete correctness, regression, security, efficiency, reuse, and repository-convent",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/pre-release-review/SKILL.md",
+        "line": 168,
+        "excerpt": "5. Run the affected plugin's complete suite plus `bunx tsc --noEmit`.",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 6,
+      "downloads-code": 1
+    },
+    "score": 82,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "84942b77e465976992abc4e1444c09724b1770af",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 82,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

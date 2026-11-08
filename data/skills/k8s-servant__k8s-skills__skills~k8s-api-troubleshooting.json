@@ -1,0 +1,109 @@
+{
+  "id": "k8s-servant__k8s-skills__skills~k8s-api-troubleshooting",
+  "owner": "k8s-servant",
+  "repo": "k8s-skills",
+  "path": "skills/k8s-api-troubleshooting",
+  "name": "k8s-api-troubleshooting",
+  "description": "Use when the Kubernetes API server itself refuses or fails a request, before any controller acts on it: \"failed calling webhook\", \"admission webhook ... denied the request\", \"ValidatingAdmissionPolicy ... denied request\", a ReplicaSet with FailedCreate and no pods, an APIService \"False (ServiceNotFound)\", \"FailedDiscoveryCheck\" or \"MissingEndpoints\", \"unable to retrieve the complete list of server APIs\", a namespace stuck in Terminating, \"no matches for kind\" or \"ensure CRDs are installed first\", \"strict decoding error: unknown field\", a conversion webhook failure, \"You must be logged in to the server (Unauthorized)\", 429 \"too many requests\", \"etcdserver:\" errors, \"Request entity too large\" or \"metadata.annotations: Too long\". Investigates with kubectl get, describe, events and the health endpoints, and proposes fixes. Reads first and asks before changing anything.",
+  "stars": 35,
+  "category": "devops",
+  "commit": "bfaba9c6fd833eaffc6772f2876c30d5777fddf9",
+  "contentHash": "c17f682fa1865cce6f151c108cf8da8bdd636bddca33c8961027211ba20e4db9",
+  "repoCreatedAt": "2026-10-23T12:54:21Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-api-troubleshooting/SKILL.md",
+        "line": 77,
+        "excerpt": "kubectl get events -n my-namespace --sort-by=.lastTimestamp",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-api-troubleshooting/SKILL.md",
+        "line": 87,
+        "excerpt": "kubectl get --raw '/readyz?verbose'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-api-troubleshooting/SKILL.md",
+        "line": 96,
+        "excerpt": "kubectl get apiservices",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-api-troubleshooting/SKILL.md",
+        "line": 104,
+        "excerpt": "kubectl get validatingwebhookconfigurations,mutatingwebhookconfigurations",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-api-troubleshooting/SKILL.md",
+        "line": 112,
+        "excerpt": "kubectl get namespace my-namespace -o jsonpath='{.status.phase}{\"\\n\"}{range .status.conditions[*]}{.type}={.status} {.reason}: {.message}{\"\\n\"}{end}'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-api-troubleshooting/SKILL.md",
+        "line": 176,
+        "excerpt": "kubectl get validatingwebhookconfiguration my-webhook -o yaml",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-api-troubleshooting/SKILL.md",
+        "line": 187,
+        "excerpt": "kubectl scale deployment my-webhook -n my-webhook-system --replicas=2",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-api-troubleshooting/SKILL.md",
+        "line": 197,
+        "excerpt": "kubectl patch validatingwebhookconfiguration my-webhook --type=json -p '[{\"op\": \"replace\", \"path\": \"/webhooks/0/failurePolicy\", \"value\": \"Ignore\"}]'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-api-troubleshooting/SKILL.md",
+        "line": 207,
+        "excerpt": "kubectl delete apiservice v1beta1.my-api.example.com",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 9
+    },
+    "score": 95,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 5,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "bfaba9c6fd833eaffc6772f2876c30d5777fddf9",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 95,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

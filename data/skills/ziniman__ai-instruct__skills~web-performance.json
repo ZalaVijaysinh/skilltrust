@@ -1,0 +1,219 @@
+{
+  "id": "ziniman__ai-instruct__skills~web-performance",
+  "owner": "ziniman",
+  "repo": "ai-instruct",
+  "path": "skills/web-performance",
+  "name": "web-performance",
+  "description": "Use this skill whenever the user is improving Core Web Vitals or page load performance, or mentions slow pages, PageSpeed Insights / Lighthouse failures or insights, LCP/CLS/INP scores, bundle size, image/font optimization, or third-party script impact. Covers Core Web Vitals, LCP image priority (fetchpriority, preload, lazy loading), image formats (AVIF/WebP), font loading, JavaScript bundle size, legacy polyfills and browserslist, CSS build size, script loading (async/defer, tag managers), preconnect/dns-prefetch, critical CSS and CSP, CDN cache headers and compression, bfcache and Speculation Rules prerendering, and measurement tools (CrUX, web-vitals). Skip for backend latency tuning, database query optimization, or CI build speed.",
+  "stars": 29,
+  "category": "coding",
+  "commit": "b2c75969f20ab5244af5aa570ebb6b38f3c9df9c",
+  "contentHash": "921103a195c3e312d266402f48c441ecb334dd5cf2387422bcc6e0fe9a326104",
+  "repoCreatedAt": "2026-02-18T16:46:29Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "skills/web-performance/SKILL.md",
+        "line": 37,
+        "excerpt": "Default: no - many platforms (plain S3, some shared hosts) do not send long-lived browser cache headers on static assets by default. Check the hosting config an",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/web-performance/references/cdn-and-caching.md",
+        "line": 19,
+        "excerpt": "A single HTTP to HTTPS redirect is normal. If `curl -IL` shows 3 or more redirects on a marketing page root URL, the cause is almost certainly Next.js `redirect",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/web-performance/references/cdn-and-caching.md",
+        "line": 30,
+        "excerpt": "Verify by running `curl -IL http://yourdomain.com/` and counting `Location:` headers before a 200 is reached. The target is one redirect maximum.",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "yourdomain.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/web-performance/references/cdn-and-caching.md",
+        "line": 55,
+        "excerpt": "curl -sI -H 'Accept-Encoding: zstd, br, gzip' https://yourdomain.com/ | grep -i content-encoding",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "yourdomain.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/web-performance/references/cdn-and-caching.md",
+        "line": 60,
+        "excerpt": "Since its August 2024 caching update, Amplify's CloudFront layer caches static assets at the edge for up to a year and clears the CDN cache on every deployment.",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/web-performance/references/cdn-and-caching.md",
+        "line": 91,
+        "excerpt": "Both platforms set appropriate cache headers for content-hashed assets automatically when using their native build integrations (Vercel for Next.js, Netlify for",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/web-performance/references/checklist.md",
+        "line": 28,
+        "excerpt": "- [ ] Redirect chain verified: one redirect maximum before 200 (`curl -IL https://yourdomain.com/`)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "yourdomain.com"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/web-performance/references/javascript-bundle-size.md",
+        "line": 14,
+        "excerpt": "npx next analyze            # interactive treemap in the browser",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/web-performance/references/javascript-bundle-size.md",
+        "line": 15,
+        "excerpt": "npx next analyze --output   # write to .next/diagnostics/analyze for before/after diffs",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/web-performance/references/lcp-largest-contentful-paint.md",
+        "line": 199,
+        "excerpt": "1. **Render-blocking wrapper.** A `'use client'` component wrapping the LCP image in Next.js App Router delays its render until JS hydration completes. The `<im",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "yourdomain.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/web-performance/references/lcp-largest-contentful-paint.md",
+        "line": 201,
+        "excerpt": "2. **Preload hint in `<body>` instead of `<head>`.** A hint that arrives late in the document is discovered late, which defeats its purpose. This is common when",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "yourdomain.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/web-performance/references/lcp-largest-contentful-paint.md",
+        "line": 203,
+        "excerpt": "3. **Missing `fetchpriority=\"high\"` on the LCP image or its preload.** Check: `curl -s https://yourdomain.com/ | grep 'fetchpriority'` - if this returns nothing",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "yourdomain.com"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/web-performance/references/measurement-and-validation.md",
+        "line": 13,
+        "excerpt": "- Bundler analysis (`npx next analyze`, `ANALYZE=true npm run build`, or `rollup-plugin-visualizer`) - treemap of what is in each JavaScript bundle",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/web-performance/references/measurement-and-validation.md",
+        "line": 24,
+        "excerpt": "curl -IL https://yourdomain.com/",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "yourdomain.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/web-performance/references/measurement-and-validation.md",
+        "line": 27,
+        "excerpt": "curl -I https://yourdomain.com/assets/main-abc123.js",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "yourdomain.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/web-performance/references/measurement-and-validation.md",
+        "line": 30,
+        "excerpt": "curl -I https://yourdomain.com/",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "yourdomain.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/web-performance/references/measurement-and-validation.md",
+        "line": 33,
+        "excerpt": "curl -s https://yourdomain.com/ | grep -i clerk",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "yourdomain.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/web-performance/references/measurement-and-validation.md",
+        "line": 36,
+        "excerpt": "curl -I \"https://yourdomain.com/_next/image?url=%2Fimages%2Fhero.png&w=1200&q=75\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "yourdomain.com"
+        ]
+      }
+    ],
+    "findingTotals": {
+      "network": 15,
+      "downloads-code": 3
+    },
+    "score": 82,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 16,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "b2c75969f20ab5244af5aa570ebb6b38f3c9df9c",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 82,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

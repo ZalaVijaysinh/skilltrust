@@ -1,0 +1,238 @@
+{
+  "id": "tibsfox__gsd-skill-creator__skills~openstack~backup",
+  "owner": "Tibsfox",
+  "repo": "gsd-skill-creator",
+  "path": "skills/openstack/backup",
+  "name": "openstack-backup",
+  "description": "OpenStack backup operations skill for protecting cloud infrastructure through systematic backup strategies and disaster recovery procedures. Covers database backups (MariaDB full and incremental with mariabackup), configuration backups (globals.yml, inventory, Fernet keys), volume snapshots (Cinder LVM snapshots), image exports (Glance), instance snapshots (Nova), backup encryption (GPG/OpenSSL), retention policies (daily/weekly/monthly rotation), restore procedures (database point-in-time recovery, service rebuild), RPO/RTO planning, and disaster recovery drills. Use when planning backup strategy, scheduling automated backups, testing restore procedures, or executing disaster recovery.",
+  "stars": 71,
+  "category": "coding",
+  "commit": "e179dfe911f3b3c2ff8bcd90ecd6ee4738648d17",
+  "contentHash": "3ec7ea127e6a8bd4ca32ef7a3f8e19141ee4e0432a0faa781ddb53636fd7e5a4",
+  "repoCreatedAt": "2026-01-30T13:21:36Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/openstack/backup/SKILL.md",
+        "line": 44,
+        "excerpt": "mkdir -p /opt/openstack-backups/{database,config,volumes,images,snapshots}",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/openstack/backup/SKILL.md",
+        "line": 57,
+        "excerpt": "kolla-ansible -i inventory mariadb_backup",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/openstack/backup/SKILL.md",
+        "line": 68,
+        "excerpt": "0 2 * * * root /opt/openstack-backups/scripts/backup-databases.sh >> /opt/openstack-backups/logs/db-backup.log 2>&1",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/openstack/backup/SKILL.md",
+        "line": 94,
+        "excerpt": "BACKUP_DIR=\"/opt/openstack-backups/database\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/openstack/backup/SKILL.md",
+        "line": 113,
+        "excerpt": "LAST_FULL=$(ls -d ${BACKUP_DIR}/full_* | sort | tail -1)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/openstack/backup/SKILL.md",
+        "line": 126,
+        "excerpt": "docker exec rabbitmq rabbitmqctl export_definitions /tmp/rabbitmq_definitions.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/openstack/backup/SKILL.md",
+        "line": 135,
+        "excerpt": "docker cp keystone_api:/etc/kolla/keystone/fernet-keys/ \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/openstack/backup/SKILL.md",
+        "line": 135,
+        "excerpt": "docker cp keystone_api:/etc/kolla/keystone/fernet-keys/ \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/openstack/backup/SKILL.md",
+        "line": 143,
+        "excerpt": "for vol_id in $(openstack volume list --status in-use -f value -c ID); do",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/openstack/backup/SKILL.md",
+        "line": 154,
+        "excerpt": "for image_id in $(openstack image list --status active -f value -c ID); do",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/openstack/backup/SKILL.md",
+        "line": 163,
+        "excerpt": "openstack server image create --name \"backup_$(date +%Y%m%d)\" <instance-id>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/openstack/backup/SKILL.md",
+        "line": 171,
+        "excerpt": "BACKUP_DIR=\"/opt/openstack-backups/config/kolla_$(date +%Y%m%d)\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/openstack/backup/SKILL.md",
+        "line": 175,
+        "excerpt": "cp /etc/kolla/globals.yml ${BACKUP_DIR}/",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/openstack/backup/SKILL.md",
+        "line": 176,
+        "excerpt": "cp /etc/kolla/passwords.yml ${BACKUP_DIR}/",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/openstack/backup/SKILL.md",
+        "line": 177,
+        "excerpt": "cp -r /etc/kolla/inventory ${BACKUP_DIR}/",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/openstack/backup/SKILL.md",
+        "line": 178,
+        "excerpt": "cp /etc/kolla/admin-openrc.sh ${BACKUP_DIR}/",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/openstack/backup/SKILL.md",
+        "line": 182,
+        "excerpt": "[ -d /etc/kolla/${svc} ] && cp -r /etc/kolla/${svc} ${BACKUP_DIR}/",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/openstack/backup/SKILL.md",
+        "line": 200,
+        "excerpt": "gpg --symmetric --cipher-algo AES256 \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/openstack/backup/SKILL.md",
+        "line": 213,
+        "excerpt": "openssl enc -aes-256-cbc -salt -pbkdf2 \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/openstack/backup/SKILL.md",
+        "line": 235,
+        "excerpt": "find /opt/openstack-backups/database -name \"*.gz\" -mtime +7 -delete",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/openstack/backup/SKILL.md",
+        "line": 259,
+        "excerpt": "docker run -d --name mariadb_restore_test \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/openstack/backup/SKILL.md",
+        "line": 296,
+        "excerpt": "docker exec -i mariadb mysql -u root -p nova < nova_backup.sql",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/openstack/backup/SKILL.md",
+        "line": 310,
+        "excerpt": "mariabackup --prepare --target-dir=/backup/full_base",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/openstack/backup/SKILL.md",
+        "line": 328,
+        "excerpt": "echo \"$(date -u +%Y-%m-%dT%H:%M:%SZ),database,full,${BACKUP_FILE},$(du -sh ${BACKUP_FILE} | cut -f1),$(sha256sum ${BACKUP_FILE} | cut -d' ' -f1)\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/openstack/backup/SKILL.md",
+        "line": 339,
+        "excerpt": "DAILY_KEEP=7",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 19,
+      "writes-outside": 6
+    },
+    "score": 85,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "e179dfe911f3b3c2ff8bcd90ecd6ee4738648d17",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 85,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "id": "plurigrid__asi__skills~hermes-net-as-cap",
+  "owner": "plurigrid",
+  "repo": "asi",
+  "path": "skills/hermes-net-as-cap",
+  "name": "hermes-net-as-cap",
+  "description": "Replace Hermes' SSRF blocklist (resolve-then-connect with documented DNS-rebinding TOCTOU) with a Goblins network capability — a host-allowlist forwarder that mediates every connection at the socket layer. Connection-time validation by construction, not best-effort pre-flight.",
+  "stars": 72,
+  "category": "other",
+  "commit": "293ce9f76e3abcd5ba18db284688bc0d9ac6691d",
+  "contentHash": "dd4e154087825ac54fd1692fd8bb63f6a8a01539bb9487afcd89d830c1472843",
+  "repoCreatedAt": "2025-12-22T05:49:13Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "skills/hermes-net-as-cap/SKILL.md",
+        "line": 52,
+        "excerpt": "| `httpx.get(url)` | `(<- net-cap 'get url)` | cap mediates the connect |",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/hermes-net-as-cap/SKILL.md",
+        "line": 55,
+        "excerpt": "| skill-scoped allowlist | `(<- net-cap 'subhost \"api.openai.com\")` | single-host attenuated forwarder |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hermes-net-as-cap/SKILL.md",
+        "line": 61,
+        "excerpt": "- **Forgotten `is_safe_url` callsite** — there is no raw `httpx.get`; if no cap, no call.",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/hermes-net-as-cap/SKILL.md",
+        "line": 82,
+        "excerpt": "sub = net.subhost(\"api.openai.com\")",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/hermes-net-as-cap/SKILL.md",
+        "line": 83,
+        "excerpt": "sub.post(\"https://api.openai.com/v1/chat/completions\", body)   # OK",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "network": 2,
+      "paid-api": 3
+    },
+    "score": 87,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "293ce9f76e3abcd5ba18db284688bc0d9ac6691d",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 87,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

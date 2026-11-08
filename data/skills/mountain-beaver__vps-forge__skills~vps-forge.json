@@ -1,0 +1,201 @@
+{
+  "id": "mountain-beaver__vps-forge__skills~vps-forge",
+  "owner": "mountain-beaver",
+  "repo": "vps-forge",
+  "path": "skills/vps-forge",
+  "name": "vps-forge",
+  "description": "Set up, harden, audit and polish a Linux VPS (Debian/Ubuntu) to production grade without ever losing access — SSH keys and crypto, firewall, fail2ban/CrowdSec, automatic security updates, kernel hardening, Docker, Caddy/nginx with TLS, WireGuard/Tailscale, restic backups, phone alerts, monitoring and a final verified score. Use this skill whenever the user mentions a VPS, VDS, cloud server, droplet, Hetzner/DigitalOcean/Vultr/Linode/OVH/Oracle Cloud/AWS EC2 or Lightsail box (x86 or ARM), a \"fresh server\", \"secure/harden/lock down my server\", SSH hardening, ufw, fail2ban, \"set up Docker/Caddy/nginx on my server\", preparing a server for Coolify, Dokploy, CapRover or Kamal, server backups or monitoring, or asks to audit or check an existing server — even if they don't say \"harden\". Not for RHEL/Fedora-family servers, Kubernetes nodes (k3s, kubeadm), Proxmox or other hypervisor hosts, managed or shared hosting without root, or the user's own desktop.",
+  "stars": 39,
+  "category": "devops",
+  "commit": "de8b1c084559b4175be7aaabf5cb61a4d5a19580",
+  "contentHash": "60993d6dd3b426aa4817facf7e8adbe14dc81084e1d2b6ea21e4b9142b0fd705",
+  "repoCreatedAt": "2026-10-24T13:16:53Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": true,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/vps-forge/SKILL.md",
+        "line": 31,
+        "excerpt": "8. **Stop if the box looks compromised.** Unknown UID-0 accounts, unknown `authorized_keys`, `/etc/ld.so.preload`, miners, `curl | sh` cron entries: stop harden",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/vps-forge/SKILL.md",
+        "line": 44,
+        "excerpt": "- Multiplex so you don't pay for a handshake per command, and so ufw `limit` won't throttle you: `-o ControlMaster=auto -o ControlPath=~/.ssh/cm-%r@%h:%p -o Con",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/vps-forge/SKILL.md",
+        "line": 88,
+        "excerpt": "- Install all packages for the chosen profiles in one `apt-get install` in phase 2 (base.md).",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/vps-forge/assets/firewall/ufw-cloudflare-sync.sh",
+        "line": 24,
+        "excerpt": "curl -fsS --max-time 20 --retry 3 https://www.cloudflare.com/ips-v4 -o \"$tmp/v4\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "www.cloudflare.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/vps-forge/assets/firewall/ufw-cloudflare-sync.sh",
+        "line": 25,
+        "excerpt": "curl -fsS --max-time 20 --retry 3 https://www.cloudflare.com/ips-v6 -o \"$tmp/v6\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "www.cloudflare.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/vps-forge/assets/restic/vps-forge-backup.sh",
+        "line": 26,
+        "excerpt": "printf 'url = \"%s%s\"\\n' \"$HC_URL\" \"$1\" | curl -fsS --max-time 10 --retry 3 -K - -o /dev/null 2>/dev/null || true",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/vps-forge/scripts/install-alerts.sh",
+        "line": 44,
+        "excerpt": "rm -f /etc/systemd/system/vps-forge-health.{service,timer}",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/vps-forge/scripts/install-alerts.sh",
+        "line": 47,
+        "excerpt": "tmp=$(mktemp); grep -vF \"$PAM_LINE\" /etc/pam.d/sshd > \"$tmp\"; cat \"$tmp\" > /etc/pam.d/sshd; rm -f \"$tmp\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/vps-forge/scripts/install-alerts.sh",
+        "line": 49,
+        "excerpt": "rm -f /usr/local/bin/vps-notify /usr/local/sbin/vps-forge-health /usr/local/sbin/vps-forge-ssh-login",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/vps-forge/scripts/install-alerts.sh",
+        "line": 55,
+        "excerpt": "command -v curl >/dev/null || { say \"installing curl\"; DEBIAN_FRONTEND=noninteractive apt-get install -y -qq curl >/dev/null; }",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/vps-forge/scripts/install-alerts.sh",
+        "line": 100,
+        "excerpt": "cat > /usr/local/bin/vps-notify <<'EOF'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/vps-forge/scripts/install-alerts.sh",
+        "line": 128,
+        "excerpt": "send() { curl -fsS --max-time 10 --retry 2 --retry-delay 2 -K - >/dev/null 2>&1; }",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/vps-forge/scripts/install-alerts.sh",
+        "line": 177,
+        "excerpt": "cat > /usr/local/sbin/vps-forge-ssh-login <<'EOF'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/vps-forge/scripts/install-alerts.sh",
+        "line": 215,
+        "excerpt": "cp -a /etc/pam.d/sshd \"/etc/pam.d/.sshd.vps-forge-backup.$(date +%Y%m%d%H%M%S)\" 2>/dev/null || true",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/vps-forge/scripts/install-alerts.sh",
+        "line": 216,
+        "excerpt": "printf '\\n# vps-forge: SSH login alert (optional: never blocks a login)\\n%s\\n' \"$PAM_LINE\" >> /etc/pam.d/sshd",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/vps-forge/scripts/install-alerts.sh",
+        "line": 226,
+        "excerpt": "cat > /usr/local/sbin/vps-forge-health <<'EOF'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/vps-forge/scripts/install-alerts.sh",
+        "line": 407,
+        "excerpt": "printf 'url = \"%s\"\\n' \"$HC_HEARTBEAT_URL\" | curl -fsS --max-time 10 --retry 3 -K - >/dev/null 2>&1 || true",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/vps-forge/scripts/install-alerts.sh",
+        "line": 413,
+        "excerpt": "cat > /etc/systemd/system/vps-forge-health.service <<'EOF'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/vps-forge/scripts/install-alerts.sh",
+        "line": 426,
+        "excerpt": "cat > /etc/systemd/system/vps-forge-health.timer <<'EOF'",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "downloads-code": 3,
+      "reads-secrets": 1,
+      "network": 5,
+      "writes-outside": 10
+    },
+    "score": 60,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 32,
+    "filesSkipped": 74
+  },
+  "history": [
+    {
+      "commit": "de8b1c084559b4175be7aaabf5cb61a4d5a19580",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 60,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

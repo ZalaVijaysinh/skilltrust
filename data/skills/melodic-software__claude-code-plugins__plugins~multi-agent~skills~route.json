@@ -1,0 +1,245 @@
+{
+  "id": "melodic-software__claude-code-plugins__plugins~multi-agent~skills~route",
+  "owner": "melodic-software",
+  "repo": "claude-code-plugins",
+  "path": "plugins/multi-agent/skills/route",
+  "name": "route",
+  "description": "Model and effort per agent role (orchestrator, worker, verifier, retrieval) for a multi-agent run, resolved through the bundled defaults and the user, team and personal override config layers into fenced JSON with single-agent and fan-out variants and the layer behind each value; fan-out stays off frontier models unless config opts in. Use when asked 'which model for the subagents', 'route the roles', 'what effort should the workers use', 'roles for the workflow args', 'model routing' or 'is fan-out on Fable', or before a skill launches a workflow that takes args.roles.",
+  "stars": 30,
+  "category": "coding",
+  "commit": "81c72446af1553c2cd25651e6d086297b658726d",
+  "contentHash": "2231a824bba31a6e946877bcb2bfdf4423162ef5b5dd1583674500004254b544",
+  "repoCreatedAt": "2026-06-22T18:28:56Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "plugins/multi-agent/skills/route/SKILL.md",
+        "line": 33,
+        "excerpt": "${CLAUDE_SKILL_DIR}/scripts/route.sh $ARGUMENTS",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/multi-agent/hooks/drift-checker-fetch-gate.mjs",
+        "line": 29,
+        "excerpt": "if (payload.tool_name !== 'WebFetch') return 'drift-checker may only use WebFetch'",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/multi-agent/hooks/drift-checker-fetch-gate.test.mjs",
+        "line": 7,
+        "excerpt": "import { spawnSync } from 'node:child_process'",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/multi-agent/hooks/drift-checker-fetch-gate.test.mjs",
+        "line": 13,
+        "excerpt": "const fetch = (url, agent = 'multi-agent:drift-checker') => ({ agent_type: agent, tool_name: 'WebFetch', tool_input: { url } })",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/multi-agent/hooks/drift-checker-fetch-gate.test.mjs",
+        "line": 16,
+        "excerpt": "assert.equal(decide(fetch('https://code.claude.com/docs/en/workflows#cost')), null)",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": [
+          "code.claude.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/multi-agent/hooks/drift-checker-fetch-gate.test.mjs",
+        "line": 17,
+        "excerpt": "assert.equal(decide(fetch('https://platform.claude.com/docs/en/models/overview')), null)",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": [
+          "platform.claude.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/multi-agent/hooks/drift-checker-fetch-gate.test.mjs",
+        "line": 28,
+        "excerpt": "]) assert.match(decide(fetch(url)), /denied/, url)",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/multi-agent/hooks/drift-checker-fetch-gate.test.mjs",
+        "line": 32,
+        "excerpt": "assert.equal(decide(fetch('https://attacker.example/?d=x', 'Explore')), null)",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": [
+          "attacker.example"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/multi-agent/hooks/drift-checker-fetch-gate.test.mjs",
+        "line": 33,
+        "excerpt": "assert.equal(decide({ tool_name: 'WebFetch', tool_input: { url: 'https://attacker.example/' } }), null)",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": [
+          "attacker.example"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/multi-agent/hooks/drift-checker-fetch-gate.test.mjs",
+        "line": 34,
+        "excerpt": "assert.equal(decide(fetch('https://attacker.example/', 'drift-checker-ish')), null)",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": [
+          "attacker.example"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/multi-agent/hooks/drift-checker-fetch-gate.test.mjs",
+        "line": 38,
+        "excerpt": "assert.match(decide(fetch('https://attacker.example/', 'drift-checker')), /denied/)",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": [
+          "attacker.example"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/multi-agent/hooks/drift-checker-fetch-gate.test.mjs",
+        "line": 43,
+        "excerpt": "const denied = spawnSync('node', [hook], { input: JSON.stringify(fetch('https://attacker.example/')), encoding: 'utf8' })",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": [
+          "attacker.example"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/multi-agent/hooks/drift-checker-fetch-gate.test.mjs",
+        "line": 43,
+        "excerpt": "const denied = spawnSync('node', [hook], { input: JSON.stringify(fetch('https://attacker.example/')), encoding: 'utf8' })",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/multi-agent/hooks/drift-checker-fetch-gate.test.mjs",
+        "line": 46,
+        "excerpt": "const allowed = spawnSync('node', [hook], { input: JSON.stringify(fetch('https://code.claude.com/docs/en/hooks')), encoding: 'utf8' })",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": [
+          "code.claude.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/multi-agent/hooks/drift-checker-fetch-gate.test.mjs",
+        "line": 46,
+        "excerpt": "const allowed = spawnSync('node', [hook], { input: JSON.stringify(fetch('https://code.claude.com/docs/en/hooks')), encoding: 'utf8' })",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/multi-agent/hooks/drift-checker-fetch-gate.test.mjs",
+        "line": 48,
+        "excerpt": "const garbage = spawnSync('node', [hook], { input: 'not json', encoding: 'utf8' })",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/multi-agent/hooks/drift-checker-fetch-gate.test.mjs",
+        "line": 59,
+        "excerpt": "test('hooks.json registers the gate on WebFetch in exec form', () => {",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/multi-agent/hooks/drift-checker-fetch-gate.test.mjs",
+        "line": 62,
+        "excerpt": "assert.equal(entry.matcher, 'WebFetch')",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/multi-agent/hooks/hooks.json",
+        "line": 2,
+        "excerpt": "\"description\": \"Inside a multi-agent:drift-checker subagent, denies any WebFetch that is not an https URL on a first-party docs host with no query string. Insid",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/multi-agent/hooks/hooks.json",
+        "line": 6,
+        "excerpt": "\"matcher\": \"WebFetch\",",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/multi-agent/hooks/hooks.json",
+        "line": 10,
+        "excerpt": "\"command\": \"node\",",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/multi-agent/hooks/hooks.json",
+        "line": 23,
+        "excerpt": "\"command\": \"node\",",
+        "disclosed": true,
+        "automatic": true
+      }
+    ],
+    "findingTotals": {
+      "shell": 7,
+      "network": 15
+    },
+    "score": 92,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 10,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "81c72446af1553c2cd25651e6d086297b658726d",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

@@ -1,0 +1,93 @@
+{
+  "id": "plurigrid__asi__plugins~asi~skills~scanning-network-with-nmap-advanced",
+  "owner": "plurigrid",
+  "repo": "asi",
+  "path": "plugins/asi/skills/scanning-network-with-nmap-advanced",
+  "name": "scanning-network-with-nmap-advanced",
+  "description": "Performs advanced network reconnaissance using Nmap's scripting engine, timing controls, evasion techniques, and output parsing to discover hosts, enumerate services, detect vulnerabilities, and fingerprint operating systems across authorized target networks.",
+  "stars": 72,
+  "category": "other",
+  "commit": "293ce9f76e3abcd5ba18db284688bc0d9ac6691d",
+  "contentHash": "f92151bf9e7100e382567b2192304017ab48e610db8e2043d8c0daefef7f16bf",
+  "repoCreatedAt": "2025-12-22T05:49:13Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "plugins/asi/skills/scanning-network-with-nmap-advanced/SKILL.md",
+        "line": 42,
+        "excerpt": "nmap -sn -PR 192.168.1.0/24 -oA discovery_arp",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/asi/skills/scanning-network-with-nmap-advanced/SKILL.md",
+        "line": 54,
+        "excerpt": "grep \"Host:\" discovery_combined.gnmap | awk '{print $2}' | sort -t. -k1,1n -k2,2n -k3,3n -k4,4n > live_hosts.txt",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/asi/skills/scanning-network-with-nmap-advanced/SKILL.md",
+        "line": 61,
+        "excerpt": "nmap -sS -p- --min-rate 5000 --max-retries 2 -T4 -iL live_hosts.txt -oA full_tcp_scan",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/asi/skills/scanning-network-with-nmap-advanced/SKILL.md",
+        "line": 74,
+        "excerpt": "nmap -sV --version-intensity 5 -sC -O --osscan-guess -p <open_ports> -iL live_hosts.txt -oA service_enum",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/asi/skills/scanning-network-with-nmap-advanced/SKILL.md",
+        "line": 84,
+        "excerpt": "nmap --script vuln -p <open_ports> -iL live_hosts.txt -oA vuln_scan",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/asi/skills/scanning-network-with-nmap-advanced/SKILL.md",
+        "line": 98,
+        "excerpt": "nmap -sS -f --mtu 24 -p 80,443 <target> -oN fragmented_scan.txt",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/asi/skills/scanning-network-with-nmap-advanced/SKILL.md",
+        "line": 117,
+        "excerpt": "xsltproc full_tcp_scan.xml -o scan_report.html",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 7
+    },
+    "score": 95,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "293ce9f76e3abcd5ba18db284688bc0d9ac6691d",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 95,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

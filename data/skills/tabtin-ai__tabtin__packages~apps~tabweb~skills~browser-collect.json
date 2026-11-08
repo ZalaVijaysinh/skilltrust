@@ -1,0 +1,86 @@
+{
+  "id": "tabtin-ai__tabtin__packages~apps~tabweb~skills~browser-collect",
+  "owner": "tabtin-ai",
+  "repo": "TabTin",
+  "path": "packages/apps/tabweb/skills/browser-collect",
+  "name": "browser-collect",
+  "description": "浏览器批量结构化采集，产物为 JSON/JSONL + manifest。用户要批量抓列表/详情数据、 爬取成批网页数据时使用。单页阅读或问答用 browser-operator；下图片/视频用 browser-media。",
+  "stars": 448,
+  "category": "media",
+  "commit": "b84fb2b9810cd71df8350a0e52486c5327c2c929",
+  "contentHash": "41ab07e882da40ba13805634468f22f7e51367709834f8bcb2bb7809677be69b",
+  "repoCreatedAt": "2026-08-19T02:36:25Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "packages/apps/tabweb/skills/browser-collect/SKILL.md",
+        "line": 77,
+        "excerpt": "依赖 Cookie / 会话签名 → 同一 Tab 里 `eval fetch(...)`（分叉细节与坑见 `references/collect-structured-data.md`）。",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/apps/tabweb/skills/browser-collect/references/collect-structured-data.md",
+        "line": 37,
+        "excerpt": "- **依赖 Cookie / 登录态 / 会话级签名** → 在同一个 Tab 里用 `eval fetch(...)` 复刻。CORS 预判：同源可直接 fetch；跨源且 network 里见过成功返回可复刻。",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/apps/tabweb/skills/browser-collect/references/collect-structured-data.md",
+        "line": 61,
+        "excerpt": "RESP=$(curl -sf -X POST 'https://api.example.com/list' \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.example.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/apps/tabweb/skills/browser-collect/references/collect-structured-data.md",
+        "line": 83,
+        "excerpt": "RESP=$(curl -sf \"https://api.example.com/feed?cursor=${CURSOR}\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.example.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/apps/tabweb/skills/browser-collect/references/collect-structured-data.md",
+        "line": 97,
+        "excerpt": "- `curl -sf` + 成功判据双保险，任一失败**立即 break 并标 partial**，绝不空转继续写产物。",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "network": 5
+    },
+    "score": 97,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 3,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "b84fb2b9810cd71df8350a0e52486c5327c2c929",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 97,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

@@ -1,0 +1,314 @@
+{
+  "id": "amd__gaia__.claude~skills~gaia-release",
+  "owner": "amd",
+  "repo": "gaia",
+  "path": ".claude/skills/gaia-release",
+  "name": "gaia-release",
+  "description": "Cut a GAIA release end-to-end: draft notes, open release PR, run pre-tag verification, push the tag, monitor the publish pipeline, and produce the Discord announcement. Also cuts release candidates (vX.Y.Z-rcN) for testing before the final. Use when the user asks to 'cut a release', 'cut a release candidate', 'release vX.Y.Z', 'tag a release', or 'publish v...'. Pauses at every irreversible step for user approval.",
+  "stars": 1617,
+  "category": "coding",
+  "commit": "c11ea991262af2a5b2aebd567602068793841f25",
+  "contentHash": "ceceb6187f805a4025756287c836e573a18068b537cb9b8d882158a9554b6916",
+  "repoCreatedAt": "2024-12-16T01:25:56Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/gaia-release/SKILL.md",
+        "line": 10,
+        "excerpt": "The pre-tag verification phase exists because the v0.17.4 release uncovered two release-blocking bugs that merged-PR CI did not catch (squash-merge silently rev",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/gaia-release/SKILL.md",
+        "line": 28,
+        "excerpt": "git fetch origin --tags",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/gaia-release/SKILL.md",
+        "line": 64,
+        "excerpt": "- **Release notes are bulleted, plain, and short** — see *Notes format* in Phase 1. Every entry is one bullet, never a prose block; no narrative overview paragr",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/gaia-release/SKILL.md",
+        "line": 81,
+        "excerpt": "PREV=$(git tag --sort=-v:refname | grep -E '^v[0-9]+\\.[0-9]+\\.[0-9]+(\\.[0-9]+)?$' | head -1)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/gaia-release/SKILL.md",
+        "line": 104,
+        "excerpt": "Patch releases are short. Minor/major releases carry more bullets and a `pip install` block — the per-bullet shape is identical, only the count grows.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/gaia-release/SKILL.md",
+        "line": 162,
+        "excerpt": "git log v<previous>..HEAD --pretty=format:'- `%h` — %s' \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/gaia-release/SKILL.md",
+        "line": 214,
+        "excerpt": "grep -E '^__version__' src/gaia/version.py   # must read <version>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/gaia-release/SKILL.md",
+        "line": 233,
+        "excerpt": "sed -i '' \"s/^min_gaia_version: .*/min_gaia_version: \\\"<version>\\\"/\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/gaia-release/SKILL.md",
+        "line": 244,
+        "excerpt": "python util/validate_release_notes.py docs/releases/v<version>.mdx --tag v<version>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/gaia-release/SKILL.md",
+        "line": 245,
+        "excerpt": "(cd docs && npx -y mintlify@latest validate)   # the docs.yml `validate` job — MUST also pass",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/gaia-release/SKILL.md",
+        "line": 276,
+        "excerpt": "git checkout -b v<version>-release",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/gaia-release/SKILL.md",
+        "line": 289,
+        "excerpt": "gh pr list --repo amd/gaia --state merged --search \"Release v in:title\" --limit 3 \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/gaia-release/SKILL.md",
+        "line": 298,
+        "excerpt": "awk '/^---$/{c++; next} c>=2' docs/releases/v<version>.mdx > /tmp/release-body.md",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/gaia-release/SKILL.md",
+        "line": 316,
+        "excerpt": "gh pr create --repo amd/gaia \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/gaia-release/SKILL.md",
+        "line": 340,
+        "excerpt": "git checkout main && git pull",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/gaia-release/SKILL.md",
+        "line": 352,
+        "excerpt": "grep -E '^__version__' src/gaia/version.py",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/gaia-release/SKILL.md",
+        "line": 357,
+        "excerpt": "python util/validate_release_notes.py docs/releases/v<version>.mdx --tag v<version>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/gaia-release/SKILL.md",
+        "line": 362,
+        "excerpt": "git fetch --tags origin",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/gaia-release/SKILL.md",
+        "line": 373,
+        "excerpt": "gh workflow run \"Build Installers\" --repo amd/gaia --ref main",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/gaia-release/SKILL.md",
+        "line": 383,
+        "excerpt": "MS=$(gh api repos/amd/gaia/milestones --jq '.[] | select(.title | test(\"^v<version>( |$)\")) | .title')",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/gaia-release/SKILL.md",
+        "line": 413,
+        "excerpt": "| PyPI | `<version>` | `<version>rcN` — `pip install amd-gaia` ignores it without `--pre` |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/gaia-release/SKILL.md",
+        "line": 428,
+        "excerpt": "python util/release_tag.py classify v<version>-rc1",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/gaia-release/SKILL.md",
+        "line": 435,
+        "excerpt": "git tag -a v<version>-rc1 <merged-sha> -m \"Release candidate v<version>-rc1\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/gaia-release/SKILL.md",
+        "line": 444,
+        "excerpt": "pip install amd-gaia==<version>rc1 && gaia -v      # must print <version>rc1",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/gaia-release/SKILL.md",
+        "line": 444,
+        "excerpt": "pip install amd-gaia==<version>rc1 && gaia -v      # must print <version>rc1",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/gaia-release/SKILL.md",
+        "line": 453,
+        "excerpt": "curl -fsSL https://amd-gaia.ai/install.sh | GAIA_RELEASE_TAG=v<version>-rc1 sh",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "amd-gaia.ai"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/gaia-release/SKILL.md",
+        "line": 453,
+        "excerpt": "curl -fsSL https://amd-gaia.ai/install.sh | GAIA_RELEASE_TAG=v<version>-rc1 sh",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/gaia-release/SKILL.md",
+        "line": 540,
+        "excerpt": "pip install --upgrade amd-gaia==<version>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/gaia-release/SKILL.md",
+        "line": 587,
+        "excerpt": "2. **Stop `pip install amd-gaia` resolving to it.** Yank the version on PyPI (project page, Manage, Releases, Yank, with a reason). A yanked version still insta",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/gaia-release/SKILL.md",
+        "line": 616,
+        "excerpt": "- Minor/major releases (`v0.18.0`, `v1.0.0`) need a richer notes structure — a \"Highlights\" block, the `pip install` instructions, and — when anything is breaki",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/gaia-release/reference/discord-announcement.md",
+        "line": 22,
+        "excerpt": "npm install -g @amd-gaia/agent-ui",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "CLAUDE.md",
+        "line": 430,
+        "excerpt": "several worktrees that install points at whichever one ran `pip install -e` last.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "CLAUDE.md",
+        "line": 522,
+        "excerpt": "uv venv && uv pip install -e \".[dev]\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "CLAUDE.md",
+        "line": 523,
+        "excerpt": "uv pip install -e \".[ui]\"    # For Agent UI development",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "downloads-code": 13,
+      "shell": 31,
+      "network": 1
+    },
+    "score": 79,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 6,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "c11ea991262af2a5b2aebd567602068793841f25",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 79,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

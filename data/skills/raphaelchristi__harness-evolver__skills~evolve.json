@@ -1,0 +1,222 @@
+{
+  "id": "raphaelchristi__harness-evolver__skills~evolve",
+  "owner": "raphaelchristi",
+  "repo": "harness-evolver",
+  "path": "skills/evolve",
+  "name": "harness:evolve",
+  "description": "Use when the user wants to run the optimization loop, improve agent performance, evolve the agent, or iterate on quality. Requires .evolver.json to exist (run harness:setup first).",
+  "stars": 57,
+  "category": "coding",
+  "commit": "87fa7612358acccb01d34abf72426a7e47329642",
+  "contentHash": "cd9f2806cfc6eae54245bc12380d9998dac1c5f101494544e9631dc8610b7e34",
+  "repoCreatedAt": "2026-03-31T05:16:24Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/evolve/SKILL.md",
+        "line": 17,
+        "excerpt": "TOOLS=\"${EVOLVER_TOOLS:-$([ -d \".evolver/tools\" ] && echo \".evolver/tools\" || echo \"$HOME/.evolver/tools\")}\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/evolve/SKILL.md",
+        "line": 43,
+        "excerpt": "MODE=$(python3 -c \"import json; print(json.load(open('.evolver.json')).get('mode', 'balanced'))\")",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/evolve/SKILL.md",
+        "line": 67,
+        "excerpt": "$EVOLVER_PY $TOOLS/preflight.py --config .evolver.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/evolve/SKILL.md",
+        "line": 85,
+        "excerpt": "BEST=$(python3 -c \"import json; b=json.load(open('.evolver.json')).get('best_experiment'); print(b if b else '')\")",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/evolve/SKILL.md",
+        "line": 92,
+        "excerpt": "ITER_TRACE=$($EVOLVER_PY $TOOLS/log_iteration.py --config .evolver.json --action start --version v{NNN} 2>/dev/null)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/evolve/SKILL.md",
+        "line": 106,
+        "excerpt": "if [ -n \"$BEST\" ]; then",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/evolve/SKILL.md",
+        "line": 134,
+        "excerpt": "SRC=\"$(dirname \"$(git rev-parse --git-common-dir)\")\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/evolve/SKILL.md",
+        "line": 178,
+        "excerpt": "CONCURRENCY=$(python3 -c \"m={'light':5,'balanced':3,'heavy':3}; print(m.get('$MODE',3))\")",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/evolve/SKILL.md",
+        "line": 195,
+        "excerpt": "LLM_EVALS=$(python3 -c \"import json; c=json.load(open('.evolver.json')); llm=[k for k in c['evaluators'] if k in ('correctness','conciseness')]; print(','.join(",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/evolve/SKILL.md",
+        "line": 212,
+        "excerpt": "$EVOLVER_PY $TOOLS/read_results.py --experiments \"{names}\" --config .evolver.json --split held_out --output comparison.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/evolve/SKILL.md",
+        "line": 219,
+        "excerpt": "$EVOLVER_PY $TOOLS/read_results.py --pairwise \"{winner},{runner_up}\" --config .evolver.json --split held_out",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/evolve/SKILL.md",
+        "line": 225,
+        "excerpt": "WINNER_PROJECT=\"{winner_wt}\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/evolve/SKILL.md",
+        "line": 241,
+        "excerpt": "$EVOLVER_PY $TOOLS/update_config.py --config .evolver.json --action backup",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/evolve/SKILL.md",
+        "line": 261,
+        "excerpt": "git tag \"evo-iter-v{NNN}\" -m \"harness: v{NNN} score={score}\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/evolve/SKILL.md",
+        "line": 270,
+        "excerpt": "for CANDIDATE in {all_worktree_paths}; do",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/evolve/SKILL.md",
+        "line": 277,
+        "excerpt": "$EVOLVER_PY $TOOLS/regression_tracker.py --config .evolver.json --previous-experiment \"$PREV\" --current-experiment \"$WINNER\" --add-guards --auto-guard-failures ",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/evolve/SKILL.md",
+        "line": 284,
+        "excerpt": "ITER_DURATION=$(( $(date +%s) - ITER_START ))",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/evolve/SKILL.md",
+        "line": 308,
+        "excerpt": "$EVOLVER_PY $TOOLS/cleanup_worktrees.py --dir \"$SRC\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/evolve/SKILL.md",
+        "line": 322,
+        "excerpt": "$EVOLVER_PY $TOOLS/evolution_chart.py --config .evolver.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 9,
+        "excerpt": "\"command\": \"bash \\\"${CLAUDE_PLUGIN_ROOT}/hooks/session-start.sh\\\"\"",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "hooks/session-start.sh",
+        "line": 35,
+        "excerpt": "uv pip install --python \"$VENV_PY\" langsmith >/dev/null 2>&1",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "hooks/session-start.sh",
+        "line": 38,
+        "excerpt": "\"$VENV_PY\" -m pip install --upgrade langsmith >/dev/null 2>&1",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "hooks/session-start.sh",
+        "line": 48,
+        "excerpt": "pip install langsmith-cli >/dev/null 2>&1 || pip3 install langsmith-cli >/dev/null 2>&1",
+        "disclosed": false,
+        "automatic": true
+      }
+    ],
+    "findingTotals": {
+      "shell": 20,
+      "downloads-code": 3
+    },
+    "score": 80,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 4,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "87fa7612358acccb01d34abf72426a7e47329642",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 80,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

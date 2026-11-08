@@ -1,0 +1,112 @@
+{
+  "id": "managedcode__dotnet-skills__catalog~tools~official-dotnet-diagnostics~skills~apple-crash-symbolication",
+  "owner": "managedcode",
+  "repo": "dotnet-skills",
+  "path": "catalog/Tools/Official-DotNet-Diagnostics/skills/apple-crash-symbolication",
+  "name": "apple-crash-symbolication",
+  "description": "Symbolicate .NET runtime frames in Apple platform .ips crash logs (iOS, tvOS, Mac Catalyst, macOS). Extracts UUIDs and addresses from the native backtrace, locates dSYM debug symbols, and runs atos to produce function names with source file and line numbers. Automatically downloads .dwarf symbols from the Microsoft symbol server using Mach-O UUIDs. USE FOR triaging a .NET MAUI or Mono app crash from an .ips file on any Apple platform, resolving native backtrace frames in libcoreclr or libmonosgen-2.0 to .NET runtime source code, retrieving .ips crash logs from a connected iOS device or iPhone, or investigating EXC_CRASH, EXC_BAD_ACCESS, SIGABRT, or SIGSEGV originating from the .NET runtime. DO NOT USE FOR pure Swift/Objective-C crashes with no .NET components, or Android tombstone files. INVOKES Symbolicate-Crash.ps1 script, atos, dwarfdump, idevicecrashreport.",
+  "stars": 509,
+  "category": "coding",
+  "commit": "367e97f05fa5a6d7068734d340cfa415690d8a33",
+  "contentHash": "b79b1c1ccc56bcb33b4739d657ee251a2e8975df93b7cd657404b9d42e390f80",
+  "repoCreatedAt": "2026-03-15T10:43:01Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "catalog/Tools/Official-DotNet-Diagnostics/skills/apple-crash-symbolication/SKILL.md",
+        "line": 79,
+        "excerpt": "mkdir -p libcoreclr.dSYM/Contents/Resources/DWARF",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "catalog/Tools/Official-DotNet-Diagnostics/skills/apple-crash-symbolication/SKILL.md",
+        "line": 92,
+        "excerpt": "atos -arch arm64 -o <path.dSYM/Contents/Resources/DWARF/binary_name> -l <load_address> <frame_addresses...>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "catalog/Tools/Official-DotNet-Diagnostics/skills/apple-crash-symbolication/SKILL.md",
+        "line": 102,
+        "excerpt": "atos -arch arm64 -o libcoreclr.dSYM/Contents/Resources/DWARF/libcoreclr -l 0x104000000 0x104522098 0x1043c0014",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "catalog/Tools/Official-DotNet-Diagnostics/skills/apple-crash-symbolication/SKILL.md",
+        "line": 127,
+        "excerpt": "idevicecrashreport -e /tmp/crashlogs/",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "catalog/Tools/Official-DotNet-Diagnostics/skills/apple-crash-symbolication/references/ips-crash-format.md",
+        "line": 27,
+        "excerpt": "curl -Lo symbols.nupkg https://api.nuget.org/v3-flatcontainer/microsoft.netcore.app.runtime.osx-arm64.symbols/10.0.4/microsoft.netcore.app.runtime.osx-arm64.sym",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.nuget.org"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "catalog/Tools/Official-DotNet-Diagnostics/skills/apple-crash-symbolication/scripts/Symbolicate-Crash.ps1",
+        "line": 321,
+        "excerpt": "Invoke-WebRequest -Uri $url -OutFile $dwarfFile -TimeoutSec 120",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "catalog/Tools/Official-DotNet-Diagnostics/skills/apple-crash-symbolication/scripts/Symbolicate-Crash.ps1",
+        "line": 909,
+        "excerpt": "Write-Host \"     dotnet-symbol: curl -Lo runtime.nupkg https://www.nuget.org/api/v2/package/$runtimePackBase/$anyVersion && unzip -q runtime.nupkg -d runtime-ex",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "www.nuget.org"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "catalog/Tools/Official-DotNet-Diagnostics/skills/apple-crash-symbolication/scripts/Symbolicate-Crash.ps1",
+        "line": 915,
+        "excerpt": "Write-Host \"     curl -Lo runtime.nupkg https://www.nuget.org/api/v2/package/$runtimePackBase/$anyVersion && unzip -q runtime.nupkg -d runtime-extracted\" -Foreg",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "www.nuget.org"
+        ]
+      }
+    ],
+    "findingTotals": {
+      "shell": 4,
+      "network": 4
+    },
+    "score": 90,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 4,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "367e97f05fa5a6d7068734d340cfa415690d8a33",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 90,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

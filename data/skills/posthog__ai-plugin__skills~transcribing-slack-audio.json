@@ -1,0 +1,152 @@
+{
+  "id": "posthog__ai-plugin__skills~transcribing-slack-audio",
+  "owner": "PostHog",
+  "repo": "ai-plugin",
+  "path": "skills/transcribing-slack-audio",
+  "name": "transcribing-slack-audio",
+  "description": "Transcribe a Slack voice message or audio attachment (M4A, MP3, OGG/Opus, WAV, WebM) on the local machine with ffmpeg and whisper.cpp, so the agent can act on what the user said. Use when a Slack message carries an audio file, the prompt names Slack audio attachments, or the user asks what a voice message or recording says. Covers finding the file, running the bundled script, the duration and time limits, and how to report a failed transcription. Audio stays on the machine and is never sent to an external transcription service.",
+  "stars": 100,
+  "category": "media",
+  "commit": "6d4722d26ea7b2e2f2ae41a6c4695691178580c5",
+  "contentHash": "de1e88211a61279abff426e57a2a186e95855b24512c3297e48e9a8db5923021",
+  "repoCreatedAt": "2026-02-18T21:38:03Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/transcribing-slack-audio/SKILL.md",
+        "line": 29,
+        "excerpt": "find /tmp/workspace/.posthog/attachments -type f -name 'audio_message.m4a'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/transcribing-slack-audio/SKILL.md",
+        "line": 38,
+        "excerpt": "python3 scripts/transcribe.py /tmp/workspace/.posthog/attachments/<run>/<id>/audio_message.m4a",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/transcribing-slack-audio/scripts/transcribe.py",
+        "line": 68,
+        "excerpt": "def _run(command: list[str], *, timeout: float, limit_seconds: int, step: str) -> subprocess.CompletedProcess[str]:",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/transcribing-slack-audio/scripts/transcribe.py",
+        "line": 69,
+        "excerpt": "\"\"\"Run one tool. `subprocess.run` kills the child when the timeout expires.\"\"\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/transcribing-slack-audio/scripts/transcribe.py",
+        "line": 74,
+        "excerpt": "return subprocess.run(command, capture_output=True, text=True, timeout=timeout, check=False, stdin=subprocess.DEVNULL)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/transcribing-slack-audio/scripts/transcribe.py",
+        "line": 75,
+        "excerpt": "except subprocess.TimeoutExpired:",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "gemini-extension.json",
+        "line": 7,
+        "excerpt": "\"command\": \"npx\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "gemini-extension.json",
+        "line": 7,
+        "excerpt": "\"command\": \"npx\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/codex-hooks.json",
+        "line": 9,
+        "excerpt": "\"command\": \"\\\"${PLUGIN_ROOT}/hooks/codex-gate-exec-write.sh\\\"\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 10,
+        "excerpt": "\"command\": \"\\\"${CLAUDE_PLUGIN_ROOT:-$PLUGIN_ROOT}/hooks/skill-invoked.sh\\\"\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 21,
+        "excerpt": "\"command\": \"python3 \\\"${CLAUDE_PLUGIN_ROOT:-$PLUGIN_ROOT}/telemetry/hooks/session-end-llma.py\\\"\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 33,
+        "excerpt": "\"command\": \"\\\"${CLAUDE_PLUGIN_ROOT:-$PLUGIN_ROOT}/hooks/gate-exec-write.sh\\\"\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "network",
+        "file": "hooks/skill-invoked.sh",
+        "line": 140,
+        "excerpt": "curl -sf -m 3 -X POST \"$HOST/i/v0/e/\" \\",
+        "disclosed": true,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/user-prompt-expansion.json",
+        "line": 9,
+        "excerpt": "\"command\": \"\\\"${CLAUDE_PLUGIN_ROOT:-$PLUGIN_ROOT}/hooks/skill-invoked.sh\\\"\",",
+        "disclosed": false,
+        "automatic": true
+      }
+    ],
+    "findingTotals": {
+      "shell": 12,
+      "downloads-code": 1,
+      "network": 1
+    },
+    "score": 77,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 20,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "6d4722d26ea7b2e2f2ae41a6c4695691178580c5",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 77,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

@@ -1,0 +1,302 @@
+{
+  "id": "nirholas__three.ws__.agents~skills~gcp-triage",
+  "owner": "nirholas",
+  "repo": "three.ws",
+  "path": ".agents/skills/gcp-triage",
+  "name": "gcp-triage",
+  "description": "Monitor three.ws production on Google Cloud Run and fix what the sweep finds. Use when the user asks to check production, diagnose an outage or error, \"what's wrong with three.ws\", read production logs, or run the monitoring loop. Broad questions get the deep sweep (healthz + all-service logs + version, TLS, fleet readiness, live pages, crons, DB migrations, wallets), then the fixes each class allows.",
+  "stars": 270,
+  "category": "media",
+  "commit": "89050b3166a89e4c21e78c7bc936c142784a6327",
+  "contentHash": "c1ad9de52c50fcd786e4b3945e5ca13454a227f32702064c9bd8418366b5b22c",
+  "repoCreatedAt": "2026-01-08T20:46:03Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/gcp-triage/SKILL.md",
+        "line": 25,
+        "excerpt": "npm run triage:gcp -- --json --deep --since 6h   # agents: always --json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/gcp-triage/SKILL.md",
+        "line": 31,
+        "excerpt": "npm run triage:gcp -- --json --since 1h",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/gcp-triage/SKILL.md",
+        "line": 87,
+        "excerpt": "npm run logs -- -s <service> --errors --since 6h        # errors, one service",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "docs/ops/gcp-production.md",
+        "line": 150,
+        "excerpt": "curl -s https://three.ws/api/version | jq '{commitShort, branch, builtAt, revision: .runtime.revision}'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "three.ws"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "docs/ops/gcp-production.md",
+        "line": 407,
+        "excerpt": "Environment (all optional): `TRACE_SAMPLE_RATE` (0..1; default 0.05 on Cloud Run, 0 elsewhere), `TRACE_PROJECT`, `TRACE_ENDPOINT`. A request that arrives with a",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "three.ws"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "docs/ops/gcp-production.md",
+        "line": 409,
+        "excerpt": "Finding a slow Forge request: Console, Trace explorer, project `aerial-vehicle-466722-p5`, filter span name `POST /api/forge`, sort by latency, open the waterfa",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "cloudtrace.googleapis.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "docs/ops/gcp-production.md",
+        "line": 807,
+        "excerpt": "curl -s -o /dev/null -w '%{size_download} %{time_total}\\n' \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "docs/ops/gcp-production.md",
+        "line": 811,
+        "excerpt": "curl -s -o /dev/null -w '%{size_download} %{time_total}\\n' \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "docs/ops/gcp-production.md",
+        "line": 880,
+        "excerpt": "If `curl -sI https://three.ws/play` shows a large `age` and an older",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "three.ws"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "docs/ops/gcp-production.md",
+        "line": 881,
+        "excerpt": "`last-modified` than `curl -sI \"https://three.ws/play?x=$(date +%s)\"`, the edge is",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "three.ws"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "docs/ops/gcp-production.md",
+        "line": 1001,
+        "excerpt": "Verify after the change: `curl https://three.ws/api/forge?territory=1` from a",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "three.ws"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "docs/ops/gcp-production.md",
+        "line": 1013,
+        "excerpt": "curl -s -m 25 -o /dev/null -w \"%{http_code}  $p\\n\" \"$B$p\"; done",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "docs/ops/gcp-production.md",
+        "line": 1014,
+        "excerpt": "curl -s -o /dev/null -w \"%{http_code} → %{redirect_url}\\n\" http://three.ws/   # expect 301 → https",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "three.ws"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "docs/ops/production-log-triage.md",
+        "line": 304,
+        "excerpt": "`curl -s https://three.ws/api/x402/three-intel | jq '.accepts[].network'`.",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "three.ws"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "docs/ops/production-log-triage.md",
+        "line": 393,
+        "excerpt": "`curl -s https://api.mainnet-beta.solana.com -X POST -H 'content-type: application/json' -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"getBalance\",\"params\":[\"WwwuGbqHrw",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.mainnet-beta.solana.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "docs/ops/production-log-triage.md",
+        "line": 491,
+        "excerpt": "- **Confirm:** `curl -s https://cryptocurrency.cv/api/narratives` returns",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "cryptocurrency.cv"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "docs/ops/production-log-triage.md",
+        "line": 492,
+        "excerpt": "narratives, and `curl -s 'https://cryptocurrency.cv/api/sentiment' | jq .meta.method`",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "cryptocurrency.cv"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "docs/ops/production-log-triage.md",
+        "line": 521,
+        "excerpt": "curl -s -H \"x-cg-demo-api-key: $KEY\" https://api.coingecko.com/api/v3/key",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.coingecko.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "docs/ops/production-log-triage.md",
+        "line": 567,
+        "excerpt": "`curl -s -H \"X-API-KEY: $BIRDEYE_API_KEY\" -H \"x-chain: solana\" \"https://public-api.birdeye.so/defi/ohlcv?address=<mint>&type=15m&time_from=<from>&time_to=<to>\"`",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "public-api.birdeye.so"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "docs/ops/production-log-triage.md",
+        "line": 662,
+        "excerpt": "SHA=$(curl -s https://huggingface.co/api/models/facebook/dino-vitb16 | jq -r .sha)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "huggingface.co"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "docs/ops/production-log-triage.md",
+        "line": 666,
+        "excerpt": "curl -sL -o \"$D/snapshots/$SHA/config.json\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "docs/ops/production-log-triage.md",
+        "line": 735,
+        "excerpt": "curl -s -G -H \"Authorization: Bearer $TOKEN\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "docs/ops/production-log-triage.md",
+        "line": 861,
+        "excerpt": "curl -s -o /dev/null -w '%{http_code}\\n' -m 8 \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/gcp-triage.mjs",
+        "line": 27,
+        "excerpt": "import { spawn, spawnSync } from 'node:child_process';",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/gcp-triage.mjs",
+        "line": 937,
+        "excerpt": "const r = spawnSync('git', ['rev-list', '--count', `${commit}..HEAD`], { encoding: 'utf8' });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/gpu-capacity.mjs",
+        "line": 30,
+        "excerpt": "import { spawnSync } from 'node:child_process';",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/gpu-capacity.mjs",
+        "line": 113,
+        "excerpt": "const r = spawnSync('gcloud', args, { encoding: 'utf8', input, maxBuffer: 64 * 1024 * 1024 });",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 7,
+      "network": 34
+    },
+    "score": 92,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 7,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "89050b3166a89e4c21e78c7bc936c142784a6327",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

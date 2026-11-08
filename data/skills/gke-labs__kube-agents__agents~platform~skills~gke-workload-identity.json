@@ -1,0 +1,103 @@
+{
+  "id": "gke-labs__kube-agents__agents~platform~skills~gke-workload-identity",
+  "owner": "gke-labs",
+  "repo": "kube-agents",
+  "path": "agents/platform/skills/gke-workload-identity",
+  "name": "gke-workload-identity",
+  "description": "Configures and diagnoses Workload Identity Federation for GKE authentication failures for Pods (403 \"iam.serviceAccounts.getAccessToken\" / permission denied, \"could not find default credentials\", or GKE metadata server unreachable) by verifying cluster and node-pool Workload Identity configuration, the Kubernetes ServiceAccount (KSA) to IAM binding (direct principal binding and legacy Google ServiceAccount impersonation), target-resource IAM roles, and gke-metadata-server health. Use when setting up KSA/GSA bindings (`roles/iam.workloadIdentityUser`, `iam.gke.io/gcp-service-account`) or when a Pod cannot authenticate to Google Cloud APIs. Don't use for in-cluster Kubernetes RBAC errors (API-server authorization), general workload crashes (use gke-workload-troubleshooting), or Pod Security Standards and NetworkPolicies (use gke-workload-security).",
+  "stars": 124,
+  "category": "devops",
+  "commit": "2e7a07f5bd0626f27fbcaab7db2ea2888318207c",
+  "contentHash": "c1ad673ab12db4fb714fa777e3dbb336510704f59b9e0c604541ee72c7c45e52",
+  "repoCreatedAt": "2026-05-07T15:51:52Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "agents/platform/skills/gke-workload-identity/SKILL.md",
+        "line": 72,
+        "excerpt": "gcloud projects describe \"{PROJECT_ID}\" --format=\"value(projectNumber)\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "agents/platform/skills/gke-workload-identity/SKILL.md",
+        "line": 93,
+        "excerpt": "kubectl logs \"{pod_name}\" -n \"{namespace}\" --all-containers --prefix",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "agents/platform/skills/gke-workload-identity/SKILL.md",
+        "line": 136,
+        "excerpt": "gcloud container clusters describe \"{cluster}\" --location \"{location}\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "agents/platform/skills/gke-workload-identity/SKILL.md",
+        "line": 186,
+        "excerpt": "kubectl get serviceaccount \"{ksa_name}\" -n \"{namespace}\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "agents/platform/skills/gke-workload-identity/SKILL.md",
+        "line": 213,
+        "excerpt": "gcloud asset search-all-iam-policies \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "agents/platform/skills/gke-workload-identity/SKILL.md",
+        "line": 246,
+        "excerpt": "kubectl get pods -n kube-system -l k8s-app=gke-metadata-server -o wide",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "agents/platform/skills/gke-workload-identity/SKILL.md",
+        "line": 270,
+        "excerpt": "kubectl exec {pod_name} -n {namespace} -- \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "agents/platform/skills/gke-workload-identity/SKILL.md",
+        "line": 271,
+        "excerpt": "curl -sS -H 'Metadata-Flavor: Google' \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 7,
+      "network": 1
+    },
+    "score": 92,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "2e7a07f5bd0626f27fbcaab7db2ea2888318207c",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

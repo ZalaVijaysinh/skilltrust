@@ -1,0 +1,102 @@
+{
+  "id": "biotender-max__awesome-bio-agent-skills__skills~neuroclaw~claw-shell",
+  "owner": "BioTender-max",
+  "repo": "awesome-bio-agent-skills",
+  "path": "skills/neuroclaw/claw-shell",
+  "name": "claw-shell",
+  "description": "Use this skill whenever any NeuroClaw skill, sub-agent, or model needs to execute shell commands safely (e.g. source environment scripts, run recon-all, git operations, conda commands, ls, cat logs, etc.). Triggers include: 'run shell', 'execute command', 'shell command', 'tmux claw', 'run in claw session', 'safe shell execution', or any request that requires running terminal commands. This skill is the mandatory gatekeeper for all shell execution in NeuroClaw: it ALWAYS routes commands through the dedicated tmux session `claw`, never touches other sessions, and returns captured output to the calling agent.",
+  "stars": 217,
+  "category": "coding",
+  "commit": "8cbdd18837aa6296c4e77616a03b323bd69b57b1",
+  "contentHash": "d91f3657f69117307a43ba8c0ff9f6449a73e9f49cc2045dda863abf1f83b534",
+  "repoCreatedAt": "2026-05-25T15:23:19Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/neuroclaw/claw-shell/SKILL.md",
+        "line": 30,
+        "excerpt": "| Dangerous (requires confirmation) | `rm -rf ...`, `sudo apt install ...`, `docker system prune -a` | Asks user “YES” before proceeding |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/neuroclaw/claw-shell/SKILL.md",
+        "line": 45,
+        "excerpt": "tmux new -s claw -d || true",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/neuroclaw/claw-shell/handler.js",
+        "line": 1,
+        "excerpt": "const { execSync } = require(\"node:child_process\");",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/neuroclaw/claw-shell/handler.js",
+        "line": 9,
+        "excerpt": "execSync('tmux has-session -t claw', { stdio: \"ignore\" });",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/neuroclaw/claw-shell/handler.js",
+        "line": 11,
+        "excerpt": "execSync('tmux new -s claw -d');",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/neuroclaw/claw-shell/handler.js",
+        "line": 27,
+        "excerpt": "execSync(`tmux send-keys -t claw \"${escaped}\" C-m`);",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/neuroclaw/claw-shell/handler.js",
+        "line": 42,
+        "excerpt": "const buf = execSync('tmux capture-pane -t claw -p -S -200');",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/neuroclaw/claw-shell/handler.js",
+        "line": 79,
+        "excerpt": "const current = execSync(\"tmux display-message -p -t claw '#{pane_current_command}'\", { stdio: \"pipe\" })",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "downloads-code": 1,
+      "shell": 7
+    },
+    "score": 82,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "8cbdd18837aa6296c4e77616a03b323bd69b57b1",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 82,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

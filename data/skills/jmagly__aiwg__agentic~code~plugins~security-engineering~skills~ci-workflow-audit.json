@@ -1,0 +1,138 @@
+{
+  "id": "jmagly__aiwg__agentic~code~plugins~security-engineering~skills~ci-workflow-audit",
+  "owner": "jmagly",
+  "repo": "aiwg",
+  "path": "agentic/code/plugins/security-engineering/skills/ci-workflow-audit",
+  "name": "ci-workflow-audit",
+  "description": "Audit CI workflow files for supply-chain risk — unpinned actions, unpinned container images, pull_request-triggered jobs with secret access, curl-pipe-shell installers, and bare :latest tags. Produces a structured markdown report with file:line refs.",
+  "stars": 229,
+  "category": "coding",
+  "commit": "6a8ee05f6a6aba9f866095dd56b058707285abe6",
+  "contentHash": "03cc9166fdca4e52a0021ae5505296161b5f4df15c5752bc934224593f5c9c7a",
+  "repoCreatedAt": "2025-08-14T17:52:47Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "agentic/code/plugins/security-engineering/skills/ci-workflow-audit/SKILL.md",
+        "line": 52,
+        "excerpt": "find .github/workflows .gitea/workflows -type f \\( -name \"*.yml\" -o -name \"*.yaml\" \\) 2>/dev/null",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "agentic/code/plugins/security-engineering/skills/ci-workflow-audit/SKILL.md",
+        "line": 62,
+        "excerpt": "grep -rnHE '^\\s*-\\s*uses:\\s*[a-zA-Z0-9._-]+/[a-zA-Z0-9._-]+@(v?[0-9]+(\\.[0-9]+)*|main|master|latest)\\s*(#.*)?$' \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "agentic/code/plugins/security-engineering/skills/ci-workflow-audit/SKILL.md",
+        "line": 76,
+        "excerpt": "grep -rnHE '^\\s*(container|image):\\s*[a-zA-Z0-9._/-]+:[a-zA-Z0-9._-]+\\s*(#.*)?$' \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "agentic/code/plugins/security-engineering/skills/ci-workflow-audit/SKILL.md",
+        "line": 88,
+        "excerpt": "grep -rnHE ':latest\\b' .github/workflows/ .gitea/workflows/ 2>/dev/null",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "agentic/code/plugins/security-engineering/skills/ci-workflow-audit/SKILL.md",
+        "line": 102,
+        "excerpt": "for f in $(find .github/workflows .gitea/workflows -name \"*.yml\" -o -name \"*.yaml\" 2>/dev/null); do",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "agentic/code/plugins/security-engineering/skills/ci-workflow-audit/SKILL.md",
+        "line": 123,
+        "excerpt": "grep -rnHE 'curl[^|]+\\|\\s*(bash|sh)' .github/workflows/ .gitea/workflows/ 2>/dev/null",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "agentic/code/plugins/security-engineering/skills/ci-workflow-audit/SKILL.md",
+        "line": 126,
+        "excerpt": "Each `curl | sh` pattern is a finding. Severity: **MEDIUM** unless",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "agentic/code/plugins/security-engineering/skills/ci-workflow-audit/SKILL.md",
+        "line": 138,
+        "excerpt": "test -f ci/digests.txt || test -f .ci/digests.txt || test -f docs/ci/digests.txt",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "agentic/code/plugins/security-engineering/skills/ci-workflow-audit/SKILL.md",
+        "line": 218,
+        "excerpt": "4. Add observed-SHA logging to all `curl|sh` installers (HIGH → MEDIUM).",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "agentic/code/plugins/security-engineering/skills/ci-workflow-audit/SKILL.md",
+        "line": 228,
+        "excerpt": "- `ci-installer-hardening` — add content-hash checks to all `curl|sh` installers",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "agentic/code/plugins/security-engineering/rules/ci-action-pinning.md",
+        "line": 99,
+        "excerpt": "Tools downloaded by `curl | sh` or equivalent in CI (e.g., `syft install.sh`, ad-hoc binary releases) MUST pin a specific version AND record the installer's con",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "agentic/code/plugins/security-engineering/rules/ci-action-pinning.md",
+        "line": 107,
+        "excerpt": "SCRIPT=$(curl -fsSL \"https://raw.githubusercontent.com/anchore/syft/${VERSION}/install.sh\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "raw.githubusercontent.com"
+        ]
+      }
+    ],
+    "findingTotals": {
+      "shell": 7,
+      "downloads-code": 4,
+      "network": 1
+    },
+    "score": 77,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 3,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "6a8ee05f6a6aba9f866095dd56b058707285abe6",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 77,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

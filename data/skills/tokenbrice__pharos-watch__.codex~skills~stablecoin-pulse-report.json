@@ -1,0 +1,107 @@
+{
+  "id": "tokenbrice__pharos-watch__.codex~skills~stablecoin-pulse-report",
+  "owner": "TokenBrice",
+  "repo": "pharos-watch",
+  "path": ".codex/skills/stablecoin-pulse-report",
+  "name": "stablecoin-pulse-report",
+  "description": "Produce the monthly \"Stablecoin Pulse\" 2-page PDF for a partner team (default Polaris) from Pharos API data plus X and web research, explaining why supply, chains, and pegs moved. Use at month end or when asked for a monthly stablecoin trends/pulse report; not for the daily digest or Telegram pulse.",
+  "stars": 24,
+  "category": "data",
+  "commit": "c0ef28d2a4e3059092ef63e03603ce549f6c52f6",
+  "contentHash": "b7b12e65fb59babc0565aa9066bf9b834ff7a030a74b43699c8a617ac995bd1c",
+  "repoCreatedAt": "2026-01-29T01:12:48Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".codex/skills/stablecoin-pulse-report/SKILL.md",
+        "line": 28,
+        "excerpt": "node --import tsx .codex/skills/stablecoin-pulse-report/scripts/fetch-pulse-data.mjs --out agents/<YYYY-MM-DD>-pulse-report",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".codex/skills/stablecoin-pulse-report/references/layout.md",
+        "line": 11,
+        "excerpt": "Requires Node.js and the repository's installed `playwright`. The builder resolves repository assets from its own location; `--dir` is relative to the current w",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".codex/skills/stablecoin-pulse-report/scripts/build-pulse-pdf.mjs",
+        "line": 4,
+        "excerpt": "import {execFileSync} from 'node:child_process';",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".codex/skills/stablecoin-pulse-report/scripts/build-pulse-pdf.mjs",
+        "line": 169,
+        "excerpt": "catch (bundledError) { try { browser=await chromium.launch({headless:true,...(process.env.CHROME_PATH?{executablePath:process.env.CHROME_PATH}:{channel:'chrome'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".codex/skills/stablecoin-pulse-report/scripts/build-pulse-pdf.mjs",
+        "line": 186,
+        "excerpt": "try {const info=execFileSync('pdfinfo',[pdfPath],{encoding:'utf8',stdio:['ignore','pipe','pipe']});pages=Number(info.match(/^Pages:\\s+(\\d+)/m)?.[1]);const size=",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".codex/skills/stablecoin-pulse-report/scripts/build-pulse-pdf.mjs",
+        "line": 190,
+        "excerpt": "try {execFileSync('pdftoppm',['-png','-r','140',pdfPath,path.join(dir,'page')],{stdio:['ignore','pipe','pipe']});pngPath='pdftoppm (actual PDF, 140 dpi)';}",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": ".codex/skills/stablecoin-pulse-report/scripts/fetch-pulse-data.mjs",
+        "line": 74,
+        "excerpt": "try { text = await readFile(join(repo, '.env.local'), 'utf8'); }",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".codex/skills/stablecoin-pulse-report/scripts/fetch-pulse-data.mjs",
+        "line": 94,
+        "excerpt": "const response = await fetch(`https://api.pharos.watch${path}`, { headers: { 'X-API-Key': apiKey }, signal: AbortSignal.timeout(60000) });",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.pharos.watch${path}"
+        ]
+      }
+    ],
+    "findingTotals": {
+      "shell": 4,
+      "downloads-code": 2,
+      "reads-secrets": 1,
+      "network": 1
+    },
+    "score": 55,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 56,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "c0ef28d2a4e3059092ef63e03603ce549f6c52f6",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 55,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

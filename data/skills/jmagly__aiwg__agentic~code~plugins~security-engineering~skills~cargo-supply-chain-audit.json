@@ -1,0 +1,106 @@
+{
+  "id": "jmagly__aiwg__agentic~code~plugins~security-engineering~skills~cargo-supply-chain-audit",
+  "owner": "jmagly",
+  "repo": "aiwg",
+  "path": "agentic/code/plugins/security-engineering/skills/cargo-supply-chain-audit",
+  "name": "cargo-supply-chain-audit",
+  "description": "Audit Rust/Cargo crates for supply-chain exposure: crates.io metadata + checksum verification against Cargo.lock, .crate tarball hash and .cargo_vcs_info.json provenance, previous-vs-patched .crate source diff, Cargo.toml dependency + build-script review, cargo audit / cargo deny / cargo vet trust policy, and publisher / trusted-publishing / yank / release-anomaly checks.",
+  "stars": 229,
+  "category": "coding",
+  "commit": "6a8ee05f6a6aba9f866095dd56b058707285abe6",
+  "contentHash": "8de6299dbff99685be75a7ca15763b31afaefddbd75844c1bd4de3e76a5064b8",
+  "repoCreatedAt": "2025-08-14T17:52:47Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "agentic/code/plugins/security-engineering/skills/cargo-supply-chain-audit/SKILL.md",
+        "line": 37,
+        "excerpt": "test -f Cargo.lock || echo \"MISSING Cargo.lock — no checksum pinning\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "agentic/code/plugins/security-engineering/skills/cargo-supply-chain-audit/SKILL.md",
+        "line": 63,
+        "excerpt": "curl -sSL -o <crate>-<ver>.crate \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "agentic/code/plugins/security-engineering/skills/cargo-supply-chain-audit/SKILL.md",
+        "line": 63,
+        "excerpt": "curl -sSL -o <crate>-<ver>.crate \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "agentic/code/plugins/security-engineering/skills/cargo-supply-chain-audit/SKILL.md",
+        "line": 90,
+        "excerpt": "tar -xzf <crate>-<old>.crate && tar -xzf <crate>-<new>.crate",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "agentic/code/plugins/security-engineering/skills/cargo-supply-chain-audit/SKILL.md",
+        "line": 110,
+        "excerpt": "grep -nE '^build\\s*=|\\[build-dependencies\\]|proc-macro\\s*=\\s*true' Cargo.toml",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "agentic/code/plugins/security-engineering/skills/cargo-supply-chain-audit/SKILL.md",
+        "line": 130,
+        "excerpt": "cargo audit                      # fails on advisories; `cargo audit fix` for patches",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "agentic/code/plugins/security-engineering/skills/cargo-supply-chain-audit/SKILL.md",
+        "line": 150,
+        "excerpt": "curl -sSL \"https://crates.io/api/v1/crates/<crate>\" | jq '{owners: .crate.id, versions: [.versions[] | {num, yanked, created_at, published_by: .published_by.log",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "crates.io"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "agentic/code/plugins/security-engineering/skills/cargo-supply-chain-audit/SKILL.md",
+        "line": 150,
+        "excerpt": "curl -sSL \"https://crates.io/api/v1/crates/<crate>\" | jq '{owners: .crate.id, versions: [.versions[] | {num, yanked, created_at, published_by: .published_by.log",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 6,
+      "network": 2
+    },
+    "score": 92,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "6a8ee05f6a6aba9f866095dd56b058707285abe6",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

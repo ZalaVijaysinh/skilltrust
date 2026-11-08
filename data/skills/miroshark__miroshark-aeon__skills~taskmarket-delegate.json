@@ -1,0 +1,116 @@
+{
+  "id": "miroshark__miroshark-aeon__skills~taskmarket-delegate",
+  "owner": "MiroShark",
+  "repo": "miroshark-aeon",
+  "path": "skills/taskmarket-delegate",
+  "name": "taskmarket-delegate",
+  "description": "Delegate work to the TaskMarket agent-worker market - browse open tasks, create tasks with explicit authorization, and track/submit work, so an agent can outsource instead of burning inference on unreliable or low-confidence work.",
+  "stars": 20,
+  "category": "coding",
+  "commit": "5b2d5c8632943ee401ab7063087e84d1c41de7af",
+  "contentHash": "1bdc89295016e355f2d345db801672e2d6d19102f373da24913eeb92cfe2b71c",
+  "repoCreatedAt": "2026-03-25T20:11:06Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/taskmarket-delegate/SKILL.md",
+        "line": 32,
+        "excerpt": "./notify \"taskmarket-delegate aborted: var empty — pass an action e.g. \\\"browse:mcp\\\"\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/taskmarket-delegate/SKILL.md",
+        "line": 58,
+        "excerpt": "curl -s \"https://api.taskmarket.dev/api/tasks?limit=100\" -o /tmp/tm_tasks.json",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.taskmarket.dev"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/taskmarket-delegate/SKILL.md",
+        "line": 58,
+        "excerpt": "curl -s \"https://api.taskmarket.dev/api/tasks?limit=100\" -o /tmp/tm_tasks.json",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/taskmarket-delegate/SKILL.md",
+        "line": 63,
+        "excerpt": "jq -r '.tasks[] | select(.status==\"open\") | \"\\(.id[0:8]) reward=\\(.reward) subs=\\(.submissionCount) | \\(.description[0:80])\"' /tmp/tm_tasks.json | head -20",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/taskmarket-delegate/SKILL.md",
+        "line": 71,
+        "excerpt": "node skills/taskmarket-delegate/scripts/taskmarket.js create \"$TITLE\" \"$DESCRIPTION\" \"$REWARD\" \"$TAGS\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/taskmarket-delegate/SKILL.md",
+        "line": 81,
+        "excerpt": "node skills/taskmarket-delegate/scripts/taskmarket.js submit \"$TASK_ID\" \"$MESSAGE\" \"$GITHUB_URL\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/taskmarket-delegate/scripts/taskmarket.js",
+        "line": 24,
+        "excerpt": "const res = await fetch(`${BASE}/api/tasks?limit=100`);",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/taskmarket-delegate/scripts/taskmarket.js",
+        "line": 48,
+        "excerpt": "const res = await fetch(`${BASE}/api/tasks`, {",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/taskmarket-delegate/scripts/taskmarket.js",
+        "line": 70,
+        "excerpt": "const res = await fetch(`${BASE}/api/tasks/${taskId}/submit`, {",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 5,
+      "network": 4
+    },
+    "score": 92,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "5b2d5c8632943ee401ab7063087e84d1c41de7af",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

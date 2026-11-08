@@ -1,0 +1,115 @@
+{
+  "id": "oaustegard__claude-skills__dispatching-subagents",
+  "owner": "oaustegard",
+  "repo": "claude-skills",
+  "path": "dispatching-subagents",
+  "name": "dispatching-subagents",
+  "description": "Chooses how to launch subagents from Claude Code (the Agent tool, a Workflow script, or headless claude -p children) and runs a headless fan-out from one background command. Use for \"fan this out to 50 agents\", \"run these tasks in parallel\", \"launch subagents for each file\", \"should I spawn agents or write a workflow\", \"batch this through Haiku\", \"run claude -p in parallel\", \"dispatch a task list without the launches eating my context\", or before any launch of more than a handful of subagents, where the launching itself is the cost. Covers the parent-turn cost of each mechanism, concurrency ceilings, what context and tools each child gets, effort control, output contracts, a cost ledger, and resume after interruption.",
+  "stars": 158,
+  "category": "productivity",
+  "commit": "2ef3d1f28ce295f1b4dbff220b8f8ca342e87340",
+  "contentHash": "b01257373b4346595b672cfea128e8f4ea671034e1d448954b15fcacad6680c0",
+  "repoCreatedAt": "2025-10-17T02:32:23Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": true,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "dispatching-subagents/SKILL.md",
+        "line": 77,
+        "excerpt": "S=/mnt/skills/user/dispatching-subagents/scripts/headless_fanout.py",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "dispatching-subagents/SKILL.md",
+        "line": 85,
+        "excerpt": "python3 $S run tasks.jsonl --work RUN --schema schema.json \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "dispatching-subagents/SKILL.md",
+        "line": 112,
+        "excerpt": "command only, so `Bash(curl -s https://api.github.com/*)` still admits",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.github.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "dispatching-subagents/SKILL.md",
+        "line": 184,
+        "excerpt": "python3 $S status RUN          # exit 0 only when every task's last attempt is ok",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "dispatching-subagents/scripts/test_headless_fanout.py",
+        "line": 60,
+        "excerpt": "def run(tmp: Path, env: dict, tasks: list[dict], *extra: str) -> subprocess.CompletedProcess:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "dispatching-subagents/scripts/test_headless_fanout.py",
+        "line": 66,
+        "excerpt": "return subprocess.run([sys.executable, str(RUNNER), \"run\", str(tf), \"--work\", str(tmp / \"run\"),",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "dispatching-subagents/scripts/test_headless_fanout.py",
+        "line": 128,
+        "excerpt": "\"allow\": [\"Bash\"], \"deny\": [\"Bash(curl:*)\", \"WebFetch\"]}])",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "dispatching-subagents/scripts/test_headless_fanout.py",
+        "line": 131,
+        "excerpt": "assert argv[i + 1:i + 3] == [\"Bash(curl:*)\", \"WebFetch\"], argv",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "dispatching-subagents/scripts/test_headless_fanout.py",
+        "line": 160,
+        "excerpt": "st = subprocess.run([sys.executable, str(RUNNER), \"status\", str(tmp / \"run\")], capture_output=True,",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 6,
+      "network": 3
+    },
+    "score": 92,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 3,
+    "filesSkipped": 3
+  },
+  "history": [
+    {
+      "commit": "2ef3d1f28ce295f1b4dbff220b8f8ca342e87340",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

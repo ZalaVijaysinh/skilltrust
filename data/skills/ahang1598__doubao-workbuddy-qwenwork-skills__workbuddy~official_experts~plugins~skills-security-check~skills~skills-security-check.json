@@ -1,0 +1,196 @@
+{
+  "id": "ahang1598__doubao-workbuddy-qwenwork-skills__workbuddy~official_experts~plugins~skills-security-check~skills~skills-security-check",
+  "owner": "ahang1598",
+  "repo": "doubao-workbuddy-qwenwork-skills",
+  "path": "workbuddy/official_experts/plugins/skills-security-check/skills/skills-security-check",
+  "name": "skills-security-check",
+  "description": "腾讯云鼎实验室出品，Skill安全审查工具。对用户指定的skill.md文件及其配套的文档、程序、脚本等进行全面安全审计，确保引用安全",
+  "stars": 94,
+  "category": "security",
+  "commit": "5e45653f59a2e4a2a65f575e8aaf7637165674d5",
+  "contentHash": "a7430d7f23c9b8f315666cfe2c42596bd5e207e678ab01b17c4a1294cd9a6cd2",
+  "repoCreatedAt": "2026-07-07T07:33:58Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "obfuscated",
+        "file": "workbuddy/official_experts/plugins/skills-security-check/skills/skills-security-check/SKILL.md",
+        "line": 26,
+        "excerpt": "- 任何 `echo ... | base64 -d | bash` 或 `echo ... | base64 -D | bash` 形式的命令",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "workbuddy/official_experts/plugins/skills-security-check/skills/skills-security-check/SKILL.md",
+        "line": 63,
+        "excerpt": "| skill自动执行 `curl \\| bash`               | ✅**需报告** | skill自动执行远程脚本，触发步骤4深度分析后根据远程内容定级（P0或P1）                                                |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "workbuddy/official_experts/plugins/skills-security-check/skills/skills-security-check/SKILL.md",
+        "line": 64,
+        "excerpt": "| 配套脚本 `init.sh`包含 `npm install -g` | ✅**需报告** | skill自动执行全局安装，需结合安装内容判断风险：安装已知官方工具（如 typescript）→ 风险较低；安装未知包 → 风险较高 |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "workbuddy/official_experts/plugins/skills-security-check/skills/skills-security-check/SKILL.md",
+        "line": 90,
+        "excerpt": "- 多语言变种：`os.popen()`, `Popen()`, `call()`, `check_output()`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "workbuddy/official_experts/plugins/skills-security-check/skills/skills-security-check/SKILL.md",
+        "line": 101,
+        "excerpt": "- `curl`, `wget`, `fetch`, `axios`, `requests.get`, `requests.post`, `urllib`",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "workbuddy/official_experts/plugins/skills-security-check/skills/skills-security-check/SKILL.md",
+        "line": 102,
+        "excerpt": "- `httpx`, `aiohttp`, `got`, `node-fetch`, `XMLHttpRequest`, `$.ajax`",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "workbuddy/official_experts/plugins/skills-security-check/skills/skills-security-check/SKILL.md",
+        "line": 127,
+        "excerpt": "**触发条件**：步骤2-3中发现 skill 自动下载并执行远程脚本（如 `curl | bash`、`wget | sh`、下载后执行等）时，**必须**用 `web_fetch` 抓取远程 URL 的文本内容进行静态分析（只读取，不执行）。",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "workbuddy/official_experts/plugins/skills-security-check/skills/skills-security-check/SKILL.md",
+        "line": 139,
+        "excerpt": "| **二次下载+执行** | 脚本内部再次 `curl \\| bash`、`wget` 下载并执行其他脚本    | 🔴 几乎总是恶意的（链式下载极难审计），除非来源为同一官方域名且有明确必要性                                                |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "workbuddy/official_experts/plugins/skills-security-check/skills/skills-security-check/SKILL.md",
+        "line": 140,
+        "excerpt": "| **数据外送**      | `curl -d`、`wget --post-data`、`nc` 等向外发送数据     | 需同时看**发送内容**和**目标地址**：敏感信息发送到未知第三方域名 → 🔴恶意；向官方域名发送非敏感数据 → ✅常见 |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "workbuddy/official_experts/plugins/skills-security-check/skills/skills-security-check/SKILL.md",
+        "line": 174,
+        "excerpt": "- **Python**：`pip install`（非虚拟环境）、`pip3 install`、`python -m pip install`、`pipx install`、`sudo pip install`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "workbuddy/official_experts/plugins/skills-security-check/skills/skills-security-check/SKILL.md",
+        "line": 175,
+        "excerpt": "- **Node.js**：`npm install -g`、`npm i -g`、`yarn global add`、`pnpm add -g`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "workbuddy/official_experts/plugins/skills-security-check/skills/skills-security-check/SKILL.md",
+        "line": 176,
+        "excerpt": "- **其他**：`gem install`、`cargo install`、`go install`、`composer global require`、`brew install`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "workbuddy/official_experts/plugins/skills-security-check/skills/skills-security-check/SKILL.md",
+        "line": 183,
+        "excerpt": "- `pip install -i <非官方镜像源>` / `--index-url <可疑URL>`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "workbuddy/official_experts/plugins/skills-security-check/skills/skills-security-check/SKILL.md",
+        "line": 185,
+        "excerpt": "- 从代码仓库直接安装（`pip install git+https://...`）",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "workbuddy/official_experts/plugins/skills-security-check/skills/skills-security-check/SKILL.md",
+        "line": 217,
+        "excerpt": "→ 不属于危险操作（如 os.popen('date') 获取时间戳、subprocess(['git','status']) 只读操作等）",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "workbuddy/official_experts/plugins/skills-security-check/skills/skills-security-check/SKILL.md",
+        "line": 237,
+        "excerpt": "- ✅ **下载 + 执行**：skill自动从远程下载内容并执行（如 `curl | bash`、下载脚本后 `eval`）",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "workbuddy/official_experts/plugins/skills-security-check/skills/skills-security-check/SKILL.md",
+        "line": 241,
+        "excerpt": "- ⚠️ **降级条件**：读取特定凭证调用其对应的官方服务（如读取 `OPENAI_API_KEY` 调用 `api.openai.com`），或通过 SSH 协议使用 SSH key → 降为 **P1**",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "workbuddy/official_experts/plugins/skills-security-check/skills/skills-security-check/SKILL.md",
+        "line": 249,
+        "excerpt": "- ✅ **权限提升 + 危险操作**：`sudo`/`chmod 777` 配合上述危险操作（如 `sudo curl | bash`、`sudo rm -rf /`）",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "workbuddy/official_experts/plugins/skills-security-check/skills/skills-security-check/SKILL.md",
+        "line": 255,
+        "excerpt": "- skill**自动执行全局安装**依赖：`pip install`（非虚拟环境）、`npm install -g`（环境破坏风险，但被安装包是否投毒超出审计能力）",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "obfuscated": 1,
+      "downloads-code": 12,
+      "shell": 2,
+      "network": 3,
+      "paid-api": 1
+    },
+    "score": 40,
+    "band": "high",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "5e45653f59a2e4a2a65f575e8aaf7637165674d5",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 40,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

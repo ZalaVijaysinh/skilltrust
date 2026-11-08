@@ -1,0 +1,147 @@
+{
+  "id": "jianshuo__claude-skills__wjs-burning-subtitles",
+  "owner": "jianshuo",
+  "repo": "claude-skills",
+  "path": "wjs-burning-subtitles",
+  "name": "wjs-burning-subtitles",
+  "description": "Use when the user has a video + an SRT and wants the subtitles either burned into the pixels (libass, always-visible) or soft-muxed as a togglable track. Also handles the final composite step for the localization pipeline — burn subs, mix a dub track, and keep the original audio as a low-volume bed, all in ONE ffmpeg encode (no cascade). Verifies libass availability and auto-downloads a static evermeet ffmpeg build when Homebrew's stripped binary lacks it. Triggers — \"烧字幕\", \"硬字幕\", \"burn subtitles\", \"burn-in subs\", \"embed subtitle\", \"soft mux SRT\", \"把字幕烧进视频\", \"做最终合成\".",
+  "stars": 139,
+  "category": "media",
+  "commit": "6538e2ecce932456e58539c0413c7174ca9e9c7a",
+  "contentHash": "cdfb6563cec7c91bdc3954e9a08b5394395a3b615836d3d2e62c9e6a699445e6",
+  "repoCreatedAt": "2026-05-11T10:55:36Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "wjs-burning-subtitles/SKILL.md",
+        "line": 37,
+        "excerpt": "ffmpeg -i input.mp4 -i input.zh-CN.srt \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "wjs-burning-subtitles/SKILL.md",
+        "line": 59,
+        "excerpt": "ffmpeg -filters 2>&1 | grep -E \"subtitles|^.. ass \"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "wjs-burning-subtitles/SKILL.md",
+        "line": 67,
+        "excerpt": "curl -fsSL -o /tmp/ff.zip https://evermeet.cx/ffmpeg/getrelease/zip",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "evermeet.cx"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "wjs-burning-subtitles/SKILL.md",
+        "line": 67,
+        "excerpt": "curl -fsSL -o /tmp/ff.zip https://evermeet.cx/ffmpeg/getrelease/zip",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "wjs-burning-subtitles/SKILL.md",
+        "line": 86,
+        "excerpt": "$FF -i input.mp4 \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "wjs-burning-subtitles/SKILL.md",
+        "line": 101,
+        "excerpt": "$FF -ss 30 -i output.mp4 -frames:v 1 /tmp/frame.png -y",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "wjs-burning-subtitles/SKILL.md",
+        "line": 130,
+        "excerpt": "$FF -i original.mp4 -i dub.mp4 \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "wjs-burning-subtitles/SKILL.md",
+        "line": 151,
+        "excerpt": "$FF -i original.mp4 -i dub.mp4 \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "wjs-burning-subtitles/SKILL.md",
+        "line": 166,
+        "excerpt": "python3 ~/.claude/skills/wjs-burning-subtitles/scripts/render.py \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "wjs-burning-subtitles/scripts/render.py",
+        "line": 49,
+        "excerpt": "import argparse, subprocess, shutil, os, sys, urllib.request, zipfile",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "wjs-burning-subtitles/scripts/render.py",
+        "line": 57,
+        "excerpt": "r = subprocess.run([ff, \"-filters\"], capture_output=True, text=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "wjs-burning-subtitles/scripts/render.py",
+        "line": 65,
+        "excerpt": "urllib.request.urlretrieve(EVERMEET_URL, z)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "wjs-burning-subtitles/scripts/render.py",
+        "line": 168,
+        "excerpt": "r = subprocess.run(cmd)",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 10,
+      "network": 3
+    },
+    "score": 94,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "6538e2ecce932456e58539c0413c7174ca9e9c7a",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 94,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

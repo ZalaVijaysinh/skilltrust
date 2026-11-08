@@ -1,0 +1,132 @@
+{
+  "id": "tomascupr__reelql__skills~reelql",
+  "owner": "tomascupr",
+  "repo": "reelql",
+  "path": "skills/reelql",
+  "name": "reelql",
+  "description": "Analyze any video link (YouTube, TikTok, Vimeo, media file): story, brands, products, emotional arc, key moments, transcript. Use whenever the user shares a video URL.",
+  "stars": 34,
+  "category": "media",
+  "commit": "4e53dda2d0cb793777c28a514218a8fbb9e78510",
+  "contentHash": "4e1a5ded45276d51fa5599c404d22e4ca33744ea5165a02d6014f3790285cb0e",
+  "repoCreatedAt": "2026-09-25T19:40:04Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/reelql/SKILL.md",
+        "line": 8,
+        "excerpt": "ReelQL turns a video URL into one JSON document. It needs the environment variable `REELQL_API_KEY`, a personal key that anyone can get for free with 10 minutes",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/reelql/SKILL.md",
+        "line": 15,
+        "excerpt": "bash <this skill's directory>/scripts/reelql.sh \"<url>\" [\"<url>\" ...]",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/reelql/SKILL.md",
+        "line": 23,
+        "excerpt": "jq '.result.analysis | {summary, advertiser, brands, products, emotional_arc, key_moments, on_screen_text}' reelql-1.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/reelql/SKILL.md",
+        "line": 33,
+        "excerpt": "bash <this skill's directory>/scripts/reelql.sh --topup <dollars, 5 to 500>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/reelql/SKILL.md",
+        "line": 62,
+        "excerpt": "jq -r '.result.analysis | [(.brands // [])[], ((.products // [])[] | .brand // empty)] | unique[]' reelql-*.json | sort | uniq -c | sort -rn",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/reelql/SKILL.md",
+        "line": 73,
+        "excerpt": "uv run --with typesafe-sdk python <this skill's directory>/scripts/jev.py \"<the brief, in the user's words>\" reelql-*.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/reelql/scripts/reelql.sh",
+        "line": 8,
+        "excerpt": "[ -n \"${REELQL_API_KEY:-}\" ] || { echo \"REELQL_API_KEY is not set. Get a free key (10 minutes of video) with: curl -s -X POST $API/keys  then: export REELQL_API",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/reelql/scripts/reelql.sh",
+        "line": 13,
+        "excerpt": "curl -s \"$API/credits/checkout\" -H \"$H\" -H 'Content-Type: application/json' -d \"$body\" |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/reelql/scripts/reelql.sh",
+        "line": 15,
+        "excerpt": "curl -s \"$API/balance\" -H \"$H\" | jq -r '\"Credit left: \\(.minutes // \"unlimited\") minutes\"'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/reelql/scripts/reelql.sh",
+        "line": 20,
+        "excerpt": "r=$(curl -s \"$API/jobs\" -H \"$H\" -H 'Content-Type: application/json' -d \"$(jq -n --arg u \"$1\" '{url: $u}')\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/reelql/scripts/reelql.sh",
+        "line": 24,
+        "excerpt": "curl -s \"$API/jobs/$id\" -H \"$H\" > \"$2\"; s=$(jq -r .status \"$2\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "reads-secrets": 1,
+      "shell": 5,
+      "network": 5
+    },
+    "score": 70,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 4,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "4e53dda2d0cb793777c28a514218a8fbb9e78510",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 70,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

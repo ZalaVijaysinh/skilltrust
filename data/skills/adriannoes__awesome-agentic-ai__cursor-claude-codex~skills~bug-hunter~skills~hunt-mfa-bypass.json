@@ -1,0 +1,74 @@
+{
+  "id": "adriannoes__awesome-agentic-ai__cursor-claude-codex~skills~bug-hunter~skills~hunt-mfa-bypass",
+  "owner": "adriannoes",
+  "repo": "awesome-agentic-ai",
+  "path": "cursor-claude-codex/skills/bug-hunter/skills/hunt-mfa-bypass",
+  "name": "hunt-mfa-bypass",
+  "description": "Hunt MFA / 2FA bypass — 7 distinct patterns. (1) MFA not enforced on sensitive endpoints (password change, email change accept without MFA challenge), (2) MFA-step skip via direct navigation to post-login URL, (3) MFA-token replay (same code accepted twice), (4) brute-force the 6-digit OTP without rate limit (10^6 attempts at server speed), (5) race condition on OTP validation, (6) recovery-code dump via /api/me, (7) backup factor downgrade (SMS factor with no rate limit). Plus the chain: cookie theft + password oracle + no step-up = ATO without MFA challenge. Detection: trace auth flow in Burp, find every state transition, check if MFA is middleware-gated vs per-endpoint, check OTP entropy and rate limit on OTP-validate. Validate: attacker session reaching post-MFA state. Use when hunting auth bypass, MFA flows, chaining primitives toward ATO.",
+  "stars": 96,
+  "category": "coding",
+  "commit": "e797ed58cfe6dd6453fe7632f89d7226d203f6f6",
+  "contentHash": "11c036b8b207e9f7e153fa730a3cbee7e49eb95e3d6cc96a81105f518f74a6fe",
+  "repoCreatedAt": "2025-10-12T15:16:26Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "cursor-claude-codex/skills/bug-hunter/skills/hunt-mfa-bypass/SKILL.md",
+        "line": 12,
+        "excerpt": "ffuf -u \"https://target.com/api/verify-otp\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "cursor-claude-codex/skills/bug-hunter/skills/hunt-mfa-bypass/SKILL.md",
+        "line": 41,
+        "excerpt": "curl -s -b \"session=PRE_MFA_SESSION\" https://target.com/dashboard",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "target.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "cursor-claude-codex/skills/bug-hunter/skills/hunt-mfa-bypass/SKILL.md",
+        "line": 41,
+        "excerpt": "curl -s -b \"session=PRE_MFA_SESSION\" https://target.com/dashboard",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "cursor-claude-codex/skills/bug-hunter/skills/hunt-mfa-bypass/SKILL.md",
+        "line": 55,
+        "excerpt": "async with aiohttp.ClientSession(cookies=cookies) as s:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 2,
+      "network": 2
+    },
+    "score": 90,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "e797ed58cfe6dd6453fe7632f89d7226d203f6f6",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 90,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

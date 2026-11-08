@@ -1,0 +1,300 @@
+{
+  "id": "melodic-software__claude-code-plugins__plugins~harness-config~skills~audit-permission-state",
+  "owner": "melodic-software",
+  "repo": "claude-code-plugins",
+  "path": "plugins/harness-config/skills/audit-permission-state",
+  "name": "audit-permission-state",
+  "description": "When the bundled fewer-permission-prompts skill resolves in this session, prefer it to reduce prompts via an allowlist; this skill to see the state in effect. Report-only: merges every settings scope into the allow/ask/deny set in effect with source and precedence per rule, and flags allow rules auto mode drops. Use when: 'what permissions are actually in effect', 'which of my rules survive auto mode', 'is my managed policy being read'. A rule ignored for its shape: `audit-permission-grants`.",
+  "stars": 30,
+  "category": "coding",
+  "commit": "81c72446af1553c2cd25651e6d086297b658726d",
+  "contentHash": "1dd90a33b8826dd912f85fa0babedc92849494d5dbcc416a8a1b31d1b388d73f",
+  "repoCreatedAt": "2026-06-22T18:28:56Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "plugins/harness-config/skills/audit-permission-state/SKILL.md",
+        "line": 107,
+        "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/skills/audit-permission-state/scripts/audit.sh\" $ARGUMENTS",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/harness-config/skills/audit-permission-state/SKILL.md",
+        "line": 252,
+        "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/skills/audit-permission-state/scripts/automode-block-lint.sh\" [--critique]",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/harness-config/skills/audit-permission-state/reference/criteria.md",
+        "line": 360,
+        "excerpt": "| `C6-allowParam` | Fires on an **allow** rule in `Tool(param:value)` form, since we treat parameter matching as a deny-and-ask feature only; allow rules keep e",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/harness-config/skills/audit-permission-state/reference/criteria.md",
+        "line": 362,
+        "excerpt": "| `C6-colonStar` | Fires on a mid-pattern `:*`, as in `Bash(git:* push)`, since we treat `:*` as prefix syntax only at the end of a pattern: mid-pattern, the co",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/harness-config/skills/audit-permission-state/reference/criteria.md",
+        "line": 383,
+        "excerpt": "- A parameter rule on a **non**-content field (`WebFetch(domain:example.com)`) is the working form.",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/harness-config/skills/audit-permission-state/scripts/automode-entry-diff.test.sh",
+        "line": 112,
+        "excerpt": "effective allow scopes=user precedence_basis=uncontested WebFetch(domain:example.com)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/harness-config/skills/audit-permission-state/scripts/automode-entry-diff.test.sh",
+        "line": 119,
+        "excerpt": "assert_contains \"a non-shell rule is untouched by classifyAllShell\" \"$OUT\" \"entry-diff kept scopes=user WebFetch(domain:example.com)\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/harness-config/skills/audit-permission-state/scripts/automode-entry-diff.test.sh",
+        "line": 388,
+        "excerpt": "jq -n '{permissions:{allow:[\"WebFetch(domain:example.com)\"]}}' >\"$FX/proj/.claude/settings.json\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/harness-config/skills/audit-permission-state/scripts/automode-entry-diff.test.sh",
+        "line": 401,
+        "excerpt": "assert_contains \"the non-shell project rule is kept\" \"$E2E\" \"entry-diff kept scopes=project WebFetch(domain:example.com)\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/harness-config/skills/audit-permission-state/scripts/managed-conformance.test.sh",
+        "line": 45,
+        "excerpt": "rule managed file deny WebFetch",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/harness-config/skills/audit-permission-state/scripts/managed-conformance.test.sh",
+        "line": 91,
+        "excerpt": "rule managed file ask WebFetch",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/harness-config/skills/audit-permission-state/scripts/managed-conformance.test.sh",
+        "line": 92,
+        "excerpt": "rule project settings deny WebFetch",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/harness-config/skills/audit-permission-state/scripts/managed-conformance.test.sh",
+        "line": 96,
+        "excerpt": "assert_contains \"a managed ask beaten by a lower deny is loosenable\" \"$OUT\" \"managed loosenable rule the managed ask rule WebFetch\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/harness-config/skills/audit-permission-state/scripts/managed-conformance.test.sh",
+        "line": 144,
+        "excerpt": "rule managed file allow WebFetch(domain:example.com)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/harness-config/skills/audit-permission-state/scripts/managed-conformance.test.sh",
+        "line": 145,
+        "excerpt": "rule user settings ask WebFetch",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/harness-config/skills/audit-permission-state/scripts/managed-conformance.test.sh",
+        "line": 149,
+        "excerpt": "assert_contains \"a whole-tool ask does the same\" \"$OUT\" \"whole-tool ask rule (WebFetch)\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/harness-config/skills/audit-permission-state/scripts/managed-conformance.test.sh",
+        "line": 157,
+        "excerpt": "rule user settings deny WebFetch",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/harness-config/skills/audit-permission-state/scripts/no-writes.test.sh",
+        "line": 41,
+        "excerpt": "jq -n '{permissions:{allow:[\"Bash(git status)\",\"Bash(python*)\"],deny:[\"WebFetch\"]}}' >\"$FX/proj/.claude/settings.json\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/harness-config/skills/audit-permission-state/scripts/permission-merge.test.sh",
+        "line": 65,
+        "excerpt": "rule user settings allow WebFetch",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/harness-config/skills/audit-permission-state/scripts/permission-merge.test.sh",
+        "line": 66,
+        "excerpt": "rule project settings ask WebFetch",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/harness-config/skills/audit-permission-state/scripts/permission-merge.test.sh",
+        "line": 70,
+        "excerpt": "assert_contains \"ask outranks allow\" \"$OUT\" \"effective ask scopes=project precedence_basis=evaluation-order WebFetch\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/harness-config/skills/audit-permission-state/scripts/permission-merge.test.sh",
+        "line": 71,
+        "excerpt": "assert_contains \"the allow beneath an ask is inert\" \"$OUT\" \"inert allow scopes=user outranked_by=ask WebFetch\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/harness-config/skills/audit-permission-state/scripts/permission-state.test.sh",
+        "line": 339,
+        "excerpt": "assert_contains \"an apt host is told the apt-get command\" \"$err_out\" \"Install it: sudo apt-get install jq\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/harness-config/skills/audit-permission-state/scripts/permission-state.test.sh",
+        "line": 341,
+        "excerpt": "assert_contains \"macOS is told the brew command\" \"$(nojq \"$empty_path_dir\" darwin23)\" \"Install it: brew install jq\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/harness-config/skills/audit-permission-state/scripts/permission-state.test.sh",
+        "line": 389,
+        "excerpt": "mkdir -p \"$HOMEFX/home/.claude\" \"$HOMEFX/pol\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/harness-config/lib/jq-install-hint.sh",
+        "line": 16,
+        "excerpt": "darwin*) printf 'brew install jq\\n' ;;",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/harness-config/lib/jq-install-hint.sh",
+        "line": 20,
+        "excerpt": "printf 'sudo apt-get install jq\\n'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/harness-config/lib/jq-install-hint.sh",
+        "line": 22,
+        "excerpt": "printf 'sudo dnf install jq\\n'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/harness-config/lib/jq-install-hint.sh",
+        "line": 28,
+        "excerpt": "printf 'brew install jq\\n'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/harness-config/lib/permission-patterns.sh",
+        "line": 38,
+        "excerpt": "CCPERM_RUNNER_BODY='npx|bunx|uvx|pnpm dlx|yarn dlx|pipx run|uv run|npm|pnpm|yarn'",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 2,
+      "network": 38,
+      "downloads-code": 7,
+      "writes-outside": 1
+    },
+    "score": 67,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 28,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "81c72446af1553c2cd25651e6d086297b658726d",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 67,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "id": "motiful__product-shots__skills~product-shots-image-gen",
+  "owner": "motiful",
+  "repo": "product-shots",
+  "path": "skills/product-shots-image-gen",
+  "name": "product-shots-image-gen",
+  "description": "Unified image-generation engine for the product-shots ecosystem. Dispatches to the right model family (OpenAI gpt-image-2 / Gemini gemini-3-pro-image-preview Nano Banana Pro) with one parameterised script for text-to-image and image-to-image. Primary backend: OmniMaaS / Cloubic gateway (https://api.omnimaas.com/v1); also supports any OpenAI-SDK-compatible gateway via fallback env vars. Auto-resizes oversized reference images to prevent edge-proxy timeouts. Use when the user says \"generate an image\", \"make a picture\", \"create a visual\", \"render this\", \"edit this image\", \"做一张图\", \"生成图片\", \"改这张图\" — or when invoked as the image-generation backend by another product-shots skill (main-image / detail-page / ad-creative / social-post / multi-angle). NOT a creative-direction skill: takes a prompt + optional reference images, returns a file path.",
+  "stars": 132,
+  "category": "media",
+  "commit": "063c508b0b7f4db5cda89f10bdf20df25026dfc5",
+  "contentHash": "25fa26ed86f5293d59156765452369209afd9edc4b7bbc1b57ac93321b440946",
+  "repoCreatedAt": "2026-06-05T15:57:49Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "skills/product-shots-image-gen/SKILL.md",
+        "line": 174,
+        "excerpt": "image_bytes = base64_decode(first[\"b64_json\"]) if \"b64_json\" in first else fetch(first[\"url\"])",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/product-shots-image-gen/scripts/generate.py",
+        "line": 100,
+        "excerpt": "r = requests.post(url, headers=headers, **kwargs)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/product-shots-image-gen/scripts/generate.py",
+        "line": 285,
+        "excerpt": "r = requests.post(url, headers=headers, json=payload, timeout=TIMEOUT)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/product-shots-image-gen/scripts/generate.py",
+        "line": 295,
+        "excerpt": "img = requests.get(first[\"url\"], timeout=TIMEOUT)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/product-shots-image-gen/scripts/generate.py",
+        "line": 316,
+        "excerpt": "r = requests.post(url, headers=headers, json=payload, timeout=TIMEOUT)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/product-shots-image-gen/scripts/setup.sh",
+        "line": 35,
+        "excerpt": "python3 -m pip install --quiet 'requests>=2.28'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/product-shots-image-gen/scripts/setup.sh",
+        "line": 45,
+        "excerpt": "python3 -m pip install --quiet 'Pillow>=10.0'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/product-shots-image-gen/scripts/setup.sh",
+        "line": 64,
+        "excerpt": "echo \"    echo 'your-token' > ~/.product_shots_imagegen_api_key && chmod 600 ~/.product_shots_imagegen_api_key\"",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "network": 5,
+      "downloads-code": 2,
+      "writes-outside": 1
+    },
+    "score": 72,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 7,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "063c508b0b7f4db5cda89f10bdf20df25026dfc5",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 72,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

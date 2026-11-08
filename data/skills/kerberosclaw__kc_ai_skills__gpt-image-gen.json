@@ -1,0 +1,158 @@
+{
+  "id": "kerberosclaw__kc_ai_skills__gpt-image-gen",
+  "owner": "KerberosClaw",
+  "repo": "kc_ai_skills",
+  "path": "gpt-image-gen",
+  "name": "gpt-image-gen",
+  "description": "Use when the user asks to generate OR edit an image via GPT/Codex (e.g. 「叫 gpt 生圖」「幫我用 gpt 生圖」「gpt 畫一個 X」「幫我去背」「把這張圖的背景去掉」). The skill drafts a Chinese + English prompt pair and waits for explicit approval. After approval it uses the host-native executor: Codex calls its built-in image_gen tool directly, while Claude Code keeps the Codex CLI background workflow. Supports text-to-image, img2img, and precise EDIT mode with preservation constraints and verification where local artifacts are available.",
+  "stars": 79,
+  "category": "coding",
+  "commit": "dbd37fbe2121356fe25b69c70cbe5fc8b8870415",
+  "contentHash": "33f773045af9bbe428fc3efd7bffe6bd3d5cb80b1c9f9c8adf6e4841c1ee8636",
+  "repoCreatedAt": "2026-03-18T22:54:18Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "gpt-image-gen/SKILL.md",
+        "line": 127,
+        "excerpt": "REF=\"<user 給的底圖絕對路徑>\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "gpt-image-gen/SKILL.md",
+        "line": 234,
+        "excerpt": "eval \"$(\"$SKILL_DIR/scripts/preflight_edit.sh\" \"$REF\")\"   # 缺 Pillow 或底圖不見會直接中止",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "gpt-image-gen/SKILL.md",
+        "line": 306,
+        "excerpt": "TS=$(date +%Y%m%d_%H%M%S)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "gpt-image-gen/SKILL.md",
+        "line": 358,
+        "excerpt": "STATE=$(ls -t /tmp/codex_imagegen_*.state 2>/dev/null | head -1)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "gpt-image-gen/SKILL.md",
+        "line": 373,
+        "excerpt": "codex exec --skip-git-repo-check \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "gpt-image-gen/SKILL.md",
+        "line": 384,
+        "excerpt": "codex exec --skip-git-repo-check \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "gpt-image-gen/SKILL.md",
+        "line": 457,
+        "excerpt": "OUT_PNG=$(\"$SKILL_DIR/scripts/collect.sh\" \"$OUT_PNG\" \"$START_MARKER\") || {",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "gpt-image-gen/SKILL.md",
+        "line": 488,
+        "excerpt": "\"$SKILL_DIR/scripts/verify_edit.py\" \"$REF\" \"$OUT_PNG\" \"$EDIT_KIND\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "gpt-image-gen/SKILL.md",
+        "line": 529,
+        "excerpt": "[ \"$MODE\" = \"edit\" ] && { echo \"編輯模式，跳過本段，走 5c-2\"; exit 0; }",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "gpt-image-gen/SKILL.md",
+        "line": 544,
+        "excerpt": "FINAL=\"$OUT_PNG\"        # 不轉檔、不刪檔，就這樣",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "gpt-image-gen/SKILL.md",
+        "line": 556,
+        "excerpt": "STRAY=$(find ~/.codex/generated_images -type f -iname '*.png' -newer \"$START_MARKER\" 2>/dev/null | head -1)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "gpt-image-gen/SKILL.md",
+        "line": 567,
+        "excerpt": "MODEL=$(grep -aoE 'gpt-[0-9.]+' \"$LOG_FILE\" | head -1)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "gpt-image-gen/SKILL.md",
+        "line": 654,
+        "excerpt": "rm -f \"$LAST_MSG\" \"$LOG_FILE\" \"$START_MARKER\" \"$STATE\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "gpt-image-gen/scripts/preflight_edit.sh",
+        "line": 26,
+        "excerpt": "echo \"缺少 Pillow，編輯模式的驗收跑不了。安裝：python3 -m pip install pillow\" >&2",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "gpt-image-gen/scripts/verify_edit.py",
+        "line": 29,
+        "excerpt": "print(\"需要 Pillow：python3 -m pip install pillow\", file=sys.stderr)",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 13,
+      "downloads-code": 2
+    },
+    "score": 82,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 4,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "dbd37fbe2121356fe25b69c70cbe5fc8b8870415",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 82,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

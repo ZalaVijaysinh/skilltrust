@@ -1,0 +1,236 @@
+{
+  "id": "nickcrew__claude-cortex__skills~wiring-audit",
+  "owner": "NickCrew",
+  "repo": "Claude-Cortex",
+  "path": "skills/wiring-audit",
+  "name": "wiring-audit",
+  "description": "User-triggered audit that finds wiring drift between a project's UI surfaces and backend capabilities — orphan surfaces (UI calls endpoints/hooks/procedures that no longer exist), unwired capabilities (backend routes/exports that nothing surfaces), shape drift (both exist but contracts mismatch), method drift (URL matches, HTTP verb does not), validation drift (frontend vs backend rules diverged), permission drift (UI exposes what backend forbids or vice versa), stale labels (UI text references renamed backend concepts), and unsurfaced configuration (env vars or flags that gate behavior with no UI or CLI to control them). This skill should be used when the user asks to \"audit our wiring,\" \"find UI/backend drift,\" \"find unwired capabilities,\" \"find stale surfaces,\" \"check for contract violations,\" \"find unused endpoints,\" \"find unused hooks,\" \"what mismatches between UI and backend,\" or any similar request whose deliverable is a prioritized findings report rather than a descriptive snapshot. Generic across UI frameworks but optimized for React applications (hooks, fetch, react-query, SWR, tRPC, server actions, react-router, Next.js). Not for descriptive architectural snapshots (use architectural-analysis), security audits (use security-auditor), or performance audits (use the performance-optimization skills).",
+  "stars": 66,
+  "category": "design",
+  "commit": "bb47af79ad3befe01ae01940fcf5f16e30a1b6df",
+  "contentHash": "9631ddd90c359450263d7cdc72e06c56e06e9d546316547eaf80843b3012336c",
+  "repoCreatedAt": "2025-10-17T05:08:29Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "skills/wiring-audit/references/finding-categories.md",
+        "line": 24,
+        "excerpt": "- `fetch('/api/users')` but backend only has `/api/v2/users`.",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/wiring-audit/references/finding-categories.md",
+        "line": 71,
+        "excerpt": "- UI `fetch('/api/users', { method: 'POST' })`, backend has only `GET /api/users`.",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/wiring-audit/references/react-patterns.md",
+        "line": 7,
+        "excerpt": "### Plain `fetch` and `axios`",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/wiring-audit/references/react-patterns.md",
+        "line": 12,
+        "excerpt": "const data = await fetch('/api/users').then(r => r.json())",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/wiring-audit/references/react-patterns.md",
+        "line": 13,
+        "excerpt": "const { data } = await axios.get('/api/users/' + id)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/wiring-audit/references/react-patterns.md",
+        "line": 23,
+        "excerpt": "queryFn: () => fetch('/api/users/' + id).then(r => r.json()),",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/wiring-audit/references/react-patterns.md",
+        "line": 27,
+        "excerpt": "mutationFn: (input: NewUser) => fetch('/api/users', {",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/wiring-audit/references/react-patterns.md",
+        "line": 90,
+        "excerpt": "return useQuery({ queryKey: ['users'], queryFn: () => fetch('/api/users') })",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/wiring-audit/references/react-patterns.md",
+        "line": 102,
+        "excerpt": "2. **Inner consumption**: `useUsers`'s `fetch('/api/users')` (`kind: http, identifier: GET /api/users`). Diffs against an `http_route` capability.",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/wiring-audit/references/react-patterns.md",
+        "line": 142,
+        "excerpt": "return fetch(`/api/users/${params.id}`)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/wiring-audit/references/react-patterns.md",
+        "line": 162,
+        "excerpt": "A server component that calls a backend route via `fetch('https://...')` IS a consumption. Capture it.",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "..."
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/wiring-audit/references/react-patterns.md",
+        "line": 174,
+        "excerpt": "loader: async ({ params }) => fetch(`/api/users/${params.id}`),",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/wiring-audit/references/react-patterns.md",
+        "line": 190,
+        "excerpt": "await fetch('/api/contact', { method: 'POST', body: ... })",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/wiring-audit/references/react-patterns.md",
+        "line": 279,
+        "excerpt": "mutationFn: (next) => fetch(...),",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/wiring-audit/references/react-patterns.md",
+        "line": 368,
+        "excerpt": "const data = await fetch('/api/old-endpoint')",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/wiring-audit/references/react-patterns.md",
+        "line": 387,
+        "excerpt": "- Vue: `<script setup>` + `useFetch` (Nuxt), `axios` calls, `<form @submit>`.",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/wiring-audit/references/report-template.md",
+        "line": 68,
+        "excerpt": "const { data } = useQuery({ queryKey: ['users'], queryFn: () => fetch('/api/old-users') })",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/wiring-audit/references/report-template.md",
+        "line": 76,
+        "excerpt": "- queryFn: () => fetch('/api/old-users')",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/wiring-audit/references/report-template.md",
+        "line": 77,
+        "excerpt": "+ queryFn: () => fetch('/api/users')",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/wiring-audit/references/report-template.md",
+        "line": 100,
+        "excerpt": "fetch('/api/projects', { method: 'POST', body: JSON.stringify(input) })",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/wiring-audit/scripts/render.sh",
+        "line": 25,
+        "excerpt": "npm install -g @mermaid-js/mermaid-cli",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/wiring-audit/scripts/render.sh",
+        "line": 27,
+        "excerpt": "brew install mermaid-cli",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "network": 32,
+      "downloads-code": 2
+    },
+    "score": 80,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 10,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "bb47af79ad3befe01ae01940fcf5f16e30a1b6df",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 80,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

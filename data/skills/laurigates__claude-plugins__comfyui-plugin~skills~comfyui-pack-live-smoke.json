@@ -1,0 +1,87 @@
+{
+  "id": "laurigates__claude-plugins__comfyui-plugin~skills~comfyui-pack-live-smoke",
+  "owner": "laurigates",
+  "repo": "claude-plugins",
+  "path": "comfyui-plugin/skills/comfyui-pack-live-smoke",
+  "name": "comfyui-pack-live-smoke",
+  "description": "Live-smoke a ComfyUI pack in a running instance: browser-driven and headless API-driven checks catch frontend/backend bugs unit tests miss. Use when verifying a pack before opening a registry PR.",
+  "stars": 59,
+  "category": "coding",
+  "commit": "9d783554148f9c8a9c55a486b480760d3da673e6",
+  "contentHash": "34a1ba9bac88b7471109cbcbfe3c22f3858f41ddeae953126895dddd314baa4f",
+  "repoCreatedAt": "2025-12-16T11:24:04Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "comfyui-plugin/skills/comfyui-pack-live-smoke/SKILL.md",
+        "line": 71,
+        "excerpt": "| Backend behaviour without the whole UI | The pack's routes answer over plain HTTP: `curl -s http://$COMFYUI_HOST/<route>` isolates backend vs. frontend instan",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$comfyui_host"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "comfyui-plugin/skills/comfyui-pack-live-smoke/SKILL.md",
+        "line": 104,
+        "excerpt": "python3 comfy_run.py --host \"${COMFYUI_HOST:-127.0.0.1:8188}\" --timeout 600 wf.json",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "comfyui-plugin/skills/comfyui-pack-live-smoke/SKILL.md",
+        "line": 114,
+        "excerpt": ".venv/bin/python -m py_compile custom_nodes/<pack>/<name>.py     # syntax only, doesn't import standalone",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "comfyui-plugin/skills/comfyui-pack-live-smoke/SKILL.md",
+        "line": 116,
+        "excerpt": "curl -s \"http://${COMFYUI_HOST:-127.0.0.1:8188}/object_info/<NodeClassName>\"   # verify registration",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "${comfyui_host"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "comfyui-plugin/skills/comfyui-pack-live-smoke/SKILL.md",
+        "line": 117,
+        "excerpt": "curl -s \"http://${COMFYUI_HOST:-127.0.0.1:8188}/<your_endpoint>\"              # smoke your routes",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "${comfyui_host"
+        ]
+      }
+    ],
+    "findingTotals": {
+      "network": 3,
+      "shell": 2
+    },
+    "score": 92,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "9d783554148f9c8a9c55a486b480760d3da673e6",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

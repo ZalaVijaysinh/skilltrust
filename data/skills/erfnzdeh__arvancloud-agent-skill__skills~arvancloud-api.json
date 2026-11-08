@@ -1,0 +1,211 @@
+{
+  "id": "erfnzdeh__arvancloud-agent-skill__skills~arvancloud-api",
+  "owner": "erfnzdeh",
+  "repo": "arvancloud-agent-skill",
+  "path": "skills/arvancloud-api",
+  "name": "arvancloud-api",
+  "description": "Operate ArvanCloud (arvancloud.ir) through its REST APIs, including CDN and DNS records, domains, cache purge, WAF and rate limits, Cloud Server (IaaS v3, v1 and the undocumented v2 backups), Object Storage, Edge Computing, Cloud Container, VOD, Live and Video Ads, plus Let's Encrypt DNS-01 certificates via acme.sh dns_arvan. Use when the user wants to list, create, change or delete anything on ArvanCloud, take an account inventory, find out which account a key belongs to, check quota or usage, or debug an ArvanCloud API error. Also trigger on hosts like napi.arvancloud.ir, ecc.{region}.arvanapis.ir, storage.arvanapis.ir, dejban.arvancloud.ir, an \"Apikey\" Authorization header, the dns_arvan plugin, or one of the user's ArvanCloud-hosted domains.",
+  "stars": 135,
+  "category": "coding",
+  "commit": "d42f1774603ad1da2fd8e37db9fb5a52b79f5eb0",
+  "contentHash": "0d87d59141241c3c42283631f10dba733d14c72794f44b37782db934adcbc41e",
+  "repoCreatedAt": "2026-07-02T09:13:15Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/arvancloud-api/SKILL.md",
+        "line": 42,
+        "excerpt": "tmp=$(mktemp) && jq --arg v \"$CONFIRMED_VAR_NAME\" '.apiKeyEnv = $v' ~/.config/arvan/config.json > \"$tmp\" && mv \"$tmp\" ~/.config/arvan/config.json",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/arvancloud-api/SKILL.md",
+        "line": 42,
+        "excerpt": "tmp=$(mktemp) && jq --arg v \"$CONFIRMED_VAR_NAME\" '.apiKeyEnv = $v' ~/.config/arvan/config.json > \"$tmp\" && mv \"$tmp\" ~/.config/arvan/config.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/arvancloud-api/SKILL.md",
+        "line": 49,
+        "excerpt": "RAW_KEY=\"${!CONFIRMED_VAR_NAME}\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/arvancloud-api/SKILL.md",
+        "line": 51,
+        "excerpt": "curl -s -H \"Authorization: Apikey $TOKEN\" \"https://napi.arvancloud.ir/cdn/4.0/domains?per_page=100\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "napi.arvancloud.ir"
+        ]
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/arvancloud-api/SKILL.md",
+        "line": 69,
+        "excerpt": "mkdir -p ~/.config/arvan",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/arvancloud-api/SKILL.md",
+        "line": 69,
+        "excerpt": "mkdir -p ~/.config/arvan",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/arvancloud-api/SKILL.md",
+        "line": 70,
+        "excerpt": "[ -f ~/.config/arvan/config.json ] || cp \"${CLAUDE_SKILL_DIR}/assets/config.example.json\" ~/.config/arvan/config.json",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/arvancloud-api/SKILL.md",
+        "line": 99,
+        "excerpt": "S=\"${CLAUDE_SKILL_DIR}/scripts/arvan-api.sh\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/arvancloud-api/SKILL.md",
+        "line": 138,
+        "excerpt": "mkdir -p ~/Downloads/arvancloud-api-specs",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/arvancloud-api/SKILL.md",
+        "line": 138,
+        "excerpt": "mkdir -p ~/Downloads/arvancloud-api-specs",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/arvancloud-api/SKILL.md",
+        "line": 141,
+        "excerpt": "curl -sL \"https://www.arvancloud.ir/api-docs/$spec\" -o \"$HOME/Downloads/arvancloud-api-specs/$spec\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "www.arvancloud.ir"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/arvancloud-api/SKILL.md",
+        "line": 149,
+        "excerpt": "`curl -L` loops on 307). Seed cookies first:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/arvancloud-api/SKILL.md",
+        "line": 152,
+        "excerpt": "COOKIES=\"$(mktemp)\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/arvancloud-api/SKILL.md",
+        "line": 153,
+        "excerpt": "curl -s -A \"Mozilla/5.0\" -c \"$COOKIES\" \"https://docs.arvancloud.ir/fa/developer-tools/api/api-usage\" -o /dev/null",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "docs.arvancloud.ir"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/arvancloud-api/SKILL.md",
+        "line": 154,
+        "excerpt": "curl -sL -A \"Mozilla/5.0\" -b \"$COOKIES\" --max-redirs 5 \"https://docs.arvancloud.ir/fa/developer-tools/api/api-usage\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "docs.arvancloud.ir"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/arvancloud-api/references/dns-and-tls.md",
+        "line": 29,
+        "excerpt": "Plain curl works the same way: `curl -s -H \"Authorization: Apikey $TOKEN\" \"https://napi.arvancloud.ir/cdn/4.0/domains?per_page=100\"`.",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "napi.arvancloud.ir"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/arvancloud-api/references/iaas.md",
+        "line": 50,
+        "excerpt": "Plain curl: `curl -s -H \"Authorization: Apikey $TOKEN\" https://ecc.ir-central1.arvanapis.ir/v3/servers`.",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "ecc.ir-central1.arvanapis.ir"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/arvancloud-api/scripts/arvan-api.sh",
+        "line": 127,
+        "excerpt": "code=\"$(curl -sS -m \"$timeout\" \"${req_args[@]}\" -o \"$body\" -D \"$tmpdir/headers\" -w '%{http_code}' \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 8,
+        "excerpt": "\"command\": \"${CLAUDE_PLUGIN_ROOT}/hooks/export-plugin-key.sh\"",
+        "disclosed": false,
+        "automatic": true
+      }
+    ],
+    "findingTotals": {
+      "writes-outside": 4,
+      "shell": 7,
+      "network": 8
+    },
+    "score": 87,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 14,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "d42f1774603ad1da2fd8e37db9fb5a52b79f5eb0",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 87,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

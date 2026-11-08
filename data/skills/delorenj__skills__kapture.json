@@ -1,0 +1,219 @@
+{
+  "id": "delorenj__skills__kapture",
+  "owner": "delorenj",
+  "repo": "skills",
+  "path": "kapture",
+  "name": "kapture",
+  "description": "The canonical browser tool on this machine. Set to be retired upon completion of successor `liam`. Kapture drives real Chrome tabs through a DevTools extension and a server on 127.0.0.1:61822, reachable by plain curl with no MCP wiring. Use for anything inside a web page here — in a tab it opens itself, or one the user already has open: opening a URL, reading a live page, filling a form, clicking through a flow, verifying a UI change, reading the console or network traffic, scraping, debugging a running app. Prefer it over the mcp__claude-in-chrome__* tools. Triggers: kapture, browse to, open this page, click that button, fill the form, screenshot the page, read the browser console, scrape this site. Do NOT use for the authenticated Chromium profile on the Mac (ego-browser); work that must stay out of the user's live browser — unattended runs, long loops, parallel sessions, anything destructive or focus-stealing (agent-workspace-linux)",
+  "stars": 17,
+  "category": "design",
+  "commit": "f5cafc3437df4f972b4ec26532173de779997c2d",
+  "contentHash": "a2d1140c5cca7cec7bea041b9003a89e58bd9b521502a21da00b6169931aebaa",
+  "repoCreatedAt": "2025-10-22T09:12:17Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": true,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "kapture/SKILL.md",
+        "line": 24,
+        "excerpt": "K=http://127.0.0.1:61822                                  # used by every example below",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "kapture/SKILL.md",
+        "line": 36,
+        "excerpt": "T=$(curl -s -m20 -X POST \"$K/tabs\" -d '{\"browser\":\"chrome\"}' | jq -r .tabId)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "kapture/SKILL.md",
+        "line": 36,
+        "excerpt": "T=$(curl -s -m20 -X POST \"$K/tabs\" -d '{\"browser\":\"chrome\"}' | jq -r .tabId)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "kapture/SKILL.md",
+        "line": 37,
+        "excerpt": "curl -s -X POST \"$K/tab/$T/navigate\" -d '{\"url\":\"https://example.com\"}'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "example.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "kapture/SKILL.md",
+        "line": 55,
+        "excerpt": "`POST /tab/{id}/screenshot` included. **Never use `curl -f` on a read** — a failed _command_ on a",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "kapture/SKILL.md",
+        "line": 69,
+        "excerpt": "jq -Rs '{script:.}' <<'EOF' | curl -s -X POST \"$K/tab/$T/compose\" --data-binary @-",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "kapture/SKILL.md",
+        "line": 69,
+        "excerpt": "jq -Rs '{script:.}' <<'EOF' | curl -s -X POST \"$K/tab/$T/compose\" --data-binary @-",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "kapture/references/failure-modes.md",
+        "line": 57,
+        "excerpt": "curl -s -X POST \"$K/tab/$T/dialog\" -d '{\"accept\":true}'          # OK / Leave",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "kapture/references/failure-modes.md",
+        "line": 58,
+        "excerpt": "curl -s -X POST \"$K/tab/$T/dialog\" -d '{\"accept\":false}'         # Cancel / Stay",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "kapture/references/failure-modes.md",
+        "line": 59,
+        "excerpt": "curl -s -X POST \"$K/tab/$T/dialog\" -d '{\"accept\":true,\"text\":\"hi\"}'  # prompt() value",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "kapture/references/http-api.md",
+        "line": 49,
+        "excerpt": "Parse the JSON body; never branch on the status, and **never use `curl -f` on a read** — it",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "kapture/references/http-api.md",
+        "line": 161,
+        "excerpt": "curl -s --get --data-urlencode \"selector=h1\" \"$K/tab/$T/elements\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "kapture/references/http-api.md",
+        "line": 163,
+        "excerpt": "curl -s -X POST \"$K/tab/$T/compose\" -d '{\"script\":\"elements?selector=h1&visible=true\"}'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "kapture/scripts/kapture-doctor.sh",
+        "line": 23,
+        "excerpt": "TABS=$(curl -sf -m3 \"$K/tabs\" 2>/dev/null) || {",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "kapture/scripts/kapture-doctor.sh",
+        "line": 26,
+        "excerpt": "start it:    (setsid npx -y kapture-mcp@latest >/tmp/kapture.log 2>&1 &)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "kapture/scripts/kapture-doctor.sh",
+        "line": 27,
+        "excerpt": "then wait:   for i in \\$(seq 20); do curl -sf -m1 $K/tabs >/dev/null && break; sleep 0.5; done",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "kapture/scripts/kapture-doctor.sh",
+        "line": 37,
+        "excerpt": "T=\\$(curl -s -X POST $K/tabs -d '{}' | jq -r .tabId)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "kapture/scripts/kapture-doctor.sh",
+        "line": 38,
+        "excerpt": "curl -s -X POST \"$K/tab/\\$T/navigate\" -d '{\"url\":\"https://example.com\"}'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "example.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "kapture/scripts/kapture-doctor.sh",
+        "line": 48,
+        "excerpt": "r=$(curl -sf -m5 --get --data-urlencode \"selector=title\" \"$K/tab/$id/elements\" 2>/dev/null)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "kapture/scripts/kapture-doctor.sh",
+        "line": 67,
+        "excerpt": "echo \"$live live, $zombie zombie, $(curl -sf -m3 \"$K/clients\" | jq 'length') MCP clients sharing this browser\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 3,
+      "network": 16,
+      "downloads-code": 1
+    },
+    "score": 77,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 4,
+    "filesSkipped": 2
+  },
+  "history": [
+    {
+      "commit": "f5cafc3437df4f972b4ec26532173de779997c2d",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 77,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

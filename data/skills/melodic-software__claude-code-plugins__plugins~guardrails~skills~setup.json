@@ -1,0 +1,916 @@
+{
+  "id": "melodic-software__claude-code-plugins__plugins~guardrails~skills~setup",
+  "owner": "melodic-software",
+  "repo": "claude-code-plugins",
+  "path": "plugins/guardrails/skills/setup",
+  "name": "setup",
+  "description": "Verify the guardrails hooks' runtime prerequisites, per-guard toggle state and git-hook entries for this machine, and register those entries. Use when: 'set up guardrails', 'configure guardrails', 'is guardrails working', 'which guards are on', a guard failed open with a jq notice, after tuning guard toggles, a hook reported a drifted git hook, or 'install the guardrails git hooks' / 'enforce the commit convention for every committer' / 'check secrets and hardcoded paths on every commit'. Actions: check (read-only verification, default) | apply (resolve what check found) | apply install-git-hooks [scope=local|shared|user] (register the commit-msg convention, pre-commit and pre-push content and reference-verify entries with the repository's hook manager; user: the commit-msg entry as a git config hook under an includeIf) | apply install-read-deny (opt-in: print Read() deny rules for .env, with user also ~/.ssh and ~/.aws, and add or remove them in the chosen settings file). Re-runnable and safe.",
+  "stars": 30,
+  "category": "coding",
+  "commit": "81c72446af1553c2cd25651e6d086297b658726d",
+  "contentHash": "d0205076dea52e0bbf1c3587332a5817335b48668d69c4ba10326a05e6b5f46b",
+  "repoCreatedAt": "2026-06-22T18:28:56Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/guardrails/skills/setup/SKILL.md",
+        "line": 212,
+        "excerpt": "interpreter that opens the file itself (`python3 -c \"open('.env')\"`). Pointer: \"Read and Edit\" in",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/guardrails/README.md",
+        "line": 93,
+        "excerpt": "| **block-windows-drive-tmp** | PreToolUse · Bash \\| PowerShell **and** Write \\| Edit \\| NotebookEdit | **Blocks** (exit 2) | Windows-only: write targets that a",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/guardrails/README.md",
+        "line": 94,
+        "excerpt": "| **block-exported-msys-pathconv** | PreToolUse · Bash \\| PowerShell | **Blocks** (exit 2) | Windows-only: an **exported** `MSYS_NO_PATHCONV` / `MSYS2_ARG_CONV_",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "obfuscated",
+        "file": "plugins/guardrails/README.md",
+        "line": 96,
+        "excerpt": "| **block-root-delete-target** | PreToolUse · Bash \\| PowerShell | **Blocks** (exit 2); **asks** instead when `CLAUDE_CODE_SESSION_ATTENDED` is `1`, `GUARDRAILS",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/guardrails/README.md",
+        "line": 96,
+        "excerpt": "| **block-root-delete-target** | PreToolUse · Bash \\| PowerShell | **Blocks** (exit 2); **asks** instead when `CLAUDE_CODE_SESSION_ATTENDED` is `1`, `GUARDRAILS",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/guardrails/README.md",
+        "line": 96,
+        "excerpt": "| **block-root-delete-target** | PreToolUse · Bash \\| PowerShell | **Blocks** (exit 2); **asks** instead when `CLAUDE_CODE_SESSION_ATTENDED` is `1`, `GUARDRAILS",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/guardrails/README.md",
+        "line": 98,
+        "excerpt": "| **block-cross-domain** | PreToolUse · Bash \\| PowerShell | **Blocks** (a `deny` decision on stdout, exit 0); a malformed map is reported to the user once per ",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/guardrails/README.md",
+        "line": 99,
+        "excerpt": "| **block-unresolved-pr-merge** | PreToolUse · Bash \\| PowerShell **and** `mcp__<server>__merge_pull_request` \\| `mcp__<server>__enable_pr_auto_merge` | **Block",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/guardrails/README.md",
+        "line": 101,
+        "excerpt": "| **block-github-post-content** | PreToolUse · Bash \\| PowerShell | **Blocks** (exit 2) | A command that posts a secret or a hardcoded machine-specific path to ",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/guardrails/README.md",
+        "line": 207,
+        "excerpt": "- **`wsl` / `wsl.exe` is read like `bash -c`** (since **0.38.11**). It runs its",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/guardrails/README.md",
+        "line": 209,
+        "excerpt": "`sh -c` operand (`block-no-verify`, `block-dangerous-git`,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/guardrails/README.md",
+        "line": 217,
+        "excerpt": "double-quoted, so `wsl bash -c 'git reset --hard'` blocks while",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/guardrails/README.md",
+        "line": 250,
+        "excerpt": "and Node's `child_process` **refuses** a NUL-bearing string outright.",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/guardrails/README.md",
+        "line": 520,
+        "excerpt": "parsed in-process as a `bash -c` operand is, and an `echo`'s escapes and a `printf`'s output are",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/guardrails/README.md",
+        "line": 529,
+        "excerpt": "was 19 to 66 ms (median 33) and hyperfine's `bash -c :` floor 128 ms. Fan-out harness, 15 interleaved",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/guardrails/README.md",
+        "line": 561,
+        "excerpt": "was 24 to 26 ms and hyperfine's `bash -c :` floor 93 ms. Fan-out harness, 15 interleaved rounds of `--runs 7`, S = 20 ms",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/guardrails/README.md",
+        "line": 588,
+        "excerpt": "`eval`, a `-c` operand or a here-string hands a shell is parsed in-process as a `bash -c` operand is.",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/guardrails/README.md",
+        "line": 603,
+        "excerpt": "code runs is parsed in-process as a `bash -c` operand is. So a call with no interpreter delete keeps",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/guardrails/README.md",
+        "line": 660,
+        "excerpt": "alternating blocks; its own `bash -c :` floor is 62 ms, a cold start where the harness times a fork",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/guardrails/README.md",
+        "line": 767,
+        "excerpt": "`EPOCHREALTIME` beside a `bash -c :` floor (S median 1.0 ms), arm order rotated, five runs",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/guardrails/README.md",
+        "line": 819,
+        "excerpt": "(`bash -c \"<hooks.json command>\"`, PreToolUse payload on stdin), which counts",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/guardrails/README.md",
+        "line": 823,
+        "excerpt": "**880 ms -> 297 ms** (n=5). The three that remain are the harness's `bash -c`,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/guardrails/README.md",
+        "line": 913,
+        "excerpt": "whose `bash -c :` floor is about 1 ms; the milliseconds are context, the",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/guardrails/README.md",
+        "line": 1158,
+        "excerpt": "`HOOK_TELEMETRY_SINK` unset, `bash -c :` spawn floor S = 3.2 ms interleaved, real file",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/guardrails/README.md",
+        "line": 1246,
+        "excerpt": "preceded by its own `bash -c :`. The host is shared, and its spawn floor moved from",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/guardrails/README.md",
+        "line": 1633,
+        "excerpt": "drive-root `\\tmp`, PowerShell `/tmp`, and the file-path lane still are. `curl -o`/`--output` and",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/guardrails/README.md",
+        "line": 1634,
+        "excerpt": "`wget -O`/`--output-document` destinations are judged the same way as cp/mv.",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/guardrails/README.md",
+        "line": 1653,
+        "excerpt": "`block_root_delete_target_allowed_roots` (`rm -rf ../../..`, `rm -rf ~/Documents/x`,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/guardrails/lib/github-post/github-post-body.sh",
+        "line": 375,
+        "excerpt": "curl) ghpost::curl \"$@\" && form=\"curl\" ;;",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/guardrails/.claude-plugin/plugin.json",
+        "line": 76,
+        "excerpt": "\"description\": \"Blocks a command whose output is a credential: git credential fill, gh auth token, a token-shaped variable echoed, and an interpreter (python -c",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/guardrails/.claude-plugin/plugin.json",
+        "line": 136,
+        "excerpt": "\"description\": \"Blocks a recursive delete (rm, Remove-Item, rd /s) of a filesystem, home, drive or UNC root, an empty or bare-variable operand, a protected tree",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/guardrails/hooks/block-credential-read.sh",
+        "line": 184,
+        "excerpt": "local credfile=\"${dir}(\\\\.git-credentials|\\\\.netrc|_netrc|\\\\.env(\\\\.[a-z0-9_.-]+)?|${jsonfile}|${keyfile})\"",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/guardrails/hooks/block-credential-read.sh",
+        "line": 255,
+        "excerpt": "block credential-file-read \"a credential file: .git-credentials, .netrc, .env, .credentials.json, .docker/config.json, ~/.ssh/id_*, ~/.aws/credentials\" \\",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/guardrails/hooks/block-credential-read.sh",
+        "line": 270,
+        "excerpt": "local path=\"(\\\\.git-credentials|\\\\.netrc|_netrc|\\\\.env(\\\\.[a-z0-9_-]+)?|\\\\.credentials\\\\.json|\\\\.docker[/\\\\\\\\]config\\\\.json|\\\\.ssh[/\\\\\\\\]id_[a-z0-9_]+|\\\\.aws[/\\",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/guardrails/hooks/block-credential-read.test.sh",
+        "line": 74,
+        "excerpt": "run \"gh auth token in a command substitution\" 'curl -H \"Authorization: Bearer $(gh auth token)\" https://api.github.com' 2",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": [
+          "api.github.com"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/guardrails/hooks/block-credential-read.test.sh",
+        "line": 120,
+        "excerpt": "run \"python -c open .env\" \"python3 -c \\\"print(open('.env').read())\\\"\" 2",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/guardrails/hooks/block-credential-read.test.sh",
+        "line": 121,
+        "excerpt": "run \"python -c open .env.local\" \"python -c \\\"print(open('.env.local').read())\\\"\" 2",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/guardrails/hooks/block-credential-read.test.sh",
+        "line": 122,
+        "excerpt": "run \"python -c read of an ssh private key\" \"python3 -c 'import os; print(open(os.path.expanduser(\\\"~/.ssh/id_rsa\\\")).read())'\" 2",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/guardrails/hooks/block-credential-read.test.sh",
+        "line": 123,
+        "excerpt": "run \"python -c read of an ed25519 key\" \"python3 -c \\\"print(open('${UH}/.ssh/id_ed25519').read())\\\"\" 2",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/guardrails/hooks/block-credential-read.test.sh",
+        "line": 124,
+        "excerpt": "run \"node -e readFileSync .env\" \"node -e \\\"console.log(require('fs').readFileSync('.env','utf8'))\\\"\" 2",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/guardrails/hooks/block-credential-read.test.sh",
+        "line": 126,
+        "excerpt": "run \"perl -e open .git-credentials\" \"perl -e 'open(F, \\\"<\\\", \\\"\\$ENV{HOME}/.git-credentials\\\"); print <F>'\" 2",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/guardrails/hooks/block-credential-read.test.sh",
+        "line": 128,
+        "excerpt": "run \"python heredoc reading ~/.aws/credentials\" \"python3 - <<'EOF'",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/guardrails/hooks/block-credential-read.test.sh",
+        "line": 130,
+        "excerpt": "print(Path('~/.aws/credentials').expanduser().read_text())",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/guardrails/hooks/block-credential-read.test.sh",
+        "line": 132,
+        "excerpt": "run \"python heredoc reading .docker/config.json\" \"cd /tmp && python3 <<EOF",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/guardrails/hooks/block-credential-read.test.sh",
+        "line": 134,
+        "excerpt": "print(json.load(open('${UH}/.docker/config.json')))",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/guardrails/hooks/block-credential-read.test.sh",
+        "line": 138,
+        "excerpt": "run \"jq . .docker/config.json\" 'jq . ~/.docker/config.json' 2",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/guardrails/hooks/block-credential-read.test.sh",
+        "line": 148,
+        "excerpt": "run_ps \"PowerShell: type .git-credentials\" 'type $HOME\\.git-credentials' 2",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/guardrails/hooks/block-credential-read.test.sh",
+        "line": 150,
+        "excerpt": "run_ps \"PowerShell: Get-Content ~/.aws/credentials\" 'Get-Content ~/.aws/credentials' 2",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/guardrails/hooks/block-credential-read.test.sh",
+        "line": 156,
+        "excerpt": "run \"cat .env\" 'cat .env' 0",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/guardrails/hooks/block-credential-read.test.sh",
+        "line": 157,
+        "excerpt": "run \"cat .netrc\" 'cat ~/.netrc' 0",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/guardrails/hooks/block-cross-domain.test.sh",
+        "line": 669,
+        "excerpt": "idw_each deny \"an append redirection to ~/.gitconfig\" 'echo \"[user]\" >> ~/.gitconfig'",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/guardrails/hooks/block-cross-domain.test.sh",
+        "line": 670,
+        "excerpt": "idw_each deny 'a redirection to $HOME/.gitconfig-work' 'printf x > \"$HOME/.gitconfig-work\"'",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/guardrails/hooks/block-cross-domain.test.sh",
+        "line": 672,
+        "excerpt": "idw_each deny \"tee -a ~/.gitconfig\" 'printf x | tee -a ~/.gitconfig'",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/guardrails/hooks/block-cross-domain.test.sh",
+        "line": 673,
+        "excerpt": "idw_each deny \"touch a *.gitconfig file\" 'touch ~/identities/work.gitconfig'",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/guardrails/hooks/block-cross-domain.test.sh",
+        "line": 674,
+        "excerpt": "idw_each deny \"cp to ~/.gitconfig\" 'cp /placeholder/template ~/.gitconfig'",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/guardrails/hooks/block-cross-domain.test.sh",
+        "line": 675,
+        "excerpt": "idw_each deny \"cp -t naming a *.gitconfig destination\" 'cp -t ~/.gitconfig.d/x.gitconfig /placeholder/template'",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/guardrails/hooks/block-cross-domain.test.sh",
+        "line": 676,
+        "excerpt": "idw_each deny \"ln -sf onto ~/.gitconfig\" 'ln -sf /placeholder/dotfiles/gitconfig ~/.gitconfig'",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/guardrails/hooks/block-cross-domain.test.sh",
+        "line": 677,
+        "excerpt": "idw_each deny \"cp -T is --no-target-directory, the last operand is the destination\" 'cp -T /placeholder/template ~/.gitconfig'",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/guardrails/hooks/block-cross-domain.test.sh",
+        "line": 678,
+        "excerpt": "idw_each deny \"ln -T onto ~/.gitconfig\" 'ln -T /placeholder/dotfiles/gitconfig ~/.gitconfig'",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/guardrails/hooks/block-cross-domain.test.sh",
+        "line": 679,
+        "excerpt": "idw_each deny \"mv ~/.gitconfig away\" 'mv ~/.gitconfig ~/.gitconfig.bak'",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/guardrails/hooks/block-cross-domain.test.sh",
+        "line": 680,
+        "excerpt": "idw_each deny \"rm ~/.gitconfig\" 'rm -f ~/.gitconfig'",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/guardrails/hooks/block-cross-domain.test.sh",
+        "line": 684,
+        "excerpt": "idw_each deny \"sudo tee\" 'sudo tee ~/.gitconfig'",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/guardrails/hooks/block-cross-domain.test.sh",
+        "line": 685,
+        "excerpt": "idw_each deny \"an &> redirection, which the parse splits\" 'echo x &> ~/.gitconfig'",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/guardrails/hooks/block-cross-domain.test.sh",
+        "line": 686,
+        "excerpt": "idw_each deny \"an &>> redirection\" 'echo x &>>~/.gitconfig'",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/guardrails/hooks/block-cross-domain.test.sh",
+        "line": 709,
+        "excerpt": "idw_each allow \"cp from ~/.gitconfig\" 'cp ~/.gitconfig /placeholder/backup'",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/guardrails/hooks/block-cross-domain.test.sh",
+        "line": 710,
+        "excerpt": "idw_each allow \"cp -T from ~/.gitconfig\" 'cp -T ~/.gitconfig /placeholder/backup'",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/guardrails/hooks/block-cross-domain.test.sh",
+        "line": 743,
+        "excerpt": "tel \"an identity write from a domain cwd\" \"$A_ROOT/repo\" 'echo x >> ~/.gitconfig' identity-write-deny domain blocked",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/guardrails/hooks/block-dangerous-git.test.sh",
+        "line": 1820,
+        "excerpt": "run_pwsh \"PS cmp: npx of the compared value (blocked)\" \\",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/guardrails/hooks/block-fix-request-post.test.sh",
+        "line": 129,
+        "excerpt": "deny \"curl REST JSON body\" \"curl -s -X POST -H 'Authorization: Bearer x' https://api.github.com/repos/o/r/issues/1/comments -d '{\\\"body\\\":\\\"$P\\\"}'\"",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": [
+          "api.github.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/guardrails/hooks/block-fix-request-post.test.sh",
+        "line": 130,
+        "excerpt": "deny \"curl REST JSON body, after an escaped newline\" \"curl -s https://api.github.com/repos/o/r/issues/1/comments --data '{\\\"body\\\":\\\"Context\\\\n$P\\\"}'\"",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": [
+          "api.github.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/guardrails/hooks/block-fix-request-post.test.sh",
+        "line": 131,
+        "excerpt": "deny \"curl GraphQL mutation\" \"curl -s https://api.github.com/graphql -d '{\\\"query\\\":\\\"mutation { addComment(input:{subjectId:\\\\\\\"I_1\\\\\\\", body:\\\\\\\"$P\\\\\\\"}) { cl",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": [
+          "api.github.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/guardrails/hooks/block-fix-request-post.test.sh",
+        "line": 132,
+        "excerpt": "deny \"curl to a GHES /api/v3 route\" \"curl -s https://ghe.example.com/api/v3/repos/o/r/issues/1/comments -d '{\\\"body\\\":\\\"$P\\\"}'\"",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": [
+          "ghe.example.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/guardrails/hooks/block-fix-request-post.test.sh",
+        "line": 133,
+        "excerpt": "deny \"curl form-encoded body\" \"curl -s https://api.github.com/repos/o/r/issues/1/comments --data-urlencode 'body=PR-fix lane%3A please fix this finding'\"",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": [
+          "api.github.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/guardrails/hooks/block-fix-request-post.test.sh",
+        "line": 153,
+        "excerpt": "deny \"curl -d @file\" \"curl -s https://api.github.com/repos/o/r/issues/1/comments -d @payload.json\"",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": [
+          "api.github.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/guardrails/hooks/block-fix-request-post.test.sh",
+        "line": 170,
+        "excerpt": "deny \"curl -d @- from a heredoc\" \"curl -s https://api.github.com/repos/o/r/issues/1/comments -d @- <<'EOF'",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": [
+          "api.github.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/guardrails/hooks/block-fix-request-post.test.sh",
+        "line": 225,
+        "excerpt": "quiet \"curl to another host\" \"curl -s https://example.com/hook -d 'body=$P'\"",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": [
+          "example.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/guardrails/hooks/block-fix-request-post.test.sh",
+        "line": 226,
+        "excerpt": "quiet \"curl GET of a GitHub search\" \"curl -s -G https://api.github.com/search/issues --data-urlencode 'q=$P'\"",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": [
+          "api.github.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/guardrails/hooks/block-fix-request-post.test.sh",
+        "line": 247,
+        "excerpt": "quiet \"curl JSON with the phrase quoted\" \"curl -s https://api.github.com/repos/o/r/issues/1/comments -d '{\\\"body\\\":\\\"> $P\\\"}'\"",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": [
+          "api.github.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/guardrails/hooks/block-github-post-content.test.sh",
+        "line": 85,
+        "excerpt": "deny \"curl with short flags written together\" \"curl -sSd '{\\\"body\\\":\\\"$TOK\\\"}' https://api.github.com/repos/o/r/issues/1/comments\" secret",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": [
+          "api.github.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/guardrails/hooks/block-github-post-content.test.sh",
+        "line": 86,
+        "excerpt": "deny \"curl POST to the API\" \"curl -X POST https://api.github.com/repos/o/r/issues/1/comments -d '{\\\"body\\\":\\\"$TOK\\\"}'\" secret",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": [
+          "api.github.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/guardrails/hooks/block-github-post-content.test.sh",
+        "line": 119,
+        "excerpt": "quiet \"home-dir body file joined to curl -d@\" \"curl -d@/ho\"\"me/alice/r/body.json https://api.github.com/repos/o/r/issues/1/comments\"",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": [
+          "api.github.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/guardrails/hooks/block-github-post-content.test.sh",
+        "line": 120,
+        "excerpt": "quiet \"token in an Authorization header, clean body\" \"curl -X POST -H 'Authorization: Bearer $TOK' -d '{\\\"body\\\":\\\"Looks good\\\"}' https://api.github.com/repos/o",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": [
+          "api.github.com"
+        ]
+      },
+      {
+        "ruleId": "obfuscated",
+        "file": "plugins/guardrails/hooks/block-root-delete-target-c.test.sh",
+        "line": 211,
+        "excerpt": "echo B64 | base64 -d | sh",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "obfuscated",
+        "file": "plugins/guardrails/hooks/block-root-delete-target-c.test.sh",
+        "line": 212,
+        "excerpt": "echo B64 | base64 --decode | bash",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "obfuscated",
+        "file": "plugins/guardrails/hooks/block-root-delete-target-c.test.sh",
+        "line": 213,
+        "excerpt": "printf %s B64 | base64 -D | zsh",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "obfuscated",
+        "file": "plugins/guardrails/hooks/block-root-delete-target-c.test.sh",
+        "line": 214,
+        "excerpt": "base64 -d <<< B64 | bash -s",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "obfuscated",
+        "file": "plugins/guardrails/hooks/block-root-delete-target-c.test.sh",
+        "line": 216,
+        "excerpt": "echo B64 | base64 -d | tee /tmp/rdt-x | sh",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "obfuscated",
+        "file": "plugins/guardrails/hooks/block-root-delete-target-c.test.sh",
+        "line": 217,
+        "excerpt": "echo B64 | base64 -d | cat | sh",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "obfuscated",
+        "file": "plugins/guardrails/hooks/block-root-delete-target-c.test.sh",
+        "line": 218,
+        "excerpt": "echo B64 | base64 -d | tr -d '\\r' | sh",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "obfuscated",
+        "file": "plugins/guardrails/hooks/block-root-delete-target-c.test.sh",
+        "line": 219,
+        "excerpt": "echo B64 | base64 -d | head -c 999 | bash",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "obfuscated",
+        "file": "plugins/guardrails/hooks/block-root-delete-target-c.test.sh",
+        "line": 221,
+        "excerpt": "echo B64 | base64 -d | sh -c sh",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "obfuscated",
+        "file": "plugins/guardrails/hooks/block-root-delete-target-c.test.sh",
+        "line": 222,
+        "excerpt": "echo B64 | base64 -d | bash -c 'cat | sh'",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "obfuscated",
+        "file": "plugins/guardrails/hooks/block-root-delete-target-c.test.sh",
+        "line": 223,
+        "excerpt": "echo B64 | base64 -d | bash /dev/fd/0",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "obfuscated",
+        "file": "plugins/guardrails/hooks/block-root-delete-target-c.test.sh",
+        "line": 225,
+        "excerpt": "python3 -c \"import os; os.system('echo B64 | base64 -d | sh')\"",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "obfuscated",
+        "file": "plugins/guardrails/hooks/block-root-delete-target-c.test.sh",
+        "line": 227,
+        "excerpt": "echo B64 | basenc --base64 -d | sh",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "obfuscated",
+        "file": "plugins/guardrails/hooks/block-root-delete-target-c.test.sh",
+        "line": 245,
+        "excerpt": "echo \"$(echo B64 | base64 -d | sh)\"",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "obfuscated",
+        "file": "plugins/guardrails/hooks/block-root-delete-target-c.test.sh",
+        "line": 282,
+        "excerpt": "base64 -d build/rdt-x.b64 | bash build/rdt-x.sh",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "obfuscated",
+        "file": "plugins/guardrails/hooks/block-root-delete-target-c.test.sh",
+        "line": 285,
+        "excerpt": "git commit -m \"echo cm0gLXJmIC8= | base64 -d | sh\"",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "obfuscated",
+        "file": "plugins/guardrails/hooks/block-root-delete-target-c.test.sh",
+        "line": 313,
+        "excerpt": "--command 'echo cm0gLXJmIC8= | base64 -d | sh' -- CLAUDE_CODE_SESSION_ATTENDED=1",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "obfuscated",
+        "file": "plugins/guardrails/hooks/block-root-delete-target-c.test.sh",
+        "line": 314,
+        "excerpt": "guard_invoke --command 'echo cm0gLXJmIC8= | base64 -d | sh'",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "obfuscated",
+        "file": "plugins/guardrails/hooks/block-root-delete-target-d.test.sh",
+        "line": 155,
+        "excerpt": "--command \"bash <<'EOF'${RDT_NL}echo cm0gLXJmIC8= | base64 -d | sh${RDT_NL}EOF\"",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/guardrails/hooks/block-windows-drive-tmp.test.sh",
+        "line": 620,
+        "excerpt": "run_win \"npx tsx fs.open(/c/tmp, 'w') (blocked)\" \\",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/guardrails/hooks/block-windows-drive-tmp.test.sh",
+        "line": 621,
+        "excerpt": "\"npx tsx -e \\\"require('fs').open('/c/tmp/x','w',()=>{})\\\"\" 2",
+        "disclosed": false,
+        "automatic": true
+      }
+    ],
+    "findingTotals": {
+      "reads-secrets": 37,
+      "network": 58,
+      "shell": 178,
+      "obfuscated": 21,
+      "writes-outside": 102,
+      "downloads-code": 3
+    },
+    "score": 37,
+    "band": "high",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 88,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "81c72446af1553c2cd25651e6d086297b658726d",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 37,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

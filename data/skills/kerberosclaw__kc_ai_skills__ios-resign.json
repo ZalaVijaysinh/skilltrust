@@ -1,0 +1,77 @@
+{
+  "id": "kerberosclaw__kc_ai_skills__ios-resign",
+  "owner": "KerberosClaw",
+  "repo": "kc_ai_skills",
+  "path": "ios-resign",
+  "name": "ios-resign",
+  "description": "Use when the user wants to rebuild, re-sign and reinstall one of their own iOS apps onto their iPhone(s) — typically because a free Apple ID provisioning profile expired after 7 days and the app now crashes on launch — OR just wants to check that such a project still builds and signs without touching any phone (build-only), OR wants to set a project up for this (重簽／重新簽／App 過期閃退／重裝到手機／確認還編得過／只編譯不要裝／設定重簽). If the repo has a resign.yaml, use this skill for any build/sign check instead of hand-rolling xcodebuild: it runs outside the agent sandbox (Swift macro plugins and signing fail inside it) and knows the project's scheme, configuration and prebuild step. Reads the project's resign.yaml (in version control) plus resign.local.yaml (this Mac's phones), builds with xcodebuild, installs and launches via devicectl, and maps every failure to a fixed exit code with a plain-language next step. Setup mode inspects the Xcode project, drafts both YAML files for the user to confirm, and walks the human-only steps (Apple ID login, trusting the computer, Developer Mode, trusting the developer). NOT for App Store / TestFlight distribution, paid-team ad-hoc signing workflows, or editing app code.",
+  "stars": 79,
+  "category": "coding",
+  "commit": "dbd37fbe2121356fe25b69c70cbe5fc8b8870415",
+  "contentHash": "8e4a45391ae631f1319d6e7b4ea947ed78719ab2e3b2216fd799dc04f3541c12",
+  "repoCreatedAt": "2026-03-18T22:54:18Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "ios-resign/SKILL.md",
+        "line": 45,
+        "excerpt": "<skill>/scripts/resign.sh --list            # 在專案資料夾裡",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "ios-resign/SKILL.md",
+        "line": 63,
+        "excerpt": "<skill>/scripts/resign.sh [--config <repo>/resign.yaml] [--variant <版本>] [手機名稱 ...]",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "ios-resign/SKILL.md",
+        "line": 108,
+        "excerpt": "<skill>/scripts/inspect.sh                          # 在 repo 根目錄：列 .xcodeproj、Xcode 團隊、配對過的 iPhone",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "ios-resign/scripts/resign.sh",
+        "line": 102,
+        "excerpt": "(cd \"${RESIGN_ROOT}\" && /bin/bash -c \"${RESIGN_PREBUILD}\") || fail 12 \"建置前指令失敗：${RESIGN_PREBUILD}\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "ios-resign/tests/mutate.sh",
+        "line": 26,
+        "excerpt": "resign.sh|s#/bin/bash -c \"${RESIGN_PREBUILD}\"#true#|不跑建置前指令",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 5
+    },
+    "score": 95,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 7,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "dbd37fbe2121356fe25b69c70cbe5fc8b8870415",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 95,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

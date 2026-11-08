@@ -1,0 +1,151 @@
+{
+  "id": "nimbleway__agent-skills__skills~healthcare-providers-verify",
+  "owner": "Nimbleway",
+  "repo": "agent-skills",
+  "path": "skills/healthcare-providers-verify",
+  "name": "healthcare-providers-verify",
+  "description": "Validates practitioner credentials and license status against the NPI registry.\nCross-references specialties, credentials, and practice addresses against\nofficial records. Returns Verified / Partially Verified / Unverified / Flagged\nper practitioner with mismatch details and source URLs.\n\nTriggers: \"verify these doctors\", \"check provider credentials\", \"validate\nlicenses\", \"verify NPI numbers\", \"cross-check credentials against NPI\",\n\"compliance audit on providers\", \"are these practitioners still licensed\",\n\"validate my provider list\". Accepts CSV, Google Sheet URL, or pasted data.\n\nDo NOT use for extracting providers from practice URLs — use healthcare-providers-extract instead.\nDo NOT use for filling data gaps — use healthcare-providers-enrich instead.\nDo NOT use for discovering practices — use market-finder or local-places instead.\nDo NOT use for general extraction — use nimble-web-expert instead.",
+  "stars": 61,
+  "category": "data",
+  "commit": "1b98fc453d2d2c5b3cea763fb2992c3b7d772232",
+  "contentHash": "957a50e4e1cdb680738c4f6c92db0edadf007a5f08a74bc614fdc9a371acd21f",
+  "repoCreatedAt": "2026-01-29T12:02:49Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/healthcare-providers-verify/SKILL.md",
+        "line": 67,
+        "excerpt": "- `mkdir -p ~/.nimble/memory/{reports,healthcare-providers-verify/checkpoints}`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/healthcare-providers-verify/SKILL.md",
+        "line": 93,
+        "excerpt": "ls ~/.nimble/memory/reports/healthcare-providers-extract-*$(date +%Y-%m-%d).md 2>/dev/null",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/healthcare-providers-verify/SKILL.md",
+        "line": 145,
+        "excerpt": "nimble extract:templates list --limit 50  # filter items for \"[specialty]\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/healthcare-providers-verify/SKILL.md",
+        "line": 157,
+        "excerpt": "nimble extract --url \"https://npiregistry.cms.hhs.gov/api/?version=2.1&first_name=[First]&last_name=[Last]&state=[ST]&limit=5\" --format markdown",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/healthcare-providers-verify/SKILL.md",
+        "line": 167,
+        "excerpt": "nimble search --query \"[Name] [Credential] [State] NPI registry\" --max-results 5 --search-depth lite",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/healthcare-providers-verify/SKILL.md",
+        "line": 196,
+        "excerpt": "2. Write checkpoint: `echo '[results]' > ~/.nimble/memory/healthcare-providers-verify/checkpoints/{slug}/batch-{n}.json`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/healthcare-providers-verify/SKILL.md",
+        "line": 234,
+        "excerpt": "nimble search --query \"[practice-name] [city] [state]\" --max-results 5 --search-depth lite",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/healthcare-providers-verify/SKILL.md",
+        "line": 239,
+        "excerpt": "nimble search --query \"[name] [credentials] clinical trials OR FDA OR board certification\" --max-results 5 --search-depth lite",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/healthcare-providers-verify/references/memory-and-distribution.md",
+        "line": 462,
+        "excerpt": "mkdir -p ~/.nimble/memory/{competitors,people,companies,reports,positioning,synthesis}",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/healthcare-providers-verify/references/npi-verification-patterns.md",
+        "line": 244,
+        "excerpt": "echo '{...}' > ~/.nimble/memory/healthcare-providers-verify/checkpoints/{slug}/verify.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/healthcare-providers-verify/references/profile-and-onboarding.md",
+        "line": 161,
+        "excerpt": "> Run: `npm install -g @nimble-way/nimble-cli`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/healthcare-providers-verify/references/profile-and-onboarding.md",
+        "line": 164,
+        "excerpt": "> [nodejs.org](https://nodejs.org), then run: `npm install -g @nimble-way/nimble-cli`\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/healthcare-providers-verify/references/profile-and-onboarding.md",
+        "line": 196,
+        "excerpt": "`npm uninstall -g @nimble-way/nimble-cli && npm install -g @nimble-way/nimble-cli`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/healthcare-providers-verify/references/profile-and-onboarding.md",
+        "line": 247,
+        "excerpt": "mkdir -p ~/.nimble/memory/{competitors,people,companies,reports,positioning,synthesis}",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "writes-outside": 5,
+      "shell": 6,
+      "downloads-code": 3
+    },
+    "score": 72,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 15,
+    "filesSkipped": 1
+  },
+  "history": [
+    {
+      "commit": "1b98fc453d2d2c5b3cea763fb2992c3b7d772232",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 72,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

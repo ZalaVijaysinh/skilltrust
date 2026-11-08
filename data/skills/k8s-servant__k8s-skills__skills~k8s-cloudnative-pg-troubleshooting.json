@@ -1,0 +1,93 @@
+{
+  "id": "k8s-servant__k8s-skills__skills~k8s-cloudnative-pg-troubleshooting",
+  "owner": "k8s-servant",
+  "repo": "k8s-skills",
+  "path": "skills/k8s-cloudnative-pg-troubleshooting",
+  "name": "k8s-cloudnative-pg-troubleshooting",
+  "description": "Use when a CloudNativePG (CNPG) PostgreSQL Cluster in Kubernetes is not healthy: a Cluster stuck in \"Setting up primary\", \"Creating a new replica\" or \"Waiting for the instances to become active\", fewer ready instances than requested, an initdb or join pod that is Pending or in CreateContainerConfigError, PVCs that stay Pending, a bootstrap Secret that is missing, a replica that cannot be scheduled (pod anti-affinity, nodeSelector, taints), \"Not enough disk space\", failing WAL archiving or backups (ContinuousArchiving, LastBackupSucceeded False), a failover or switchover that does not finish, \"Invalid cluster definition\" or \"Cluster is unrecoverable\", and operator errors. Investigates with kubectl get, describe, events and logs, never reading Secrets, and proposes fixes. Reads first and asks before changing anything.",
+  "stars": 35,
+  "category": "devops",
+  "commit": "bfaba9c6fd833eaffc6772f2876c30d5777fddf9",
+  "contentHash": "55b01b9a081eaefebefffdfa9d3978fb45db6cb3fae64010808a00bd4c467374",
+  "repoCreatedAt": "2026-10-23T12:54:21Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-cloudnative-pg-troubleshooting/SKILL.md",
+        "line": 89,
+        "excerpt": "kubectl get clusters.postgresql.cnpg.io -A",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-cloudnative-pg-troubleshooting/SKILL.md",
+        "line": 98,
+        "excerpt": "kubectl get pods,pvc,jobs -n my-namespace -l cnpg.io/cluster=my-db -o wide",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-cloudnative-pg-troubleshooting/SKILL.md",
+        "line": 109,
+        "excerpt": "kubectl get clusters.postgresql.cnpg.io my-db -n my-namespace -o jsonpath='storage: {.spec.storage}{\"\\nwal: \"}{.spec.walStorage}{\"\\nbootstrap: \"}{.spec.bootstra",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-cloudnative-pg-troubleshooting/SKILL.md",
+        "line": 117,
+        "excerpt": "kubectl logs deployment/cnpg-controller-manager -n cnpg-system --since=1h | grep '\"name\":\"my-db\"' | grep -v '\"level\":\"info\"' | tail -n 30",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-cloudnative-pg-troubleshooting/SKILL.md",
+        "line": 129,
+        "excerpt": "kubectl get backups.postgresql.cnpg.io,scheduledbackups.postgresql.cnpg.io -n my-namespace",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-cloudnative-pg-troubleshooting/SKILL.md",
+        "line": 205,
+        "excerpt": "kubectl delete clusters.postgresql.cnpg.io my-db -n my-namespace",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-cloudnative-pg-troubleshooting/SKILL.md",
+        "line": 233,
+        "excerpt": "kubectl delete pod/my-db-2 pvc/my-db-2 -n my-namespace",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 7
+    },
+    "score": 95,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "bfaba9c6fd833eaffc6772f2876c30d5777fddf9",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 95,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

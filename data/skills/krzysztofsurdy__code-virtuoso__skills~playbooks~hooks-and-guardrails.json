@@ -1,0 +1,130 @@
+{
+  "id": "krzysztofsurdy__code-virtuoso__skills~playbooks~hooks-and-guardrails",
+  "owner": "krzysztofsurdy",
+  "repo": "code-virtuoso",
+  "path": "skills/playbooks/hooks-and-guardrails",
+  "name": "hooks-and-guardrails",
+  "description": "Adds guardrails to an AI coding agent setup, including deny rules for secrets, sandbox and permission choices, and hooks that block .env reads and gate 'done' on passing tests. Use when hardening an agent, adding hooks, or stopping secret reads.",
+  "stars": 27,
+  "category": "coding",
+  "commit": "70f43af39f2c4f9101e0c1e0ecaec7df543d35c8",
+  "contentHash": "8470c2b5ee048a622adb614f8cfcbe6e7d022ac1704fbfd250f026e6089bb688",
+  "repoCreatedAt": "2026-02-26T11:31:29Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/playbooks/hooks-and-guardrails/references/claude-code-settings.md",
+        "line": 90,
+        "excerpt": "Setting `args` puts the hook in exec form with no shell, so the script path needs no quoting and `args[0]` reaches `stop-gate.sh` as one argument. `Bash(curl *)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/playbooks/hooks-and-guardrails/references/deny-rules-and-modes.md",
+        "line": 35,
+        "excerpt": "| `sandbox.filesystem.denyRead` | Blocks shell processes from reading a path, for example `[\"~/.aws\", \"~/.ssh\"]` |",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/playbooks/hooks-and-guardrails/references/deny-rules-and-modes.md",
+        "line": 47,
+        "excerpt": "| `Bash(curl *)` | `curl ...` as written | `/usr/bin/curl`, `sh -c 'curl ...'`, option and variable variants |",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/playbooks/hooks-and-guardrails/scripts/stop-gate.sh",
+        "line": 27,
+        "excerpt": "output=\"$(bash -c \"$test_cmd\" 2>&1)\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/playbooks/hooks-and-guardrails/scripts/test-hooks.sh",
+        "line": 63,
+        "excerpt": "expect_exit \"read ssh private key is blocked\" 2 \"$S\" \"$(pre Read '{\"file_path\":\"/home/u/.ssh/id_ed25519\"}')\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/playbooks/hooks-and-guardrails/scripts/test-hooks.sh",
+        "line": 64,
+        "excerpt": "expect_exit \"read aws credentials is blocked\" 2 \"$S\" \"$(pre Read '{\"file_path\":\"/home/u/.aws/credentials\"}')\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/playbooks/hooks-and-guardrails/scripts/test-hooks.sh",
+        "line": 75,
+        "excerpt": "expect_exit \"bash cat .env is blocked\" 2 \"$S\" \"$(pre Bash '{\"command\":\"cat .env\"}')\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/playbooks/hooks-and-guardrails/scripts/test-hooks.sh",
+        "line": 76,
+        "excerpt": "expect_exit \"bash cat nested .env.production is blocked\" 2 \"$S\" \"$(pre Bash '{\"command\":\"cat ./config/.env.production | head\"}')\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/playbooks/hooks-and-guardrails/scripts/test-hooks.sh",
+        "line": 77,
+        "excerpt": "expect_exit \"bash source .env is blocked\" 2 \"$S\" \"$(pre Bash '{\"command\":\"set -a; source .env; set +a\"}')\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/playbooks/hooks-and-guardrails/scripts/test-hooks.sh",
+        "line": 78,
+        "excerpt": "expect_exit \"bash ls ~/.ssh is blocked\" 2 \"$S\" \"$(pre Bash '{\"command\":\"ls ~/.ssh\"}')\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/playbooks/hooks-and-guardrails/scripts/test-hooks.sh",
+        "line": 89,
+        "excerpt": "expect_exit \"other tools are ignored\" 0 \"$S\" \"$(pre WebFetch '{\"url\":\"https://example.com/.env\"}')\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "example.com"
+        ]
+      }
+    ],
+    "findingTotals": {
+      "shell": 3,
+      "reads-secrets": 7,
+      "network": 1
+    },
+    "score": 84,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 10,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "70f43af39f2c4f9101e0c1e0ecaec7df543d35c8",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 84,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

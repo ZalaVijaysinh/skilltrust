@@ -1,0 +1,133 @@
+{
+  "id": "bjcoombs__ai-native-toolkit__skills~pr-review-merge",
+  "owner": "bjcoombs",
+  "repo": "ai-native-toolkit",
+  "path": "skills/pr-review-merge",
+  "name": "pr-review-merge",
+  "description": "Drive a single pull request to merge-ready across all six criteria (sync, CI, inline comments, conversation, threads, bot re-review of the head commit), then smart-merge it. Source-agnostic library skill invoked by the /tm, /issues, /fix-pr, and /fix-develop commands and by marathon teammates. TRIGGER when a command or agent needs the PR review-to-green loop or the smart-merge (stale-bot-CR dismissal, auto-merge criteria, UNSTABLE/UNKNOWN handling, merge ordering), or when the user asks to take a PR to green/merge it.",
+  "stars": 32,
+  "category": "coding",
+  "commit": "82a6017d2079ff660452106e2f48e3030801feb5",
+  "contentHash": "efccf340ba5cd96819d32636624059f7ac44e52893f86cfcff331c97dab0ff02",
+  "repoCreatedAt": "2026-01-13T14:50:25Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/pr-review-merge/SKILL.md",
+        "line": 37,
+        "excerpt": "HEAD_SHA=$(gh pr view $PR --json headRefOid | jq -r '.headRefOid')",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/pr-review-merge/SKILL.md",
+        "line": 63,
+        "excerpt": "jq -n --arg tid \"$THREAD_ID\" '{\"query\": \"mutation { resolveReviewThread(input: {threadId: \\\"\\($tid)\\\"}) { thread { isResolved } } }\"}' | gh api graphql --input ",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/pr-review-merge/SKILL.md",
+        "line": 76,
+        "excerpt": "gh pr view --json reviews | jq '.reviews[] | select(.state == \"CHANGES_REQUESTED\")'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/pr-review-merge/SKILL.md",
+        "line": 84,
+        "excerpt": "BASE=$(gh repo view --json defaultBranchRef --jq '.defaultBranchRef.name' 2>/dev/null || echo \"main\")",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/pr-review-merge/SKILL.md",
+        "line": 93,
+        "excerpt": "git checkout --theirs .claude-plugin/plugin.json   # base side, which has the merged siblings' description/other-field edits",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/pr-review-merge/SKILL.md",
+        "line": 108,
+        "excerpt": "PR=$(gh pr view --json number --jq '.number')",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/pr-review-merge/SKILL.md",
+        "line": 133,
+        "excerpt": "gh api graphql -f query='query { repository(owner: \"<owner>\", name: \"<repo>\") {",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/pr-review-merge/SKILL.md",
+        "line": 170,
+        "excerpt": "PR=<number>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/pr-review-merge/SKILL.md",
+        "line": 203,
+        "excerpt": "gh pr merge $PR --squash --delete-branch --admin",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/pr-review-merge/SKILL.md",
+        "line": 209,
+        "excerpt": "gh pr view $PR --json state,mergedAt,mergeStateStatus | jq '{state, mergedAt, mergeStateStatus}'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/pr-review-merge/SKILL.md",
+        "line": 216,
+        "excerpt": "MERGED=$(gh pr view $PR --json state --jq '.state')",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/pr-review-merge/SKILL.md",
+        "line": 236,
+        "excerpt": "for PR in <all-eligible-pr-numbers>; do",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 12
+    },
+    "score": 97,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "82a6017d2079ff660452106e2f48e3030801feb5",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 97,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

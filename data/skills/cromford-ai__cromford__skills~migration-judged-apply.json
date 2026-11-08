@@ -1,0 +1,137 @@
+{
+  "id": "cromford-ai__cromford__skills~migration-judged-apply",
+  "owner": "cromford-ai",
+  "repo": "cromford",
+  "path": "skills/migration-judged-apply",
+  "name": "migration-judged-apply",
+  "description": "Apply a merged migration SQL file to a product app's production database through its own /api/internal/migrations/apply endpoint — deploy gate first, classifier verdict respected, verified against the app's own ledger, one ALERT and stop on failure. Use when a migration is pending, an apply was refused or flagged, or someone asks to \"apply the migration\" / \"why is this migration stuck\".",
+  "stars": 29,
+  "category": "coding",
+  "commit": "0d06b69a65fbb9a73383e7050c2b7e2a69aa0969",
+  "contentHash": "b2cf14125d311e447258184a67e6cebb347fa0f2472185f6d20324cf1b35df7f",
+  "repoCreatedAt": "2026-10-13T17:02:26Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/migration-judged-apply/SKILL.md",
+        "line": 64,
+        "excerpt": "P=project-2                                   # the project",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/migration-judged-apply/SKILL.md",
+        "line": 67,
+        "excerpt": "MIG() { curl -sf -m 60 -H \"Authorization: Bearer $MIGRATION_TOKEN\" -H 'User-Agent: curl/8' \"$@\"; }",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/migration-judged-apply/SKILL.md",
+        "line": 75,
+        "excerpt": "( . /root/harness/bin/jobs-client.sh; job_ledger_get migration \"$P <file>\" ); echo \"rc=$?\"  # rc 0 = row (status printed), 2 = none, 1 = could not ask",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/migration-judged-apply/SKILL.md",
+        "line": 89,
+        "excerpt": "MIG \"$BASE/api/internal/migrations/status\" | jq '{applied: [.applied[]?.filename] | length, pending: [.pending[]? | {filename, statements}]}'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/migration-judged-apply/SKILL.md",
+        "line": 105,
+        "excerpt": "MC=$(gh pr view <PR#> -R <owner/repo> --json mergeCommit -q .mergeCommit.oid)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/migration-judged-apply/SKILL.md",
+        "line": 106,
+        "excerpt": "SERVING=$(curl -sf -m 20 -H \"Authorization: Bearer $PROJECT_2_INTERNAL_API_TOKEN\" -H 'User-Agent: curl/8' \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/migration-judged-apply/SKILL.md",
+        "line": 118,
+        "excerpt": "git -C /root/repos/$P show \"$MC:scripts/migrations/<file>.sql\" > /tmp/mig/<file>.sql",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/migration-judged-apply/SKILL.md",
+        "line": 142,
+        "excerpt": "RES=$(curl -sf -m 300 -X POST \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/migration-judged-apply/SKILL.md",
+        "line": 142,
+        "excerpt": "RES=$(curl -sf -m 300 -X POST \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/migration-judged-apply/SKILL.md",
+        "line": 159,
+        "excerpt": "MIG \"$BASE/api/internal/migrations/status\" | jq --arg f '<file>.sql' '[.applied[]?.filename] | index($f) != null'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/migration-judged-apply/SKILL.md",
+        "line": 170,
+        "excerpt": "tail -5 /root/harness/logs/migrations.log",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/migration-judged-apply/SKILL.md",
+        "line": 182,
+        "excerpt": "echo \"$(date -u '+%Y-%m-%d %H:%M:%SZ') [$P] MIGRATION NEEDS HUMAN: <file>.sql (PR #<n>) — <what failed, verbatim status/reason> — needs <the specific action, fr",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 9,
+      "network": 3
+    },
+    "score": 92,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "0d06b69a65fbb9a73383e7050c2b7e2a69aa0969",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

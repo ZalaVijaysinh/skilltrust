@@ -1,0 +1,112 @@
+{
+  "id": "amd__gaia__.claude~skills~gaia-testing",
+  "owner": "amd",
+  "repo": "gaia",
+  "path": ".claude/skills/gaia-testing",
+  "name": "gaia-testing",
+  "description": "GAIA's multi-tier regression harness — runs unit, integration, and real-world (on-machine) tiers and brings back screenshots, logs, traces, planted-fact retrieval proof, and per-operation timing with anomaly flags, all collected to the local machine (no remote login needed to view). It carries GAIA's drivers (Agent UI, Agent UI MCP), exact commands, ports, and `gaia eval agent` baselines, and extends (does not replace) the generic `testing` skill. Fires when the user wants real-world / on-hardware proof, screenshots, or end-to-end evidence that a feature, agent, change, fix, or release actually works — not a quick 'is the app running' check (the `verify` skill) or an LLM-behaviour scorecard alone (`gaia eval agent`). Scales: 'run the unit tests' stays unit-only and skips the planning gate; 'test / validate / QA this feature or release' runs all applicable tiers with evidence.",
+  "stars": 1617,
+  "category": "design",
+  "commit": "c11ea991262af2a5b2aebd567602068793841f25",
+  "contentHash": "a09da5851d0c667c56c664495860c5b03a13e733f743397dc9af31a165f665ef",
+  "repoCreatedAt": "2024-12-16T01:25:56Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/gaia-testing/SKILL.md",
+        "line": 100,
+        "excerpt": "git stash && python -m pytest <failing-subset> 2>&1 | tee <run-dir>/unit_base.txt; git stash pop",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/gaia-testing/SKILL.md",
+        "line": 114,
+        "excerpt": "gaia eval agent --category <cat>   # prints an absolute path, e.g. Output: /…/gaia/eval/results/<run-id>/",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/gaia-testing/SKILL.md",
+        "line": 158,
+        "excerpt": "ps aux | grep -E \"lemonade|llama-server|gaia.ui.server\" | grep -v grep   # only pre-existing should remain",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/gaia-testing/SKILL.md",
+        "line": 160,
+        "excerpt": "curl -s -o /dev/null -w \"%{http_code}\\n\" <pre-existing-service-url>       # pre-existing still healthy",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/gaia-testing/SKILL.md",
+        "line": 171,
+        "excerpt": "git -C <repo> worktree add /tmp/ev -b <branch>-evidence origin/main",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/gaia-testing/SKILL.md",
+        "line": 181,
+        "excerpt": "rclone copy <run-dir>/shots/NN_step.png gaia:amd-gaia/testing/<pr-or-issue>/<run-id>/ --s3-no-check-bucket",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "CLAUDE.md",
+        "line": 430,
+        "excerpt": "several worktrees that install points at whichever one ran `pip install -e` last.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "CLAUDE.md",
+        "line": 522,
+        "excerpt": "uv venv && uv pip install -e \".[dev]\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "CLAUDE.md",
+        "line": 523,
+        "excerpt": "uv pip install -e \".[ui]\"    # For Agent UI development",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 5,
+      "network": 1,
+      "downloads-code": 3
+    },
+    "score": 79,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "c11ea991262af2a5b2aebd567602068793841f25",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 79,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

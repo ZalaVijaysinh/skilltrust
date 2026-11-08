@@ -1,0 +1,117 @@
+{
+  "id": "miroshark__miroshark-aeon__skills~send-email",
+  "owner": "MiroShark",
+  "repo": "miroshark-aeon",
+  "path": "skills/send-email",
+  "name": "send-email",
+  "description": "Compose and send a one-off email to a named recipient via Resend - written in the operator's voice, then sent in-run through the shared send caps with an operator audit copy",
+  "stars": 20,
+  "category": "coding",
+  "commit": "5b2d5c8632943ee401ab7063087e84d1c41de7af",
+  "contentHash": "c518ba5a2a00573b2ba1a0290b4fef291d79fc7355f77944d2f4ad65bf0e753b",
+  "repoCreatedAt": "2026-03-25T20:11:06Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/send-email/SKILL.md",
+        "line": 45,
+        "excerpt": "./notify \"Want another pass? Reply with a change and I'll revise the draft again (still won't send).\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/send-email/SKILL.md",
+        "line": 71,
+        "excerpt": "echo \"paused=${DISCLOSURE_EMAIL_PAUSED:-} daily_cap=${DISCLOSURE_EMAIL_DAILY_CAP:-1} cooldown_days=${DISCLOSURE_EMAIL_COOLDOWN_DAYS:-7}\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/send-email/SKILL.md",
+        "line": 76,
+        "excerpt": "date -u +%F",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/send-email/SKILL.md",
+        "line": 80,
+        "excerpt": "jq '[.[]|select((.sent_at//\"\")|startswith(\"<TODAY>\"))]|length' memory/email-log.json",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/send-email/SKILL.md",
+        "line": 85,
+        "excerpt": "jq 'any(.[];.slug==\"<SLUG>\")' memory/email-log.json",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/send-email/SKILL.md",
+        "line": 90,
+        "excerpt": "echo '<TO>' | grep -E '^[^@[:space:]]+@[^@[:space:]]+\\.[^@[:space:]]+$'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/send-email/SKILL.md",
+        "line": 95,
+        "excerpt": "grep -cE '(sk-[A-Za-z0-9]{20}|re_[A-Za-z0-9]{8}[A-Za-z0-9_]{12}|gh[pousr]_[A-Za-z0-9_]{20}|AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z_-]{20}|-----BEGIN [A-Z ]*PRIVATE KEY-",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/send-email/SKILL.md",
+        "line": 101,
+        "excerpt": "python3 - '<TO>' '<SUBJECT>' '<CC_JSON>' .tmp/send-email-body.txt .tmp/send-email-payload.json <<'PY'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/send-email/SKILL.md",
+        "line": 114,
+        "excerpt": "./secretcurl -sS --max-time 30 -w 'http=%{http_code}\\n' -X POST \"https://api.resend.com/emails\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/send-email/SKILL.md",
+        "line": 127,
+        "excerpt": "./notify \"Want to refine this email? Reply with a change and I'll revise the draft (won't re-send).\" \\",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 10
+    },
+    "score": 97,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "5b2d5c8632943ee401ab7063087e84d1c41de7af",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 97,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

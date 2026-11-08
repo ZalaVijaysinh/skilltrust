@@ -1,0 +1,182 @@
+{
+  "id": "serejaris__personal-corp-os__skills~benchmark",
+  "owner": "serejaris",
+  "repo": "personal-corp-os",
+  "path": "skills/benchmark",
+  "name": "benchmark",
+  "description": "Use when choosing between engines or models for an agent pipeline and the answer must come from measurement on your own data, not from marketing pages: speech recognition for meeting recordings, the model that turns a transcript into notes, the critic model that checks it. Runs every variant in an isolated container, measures time, cost per hour of input (USD and RUB, with price source and date) and quality (WER/CER and course terms for ASR; code checks plus a judge of a different model for LLM steps), writes results.json/csv and one static analytics page. Triggers on \"бенчмарк\", \"сравни движки\", \"сколько стоит час записи\", \"какую модель взять для пайплайна\", \"benchmark the pipeline\", \"compare ASR engines\".",
+  "stars": 243,
+  "category": "coding",
+  "commit": "6f3983e45b13fcce8ebe1c4523983beb6174326e",
+  "contentHash": "bbd9b60cec8fd57d848ed43e89fc0695d7b2b631e89801f1ffc7a99768e1bcf5",
+  "repoCreatedAt": "2025-12-15T19:48:36Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "paid-api",
+        "file": "skills/benchmark/scripts/asr.py",
+        "line": 75,
+        "excerpt": "base = v.get(\"base_url\", \"https://api.elevenlabs.io/v1\")",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/benchmark/scripts/asr.py",
+        "line": 80,
+        "excerpt": "r = httpx.get(f\"{base}/user/subscription\", headers=headers, timeout=30)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/benchmark/scripts/asr.py",
+        "line": 82,
+        "excerpt": "except httpx.HTTPError:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/benchmark/scripts/asr.py",
+        "line": 95,
+        "excerpt": "with audio.open(\"rb\") as fh, httpx.Client(timeout=httpx.Timeout(3600, connect=30)) as client:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/benchmark/scripts/asr.py",
+        "line": 115,
+        "excerpt": "with audio.open(\"rb\") as fh, httpx.Client(timeout=httpx.Timeout(float(v.get(\"timeout\", 7200)), connect=30)) as client:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/benchmark/scripts/asr.py",
+        "line": 135,
+        "excerpt": "pcm = subprocess.run([\"ffmpeg\", \"-hide_banner\", \"-loglevel\", \"error\", \"-i\", str(audio), \"-ac\", \"1\", \"-ar\", \"16000\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/benchmark/scripts/asr.py",
+        "line": 150,
+        "excerpt": "base = v.get(\"base_url\", \"https://openrouter.ai/api/v1\").rstrip(\"/\")",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/benchmark/scripts/asr.py",
+        "line": 160,
+        "excerpt": "subprocess.run([\"ffmpeg\", \"-hide_banner\", \"-loglevel\", \"error\", \"-y\", \"-i\", str(audio), \"-ac\", \"1\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/benchmark/scripts/asr.py",
+        "line": 174,
+        "excerpt": "r = httpx.post(f\"{base}/chat/completions\", headers={\"Authorization\": f\"Bearer {key}\"}, json=body,",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/benchmark/scripts/asr.py",
+        "line": 175,
+        "excerpt": "timeout=httpx.Timeout(1800, connect=30))",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/benchmark/scripts/claude_step.py",
+        "line": 15,
+        "excerpt": "openrouter       https://openrouter.ai/api             OPENROUTER_API_KEY",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/benchmark/scripts/claude_step.py",
+        "line": 33,
+        "excerpt": "\"openrouter\": {\"base_url\": \"https://openrouter.ai/api\", \"token_env\": \"OPENROUTER_API_KEY\"},",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/benchmark/scripts/claude_step.py",
+        "line": 41,
+        "excerpt": "\"WebFetch\", \"WebSearch\"]",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/benchmark/scripts/claude_step.py",
+        "line": 80,
+        "excerpt": "p = subprocess.run(cmd, cwd=cwd, env=provider_env(provider, model), capture_output=True, text=True,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/benchmark/scripts/claude_step.py",
+        "line": 83,
+        "excerpt": "except subprocess.TimeoutExpired as exc:",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/benchmark/scripts/common.py",
+        "line": 65,
+        "excerpt": "out = subprocess.run(",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/benchmark/scripts/llm.py",
+        "line": 70,
+        "excerpt": "p = subprocess.run([args.python, str(adapter), \"--task\", str(args.task), \"--variant\", str(out / \"variant.json\"),",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "paid-api": 4,
+      "network": 7,
+      "shell": 6
+    },
+    "score": 82,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 12,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "6f3983e45b13fcce8ebe1c4523983beb6174326e",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 82,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

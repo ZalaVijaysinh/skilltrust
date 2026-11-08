@@ -1,0 +1,135 @@
+{
+  "id": "laurigates__claude-plugins__macos-plugin~skills~macos-disk-usage",
+  "owner": "laurigates",
+  "repo": "claude-plugins",
+  "path": "macos-plugin/skills/macos-disk-usage",
+  "name": "macos-disk-usage",
+  "description": "macOS disk-usage forensics and space recovery on APFS. Use when df reports a disk near-full, hunting what's eating space, reclaiming OrbStack/Docker, or pruning caches and local snapshots.",
+  "stars": 59,
+  "category": "coding",
+  "commit": "9d783554148f9c8a9c55a486b480760d3da673e6",
+  "contentHash": "e7607812e33f28b2bdcab282ee22fa92ebe8e25a83eb6006c59a1fa17e94aa83",
+  "repoCreatedAt": "2025-12-16T11:24:04Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "macos-plugin/skills/macos-disk-usage/SKILL.md",
+        "line": 28,
+        "excerpt": "test \"$(uname -s)\" = \"Darwin\" || { echo \"macos-plugin: not Darwin, refusing\"; exit 1; }",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "macos-plugin/skills/macos-disk-usage/SKILL.md",
+        "line": 45,
+        "excerpt": "df -h /",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "macos-plugin/skills/macos-disk-usage/SKILL.md",
+        "line": 65,
+        "excerpt": "tmutil listlocalsnapshots /",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "macos-plugin/skills/macos-disk-usage/SKILL.md",
+        "line": 77,
+        "excerpt": "bash \"${CLAUDE_SKILL_DIR}/scripts/scan-suspects.sh\" --home-dir \"$HOME\" --root \"$HOME\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "macos-plugin/skills/macos-disk-usage/SKILL.md",
+        "line": 102,
+        "excerpt": "docker system df",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "macos-plugin/skills/macos-disk-usage/SKILL.md",
+        "line": 116,
+        "excerpt": "docker volume ls -f dangling=true",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "macos-plugin/skills/macos-disk-usage/SKILL.md",
+        "line": 134,
+        "excerpt": "| | uv cache | `uv cache clean` | **Blocks on the lock** while any `uvx`/`uv run` process (e.g. an MCP server) runs — read [troubleshooting](references/troubles",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "macos-plugin/skills/macos-disk-usage/SKILL.md",
+        "line": 135,
+        "excerpt": "| | Playwright / Yarn / node-gyp caches | `rm -rf ~/Library/Caches/{ms-playwright,Yarn,node-gyp}` | Regenerable |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "macos-plugin/skills/macos-disk-usage/references/troubleshooting.md",
+        "line": 12,
+        "excerpt": "| `uv cache clean` / `uv cache prune` waits on the cache lock and retrying never helps | Both take an exclusive lock; every `uvx` / `uv run` / `uv tool run` pro",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "macos-plugin/skills/macos-disk-usage/references/troubleshooting.md",
+        "line": 13,
+        "excerpt": "| Considering `--force` to get past the lock | `uv cache prune --force` deletes every cached environment (`environments-v2/`), including the ones running `uvx` ",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "macos-plugin/skills/macos-disk-usage/scripts/suspects.tsv",
+        "line": 9,
+        "excerpt": "path\tuv-cache\t.cache/uv\t-\tsafe\tuv cache clean\tre-downloaded on next resolve\tblocks while any uvx/uv run process (e.g. a uvx MCP server) holds the shared lock; s",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "macos-plugin/skills/macos-disk-usage/scripts/suspects.tsv",
+        "line": 14,
+        "excerpt": "path\tbun-store\t.bun/install/cache\t-\tsafe\tbun pm cache rm -g\tre-fetched on next install\t-g is needed outside a project (oven-sh/bun#6382) but undocumented (oven-",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 6,
+      "downloads-code": 5,
+      "writes-outside": 1
+    },
+    "score": 77,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 10,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "9d783554148f9c8a9c55a486b480760d3da673e6",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 77,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

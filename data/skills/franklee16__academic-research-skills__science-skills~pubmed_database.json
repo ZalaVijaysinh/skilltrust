@@ -1,0 +1,112 @@
+{
+  "id": "franklee16__academic-research-skills__science-skills~pubmed_database",
+  "owner": "franklee16",
+  "repo": "academic-research-skills",
+  "path": "science-skills/pubmed_database",
+  "name": "pubmed-database",
+  "description": "Search PubMed for scientific literature, including published clinical trials. Fetch abstracts and full text. Link published research to biological databases (gene, protein, nucleotide, PubChem) to discover associations between papers and specific compounds or genes. Verify medical spelling, match raw citations, and cache result sets for bulk processing. Interfaces NCBI E-utilities and PMC BioC APIs.",
+  "stars": 234,
+  "category": "research",
+  "commit": "9a4b2db21fc4b217136ae4a0e6faad42d179ca03",
+  "contentHash": "2d62599245c01ac5509d5bd5b2cc9e05898b8adc29d8ae239315bde388e5e443",
+  "repoCreatedAt": "2026-04-19T11:24:54Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "science-skills/pubmed_database/SKILL.md",
+        "line": 40,
+        "excerpt": "printf \"Enter NCBI API key (typing hidden): \" && read -s key && echo && echo \"NCBI_API_KEY=$key\" >> \"ENV_FILE\" && echo \"Saved.\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "science-skills/pubmed_database/SKILL.md",
+        "line": 44,
+        "excerpt": "printf \"Enter contact email: \" && read email && echo \"USER_EMAIL=$email\" >> \"ENV_FILE\" && echo \"Saved.\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "science-skills/pubmed_database/SKILL.md",
+        "line": 91,
+        "excerpt": "uv run scripts/pubmed_api.py <output_file> <function_name> <required_args> [--flag value ...]",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "science-skills/pubmed_database/SKILL.md",
+        "line": 105,
+        "excerpt": "uv run scripts/pubmed_api.py ./search_results.json search_pubmed \"BRCA1\" --max_results 5",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "science-skills/pubmed_database/SKILL.md",
+        "line": 116,
+        "excerpt": "cat ./search_results.json | jq -r 'join(\",\")'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "science-skills/pubmed_database/SKILL.md",
+        "line": 122,
+        "excerpt": "cat ./abstracts.json | jq '[.[] | {pmid, title, snippet: (.abstract // \"\")[:500]}]'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "science-skills/pubmed_database/SKILL.md",
+        "line": 128,
+        "excerpt": "cat ./abstracts.json | jq '[.[] | select((.title // \"\") | contains(\"Review\"))]'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "science-skills/pubmed_database/scripts/pubmed_api.py",
+        "line": 131,
+        "excerpt": "resp = get_eutils_client().fetch(url, method=\"POST\", data=data_bytes)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "science-skills/pubmed_database/scripts/pubmed_api.py",
+        "line": 638,
+        "excerpt": "dotenv.load_dotenv(os.path.expanduser(\"~/.env\"))",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 7,
+      "network": 1,
+      "reads-secrets": 1
+    },
+    "score": 84,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 10,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "9a4b2db21fc4b217136ae4a0e6faad42d179ca03",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 84,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

@@ -1,0 +1,300 @@
+{
+  "id": "girofu__skill-fetch__skills~skill-fetch",
+  "owner": "girofu",
+  "repo": "skill-fetch",
+  "path": "skills/skill-fetch",
+  "name": "skill-fetch",
+  "description": "This skill should be used when the user asks to \"fetch skill\", \"install skill\", \"search for a skill\", or when a hook outputs \"MISSING EXTERNAL SKILL\". Searches 9 registries (SkillsMP, GitHub, Anthropic Skills, ClawSkillHub, skills.sh, PolySkill, SkillHub, Skills Directory) with multi-variant search, quality scoring, security labels, pagination, and local/global installation.",
+  "stars": 30,
+  "category": "coding",
+  "commit": "d84b1f2f4d56b62d5488cbba362235016227f98a",
+  "contentHash": "bdcab4f49a314d8b483bcb7b771d2b79b67d3f5106422a561f65cf5c34582977",
+  "repoCreatedAt": "2026-03-18T03:39:55Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/skill-fetch/SKILL.md",
+        "line": 43,
+        "excerpt": "4. If **still not available** → run: `claude mcp add --scope user skillsmp -- npx -y skillsmp-mcp-server`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/skill-fetch/SKILL.md",
+        "line": 102,
+        "excerpt": "| 5 | **ClawhHub** | `npx -y clawhub search \"{query}\"` | Skip on failure |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/skill-fetch/SKILL.md",
+        "line": 103,
+        "excerpt": "| 6 | **skills.sh** | `WebFetch(\"https://skills.sh/api/search?q={query}&limit=5\")` | `curl -s` via Bash |",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "skills.sh"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/skill-fetch/SKILL.md",
+        "line": 104,
+        "excerpt": "| 7 | **PolySkill** | `npx -y @polyskill/cli search \"{single_keyword}\" --limit 5` (extract most specific single keyword from query — multi-word queries return 0",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/skill-fetch/SKILL.md",
+        "line": 105,
+        "excerpt": "| 8 | **SkillHub** | If `HAS_SKILLHUB_KEY` = true (from Step 0.5): `bash {SKILL_BASE_DIR}/scripts/fetch-skillhub.sh \"{query}\"`. If false: `npx -y @skill-hub/cli",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/skill-fetch/SKILL.md",
+        "line": 154,
+        "excerpt": "- Version: register an exact version (`pkg@1.2.3`), not `npx -y pkg` or `@latest`.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/skill-fetch/references/installation-guide.md",
+        "line": 114,
+        "excerpt": "wait for `confirm install`. Register the pinned version (`claude mcp add ... -- npx pkg@1.2.3`, not `npx -y pkg`).",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/skill-fetch/references/installation-guide.md",
+        "line": 160,
+        "excerpt": "- `WebFetch` to get the content and write it as `{skill-name}/SKILL.md`.",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/skill-fetch/references/interaction-patterns.md",
+        "line": 97,
+        "excerpt": "| **B** | Remote Code Execution | Critical | `curl \\| sh`, `wget \\| bash`, `eval $(curl`, dynamic `eval`/`exec` of fetched content, unknown `npx`/`pip install` ",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/skill-fetch/references/interaction-patterns.md",
+        "line": 98,
+        "excerpt": "| **C** | Data Exfiltration | High | `curl -X POST` / `fetch(... method: 'POST')` combined with local file reads or env var access; sending `$HOME`, `$SSH_KEY`,",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "obfuscated",
+        "file": "skills/skill-fetch/references/interaction-patterns.md",
+        "line": 100,
+        "excerpt": "| **E** | Obfuscation | Medium | Base64 decode + exec (`echo ... \\| base64 -d \\| sh`), variable concatenation to build commands (`cmd=$a$b; $cmd`), hex/octal es",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/skill-fetch/references/interaction-patterns.md",
+        "line": 204,
+        "excerpt": "shell-commands: [\"npm test\", \"npx tsc\"]",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/skill-fetch/references/platform-adapters.md",
+        "line": 24,
+        "excerpt": "| Web fetch | `WebFetch` | `fetch` | N/A (use curl) | `WebFetch` | `fetch` | N/A (use curl) |",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/skill-fetch/references/platform-adapters.md",
+        "line": 57,
+        "excerpt": "curl -s \"https://skills.sh/api/search?q={query}&limit=5\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "skills.sh"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/skill-fetch/references/platform-adapters.md",
+        "line": 58,
+        "excerpt": "curl -s \"https://prompts.chat/skills?q={query}\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "prompts.chat"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/skill-fetch/references/platform-adapters.md",
+        "line": 64,
+        "excerpt": "curl -s \"https://api.github.com/search/repositories?q={query}+claude+skill&sort=stars&per_page=5\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.github.com"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/skill-fetch/references/platform-adapters.md",
+        "line": 84,
+        "excerpt": "├── CCPM/ClawSkillHub (npx required)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/skill-fetch/references/platform-adapters.md",
+        "line": 85,
+        "excerpt": "└── skills.sh/prompts.chat (WebFetch or curl)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/skill-fetch/references/platform-adapters.md",
+        "line": 91,
+        "excerpt": "└── GitHub raw download (all — curl or WebFetch)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/skill-fetch/references/quality-signals.md",
+        "line": 134,
+        "excerpt": "🚨 Found: curl|sh remote execution in scripts/setup.sh",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/skill-fetch/references/search-sources.md",
+        "line": 11,
+        "excerpt": "claude mcp add --scope user skillsmp -- npx -y skillsmp-mcp-server --env SKILLSMP_API_KEY={key}",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/skill-fetch/references/search-sources.md",
+        "line": 54,
+        "excerpt": "npx -y clawhub search \"{query}\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/skill-fetch/references/search-sources.md",
+        "line": 63,
+        "excerpt": "WebFetch(\"https://skills.sh/api/search?q={query}&limit=5\",",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "skills.sh"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/skill-fetch/references/search-sources.md",
+        "line": 72,
+        "excerpt": "curl -s \"https://skills.sh/api/search?q={query}&limit=5\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "skills.sh"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/skill-fetch/references/search-sources.md",
+        "line": 98,
+        "excerpt": "npx -y @polyskill/cli search \"{single_keyword}\" --limit 5",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/skill-fetch/references/search-sources.md",
+        "line": 128,
+        "excerpt": "npx -y @skill-hub/cli search \"{query}\" --limit 5",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/skill-fetch/scripts/fetch-skill-bundle.sh",
+        "line": 43,
+        "excerpt": "echo '{\"error\":\"jq not found\",\"hint\":\"Install jq (brew install jq / apt install jq)\"}' >&2",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/skill-fetch/scripts/fetch-skillhub.sh",
+        "line": 18,
+        "excerpt": "RESPONSE=$(curl -s -w \"\\n%{http_code}\" -X POST \"https://www.skillhub.club/api/v1/skills/search\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "www.skillhub.club"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/skill-fetch/scripts/fetch-skills-directory.sh",
+        "line": 28,
+        "excerpt": "RESPONSE=$(curl -s -w \"\\n%{http_code}\" \"https://www.skillsdirectory.com/api/v1/skills?q=${ENCODED_QUERY}&limit=5&securityGrade=A\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "www.skillsdirectory.com"
+        ]
+      }
+    ],
+    "findingTotals": {
+      "downloads-code": 15,
+      "network": 13,
+      "obfuscated": 1
+    },
+    "score": 57,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 11,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "d84b1f2f4d56b62d5488cbba362235016227f98a",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 57,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

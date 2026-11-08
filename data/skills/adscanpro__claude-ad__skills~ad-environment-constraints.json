@@ -1,0 +1,85 @@
+{
+  "id": "adscanpro__claude-ad__skills~ad-environment-constraints",
+  "owner": "ADScanPro",
+  "repo": "Claude-AD",
+  "path": "skills/ad-environment-constraints",
+  "name": "ad-environment-constraints",
+  "description": "Real-world Active Directory environment constraints that silently break attacks when ignored: NTLM disabled (Kerberos fallback), AES-only KDCs (RC4 blocked by GPO), LDAP signing and channel binding requiring LDAPS on 636, Kerberos clock skew (KRB_AP_ERR_SKEW), SPNs that must be FQDNs never short names or IPs (the misleading invalidCredentials), Protected Users / LAPS / gMSA / MachineAccountQuota, LDAP 1000-object paging, and VPN latency. Use this whenever a bind, TGT request, LDAP query, or SMB negotiation fails in a way that looks like bad credentials but is really hardening, or before running any AD tooling against a domain you have not fingerprinted. Standard-tooling knowledge (netexec, impacket, certipy, bloodyAD, kerbrute), no vendor-specific engine.",
+  "stars": 216,
+  "category": "coding",
+  "commit": "73efec51207f6f740cb398e1c490e5edd60c1113",
+  "contentHash": "bec686ac25b592b95967aee905773054261b819512505876fc4ca877d478fcaa",
+  "repoCreatedAt": "2026-08-24T18:13:22Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/ad-environment-constraints/SKILL.md",
+        "line": 42,
+        "excerpt": "nxc smb dc01.corp.local -u user -p pass",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/ad-environment-constraints/SKILL.md",
+        "line": 77,
+        "excerpt": "GetUserSPNs.py corp.local/user:pass -dc-ip <dc_ip> -request -outputfile hashes.kerberoast",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/ad-environment-constraints/SKILL.md",
+        "line": 95,
+        "excerpt": "certipy find -u user@corp.local -p pass -dc-ip <dc_ip> -scheme ldaps",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/ad-environment-constraints/SKILL.md",
+        "line": 115,
+        "excerpt": "sudo ntpdate <dc_ip>            # or rdate -n <dc_ip>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/ad-environment-constraints/SKILL.md",
+        "line": 144,
+        "excerpt": "nxc smb DC01 -u user -k",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/ad-environment-constraints/SKILL.md",
+        "line": 196,
+        "excerpt": "nxc ldap dc01.corp.local -u user -p pass -M laps",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 6
+    },
+    "score": 95,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "73efec51207f6f740cb398e1c490e5edd60c1113",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 95,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

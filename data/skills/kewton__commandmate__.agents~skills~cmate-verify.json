@@ -1,0 +1,222 @@
+{
+  "id": "kewton__commandmate__.agents~skills~cmate-verify",
+  "owner": "Kewton",
+  "repo": "CommandMate",
+  "path": ".agents/skills/cmate-verify",
+  "name": "cmate-verify",
+  "description": "リポジトリの検証ゲート（lint / typecheck / test / build 等）を .commandmate/verify.yaml に宣言し、worktree の cwd で逐次実行して exit code で合否を判定する。verify.yaml が無いリポジトリでは CI 定義から起案する。作業完了を主張する前の検証や、並列ワーカーの完了判定に使う。",
+  "stars": 44,
+  "category": "coding",
+  "commit": "46c49efc2fd4a79b0153e25ba75e662c55a30866",
+  "contentHash": "ee11b78926e9e6b0680f50c81c4925e162510a69a67c890d909b9ef5558e7fb8",
+  "repoCreatedAt": "2025-11-16T14:18:16Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/cmate-verify/SKILL.md",
+        "line": 21,
+        "excerpt": "> それを PASS と報告してしまう。ゲートは必ず `sh -c \"$cmd\" > log 2>&1` で走らせ `$?` を直接読む。",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/cmate-verify/SKILL.md",
+        "line": 71,
+        "excerpt": "<skills-root>/cmate-verify/scripts/verify-run.sh --cwd <worktree-path>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/cmate-verify/SKILL.md",
+        "line": 139,
+        "excerpt": "command: \"npx tsc --noEmit\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/cmate-verify/SKILL.md",
+        "line": 306,
+        "excerpt": "command: \"sh -c 'E2E_PORT=$((60400+${CM_WORKTREE_INDEX:-0})) npm run test:e2e'\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/cmate-verify/SKILL.md",
+        "line": 371,
+        "excerpt": "bash .claude/skills/cmate-verify/scripts/tests/run-tests.sh",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/cmate-verify/scripts/tests/fixtures/mutex-flaky.yaml",
+        "line": 8,
+        "excerpt": "command: sh -c 'if [ -f \"$CMATE_VERIFY_TEST_MARKER\" ]; then exit 0; fi; : > \"$CMATE_VERIFY_TEST_MARKER\"; exit 1'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/cmate-verify/scripts/tests/fixtures/mutex.yaml",
+        "line": 8,
+        "excerpt": "command: sh -c 'sleep \"${CMATE_VERIFY_TEST_HOLD:-0}\"; echo e2e-ran'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/cmate-verify/scripts/tests/fixtures/parsing.yaml",
+        "line": 11,
+        "excerpt": "command: sh -c \"echo a:b\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/cmate-verify/scripts/tests/fixtures/retry-flaky-pass.yaml",
+        "line": 7,
+        "excerpt": "command: sh -c 'if [ -f \"$CMATE_VERIFY_TEST_MARKER\" ]; then echo second-run-green; exit 0; fi; : > \"$CMATE_VERIFY_TEST_MARKER\"; echo first-run-red; exit 1'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/cmate-verify/scripts/tests/fixtures/retry-flaky.yaml",
+        "line": 11,
+        "excerpt": "command: sh -c 'if [ -f \"$CMATE_VERIFY_TEST_MARKER\" ]; then echo second-run-green; exit 0; fi; : > \"$CMATE_VERIFY_TEST_MARKER\"; echo first-run-red; exit 1'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/cmate-verify/scripts/tests/fixtures/retry-hard-fail.yaml",
+        "line": 11,
+        "excerpt": "command: sh -c 'echo always-red; exit 3'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/cmate-verify/scripts/tests/fixtures/retry-thrice.yaml",
+        "line": 11,
+        "excerpt": "command: sh -c 'printf x >> \"$CMATE_VERIFY_TEST_MARKER\"; n=$(wc -c < \"$CMATE_VERIFY_TEST_MARKER\"); if [ \"$n\" -ge 3 ]; then echo third-run-would-be-green; exit 0",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/cmate-verify/scripts/tests/fixtures/timeout.yaml",
+        "line": 8,
+        "excerpt": "command: sh -c \"sleep 4143; : cmate-verify-orphan-probe $CMATE_VERIFY_TEST_MARKER\" & sleep 4144; touch \"$CMATE_VERIFY_TEST_MARKER\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/cmate-verify/scripts/tests/fixtures/worktree-env.yaml",
+        "line": 9,
+        "excerpt": "command: sh -c 'echo \"index=${CM_WORKTREE_INDEX:-0} id=${CM_WORKTREE_ID:-none}\" > \"$CMATE_VERIFY_TEST_MARKER\"'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/cmate-verify/scripts/verify-run.sh",
+        "line": 805,
+        "excerpt": "( cd \"$CWD\" && exec /bin/sh -c \"$rga_cmd\" ) > \"$rga_log\" 2>&1 &",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/design/verification-config.md",
+        "line": 26,
+        "excerpt": "command: \"npx tsc --noEmit\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "docs/design/verification-config.md",
+        "line": 63,
+        "excerpt": "| `command` | string | ✅ | — | 非空。`--cwd` を作業ディレクトリとして POSIX sh (`/bin/sh -c`) で実行される |",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "docs/design/verification-config.md",
+        "line": 70,
+        "excerpt": "使わないこと。必要なら `bash -c \"...\"` と明示的に書く。",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/design/verification-config.md",
+        "line": 102,
+        "excerpt": "が在るため、`npx tsc --noEmit` は前回の `next build` が生成した route 型ガードを読む。",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "docs/design/verification-config.md",
+        "line": 163,
+        "excerpt": "各ゲートは `sh -c \"$cmd\" > \"$log\" 2>&1` の形で実行し、`$?` を直接読む。",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "docs/design/verification-config.md",
+        "line": 435,
+        "excerpt": "`child_process.spawn(..., { detached: true })` ＋ `process.kill(-pid, ...)` が対応物。",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "docs/design/verification-config.md",
+        "line": 465,
+        "excerpt": "command: \"sh -c 'E2E_PORT=$((60400+CM_WORKTREE_INDEX)) npm run test:e2e'\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/design/verification-config.md",
+        "line": 972,
+        "excerpt": "| `setup` | `npm ci` / `npx playwright install` |",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 19,
+      "downloads-code": 4
+    },
+    "score": 82,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 59,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "46c49efc2fd4a79b0153e25ba75e662c55a30866",
+      "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 82,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}
