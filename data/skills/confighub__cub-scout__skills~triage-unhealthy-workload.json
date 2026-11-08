@@ -1,0 +1,85 @@
+{
+  "id": "confighub__cub-scout__skills~triage-unhealthy-workload",
+  "owner": "confighub",
+  "repo": "cub-scout",
+  "path": "skills/triage-unhealthy-workload",
+  "name": "triage-unhealthy-workload",
+  "description": "Use when the user is responding to a broken Kubernetes workload UNDER TIME PRESSURE — pager-going-off, CI-red, \"prod is down\" framing. Natural phrasing: \"deploy/api is CrashLoopBackOff, what now?\", \"the rollout is stuck, help\", \"this pod won't start\", \"pager fired on payments\", \"everything is red in argocd\", \"what should I check first?\", \"give me a triage plan for this workload\". Composes doctor → explain → trace into a tight ~30-second loop the operator can run in a pager-acknowledged context. Do NOT load for: a planned investigation without urgency (use scout-diagnose directly), a drift question (use investigate-drift), or anything mutating (cub-scout never mutates — route to kubectl with the user driving).",
+  "stars": 14,
+  "category": "devops",
+  "commit": "261862e7ec5e5c93ce377ccfd6b583f5ac03c95c",
+  "contentHash": "bf0b2df14a876375665e078b94788ad9dabe04650ff49e1164a5ca5faaab11f4",
+  "repoCreatedAt": "2026-01-17T16:19:31Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/triage-unhealthy-workload/SKILL.md",
+        "line": 56,
+        "excerpt": "$ cub-scout doctor --namespace prod --format json | jq '.summary, .issues[:5]'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/triage-unhealthy-workload/SKILL.md",
+        "line": 69,
+        "excerpt": "$ cub-scout explain deploy/api -n prod --presentation ai --format json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/triage-unhealthy-workload/SKILL.md",
+        "line": 85,
+        "excerpt": "$ cub-scout trace deploy/api -n prod --format json | jq '.chain, .secrets'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/triage-unhealthy-workload/SKILL.md",
+        "line": 99,
+        "excerpt": "$ kubectl describe deploy api -n prod | grep -A 5 Conditions",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/triage-unhealthy-workload/SKILL.md",
+        "line": 123,
+        "excerpt": "$ cub-scout doctor -n prod --format json | jq '.issues[0]'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude-plugin/plugin.json",
+        "line": 13,
+        "excerpt": "\"command\": \"cub-scout\",",
+        "disclosed": false,
+        "automatic": true
+      }
+    ],
+    "findingTotals": {
+      "shell": 6
+    },
+    "score": 95,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "261862e7ec5e5c93ce377ccfd6b583f5ac03c95c",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 95,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

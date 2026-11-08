@@ -13,14 +13,14 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T09:45:03.483Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "skills/backup-recovery/SKILL.md",
-        "line": 53,
-        "excerpt": "# Sync a local directory to a backup location",
+        "line": 54,
+        "excerpt": "rsync -avz --delete /data/ /backup/data/",
         "disclosed": false,
         "automatic": false
       },
@@ -35,21 +35,21 @@
       {
         "ruleId": "shell",
         "file": "skills/backup-recovery/SKILL.md",
-        "line": 86,
-        "excerpt": "# Incremental: unchanged files hard-linked to previous backup (saves space)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/backup-recovery/SKILL.md",
-        "line": 103,
-        "excerpt": "# Debian / Ubuntu",
+        "line": 87,
+        "excerpt": "rsync -avz --delete \\",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
+        "file": "skills/backup-recovery/SKILL.md",
+        "line": 104,
+        "excerpt": "apt install -y restic",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
         "file": "skills/backup-recovery/SKILL.md",
         "line": 104,
         "excerpt": "apt install -y restic",
@@ -86,8 +86,8 @@
       {
         "ruleId": "shell",
         "file": "skills/backup-recovery/SKILL.md",
-        "line": 121,
-        "excerpt": "# Local repository",
+        "line": 122,
+        "excerpt": "restic init --repo /backup/restic-repo",
         "disclosed": false,
         "automatic": false
       },
@@ -102,56 +102,56 @@
       {
         "ruleId": "shell",
         "file": "skills/backup-recovery/SKILL.md",
-        "line": 151,
-        "excerpt": "# Basic backup",
+        "line": 152,
+        "excerpt": "restic backup /data --repo /backup/restic-repo --password-file /etc/restic/password.txt",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/backup-recovery/SKILL.md",
-        "line": 187,
-        "excerpt": "# List all snapshots (add --tag <tag> to filter)",
+        "line": 188,
+        "excerpt": "restic snapshots --repo /backup/restic-repo --password-file /etc/restic/password.txt",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/backup-recovery/SKILL.md",
-        "line": 200,
-        "excerpt": "# Apply retention policy and reclaim space",
+        "line": 201,
+        "excerpt": "restic forget \\",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/backup-recovery/SKILL.md",
-        "line": 215,
-        "excerpt": "# Restore the latest snapshot to a target directory",
+        "line": 216,
+        "excerpt": "restic restore latest --target /restore \\",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/backup-recovery/SKILL.md",
-        "line": 240,
-        "excerpt": "# Verify repository integrity (checks all data and metadata)",
+        "line": 241,
+        "excerpt": "restic check --repo /backup/restic-repo --password-file /etc/restic/password.txt",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/backup-recovery/SKILL.md",
-        "line": 255,
-        "excerpt": "# Repository configuration",
+        "line": 256,
+        "excerpt": "export RESTIC_REPOSITORY=\"s3:s3.amazonaws.com/my-backup-bucket\"",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/backup-recovery/SKILL.md",
-        "line": 268,
-        "excerpt": "#!/bin/bash",
+        "line": 270,
+        "excerpt": "set -euo pipefail",
         "disclosed": false,
         "automatic": false
       },
@@ -166,16 +166,16 @@
       {
         "ruleId": "shell",
         "file": "skills/backup-recovery/SKILL.md",
-        "line": 328,
-        "excerpt": "# Enable and start the timer",
+        "line": 329,
+        "excerpt": "systemctl daemon-reload",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/backup-recovery/SKILL.md",
-        "line": 343,
-        "excerpt": "# PostgreSQL: stream dump directly into restic (no temp file)",
+        "line": 344,
+        "excerpt": "pg_dump -U postgres -Fc mydb | restic backup --stdin --stdin-filename mydb.dump \\",
         "disclosed": false,
         "automatic": false
       }
@@ -189,7 +189,7 @@
     },
     "score": 47,
     "band": "high",
-    "rulesVersion": "1.0.0",
+    "rulesVersion": "1.3.0",
     "filesScanned": 2,
     "filesSkipped": 0
   },
@@ -199,6 +199,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 47,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "2984de11956e413008c6f98121cd141c499e47a3",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 47,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

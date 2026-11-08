@@ -7,20 +7,20 @@
   "description": "Hunt gRPC vulnerabilities",
   "stars": 12,
   "category": "other",
-  "commit": "b89b2f59bcd776f96526ce61d77fcb9bd0821a9f",
+  "commit": "5fe45e5965f0496e535e9cac866b06e5c3e87c87",
   "contentHash": "d94a419d0e4d9ef186f8ba55d70a8a5cf11ed243b50d014026a4d3860f8eaeaf",
   "repoCreatedAt": "2026-01-19T14:28:55Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T09:45:03.483Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "skills/antigravity-hunt-grpc/SKILL.md",
-        "line": 60,
-        "excerpt": "# Common gRPC ports (50051 native; 443/8443 via TLS+ALPN h2; 9090/8080 h2c)",
+        "line": 61,
+        "excerpt": "nmap -sV -p 50051,50052,443,9090,8080,8443,6565,9000 $TARGET 2>/dev/null | grep open",
         "disclosed": false,
         "automatic": false
       },
@@ -49,32 +49,32 @@
       {
         "ruleId": "shell",
         "file": "skills/antigravity-hunt-grpc/SKILL.md",
-        "line": 83,
-        "excerpt": "# Use an already reviewed grpcurl version; installation needs the project dependency plan.",
+        "line": 87,
+        "excerpt": "grpcurl -plaintext $TARGET:50051 list",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/antigravity-hunt-grpc/SKILL.md",
-        "line": 116,
-        "excerpt": "# Baseline: call a sensitive method with NO auth metadata",
+        "line": 117,
+        "excerpt": "grpcurl -plaintext $TARGET:50051 -d '{}' admin.AdminService/ListUsers",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/antigravity-hunt-grpc/SKILL.md",
-        "line": 137,
-        "excerpt": "# (a) Forged bearer / alg=none JWT in the authorization metadata",
+        "line": 138,
+        "excerpt": "grpcurl -plaintext $TARGET:50051 \\",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/antigravity-hunt-grpc/SKILL.md",
-        "line": 164,
-        "excerpt": "# Proxies (Envoy/grpc-gateway) sometimes serve descriptors or swagger",
+        "line": 165,
+        "excerpt": "for P in proto api/proto swagger.json openapiv2 service.swagger.json descriptor.pb; do",
         "disclosed": false,
         "automatic": false
       },
@@ -90,14 +90,6 @@
         ]
       },
       {
-        "ruleId": "shell",
-        "file": "skills/antigravity-hunt-grpc/SKILL.md",
-        "line": 188,
-        "excerpt": "# (a) grpc-gateway maps gRPC methods to REST. Reflection-derived method names often",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/antigravity-hunt-grpc/SKILL.md",
         "line": 190,
@@ -107,6 +99,14 @@
         "hosts": [
           "$target"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-hunt-grpc/SKILL.md",
+        "line": 190,
+        "excerpt": "curl -s -X POST \"https://$TARGET/v1/admin/users:list\" -H 'content-type: application/json' -d '{}'",
+        "disclosed": false,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -152,8 +152,8 @@
       {
         "ruleId": "shell",
         "file": "skills/antigravity-hunt-grpc/SKILL.md",
-        "line": 304,
-        "excerpt": "# Read-only first step; confirm scope before anything active.",
+        "line": 305,
+        "excerpt": "cat scope.txt  # target list from the authorized engagement brief",
         "disclosed": false,
         "automatic": false
       }
@@ -164,7 +164,7 @@
     },
     "score": 92,
     "band": "low",
-    "rulesVersion": "1.0.0",
+    "rulesVersion": "1.3.0",
     "filesScanned": 1,
     "filesSkipped": 0
   },
@@ -174,6 +174,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 92,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "5fe45e5965f0496e535e9cac866b06e5c3e87c87",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

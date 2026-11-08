@@ -1,0 +1,171 @@
+{
+  "id": "yanacuti1121__yana-ai__core~skills~gw360--site-server-audit",
+  "owner": "yanacuti1121",
+  "repo": "Yana-AI",
+  "path": "core/skills/gw360--site-server-audit",
+  "name": "site-server-audit",
+  "description": "Audit a public-facing site or server for common misconfigurations without sending exploit traffic. Covers DNS hygiene, TLS and HSTS, security headers, exposed paths (.git, .env, backups), cookie flags, and software fingerprinting. Invoke when onboarding a new client site, before launch, after infrastructure changes, or as periodic re-audit.",
+  "stars": 11,
+  "category": "coding",
+  "commit": "4a78f208d4b8cea9b6e4c33c40ffdb531daa0b7f",
+  "contentHash": "f2ca52917c149d0fd360541535cb2edf3048a756f954bcf2ae6d07d4d00b0499",
+  "repoCreatedAt": "2026-05-17T00:35:59Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "core/skills/gw360--site-server-audit/SKILL.md",
+        "line": 28,
+        "excerpt": "dig +short A example.com",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "core/skills/gw360--site-server-audit/SKILL.md",
+        "line": 50,
+        "excerpt": "echo | openssl s_client -servername example.com -connect example.com:443 2>/dev/null \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "core/skills/gw360--site-server-audit/SKILL.md",
+        "line": 57,
+        "excerpt": "curl -sI https://example.com | grep -i 'strict-transport-security\\|^location'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "example.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "core/skills/gw360--site-server-audit/SKILL.md",
+        "line": 58,
+        "excerpt": "curl -sI http://example.com | grep -i '^location\\|^HTTP/'   # should 301/308 to https",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "example.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "core/skills/gw360--site-server-audit/SKILL.md",
+        "line": 70,
+        "excerpt": "curl -sI https://example.com | grep -iE \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "example.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "core/skills/gw360--site-server-audit/SKILL.md",
+        "line": 70,
+        "excerpt": "curl -sI https://example.com | grep -iE \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "core/skills/gw360--site-server-audit/SKILL.md",
+        "line": 90,
+        "excerpt": "for p in \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "core/skills/gw360--site-server-audit/SKILL.md",
+        "line": 106,
+        "excerpt": "code=$(curl -s -o /dev/null -w '%{http_code}' \"https://example.com$p\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "example.com$p"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "core/skills/gw360--site-server-audit/SKILL.md",
+        "line": 119,
+        "excerpt": "curl -sI https://example.com | grep -i '^set-cookie'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "example.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "core/skills/gw360--site-server-audit/SKILL.md",
+        "line": 119,
+        "excerpt": "curl -sI https://example.com | grep -i '^set-cookie'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "core/skills/gw360--site-server-audit/SKILL.md",
+        "line": 127,
+        "excerpt": "curl -sI https://example.com | grep -iE '^(server|x-powered-by|x-generator|x-aspnet-version)'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "example.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "core/skills/gw360--site-server-audit/SKILL.md",
+        "line": 127,
+        "excerpt": "curl -sI https://example.com | grep -iE '^(server|x-powered-by|x-generator|x-aspnet-version)'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "core/skills/gw360--site-server-audit/SKILL.md",
+        "line": 129,
+        "excerpt": "curl -s https://example.com | grep -oE '<meta name=\"generator\" content=\"[^\"]+\"'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "example.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "core/skills/gw360--site-server-audit/SKILL.md",
+        "line": 139,
+        "excerpt": "find /path/to/docroot -type f -perm -o+w 2>/dev/null",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 7,
+      "network": 7
+    },
+    "score": 92,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "4a78f208d4b8cea9b6e4c33c40ffdb531daa0b7f",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

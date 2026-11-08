@@ -13,22 +13,14 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T09:45:03.483Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "skills/sbom-supply-chain/SKILL.md",
-        "line": 75,
-        "excerpt": "# Generate SBOM for a container image (CycloneDX JSON)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/sbom-supply-chain/SKILL.md",
-        "line": 103,
-        "excerpt": "# Install cdxgen",
+        "line": 76,
+        "excerpt": "syft ghcr.io/acme/api:v1.2.3 -o cyclonedx-json > sbom-cyclonedx.json",
         "disclosed": false,
         "automatic": false
       },
@@ -43,40 +35,48 @@
       {
         "ruleId": "shell",
         "file": "skills/sbom-supply-chain/SKILL.md",
-        "line": 131,
-        "excerpt": "# Scan SBOM for vulnerabilities with Grype",
+        "line": 104,
+        "excerpt": "npm install -g @cyclonedx/cdxgen",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/sbom-supply-chain/SKILL.md",
-        "line": 155,
-        "excerpt": "# Keyless signing (recommended - uses OIDC identity from CI)",
+        "line": 132,
+        "excerpt": "grype sbom:sbom-cyclonedx.json",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/sbom-supply-chain/SKILL.md",
-        "line": 175,
-        "excerpt": "# Attach SBOM as an in-toto attestation to a container image",
+        "line": 156,
+        "excerpt": "cosign sign ghcr.io/acme/api@sha256:abc123...",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/sbom-supply-chain/SKILL.md",
-        "line": 201,
-        "excerpt": "# Create a custom provenance attestation",
+        "line": 176,
+        "excerpt": "cosign attest --predicate sbom-cyclonedx.json \\",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/sbom-supply-chain/SKILL.md",
-        "line": 430,
-        "excerpt": "# Read-only first: inventory before any active step.",
+        "line": 202,
+        "excerpt": "cat > provenance.json << 'EOF'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/sbom-supply-chain/SKILL.md",
+        "line": 431,
+        "excerpt": "which <tool> && <tool> --help | head -n 20",
         "disclosed": false,
         "automatic": false
       }
@@ -87,7 +87,7 @@
     },
     "score": 80,
     "band": "low",
-    "rulesVersion": "1.0.0",
+    "rulesVersion": "1.3.0",
     "filesScanned": 2,
     "filesSkipped": 0
   },
@@ -97,6 +97,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 80,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "2984de11956e413008c6f98121cd141c499e47a3",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 80,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

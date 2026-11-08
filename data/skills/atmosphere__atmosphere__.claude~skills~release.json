@@ -1,0 +1,89 @@
+{
+  "id": "atmosphere__atmosphere__.claude~skills~release",
+  "owner": "Atmosphere",
+  "repo": "atmosphere",
+  "path": ".claude/skills/release",
+  "name": "release",
+  "description": "Cut an Atmosphere release end to end — the only path to release-4x.yml. Use whenever a release, a version cut, \"ship it\" or publishing to Maven Central/npm/Homebrew/SDKMAN is requested. Runs the preflight in order (open carnet, compatibility review, CI green on HEAD, sample sweep covering HEAD), triggers the workflow, verifies every distribution channel, labels the carnet, and cleans up. Stops at the first failed check.",
+  "stars": 3830,
+  "category": "devops",
+  "commit": "b33d0e0a37d1b54689d61b9570d632ef418555d1",
+  "contentHash": "c58d1944905a42940311eeb34295839ef25c4a65d4c8f96b734bd1f67cee6d7f",
+  "repoCreatedAt": "2010-06-30T14:26:23Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release/SKILL.md",
+        "line": 22,
+        "excerpt": "gh issue list -R \"$(.agents/skills/carnet/carnet.sh tracker)\" --state open \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release/SKILL.md",
+        "line": 34,
+        "excerpt": "PREV=$(git tag --list 'atmosphere-4.*' --sort=-v:refname | head -1)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release/SKILL.md",
+        "line": 45,
+        "excerpt": "git fetch origin && SHA=$(git rev-parse origin/main)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release/SKILL.md",
+        "line": 57,
+        "excerpt": "git checkout --detach origin/main && ./scripts/validate-sweep-attestation.sh",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release/SKILL.md",
+        "line": 74,
+        "excerpt": "gh workflow run release-4x.yml --ref main \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/release/SKILL.md",
+        "line": 90,
+        "excerpt": "| Maven Central | `curl -s -o /dev/null -w '%{http_code}' https://repo1.maven.org/maven2/org/atmosphere/atmosphere-runtime/X.Y.Z/atmosphere-runtime-X.Y.Z.pom` r",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "repo1.maven.org"
+        ]
+      }
+    ],
+    "findingTotals": {
+      "shell": 5,
+      "network": 1
+    },
+    "score": 90,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "b33d0e0a37d1b54689d61b9570d632ef418555d1",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 90,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

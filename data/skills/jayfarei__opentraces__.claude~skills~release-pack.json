@@ -1,0 +1,288 @@
+{
+  "id": "jayfarei__opentraces__.claude~skills~release-pack",
+  "owner": "JayFarei",
+  "repo": "opentraces",
+  "path": ".claude/skills/release-pack",
+  "name": "release-pack",
+  "description": "Full coordinated release of all opentraces packages — schema, CLI, the opentraces-pi npm extension, and the marketing site — in a single orchestrated flow. Use when the user says \"release everything\", \"full release\", \"release pack\", \"release all\", \"cut a full release\", \"ship it all\", \"release-pack\", or when doing a versioned release that should touch all packages at once. This is the right skill any time you want to go from current code to a published, verified release across PyPI (schema + CLI), npm (opentraces-pi), GitHub Releases, Homebrew, and Vercel in one pass. It handles version bumps, docs checks, ordered publishing, propagation waits, and post-release verification of pipx, brew, and npm installs automatically.",
+  "stars": 103,
+  "category": "coding",
+  "commit": "4825c9690eda7eebb0b9c968b4168c9dcc5ff3c7",
+  "contentHash": "2bb4abb0a96d19872c5367f9e4c6e20c5ad3263222c0e5c4cfc90855c8c0432f",
+  "repoCreatedAt": "2026-03-27T18:15:06Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release-pack/SKILL.md",
+        "line": 50,
+        "excerpt": "git branch --show-current",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/release-pack/SKILL.md",
+        "line": 76,
+        "excerpt": "curl -s https://pypi.org/pypi/opentraces/json | python3 -c \"import sys,json; d=json.load(sys.stdin); print('CLI PyPI:', d['info']['version'])\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "pypi.org"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release-pack/SKILL.md",
+        "line": 76,
+        "excerpt": "curl -s https://pypi.org/pypi/opentraces/json | python3 -c \"import sys,json; d=json.load(sys.stdin); print('CLI PyPI:', d['info']['version'])\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/release-pack/SKILL.md",
+        "line": 77,
+        "excerpt": "curl -s https://pypi.org/pypi/opentraces-schema/json | python3 -c \"import sys,json; d=json.load(sys.stdin); print('Schema PyPI:', d['info']['version'])\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "pypi.org"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/release-pack/SKILL.md",
+        "line": 91,
+        "excerpt": "curl -s https://opentraces.ai | grep -o '\"version\":\"[^\"]*\"' | head -1",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "opentraces.ai"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release-pack/SKILL.md",
+        "line": 99,
+        "excerpt": "grep '__version__' src/opentraces/__init__.py",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release-pack/SKILL.md",
+        "line": 114,
+        "excerpt": "LAST_CLI_TAG=$(git tag -l 'v[0-9]*' --sort=-v:refname | head -1)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release-pack/SKILL.md",
+        "line": 122,
+        "excerpt": "LAST_SCHEMA_TAG=$(git tag -l 'schema-v*' --sort=-v:refname | head -1)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release-pack/SKILL.md",
+        "line": 212,
+        "excerpt": "bash web/site/scripts/generate-llms-txt.sh",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release-pack/SKILL.md",
+        "line": 223,
+        "excerpt": "grep -r \"0\\.\" src/opentraces/__init__.py packages/opentraces-schema/src/opentraces_schema/version.py web/site/src/lib/version.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release-pack/SKILL.md",
+        "line": 243,
+        "excerpt": "git log --oneline $(git tag -l 'schema-v*' --sort=-v:refname | head -1)..HEAD -- packages/opentraces-schema/",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release-pack/SKILL.md",
+        "line": 251,
+        "excerpt": "source .venv/bin/activate",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release-pack/SKILL.md",
+        "line": 261,
+        "excerpt": "git add packages/opentraces-schema/",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release-pack/SKILL.md",
+        "line": 270,
+        "excerpt": "gh workflow run publish.yml -f repository=pypi -f package=opentraces-schema",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release-pack/SKILL.md",
+        "line": 276,
+        "excerpt": "gh run list --workflow=publish.yml --limit 1 --json status,conclusion,databaseId",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release-pack/SKILL.md",
+        "line": 289,
+        "excerpt": "source .venv/bin/activate",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release-pack/SKILL.md",
+        "line": 299,
+        "excerpt": "git add -A",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release-pack/SKILL.md",
+        "line": 310,
+        "excerpt": "git log --oneline $(git tag -l 'v[0-9]*' --sort=-v:refname | head -2 | tail -1)..HEAD",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release-pack/SKILL.md",
+        "line": 316,
+        "excerpt": "gh release create vCLI_VERSION \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/release-pack/SKILL.md",
+        "line": 322,
+        "excerpt": "pipx install opentraces==CLI_VERSION",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/release-pack/SKILL.md",
+        "line": 324,
+        "excerpt": "brew install JayFarei/opentraces/opentraces",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release-pack/SKILL.md",
+        "line": 339,
+        "excerpt": "gh run list --workflow=publish.yml --limit 2 --json status,conclusion,databaseId",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release-pack/SKILL.md",
+        "line": 354,
+        "excerpt": "LAST_PI_TAG=$(git tag -l 'pi-v*' --sort=-v:refname | head -1)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release-pack/SKILL.md",
+        "line": 373,
+        "excerpt": "PI_VERSION=$(cd packages/opentraces-pi && node -p \"require('./package.json').version\")",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release-pack/SKILL.md",
+        "line": 383,
+        "excerpt": "gh workflow run publish-npm.yml",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/release-pack/SKILL.md",
+        "line": 418,
+        "excerpt": "pipx install opentraces==CLI_VERSION --force",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/release-pack/SKILL.md",
+        "line": 428,
+        "excerpt": "pip install opentraces==CLI_VERSION",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/release-pack/SKILL.md",
+        "line": 439,
+        "excerpt": "brew install JayFarei/opentraces/opentraces",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/release-pack/SKILL.md",
+        "line": 456,
+        "excerpt": "pip install opentraces-schema==SCHEMA_VERSION",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/release-pack/SKILL.md",
+        "line": 486,
+        "excerpt": "npx vercel --prod",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 29,
+      "network": 3,
+      "downloads-code": 7
+    },
+    "score": 84,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "4825c9690eda7eebb0b9c968b4168c9dcc5ff3c7",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 84,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

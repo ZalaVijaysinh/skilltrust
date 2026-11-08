@@ -7,13 +7,13 @@
   "description": "生成された仕様書ドキュメントセットの完成度を独立 context で評価したいとき、上位概念trace・意思決定・マトリクス網羅性・設計知識反映・最新ドキュメント出典・prompt品質の 6 観点で合否判定したいときに使う。",
   "stars": 10,
   "category": "other",
-  "commit": "e63e798003f124bad3096554beaaf9f8046c4c21",
-  "contentHash": "2158359e0175a5392dbb8b0aefcb7af7e81a8fef0da28e4d86cdc8a1714c6592",
+  "commit": "d629311d73fdbc1a9ed19404642f1a8e43a9a976",
+  "contentHash": "612a5b7cdb1a64e9d3860405c1014edb97d0914f60d4a2b885b6a0af76ffd5a6",
   "repoCreatedAt": "2026-01-15T05:28:17Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T09:45:03.483Z",
   "scan": {
     "findings": [
       {
@@ -97,11 +97,27 @@
         "automatic": false
       },
       {
+        "ruleId": "reads-secrets",
+        "file": "plugins/system-spec-harness/skills/assign-system-spec-completeness-evaluator/tests/test_aggregate_completeness.py",
+        "line": 131,
+        "excerpt": "env = dict(os.environ)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
         "ruleId": "shell",
         "file": "plugins/system-spec-harness/skills/assign-system-spec-completeness-evaluator/tests/test_aggregate_completeness.py",
         "line": 134,
         "excerpt": "process = subprocess.run(",
         "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/system-spec-harness/skills/assign-system-spec-completeness-evaluator/tests/test_aggregate_completeness.py",
+        "line": 168,
+        "excerpt": "env = dict(os.environ)",
+        "disclosed": false,
         "automatic": false
       },
       {
@@ -147,23 +163,6 @@
         "hosts": []
       },
       {
-        "ruleId": "network",
-        "file": "plugins/system-spec-harness/skills/run-system-spec-doc-fetch/prompts/R4-audit-doc-freshness.md",
-        "line": 43,
-        "excerpt": "- **ツール**: `Read` (SSOT: references と targets)、`Bash` (C13 `validate-source-citation.py` の実行と JSON 検査のみ・read-only/network:false)、`WebSearch` (公式ホストの裏取り・現行版の所在特定",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/system-spec-harness/tests/test_guard_hook.py",
-        "line": 4,
-        "excerpt": "# purpose: C11 guard-confirmed-chapter-overwrite hook の負例/正例を Write/Edit/Bash × 確定章(C03実出力形状)/対象外混在確定章/再オープン章/新規章/正本spec-state.json直接書換/正本位置外spec-state(交差汚染回避)/",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "shell",
         "file": "plugins/system-spec-harness/tests/test_guard_hook.py",
         "line": 432,
@@ -197,21 +196,54 @@
       },
       {
         "ruleId": "shell",
-        "file": "plugins/system-spec-harness/hooks/guard-confirmed-chapter-overwrite.py",
-        "line": 181,
-        "excerpt": "# 入れ子の bash -c / eval を解析する深さの上限 (超えたら書込み先不明として扱う)。",
+        "file": "plugins/system-spec-harness/hooks/hooks.json",
+        "line": 10,
+        "excerpt": "\"command\": \"python3 \\\"${PLUGIN_ROOT:-${CLAUDE_PLUGIN_ROOT}}/hooks/guard-confirmed-chapter-overwrite.py\\\"\",",
         "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/system-spec-harness/hooks/hooks.json",
+        "line": 22,
+        "excerpt": "\"command\": \"python3 \\\"${PLUGIN_ROOT:-${CLAUDE_PLUGIN_ROOT}}/hooks/record-audit-fork.py\\\"\",",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/system-spec-harness/hooks/tests/test_record_audit_fork.py",
+        "line": 354,
+        "excerpt": "env = dict(os.environ)",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/system-spec-harness/hooks/tests/test_record_audit_fork.py",
+        "line": 469,
+        "excerpt": "env = dict(os.environ)",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/system-spec-harness/hooks/tests/test_record_audit_fork.py",
+        "line": 561,
+        "excerpt": "env = dict(os.environ)",
+        "disclosed": false,
         "automatic": true
       }
     ],
     "findingTotals": {
-      "shell": 32,
-      "network": 3
+      "shell": 29,
+      "reads-secrets": 5,
+      "network": 2
     },
-    "score": 92,
-    "band": "low",
-    "rulesVersion": "1.0.0",
-    "filesScanned": 64,
+    "score": 72,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 35,
     "filesSkipped": 0
   },
   "history": [
@@ -220,6 +252,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 92,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "d629311d73fdbc1a9ed19404642f1a8e43a9a976",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 72,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

@@ -13,14 +13,14 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T09:45:03.483Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "skills/ssh-configuration/SKILL.md",
-        "line": 43,
-        "excerpt": "# Generate an Ed25519 key (recommended -- fast, secure, short)",
+        "line": 44,
+        "excerpt": "ssh-keygen -t ed25519 -C \"jane@example.com\" -f ~/.ssh/id_ed25519",
         "disclosed": false,
         "automatic": false
       },
@@ -29,14 +29,6 @@
         "file": "skills/ssh-configuration/SKILL.md",
         "line": 56,
         "excerpt": "cat ~/.ssh/id_ed25519.pub | ssh user@server \"mkdir -p ~/.ssh && chmod 700 ~/.ssh && cat >> ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys\"",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/ssh-configuration/SKILL.md",
-        "line": 142,
-        "excerpt": "# Create the sockets directory for multiplexing",
         "disclosed": false,
         "automatic": false
       },
@@ -51,40 +43,48 @@
       {
         "ruleId": "shell",
         "file": "skills/ssh-configuration/SKILL.md",
-        "line": 150,
-        "excerpt": "# /etc/ssh/sshd_config -- hardened configuration",
+        "line": 143,
+        "excerpt": "mkdir -p ~/.ssh/sockets",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/ssh-configuration/SKILL.md",
-        "line": 211,
-        "excerpt": "# Validate configuration before restarting",
+        "line": 154,
+        "excerpt": "Port 22",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/ssh-configuration/SKILL.md",
-        "line": 224,
-        "excerpt": "# On the bastion server, restrict forwarding to internal subnets only",
+        "line": 212,
+        "excerpt": "sshd -t",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/ssh-configuration/SKILL.md",
-        "line": 248,
-        "excerpt": "# Local port forward: access remote service on localhost",
+        "line": 226,
+        "excerpt": "AllowTcpForwarding yes",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/ssh-configuration/SKILL.md",
-        "line": 274,
-        "excerpt": "# Enable agent forwarding for a single connection",
+        "line": 250,
+        "excerpt": "ssh -L 5432:10.0.2.50:5432 ops@bastion.example.com -N",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/ssh-configuration/SKILL.md",
+        "line": 275,
+        "excerpt": "ssh -A user@bastion",
         "disclosed": false,
         "automatic": false
       }
@@ -95,7 +95,7 @@
     },
     "score": 85,
     "band": "low",
-    "rulesVersion": "1.0.0",
+    "rulesVersion": "1.3.0",
     "filesScanned": 2,
     "filesSkipped": 0
   },
@@ -105,6 +105,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 85,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "2984de11956e413008c6f98121cd141c499e47a3",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 85,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

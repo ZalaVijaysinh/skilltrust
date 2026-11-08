@@ -1,0 +1,185 @@
+{
+  "id": "donovan-yohan__relay-ide__.chalk~skills~release",
+  "owner": "donovan-yohan",
+  "repo": "relay-ide",
+  "path": ".chalk/skills/release",
+  "name": "release",
+  "description": "Cut a relay-ide release: preflight the nightly head, bump the version, drain CHANGELOG [Unreleased], promote nightly to master, tag, verify the npm dist-tag and GitHub Release, dogfood a release candidate on the prod hub, and sync master back. Use when the user says \"release\", \"cut a release\", \"ship a version\", \"publish stable\", \"cut an rc\", \"tag v0.1.1\", or \"promote the rc\".",
+  "stars": 11,
+  "category": "other",
+  "commit": "b9a6f682d1dd5ac084179b79e3110bdb627e04ba",
+  "contentHash": "5efb72483abeabbcbafb28c6f6dd29194b52b8564d7dd990d2dd164f7aca3b9a",
+  "repoCreatedAt": "2026-02-21T23:42:08Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".chalk/skills/release/SKILL.md",
+        "line": 44,
+        "excerpt": "gh run list --repo donovan-yohan/relay-ide --branch nightly --limit 5 \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".chalk/skills/release/SKILL.md",
+        "line": 57,
+        "excerpt": "git status --short          # must be empty",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".chalk/skills/release/SKILL.md",
+        "line": 67,
+        "excerpt": "gh issue list --repo donovan-yohan/relay-ide --state open \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".chalk/skills/release/SKILL.md",
+        "line": 80,
+        "excerpt": "awk '/^## \\[Unreleased\\]/{f=1;next} f && /^## \\[/{exit} f' CHANGELOG.md",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".chalk/skills/release/SKILL.md",
+        "line": 88,
+        "excerpt": "git log --oneline --first-parent v<LAST>..origin/nightly",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".chalk/skills/release/SKILL.md",
+        "line": 123,
+        "excerpt": "git checkout nightly && git pull --ff-only",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".chalk/skills/release/SKILL.md",
+        "line": 145,
+        "excerpt": "git add package.json package-lock.json CHANGELOG.md",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".chalk/skills/release/SKILL.md",
+        "line": 155,
+        "excerpt": "gh pr create --repo donovan-yohan/relay-ide \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".chalk/skills/release/SKILL.md",
+        "line": 173,
+        "excerpt": "git checkout master && git pull --ff-only",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".chalk/skills/release/SKILL.md",
+        "line": 189,
+        "excerpt": "gh run watch --repo donovan-yohan/relay-ide",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".chalk/skills/release/SKILL.md",
+        "line": 197,
+        "excerpt": "npm dist-tag ls relay-ide                     # latest / rc / nightly all point where you expect",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".chalk/skills/release/SKILL.md",
+        "line": 205,
+        "excerpt": "SMOKE=$(mktemp -d)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".chalk/skills/release/SKILL.md",
+        "line": 223,
+        "excerpt": "bun add -g relay-ide@rc",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".chalk/skills/release/SKILL.md",
+        "line": 227,
+        "excerpt": "curl -s http://127.0.0.1:3456/healthz",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".chalk/skills/release/SKILL.md",
+        "line": 247,
+        "excerpt": "bun add -g relay-ide@latest",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".chalk/skills/release/SKILL.md",
+        "line": 249,
+        "excerpt": "curl -s http://127.0.0.1:3456/healthz",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".chalk/skills/release/SKILL.md",
+        "line": 262,
+        "excerpt": "git checkout nightly && git pull --ff-only",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".chalk/skills/release/SKILL.md",
+        "line": 300,
+        "excerpt": "global install; `npm i -g relay-ide@rc` updates a different tree and the",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 15,
+      "network": 2,
+      "downloads-code": 1
+    },
+    "score": 75,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "b9a6f682d1dd5ac084179b79e3110bdb627e04ba",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 75,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

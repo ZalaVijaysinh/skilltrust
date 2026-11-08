@@ -7,13 +7,13 @@
   "description": "Searches and explores Burp Suite project files (.burp) from the command line. Use when searching response headers or bodies with regex patterns, extracting security audit findings, dumping proxy history or site map data, or analyzing HTTP traffic captured in a Burp project.",
   "stars": 12,
   "category": "security",
-  "commit": "b89b2f59bcd776f96526ce61d77fcb9bd0821a9f",
+  "commit": "5fe45e5965f0496e535e9cac866b06e5c3e87c87",
   "contentHash": "5717c2dcbc3d19128dc5dd01f9f02a24e62c1a33fdf9c8f6cf0176c5fbd0d4a4",
   "repoCreatedAt": "2026-01-19T14:28:55Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T09:45:03.483Z",
   "scan": {
     "findings": [
       {
@@ -27,16 +27,16 @@
       {
         "ruleId": "shell",
         "file": "skills/antigravity-burpsuite-project-parser/SKILL.md",
-        "line": 79,
-        "excerpt": "# Header subset only; redact cookies, Authorization and other secrets before display",
+        "line": 80,
+        "excerpt": "{baseDir}/scripts/burp-search.sh project.burp proxyHistory.request.headers | head -c 50000",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/antigravity-burpsuite-project-parser/SKILL.md",
-        "line": 90,
-        "excerpt": "# 1. First, find interesting URLs from headers",
+        "line": 91,
+        "excerpt": "{baseDir}/scripts/burp-search.sh project.burp proxyHistory.response.headers | \\",
         "disclosed": true,
         "automatic": false
       },
@@ -67,8 +67,8 @@
       {
         "ruleId": "shell",
         "file": "skills/antigravity-burpsuite-project-parser/SKILL.md",
-        "line": 121,
-        "excerpt": "# REQUIRED format - always truncate .body field",
+        "line": 122,
+        "excerpt": "{baseDir}/scripts/burp-search.sh project.burp \"responseBody='.*<form.*action.*'\" | \\",
         "disclosed": true,
         "automatic": false
       },
@@ -99,40 +99,32 @@
       {
         "ruleId": "shell",
         "file": "skills/antigravity-burpsuite-project-parser/SKILL.md",
-        "line": 161,
-        "excerpt": "# Check record count AND total bytes - never skip this step",
+        "line": 162,
+        "excerpt": "{baseDir}/scripts/burp-search.sh project.burp proxyHistory.request.headers | wc -cl",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/antigravity-burpsuite-project-parser/SKILL.md",
-        "line": 184,
-        "excerpt": "# Instead of: proxyHistory (gigabytes)",
+        "line": 191,
+        "excerpt": "responseHeader='.*'",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/antigravity-burpsuite-project-parser/SKILL.md",
-        "line": 190,
-        "excerpt": "# Too broad (matches everything):",
+        "line": 201,
+        "excerpt": "{baseDir}/scripts/burp-search.sh project.burp proxyHistory.response.headers | \\",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/antigravity-burpsuite-project-parser/SKILL.md",
-        "line": 200,
-        "excerpt": "# Get only specific content types",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/antigravity-burpsuite-project-parser/SKILL.md",
-        "line": 210,
-        "excerpt": "# ALWAYS use head -c to limit total bytes (max 50KB)",
+        "line": 211,
+        "excerpt": "{baseDir}/scripts/burp-search.sh project.burp proxyHistory.request.headers | head -c 50000",
         "disclosed": true,
         "automatic": false
       },
@@ -175,14 +167,22 @@
         "excerpt": "{baseDir}/scripts/burp-search.sh project.burp \"responseBody='pattern'\"",
         "disclosed": true,
         "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-burpsuite-project-parser/SKILL.md",
+        "line": 305,
+        "excerpt": "{baseDir}/scripts/burp-search.sh project.burp auditItems | jq .",
+        "disclosed": true,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 29
+      "shell": 28
     },
     "score": 97,
     "band": "low",
-    "rulesVersion": "1.0.0",
+    "rulesVersion": "1.3.0",
     "filesScanned": 1,
     "filesSkipped": 0
   },
@@ -192,6 +192,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 97,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "5fe45e5965f0496e535e9cac866b06e5c3e87c87",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 97,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

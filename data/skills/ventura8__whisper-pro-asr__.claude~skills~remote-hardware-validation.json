@@ -1,0 +1,126 @@
+{
+  "id": "ventura8__whisper-pro-asr__.claude~skills~remote-hardware-validation",
+  "owner": "ventura8",
+  "repo": "Whisper-Pro-ASR",
+  "path": ".claude/skills/remote-hardware-validation",
+  "name": "remote-hardware-validation",
+  "description": "Validate Whisper Pro ASR on accelerator hardware that this machine does not have, by driving a remote host over SSH. Use whenever a build target needs proving on silicon the local box lacks — an Intel NPU, an Intel Arc GPU, an AMD Radeon, a second NVIDIA card — or when the user offers a machine (\"I have a box with X, can you use it?\", \"here is the IP\", \"ssh access\"). Also use before claiming any target hardware-validated when the accelerator is absent locally, and when triaging a failure that only reproduces on other silicon. Pairs with the hardware-verification skill, which defines what validation means; this one covers doing it somewhere else safely.",
+  "stars": 14,
+  "category": "devops",
+  "commit": "e5a8a180a05a565735e967a46297653c7704b28c",
+  "contentHash": "bf127c77fadc7462e331de54cccf18535f33a93bc885050b03f3f0526fb40eac",
+  "repoCreatedAt": "2026-01-24T15:50:28Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/remote-hardware-validation/SKILL.md",
+        "line": 26,
+        "excerpt": "scripts/remote_validate.sh <user>@<host>                    # preflight + audit",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/remote-hardware-validation/SKILL.md",
+        "line": 67,
+        "excerpt": "ssh-copy-id -i ~/.ssh/<key>.pub <user>@<host>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/remote-hardware-validation/SKILL.md",
+        "line": 74,
+        "excerpt": "ssh-keygen -t ed25519 -N '' -C 'whisper-pro-asr remote hardware validation' \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/remote-hardware-validation/SKILL.md",
+        "line": 81,
+        "excerpt": "ssh -i ~/.ssh/whisper_remote_validation -o IdentitiesOnly=yes -o BatchMode=yes -o ConnectTimeout=10 <user>@<host> 'id -nG | tr \" \" \"\\n\" | grep -qx docker && ech",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/remote-hardware-validation/SKILL.md",
+        "line": 141,
+        "excerpt": "ssh -i ~/.ssh/whisper_remote_validation -o IdentitiesOnly=yes -o BatchMode=yes -o ConnectTimeout=10 <user>@<host> 'wsl -e bash -lc \"<command>\"'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/remote-hardware-validation/SKILL.md",
+        "line": 159,
+        "excerpt": "ssh -i ~/.ssh/whisper_remote_validation -o IdentitiesOnly=yes -o BatchMode=yes -o ConnectTimeout=10 <user>@<host> 'bash -s -- --json' < scripts/audit_hardware.s",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/remote-hardware-validation/SKILL.md",
+        "line": 176,
+        "excerpt": "IMAGE='whisper-pro-asr@sha256:<digest of the build under test>'   # docker images --digests",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/remote-hardware-validation/SKILL.md",
+        "line": 182,
+        "excerpt": "ssh -i ~/.ssh/whisper_remote_validation -o IdentitiesOnly=yes -o BatchMode=yes -o ConnectTimeout=10 <user>@<host> \"docker run --rm --gpus all $IMAGE python3 -c ",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/remote-hardware-validation/SKILL.md",
+        "line": 189,
+        "excerpt": "ssh -i ~/.ssh/whisper_remote_validation -o IdentitiesOnly=yes -o BatchMode=yes -o ConnectTimeout=10 <user>@<host> \"docker run --rm --device /dev/kfd --device /d",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/remote-hardware-validation/SKILL.md",
+        "line": 201,
+        "excerpt": "LOCAL_PROBE=\"$(mktemp -t xpu_probe.XXXXXX)\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".claude/skills/remote-hardware-validation/SKILL.md",
+        "line": 203,
+        "excerpt": "trap 'rm -f \"$LOCAL_PROBE\"; ssh -i ~/.ssh/whisper_remote_validation -o IdentitiesOnly=yes -o BatchMode=yes -o ConnectTimeout=10 <user>@<host> \"rm -f $REMOTE_PRO",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 10,
+      "writes-outside": 1
+    },
+    "score": 87,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "e5a8a180a05a565735e967a46297653c7704b28c",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 87,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

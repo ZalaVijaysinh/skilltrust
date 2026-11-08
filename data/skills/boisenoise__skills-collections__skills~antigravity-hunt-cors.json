@@ -7,20 +7,20 @@
   "description": "Hunt CORS Misconfiguration",
   "stars": 12,
   "category": "other",
-  "commit": "b89b2f59bcd776f96526ce61d77fcb9bd0821a9f",
+  "commit": "5fe45e5965f0496e535e9cac866b06e5c3e87c87",
   "contentHash": "40210a42bdf80189f95fe35f9690ff0c276839ddd85d002aa84f97fb7e9ef9a0",
   "repoCreatedAt": "2026-01-19T14:28:55Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T09:45:03.483Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "skills/antigravity-hunt-cors/SKILL.md",
-        "line": 94,
-        "excerpt": "# Probe API endpoints. Use GET (not -I): some servers only emit CORS on GET,",
+        "line": 96,
+        "excerpt": "while IFS= read -r url; do",
         "disclosed": false,
         "automatic": false
       },
@@ -34,14 +34,6 @@
         "hosts": []
       },
       {
-        "ruleId": "shell",
-        "file": "skills/antigravity-hunt-cors/SKILL.md",
-        "line": 110,
-        "excerpt": "# Does the server reflect an arbitrary Origin back?",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/antigravity-hunt-cors/SKILL.md",
         "line": 111,
@@ -51,6 +43,14 @@
         "hosts": [
           "$target"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-hunt-cors/SKILL.md",
+        "line": 111,
+        "excerpt": "curl -s -D - -o /dev/null https://$TARGET/api/me \\",
+        "disclosed": false,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -66,8 +66,8 @@
       {
         "ruleId": "shell",
         "file": "skills/antigravity-hunt-cors/SKILL.md",
-        "line": 145,
-        "excerpt": "# Send each class-specific payload and watch what the server reflects.",
+        "line": 146,
+        "excerpt": "for ORIGIN in \\",
         "disclosed": false,
         "automatic": false
       },
@@ -146,24 +146,24 @@
       {
         "ruleId": "shell",
         "file": "skills/antigravity-hunt-cors/SKILL.md",
-        "line": 247,
-        "excerpt": "# Find message handlers that don't strictly validate event.origin.",
+        "line": 248,
+        "excerpt": "grep -rEn \"addEventListener\\(['\\\"]message\" recon/$TARGET/ --include=\"*.js\" \\",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/antigravity-hunt-cors/SKILL.md",
-        "line": 264,
-        "excerpt": "# Optional third-party scanner: resolve its real upstream, reviewed version,",
+        "line": 269,
+        "excerpt": "nuclei -u https://$TARGET -t http/misconfiguration/cors/",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/antigravity-hunt-cors/SKILL.md",
-        "line": 332,
-        "excerpt": "# Read-only first step; confirm scope before anything active.",
+        "line": 333,
+        "excerpt": "cat scope.txt  # target list from the authorized engagement brief",
         "disclosed": false,
         "automatic": false
       }
@@ -174,7 +174,7 @@
     },
     "score": 92,
     "band": "low",
-    "rulesVersion": "1.0.0",
+    "rulesVersion": "1.3.0",
     "filesScanned": 1,
     "filesSkipped": 0
   },
@@ -184,6 +184,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 92,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "5fe45e5965f0496e535e9cac866b06e5c3e87c87",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

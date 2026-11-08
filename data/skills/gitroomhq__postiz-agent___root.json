@@ -13,7 +13,7 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T09:45:03.483Z",
   "scan": {
     "findings": [
       {
@@ -46,14 +46,6 @@
         "line": 78,
         "excerpt": "echo 'export POSTIZ_API_KEY=your_api_key' >> ~/.bashrc",
         "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "HOW_TO_RUN.md",
-        "line": 120,
-        "excerpt": "echo $POSTIZ_API_KEY",
-        "disclosed": true,
         "automatic": false
       },
       {
@@ -260,16 +252,16 @@
       {
         "ruleId": "shell",
         "file": "SKILL.md",
-        "line": 83,
-        "excerpt": "# 1. Authenticate",
+        "line": 84,
+        "excerpt": "postiz auth:status",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "SKILL.md",
-        "line": 118,
-        "excerpt": "# Login via device flow (opens browser, no client ID/secret needed)",
+        "line": 119,
+        "excerpt": "postiz auth:login",
         "disclosed": true,
         "automatic": false
       },
@@ -292,72 +284,72 @@
       {
         "ruleId": "shell",
         "file": "SKILL.md",
-        "line": 143,
-        "excerpt": "# List all connected integrations",
+        "line": 144,
+        "excerpt": "postiz integrations:list",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "SKILL.md",
-        "line": 163,
-        "excerpt": "# Simple post (date is REQUIRED)",
+        "line": 164,
+        "excerpt": "postiz posts:create -c \"Content\" -s \"2024-12-31T12:00:00Z\" -i \"integration-id\"",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "SKILL.md",
-        "line": 207,
-        "excerpt": "# List posts (defaults to last 30 days to next 30 days)",
+        "line": 210,
+        "excerpt": "postiz posts:list",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "SKILL.md",
-        "line": 232,
-        "excerpt": "# Get platform analytics (default: last 7 days)",
+        "line": 233,
+        "excerpt": "postiz analytics:platform <integration-id>",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "SKILL.md",
-        "line": 252,
-        "excerpt": "# 1. analytics:post returns {\"missing\": true}",
+        "line": 253,
+        "excerpt": "postiz analytics:post <post-id>",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "SKILL.md",
-        "line": 271,
-        "excerpt": "# List recent content from the provider for a post with missing release ID",
+        "line": 272,
+        "excerpt": "postiz posts:missing <post-id>",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "SKILL.md",
-        "line": 285,
-        "excerpt": "# Upload file and get URL",
+        "line": 286,
+        "excerpt": "postiz upload image.jpg",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "SKILL.md",
-        "line": 315,
-        "excerpt": "# Start a clipping (returns {\"id\": \"...\"} immediately — clipping takes several minutes)",
+        "line": 316,
+        "excerpt": "postiz clipping:create \"https://www.youtube.com/watch?v=VIDEO_ID\" -f blur",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "SKILL.md",
-        "line": 343,
-        "excerpt": "# Get Reddit integration ID",
+        "line": 344,
+        "excerpt": "REDDIT_ID=$(postiz integrations:list | jq -r '.[] | select(.identifier==\"reddit\") | .id')",
         "disclosed": true,
         "automatic": false
       },
@@ -380,32 +372,16 @@
       {
         "ruleId": "shell",
         "file": "SKILL.md",
-        "line": 387,
-        "excerpt": "# Works with a \"linkedin\" or \"linkedin-page\" channel",
+        "line": 389,
+        "excerpt": "LINKEDIN_ID=$(postiz integrations:list | tail -n +2 | jq -r 'first(.[] | select(.identifier==\"linkedin\" or .identifier==\"linkedin-page\") | .id)')",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "SKILL.md",
-        "line": 412,
-        "excerpt": "# Upload multiple files",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "examples/basic-usage.sh",
-        "line": 10,
-        "excerpt": "if [ -z \"$POSTIZ_API_KEY\" ]; then",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "examples/command-line-examples.sh",
-        "line": 10,
-        "excerpt": "if [ -z \"$POSTIZ_API_KEY\" ]; then",
+        "line": 413,
+        "excerpt": "VIDEO_RESULT=$(postiz upload video.mp4)",
         "disclosed": true,
         "automatic": false
       },
@@ -426,14 +402,6 @@
         "disclosed": true,
         "automatic": false,
         "hosts": []
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "server/index.ts",
-        "line": 10,
-        "excerpt": "const CLIENT_SECRET = process.env.POSTIZ_OAUTH_CLIENT_SECRET!;",
-        "disclosed": true,
-        "automatic": false
       },
       {
         "ruleId": "network",
@@ -535,14 +503,6 @@
         "hosts": []
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "src/commands/auth.ts",
-        "line": 171,
-        "excerpt": "const envKey = process.env.POSTIZ_API_KEY;",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "src/commands/auth.ts",
         "line": 203,
@@ -550,27 +510,18 @@
         "disclosed": true,
         "automatic": false,
         "hosts": []
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "src/config.ts",
-        "line": 15,
-        "excerpt": "const apiKey = process.env.POSTIZ_API_KEY;",
-        "disclosed": true,
-        "automatic": false
       }
     ],
     "findingTotals": {
       "downloads-code": 26,
       "writes-outside": 5,
-      "reads-secrets": 6,
       "network": 15,
       "shell": 75
     },
-    "score": 59,
+    "score": 69,
     "band": "review",
-    "rulesVersion": "1.0.0",
-    "filesScanned": 67,
+    "rulesVersion": "1.3.0",
+    "filesScanned": 65,
     "filesSkipped": 0
   },
   "history": [
@@ -579,6 +530,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 59,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "01ab1fe17efa30d12de7758b961e8776d34dba4e",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 69,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

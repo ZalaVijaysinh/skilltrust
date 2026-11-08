@@ -1,0 +1,270 @@
+{
+  "id": "berriai__litellm__skills~litellm-setup",
+  "owner": "BerriAI",
+  "repo": "litellm",
+  "path": "skills/litellm-setup",
+  "name": "litellm-setup",
+  "description": "Set up a self-hosted LiteLLM proxy, the OpenAI-compatible LLM gateway, on this machine, from install through provider keys, config.yaml, a master key, optional Postgres and Admin UI, and a verified chat completion. Use when the user asks to set up LiteLLM, install the LiteLLM proxy, self-host an LLM gateway, or put one endpoint in front of OpenAI, Anthropic, Gemini, Azure, Bedrock, Ollama, or other providers. Not for using the LiteLLM Python SDK inside an app",
+  "stars": 62898,
+  "category": "coding",
+  "commit": "cfddaafe189ffe8a79aa54b733e4def162659330",
+  "contentHash": "5e8853b1abb3125f0128a36b356f62c0651b0e8b9d2abd3259be5fb41f48e08d",
+  "repoCreatedAt": "2023-07-27T00:09:52Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/litellm-setup/SKILL.md",
+        "line": 10,
+        "excerpt": "Never print a secret. Provider keys, the master key, the salt key, the database URL, and virtual keys live only in `.env`, and `config.yaml` reads them through ",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/litellm-setup/SKILL.md",
+        "line": 13,
+        "excerpt": "unset DATABASE_URL DIRECT_URL DATABASE_HOST; export LITELLM_MODE=PRODUCTION; while IFS= read -r line || [ -n \"$line\" ]; do case \"$line\" in [A-Za-z_]*=*) export ",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/litellm-setup/SKILL.md",
+        "line": 30,
+        "excerpt": "chmod 600 litellm_config.yaml; grep -qx 'litellm_config.yaml' .gitignore 2>/dev/null || echo 'litellm_config.yaml' >> .gitignore",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/litellm-setup/SKILL.md",
+        "line": 37,
+        "excerpt": "export LITELLM_MASTER_KEY=\"$(\"$(uv tool dir)/litellm/bin/python\" -I -c 'import yaml; print(yaml.safe_load(open(\"litellm_config.yaml\"))[\"general_settings\"][\"mast",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/litellm-setup/SKILL.md",
+        "line": 43,
+        "excerpt": "uv --version; docker info --format '{{.ServerVersion}}'; docker compose version; curl --version | head -1; openssl version; command -v python3",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/litellm-setup/SKILL.md",
+        "line": 46,
+        "excerpt": "On native Windows, ask the user to run Claude Code inside WSL, since every command here is POSIX shell. Every path needs curl, openssl, and python3, so ask the ",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "astral.sh"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/litellm-setup/SKILL.md",
+        "line": 48,
+        "excerpt": "Check the port is free with `curl -s -o /dev/null --max-time 2 http://127.0.0.1:4000; echo $?`, which prints `7` (could not connect) only when nothing listens t",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/litellm-setup/SKILL.md",
+        "line": 55,
+        "excerpt": "curl -fsSL https://raw.githubusercontent.com/BerriAI/litellm/main/scripts/quickstart.sh -o quickstart.sh",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "raw.githubusercontent.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/litellm-setup/SKILL.md",
+        "line": 55,
+        "excerpt": "curl -fsSL https://raw.githubusercontent.com/BerriAI/litellm/main/scripts/quickstart.sh -o quickstart.sh",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/litellm-setup/SKILL.md",
+        "line": 63,
+        "excerpt": "python3 -c 'import json, os, sys; json.dump({\"model_name\": \"gpt-6.1-sol\", \"litellm_params\": {\"model\": \"openai/gpt-6.1-sol\", \"api_key\": os.environ[\"OPENAI_API_KE",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/litellm-setup/SKILL.md",
+        "line": 64,
+        "excerpt": "| curl -sS -o /dev/null -w '%{http_code}\\n' http://127.0.0.1:4000/model/new \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/litellm-setup/SKILL.md",
+        "line": 75,
+        "excerpt": "uv tool install --python '>=3.10,<3.15' 'litellm[proxy]'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/litellm-setup/SKILL.md",
+        "line": 79,
+        "excerpt": "With their own Postgres, install `'litellm[proxy,extra_proxy]'` instead, with the same `--python` range, which adds the Prisma client the proxy uses for the dat",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/litellm-setup/SKILL.md",
+        "line": 84,
+        "excerpt": "docker pull docker.litellm.ai/berriai/litellm:main-stable",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/litellm-setup/SKILL.md",
+        "line": 92,
+        "excerpt": "mkdir -p litellm-proxy && cd litellm-proxy",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/litellm-setup/SKILL.md",
+        "line": 102,
+        "excerpt": "curl -fsSL https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json | python3 -c '",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "raw.githubusercontent.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/litellm-setup/SKILL.md",
+        "line": 102,
+        "excerpt": "curl -fsSL https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json | python3 -c '",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/litellm-setup/SKILL.md",
+        "line": 132,
+        "excerpt": "grep -q '^LITELLM_SALT_KEY=.' .env || printf 'LITELLM_SALT_KEY=sk-%s\\n' \"$(openssl rand -hex 32)\" >> .env",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/litellm-setup/SKILL.md",
+        "line": 138,
+        "excerpt": "tool=\"$(uv tool dir)/litellm\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/litellm-setup/SKILL.md",
+        "line": 150,
+        "excerpt": "export PATH=\"$HOME/.local/bin:$PATH\"; export PATH=\"$(uv tool dir --bin):$PATH\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/litellm-setup/SKILL.md",
+        "line": 158,
+        "excerpt": "docker run -d --name litellm --env-file .env -v \"$PWD/config.yaml:/app/config.yaml:ro\" -p 127.0.0.1:4000:4000 \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/litellm-setup/SKILL.md",
+        "line": 165,
+        "excerpt": "for i in $(seq 1 180); do curl -fsS http://127.0.0.1:4000/health/liveliness >/dev/null 2>&1 && break; alive || break; sleep 1; done",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/litellm-setup/SKILL.md",
+        "line": 165,
+        "excerpt": "for i in $(seq 1 180); do curl -fsS http://127.0.0.1:4000/health/liveliness >/dev/null 2>&1 && break; alive || break; sleep 1; done",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/litellm-setup/SKILL.md",
+        "line": 166,
+        "excerpt": "curl -sS http://127.0.0.1:4000/health/readiness",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/litellm-setup/SKILL.md",
+        "line": 176,
+        "excerpt": "curl -sS http://127.0.0.1:4000/v1/chat/completions \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/litellm-setup/SKILL.md",
+        "line": 176,
+        "excerpt": "curl -sS http://127.0.0.1:4000/v1/chat/completions \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/litellm-setup/SKILL.md",
+        "line": 192,
+        "excerpt": "- To manage the running proxy from a coding agent (keys, teams, users, models, MCP servers), install `npx skills add BerriAI/litellm-skills -g`",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "reads-secrets": 1,
+      "shell": 16,
+      "network": 8,
+      "downloads-code": 2
+    },
+    "score": 69,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "cfddaafe189ffe8a79aa54b733e4def162659330",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 69,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

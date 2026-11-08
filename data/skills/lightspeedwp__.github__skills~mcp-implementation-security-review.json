@@ -1,0 +1,71 @@
+{
+  "id": "lightspeedwp__.github__skills~mcp-implementation-security-review",
+  "owner": "lightspeedwp",
+  "repo": ".github",
+  "path": "skills/mcp-implementation-security-review",
+  "name": "mcp-implementation-security-review",
+  "description": "Review the implementation source code of MCP (Model Context Protocol) servers, clients, and tool handlers against a security baseline — authentication, sessions, rate limiting, input-schema validation, official-SDK usage, RCE vectors, and the OWASP MCP Top 10 — producing a report with file/line evidence. Use this skill when:\n- Reviewing an MCP server implementation for security before release\n- Checking a server against the baseline controls (MCP-01 to MCP-05) and the OWASP MCP Top 10\n- Auditing tools for RCE vectors (command/code injection, unsafe deserialization, path traversal, SSTI, dependency hijacking, SSRF)\n- Verifying auth, session, rate-limiting, and input-validation controls on a network-exposed server\n- Reviewing MCP client code that handles untrusted server responses and session IDs\n- Requests like \"review this MCP server for security\" or \"is my MCP server implementation secure?\"",
+  "stars": 20,
+  "category": "security",
+  "commit": "ccab368d3cf31133ffc29c3369d7318389007f13",
+  "contentHash": "c6f4a9ec8990bbc4a88ab5d28a79b541634a76e284bf2907d594f334b712b410",
+  "repoCreatedAt": "2020-02-26T04:48:01Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/mcp-implementation-security-review/SKILL.md",
+        "line": 239,
+        "excerpt": "| Command injection | `exec(\"convert \" + args.filename)`, `os.system(f\"process {user_input}\")`, `Process.Start(\"cmd\", \"/c \" + toolArg)` | `execFile(\"convert\", [",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/mcp-implementation-security-review/SKILL.md",
+        "line": 240,
+        "excerpt": "| Dynamic code evaluation | `eval(args.expression)`, `exec(tool_output)`, `new Function(args.code)()` | Sandboxed parser, AST-based evaluation, or predefined al",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/mcp-implementation-security-review/SKILL.md",
+        "line": 245,
+        "excerpt": "| SSRF | `requests.get(user_param)`, `fetch(user_input)`, `HttpClient.GetAsync(user_input)` | Allowlist schemes/domains, block RFC1918 and link-local targets, v",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/mcp-implementation-security-review/SKILL.md",
+        "line": 267,
+        "excerpt": "Pass: No shell execution from untrusted input, or only parameterized allowlisted execution. Fail: User input reaches shell commands, `shell=True` with formatted",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 3,
+      "network": 1
+    },
+    "score": 94,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "ccab368d3cf31133ffc29c3369d7318389007f13",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 94,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

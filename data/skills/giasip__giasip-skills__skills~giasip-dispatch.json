@@ -13,22 +13,22 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T09:45:03.483Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "skills/giasip-dispatch/SKILL.md",
-        "line": 23,
-        "excerpt": "# Global install (most common); use the plugin cache path instead if installed as a plugin",
+        "line": 24,
+        "excerpt": "export BASE_DIR=\"$HOME/.claude/skills/giasip-dispatch\"",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/giasip-dispatch/SKILL.md",
-        "line": 106,
-        "excerpt": "# Set once per session (overseas → openrouter, China → siliconflow), then every supported alias works",
+        "line": 107,
+        "excerpt": "export DISPATCH_PROVIDER=openrouter        # or: siliconflow",
         "disclosed": true,
         "automatic": false
       },
@@ -83,24 +83,24 @@
       {
         "ruleId": "shell",
         "file": "skills/giasip-dispatch/SKILL.md",
-        "line": 233,
-        "excerpt": "# Default: Moonshot general endpoint (api.moonshot.cn/v1, MOONSHOT_API_KEY)",
+        "line": 234,
+        "excerpt": "$BASE_DIR/scripts/kimi-dispatch.sh \"$(cat <<'EOF'",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/giasip-dispatch/SKILL.md",
-        "line": 262,
-        "excerpt": "# CLI tools",
+        "line": 263,
+        "excerpt": "command -v codex; command -v gemini; command -v kimi",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/giasip-dispatch/SKILL.md",
-        "line": 278,
-        "excerpt": "# Three-way parallel example (same prompt to three models)",
+        "line": 279,
+        "excerpt": "$BASE_DIR/scripts/kimi-dispatch.sh \"analysis task\" &",
         "disclosed": true,
         "automatic": false
       },
@@ -129,46 +129,6 @@
         "automatic": false
       },
       {
-        "ruleId": "paid-api",
-        "file": "skills/giasip-dispatch/scripts/api-dispatch.sh",
-        "line": 133,
-        "excerpt": "# alias → OpenRouter model ID (VOLATILE — slugs verified present 2026-07-19; check https://openrouter.ai/models)",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "paid-api",
-        "file": "skills/giasip-dispatch/scripts/api-dispatch.sh",
-        "line": 146,
-        "excerpt": "echo \"[api-dispatch] 用 --model-id <raw> 透传，或查 https://openrouter.ai/models\" >&2",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "paid-api",
-        "file": "skills/giasip-dispatch/scripts/api-dispatch.sh",
-        "line": 250,
-        "excerpt": "echo \"[api-dispatch] 聚合易用路径：在 $KEY_FILE 写 'export OPENROUTER_API_KEY=...'（一个 key 调多模型，https://openrouter.ai/keys）\" >&2",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/giasip-dispatch/scripts/api-dispatch.sh",
-        "line": 276,
-        "excerpt": "if [[ -z \"$API_KEY\" ]]; then",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/giasip-dispatch/scripts/api-dispatch.sh",
-        "line": 320,
-        "excerpt": "printf 'header = \"Authorization: Bearer %s\"\\n' \"$(cfg_escape \"$API_KEY\")\"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/giasip-dispatch/scripts/api-dispatch.sh",
         "line": 330,
@@ -186,14 +146,6 @@
         "automatic": false
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/giasip-dispatch/scripts/kimi-dispatch.sh",
-        "line": 91,
-        "excerpt": "if [[ -z \"${KIMI_API_KEY:-}\" ]]; then",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/giasip-dispatch/scripts/kimi-dispatch.sh",
         "line": 105,
@@ -203,22 +155,6 @@
         "hosts": []
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/giasip-dispatch/scripts/kimi-dispatch.sh",
-        "line": 108,
-        "excerpt": "-H \"x-api-key: $KIMI_API_KEY\" \\",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/giasip-dispatch/scripts/kimi-dispatch.sh",
-        "line": 160,
-        "excerpt": "if [[ -z \"${MOONSHOT_API_KEY:-}\" ]]; then",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/giasip-dispatch/scripts/kimi-dispatch.sh",
         "line": 246,
@@ -226,14 +162,6 @@
         "disclosed": false,
         "automatic": false,
         "hosts": []
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/giasip-dispatch/scripts/kimi-dispatch.sh",
-        "line": 253,
-        "excerpt": "-H \"Authorization: Bearer $MOONSHOT_API_KEY\" \\",
-        "disclosed": true,
-        "automatic": false
       },
       {
         "ruleId": "shell",
@@ -270,13 +198,12 @@
     ],
     "findingTotals": {
       "shell": 17,
-      "paid-api": 5,
-      "reads-secrets": 6,
+      "paid-api": 2,
       "network": 3
     },
-    "score": 77,
-    "band": "review",
-    "rulesVersion": "1.0.0",
+    "score": 87,
+    "band": "low",
+    "rulesVersion": "1.3.0",
     "filesScanned": 9,
     "filesSkipped": 0
   },
@@ -286,6 +213,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 77,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "7886a35b6e49168a5655fcc55ce6f1fc92a8895c",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 87,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

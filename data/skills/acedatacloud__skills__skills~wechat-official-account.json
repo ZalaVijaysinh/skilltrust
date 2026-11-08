@@ -7,52 +7,20 @@
   "description": "Generate articles, manage drafts, publish to «发表记录», send customer-service messages, manage menus and pull stats on a WeChat Official Account (微信公众号 / 服务号 / 订阅号) via the WeChat MP server-side API. Use when the user mentions 公众号, 服务号, 订阅号, mp.weixin.qq.com, AppID/AppSecret of a WeChat Official Account, or asks to draft / publish / send a customer message via WeChat.",
   "stars": 17,
   "category": "media",
-  "commit": "d3dc4b5d28cf28af20980a181350ff8b687b8dd9",
+  "commit": "655fa60672678832407453677aaf534ac45e52c7",
   "contentHash": "c6fb2ad58f3efdd1f3948bff1fa46cb49d431bf881d08f68971ed97ab0b0a99d",
   "repoCreatedAt": "2026-03-22T02:09:30Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T09:45:03.483Z",
   "scan": {
     "findings": [
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/wechat-official-account/SKILL.md",
-        "line": 24,
-        "excerpt": "The user's credentials are in `$WECHAT_APP_ID` and `$WECHAT_APP_SECRET`. **Never log or echo `$WECHAT_APP_SECRET`** — treat it like a password.",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "shell",
         "file": "skills/wechat-official-account/SKILL.md",
-        "line": 40,
-        "excerpt": "# Cache to /tmp so subsequent calls in the same session reuse it.",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/wechat-official-account/SKILL.md",
-        "line": 46,
-        "excerpt": "if [ -f \"$TOKEN_CACHE\" ] && [ \"$(jq -r '.exp_at // 0' \"$TOKEN_CACHE\")\" -gt \"$((NOW + 300))\" ]; then",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/wechat-official-account/SKILL.md",
-        "line": 47,
-        "excerpt": "WECHAT_ACCESS_TOKEN=$(jq -r '.access_token' \"$TOKEN_CACHE\")",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/wechat-official-account/SKILL.md",
-        "line": 49,
-        "excerpt": "RESP=$(curl -sS \"https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${WECHAT_APP_ID}&secret=${WECHAT_APP_SECRET}\")",
+        "line": 41,
+        "excerpt": "TOKEN_CACHE=\"/tmp/wx-mp-token-${WECHAT_APP_ID}.json\"",
         "disclosed": true,
         "automatic": false
       },
@@ -68,54 +36,6 @@
         ]
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/wechat-official-account/SKILL.md",
-        "line": 51,
-        "excerpt": "if [ -z \"$WECHAT_ACCESS_TOKEN\" ]; then",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/wechat-official-account/SKILL.md",
-        "line": 56,
-        "excerpt": "jq -nc --arg t \"$WECHAT_ACCESS_TOKEN\" --argjson e \"$((NOW + EXPIRES))\" \\",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/wechat-official-account/SKILL.md",
-        "line": 57,
-        "excerpt": "'{access_token:$t, exp_at:$e}' > \"$TOKEN_CACHE\"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/wechat-official-account/SKILL.md",
-        "line": 59,
-        "excerpt": "echo \"OK token=${WECHAT_ACCESS_TOKEN:0:8}…\"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/wechat-official-account/SKILL.md",
-        "line": 67,
-        "excerpt": "# Pull basic public-account self-info; cheapest call that proves the token works.",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/wechat-official-account/SKILL.md",
-        "line": 68,
-        "excerpt": "curl -sS \"https://api.weixin.qq.com/cgi-bin/account/getaccountbasicinfo?access_token=${WECHAT_ACCESS_TOKEN}\" | jq",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/wechat-official-account/SKILL.md",
         "line": 68,
@@ -125,6 +45,14 @@
         "hosts": [
           "api.weixin.qq.com"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wechat-official-account/SKILL.md",
+        "line": 68,
+        "excerpt": "curl -sS \"https://api.weixin.qq.com/cgi-bin/account/getaccountbasicinfo?access_token=${WECHAT_ACCESS_TOKEN}\" | jq",
+        "disclosed": true,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -144,14 +72,6 @@
         "automatic": false
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/wechat-official-account/SKILL.md",
-        "line": 77,
-        "excerpt": "\"https://api.weixin.qq.com/cgi-bin/media/uploadimg?access_token=${WECHAT_ACCESS_TOKEN}\" \\",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/wechat-official-account/SKILL.md",
         "line": 87,
@@ -165,14 +85,6 @@
         "file": "skills/wechat-official-account/SKILL.md",
         "line": 87,
         "excerpt": "curl -sS -X POST \\",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/wechat-official-account/SKILL.md",
-        "line": 88,
-        "excerpt": "\"https://api.weixin.qq.com/cgi-bin/material/add_material?access_token=${WECHAT_ACCESS_TOKEN}&type=thumb\" \\",
         "disclosed": true,
         "automatic": false
       },
@@ -194,14 +106,6 @@
         "hosts": []
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/wechat-official-account/SKILL.md",
-        "line": 126,
-        "excerpt": "\"https://api.weixin.qq.com/cgi-bin/draft/add?access_token=${WECHAT_ACCESS_TOKEN}\" \\",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/wechat-official-account/SKILL.md",
         "line": 137,
@@ -215,14 +119,6 @@
         "file": "skills/wechat-official-account/SKILL.md",
         "line": 137,
         "excerpt": "curl -sS -X POST \\",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/wechat-official-account/SKILL.md",
-        "line": 138,
-        "excerpt": "\"https://api.weixin.qq.com/cgi-bin/draft/batchget?access_token=${WECHAT_ACCESS_TOKEN}\" \\",
         "disclosed": true,
         "automatic": false
       },
@@ -244,14 +140,6 @@
         "hosts": []
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/wechat-official-account/SKILL.md",
-        "line": 149,
-        "excerpt": "\"https://api.weixin.qq.com/cgi-bin/draft/get?access_token=${WECHAT_ACCESS_TOKEN}\" \\",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/wechat-official-account/SKILL.md",
         "line": 157,
@@ -265,22 +153,6 @@
         "file": "skills/wechat-official-account/SKILL.md",
         "line": 157,
         "excerpt": "curl -sS -X POST \\",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/wechat-official-account/SKILL.md",
-        "line": 158,
-        "excerpt": "\"https://api.weixin.qq.com/cgi-bin/draft/update?access_token=${WECHAT_ACCESS_TOKEN}\" \\",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/wechat-official-account/SKILL.md",
-        "line": 169,
-        "excerpt": "# Eats one of the monthly publish slots. Always echo back to the user",
         "disclosed": true,
         "automatic": false
       },
@@ -294,10 +166,10 @@
         "hosts": []
       },
       {
-        "ruleId": "reads-secrets",
+        "ruleId": "shell",
         "file": "skills/wechat-official-account/SKILL.md",
-        "line": 173,
-        "excerpt": "\"https://api.weixin.qq.com/cgi-bin/freepublish/submit?access_token=${WECHAT_ACCESS_TOKEN}\" \\",
+        "line": 172,
+        "excerpt": "curl -sS -X POST \\",
         "disclosed": true,
         "automatic": false
       },
@@ -319,14 +191,6 @@
         "hosts": []
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/wechat-official-account/SKILL.md",
-        "line": 184,
-        "excerpt": "\"https://api.weixin.qq.com/cgi-bin/freepublish/get?access_token=${WECHAT_ACCESS_TOKEN}\" \\",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/wechat-official-account/SKILL.md",
         "line": 196,
@@ -340,14 +204,6 @@
         "file": "skills/wechat-official-account/SKILL.md",
         "line": 196,
         "excerpt": "curl -sS -X POST \\",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/wechat-official-account/SKILL.md",
-        "line": 197,
-        "excerpt": "\"https://api.weixin.qq.com/cgi-bin/freepublish/batchget?access_token=${WECHAT_ACCESS_TOKEN}\" \\",
         "disclosed": true,
         "automatic": false
       },
@@ -369,14 +225,6 @@
         "hosts": []
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/wechat-official-account/SKILL.md",
-        "line": 210,
-        "excerpt": "\"https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=${WECHAT_ACCESS_TOKEN}\" \\",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "shell",
         "file": "skills/wechat-official-account/SKILL.md",
         "line": 223,
@@ -394,14 +242,6 @@
         "hosts": []
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/wechat-official-account/SKILL.md",
-        "line": 228,
-        "excerpt": "\"https://api.weixin.qq.com/datacube/getusersummary?access_token=${WECHAT_ACCESS_TOKEN}\" \\",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/wechat-official-account/SKILL.md",
         "line": 234,
@@ -409,14 +249,6 @@
         "disclosed": true,
         "automatic": false,
         "hosts": []
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/wechat-official-account/SKILL.md",
-        "line": 245,
-        "excerpt": "# Read current menu",
-        "disclosed": true,
-        "automatic": false
       },
       {
         "ruleId": "network",
@@ -428,6 +260,14 @@
         "hosts": [
           "api.weixin.qq.com"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wechat-official-account/SKILL.md",
+        "line": 246,
+        "excerpt": "curl -sS \"https://api.weixin.qq.com/cgi-bin/menu/get?access_token=${WECHAT_ACCESS_TOKEN}\" | jq",
+        "disclosed": true,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -484,14 +324,13 @@
       }
     ],
     "findingTotals": {
-      "reads-secrets": 26,
       "shell": 16,
       "network": 18,
       "downloads-code": 1
     },
-    "score": 69,
+    "score": 79,
     "band": "review",
-    "rulesVersion": "1.0.0",
+    "rulesVersion": "1.3.0",
     "filesScanned": 1,
     "filesSkipped": 0
   },
@@ -501,6 +340,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 69,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "655fa60672678832407453677aaf534ac45e52c7",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 79,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

@@ -1,0 +1,93 @@
+{
+  "id": "confighub__cub-scout__skills~migrate-from-kubectl",
+  "owner": "confighub",
+  "repo": "cub-scout",
+  "path": "skills/migrate-from-kubectl",
+  "name": "migrate-from-kubectl",
+  "description": "Use when the user is MIGRATING from ad-hoc `kubectl apply` toward GitOps (Argo / Flux / ConfigHub) — and needs to find the manual edits, decide what to do with each (revert / port to git / accept as canonical), and plan the transition. Natural phrasing: \"find all the manual edits in this cluster\", \"we have years of kubectl-apply, help us move to GitOps\", \"which resources have been hand-edited?\", \"audit drift caused by humans not controllers\", \"port my cluster state to git\", \"show me everything kubectl-* has touched\". Composes attribution layer (`cause: manual-edit`) + `map orphans` (resources without a controller owner) + `scan` (risk classification) + `snapshot` / `import --git-path` preview once a repo skeleton exists. Read-only throughout — the migration itself is user-driven. Do NOT load for: real-time triage (use triage-unhealthy-workload), single-resource drift question (use investigate-drift), a fleet conformance audit (use audit-fleet-conformance), or any mutating action.",
+  "stars": 14,
+  "category": "coding",
+  "commit": "261862e7ec5e5c93ce377ccfd6b583f5ac03c95c",
+  "contentHash": "eea21d8bb4337784644ca295817e529b0948ff49bf4ad9fa373480e9fbafc0d3",
+  "repoCreatedAt": "2026-01-17T16:19:31Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/migrate-from-kubectl/SKILL.md",
+        "line": 55,
+        "excerpt": "$ cub-scout map --format json | jq 'group_by(.ownership.type) | map({type: .[0].ownership.type, count: length})'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/migrate-from-kubectl/SKILL.md",
+        "line": 72,
+        "excerpt": "$ for r in $(cub-scout map --format json | jq -r '.[] | select(.ownership.type == \"unknown\") | \"\\(.kind)/\\(.name)|\\(.namespace)\"'); do",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/migrate-from-kubectl/SKILL.md",
+        "line": 94,
+        "excerpt": "$ cub-scout scan --format json | jq '.findings | sort_by(.severity) | reverse | .[:10]'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/migrate-from-kubectl/SKILL.md",
+        "line": 123,
+        "excerpt": "$ cub-scout snapshot -n payments --format gsf > snapshot-payments.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/migrate-from-kubectl/SKILL.md",
+        "line": 134,
+        "excerpt": "$ MIGRATION_START=\"2026-05-22T00:00:00Z\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/migrate-from-kubectl/SKILL.md",
+        "line": 150,
+        "excerpt": "$ cub-scout map -n payments --format json | jq '[.[] | {kind, name, owner: .ownership.type}]'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude-plugin/plugin.json",
+        "line": 13,
+        "excerpt": "\"command\": \"cub-scout\",",
+        "disclosed": false,
+        "automatic": true
+      }
+    ],
+    "findingTotals": {
+      "shell": 7
+    },
+    "score": 95,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 3,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "261862e7ec5e5c93ce377ccfd6b583f5ac03c95c",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 95,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

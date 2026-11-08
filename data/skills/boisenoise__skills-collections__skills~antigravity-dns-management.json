@@ -7,44 +7,36 @@
   "description": "Configure DNS zones and records. Manage Route53, Cloud DNS, and self-hosted",
   "stars": 12,
   "category": "other",
-  "commit": "b89b2f59bcd776f96526ce61d77fcb9bd0821a9f",
+  "commit": "5fe45e5965f0496e535e9cac866b06e5c3e87c87",
   "contentHash": "5936121e155fd3d9e698abdfb98f8236ada3473082a2059b5614f87d234f5635",
   "repoCreatedAt": "2026-01-19T14:28:55Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T09:45:03.483Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "skills/antigravity-dns-management/SKILL.md",
-        "line": 60,
-        "excerpt": "# Create a hosted zone",
+        "line": 61,
+        "excerpt": "aws route53 create-hosted-zone \\",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/antigravity-dns-management/SKILL.md",
-        "line": 76,
-        "excerpt": "# Create an A record",
+        "line": 77,
+        "excerpt": "aws route53 change-resource-record-sets \\",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/antigravity-dns-management/SKILL.md",
-        "line": 146,
-        "excerpt": "# Create a health check",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/antigravity-dns-management/SKILL.md",
-        "line": 163,
-        "excerpt": "# Get zone ID",
+        "line": 147,
+        "excerpt": "aws route53 create-health-check --caller-reference \"$(date +%s)\" \\",
         "disclosed": false,
         "automatic": false
       },
@@ -60,11 +52,11 @@
         ]
       },
       {
-        "ruleId": "reads-secrets",
+        "ruleId": "shell",
         "file": "skills/antigravity-dns-management/SKILL.md",
-        "line": 165,
-        "excerpt": "-H \"Authorization: Bearer $CF_API_TOKEN\" | jq -r '.result[0].id')",
-        "disclosed": true,
+        "line": 164,
+        "excerpt": "ZONE_ID=$(curl -s \"https://api.cloudflare.com/client/v4/zones?name=example.com\" \\",
+        "disclosed": false,
         "automatic": false
       },
       {
@@ -79,14 +71,6 @@
         ]
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/antigravity-dns-management/SKILL.md",
-        "line": 169,
-        "excerpt": "-H \"Authorization: Bearer $CF_API_TOKEN\" \\",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/antigravity-dns-management/SKILL.md",
         "line": 174,
@@ -96,14 +80,6 @@
         "hosts": [
           "api.cloudflare.com"
         ]
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/antigravity-dns-management/SKILL.md",
-        "line": 175,
-        "excerpt": "-H \"Authorization: Bearer $CF_API_TOKEN\" \\",
-        "disclosed": true,
-        "automatic": false
       },
       {
         "ruleId": "network",
@@ -117,14 +93,6 @@
         ]
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/antigravity-dns-management/SKILL.md",
-        "line": 180,
-        "excerpt": "-H \"Authorization: Bearer $CF_API_TOKEN\" | jq '.result[] | {name, type, content, proxied}'",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/antigravity-dns-management/SKILL.md",
         "line": 183,
@@ -136,54 +104,45 @@
         ]
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/antigravity-dns-management/SKILL.md",
-        "line": 184,
-        "excerpt": "-H \"Authorization: Bearer $CF_API_TOKEN\"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "shell",
         "file": "skills/antigravity-dns-management/SKILL.md",
-        "line": 281,
-        "excerpt": "# Query A record",
+        "line": 282,
+        "excerpt": "dig app.example.com A +short",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/antigravity-dns-management/SKILL.md",
-        "line": 307,
-        "excerpt": "# Basic lookup",
+        "line": 308,
+        "excerpt": "nslookup app.example.com",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/antigravity-dns-management/SKILL.md",
-        "line": 321,
-        "excerpt": "# Query multiple public resolvers",
+        "line": 322,
+        "excerpt": "for dns in 8.8.8.8 1.1.1.1 9.9.9.9 208.67.222.222; do",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/antigravity-dns-management/SKILL.md",
-        "line": 331,
-        "excerpt": "# SPF — authorize sending servers",
+        "line": 333,
+        "excerpt": "\"v=spf1 include:_spf.google.com include:sendgrid.net -all\"",
         "disclosed": false,
         "automatic": false
       }
     ],
     "findingTotals": {
       "shell": 8,
-      "network": 5,
-      "reads-secrets": 5
+      "network": 5
     },
-    "score": 80,
+    "score": 90,
     "band": "low",
-    "rulesVersion": "1.0.0",
+    "rulesVersion": "1.3.0",
     "filesScanned": 1,
     "filesSkipped": 0
   },
@@ -193,6 +152,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 80,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "5fe45e5965f0496e535e9cac866b06e5c3e87c87",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 90,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

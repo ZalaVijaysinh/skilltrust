@@ -13,14 +13,14 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T09:45:03.483Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "skills/okta-attack/SKILL.md",
-        "line": 53,
-        "excerpt": "# Tenant subdomains often match the brand",
+        "line": 55,
+        "excerpt": "for tenant in target-brand target-brand-ltd target-sister-brand target-brand-short target-other-variant; do",
         "disclosed": false,
         "automatic": false
       },
@@ -38,16 +38,8 @@
       {
         "ruleId": "shell",
         "file": "skills/okta-attack/SKILL.md",
-        "line": 66,
-        "excerpt": "# Look for CNAME records pointing to Okta",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/okta-attack/SKILL.md",
-        "line": 78,
-        "excerpt": "# Visit corporate-app login, follow redirects",
+        "line": 68,
+        "excerpt": "for domain in client.example client-ltd.example; do",
         "disclosed": false,
         "automatic": false
       },
@@ -65,8 +57,8 @@
       {
         "ruleId": "shell",
         "file": "skills/okta-attack/SKILL.md",
-        "line": 91,
-        "excerpt": "# Probe single user — DON'T spray, this counts as auth attempt!",
+        "line": 79,
+        "excerpt": "curl -skL -o /dev/null -w \"%{redirect_url}\\n\" \"https://app.target.com/login\"",
         "disclosed": false,
         "automatic": false
       },
@@ -80,6 +72,14 @@
         "hosts": []
       },
       {
+        "ruleId": "shell",
+        "file": "skills/okta-attack/SKILL.md",
+        "line": 92,
+        "excerpt": "curl -sk -X POST \"https://<tenant>.okta.com/api/v1/authn\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
         "ruleId": "network",
         "file": "skills/okta-attack/SKILL.md",
         "line": 110,
@@ -93,14 +93,6 @@
         "file": "skills/okta-attack/SKILL.md",
         "line": 110,
         "excerpt": "curl -sk \"https://<tenant>.okta.com/api/v1/sessions/me\" \\",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/okta-attack/SKILL.md",
-        "line": 126,
-        "excerpt": "# Tampering with login_hint param can reveal user existence on some configs",
         "disclosed": false,
         "automatic": false
       },
@@ -118,8 +110,8 @@
       {
         "ruleId": "shell",
         "file": "skills/okta-attack/SKILL.md",
-        "line": 136,
-        "excerpt": "# Initial auth — observe what factors come back",
+        "line": 127,
+        "excerpt": "curl -skI \"https://<tenant>.okta.com/oauth2/v1/authorize?client_id=<id>&response_type=code&scope=openid&redirect_uri=https://example.com&login_hint=<email>\"",
         "disclosed": false,
         "automatic": false
       },
@@ -135,16 +127,8 @@
       {
         "ruleId": "shell",
         "file": "skills/okta-attack/SKILL.md",
-        "line": 184,
-        "excerpt": "# Same /api/v1/authn — see authentication flow above",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/okta-attack/SKILL.md",
-        "line": 208,
-        "excerpt": "# Initiate factor verification",
+        "line": 137,
+        "excerpt": "curl -sk -X POST \"https://<tenant>.okta.com/api/v1/authn\" \\",
         "disclosed": false,
         "automatic": false
       },
@@ -160,8 +144,8 @@
       {
         "ruleId": "shell",
         "file": "skills/okta-attack/SKILL.md",
-        "line": 223,
-        "excerpt": "# Get the app's authorize endpoint",
+        "line": 209,
+        "excerpt": "curl -sk -X POST \"https://<tenant>.okta.com/api/v1/authn/factors/<factor_id>/verify\" \\",
         "disclosed": false,
         "automatic": false
       },
@@ -175,6 +159,14 @@
         "hosts": []
       },
       {
+        "ruleId": "shell",
+        "file": "skills/okta-attack/SKILL.md",
+        "line": 224,
+        "excerpt": "curl -sk \"https://<tenant>.okta.com/.well-known/openid-configuration\" | python3 -m json.tool",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
         "ruleId": "network",
         "file": "skills/okta-attack/SKILL.md",
         "line": 235,
@@ -182,14 +174,6 @@
         "disclosed": false,
         "automatic": false,
         "hosts": []
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/okta-attack/SKILL.md",
-        "line": 249,
-        "excerpt": "# Iterate known app IDs (find via the org's app list — usually in JS bundles or initial login redirects)",
-        "disclosed": false,
-        "automatic": false
       },
       {
         "ruleId": "network",
@@ -203,8 +187,8 @@
       {
         "ruleId": "shell",
         "file": "skills/okta-attack/SKILL.md",
-        "line": 265,
-        "excerpt": "# Get session token",
+        "line": 250,
+        "excerpt": "curl -sk \"https://<tenant>.okta.com/app/<app_id>/sso/saml/metadata\"",
         "disclosed": false,
         "automatic": false
       },
@@ -216,6 +200,14 @@
         "disclosed": false,
         "automatic": false,
         "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/okta-attack/SKILL.md",
+        "line": 266,
+        "excerpt": "curl -sk -X POST \"https://<tenant>.okta.com/api/v1/authn\" \\",
+        "disclosed": false,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -256,19 +248,19 @@
       {
         "ruleId": "shell",
         "file": "skills/okta-attack/SKILL.md",
-        "line": 432,
-        "excerpt": "# Read-only first step; confirm scope before anything active.",
+        "line": 433,
+        "excerpt": "cat scope.txt  # target list from the authorized engagement brief",
         "disclosed": false,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 13,
+      "shell": 12,
       "network": 15
     },
     "score": 90,
     "band": "low",
-    "rulesVersion": "1.0.0",
+    "rulesVersion": "1.3.0",
     "filesScanned": 2,
     "filesSkipped": 0
   },
@@ -278,6 +270,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 90,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "2984de11956e413008c6f98121cd141c499e47a3",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 90,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

@@ -13,17 +13,9 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T09:45:03.483Z",
   "scan": {
     "findings": [
-      {
-        "ruleId": "shell",
-        "file": "skills/hunt-tls-network/SKILL.md",
-        "line": 55,
-        "excerpt": "# Quick TLS test with testssl.sh",
-        "disclosed": true,
-        "automatic": false
-      },
       {
         "ruleId": "downloads-code",
         "file": "skills/hunt-tls-network/SKILL.md",
@@ -33,19 +25,19 @@
         "automatic": false
       },
       {
+        "ruleId": "shell",
+        "file": "skills/hunt-tls-network/SKILL.md",
+        "line": 56,
+        "excerpt": "brew install testssl",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
         "ruleId": "downloads-code",
         "file": "skills/hunt-tls-network/SKILL.md",
         "line": 60,
         "excerpt": "pip3 install sslyze",
         "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/hunt-tls-network/SKILL.md",
-        "line": 90,
-        "excerpt": "# Check HSTS header on main domain and all subdomains",
-        "disclosed": true,
         "automatic": false
       },
       {
@@ -58,6 +50,14 @@
         "hosts": [
           "$target"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-tls-network/SKILL.md",
+        "line": 91,
+        "excerpt": "curl -sI \"https://$TARGET/\" | grep -i \"strict-transport-security\"",
+        "disclosed": true,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -95,32 +95,24 @@
       {
         "ruleId": "shell",
         "file": "skills/hunt-tls-network/SKILL.md",
-        "line": 117,
-        "excerpt": "# Find nameservers",
+        "line": 118,
+        "excerpt": "dig NS $TARGET +short",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/hunt-tls-network/SKILL.md",
-        "line": 139,
-        "excerpt": "# Check SPF record",
+        "line": 140,
+        "excerpt": "dig TXT $TARGET +short | grep \"v=spf1\"",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/hunt-tls-network/SKILL.md",
-        "line": 180,
-        "excerpt": "# PROOF: send a spoofed mail and confirm INBOX delivery (use a tester account you own)",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/hunt-tls-network/SKILL.md",
-        "line": 201,
-        "excerpt": "# Check all security headers",
+        "line": 182,
+        "excerpt": "swaks --to your-tester@gmail.com \\",
         "disclosed": true,
         "automatic": false
       },
@@ -136,6 +128,14 @@
         ]
       },
       {
+        "ruleId": "shell",
+        "file": "skills/hunt-tls-network/SKILL.md",
+        "line": 202,
+        "excerpt": "HEADERS=$(curl -sI \"https://$TARGET/\")",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
         "ruleId": "network",
         "file": "skills/hunt-tls-network/SKILL.md",
         "line": 216,
@@ -146,14 +146,6 @@
           "securityheaders.com",
           "$target&followredirects=on"
         ]
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/hunt-tls-network/SKILL.md",
-        "line": 225,
-        "excerpt": "# crt.sh — certificate transparency logs",
-        "disclosed": true,
-        "automatic": false
       },
       {
         "ruleId": "network",
@@ -169,8 +161,16 @@
       {
         "ruleId": "shell",
         "file": "skills/hunt-tls-network/SKILL.md",
-        "line": 246,
-        "excerpt": "# For each subdomain from CT logs, resolve the CNAME chain and check for a live origin",
+        "line": 226,
+        "excerpt": "curl -s \"https://crt.sh/?q=%25.$TARGET&output=json\" | \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-tls-network/SKILL.md",
+        "line": 247,
+        "excerpt": "while read sub; do",
         "disclosed": true,
         "automatic": false
       },
@@ -188,16 +188,8 @@
       {
         "ruleId": "shell",
         "file": "skills/hunt-tls-network/SKILL.md",
-        "line": 271,
-        "excerpt": "# CAA records DECLARE which CAs the domain owner permits to issue certs.",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/hunt-tls-network/SKILL.md",
-        "line": 289,
-        "excerpt": "# Check if endpoint requires client certificate",
+        "line": 272,
+        "excerpt": "dig CAA $TARGET +short",
         "disclosed": true,
         "automatic": false
       },
@@ -211,6 +203,14 @@
         "hosts": [
           "$target"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-tls-network/SKILL.md",
+        "line": 290,
+        "excerpt": "curl -sk \"https://$TARGET/internal/\" 2>&1 | grep -i \"ssl\\|certificate\\|403\\|401\"",
+        "disclosed": true,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -246,19 +246,19 @@
         ]
       },
       {
-        "ruleId": "shell",
-        "file": "skills/hunt-tls-network/SKILL.md",
-        "line": 344,
-        "excerpt": "# testssl.sh — comprehensive TLS audit",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "downloads-code",
         "file": "skills/hunt-tls-network/SKILL.md",
         "line": 345,
         "excerpt": "brew install testssl",
         "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt-tls-network/SKILL.md",
+        "line": 345,
+        "excerpt": "brew install testssl",
+        "disclosed": true,
         "automatic": false
       },
       {
@@ -294,20 +294,20 @@
       {
         "ruleId": "shell",
         "file": "skills/hunt-tls-network/SKILL.md",
-        "line": 395,
-        "excerpt": "# Read-only first step; confirm scope before anything active.",
+        "line": 396,
+        "excerpt": "cat scope.txt  # target list from the authorized engagement brief",
         "disclosed": true,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 12,
       "downloads-code": 4,
+      "shell": 12,
       "network": 14
     },
     "score": 79,
     "band": "review",
-    "rulesVersion": "1.0.0",
+    "rulesVersion": "1.3.0",
     "filesScanned": 2,
     "filesSkipped": 0
   },
@@ -317,6 +317,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 79,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "2984de11956e413008c6f98121cd141c499e47a3",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 79,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

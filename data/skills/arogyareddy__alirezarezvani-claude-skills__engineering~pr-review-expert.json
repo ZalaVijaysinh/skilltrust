@@ -13,22 +13,22 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T09:45:03.483Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "engineering/pr-review-expert/SKILL.md",
-        "line": 47,
-        "excerpt": "# View diff in terminal",
+        "line": 48,
+        "excerpt": "gh pr diff <PR_NUMBER>",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "engineering/pr-review-expert/SKILL.md",
-        "line": 65,
-        "excerpt": "# View MR diff",
+        "line": 66,
+        "excerpt": "glab mr diff <MR_IID>",
         "disclosed": false,
         "automatic": false
       },
@@ -43,16 +43,16 @@
       {
         "ruleId": "shell",
         "file": "engineering/pr-review-expert/SKILL.md",
-        "line": 97,
-        "excerpt": "# Find all files importing a changed module",
+        "line": 98,
+        "excerpt": "grep -r \"from ['\\\"].*changed-module['\\\"]\" src/ --include=\"*.ts\" -l",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "engineering/pr-review-expert/SKILL.md",
-        "line": 107,
-        "excerpt": "# Check if changed files span multiple services (monorepo)",
+        "line": 108,
+        "excerpt": "gh pr diff $PR --name-only | cut -d/ -f1-2 | sort -u",
         "disclosed": false,
         "automatic": false
       },
@@ -75,56 +75,48 @@
       {
         "ruleId": "shell",
         "file": "engineering/pr-review-expert/SKILL.md",
-        "line": 161,
-        "excerpt": "# Count source vs test files changed",
+        "line": 162,
+        "excerpt": "CHANGED_SRC=$(gh pr diff $PR --name-only | grep -vE \"\\.test\\.|\\.spec\\.|__tests__\")",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "engineering/pr-review-expert/SKILL.md",
-        "line": 187,
-        "excerpt": "# OpenAPI/Swagger spec changes",
+        "line": 188,
+        "excerpt": "grep -n \"openapi\\|swagger\" /tmp/pr-$PR.diff | head -20",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "engineering/pr-review-expert/SKILL.md",
-        "line": 202,
-        "excerpt": "# Migration files added",
+        "line": 203,
+        "excerpt": "gh pr diff $PR --name-only | grep -E \"migrations?/|alembic/|knex/\"",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "engineering/pr-review-expert/SKILL.md",
-        "line": 214,
-        "excerpt": "# New env vars referenced in code (might be missing in prod)",
+        "line": 215,
+        "excerpt": "grep \"^+\" /tmp/pr-$PR.diff | grep -oE \"process\\.env\\.[A-Z_]+\" | sort -u",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "engineering/pr-review-expert/SKILL.md",
-        "line": 224,
-        "excerpt": "# N+1 query patterns (DB calls inside loops)",
+        "line": 225,
+        "excerpt": "grep -n \"\\.find\\|\\.findOne\\|\\.query\\|db\\.\" /tmp/pr-$PR.diff | grep \"^+\" | head -20",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "engineering/pr-review-expert/SKILL.md",
-        "line": 246,
-        "excerpt": "# Extract ticket references from PR body",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "engineering/pr-review-expert/SKILL.md",
-        "line": 252,
-        "excerpt": "curl -s -u \"user@company.com:$JIRA_API_TOKEN\" \\",
+        "line": 247,
+        "excerpt": "gh pr view $PR --json body | jq -r '.body' | \\",
         "disclosed": false,
         "automatic": false
       },
@@ -136,14 +128,6 @@
         "disclosed": false,
         "automatic": false,
         "hosts": []
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "engineering/pr-review-expert/SKILL.md",
-        "line": 258,
-        "excerpt": "curl -s -H \"Authorization: $LINEAR_API_KEY\" \\",
-        "disclosed": false,
-        "automatic": false
       },
       {
         "ruleId": "network",
@@ -157,12 +141,11 @@
     ],
     "findingTotals": {
       "shell": 13,
-      "reads-secrets": 2,
       "network": 2
     },
-    "score": 70,
-    "band": "review",
-    "rulesVersion": "1.0.0",
+    "score": 90,
+    "band": "low",
+    "rulesVersion": "1.3.0",
     "filesScanned": 2,
     "filesSkipped": 0
   },
@@ -172,6 +155,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 70,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "dc799ac68cfdc454fc55edaf3f054651f645f738",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 90,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

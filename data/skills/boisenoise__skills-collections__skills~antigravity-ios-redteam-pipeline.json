@@ -7,23 +7,15 @@
   "description": "End-to-end iOS red-team pipeline",
   "stars": 12,
   "category": "other",
-  "commit": "b89b2f59bcd776f96526ce61d77fcb9bd0821a9f",
+  "commit": "5fe45e5965f0496e535e9cac866b06e5c3e87c87",
   "contentHash": "d39974c8c57791f15775240563dda5b5fe0a71878cd0ac4afd9994a43ffab1a0",
   "repoCreatedAt": "2026-01-19T14:28:55Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T09:45:03.483Z",
   "scan": {
     "findings": [
-      {
-        "ruleId": "shell",
-        "file": "skills/antigravity-ios-redteam-pipeline/SKILL.md",
-        "line": 53,
-        "excerpt": "# App Store search API (no auth, no scraping needed)",
-        "disclosed": false,
-        "automatic": false
-      },
       {
         "ruleId": "network",
         "file": "skills/antigravity-ios-redteam-pipeline/SKILL.md",
@@ -34,6 +26,14 @@
         "hosts": [
           "itunes.apple.com"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-ios-redteam-pipeline/SKILL.md",
+        "line": 54,
+        "excerpt": "curl -s \"https://itunes.apple.com/search?term=<brand>&country=us&entity=software&limit=50\" | python3 -m json.tool",
+        "disclosed": false,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -47,14 +47,6 @@
         ]
       },
       {
-        "ruleId": "shell",
-        "file": "skills/antigravity-ios-redteam-pipeline/SKILL.md",
-        "line": 72,
-        "excerpt": "# Obtain an owner-provided test IPA/build when possible. Installing/listing apps does not",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "downloads-code",
         "file": "skills/antigravity-ios-redteam-pipeline/SKILL.md",
         "line": 75,
@@ -65,8 +57,8 @@
       {
         "ruleId": "shell",
         "file": "skills/antigravity-ios-redteam-pipeline/SKILL.md",
-        "line": 86,
-        "excerpt": "# itms-services:// links embed a manifest.plist with a direct .ipa URL",
+        "line": 75,
+        "excerpt": "brew install libimobiledevice ideviceinstaller",
         "disclosed": false,
         "automatic": false
       },
@@ -80,6 +72,14 @@
         "hosts": []
       },
       {
+        "ruleId": "shell",
+        "file": "skills/antigravity-ios-redteam-pipeline/SKILL.md",
+        "line": 87,
+        "excerpt": "curl -s \"https://<target>/manifest.plist\" | plutil -convert xml1 -o - -",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
         "ruleId": "downloads-code",
         "file": "skills/antigravity-ios-redteam-pipeline/SKILL.md",
         "line": 99,
@@ -98,8 +98,8 @@
       {
         "ruleId": "shell",
         "file": "skills/antigravity-ios-redteam-pipeline/SKILL.md",
-        "line": 109,
-        "excerpt": "# An IPA is just a zip",
+        "line": 110,
+        "excerpt": "unzip -l target.ipa  # inspect archive paths/size first; reject traversal/symlinks/oversized entries",
         "disclosed": false,
         "automatic": false
       },
@@ -114,8 +114,8 @@
       {
         "ruleId": "shell",
         "file": "skills/antigravity-ios-redteam-pipeline/SKILL.md",
-        "line": 139,
-        "excerpt": "# URL grep — owned-domain references",
+        "line": 140,
+        "excerpt": "grep -oE 'https?://[a-zA-Z0-9.-]+\\.(target1|target2|target3)\\.(com|io|net)[a-zA-Z0-9./_?=&%-]*' strings_target.txt | sort -u",
         "disclosed": false,
         "automatic": false
       },
@@ -170,16 +170,16 @@
       {
         "ruleId": "shell",
         "file": "skills/antigravity-ios-redteam-pipeline/SKILL.md",
-        "line": 196,
-        "excerpt": "# Pull a maintained universal BoringSSL-layer bypass and run it:",
+        "line": 197,
+        "excerpt": "frida -U -f <bundle_id> -l ios-ssl-bypass.js --no-pause",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/antigravity-ios-redteam-pipeline/SKILL.md",
-        "line": 208,
-        "excerpt": "# Custom URL schemes (CFBundleURLTypes) — anything can invoke these via Safari/another app",
+        "line": 209,
+        "excerpt": "plutil -extract CFBundleURLTypes xml1 -o - Info.plist",
         "disclosed": false,
         "automatic": false
       },
@@ -193,15 +193,15 @@
         "hosts": []
       },
       {
-        "ruleId": "shell",
+        "ruleId": "downloads-code",
         "file": "skills/antigravity-ios-redteam-pipeline/SKILL.md",
-        "line": 232,
-        "excerpt": "# Setup",
+        "line": 233,
+        "excerpt": "python -m pip install frida-tools objection",
         "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "downloads-code",
+        "ruleId": "shell",
         "file": "skills/antigravity-ios-redteam-pipeline/SKILL.md",
         "line": 233,
         "excerpt": "python -m pip install frida-tools objection",
@@ -243,20 +243,20 @@
       {
         "ruleId": "shell",
         "file": "skills/antigravity-ios-redteam-pipeline/SKILL.md",
-        "line": 324,
-        "excerpt": "# Read-only first step; confirm scope before anything active.",
+        "line": 325,
+        "excerpt": "cat scope.txt  # target list from the authorized engagement brief",
         "disclosed": false,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 16,
       "network": 4,
+      "shell": 16,
       "downloads-code": 8
     },
     "score": 77,
     "band": "review",
-    "rulesVersion": "1.0.0",
+    "rulesVersion": "1.3.0",
     "filesScanned": 1,
     "filesSkipped": 0
   },
@@ -266,6 +266,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 77,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "5fe45e5965f0496e535e9cac866b06e5c3e87c87",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 77,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

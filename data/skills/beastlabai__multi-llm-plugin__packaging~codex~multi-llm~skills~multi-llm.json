@@ -7,13 +7,13 @@
   "description": "Orchestrate plan reviews, task generation, implementation and code reviews across several LLM CLIs in parallel, or ask every model one free-text question about a plan. Use when the user says: review my plan, multi-llm, run a code review, generate tasks from a plan, implement this plan, ask the models about my plan.",
   "stars": 12,
   "category": "coding",
-  "commit": "98efffd133dc6e5e8370cecd8580571cfdc4b554",
-  "contentHash": "41c348ec478bd9fadcb1118388e16bd633968325c6c9c0ae3ac370fb2960277e",
+  "commit": "acfac7eb737c8a36f9c06d8c545aee47757b328a",
+  "contentHash": "fba3eba997d9341e5a45b482ebeef39c08e3ef6daa9fe2f9b256504fd5bc3549",
   "repoCreatedAt": "2026-06-23T16:31:24Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T09:45:03.483Z",
   "scan": {
     "findings": [
       {
@@ -40,22 +40,6 @@
         "file": "packaging/codex/multi-llm/skills/multi-llm/hosts/uv-missing.txt",
         "line": 14,
         "excerpt": "brew install uv | pipx install uv | pip install --user uv",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "paid-api",
-        "file": "packaging/codex/multi-llm/skills/multi-llm/providers.yaml",
-        "line": 68,
-        "excerpt": "# OpenRouter IDs: https://openrouter.ai/api/v1/models; Kilo variants are captured",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "paid-api",
-        "file": "packaging/codex/multi-llm/skills/multi-llm/pyproject.toml",
-        "line": 23,
-        "excerpt": "\"live_provider: marks the credentialed provider lane (harness-expansion.md §7.4) — a real CLI against https://openrouter.ai on the user's own key, so it SPENDS ",
         "disclosed": false,
         "automatic": false
       },
@@ -124,6 +108,14 @@
         "automatic": false
       },
       {
+        "ruleId": "reads-secrets",
+        "file": "packaging/codex/multi-llm/skills/multi-llm/utils/detach.py",
+        "line": 422,
+        "excerpt": "env = dict(os.environ)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
         "ruleId": "shell",
         "file": "packaging/codex/multi-llm/skills/multi-llm/utils/doctor.py",
         "line": 184,
@@ -145,6 +137,14 @@
         "line": 195,
         "excerpt": "except (OSError, subprocess.SubprocessError):",
         "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "packaging/codex/multi-llm/skills/multi-llm/utils/doctor.py",
+        "line": 546,
+        "excerpt": "context = jail.complete_context(request, tmpdir, dict(os.environ))",
+        "disclosed": false,
         "automatic": false
       },
       {
@@ -220,10 +220,18 @@
         "automatic": false
       },
       {
-        "ruleId": "downloads-code",
+        "ruleId": "reads-secrets",
+        "file": "packaging/codex/multi-llm/skills/multi-llm/utils/llm_client.py",
+        "line": 2237,
+        "excerpt": "child_view = env if env is not None else dict(os.environ)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
         "file": "packaging/codex/multi-llm/skills/multi-llm/utils/providers/base.py",
-        "line": 1469,
-        "excerpt": "#: the first ``python`` on ``PATH`` (fix round 9 measured ``uv pip install``",
+        "line": 4364,
+        "excerpt": "return build_child_env(self, provider_env=delta) or dict(os.environ)",
         "disclosed": false,
         "automatic": false
       },
@@ -272,10 +280,10 @@
         "automatic": false
       },
       {
-        "ruleId": "paid-api",
+        "ruleId": "reads-secrets",
         "file": "packaging/codex/multi-llm/skills/multi-llm/utils/providers/codex.py",
-        "line": 1213,
-        "excerpt": "# authentication in header, url: https://api.openai.com/v1/responses`.",
+        "line": 1724,
+        "excerpt": "env = dict(os.environ)",
         "disclosed": false,
         "automatic": false
       },
@@ -284,14 +292,6 @@
         "file": "packaging/codex/multi-llm/skills/multi-llm/utils/providers/copilot.py",
         "line": 195,
         "excerpt": "_BYOK_BASE_URL = \"https://openrouter.ai/api/v1\"",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "packaging/codex/multi-llm/skills/multi-llm/utils/providers/copilot.py",
-        "line": 938,
-        "excerpt": "\"COPILOT_PROVIDER_API_KEY\": os.environ.get(\"OPENROUTER_API_KEY\", \"\"),",
         "disclosed": false,
         "automatic": false
       },
@@ -317,16 +317,8 @@
       {
         "ruleId": "paid-api",
         "file": "packaging/codex/multi-llm/skills/multi-llm/utils/providers/fx.py",
-        "line": 58,
+        "line": 65,
         "excerpt": "def render_settings(base_url: str = \"https://openrouter.ai/api/v1\") -> dict:",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "packaging/codex/multi-llm/skills/multi-llm/utils/providers/kimi.py",
-        "line": 521,
-        "excerpt": "\"KIMI_MODEL_API_KEY\": os.environ.get(\"OPENROUTER_API_KEY\", \"\"),",
         "disclosed": false,
         "automatic": false
       },
@@ -339,10 +331,18 @@
         "automatic": false
       },
       {
-        "ruleId": "downloads-code",
-        "file": "packaging/codex/multi-llm/skills/multi-llm/utils/providers/qwen_code.py",
-        "line": 281,
-        "excerpt": "#: root-owned one (``sudo npm i -g``, a distro package, an image layer) cannot",
+        "ruleId": "reads-secrets",
+        "file": "packaging/codex/multi-llm/skills/multi-llm/utils/providers/opencode.py",
+        "line": 740,
+        "excerpt": "env = dict(os.environ)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "packaging/codex/multi-llm/skills/multi-llm/utils/providers/opencode.py",
+        "line": 2014,
+        "excerpt": "env = dict(os.environ)",
         "disclosed": false,
         "automatic": false
       },
@@ -357,14 +357,6 @@
       {
         "ruleId": "paid-api",
         "file": "packaging/codex/multi-llm/skills/multi-llm/utils/providers/qwen_code.py",
-        "line": 865,
-        "excerpt": "* but a *stale inherited* ``OPENAI_BASE_URL=https://api.openai.com/v1``",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "paid-api",
-        "file": "packaging/codex/multi-llm/skills/multi-llm/utils/providers/qwen_code.py",
         "line": 880,
         "excerpt": "\"OPENAI_BASE_URL\": \"https://openrouter.ai/api/v1\",",
         "disclosed": false,
@@ -372,32 +364,24 @@
       },
       {
         "ruleId": "reads-secrets",
-        "file": "packaging/codex/multi-llm/skills/multi-llm/utils/providers/qwen_code.py",
-        "line": 881,
-        "excerpt": "\"OPENAI_API_KEY\": os.environ.get(\"OPENROUTER_API_KEY\", \"\"),",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
         "file": "packaging/codex/multi-llm/skills/multi-llm/utils/subagent_executor.py",
-        "line": 667,
-        "excerpt": "#: (2026-10-05) recorded T007 VERIFIED while ``npx html-validate`` had reported",
+        "line": 6934,
+        "excerpt": "composed = dict(os.environ) if env is None else dict(env)",
         "disclosed": false,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "downloads-code": 7,
+      "downloads-code": 4,
       "network": 6,
-      "paid-api": 9,
-      "shell": 168,
-      "reads-secrets": 3
+      "shell": 164,
+      "reads-secrets": 8,
+      "paid-api": 5
     },
     "score": 47,
     "band": "high",
-    "rulesVersion": "1.0.0",
-    "filesScanned": 212,
+    "rulesVersion": "1.3.0",
+    "filesScanned": 211,
     "filesSkipped": 4
   },
   "history": [
@@ -406,6 +390,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 47,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "acfac7eb737c8a36f9c06d8c545aee47757b328a",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 47,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

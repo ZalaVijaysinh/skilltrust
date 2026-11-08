@@ -5,7 +5,7 @@
   "path": "skills/clickstack-otel-collector",
   "name": "clickstack-otel-collector",
   "description": "Use when a user wants to wire an OpenTelemetry collector into a Managed ClickStack service on ClickHouse Cloud, either by deploying a new local collector (Docker run or Docker Compose) or by configuring their own existing collector, then send rich synthetic telemetry and verify it is visible in ClickStack.",
-  "stars": 564,
+  "stars": 563,
   "category": "devops",
   "commit": "d3b2b5ba43a8b80c2d08858b68d53edc701b5ace",
   "contentHash": "bfeaa5214ff03ecbd207fd86aebb89582cfa62692417b7c464d5730acd7e490c",
@@ -13,7 +13,7 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T09:45:03.483Z",
   "scan": {
     "findings": [
       {
@@ -102,8 +102,8 @@
       {
         "ruleId": "shell",
         "file": "skills/clickstack-otel-collector/SKILL.md",
-        "line": 252,
-        "excerpt": "# Write a private, sourceable creds file next to collector.env.",
+        "line": 253,
+        "excerpt": "( umask 177",
         "disclosed": true,
         "automatic": false
       },
@@ -126,8 +126,8 @@
       {
         "ruleId": "shell",
         "file": "skills/clickstack-otel-collector/SKILL.md",
-        "line": 286,
-        "excerpt": "# UUID form",
+        "line": 287,
+        "excerpt": "clickhousectl cloud service get \"$SERVICE_REF\" --json > \"$WORKDIR/svc.json\"",
         "disclosed": true,
         "automatic": false
       },
@@ -148,34 +148,10 @@
         "automatic": false
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/clickstack-otel-collector/SKILL.md",
-        "line": 330,
-        "excerpt": "as `hyperdx_ingest`. Open the shell with the combined load so `$CLICKHOUSE_PASSWORD` (and",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/clickstack-otel-collector/SKILL.md",
-        "line": 340,
-        "excerpt": "problems rule out `IDENTIFIED WITH sha256_password BY '$CLICKHOUSE_PASSWORD'`: the secret would",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "shell",
         "file": "skills/clickstack-otel-collector/SKILL.md",
         "line": 350,
         "excerpt": "WORKDIR=\"${WORKDIR:-$HOME/clickstack-otel-collector}\"; ENV_FILE=\"$WORKDIR/collector.env\"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/clickstack-otel-collector/SKILL.md",
-        "line": 355,
-        "excerpt": "PW_HASH=$(printf %s \"$CLICKHOUSE_PASSWORD\" | openssl dgst -sha256 | awk '{print $NF}')",
         "disclosed": true,
         "automatic": false
       },
@@ -230,8 +206,8 @@
       {
         "ruleId": "shell",
         "file": "skills/clickstack-otel-collector/SKILL.md",
-        "line": 494,
-        "excerpt": "# When running the contrib collector in Docker, pass collector.env so ${env:CLICKHOUSE_*} resolve:",
+        "line": 597,
+        "excerpt": "docker ps --filter name=clickstack-otel-collector --format '{{.Status}}'",
         "disclosed": true,
         "automatic": false
       },
@@ -243,41 +219,16 @@
         "disclosed": true,
         "automatic": false,
         "hosts": []
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/clickstack-otel-collector/SKILL.md",
-        "line": 629,
-        "excerpt": "Load the env file so the token is available, then reference `$OTLP_AUTH_TOKEN`. The `tg` helper",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/clickstack-otel-collector/SKILL.md",
-        "line": 651,
-        "excerpt": "--otlp-header \"authorization=\\\"$OTLP_AUTH_TOKEN\\\"\" \\",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/clickstack-otel-collector/SKILL.md",
-        "line": 741,
-        "excerpt": "2. Confirm the `authorization` header matches `$OTLP_AUTH_TOKEN`: `grep -c Unauthenticated",
-        "disclosed": true,
-        "automatic": false
       }
     ],
     "findingTotals": {
       "downloads-code": 3,
-      "shell": 29,
-      "network": 2,
-      "reads-secrets": 6
+      "shell": 28,
+      "network": 2
     },
-    "score": 69,
+    "score": 79,
     "band": "review",
-    "rulesVersion": "1.0.0",
+    "rulesVersion": "1.3.0",
     "filesScanned": 3,
     "filesSkipped": 0
   },
@@ -287,6 +238,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 69,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "d3b2b5ba43a8b80c2d08858b68d53edc701b5ace",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 79,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

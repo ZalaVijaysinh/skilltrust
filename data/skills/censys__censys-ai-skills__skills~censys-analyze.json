@@ -1,0 +1,93 @@
+{
+  "id": "censys__censys-ai-skills__skills~censys-analyze",
+  "owner": "censys",
+  "repo": "censys-ai-skills",
+  "path": "skills/censys-analyze",
+  "name": "censys-analyze",
+  "description": "Use when the user wants to do structured post-retrieval analysis on Censys CLI output — e.g. \"censys analyze results,\" \"analyze censys data,\" \"censys jq,\" \"query saved censys data,\" \"censys batch certs,\" \"cross-reference censys results,\" or \"censys post-processing.\" Teaches saving CLI output to files, jq recipes for filtering/extraction, loading results into SQLite for SQL-style queries, batch certificate workflows, and cross-referencing multiple result sets. Not for generating the underlying data — see censys-search, censys-view, or censys-timeline for that.",
+  "stars": 14,
+  "category": "data",
+  "commit": "cc048d5e7a4bcba276bd9b76ef9521a4a9a301bb",
+  "contentHash": "d30bf97e272b6a9d3e5af0b65389694821bb6c842ea9353fcccd91540b2a4818",
+  "repoCreatedAt": "2026-08-28T00:42:25Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/censys-analyze/SKILL.md",
+        "line": 43,
+        "excerpt": "censys search \"host.services.protocol=SSH\" --max-pages 5 -O json > data/ssh_hosts.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/censys-analyze/SKILL.md",
+        "line": 65,
+        "excerpt": "jq -r '.[].host.ip' data/ssh_hosts.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/censys-analyze/SKILL.md",
+        "line": 98,
+        "excerpt": "\"${CLAUDE_PLUGIN_ROOT}/scripts/censys-to-sqlite.sh\" data/ssh_hosts.json data/censys.db",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/censys-analyze/SKILL.md",
+        "line": 130,
+        "excerpt": "jq -r '[.[].host.services[]? | .tls?.fingerprint_sha256? // empty] | unique | .[]' \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/censys-analyze/SKILL.md",
+        "line": 158,
+        "excerpt": "comm -12 \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/censys-analyze/SKILL.md",
+        "line": 178,
+        "excerpt": "censys search --fields host.ip,host.location.country \"host.services.port=443\" -O json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 9,
+        "excerpt": "\"command\": \"${CLAUDE_PLUGIN_ROOT}/hooks/check-exhaustive-search.sh\",",
+        "disclosed": false,
+        "automatic": true
+      }
+    ],
+    "findingTotals": {
+      "shell": 7
+    },
+    "score": 95,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 5,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "cc048d5e7a4bcba276bd9b76ef9521a4a9a301bb",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 95,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

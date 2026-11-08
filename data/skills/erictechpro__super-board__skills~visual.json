@@ -5,7 +5,7 @@
   "path": "skills/visual",
   "name": "visual",
   "description": "Turn the current work into one polished, self-contained HTML visual page — a recap of a branch's changes, a plan, a map of a folder, endpoint set, or architecture, or an interactive drill-down map of a skill pack or system (zoom, pan, click a node for details, double-click to open its inner view). Use when the user runs /visual or asks to visualise, picture, or visually recap a branch, PR, diff, plan, or part of a codebase, or to map a skill pack, its lanes, scripts, and hooks.",
-  "stars": 627,
+  "stars": 629,
   "category": "coding",
   "commit": "d0b7d5a6850614ca809477c1af43d5d7da408726",
   "contentHash": "4acd9befe5320314d1b56759e9f8576fc58fa3335fa66dce643a41ce942dba81",
@@ -13,7 +13,7 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-07T16:26:42.053Z",
+  "scannedAt": "2026-11-08T09:45:03.483Z",
   "scan": {
     "findings": [
       {
@@ -136,14 +136,6 @@
         "hosts": []
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "tests/test-guard-hooks.sh",
-        "line": 65,
-        "excerpt": "expect allow guard-key-literals.py \"$(write 'const k = process.env.ANTHROPIC_API_KEY;')\" \"env read allowed\"",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "writes-outside",
         "file": "tests/test-guard-hooks.sh",
         "line": 121,
@@ -224,6 +216,14 @@
         "automatic": true
       },
       {
+        "ruleId": "reads-secrets",
+        "file": "hooks/guard-delete-outside.py",
+        "line": 194,
+        "excerpt": "reason = check(command, cwd, project, dict(os.environ))",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
         "ruleId": "shell",
         "file": "hooks/guard-protected-push.py",
         "line": 126,
@@ -262,17 +262,25 @@
         "excerpt": "except (OSError, subprocess.TimeoutExpired):",
         "disclosed": false,
         "automatic": true
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "hooks/guard-worktree-path.py",
+        "line": 190,
+        "excerpt": "reason = check(command, cwd, root_of, dict(os.environ))",
+        "disclosed": false,
+        "automatic": true
       }
     ],
     "findingTotals": {
       "shell": 27,
       "network": 5,
-      "reads-secrets": 3,
+      "reads-secrets": 4,
       "writes-outside": 2
     },
     "score": 65,
     "band": "review",
-    "rulesVersion": "1.2.0",
+    "rulesVersion": "1.3.0",
     "filesScanned": 23,
     "filesSkipped": 0
   },
@@ -282,6 +290,12 @@
       "scannedAt": "2026-11-07T16:26:42.053Z",
       "score": 65,
       "rulesVersion": "1.2.0"
+    },
+    {
+      "commit": "d0b7d5a6850614ca809477c1af43d5d7da408726",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 65,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

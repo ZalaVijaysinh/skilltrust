@@ -1,0 +1,395 @@
+{
+  "id": "benjamincanac__nuxt-agent-discovery__skills~verify-nuxt-agent-discovery",
+  "owner": "benjamincanac",
+  "repo": "nuxt-agent-discovery",
+  "path": "skills/verify-nuxt-agent-discovery",
+  "name": "verify-nuxt-agent-discovery",
+  "description": "Verify a deployed Nuxt site running the nuxt-agent-discovery module, from a URL alone: markdown content negotiation, Vary and Link headers, the raw markdown route, discovery documents, the llms.txt bridge, agent error bodies and a full page sweep. Use after migrating a site to the module, when asked to test a preview deployment, or to check markdown negotiation on a deployed site.",
+  "stars": 18,
+  "category": "devops",
+  "commit": "734ee8a60dcd7064b69e796375c6a4184415a4c2",
+  "contentHash": "7c85808b87cf3d430f9710cadb1d6a8370d1412966836daa6e096b8be7f1e587",
+  "repoCreatedAt": "2026-04-23T10:15:38Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/verify-nuxt-agent-discovery/SKILL.md",
+        "line": 21,
+        "excerpt": "PREVIEW=            # the deployment under test",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/verify-nuxt-agent-discovery/SKILL.md",
+        "line": 27,
+        "excerpt": "BOT='ClaudeBot/1.0 (+https://anthropic.com/claudebot)'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/verify-nuxt-agent-discovery/SKILL.md",
+        "line": 32,
+        "excerpt": "probe() { curl -sS -D - -o /dev/null \"$@\"; }      # headers only",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/verify-nuxt-agent-discovery/SKILL.md",
+        "line": 33,
+        "excerpt": "show()  { curl -sS -D - \"$@\" | head -60; }        # headers plus the top of the body",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/verify-nuxt-agent-discovery/SKILL.md",
+        "line": 50,
+        "excerpt": "probe \"$PREVIEW/\"                                        # host, headers, Link",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/verify-nuxt-agent-discovery/SKILL.md",
+        "line": 51,
+        "excerpt": "curl -sS \"$PREVIEW/llms.txt\" | head -30",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/verify-nuxt-agent-discovery/SKILL.md",
+        "line": 52,
+        "excerpt": "curl -sS \"$PREVIEW/sitemap.md\" | head -30",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/verify-nuxt-agent-discovery/SKILL.md",
+        "line": 53,
+        "excerpt": "curl -sS \"$PREVIEW/.well-known/api-catalog\" | jq .",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/verify-nuxt-agent-discovery/SKILL.md",
+        "line": 65,
+        "excerpt": "RAW=$(curl -sS \"$PREVIEW/sitemap.md\" | grep -oE 'https?://[^)]+/index\\.md' | head -1 | sed -e 's|.*://[^/]*||' -e 's|/index\\.md$||')",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/verify-nuxt-agent-discovery/SKILL.md",
+        "line": 65,
+        "excerpt": "RAW=$(curl -sS \"$PREVIEW/sitemap.md\" | grep -oE 'https?://[^)]+/index\\.md' | head -1 | sed -e 's|.*://[^/]*||' -e 's|/index\\.md$||')",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/verify-nuxt-agent-discovery/SKILL.md",
+        "line": 72,
+        "excerpt": "PROD=$(curl -sS \"$PREVIEW$RAW/index.md\" | grep -oE 'https?://[^/)]+' | sort | uniq -c | sort -rn | head -1 | awk '{print $2}')",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/verify-nuxt-agent-discovery/SKILL.md",
+        "line": 72,
+        "excerpt": "PROD=$(curl -sS \"$PREVIEW$RAW/index.md\" | grep -oE 'https?://[^/)]+' | sort | uniq -c | sort -rn | head -1 | awk '{print $2}')",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/verify-nuxt-agent-discovery/SKILL.md",
+        "line": 80,
+        "excerpt": "curl -sS \"$PREVIEW/sitemap.xml\" | grep -o '<loc>[^<]*' | sed -E 's|<loc>||; s|https?://[^/]+||' | sort -u > /tmp/pages",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/verify-nuxt-agent-discovery/SKILL.md",
+        "line": 80,
+        "excerpt": "curl -sS \"$PREVIEW/sitemap.xml\" | grep -o '<loc>[^<]*' | sed -E 's|<loc>||; s|https?://[^/]+||' | sort -u > /tmp/pages",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/verify-nuxt-agent-discovery/SKILL.md",
+        "line": 89,
+        "excerpt": "HOME=/",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/verify-nuxt-agent-discovery/SKILL.md",
+        "line": 126,
+        "excerpt": "curl -sS -H 'Accept: text/markdown' \"$PREVIEW$DOC\" > /tmp/a.md",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/verify-nuxt-agent-discovery/SKILL.md",
+        "line": 126,
+        "excerpt": "curl -sS -H 'Accept: text/markdown' \"$PREVIEW$DOC\" > /tmp/a.md",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/verify-nuxt-agent-discovery/SKILL.md",
+        "line": 127,
+        "excerpt": "curl -sS \"$PREVIEW$DOC.md\" > /tmp/b.md",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/verify-nuxt-agent-discovery/SKILL.md",
+        "line": 128,
+        "excerpt": "curl -sS \"$PREVIEW$RAW${DOC}.md\" > /tmp/c.md",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/verify-nuxt-agent-discovery/SKILL.md",
+        "line": 137,
+        "excerpt": "cat > /tmp/sweep.sh <<'EOF'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/verify-nuxt-agent-discovery/SKILL.md",
+        "line": 140,
+        "excerpt": "agent=$(curl -sS -o /dev/null -w '%{http_code} %{content_type} %{redirect_url}' -A \"$BOT\" \"$PREVIEW$p\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/verify-nuxt-agent-discovery/SKILL.md",
+        "line": 141,
+        "excerpt": "html=$(curl -sS -o /dev/null -w '%{http_code} %{content_type}' -A \"$BROWSER\" -H \"Accept: $HTML\" \"$PREVIEW$p\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/verify-nuxt-agent-discovery/SKILL.md",
+        "line": 142,
+        "excerpt": "twin=$([ \"$p\" = \"/\" ] && echo skip || curl -sS -o /dev/null -w '%{http_code} %{content_type}' \"$PREVIEW${p%/}.md\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/verify-nuxt-agent-discovery/SKILL.md",
+        "line": 143,
+        "excerpt": "raw=$(curl -sS -o /dev/null -w '%{http_code}' \"$PREVIEW$RAW$([ \"$p\" = \"/\" ] && echo /index || echo \"${p%/}\").md\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/verify-nuxt-agent-discovery/SKILL.md",
+        "line": 159,
+        "excerpt": "grep -v 'text/markdown' /tmp/sweep.txt | grep -v ' 307 '     # pages serving HTML to an agent",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/verify-nuxt-agent-discovery/SKILL.md",
+        "line": 171,
+        "excerpt": "while read -r p; do",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/verify-nuxt-agent-discovery/SKILL.md",
+        "line": 172,
+        "excerpt": "n=$(curl -sS \"$PREVIEW$RAW$([ \"$p\" = \"/\" ] && echo /index || echo \"${p%/}\").md\" | wc -c)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/verify-nuxt-agent-discovery/SKILL.md",
+        "line": 182,
+        "excerpt": "- `curl -sS \"$PREVIEW$RAW/index.md\" | head -30` returns the homepage document, or the generated landing page: frontmatter, canonical and alternate links, and a ",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/verify-nuxt-agent-discovery/SKILL.md",
+        "line": 186,
+        "excerpt": "while read -r p; do",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/verify-nuxt-agent-discovery/SKILL.md",
+        "line": 187,
+        "excerpt": "curl -sS \"$PREVIEW$RAW$([ \"$p\" = \"/\" ] && echo /index || echo \"${p%/}\").md\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/verify-nuxt-agent-discovery/SKILL.md",
+        "line": 200,
+        "excerpt": "show \"$PREVIEW/\"                               # Link header lives on / only",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/verify-nuxt-agent-discovery/SKILL.md",
+        "line": 201,
+        "excerpt": "curl -sS \"$PREVIEW/.well-known/api-catalog\" | jq .",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/verify-nuxt-agent-discovery/SKILL.md",
+        "line": 202,
+        "excerpt": "curl -sS \"$PREVIEW/.well-known/mcp/server-card.json\" | jq .",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/verify-nuxt-agent-discovery/SKILL.md",
+        "line": 218,
+        "excerpt": "if ! curl -fsS \"$PREVIEW/.well-known/skills/index.json\" > /tmp/skills.json; then",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/verify-nuxt-agent-discovery/SKILL.md",
+        "line": 233,
+        "excerpt": "curl -sS -D - -o /tmp/llms.txt \"$PREVIEW/llms.txt\" | head -5",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/verify-nuxt-agent-discovery/SKILL.md",
+        "line": 246,
+        "excerpt": "home() { sed -e 's|\\(.\\)/$|\\1|' -e 's|^/index$|/|' -e 's|^$|/|' | sort -u; }",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/verify-nuxt-agent-discovery/SKILL.md",
+        "line": 277,
+        "excerpt": "curl -sS \"$PREVIEW/openapi.json\" | jq -r '.paths | keys[]' | head -40",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/verify-nuxt-agent-discovery/SKILL.md",
+        "line": 283,
+        "excerpt": "curl -sS -A \"$BROWSER\" -H \"Accept: $HTML\" \"$PREVIEW$DOC\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/verify-nuxt-agent-discovery/SKILL.md",
+        "line": 297,
+        "excerpt": "for p in $(awk 'NR % 18 == 1' /tmp/pages); do        # every 18th page, spread across the inventory",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/verify-nuxt-agent-discovery/SKILL.md",
+        "line": 307,
+        "excerpt": "curl -sS \"$PROD/sitemap.xml\" | grep -o '<loc>[^<]*' | sed -E 's|<loc>||; s|https?://[^/]+||' | sort -u > /tmp/prod-pages",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/verify-nuxt-agent-discovery/SKILL.md",
+        "line": 320,
+        "excerpt": "npx -y is-agentic \"$PREVIEW\" --json > /tmp/is-agentic-preview.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/verify-nuxt-agent-discovery/SKILL.md",
+        "line": 321,
+        "excerpt": "npx -y is-agentic \"$PROD\"",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 22,
+      "network": 37,
+      "downloads-code": 2
+    },
+    "score": 77,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "734ee8a60dcd7064b69e796375c6a4184415a4c2",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 77,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

@@ -7,23 +7,15 @@
   "description": "Publish text, link or photo posts to your Facebook Page via the Facebook Pages API, and read your Page's recent posts. Use when the user wants to post to their Facebook Page, share a link, publish a photo, or review their own Page posts. Auth uses a Page access token (BYOC). 支持 Facebook 主页文本 / 链接 / 图片发帖。",
   "stars": 17,
   "category": "media",
-  "commit": "d3dc4b5d28cf28af20980a181350ff8b687b8dd9",
+  "commit": "655fa60672678832407453677aaf534ac45e52c7",
   "contentHash": "167d5d698bf9a6862b3f1610c873f668624513792f6dcfc809f1e86d63c026ed",
   "repoCreatedAt": "2026-03-22T02:09:30Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T09:45:03.483Z",
   "scan": {
     "findings": [
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/facebook/SKILL.md",
-        "line": 19,
-        "excerpt": "connector injects `$FACEBOOK_ACCESS_TOKEN` (a **Page** access token with",
-        "disclosed": false,
-        "automatic": false
-      },
       {
         "ruleId": "shell",
         "file": "skills/facebook/SKILL.md",
@@ -33,14 +25,6 @@
         "automatic": false
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/facebook/SKILL.md",
-        "line": 38,
-        "excerpt": "PAGE=$(curl -sS \"https://graph.facebook.com/v21.0/me?fields=id,name&access_token=$FACEBOOK_ACCESS_TOKEN\" | jq -r 'select(.name).id // empty')",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/facebook/SKILL.md",
         "line": 38,
@@ -52,14 +36,6 @@
         ]
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/facebook/SKILL.md",
-        "line": 41,
-        "excerpt": "PAGE=$(curl -sS \"https://graph.facebook.com/v21.0/me/accounts?access_token=$FACEBOOK_ACCESS_TOKEN\" | jq -r '.data[0].id // empty')",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/facebook/SKILL.md",
         "line": 41,
@@ -69,14 +45,6 @@
         "hosts": [
           "graph.facebook.com"
         ]
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/facebook/SKILL.md",
-        "line": 62,
-        "excerpt": "# Text-only post",
-        "disclosed": false,
-        "automatic": false
       },
       {
         "ruleId": "network",
@@ -90,10 +58,10 @@
         ]
       },
       {
-        "ruleId": "reads-secrets",
+        "ruleId": "shell",
         "file": "skills/facebook/SKILL.md",
-        "line": 65,
-        "excerpt": "-d \"access_token=$FACEBOOK_ACCESS_TOKEN\" | jq .",
+        "line": 63,
+        "excerpt": "curl -sS -X POST \"https://graph.facebook.com/v21.0/$PAGE/feed\" \\",
         "disclosed": false,
         "automatic": false
       },
@@ -109,14 +77,6 @@
         ]
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/facebook/SKILL.md",
-        "line": 72,
-        "excerpt": "-d \"access_token=$FACEBOOK_ACCESS_TOKEN\" | jq .",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/facebook/SKILL.md",
         "line": 81,
@@ -136,22 +96,6 @@
         "automatic": false
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/facebook/SKILL.md",
-        "line": 84,
-        "excerpt": "-d \"access_token=$FACEBOOK_ACCESS_TOKEN\" | jq .",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/facebook/SKILL.md",
-        "line": 97,
-        "excerpt": "curl -sS \"https://graph.facebook.com/v21.0/<PAGE_ID>_<POST_ID>?fields=permalink_url&access_token=$FACEBOOK_ACCESS_TOKEN\" | jq -r .permalink_url",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/facebook/SKILL.md",
         "line": 97,
@@ -167,14 +111,6 @@
         "file": "skills/facebook/SKILL.md",
         "line": 97,
         "excerpt": "curl -sS \"https://graph.facebook.com/v21.0/<PAGE_ID>_<POST_ID>?fields=permalink_url&access_token=$FACEBOOK_ACCESS_TOKEN\" | jq -r .permalink_url",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/facebook/SKILL.md",
-        "line": 103,
-        "excerpt": "curl -sS \"https://graph.facebook.com/v21.0/$PAGE/posts?fields=id,message,created_time,permalink_url&limit=10&access_token=$FACEBOOK_ACCESS_TOKEN\" | jq .",
         "disclosed": false,
         "automatic": false
       },
@@ -199,13 +135,12 @@
       }
     ],
     "findingTotals": {
-      "reads-secrets": 8,
       "shell": 5,
       "network": 7
     },
-    "score": 72,
-    "band": "review",
-    "rulesVersion": "1.0.0",
+    "score": 92,
+    "band": "low",
+    "rulesVersion": "1.3.0",
     "filesScanned": 1,
     "filesSkipped": 0
   },
@@ -215,6 +150,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 72,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "655fa60672678832407453677aaf534ac45e52c7",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

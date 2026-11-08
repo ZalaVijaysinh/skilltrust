@@ -1,0 +1,133 @@
+{
+  "id": "lthoangg__openagentd__.agents~skills~oad~release",
+  "owner": "lthoangg",
+  "repo": "OpenAgentd",
+  "path": ".agents/skills/oad/release",
+  "name": "oad/release",
+  "description": "OpenAgentd release workflow — pick the version, bump every release file, ship the version PR, publish the CLI and desktop releases to one tag, and write user-facing release notes. Use when asked to cut, prepare, or publish a release.",
+  "stars": 217,
+  "category": "coding",
+  "commit": "55edb4a65f9183f631f0395789c4e3b14a1ca8ae",
+  "contentHash": "4718467a5d77ed66df9ebe18c79ab01e1132e7e4a9d032c919d50ec84c8f7faa",
+  "repoCreatedAt": "2026-04-30T05:56:20Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/oad/release/SKILL.md",
+        "line": 13,
+        "excerpt": "scripts/release_version.sh                       # current version (e.g. 3.5.0)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/oad/release/SKILL.md",
+        "line": 28,
+        "excerpt": "gh issue list --repo lthoangg/openagentd --state open --search \"<area from the diff>\" --limit 20",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/oad/release/SKILL.md",
+        "line": 42,
+        "excerpt": "for wf in appv3.yml web.yml tauri.yml docs.yml; do gh run list --workflow=$wf --branch=main --limit=1; done",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/oad/release/SKILL.md",
+        "line": 49,
+        "excerpt": "scripts/bump_version.sh <version>   # or --from-file after editing appv3/Cargo.toml by hand",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/oad/release/SKILL.md",
+        "line": 58,
+        "excerpt": "git add appv3/Cargo.toml appv3/Cargo.lock web/package.json \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/oad/release/SKILL.md",
+        "line": 80,
+        "excerpt": "gh workflow run release-ios.yml --ref <branch> -f channel=internal   # iOS: CI build + TestFlight Internal",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/oad/release/SKILL.md",
+        "line": 106,
+        "excerpt": "set -e",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/oad/release/SKILL.md",
+        "line": 116,
+        "excerpt": "gh workflow run release.yml -f confirm=release        # creates v<version>, CLI archives (~5 min)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/oad/release/SKILL.md",
+        "line": 127,
+        "excerpt": "gh release edit v<version> --repo lthoangg/openagentd --notes-file /tmp/release-notes-v<version>.md",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/oad/release/SKILL.md",
+        "line": 148,
+        "excerpt": "gh workflow run release-ios.yml --ref v<version> -f channel=public -f confirm=release-ios",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/oad/release/SKILL.md",
+        "line": 172,
+        "excerpt": "git fetch --tags && git checkout v<version>   # HEAD must be the tagged commit",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/oad/release/SKILL.md",
+        "line": 192,
+        "excerpt": "PREV_TAG=$(git describe --tags --abbrev=0 HEAD^)",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 12
+    },
+    "score": 95,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "55edb4a65f9183f631f0395789c4e3b14a1ca8ae",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 95,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

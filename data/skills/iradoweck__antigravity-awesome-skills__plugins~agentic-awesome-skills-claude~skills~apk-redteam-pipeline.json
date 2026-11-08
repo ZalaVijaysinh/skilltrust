@@ -13,17 +13,9 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T09:45:03.483Z",
   "scan": {
     "findings": [
-      {
-        "ruleId": "shell",
-        "file": "plugins/agentic-awesome-skills-claude/skills/apk-redteam-pipeline/SKILL.md",
-        "line": 52,
-        "excerpt": "# Find developer page from the target's brand name",
-        "disclosed": true,
-        "automatic": false
-      },
       {
         "ruleId": "network",
         "file": "plugins/agentic-awesome-skills-claude/skills/apk-redteam-pipeline/SKILL.md",
@@ -38,8 +30,8 @@
       {
         "ruleId": "shell",
         "file": "plugins/agentic-awesome-skills-claude/skills/apk-redteam-pipeline/SKILL.md",
-        "line": 89,
-        "excerpt": "# Follow 302 redirects to actual download",
+        "line": 53,
+        "excerpt": "curl -sk -A \"Mozilla/5.0\" \"https://play.google.com/store/apps/developer?id=<Brand+Name>\" -o /tmp/dev.html",
         "disclosed": true,
         "automatic": false
       },
@@ -51,6 +43,14 @@
         "disclosed": true,
         "automatic": false,
         "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agentic-awesome-skills-claude/skills/apk-redteam-pipeline/SKILL.md",
+        "line": 90,
+        "excerpt": "curl -sk -L --max-time 60 \\",
+        "disclosed": true,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -93,16 +93,8 @@
       {
         "ruleId": "shell",
         "file": "plugins/agentic-awesome-skills-claude/skills/apk-redteam-pipeline/SKILL.md",
-        "line": 114,
-        "excerpt": "# Standard unzip (works for clean APK)",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/agentic-awesome-skills-claude/skills/apk-redteam-pipeline/SKILL.md",
-        "line": 132,
-        "excerpt": "# Install",
+        "line": 115,
+        "excerpt": "unzip -o <package>.apk -d extracted_<package>/",
         "disclosed": true,
         "automatic": false
       },
@@ -112,6 +104,14 @@
         "line": 133,
         "excerpt": "brew install jadx          # macOS",
         "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agentic-awesome-skills-claude/skills/apk-redteam-pipeline/SKILL.md",
+        "line": 133,
+        "excerpt": "brew install jadx          # macOS",
+        "disclosed": true,
         "automatic": false
       },
       {
@@ -136,32 +136,32 @@
       {
         "ruleId": "shell",
         "file": "plugins/agentic-awesome-skills-claude/skills/apk-redteam-pipeline/SKILL.md",
-        "line": 156,
-        "excerpt": "# URL grep — owned-domain references",
+        "line": 157,
+        "excerpt": "grep -oE 'https?://[a-zA-Z0-9.-]+\\.(target1|target2|target3)\\.(com|io|net|in)[a-zA-Z0-9./_?=&%-]*' strings_<package>.txt | sort -u",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "plugins/agentic-awesome-skills-claude/skills/apk-redteam-pipeline/SKILL.md",
-        "line": 208,
-        "excerpt": "# Find .cer / .der / .pem files in assets/",
+        "line": 209,
+        "excerpt": "find extracted_<package>/assets -iname \"*.cer\" -o -iname \"*.der\" -o -iname \"*.pem\" -o -iname \"*.crt\" 2>/dev/null",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "plugins/agentic-awesome-skills-claude/skills/apk-redteam-pipeline/SKILL.md",
-        "line": 232,
-        "excerpt": "# Decode binary AndroidManifest if needed",
+        "line": 233,
+        "excerpt": "apktool d <package>.apk -o decoded_<package>/    # apktool decodes binary manifest",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "plugins/agentic-awesome-skills-claude/skills/apk-redteam-pipeline/SKILL.md",
-        "line": 252,
-        "excerpt": "# google-services.json — full Firebase config",
+        "line": 253,
+        "excerpt": "find extracted_<package> -name \"google-services.json\" -exec cat {} \\; | python3 -m json.tool",
         "disclosed": true,
         "automatic": false
       },
@@ -231,8 +231,8 @@
       {
         "ruleId": "shell",
         "file": "plugins/agentic-awesome-skills-claude/skills/apk-redteam-pipeline/SKILL.md",
-        "line": 340,
-        "excerpt": "# Run mitmproxy on host",
+        "line": 341,
+        "excerpt": "mitmproxy --listen-port 8080",
         "disclosed": true,
         "automatic": false
       },
@@ -282,20 +282,20 @@
       {
         "ruleId": "shell",
         "file": "plugins/agentic-awesome-skills-claude/skills/apk-redteam-pipeline/SKILL.md",
-        "line": 442,
-        "excerpt": "# Read-only first step; confirm scope before anything active.",
+        "line": 443,
+        "excerpt": "cat scope.txt  # target list from the authorized engagement brief",
         "disclosed": true,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 18,
       "network": 9,
+      "shell": 18,
       "downloads-code": 4
     },
     "score": 79,
     "band": "review",
-    "rulesVersion": "1.0.0",
+    "rulesVersion": "1.3.0",
     "filesScanned": 2,
     "filesSkipped": 0
   },
@@ -305,6 +305,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 79,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "2984de11956e413008c6f98121cd141c499e47a3",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 79,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

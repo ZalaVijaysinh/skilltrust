@@ -13,14 +13,14 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T09:45:03.483Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "plugins/agentic-awesome-skills-claude/skills/hunt-source-leak/SKILL.md",
-        "line": 51,
-        "excerpt": "# These 10 requests take <30 seconds and often yield Critical findings",
+        "line": 52,
+        "excerpt": "for PATH in \\",
         "disclosed": false,
         "automatic": false
       },
@@ -36,14 +36,6 @@
         ]
       },
       {
-        "ruleId": "shell",
-        "file": "plugins/agentic-awesome-skills-claude/skills/hunt-source-leak/SKILL.md",
-        "line": 104,
-        "excerpt": "# Step 1: Get asset manifest to find all JS bundle paths",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "plugins/agentic-awesome-skills-claude/skills/hunt-source-leak/SKILL.md",
         "line": 105,
@@ -53,6 +45,14 @@
         "hosts": [
           "$target"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agentic-awesome-skills-claude/skills/hunt-source-leak/SKILL.md",
+        "line": 105,
+        "excerpt": "curl -s \"https://$TARGET/asset-manifest.json\" | python3 -m json.tool 2>/dev/null",
+        "disclosed": false,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -121,8 +121,8 @@
       {
         "ruleId": "shell",
         "file": "plugins/agentic-awesome-skills-claude/skills/hunt-source-leak/SKILL.md",
-        "line": 146,
-        "excerpt": "# Common paths",
+        "line": 147,
+        "excerpt": "SWAGGER_PATHS=(",
         "disclosed": false,
         "automatic": false
       },
@@ -138,14 +138,6 @@
         ]
       },
       {
-        "ruleId": "shell",
-        "file": "plugins/agentic-awesome-skills-claude/skills/hunt-source-leak/SKILL.md",
-        "line": 182,
-        "excerpt": "# Check if .git directory is accessible",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "plugins/agentic-awesome-skills-claude/skills/hunt-source-leak/SKILL.md",
         "line": 183,
@@ -155,6 +147,14 @@
         "hosts": [
           "$target"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agentic-awesome-skills-claude/skills/hunt-source-leak/SKILL.md",
+        "line": 183,
+        "excerpt": "curl -s \"https://$TARGET/.git/HEAD\" | grep -q \"ref:\" && echo \"[+] .git exposed!\"",
+        "disclosed": false,
+        "automatic": false
       },
       {
         "ruleId": "downloads-code",
@@ -167,8 +167,8 @@
       {
         "ruleId": "shell",
         "file": "plugins/agentic-awesome-skills-claude/skills/hunt-source-leak/SKILL.md",
-        "line": 204,
-        "excerpt": "# Build artifacts and debug files",
+        "line": 205,
+        "excerpt": "DEBUG_PATHS=(",
         "disclosed": false,
         "automatic": false
       },
@@ -184,14 +184,6 @@
         ]
       },
       {
-        "ruleId": "shell",
-        "file": "plugins/agentic-awesome-skills-claude/skills/hunt-source-leak/SKILL.md",
-        "line": 236,
-        "excerpt": "# .DS_Store files on macOS-deployed web servers reveal directory structure",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "plugins/agentic-awesome-skills-claude/skills/hunt-source-leak/SKILL.md",
         "line": 237,
@@ -203,18 +195,18 @@
         ]
       },
       {
-        "ruleId": "downloads-code",
+        "ruleId": "shell",
         "file": "plugins/agentic-awesome-skills-claude/skills/hunt-source-leak/SKILL.md",
-        "line": 240,
-        "excerpt": "pip3 install ds_store",
+        "line": 237,
+        "excerpt": "curl -s \"https://$TARGET/.DS_Store\" | xxd | head -10",
         "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "shell",
+        "ruleId": "downloads-code",
         "file": "plugins/agentic-awesome-skills-claude/skills/hunt-source-leak/SKILL.md",
-        "line": 258,
-        "excerpt": "# Download and analyze webpack chunks for hardcoded values",
+        "line": 240,
+        "excerpt": "pip3 install ds_store",
         "disclosed": false,
         "automatic": false
       },
@@ -228,6 +220,14 @@
         "hosts": [
           "$target"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agentic-awesome-skills-claude/skills/hunt-source-leak/SKILL.md",
+        "line": 260,
+        "excerpt": "curl -s https://$TARGET/ | grep -oP '\"[^\"]*\\.chunk\\.js\"' | tr -d '\"' | while read chunk; do",
+        "disclosed": false,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -263,15 +263,15 @@
         ]
       },
       {
-        "ruleId": "shell",
+        "ruleId": "downloads-code",
         "file": "plugins/agentic-awesome-skills-claude/skills/hunt-source-leak/SKILL.md",
-        "line": 296,
-        "excerpt": "# git-dumper (reconstruct exposed .git)",
+        "line": 297,
+        "excerpt": "pip3 install git-dumper",
         "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "downloads-code",
+        "ruleId": "shell",
         "file": "plugins/agentic-awesome-skills-claude/skills/hunt-source-leak/SKILL.md",
         "line": 297,
         "excerpt": "pip3 install git-dumper",
@@ -297,8 +297,8 @@
       {
         "ruleId": "shell",
         "file": "plugins/agentic-awesome-skills-claude/skills/hunt-source-leak/SKILL.md",
-        "line": 341,
-        "excerpt": "# Read-only first step; confirm scope before anything active.",
+        "line": 342,
+        "excerpt": "cat scope.txt  # target list from the authorized engagement brief",
         "disclosed": false,
         "automatic": false
       }
@@ -310,7 +310,7 @@
     },
     "score": 75,
     "band": "review",
-    "rulesVersion": "1.0.0",
+    "rulesVersion": "1.3.0",
     "filesScanned": 2,
     "filesSkipped": 0
   },
@@ -320,6 +320,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 75,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "2984de11956e413008c6f98121cd141c499e47a3",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 75,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

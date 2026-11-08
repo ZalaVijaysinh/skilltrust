@@ -1,0 +1,93 @@
+{
+  "id": "roohe__agentic-super-skills__skills_library~analyze-kernel-bottleneck",
+  "owner": "roohe",
+  "repo": "agentic-super-skills",
+  "path": "skills_library/analyze-kernel-bottleneck",
+  "name": "analyze-kernel-bottleneck",
+  "description": "Systematically identify whether a GPU kernel is compute-bound, memory-bound, or latency-bound using roofline analysis, occupancy calculations, compute/load ratio per tile, and SASS instruction inspection. Produces a decision matrix for optimization strategy selection (cp.async, warp interleaving, tiling, double-buffering, or CuAssembler hand-tuning).",
+  "stars": 10,
+  "category": "other",
+  "commit": "f483e54f3ad5f202a77d45f2e57f8d970b71195f",
+  "contentHash": "ea7923b055ef402982ec3a18c570787c8e46b0dc5aeb7651e79ffd3fcb492afe",
+  "repoCreatedAt": "2026-05-19T07:56:00Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills_library/analyze-kernel-bottleneck/SKILL.md",
+        "line": 53,
+        "excerpt": "nvcc --cubin -arch=sm_86 -O2 -o kernel.sm_86.cubin kernel.cu",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills_library/analyze-kernel-bottleneck/SKILL.md",
+        "line": 58,
+        "excerpt": "./bench 4096 4096 4096",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills_library/analyze-kernel-bottleneck/SKILL.md",
+        "line": 109,
+        "excerpt": "nvcc --cubin -arch=sm_86 -O2 --resource-usage -o kernel.sm_86.cubin kernel.cu 2>&1 | grep -E 'registers|smem'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills_library/analyze-kernel-bottleneck/SKILL.md",
+        "line": 131,
+        "excerpt": "cuobjdump -sass kernel.sm_86.cubin > kernel.sass",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills_library/analyze-kernel-bottleneck/SKILL.md",
+        "line": 156,
+        "excerpt": "cuobjdump -sass kernel.sm_86.cubin > kernel.sass",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills_library/analyze-kernel-bottleneck/SKILL.md",
+        "line": 160,
+        "excerpt": "grep -c 'HMMA.16816' kernel.sass      # FP16 Tensor Core",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills_library/analyze-kernel-bottleneck/SKILL.md",
+        "line": 173,
+        "excerpt": "grep 'HMMA' kernel.sass | head -5     # Expect S08 minimum (hardware constraint)",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 7
+    },
+    "score": 95,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "f483e54f3ad5f202a77d45f2e57f8d970b71195f",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 95,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

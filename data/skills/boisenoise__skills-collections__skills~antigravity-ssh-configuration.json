@@ -7,20 +7,20 @@
   "description": "Configure SSH servers and clients securely. Manage keys, tunnels, and",
   "stars": 12,
   "category": "other",
-  "commit": "b89b2f59bcd776f96526ce61d77fcb9bd0821a9f",
+  "commit": "5fe45e5965f0496e535e9cac866b06e5c3e87c87",
   "contentHash": "681635688709a90536c80315132c3b7edd04a9d673c094ad1e5ff26a86db450f",
   "repoCreatedAt": "2026-01-19T14:28:55Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T09:45:03.483Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "skills/antigravity-ssh-configuration/SKILL.md",
-        "line": 47,
-        "excerpt": "# Generate an Ed25519 key (recommended -- fast, secure, short)",
+        "line": 48,
+        "excerpt": "ssh-keygen -t ed25519 -C \"jane@example.com\" -f ~/.ssh/id_ed25519",
         "disclosed": false,
         "automatic": false
       },
@@ -29,14 +29,6 @@
         "file": "skills/antigravity-ssh-configuration/SKILL.md",
         "line": 60,
         "excerpt": "cat ~/.ssh/id_ed25519.pub | ssh user@server \"mkdir -p ~/.ssh && chmod 700 ~/.ssh && cat >> ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys\"",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/antigravity-ssh-configuration/SKILL.md",
-        "line": 146,
-        "excerpt": "# Create the sockets directory for multiplexing",
         "disclosed": false,
         "automatic": false
       },
@@ -51,40 +43,48 @@
       {
         "ruleId": "shell",
         "file": "skills/antigravity-ssh-configuration/SKILL.md",
-        "line": 154,
-        "excerpt": "# /etc/ssh/sshd_config -- hardened configuration",
+        "line": 147,
+        "excerpt": "mkdir -p ~/.ssh/sockets",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/antigravity-ssh-configuration/SKILL.md",
-        "line": 215,
-        "excerpt": "# Validate configuration before restarting",
+        "line": 158,
+        "excerpt": "Port 22",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/antigravity-ssh-configuration/SKILL.md",
-        "line": 228,
-        "excerpt": "# On the bastion server, restrict forwarding to internal subnets only",
+        "line": 216,
+        "excerpt": "sshd -t",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/antigravity-ssh-configuration/SKILL.md",
-        "line": 253,
-        "excerpt": "# Local port forward: access remote service on localhost",
+        "line": 230,
+        "excerpt": "AllowTcpForwarding yes",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/antigravity-ssh-configuration/SKILL.md",
-        "line": 279,
-        "excerpt": "# Enable agent forwarding for a single connection",
+        "line": 255,
+        "excerpt": "ssh -L 5432:10.0.2.50:5432 ops@bastion.example.com -N",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-ssh-configuration/SKILL.md",
+        "line": 280,
+        "excerpt": "ssh -A user@bastion",
         "disclosed": false,
         "automatic": false
       }
@@ -95,7 +95,7 @@
     },
     "score": 85,
     "band": "low",
-    "rulesVersion": "1.0.0",
+    "rulesVersion": "1.3.0",
     "filesScanned": 1,
     "filesSkipped": 0
   },
@@ -105,6 +105,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 85,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "5fe45e5965f0496e535e9cac866b06e5c3e87c87",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 85,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

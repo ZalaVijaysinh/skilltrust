@@ -1,0 +1,125 @@
+{
+  "id": "stanfish06__skillquarium__skills~caveman-compress",
+  "owner": "stanfish06",
+  "repo": "skillquarium",
+  "path": "skills/caveman-compress",
+  "name": "caveman-compress",
+  "description": "Compress a memory file such as CLAUDE.md or a todo list into caveman format to save input tokens, keeping a readable backup. Sends the file's text to the configured model provider. Trigger: /caveman-compress.",
+  "stars": 12,
+  "category": "productivity",
+  "commit": "f748ea91aa51ce8fc42c27c809dba73a8377b1d5",
+  "contentHash": "bc14d27c4b582c73f7adb626a37a2017d4d27d62ff845f766a8796f54a6c6c7b",
+  "repoCreatedAt": "2026-06-09T12:36:45Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": true,
+  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/caveman-compress/SECURITY.md",
+        "line": 9,
+        "excerpt": "1. **subprocess usage**: The skill calls the `claude` CLI via `subprocess.run()` as a fallback when `ANTHROPIC_API_KEY` is not set. It can also call `opencode r",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/caveman-compress/scripts/compress.py",
+        "line": 23,
+        "excerpt": "import urllib.request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/caveman-compress/scripts/compress.py",
+        "line": 588,
+        "excerpt": "result = subprocess.run(command, **run_kwargs)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/caveman-compress/scripts/compress.py",
+        "line": 592,
+        "excerpt": "except subprocess.CalledProcessError as error:",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/caveman-compress/scripts/compress.py",
+        "line": 595,
+        "excerpt": "except subprocess.TimeoutExpired as error:",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/caveman-compress/scripts/compress.py",
+        "line": 611,
+        "excerpt": "import anthropic",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/caveman-compress/scripts/compress.py",
+        "line": 611,
+        "excerpt": "import anthropic",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.anthropic.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/caveman-compress/scripts/compress.py",
+        "line": 735,
+        "excerpt": "request = urllib.request.Request(",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/caveman-compress/scripts/compress.py",
+        "line": 746,
+        "excerpt": "with urllib.request.urlopen(request, timeout=CLAUDE_CALL_TIMEOUT_SECONDS) as response:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/caveman-compress/scripts/compress.py",
+        "line": 787,
+        "excerpt": "``ANTHROPIC_API_KEY`` to route through the SDK and skip the subprocess.",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 5,
+      "network": 4,
+      "paid-api": 1
+    },
+    "score": 85,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 9,
+    "filesSkipped": 1
+  },
+  "history": [
+    {
+      "commit": "f748ea91aa51ce8fc42c27c809dba73a8377b1d5",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 85,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

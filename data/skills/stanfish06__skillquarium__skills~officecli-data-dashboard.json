@@ -1,0 +1,186 @@
+{
+  "id": "stanfish06__skillquarium__skills~officecli-data-dashboard",
+  "owner": "stanfish06",
+  "repo": "skillquarium",
+  "path": "skills/officecli-data-dashboard",
+  "name": "officecli-data-dashboard",
+  "description": "Use this skill to build a multi-element Excel dashboard — Dashboard sheet on open, multiple formula-driven KPI cards, multiple charts, sparklines, and conditional formatting — from CSV or tabular input. Trigger on: 'dashboard', 'KPI dashboard', 'analytics dashboard', 'executive dashboard', 'metrics dashboard', 'CSV to dashboard', 'data visualization'. Output is a single .xlsx. Scene-layer on officecli-xlsx: inherits every xlsx hard rule. DO NOT invoke for: a single budget tracker / one-sheet CSV-with-formatting (use xlsx), a 3-statement / DCF / LBO financial model (use financial-model), a weekly report with ≤ 1 chart and < 10 rows (use xlsx).",
+  "stars": 12,
+  "category": "data",
+  "commit": "f748ea91aa51ce8fc42c27c809dba73a8377b1d5",
+  "contentHash": "0c336ac60577684f400cfa6c1c078cc0fd2a19537122810a7d5c39414754563b",
+  "repoCreatedAt": "2026-06-09T12:36:45Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/officecli-data-dashboard/SKILL.md",
+        "line": 14,
+        "excerpt": "- **macOS / Linux**: `curl -fsSL https://d.officecli.ai/install.sh | bash`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/officecli-data-dashboard/SKILL.md",
+        "line": 14,
+        "excerpt": "- **macOS / Linux**: `curl -fsSL https://d.officecli.ai/install.sh | bash`",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "d.officecli.ai"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/officecli-data-dashboard/SKILL.md",
+        "line": 24,
+        "excerpt": "officecli help xlsx                          # element list",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/officecli-data-dashboard/SKILL.md",
+        "line": 89,
+        "excerpt": "FILE=my_dashboard.xlsx",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/officecli-data-dashboard/SKILL.md",
+        "line": 101,
+        "excerpt": "officecli add \"$FILE\" / --type sheet --prop name=Dashboard",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/officecli-data-dashboard/SKILL.md",
+        "line": 111,
+        "excerpt": "officecli add \"$FILE\" /Dashboard --type sparkline --prop cell=B2 --prop range='Sheet1!B2:B13' --prop type=line --prop color=4472C4 --prop highPoint=true --prop ",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/officecli-data-dashboard/SKILL.md",
+        "line": 125,
+        "excerpt": "officecli set \"$FILE\" / --prop calc.fullCalcOnLoad=true",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/officecli-data-dashboard/SKILL.md",
+        "line": 225,
+        "excerpt": "officecli add \"$FILE\" / --type namedrange --prop name=_xlnm.Print_Area --prop scope=Dashboard --prop 'refersTo=Dashboard!$A$1:$H$36'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/officecli-data-dashboard/SKILL.md",
+        "line": 251,
+        "excerpt": ": \"${PRINT_SCOPE_REQUIRED:?Set PRINT_SCOPE_REQUIRED to 1 for print/board/investor output, otherwise 0}\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/officecli-data-dashboard/SKILL.md",
+        "line": 261,
+        "excerpt": "KPI_FORMULAS=$(officecli query \"$FILE\" 'Dashboard!:has(formula)' --json | jq '.data.results | length')",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/officecli-data-dashboard/SKILL.md",
+        "line": 268,
+        "excerpt": "CHART_COUNT=$(officecli query \"$FILE\" chart --json | jq '.data.results | length')",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/officecli-data-dashboard/SKILL.md",
+        "line": 290,
+        "excerpt": "for i in $(seq 1 \"$CHART_COUNT\"); do",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/officecli-data-dashboard/SKILL.md",
+        "line": 299,
+        "excerpt": "CF_COUNT=$(officecli query \"$FILE\" conditionalformatting --json | jq '.data.results | length')",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/officecli-data-dashboard/SKILL.md",
+        "line": 308,
+        "excerpt": "DASH_IDX=$(officecli query \"$FILE\" sheet --json | jq '[.data.results[].path] | index(\"/Dashboard\")')",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/officecli-data-dashboard/SKILL.md",
+        "line": 318,
+        "excerpt": "LEAKS=$(officecli view \"$FILE\" text 2>/dev/null | grep -niE '\\{\\{|\\$fy\\$|<TODO>|xxxx|TBD' | wc -l | tr -d ' ')",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/officecli-data-dashboard/SKILL.md",
+        "line": 335,
+        "excerpt": "officecli view \"$FILE\" text 2>/dev/null | grep -nE '###|\\{\\{|<TODO>|\\$fy\\$|xxxx' && { echo \"REJECT Gate 7: tokens or ### present\"; exit 1; }",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/officecli-data-dashboard/SKILL.md",
+        "line": 351,
+        "excerpt": "if [ \"$PRINT_SCOPE_REQUIRED\" = \"1\" ]; then",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/officecli-data-dashboard/SKILL.md",
+        "line": 373,
+        "excerpt": "for CELL in A2 C2 E2 G2; do",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "downloads-code": 1,
+      "network": 1,
+      "shell": 16
+    },
+    "score": 77,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "f748ea91aa51ce8fc42c27c809dba73a8377b1d5",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 77,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

@@ -1,0 +1,125 @@
+{
+  "id": "libz-renlab-ai__teambrain__.claude~skills~onboard",
+  "owner": "libz-renlab-ai",
+  "repo": "TeamBrain",
+  "path": ".claude/skills/onboard",
+  "name": "onboard",
+  "description": "Remote bootstrap of a new colleague's Mac via SSH — installs Homebrew, Node, and `@anthropic-ai/claude-code`, then completes interactive `claude login` over a tmux session whose OAuth URL the human relays to the colleague. Manually invoked via /onboard only (frontmatter pins `disable-model-invocation: true`), so it never auto-triggers from chat. Use when a teammate needs Claude Code stood up on their Mac and the operator has Tailscale SSH access plus a sudo password the teammate shared out-of-band.",
+  "stars": 13,
+  "category": "coding",
+  "commit": "f077a8ab7d6cdbb210b0416d2badac137b0e954d",
+  "contentHash": "75cf27d348617d3c0d6faad9bcb696d39002d946e6d43ad2972faca96e184173",
+  "repoCreatedAt": "2026-04-22T11:01:38Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/onboard/SKILL.md",
+        "line": 49,
+        "excerpt": "ssh -o BatchMode=yes \"$SSH_TARGET\" 'echo ok'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/onboard/SKILL.md",
+        "line": 53,
+        "excerpt": "ssh \"$SSH_TARGET\" 'curl -sf -m 5 https://www.google.com -o /dev/null && echo ok'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "www.google.com"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/onboard/SKILL.md",
+        "line": 61,
+        "excerpt": "Why these three and only these three: the entire skill assumes them. SSH gives you a shell, the proxy lets `brew` and `npm` reach their CDNs, and `sudo -S` lets",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/onboard/SKILL.md",
+        "line": 70,
+        "excerpt": "ssh \"$SSH_TARGET\" 'bash -s' <<'PROBE'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/onboard/SKILL.md",
+        "line": 79,
+        "excerpt": "proxy() { curl -sf -m 5 https://www.google.com -o /dev/null && echo true || echo false; }",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "www.google.com"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/onboard/SKILL.md",
+        "line": 104,
+        "excerpt": "- `node --version` succeeds (any reasonable install method — `brew install node`, `nvm`, `fnm`. Pick the simplest available; for a fresh Mac that's `brew instal",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/onboard/SKILL.md",
+        "line": 130,
+        "excerpt": "\"command\": \"echo \\\"$REMOTE_SUDO_PW\\\" | ssh ... 'sudo -S -p \\\"\\\" brew install node'\",",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/onboard/SKILL.md",
+        "line": 145,
+        "excerpt": "echo \"$REMOTE_SUDO_PW\" | ssh \"$SSH_TARGET\" 'sudo -S -p \"\" <command>'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/onboard/SKILL.md",
+        "line": 167,
+        "excerpt": "ssh \"$SSH_TARGET\" 'tmux kill-session -t cclogin 2>/dev/null || true'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/onboard/SKILL.md",
+        "line": 189,
+        "excerpt": "ssh \"$SSH_TARGET\" 'tmux capture-pane -t cclogin -p' | grep -i 'logged in\\|success\\|authenticated'",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 5,
+      "network": 2,
+      "downloads-code": 3
+    },
+    "score": 86,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "f077a8ab7d6cdbb210b0416d2badac137b0e954d",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 86,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

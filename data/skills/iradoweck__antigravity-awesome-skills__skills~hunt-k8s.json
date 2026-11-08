@@ -13,7 +13,7 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T09:45:03.483Z",
   "scan": {
     "findings": [
       {
@@ -28,8 +28,8 @@
       {
         "ruleId": "shell",
         "file": "skills/hunt-k8s/SKILL.md",
-        "line": 65,
-        "excerpt": "# Common Kubernetes / container ports",
+        "line": 66,
+        "excerpt": "PORTS=\"443,6443,8443,8080,10250,10255,10256,2379,2380,4194,9090,9100,30000-30010\"",
         "disclosed": true,
         "automatic": false
       },
@@ -232,26 +232,10 @@
         ]
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/hunt-k8s/SKILL.md",
-        "line": 162,
-        "excerpt": "SRV=\"https://$TARGET:6443\"; H=\"-H \\\"Authorization: Bearer $TOKEN\\\"\"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "shell",
         "file": "skills/hunt-k8s/SKILL.md",
         "line": 162,
         "excerpt": "SRV=\"https://$TARGET:6443\"; H=\"-H \\\"Authorization: Bearer $TOKEN\\\"\"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/hunt-k8s/SKILL.md",
-        "line": 163,
-        "excerpt": "NODE=$(curl -sk -H \"Authorization: Bearer $TOKEN\" \"$SRV/api/v1/nodes\" | grep -o '\"name\":\"[^\"]*\"' | head -1 | cut -d'\"' -f4)",
         "disclosed": true,
         "automatic": false
       },
@@ -265,58 +249,18 @@
         "hosts": []
       },
       {
-        "ruleId": "reads-secrets",
+        "ruleId": "shell",
         "file": "skills/hunt-k8s/SKILL.md",
-        "line": 166,
-        "excerpt": "curl -sk -X POST -H \"Authorization: Bearer $TOKEN\" \\",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/hunt-k8s/SKILL.md",
-        "line": 170,
-        "excerpt": "curl -sk -H \"Authorization: Bearer $TOKEN\" \"$SRV/api/v1/nodes/$NODE/proxy/pods\"",
+        "line": 183,
+        "excerpt": "ETCDCTL_API=3 etcdctl --endpoints=http://$TARGET:2379 get / --prefix --keys-only 2>/dev/null | head -50",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/hunt-k8s/SKILL.md",
-        "line": 182,
-        "excerpt": "# etcd holds ALL cluster state. Secrets are plaintext UNLESS EncryptionConfiguration is set.",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/hunt-k8s/SKILL.md",
-        "line": 201,
-        "excerpt": "# From RCE/LFI inside a pod:",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/hunt-k8s/SKILL.md",
-        "line": 207,
-        "excerpt": "echo \"$TOKEN\" | cut -d. -f2 | tr '_-' '/+' | base64 -d 2>/dev/null | python3 -m json.tool <!-- security-allowlist: documented payload decoding technique referen",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/hunt-k8s/SKILL.md",
-        "line": 215,
-        "excerpt": "-H \"Authorization: Bearer $TOKEN\" -H 'Content-Type: application/json' \\",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/hunt-k8s/SKILL.md",
-        "line": 217,
-        "excerpt": "curl -sk \"$API/api/v1/namespaces/$NS/secrets\" -H \"Authorization: Bearer $TOKEN\"",
+        "line": 202,
+        "excerpt": "TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)",
         "disclosed": true,
         "automatic": false
       },
@@ -329,54 +273,37 @@
         "automatic": false
       },
       {
-        "ruleId": "reads-secrets",
+        "ruleId": "shell",
         "file": "skills/hunt-k8s/SKILL.md",
-        "line": 225,
-        "excerpt": "-H \"Authorization: Bearer $TOKEN\" -H 'Content-Type: application/strategic-merge-patch+json' \\",
+        "line": 235,
+        "excerpt": "curl -s --unix-socket /var/run/docker.sock http://localhost/v1.41/info",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/hunt-k8s/SKILL.md",
-        "line": 234,
-        "excerpt": "# docker.sock reachable (SSRF unix://, LFI of socket, or RCE on host)",
+        "line": 258,
+        "excerpt": "curl -sk \"https://$TARGET:8443/\" | grep -i \"kubernetes dashboard\"",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/hunt-k8s/SKILL.md",
-        "line": 257,
-        "excerpt": "# Kubernetes Dashboard — correct API base is /api/v1/... UNDER the dashboard service.",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/hunt-k8s/SKILL.md",
-        "line": 270,
-        "excerpt": "curl -sk \"$SRV/apis/admissionregistration.k8s.io/v1/validatingwebhookconfigurations\" -H \"Authorization: Bearer $TOKEN\"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/hunt-k8s/SKILL.md",
-        "line": 333,
-        "excerpt": "# Read-only first step; confirm scope before anything active.",
+        "line": 334,
+        "excerpt": "cat scope.txt  # target list from the authorized engagement brief",
         "disclosed": true,
         "automatic": false
       }
     ],
     "findingTotals": {
       "network": 37,
-      "shell": 10,
-      "reads-secrets": 9
+      "shell": 10
     },
-    "score": 84,
+    "score": 94,
     "band": "low",
-    "rulesVersion": "1.0.0",
+    "rulesVersion": "1.3.0",
     "filesScanned": 2,
     "filesSkipped": 0
   },
@@ -386,6 +313,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 84,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "2984de11956e413008c6f98121cd141c499e47a3",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 94,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

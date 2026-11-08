@@ -8,12 +8,12 @@
   "stars": 21,
   "category": "coding",
   "commit": "eb86da768cee325b0e89039b1f96ea29e29f2eb7",
-  "contentHash": "d6b21ead8d7cb6e6c88bad22b78fe965ef71e227f5a130700228b4a36b4b053a",
+  "contentHash": "56272647f2f4bd8ec07a72fd27293a837584e96842a6de088f20acf0f9aaffe3",
   "repoCreatedAt": "2026-05-25T01:32:53Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T09:45:03.483Z",
   "scan": {
     "findings": [
       {
@@ -172,42 +172,10 @@
         "hosts": []
       },
       {
-        "ruleId": "downloads-code",
-        "file": "plugins/core/hooks/lib/policy.sh",
-        "line": 12,
-        "excerpt": "# `curl|sh` variants — not a determined attacker or a cleverly-obfuscated payload.",
-        "disclosed": false,
-        "automatic": true
-      },
-      {
         "ruleId": "reads-secrets",
         "file": "plugins/core/hooks/lib/policy.sh",
         "line": 110,
         "excerpt": "*/.ssh/*|*/.gnupg/*|*/.aws/credentials|*/.kube/config|*/.docker/config.json|*/.config/gcloud/*|*/.config/gh/hosts.yml)",
-        "disclosed": false,
-        "automatic": true
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "plugins/core/hooks/lib/policy.sh",
-        "line": 121,
-        "excerpt": "# merge gate + re-install), only the files under ~/.claude, ~/.codex, ~/.gemini are.",
-        "disclosed": false,
-        "automatic": true
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "plugins/core/hooks/lib/policy.sh",
-        "line": 166,
-        "excerpt": "# `git commit -m \"… install … ~/.claude/settings.json …\"` false-positives as a mutation.",
-        "disclosed": false,
-        "automatic": true
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "plugins/core/hooks/lib/policy.sh",
-        "line": 171,
-        "excerpt": "# redirect onto it:  > ~/.claude/settings.json   /   >>$HOME/.gemini/settings.json",
         "disclosed": false,
         "automatic": true
       },
@@ -230,16 +198,16 @@
       {
         "ruleId": "reads-secrets",
         "file": "plugins/core/hooks/lib/policy.sh",
-        "line": 277,
-        "excerpt": "printf '%s\\n' \"$POLICY_SECRET_DETECTORS\" | while IFS='|' read -r name re; do",
+        "line": 308,
+        "excerpt": "data-exfiltration|(send|post|upload|exfiltrate|transmit|e-?mail|forward|leak).{0,60}(\\.env\\b|secret|credential|password|api[ _-]?key|access[ _-]?token|private k",
         "disclosed": false,
         "automatic": true
       },
       {
         "ruleId": "reads-secrets",
         "file": "plugins/core/hooks/lib/policy.sh",
-        "line": 282,
-        "excerpt": "| grep -Eiv -- \"$POLICY_SECRET_ALLOW\" 2>/dev/null \\",
+        "line": 309,
+        "excerpt": "exfil-channel|(dig|nslookup|host) +[^ ]*\\$\\(|(curl|wget) .{0,60}(--data(-binary|-raw)?|--upload-file|--form|-d |-T |-F ).{0,25}@?[^ ]*(id_rsa|id_ed25519|\\.ssh/|",
         "disclosed": false,
         "automatic": true
       },
@@ -271,14 +239,6 @@
       {
         "ruleId": "shell",
         "file": "plugins/core/hooks/lib/policy.sh",
-        "line": 585,
-        "excerpt": "# constructs (shell=True+interpolation, untrusted deserialization, TLS verification",
-        "disclosed": false,
-        "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/core/hooks/lib/policy.sh",
         "line": 588,
         "excerpt": "POLICY_INSECURE_DETECTORS='shell-injection|(subprocess\\.(call|run|Popen)\\([^)]*shell *= *True|os\\.system\\([^)]*[%+]|child_process\\.exec\\([^)]*[`$]|Runtime\\.getR",
         "disclosed": false,
@@ -295,16 +255,15 @@
       }
     ],
     "findingTotals": {
-      "downloads-code": 6,
-      "shell": 15,
+      "downloads-code": 5,
+      "shell": 14,
       "network": 5,
-      "reads-secrets": 5,
-      "writes-outside": 3
+      "reads-secrets": 5
     },
-    "score": 45,
-    "band": "high",
-    "rulesVersion": "1.0.0",
-    "filesScanned": 24,
+    "score": 55,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 25,
     "filesSkipped": 0
   },
   "history": [
@@ -313,6 +272,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 45,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "eb86da768cee325b0e89039b1f96ea29e29f2eb7",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 55,
+      "rulesVersion": "1.3.0"
     }
   ]
 }

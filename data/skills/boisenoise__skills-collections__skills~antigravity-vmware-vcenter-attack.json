@@ -7,13 +7,13 @@
   "description": "VMware vSphere / vCenter Server external attack matrix",
   "stars": 12,
   "category": "other",
-  "commit": "b89b2f59bcd776f96526ce61d77fcb9bd0821a9f",
+  "commit": "5fe45e5965f0496e535e9cac866b06e5c3e87c87",
   "contentHash": "d16c6dd47b594a6aea7641fe2b0b649bae1af954304e112fa681b82853e4c536",
   "repoCreatedAt": "2026-01-19T14:28:55Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-06T19:07:48.007Z",
+  "scannedAt": "2026-11-08T09:45:03.483Z",
   "scan": {
     "findings": [
       {
@@ -91,14 +91,6 @@
         ]
       },
       {
-        "ruleId": "shell",
-        "file": "skills/antigravity-vmware-vcenter-attack/SKILL.md",
-        "line": 103,
-        "excerpt": "# Detection only — DO NOT execute the file upload without explicit scope OK",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/antigravity-vmware-vcenter-attack/SKILL.md",
         "line": 104,
@@ -108,6 +100,14 @@
         "hosts": []
       },
       {
+        "ruleId": "shell",
+        "file": "skills/antigravity-vmware-vcenter-attack/SKILL.md",
+        "line": 104,
+        "excerpt": "curl -sk -o /dev/null -w \"%{http_code}\\n\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
         "ruleId": "network",
         "file": "skills/antigravity-vmware-vcenter-attack/SKILL.md",
         "line": 109,
@@ -115,14 +115,6 @@
         "disclosed": true,
         "automatic": false,
         "hosts": []
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/antigravity-vmware-vcenter-attack/SKILL.md",
-        "line": 120,
-        "excerpt": "# Stage A — detection only: reachability + baseline. No command execution yet.",
-        "disclosed": true,
-        "automatic": false
       },
       {
         "ruleId": "network",
@@ -136,8 +128,8 @@
       {
         "ruleId": "shell",
         "file": "skills/antigravity-vmware-vcenter-attack/SKILL.md",
-        "line": 144,
-        "excerpt": "# SSO Admin endpoint (frequently exposes domain info)",
+        "line": 121,
+        "excerpt": "curl -sk -o /tmp/wone_baseline.txt -w \"%{http_code}\\n\" \\",
         "disclosed": true,
         "automatic": false
       },
@@ -151,6 +143,14 @@
         "hosts": [
           "$target"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-vmware-vcenter-attack/SKILL.md",
+        "line": 145,
+        "excerpt": "curl -sk \"https://$TARGET/websso/SAML2/Metadata/vsphere.local\" | xmllint --format -",
+        "disclosed": true,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -194,14 +194,6 @@
         ]
       },
       {
-        "ruleId": "shell",
-        "file": "skills/antigravity-vmware-vcenter-attack/SKILL.md",
-        "line": 173,
-        "excerpt": "# Get session token",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/antigravity-vmware-vcenter-attack/SKILL.md",
         "line": 174,
@@ -211,6 +203,14 @@
         "hosts": [
           "$target"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-vmware-vcenter-attack/SKILL.md",
+        "line": 174,
+        "excerpt": "curl -sk -X POST -u 'user@vsphere.local:<pw>' \"https://$TARGET/api/session\"",
+        "disclosed": true,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -257,14 +257,6 @@
         ]
       },
       {
-        "ruleId": "shell",
-        "file": "skills/antigravity-vmware-vcenter-attack/SKILL.md",
-        "line": 196,
-        "excerpt": "# Metadata",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/antigravity-vmware-vcenter-attack/SKILL.md",
         "line": 197,
@@ -274,6 +266,14 @@
         "hosts": [
           "$target"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-vmware-vcenter-attack/SKILL.md",
+        "line": 197,
+        "excerpt": "curl -sk \"https://$TARGET/SAAS/auth/saml/response\"",
+        "disclosed": true,
+        "automatic": false
       },
       {
         "ruleId": "network",
@@ -289,8 +289,8 @@
       {
         "ruleId": "shell",
         "file": "skills/antigravity-vmware-vcenter-attack/SKILL.md",
-        "line": 211,
-        "excerpt": "# vRealize Operations Manager",
+        "line": 212,
+        "excerpt": "curl -sk \"https://$TARGET/suite-api/api/versions\"",
         "disclosed": true,
         "automatic": false
       },
@@ -305,8 +305,8 @@
       {
         "ruleId": "shell",
         "file": "skills/antigravity-vmware-vcenter-attack/SKILL.md",
-        "line": 399,
-        "excerpt": "# Read-only first step; confirm scope before anything active.",
+        "line": 400,
+        "excerpt": "cat scope.txt  # target list from the authorized engagement brief",
         "disclosed": true,
         "automatic": false
       }
@@ -317,7 +317,7 @@
     },
     "score": 94,
     "band": "low",
-    "rulesVersion": "1.0.0",
+    "rulesVersion": "1.3.0",
     "filesScanned": 1,
     "filesSkipped": 0
   },
@@ -327,6 +327,12 @@
       "scannedAt": "2026-11-06T19:07:48.007Z",
       "score": 94,
       "rulesVersion": "1.0.0"
+    },
+    {
+      "commit": "5fe45e5965f0496e535e9cac866b06e5c3e87c87",
+      "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 94,
+      "rulesVersion": "1.3.0"
     }
   ]
 }
