@@ -4,30 +4,155 @@
   "repo": "superlocalmemory",
   "path": "antigravity-plugin/skills/slm-session",
   "name": "slm-session",
-  "description": "",
+  "description": "Manage SuperLocalMemory session lifecycle — call session_init once at the start of every fresh session to load relevant project context and get a session_id; call close_session when work is meaningfully complete to commit temporal summaries. Correct lifecycle hygiene is what makes SLM's learning loop work.",
   "stars": 274,
   "category": "coding",
-  "commit": "93e58692ce51b196a879a43e3974d378652db748",
-  "contentHash": "588b51276f89ab5c6be615d606adfda3965a2e2267be457aa6273c3a7065f3ab",
+  "commit": "67f0663bb9dd7d193ab7f6dcf2aa1c89fbcd1d19",
+  "contentHash": "e47ea2411cbe3c2af2c90eae680a5b70a5b61afc556e3f34d5c03fe16f442a59",
   "repoCreatedAt": "2026-02-05T12:07:55Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "antigravity-plugin/skills/slm-session/SKILL.md",
+        "line": 252,
+        "excerpt": "slm session-context \"<query>\" [--max-age-days N] [--full] [--json]   # print the context a session would start with",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "antigravity-plugin/scripts/antigravity_hook_adapter.py",
+        "line": 20,
+        "excerpt": "env = dict(os.environ)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "antigravity-plugin/scripts/antigravity_hook_adapter.py",
+        "line": 24,
+        "excerpt": "result = subprocess.run(",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "antigravity-plugin/hooks.json",
+        "line": 6,
+        "excerpt": "\"command\": \"python3 ./scripts/antigravity_hook_adapter.py pre-invocation\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "antigravity-plugin/hooks.json",
+        "line": 16,
+        "excerpt": "\"command\": \"python3 ./scripts/antigravity_hook_adapter.py pre-tool\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "antigravity-plugin/hooks.json",
+        "line": 28,
+        "excerpt": "\"command\": \"python3 ./scripts/antigravity_hook_adapter.py post-tool\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "antigravity-plugin/hooks.json",
+        "line": 37,
+        "excerpt": "\"command\": \"python3 ./scripts/antigravity_hook_adapter.py stop\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "antigravity-plugin/hooks/hooks.json",
+        "line": 8,
+        "excerpt": "\"command\": \"slm hook mandate 2>/dev/null || true\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "antigravity-plugin/hooks/hooks.json",
+        "line": 17,
+        "excerpt": "\"command\": \"slm hook start 2>/dev/null || true\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "network",
+        "file": "antigravity-plugin/hooks/hooks.json",
+        "line": 25,
+        "excerpt": "\"matcher\": \"WebSearch|WebFetch\",",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "antigravity-plugin/hooks/hooks.json",
+        "line": 29,
+        "excerpt": "\"command\": \"slm hook before_web 2>/dev/null || true\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "network",
+        "file": "antigravity-plugin/hooks/hooks.json",
+        "line": 37,
+        "excerpt": "\"matcher\": \"Bash|Read|Write|Edit|Glob|Grep|Agent|WebFetch|WebSearch|NotebookEdit\",",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "antigravity-plugin/hooks/hooks.json",
+        "line": 41,
+        "excerpt": "\"command\": \"slm hook post_tool_outcome 2>/dev/null || true\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "antigravity-plugin/hooks/hooks.json",
+        "line": 52,
+        "excerpt": "\"command\": \"slm hook stop_outcome 2>/dev/null || true\",",
+        "disclosed": false,
+        "automatic": true
+      }
+    ],
+    "findingTotals": {
+      "shell": 11,
+      "reads-secrets": 1,
+      "network": 2
+    },
+    "score": 70,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 4
+    "filesScanned": 6,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "93e58692ce51b196a879a43e3974d378652db748",
       "scannedAt": "2026-11-07T22:05:48.475Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "67f0663bb9dd7d193ab7f6dcf2aa1c89fbcd1d19",
+      "scannedAt": "2026-11-09T10:28:36.295Z",
+      "score": 70,
       "rulesVersion": "1.3.0"
     }
   ]

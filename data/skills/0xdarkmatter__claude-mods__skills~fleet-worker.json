@@ -4,24 +4,122 @@
   "repo": "claude-mods",
   "path": "skills/fleet-worker",
   "name": "fleet-worker",
-  "description": "",
-  "stars": 79,
+  "description": "One cheap headless Claude Code worker on a cheaper brain (GLM via z.ai, or Sonnet/Haiku) - full tool harness, isolated git worktree + CLAUDE_CONFIG_DIR - fanned out and gated by an Opus orchestrator. Triggers: fleet-worker, GLM worker, grunt worker, cheap parallel agent, offload to GLM, sonnet worker, haiku worker.",
+  "stars": 80,
   "category": "coding",
   "commit": "82f5d0a34618bb4228d7e6662579a88d6fe5297c",
-  "contentHash": "9274448ae3215c3d6479c4724ce88a80721de6f6519efda3d94a8c70c340d27f",
+  "contentHash": "2f6dab05f374d7238d82f05845a6a736391b58ba41db66aa60bb82413073823a",
   "repoCreatedAt": "2025-11-27T03:02:32Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/fleet-worker/SKILL.md",
+        "line": 55,
+        "excerpt": "export CLAUDE_CONFIG_DIR=\"$HOME/.fleet-worker/cfg\"   # no inherited OAuth/hooks",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/fleet-worker/SKILL.md",
+        "line": 78,
+        "excerpt": "ln -s ~/.claude/skills/fleet-worker/scripts/fleet-worker ~/.local/bin/fleet-worker",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/fleet-worker/SKILL.md",
+        "line": 78,
+        "excerpt": "ln -s ~/.claude/skills/fleet-worker/scripts/fleet-worker ~/.local/bin/fleet-worker",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/fleet-worker/SKILL.md",
+        "line": 79,
+        "excerpt": "ln -s ~/.claude/skills/fleet-worker/scripts/fleet-collect.sh ~/.local/bin/fleet-collect.sh",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/fleet-worker/SKILL.md",
+        "line": 159,
+        "excerpt": "cd <target-worktree>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/fleet-worker/SKILL.md",
+        "line": 178,
+        "excerpt": "main=$(dirname \"$(git rev-parse --path-format=absolute --git-common-dir)\")",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/fleet-worker/SKILL.md",
+        "line": 209,
+        "excerpt": "fleet track fleet/task-a fleet/task-b fleet/task-c   # register as lanes",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/fleet-worker/SKILL.md",
+        "line": 221,
+        "excerpt": "constrain further with `--disallowedTools` (e.g. block `WebFetch`) or `--add-dir`.",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/fleet-worker/references/fleet-worker-spec.md",
+        "line": 57,
+        "excerpt": "ORCHESTRATOR — Claude Code on Opus (real api.anthropic.com)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/fleet-worker/scripts/fleet-doctor.sh",
+        "line": 244,
+        "excerpt": "code=\"$(curl -sS -o /dev/null -m 25 -w '%{http_code}' -X POST \"${url%/}/v1/messages\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/AUTO-MODE-CLASSIFIER.md",
+        "line": 145,
+        "excerpt": "Built-ins include force-push, `curl | bash`, production deploys. [DOC]",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/AUTO-MODE-CLASSIFIER.md",
+        "line": 171,
+        "excerpt": "**Blocked by default:** downloading and executing code (`curl | bash`); sending sensitive",
+        "disclosed": false,
+        "automatic": false
+      },
       {
         "ruleId": "reads-secrets",
         "file": "tests/hooks.sh",
         "line": 65,
         "excerpt": "'printenv' 'env' 'ls && env' 'cat .env' 'cat config/.env.local'; do",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false
       },
       {
@@ -29,7 +127,7 @@
         "file": "tests/hooks.sh",
         "line": 70,
         "excerpt": "'psql -c \"UPDATE users SET a=1 WHERE id=2\"' 'cat .env.example' 'cat README.md'; do",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false
       },
       {
@@ -89,7 +187,7 @@
         "file": "hooks/README.md",
         "line": 183,
         "excerpt": "(`bash -c \"WORKTREE_ROOT=<root> exec bash <your-home>/.claude/hooks/worktree-create.sh\"`),",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -97,7 +195,7 @@
         "file": "hooks/README.md",
         "line": 257,
         "excerpt": "\"os.system(\"",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -105,7 +203,7 @@
         "file": "hooks/README.md",
         "line": 258,
         "excerpt": "\"subprocess.call.*shell=True\"",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -121,7 +219,7 @@
         "file": "hooks/README.md",
         "line": 427,
         "excerpt": "| `os.system(`, `subprocess.call.*shell=True` | Command injection |",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -145,7 +243,7 @@
         "file": "hooks/hooks.json",
         "line": 9,
         "excerpt": "\"command\": \"bash \\\"${CLAUDE_PLUGIN_ROOT}/hooks/pre-write-peer-guard.sh\\\"\",",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -153,7 +251,7 @@
         "file": "hooks/hooks.json",
         "line": 19,
         "excerpt": "\"command\": \"bash \\\"${CLAUDE_PLUGIN_ROOT}/hooks/pre-install-scan.sh\\\"\",",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -161,7 +259,7 @@
         "file": "hooks/hooks.json",
         "line": 24,
         "excerpt": "\"command\": \"bash \\\"${CLAUDE_PLUGIN_ROOT}/hooks/worktree-guard.sh\\\"\",",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -169,7 +267,7 @@
         "file": "hooks/hooks.json",
         "line": 36,
         "excerpt": "\"command\": \"bash \\\"${CLAUDE_PLUGIN_ROOT}/hooks/manifest-dep-scan.sh\\\"\",",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -177,7 +275,7 @@
         "file": "hooks/hooks.json",
         "line": 41,
         "excerpt": "\"command\": \"bash \\\"${CLAUDE_PLUGIN_ROOT}/hooks/session-touched-ledger.sh\\\"\",",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -185,7 +283,7 @@
         "file": "hooks/hooks.json",
         "line": 52,
         "excerpt": "\"command\": \"bash \\\"${CLAUDE_PLUGIN_ROOT}/hooks/session-start-unicode-scan.sh\\\"\",",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -193,7 +291,7 @@
         "file": "hooks/hooks.json",
         "line": 63,
         "excerpt": "\"command\": \"bash \\\"${CLAUDE_PLUGIN_ROOT}/hooks/config-change-guard.sh\\\"\",",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -246,17 +344,18 @@
       }
     ],
     "findingTotals": {
-      "reads-secrets": 2,
-      "network": 2,
-      "downloads-code": 12,
-      "writes-outside": 1,
-      "shell": 11
+      "shell": 16,
+      "writes-outside": 3,
+      "network": 4,
+      "paid-api": 1,
+      "downloads-code": 14,
+      "reads-secrets": 2
     },
-    "score": 45,
-    "band": "high",
+    "score": 52,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 22,
-    "filesSkipped": 10
+    "filesScanned": 33,
+    "filesSkipped": 0
   },
   "history": [
     {

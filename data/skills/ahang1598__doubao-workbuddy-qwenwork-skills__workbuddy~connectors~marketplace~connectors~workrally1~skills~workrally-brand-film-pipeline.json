@@ -4,24 +4,156 @@
   "repo": "doubao-workbuddy-qwenwork-skills",
   "path": "workbuddy/connectors/marketplace/connectors/workrally1/skills/workrally-brand-film-pipeline",
   "name": "workrally-brand-film-pipeline",
-  "description": "",
-  "stars": 94,
+  "description": "通过 WorkRally MCP 端到端制作广告、品牌片、产品片、漫剧、短剧、短片、电影与剧集；输入可以是剧本、故事概要或故事简介，题材与画风覆盖国风、仙侠、写实、2D、3D。广告自动路由agency-ad-preproduction使用用户广告包做前期创意、文案、Designer设计方案与文字分镜，设计岗位不接管原资产链路；剧集可选short-drama-script-authoring生成剧本，已有剧本不自动重写。文字分镜Markdown先保存展示，资产生成前按剧本从 asset-style-selector 的四个风格分支做匹配分析并由用户四选一确认风格，按已确认SC事实建立layout空间计划与组内状态，再按原A0资产模型、G1视频模型、G2原生分辨率确认，生成CHAR（含crowd群像）/PROP/纯环境SC与视频；layout只供空间文字，不参与最终风格；声音模式默认由视频直接生成原生音效与逐字原台词、配乐仍后期，用户明确要求时才切换为无声画面＋全部声音后期，两种模式都必须先通过校验。再剪辑包装，交付MP4、最终分镜及按阶段整理的全素材/完整提示词无限画布。保留单条≤30秒一次请求count=1规则，不因文字镜头数增任务。",
+  "stars": 96,
   "category": "design",
   "commit": "5e45653f59a2e4a2a65f575e8aaf7637165674d5",
   "contentHash": "453658be9a9a47c3e176bf59afc7177ee8480c003d536a2ddce8b48caeea80ff",
   "repoCreatedAt": "2026-07-07T07:33:58Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "workbuddy/connectors/marketplace/connectors/workrally1/skills/workrally-brand-film-pipeline/SKILL.md",
+        "line": 563,
+        "excerpt": "ffmpeg -y -i clips/S01.mp4 -vf \"select='eq(n\\,30)+eq(n\\,160)',scale=420:-1\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "workbuddy/connectors/marketplace/connectors/workrally1/skills/workrally-brand-film-pipeline/SKILL.md",
+        "line": 573,
+        "excerpt": "1. **工具链**：本机 Python 3.13 上 `mlx-whisper` **装不上**（依赖 `torch` + `numba`，后者在 3.13 无预编译 wheel 需源码编译，实测 8 分钟无进展）。改用 `faster-whisper`（`pip install -i https://pypi.tu",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "workbuddy/connectors/marketplace/connectors/workrally1/skills/workrally-brand-film-pipeline/SKILL.md",
+        "line": 583,
+        "excerpt": "ffmpeg -hide_banner -loglevel error -ss 25.05 -to 28.55 -i videos_v3/SEG-08.mp4 \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "workbuddy/connectors/marketplace/connectors/workrally1/skills/workrally-brand-film-pipeline/SKILL.md",
+        "line": 589,
+        "excerpt": "**模型档位的选择（2026-09-18 实测补充）**：`small` 档足够承担「台词是否到位」的比对——19 条台词的检查在本机 CPU `int8` 上单段 4–5 秒（模型首次下载约 460 MB），无需每次拉 `large-v3` 的 2.9 GB。`small` 的输出会带更多同音误识（知/志、她/他、读",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "workbuddy/connectors/marketplace/connectors/workrally1/skills/workrally-brand-film-pipeline/SKILL.md",
+        "line": 612,
+        "excerpt": "ffmpeg -y -f concat -safe 0 -i list.txt -map 0:v:0 -an -c:v copy out/film_picture_only.mp4",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "workbuddy/connectors/marketplace/connectors/workrally1/skills/workrally-brand-film-pipeline/SKILL.md",
+        "line": 621,
+        "excerpt": "ffprobe -v error -select_streams v:0 -show_entries stream=duration -of csv=p=0 clip.mp4",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "workbuddy/connectors/marketplace/connectors/workrally1/skills/workrally-brand-film-pipeline/SKILL.md",
+        "line": 631,
+        "excerpt": "ffmpeg -y -i clipA.mp4 -i clipB.mp4 -filter_complex \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "workbuddy/connectors/marketplace/connectors/workrally1/skills/workrally-brand-film-pipeline/SKILL.md",
+        "line": 642,
+        "excerpt": "ffmpeg -y -i out/film_picture_only.mp4 -i audio/post_mix_master.wav \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "workbuddy/connectors/marketplace/connectors/workrally1/skills/workrally-brand-film-pipeline/SKILL.md",
+        "line": 669,
+        "excerpt": "- Pillow 装在隔离环境：`~/.workbuddy/binaries/python/envs/default/bin/pip install Pillow`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "workbuddy/connectors/marketplace/connectors/workrally1/skills/workrally-brand-film-pipeline/SKILL.md",
+        "line": 681,
+        "excerpt": "ffmpeg -y -i clipA.mp4 -i clipB.mp4 \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "workbuddy/connectors/marketplace/connectors/workrally1/skills/workrally-brand-film-pipeline/SKILL.md",
+        "line": 787,
+        "excerpt": "ffmpeg -hide_banner -nostats -ss <秒> -t 8 -i bgm.mp3 -af volumedetect -f null - 2>&1 | grep -E \"mean|max\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "workbuddy/connectors/marketplace/connectors/workrally1/skills/workrally-brand-film-pipeline/SKILL.md",
+        "line": 795,
+        "excerpt": "for seg in $(seq 0 10 130); do",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "workbuddy/connectors/marketplace/connectors/workrally1/skills/workrally-brand-film-pipeline/SKILL.md",
+        "line": 813,
+        "excerpt": "ffmpeg -y -i out/film_post_master.mp4 -map 0:v:0 -map 0:a:0 \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "workbuddy/connectors/marketplace/connectors/workrally1/skills/workrally-brand-film-pipeline/SKILL.md",
+        "line": 940,
+        "excerpt": "ffmpeg -y -i mix_premaster.wav -af \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "workbuddy/connectors/marketplace/connectors/workrally1/skills/workrally-brand-film-pipeline/SKILL.md",
+        "line": 976,
+        "excerpt": "ffmpeg -hide_banner -nostats -i in.mp4 -af ebur128=peak=true -f null - 2>&1 | \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "workbuddy/connectors/marketplace/connectors/workrally1/skills/workrally-brand-film-pipeline/SKILL.md",
+        "line": 1004,
+        "excerpt": "ffmpeg -i master.mp4 \\",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 13,
+      "downloads-code": 3
+    },
+    "score": 82,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 1
+    "filesScanned": 1,
+    "filesSkipped": 0
   },
   "history": [
     {

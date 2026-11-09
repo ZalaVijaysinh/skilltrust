@@ -4,8 +4,8 @@
   "repo": "ai-driven-development",
   "path": "skills/maintaining-windows-health",
   "name": "maintaining-windows-health",
-  "description": "Hands-on playbook for Windows 11 disk cleanup, dev-machine optimization, and proactive health alerting. Use when the PC is full or slow, when a BSOD / Kernel-Power 41 / crash dump / commit-memory pressure happened, when the user asks to free disk space, audit storage, set up disk/memory alerts, or restore the same monitoring on a new PC. Built around native Microsoft-supported tooling (Storage Sense, cleanmgr, DISM, pnputil, vssadmin, wevtutil, powercfg) as the safety floor, a drift-protected HTML cleanup UI, and a Task Scheduler + BurntToast alerter. Covers dev machines with heavy AI/Docker/WSL workloads. Not for general Windows support, hardware diagnostics, GPU/driver troubleshooting, antivirus/malware removal, Windows Update repair, networking, or app-specific performance problems unrelated to disk or memory pressure.",
-  "stars": 168,
+  "description": "",
+  "stars": 169,
   "category": "coding",
   "commit": "cd40a5e7a5170de8e6bd15e6d335914dc0ffade2",
   "contentHash": "427ee8be9c89e39807c966008520661c3511cb34f9d01ec75b5eb1570b59fa00",
@@ -13,7 +13,7 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
     "findings": [
       {
@@ -73,6 +73,35 @@
         "excerpt": "os.system(f\"open '{url}'\")",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/maintaining-windows-health/assets/win-health-check.ps1",
+        "line": 160,
+        "excerpt": "Invoke-RestMethod -Method Post -Uri $NtfyUrl -Body $Message -TimeoutSec 5 `",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/maintaining-windows-health/references/alerting.md",
+        "line": 52,
+        "excerpt": "| **ntfy.sh as the headless escape hatch** | More important than on macOS: when there is **no interactive session** (locked machine, server SKU, SYSTEM task), t",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/maintaining-windows-health/references/alerting.md",
+        "line": 144,
+        "excerpt": "Invoke-RestMethod -Method Post -Uri 'https://ntfy.sh/<topic>' -Body 'test' -Headers @{ Title='Test'; Priority='high' }",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "ntfy.sh"
+        ]
       },
       {
         "ruleId": "shell",
@@ -478,37 +507,6 @@
         ]
       },
       {
-        "ruleId": "network",
-        "file": "hooks/balanced-safety-hooks/src/testdata/fixtures/curl_googleapis_get_allow.json",
-        "line": 7,
-        "excerpt": "\"command\": \"curl https://compute.googleapis.com/compute/v1/projects/p/zones/z/disks\"",
-        "disclosed": false,
-        "automatic": true,
-        "hosts": [
-          "compute.googleapis.com"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": "hooks/balanced-safety-hooks/src/testdata/fixtures/curl_post_elasticsearch.json",
-        "line": 3,
-        "excerpt": "\"description\": \"curl -X POST on elasticsearch\",",
-        "disclosed": false,
-        "automatic": true,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "hooks/balanced-safety-hooks/src/testdata/fixtures/curl_post_elasticsearch.json",
-        "line": 7,
-        "excerpt": "\"command\": \"curl -X POST https://es.local:9200/_search -d 'q'\"",
-        "disclosed": false,
-        "automatic": true,
-        "hosts": [
-          "es.local"
-        ]
-      },
-      {
         "ruleId": "downloads-code",
         "file": "hooks/balanced-safety-hooks/src/testdata/fixtures/docker_ps_allow.json",
         "line": 7,
@@ -632,15 +630,15 @@
     "findingTotals": {
       "reads-secrets": 1,
       "shell": 190,
-      "network": 22,
+      "network": 25,
       "writes-outside": 17,
       "downloads-code": 13
     },
     "score": 45,
     "band": "high",
     "rulesVersion": "1.3.0",
-    "filesScanned": 210,
-    "filesSkipped": 9
+    "filesScanned": 212,
+    "filesSkipped": 7
   },
   "history": [
     {

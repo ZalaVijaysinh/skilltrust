@@ -5,15 +5,15 @@
   "path": "skills/motion-graphics",
   "name": "motion-graphics",
   "description": "Creates showreel-grade motion graphics videos entirely from code — HTML scenes rendered frame by frame in headless Chrome with real motion blur, plus an original score composed for each video on the same beat grid. It directs the film itself from whatever the person gives — their words, a site, a GitHub repository, an app, screenshots, their own video clips and photos, or reference clips — and sets the pace and the energy of the music from them. Use for any promo, ad, launch video, explainer, reel, Shorts or TikTok, intro, kinetic type or logo animation for a business, product, app, site, bot, channel or person, even when all you have is a link or a name.",
-  "stars": 78,
+  "stars": 77,
   "category": "media",
   "commit": "7f0c3714dc81bea52644a5287c6350345009e579",
   "contentHash": "12261071e2bae1b159aed153ec1dc42d1e987ddf00db6b430f61253d52274a25",
   "repoCreatedAt": "2026-09-28T15:31:02Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
     "findings": [
       {
@@ -89,76 +89,155 @@
         "automatic": false
       },
       {
-        "ruleId": "shell",
-        "file": "skills/motion-graphics/assets/template/tools/pops.mjs",
-        "line": 7,
-        "excerpt": "import { spawnSync } from 'node:child_process';",
+        "ruleId": "network",
+        "file": "skills/motion-graphics/assets/template/js/screen.js",
+        "line": 103,
+        "excerpt": "vec3 fetch(vec2 p, vec2 dir) {",
         "disclosed": true,
-        "automatic": false
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/motion-graphics/assets/template/js/screen.js",
+        "line": 143,
+        "excerpt": "vec3 c = fetch(p, dir);",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/motion-graphics/assets/template/js/screen.js",
+        "line": 290,
+        "excerpt": "const res = await fetch(url);",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
       },
       {
         "ruleId": "shell",
-        "file": "skills/motion-graphics/assets/template/tools/pops.mjs",
-        "line": 14,
-        "excerpt": "const p = spawnSync('ffprobe', ['-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=width,height', '-of', 'csv=p=0', file], { encoding: 'utf8' });",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/motion-graphics/assets/template/tools/pops.mjs",
-        "line": 18,
-        "excerpt": "const r = spawnSync('ffmpeg', ['-v', 'error', '-i', file, '-vf', `scale=${w}:${h}:flags=area,format=gray`, '-f', 'rawvideo', 'pipe:1'], { maxBuffer: 1 << 30 });",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/motion-graphics/assets/template/tools/pops.mjs",
-        "line": 55,
-        "excerpt": "const fps = Number((spawnSync('ffprobe', ['-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=r_frame_rate', '-of', 'csv=p=0', file], { encoding: ",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/motion-graphics/assets/template/tools/sound-print.mjs",
-        "line": 18,
-        "excerpt": "import { spawnSync } from 'node:child_process';",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/motion-graphics/assets/template/tools/sound-print.mjs",
-        "line": 72,
-        "excerpt": "const pcm = spawnSync('ffmpeg', ['-v', 'error', '-i', file, '-vn', '-ac', '1', '-ar', String(SR), '-f', 'f32le', '-'], { maxBuffer: 1 << 30 }).stdout;",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/motion-graphics/scripts/lib/browser.mjs",
+        "file": "skills/motion-graphics/assets/template/tools/aac.mjs",
         "line": 8,
+        "excerpt": "import { spawn } from 'node:child_process';",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/motion-graphics/assets/template/tools/audio-check.mjs",
+        "line": 12,
+        "excerpt": "import { spawnSync } from 'node:child_process';",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/motion-graphics/assets/template/tools/audio-check.mjs",
+        "line": 33,
+        "excerpt": "const lr = spawnSync('ffmpeg', ['-hide_banner', '-nostats', '-i', file, '-af', 'ebur128=peak=true:framelog=info', '-f', 'null', '-'], { encoding: 'utf8', maxBuf",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/motion-graphics/assets/template/tools/audio-check.mjs",
+        "line": 44,
+        "excerpt": "const pcm = spawnSync('ffmpeg', ['-v', 'error', '-i', file, '-f', 'f32le', '-ac', '2', '-ar', '48000', '-'], { maxBuffer: 1 << 30 }).stdout;",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/motion-graphics/assets/template/tools/audio-check.mjs",
+        "line": 138,
+        "excerpt": "const pr = spawnSync('ffmpeg', ['-v', 'error', '-y', '-i', file, '-filter_complex', graph, '-map', '[o]', '-frames:v', '1', pic], { encoding: 'utf8' });",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/motion-graphics/assets/template/tools/capture.mjs",
+        "line": 24,
         "excerpt": "import { spawn, spawnSync } from 'node:child_process';",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "skills/motion-graphics/scripts/lib/browser.mjs",
-        "line": 26,
+        "file": "skills/motion-graphics/assets/template/tools/capture.mjs",
+        "line": 82,
         "excerpt": "const r = spawnSync('which', [n], { encoding: 'utf8' });",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "skills/motion-graphics/scripts/lib/net.mjs",
+        "file": "skills/motion-graphics/assets/template/tools/capture.mjs",
+        "line": 95,
+        "excerpt": "const r = spawnSync(tool, ['-hide_banner', '-version'], { encoding: 'utf8' });",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/motion-graphics/assets/template/tools/capture.mjs",
+        "line": 166,
+        "excerpt": "const ws = new WebSocket(wsUrl);",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/motion-graphics/assets/template/tools/capture.mjs",
+        "line": 201,
+        "excerpt": "const ver = await (await fetch(`${base}/json/version`)).json();",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/motion-graphics/assets/template/tools/capture.mjs",
+        "line": 203,
+        "excerpt": "const tab = await (await fetch(`${base}/json/new?about:blank`, { method: 'PUT' })).json();",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/motion-graphics/assets/template/tools/cutdown.mjs",
         "line": 10,
+        "excerpt": "import { spawn } from 'node:child_process';",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/motion-graphics/assets/template/tools/footage.mjs",
+        "line": 14,
         "excerpt": "import { spawnSync } from 'node:child_process';",
         "disclosed": true,
         "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/motion-graphics/assets/template/tools/footage.mjs",
+        "line": 40,
+        "excerpt": "const r = spawnSync('ffprobe', ['-v', 'error', '-show_streams', '-show_format', '-of', 'json', file], { encoding: 'utf8' });",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/motion-graphics/references/footage.md",
+        "line": 236,
+        "excerpt": "const subs = await (await fetch('assets/footage/talk.srt')).text();",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
       },
       {
         "ruleId": "network",
@@ -177,33 +256,17 @@
         "disclosed": true,
         "automatic": false,
         "hosts": []
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/motion-graphics/scripts/lib/net.mjs",
-        "line": 248,
-        "excerpt": "const r = spawnSync('yt-dlp', ['--version'], { encoding: 'utf8' });",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/motion-graphics/scripts/lib/net.mjs",
-        "line": 254,
-        "excerpt": "const r = spawnSync('yt-dlp', ['--no-playlist', '--no-progress', '--no-warnings', '--encoding', 'utf-8', '--max-filesize', `${maxMb}M`,",
-        "disclosed": true,
-        "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 22,
-      "network": 2
+      "shell": 57,
+      "network": 9
     },
     "score": 94,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 33,
-    "filesSkipped": 39
+    "filesScanned": 67,
+    "filesSkipped": 5
   },
   "history": [
     {

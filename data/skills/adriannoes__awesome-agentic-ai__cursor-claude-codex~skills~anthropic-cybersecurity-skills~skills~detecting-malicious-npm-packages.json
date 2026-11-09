@@ -4,7 +4,7 @@
   "repo": "awesome-agentic-ai",
   "path": "cursor-claude-codex/skills/anthropic-cybersecurity-skills/skills/detecting-malicious-npm-packages",
   "name": "detecting-malicious-npm-packages",
-  "description": "",
+  "description": "Triage npm packages for install-script malware, exfiltration, and worming behavior.",
   "stars": 96,
   "category": "coding",
   "commit": "e797ed58cfe6dd6453fe7632f89d7226d203f6f6",
@@ -12,16 +12,208 @@
   "repoCreatedAt": "2025-10-12T15:16:26Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "downloads-code",
+        "file": "cursor-claude-codex/skills/anthropic-cybersecurity-skills/skills/detecting-malicious-npm-packages/SKILL.md",
+        "line": 48,
+        "excerpt": "pip install guarddog",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "cursor-claude-codex/skills/anthropic-cybersecurity-skills/skills/detecting-malicious-npm-packages/SKILL.md",
+        "line": 48,
+        "excerpt": "pip install guarddog",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "cursor-claude-codex/skills/anthropic-cybersecurity-skills/skills/detecting-malicious-npm-packages/SKILL.md",
+        "line": 56,
+        "excerpt": "go install github.com/google/osv-scanner/cmd/osv-scanner@v1",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "cursor-claude-codex/skills/anthropic-cybersecurity-skills/skills/detecting-malicious-npm-packages/SKILL.md",
+        "line": 56,
+        "excerpt": "go install github.com/google/osv-scanner/cmd/osv-scanner@v1",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "cursor-claude-codex/skills/anthropic-cybersecurity-skills/skills/detecting-malicious-npm-packages/SKILL.md",
+        "line": 84,
+        "excerpt": "mkdir triage && cd triage",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "cursor-claude-codex/skills/anthropic-cybersecurity-skills/skills/detecting-malicious-npm-packages/SKILL.md",
+        "line": 89,
+        "excerpt": "curl -sL \"$(npm view some-pkg@1.2.3 dist.tarball)\" -o some-pkg.tgz",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "cursor-claude-codex/skills/anthropic-cybersecurity-skills/skills/detecting-malicious-npm-packages/SKILL.md",
+        "line": 97,
+        "excerpt": "guarddog npm scan express",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "cursor-claude-codex/skills/anthropic-cybersecurity-skills/skills/detecting-malicious-npm-packages/SKILL.md",
+        "line": 110,
+        "excerpt": "guarddog npm verify /path/to/repo/package.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "cursor-claude-codex/skills/anthropic-cybersecurity-skills/skills/detecting-malicious-npm-packages/SKILL.md",
+        "line": 116,
+        "excerpt": "guarddog npm scan some-pkg \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "cursor-claude-codex/skills/anthropic-cybersecurity-skills/skills/detecting-malicious-npm-packages/SKILL.md",
+        "line": 129,
+        "excerpt": "guarddog npm scan some-pkg --output-format=json   > guarddog.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "cursor-claude-codex/skills/anthropic-cybersecurity-skills/skills/detecting-malicious-npm-packages/SKILL.md",
+        "line": 137,
+        "excerpt": "jq '.scripts' package/package.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "cursor-claude-codex/skills/anthropic-cybersecurity-skills/skills/detecting-malicious-npm-packages/SKILL.md",
+        "line": 140,
+        "excerpt": "grep -rEn \"child_process|exec\\(|spawn|eval\\(|Buffer\\.from\\(.*base64|process\\.env|https?://\" package/ \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "cursor-claude-codex/skills/anthropic-cybersecurity-skills/skills/detecting-malicious-npm-packages/SKILL.md",
+        "line": 148,
+        "excerpt": "jq -r '.packages | to_entries[] | select(.key|startswith(\"node_modules/\")) | \"\\(.key|ltrimstr(\"node_modules/\"))@\\(.value.version)\"' package-lock.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "cursor-claude-codex/skills/anthropic-cybersecurity-skills/skills/detecting-malicious-npm-packages/SKILL.md",
+        "line": 158,
+        "excerpt": "npm install ./some-pkg.tgz            # scripts WILL run — sandbox only",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "cursor-claude-codex/skills/anthropic-cybersecurity-skills/skills/detecting-malicious-npm-packages/SKILL.md",
+        "line": 166,
+        "excerpt": "grep -rhoE \"https?://[a-zA-Z0-9./?=_%:-]+\" package/ | sort -u > urls.txt",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "cursor-claude-codex/skills/anthropic-cybersecurity-skills/skills/detecting-malicious-npm-packages/SKILL.md",
+        "line": 173,
+        "excerpt": "python scripts/agent.py --package some-pkg --version 1.2.3 --output verdict.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "cursor-claude-codex/skills/anthropic-cybersecurity-skills/skills/detecting-malicious-npm-packages/references/api-reference.md",
+        "line": 5,
+        "excerpt": "Install: `pip install guarddog`  |  Docker: `ghcr.io/datadog/guarddog`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "cursor-claude-codex/skills/anthropic-cybersecurity-skills/skills/detecting-malicious-npm-packages/scripts/agent.py",
+        "line": 20,
+        "excerpt": "import urllib.request",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "cursor-claude-codex/skills/anthropic-cybersecurity-skills/skills/detecting-malicious-npm-packages/scripts/agent.py",
+        "line": 25,
+        "excerpt": "r\"child_process|\\bexec\\s*\\(|\\bspawn\\b|\\beval\\s*\\(|Buffer\\.from\\([^)]*base64|process\\.env\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "cursor-claude-codex/skills/anthropic-cybersecurity-skills/skills/detecting-malicious-npm-packages/scripts/agent.py",
+        "line": 41,
+        "excerpt": "p = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "cursor-claude-codex/skills/anthropic-cybersecurity-skills/skills/detecting-malicious-npm-packages/scripts/agent.py",
+        "line": 45,
+        "excerpt": "except subprocess.SubprocessError as exc:",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "cursor-claude-codex/skills/anthropic-cybersecurity-skills/skills/detecting-malicious-npm-packages/scripts/agent.py",
+        "line": 51,
+        "excerpt": "return {\"error\": \"guarddog not installed (pip install guarddog)\"}",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "cursor-claude-codex/skills/anthropic-cybersecurity-skills/skills/detecting-malicious-npm-packages/scripts/agent.py",
+        "line": 73,
+        "excerpt": "urllib.request.urlretrieve(url, tgz)  # noqa: S310 - registry URL from npm",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "downloads-code": 4,
+      "shell": 16,
+      "network": 3
+    },
+    "score": 77,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 5
+    "filesScanned": 5,
+    "filesSkipped": 0
   },
   "history": [
     {

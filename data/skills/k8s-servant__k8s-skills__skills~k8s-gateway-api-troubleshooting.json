@@ -4,30 +4,111 @@
   "repo": "k8s-skills",
   "path": "skills/k8s-gateway-api-troubleshooting",
   "name": "k8s-gateway-api-troubleshooting",
-  "description": "",
-  "stars": 35,
+  "description": "Use when Gateway API objects in Kubernetes do not route, whatever the implementation: a GatewayClass stuck \"Waiting for controller\" or not Accepted, a Gateway with no address or PROGRAMMED Unknown or False (\"ListenersNotValid\", \"AddressNotAssigned\"), a listener that is not Programmed (\"InvalidCertificateRef\", \"ProtocolConflict\", \"InvalidRouteKinds\", \"RefNotPermitted\"), an HTTPRoute, GRPCRoute or TLSRoute that is not Accepted (\"NoMatchingParent\", \"NotAllowedByListeners\", \"NoMatchingListenerHostname\") or has no status at all, ResolvedRefs False (\"BackendNotFound\", \"RefNotPermitted\" without a ReferenceGrant), ListenerSets, BackendTLSPolicy, and Gateway API CRD versions or channels that do not match. Investigates with kubectl get and describe, and proposes fixes. Reads first and asks before changing anything.",
+  "stars": 36,
   "category": "devops",
-  "commit": "bfaba9c6fd833eaffc6772f2876c30d5777fddf9",
-  "contentHash": "b8fb35ec78568e1683c5cd37a8dcfb30b7a92afce3fa5c20d87c782bd6b5e1a4",
+  "commit": "de23b57dd3888628abc62c20d2ed322751fc7d12",
+  "contentHash": "11956ee22da30d91d39350e4098ac64fb2b28f9b478bcaf666675eef29cc36ec",
   "repoCreatedAt": "2026-10-23T12:54:21Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-gateway-api-troubleshooting/SKILL.md",
+        "line": 88,
+        "excerpt": "kubectl get gatewayclasses",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-gateway-api-troubleshooting/SKILL.md",
+        "line": 99,
+        "excerpt": "kubectl get gatewayclass my-class -o jsonpath='{.spec.controllerName}{\"\\n\"}{range .status.conditions[*]}{.type}={.status} {.reason}: {.message}{\"\\n\"}{end}'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-gateway-api-troubleshooting/SKILL.md",
+        "line": 107,
+        "excerpt": "kubectl get gateway my-gateway -n my-namespace -o jsonpath='{range .status.conditions[*]}{.type}={.status} {.reason}: {.message}{\"\\n\"}{end}{range .status.listen",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-gateway-api-troubleshooting/SKILL.md",
+        "line": 116,
+        "excerpt": "kubectl get httproute my-app -n my-namespace -o jsonpath='{range .status.parents[*]}{.parentRef}{\"\\n\"}{range .conditions[*]}{\"  \"}{.type}={.status} {.reason}: {",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-gateway-api-troubleshooting/SKILL.md",
+        "line": 124,
+        "excerpt": "kubectl get services -n my-namespace",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-gateway-api-troubleshooting/SKILL.md",
+        "line": 133,
+        "excerpt": "kubectl api-resources --api-group=gateway.networking.k8s.io",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-gateway-api-troubleshooting/SKILL.md",
+        "line": 212,
+        "excerpt": "kubectl patch httproute my-app -n my-namespace --type=json -p '[{\"op\": \"replace\", \"path\": \"/spec/parentRefs/0/sectionName\", \"value\": \"http\"}]'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-gateway-api-troubleshooting/SKILL.md",
+        "line": 225,
+        "excerpt": "kubectl patch gateway my-gateway -n my-namespace --type=json -p '[{\"op\": \"replace\", \"path\": \"/spec/listeners/0/allowedRoutes\", \"value\": {\"namespaces\": {\"from\": ",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-gateway-api-troubleshooting/SKILL.md",
+        "line": 235,
+        "excerpt": "kubectl patch gateway my-gateway -n my-namespace --type=merge -p '{\"spec\": {\"gatewayClassName\": \"my-working-class\"}}'",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 9
+    },
+    "score": 95,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 4
+    "filesScanned": 4,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "bfaba9c6fd833eaffc6772f2876c30d5777fddf9",
       "scannedAt": "2026-11-07T22:05:48.475Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "de23b57dd3888628abc62c20d2ed322751fc7d12",
+      "scannedAt": "2026-11-09T10:28:36.295Z",
+      "score": 95,
       "rulesVersion": "1.3.0"
     }
   ]

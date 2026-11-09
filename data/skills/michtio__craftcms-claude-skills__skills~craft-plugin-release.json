@@ -4,7 +4,7 @@
   "repo": "craftcms-claude-skills",
   "path": "skills/craft-plugin-release",
   "name": "craft-plugin-release",
-  "description": "",
+  "description": "Releasing Craft CMS plugins — tagging, Packagist propagation, GitHub releases, branch promotion, shared-library ordering, history rewrites. ALWAYS load when cutting, preparing, verifying, or debugging a plugin release: bumping a version, dating a changelog, creating or moving a git tag, or checking what Packagist serves.",
   "stars": 88,
   "category": "coding",
   "commit": "c5a32d048fb364bd59f13bede60972c71fc19ffc",
@@ -12,10 +12,69 @@
   "repoCreatedAt": "2026-04-07T22:45:19Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/craft-plugin-release/SKILL.md",
+        "line": 33,
+        "excerpt": "git show 1.7.4:composer.json | grep '\"version\"'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/craft-plugin-release/SKILL.md",
+        "line": 52,
+        "excerpt": "curl -s https://repo.packagist.org/p2/acme/craft-thing.json | jq -r '.packages[\"acme/craft-thing\"][].version'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "repo.packagist.org"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/craft-plugin-release/SKILL.md",
+        "line": 52,
+        "excerpt": "curl -s https://repo.packagist.org/p2/acme/craft-thing.json | jq -r '.packages[\"acme/craft-thing\"][].version'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/craft-plugin-release/SKILL.md",
+        "line": 69,
+        "excerpt": "git ls-remote --tags origin | tail -5",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/craft-plugin-release/SKILL.md",
+        "line": 84,
+        "excerpt": "gh release view <tag> --json body -q '.body' | wc -c   # near-zero means blank",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/craft-plugin-release/SKILL.md",
+        "line": 90,
+        "excerpt": "perl -0777 -ne 'print $1 if /^## 1\\.7\\.4 - [0-9-]+\\n(.*?)(?=^## |\\z)/ms' CHANGELOG.md > /tmp/notes.md",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/craft-plugin-release/SKILL.md",
+        "line": 108,
+        "excerpt": "git fetch --prune origin",
+        "disclosed": true,
+        "automatic": false
+      },
       {
         "ruleId": "network",
         "file": "agents/craft-planner.md",
@@ -36,13 +95,14 @@
       }
     ],
     "findingTotals": {
-      "network": 2
+      "shell": 6,
+      "network": 3
     },
-    "score": 95,
+    "score": 92,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 8,
-    "filesSkipped": 2
+    "filesScanned": 10,
+    "filesSkipped": 0
   },
   "history": [
     {

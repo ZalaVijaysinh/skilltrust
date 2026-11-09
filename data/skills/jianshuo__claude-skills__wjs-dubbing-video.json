@@ -4,30 +4,156 @@
   "repo": "claude-skills",
   "path": "wjs-dubbing-video",
   "name": "wjs-dubbing-video",
-  "description": "",
+  "description": "Use when the user has a video + a target-language SRT and wants the video to actually speak that language — generates a time-aligned TTS voice dub. Routes by voice ID — Volcano (豆包) TTS for Chinese, edge-tts neural for any language. Defaults to one voice (single-speaker); opt-in multi-speaker via visual diarization. Outputs `*_<lang>_dub.mp4` with the dub audio in place of the original. Final mixing (audio bed + burn-in) is handed off to `/wjs-burning-subtitles`. Triggers — \"配音\", \"中文配音\", \"Chinese dub\", \"voice over this\", \"dub the video\", \"TTS this SRT\", \"different voice for each speaker\".",
   "stars": 139,
   "category": "media",
-  "commit": "6538e2ecce932456e58539c0413c7174ca9e9c7a",
+  "commit": "81dfa2e7e4d99c03c3f4f6b30c29cab77dff7114",
   "contentHash": "26bdcb488d0ee1084b5e20bca79a61fb2b72effe472ac4e5b8436974d61b7f01",
   "repoCreatedAt": "2026-05-11T10:55:36Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "wjs-dubbing-video/SKILL.md",
+        "line": 57,
+        "excerpt": "set -a; source ~/code/.env; set +a",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "wjs-dubbing-video/SKILL.md",
+        "line": 76,
+        "excerpt": "r = requests.post(url, headers=h, json=payload, timeout=60, stream=True)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "wjs-dubbing-video/SKILL.md",
+        "line": 119,
+        "excerpt": "Free, no API key, high-quality but less expressive than Volcano. Install into a project venv — **do not** call it via `uvx` once per segment. Each `uvx` invocat",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "wjs-dubbing-video/SKILL.md",
+        "line": 122,
+        "excerpt": "uv venv .venv",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "wjs-dubbing-video/SKILL.md",
+        "line": 123,
+        "excerpt": "uv pip install --python .venv/bin/python edge-tts",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "wjs-dubbing-video/SKILL.md",
+        "line": 191,
+        "excerpt": ".venv/bin/python ~/.claude/skills/wjs-dubbing-video/scripts/dub.py [voice] [rate] [pitch]",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "wjs-dubbing-video/SKILL.md",
+        "line": 240,
+        "excerpt": "uv pip install --python .venv/bin/python mediapipe opencv-python",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "wjs-dubbing-video/SKILL.md",
+        "line": 240,
+        "excerpt": "uv pip install --python .venv/bin/python mediapipe opencv-python",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "wjs-dubbing-video/SKILL.md",
+        "line": 285,
+        "excerpt": ".venv/bin/python ~/.claude/skills/wjs-dubbing-video/scripts/dub.py \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "wjs-dubbing-video/SKILL.md",
+        "line": 320,
+        "excerpt": "- ❌ **Calling `uvx edge-tts` once per cue.** Spawns a Python process each time; bing endpoint rate-limits or RSTs mid-render. Use the persistent library path in",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "wjs-dubbing-video/scripts/dub.py",
+        "line": 113,
+        "excerpt": "r = subprocess.run([\"ffprobe\",\"-v\",\"error\",\"-show_entries\",\"format=duration\",",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "wjs-dubbing-video/scripts/dub.py",
+        "line": 333,
+        "excerpt": "r = subprocess.run(cmd, capture_output=True, text=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "wjs-dubbing-video/scripts/visual_diarize.py",
+        "line": 37,
+        "excerpt": "import urllib.request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "wjs-dubbing-video/scripts/visual_diarize.py",
+        "line": 40,
+        "excerpt": "urllib.request.urlretrieve(MODEL_URL, MODEL_PATH)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 7,
+      "network": 3,
+      "downloads-code": 4
+    },
+    "score": 77,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 3
+    "filesScanned": 3,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "6538e2ecce932456e58539c0413c7174ca9e9c7a",
       "scannedAt": "2026-11-07T22:05:48.475Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "81dfa2e7e4d99c03c3f4f6b30c29cab77dff7114",
+      "scannedAt": "2026-11-09T10:28:36.295Z",
+      "score": 77,
       "rulesVersion": "1.3.0"
     }
   ]

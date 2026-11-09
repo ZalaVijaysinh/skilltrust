@@ -1,0 +1,164 @@
+{
+  "id": "koolamusic__claudefiles__skills~wildcard-proxy",
+  "owner": "koolamusic",
+  "repo": "claudefiles",
+  "path": "skills/wildcard-proxy",
+  "name": "wildcard-proxy",
+  "description": "Set up Caddy on a server so any local port is reachable at https://<port>.<domain>/, and two-letter or named labels like https://ui.<domain>/ map to ports too, with certificates issued on demand and gated so only routed hostnames get one. Use when the user says 'set up the wildcard proxy', 'port routing on this server', 'configure caddy so ports get subdomains', 'add a short name for port N', 'what port is ab', or is preparing a new server to expose local services by port.",
+  "stars": 120,
+  "category": "design",
+  "commit": "c977feefd4c9f04591f7ab26ff52babc65e85c08",
+  "contentHash": "f1cfa25fe1659f6be92cf861a5d2f8dfe3951204b50c05f8ce0588638e4c45e1",
+  "repoCreatedAt": "2026-02-14T18:24:08Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "skills/wildcard-proxy/SKILL.md",
+        "line": 38,
+        "excerpt": "2. **Wildcard DNS**: `*.{{DOMAIN}}` resolves to this server. Check with a label nobody has used: `dig +short zq.{{DOMAIN}}` should print the server's public IP ",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wildcard-proxy/SKILL.md",
+        "line": 45,
+        "excerpt": "ss -tlnp | awk 'NR>1{n=split($4,a,\":\"); p=a[n]; if ((p>=4000&&p<=4099)||(p>=8000&&p<=8099)||(p>=10000&&p<=12525&&p%100<=25&&int(p/100)%100<=25)) print $4, $6}'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/wildcard-proxy/SKILL.md",
+        "line": 57,
+        "excerpt": "sudo cp /etc/caddy/Caddyfile /etc/caddy/Caddyfile.bak-$(date +%F)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wildcard-proxy/SKILL.md",
+        "line": 57,
+        "excerpt": "sudo cp /etc/caddy/Caddyfile /etc/caddy/Caddyfile.bak-$(date +%F)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wildcard-proxy/SKILL.md",
+        "line": 63,
+        "excerpt": "DOMAIN=host.example.net",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/wildcard-proxy/SKILL.md",
+        "line": 75,
+        "excerpt": "sudo install -m 644 /tmp/wildcard-proxy.caddy /etc/caddy/wildcard-proxy.caddy",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wildcard-proxy/SKILL.md",
+        "line": 75,
+        "excerpt": "sudo install -m 644 /tmp/wildcard-proxy.caddy /etc/caddy/wildcard-proxy.caddy",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/wildcard-proxy/SKILL.md",
+        "line": 76,
+        "excerpt": "sudo cp -n wildcard-proxy.names /etc/caddy/wildcard-proxy.names",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wildcard-proxy/SKILL.md",
+        "line": 96,
+        "excerpt": "sudo caddy validate --config /etc/caddy/Caddyfile --adapter caddyfile",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wildcard-proxy/SKILL.md",
+        "line": 100,
+        "excerpt": "sudo systemctl reload caddy",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/wildcard-proxy/SKILL.md",
+        "line": 108,
+        "excerpt": "for l in 4012 ab zz 3000 abc; do printf '%s %s\\n' $l \"$(curl -s -o /dev/null -w '%{http_code}' \"http://127.0.0.1:5555/ask?domain=$l.$DOMAIN\")\"; done",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wildcard-proxy/SKILL.md",
+        "line": 108,
+        "excerpt": "for l in 4012 ab zz 3000 abc; do printf '%s %s\\n' $l \"$(curl -s -o /dev/null -w '%{http_code}' \"http://127.0.0.1:5555/ask?domain=$l.$DOMAIN\")\"; done",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wildcard-proxy/SKILL.md",
+        "line": 118,
+        "excerpt": "python3 -m http.server 4012 --bind 127.0.0.1",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/wildcard-proxy/SKILL.md",
+        "line": 122,
+        "excerpt": "curl -s -o /dev/null -w '%{http_code}\\n' https://4012.$DOMAIN/",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "4012.$domain"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wildcard-proxy/SKILL.md",
+        "line": 122,
+        "excerpt": "curl -s -o /dev/null -w '%{http_code}\\n' https://4012.$DOMAIN/",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "network": 3,
+      "shell": 9,
+      "writes-outside": 3
+    },
+    "score": 82,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 3,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "c977feefd4c9f04591f7ab26ff52babc65e85c08",
+      "scannedAt": "2026-11-09T10:28:36.295Z",
+      "score": 82,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

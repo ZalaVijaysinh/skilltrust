@@ -4,7 +4,7 @@
   "repo": "TORCH",
   "path": "skills/hunt/hunt-ad",
   "name": "hunt-ad",
-  "description": "",
+  "description": "Active Directory attack hunting - enumeration to domain dominance. Spray-safe (lockout gate), AS-REP/Kerberoast, ACL + ADCS (ESC1-16), delegation, DCSync, lateral movement. Wiki-first, FIND schema output.",
   "stars": 340,
   "category": "coding",
   "commit": "d21b6c94982cec09c88ae9c0e98f4e3865de7148",
@@ -12,16 +12,86 @@
   "repoCreatedAt": "2026-07-14T07:25:10Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt/hunt-ad/SKILL.md",
+        "line": 47,
+        "excerpt": "nxc smb <dc> -u '' -p '' --shares            # null session",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt/hunt-ad/SKILL.md",
+        "line": 62,
+        "excerpt": "for p in $(curl -s http://<t>/ | grep -oiE 'href=\"[^\"]+\\.html?\"' | cut -d'\"' -f2 | sort -u); do",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt/hunt-ad/SKILL.md",
+        "line": 62,
+        "excerpt": "for p in $(curl -s http://<t>/ | grep -oiE 'href=\"[^\"]+\\.html?\"' | cut -d'\"' -f2 | sort -u); do",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt/hunt-ad/SKILL.md",
+        "line": 63,
+        "excerpt": "curl -s http://<t>/$p | sed -e 's/<[^>]*>/ /g'; done | grep -oE '[A-Z][a-z]+ [A-Z][a-z]+' | sort -u",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt/hunt-ad/SKILL.md",
+        "line": 75,
+        "excerpt": "impacket-GetNPUsers <domain>/ -dc-ip <dc> -usersfile users.txt -no-pass   # AS-REP",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt/hunt-ad/SKILL.md",
+        "line": 91,
+        "excerpt": "nxc ldap <dc> -u <user> -p <pass> --bloodhound -c all --dns-server <dc>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt/hunt-ad/SKILL.md",
+        "line": 107,
+        "excerpt": "certipy find -u <user>@<domain> -p <pass> -dc-ip <dc> -vulnerable -stdout    # ESC1-16",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt/hunt-ad/SKILL.md",
+        "line": 116,
+        "excerpt": "nxc smb <dc> -u <user> -p <pass> --ntds                 # if admin",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 6,
+      "network": 2
+    },
+    "score": 92,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 1
+    "filesScanned": 1,
+    "filesSkipped": 0
   },
   "history": [
     {

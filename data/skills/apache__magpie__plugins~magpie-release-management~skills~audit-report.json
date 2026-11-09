@@ -4,30 +4,155 @@
   "repo": "magpie",
   "path": "plugins/magpie-release-management/skills/audit-report",
   "name": "audit-report",
-  "description": "",
+  "description": "Assemble a per-release audit record from lifecycle artefacts (planning\nissue, vote thread, artefact list, promote revision, and announcement\nURL) and propose a PR appending it to the project's audit log.\nRead-only on every release surface; the only write is a PR the RM\nreviews and a committer merges.",
   "stars": 139,
   "category": "security",
-  "commit": "c099f3fb6260f9a9acb9ac3686c8acddee393c81",
-  "contentHash": "13a22fd0a2fcdcede67aa5361122630f01d7640bed098eb158f2ebd1dc6ed39a",
+  "commit": "3fd660b0b1316f475044c05dae17c5b86a12165e",
+  "contentHash": "56dc4867deaf04850c1fd57b5c9ed1a9e98c687e7ecb4fd02b8cd811d43d0ea0",
   "repoCreatedAt": "2026-04-28T18:59:46Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "plugins/magpie-release-management/skills/audit-report/SKILL.md",
+        "line": 62,
+        "excerpt": "PYTHONPATH=\"$(python3 -I -c 'import hashlib,os,sys;h,d,m,i=sys.argv[1:];r=os.path.realpath(os.curdir);s=os.stat(r);p=os.path.join(h,d,hashlib.sha256(r.encode())",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/magpie-release-management/skills/audit-report/SKILL.md",
+        "line": 207,
+        "excerpt": "uv run --project <framework>/tools/release-config release-config preflight \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/magpie-release-management/skills/audit-report/SKILL.md",
+        "line": 223,
+        "excerpt": "<rm> verdict --preflight <scratch>/audit-preflight.json --upstream <upstream> \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/magpie-release-management/skills/audit-report/SKILL.md",
+        "line": 256,
+        "excerpt": "uv run --project <framework>/tools/release-config release-config load --skill audit-report <version> > <scratch>/audit-load.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/magpie-release-management/skills/audit-report/SKILL.md",
+        "line": 322,
+        "excerpt": "<rm> record --step1 <scratch>/audit-step1.json --schema <skill-dir>/audit-record-schema.md",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/magpie-release-management/skills/audit-report/audit-log-pr.md",
+        "line": 86,
+        "excerpt": "uvx --from ~/.claude/magpie/adversarial-review adversarial-review run --project-root <adopter-repo> --repo-dir <checkout-being-pushed> --base <pr-base-ref> --ti",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "AGENTS.md",
+        "line": 458,
+        "excerpt": "uv tool install prek   # or: pipx install prek",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "AGENTS.md",
+        "line": 522,
+        "excerpt": "`uvx --from ~/.claude/magpie/vetted-ops …`, and `uvx --from ~/.claude/magpie/adversarial-review adversarial-review …`.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tools/adversarial-review/README.md",
+        "line": 46,
+        "excerpt": "uvx --from ~/.claude/magpie/adversarial-review adversarial-review detect",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tools/adversarial-review/README.md",
+        "line": 47,
+        "excerpt": "uvx --from ~/.claude/magpie/adversarial-review adversarial-review run --base origin/main --title \"<PR title>\" --body-file <body.md>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tools/adversarial-review/README.md",
+        "line": 48,
+        "excerpt": "uvx --from ~/.claude/magpie/adversarial-review adversarial-review run --target pr:123 --repo owner/name",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "tools/adversarial-review/README.md",
+        "line": 109,
+        "excerpt": "| `grok` | `grok --tools read_file,grep,list_dir --no-subagents --disable-web-search --deny Bash --deny Edit --deny Write --deny WebFetch --deny MCPTool --outpu",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "tools/adversarial-review/README.md",
+        "line": 110,
+        "excerpt": "| `claude` | `claude -p --output-format json --strict-mcp-config --disallowedTools Bash,Edit,Write,NotebookEdit,WebFetch,WebSearch,Task` (prompt on stdin) |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tools/adversarial-review/README.md",
+        "line": 117,
+        "excerpt": "The single-line `uvx --from ~/.claude/magpie/adversarial-review adversarial-review …` form is what the sandbox exclusion names; `setup` installs it.",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 5,
+      "downloads-code": 7,
+      "network": 2
+    },
+    "score": 75,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 6,
-    "filesSkipped": 11
+    "filesScanned": 26,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "c099f3fb6260f9a9acb9ac3686c8acddee393c81",
       "scannedAt": "2026-11-07T22:05:48.475Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "3fd660b0b1316f475044c05dae17c5b86a12165e",
+      "scannedAt": "2026-11-09T10:28:36.295Z",
+      "score": 75,
       "rulesVersion": "1.3.0"
     }
   ]

@@ -4,30 +4,98 @@
   "repo": "bigpowers",
   "path": "skills/security-review",
   "name": "security-review",
-  "description": "",
+  "description": "AI-powered security analysis of code changes — traces data flow, detects injection, auth bypass, secrets exposure, and unsafe deserialization across files. Use when reviewing pending changes, before release-branch, during verify-work Phase 5, during build-epic Step 0 threat modeling, or when the user says \"security review\" or \"scan for vulns\".",
   "stars": 288,
   "category": "coding",
-  "commit": "9b9a662c40ad97a16c0f74554bdc7cf2252d2363",
+  "commit": "c19edc76adb8363921bc3edb4a410216b63d9618",
   "contentHash": "ab503d29a6f2015aaee381392df59b732d7f9bbd415653425119a68eb2c17d69",
   "repoCreatedAt": "2026-04-24T21:03:16Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/security-review/REFERENCE-confidence-rubric.md",
+        "line": 16,
+        "excerpt": "- `os.system(f\"rm {user_path}\")` where user controls the path",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/security-review/REFERENCE-vuln-categories.md",
+        "line": 31,
+        "excerpt": "| **Vulnerable** | User-controlled URL passed to server-side HTTP client: `requests.get(user_url)` |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/security-review/REFERENCE-vuln-categories.md",
+        "line": 33,
+        "excerpt": "| **Look for** | User input → `fetch`, `requests.get`, `axios.get`, `urllib`, `curl`, `http.get`; host control only (path-only is excluded) |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/security-review/REFERENCE-vuln-categories.md",
+        "line": 39,
+        "excerpt": "| **Vulnerable** | User input in shell commands: `os.system(f\"ping {host}\")`, `subprocess.run(f\"grep {pattern} file\", shell=True)` |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/security-review/REFERENCE-vuln-categories.md",
+        "line": 40,
+        "excerpt": "| **Safe** | `subprocess.run([\"ping\", host])` with arguments as list; `shlex.quote()` |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/security-review/REFERENCE-vuln-categories.md",
+        "line": 41,
+        "excerpt": "| **Look for** | `shell=True`, `os.system`, `os.popen`, `exec()`, `eval()`, `$()`, backticks |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/security-review/SKILL.md",
+        "line": 35,
+        "excerpt": "bash scripts/lib/parallel-review-worktrees.sh security-review",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 5,
+      "network": 2
+    },
+    "score": 90,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 12
+    "filesScanned": 12,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "9b9a662c40ad97a16c0f74554bdc7cf2252d2363",
       "scannedAt": "2026-11-07T22:05:48.475Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "c19edc76adb8363921bc3edb4a410216b63d9618",
+      "scannedAt": "2026-11-09T10:28:36.295Z",
+      "score": 90,
       "rulesVersion": "1.3.0"
     }
   ]

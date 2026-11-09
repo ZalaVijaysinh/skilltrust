@@ -4,8 +4,8 @@
   "repo": "research-agent-skills",
   "path": "skills/database-lookup",
   "name": "database-lookup",
-  "description": "",
-  "stars": 108,
+  "description": "Query documented public database APIs with explicit endpoints, filters, pagination, and provenance. Use when a scientific, regulatory, financial, or other database-backed fact must be retrieved reproducibly from a named source rather than inferred from general knowledge.",
+  "stars": 111,
   "category": "research",
   "commit": "29fe36d26127205057d5e0ed8425f6b0e9a8c13a",
   "contentHash": "9a5e1f94abbc47c7c1b32677da92ead8e5b78cd404fc18cb3927ff71fd76aa3f",
@@ -13,93 +13,110 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
     "findings": [
       {
         "ruleId": "network",
-        "file": "skills/database-lookup/references/opentargets.md",
-        "line": 12,
-        "excerpt": "curl -s -X POST -H \"Content-Type: application/json\" \\",
-        "disclosed": false,
+        "file": "skills/database-lookup/SKILL.md",
+        "line": 97,
+        "excerpt": "| Open Targets | GraphQL endpoint | `curl -X POST -H \"Content-Type: application/json\" -d '{\"query\":\"...\"}' https://api.platform.opentargets.org/api/v4/graphql` ",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.platform.opentargets.org"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/database-lookup/SKILL.md",
+        "line": 98,
+        "excerpt": "| gnomAD | GraphQL endpoint | `curl -X POST -H \"Content-Type: application/json\" -d '{\"query\":\"...\"}' https://gnomad.broadinstitute.org/api` |",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "gnomad.broadinstitute.org"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/database-lookup/SKILL.md",
+        "line": 99,
+        "excerpt": "| RummaGEO | POST-only enrichment | `curl -X POST -H \"Content-Type: application/json\" -d '{\"genes\":[\"...\"]}' https://rummageo.com/api/enrich` |",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "rummageo.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/database-lookup/SKILL.md",
+        "line": 100,
+        "excerpt": "| GDC/TCGA | Complex filter queries | `curl -X POST -H \"Content-Type: application/json\" -d '{\"filters\":...}' https://api.gdc.cancer.gov/ssms` |",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.gdc.cancer.gov"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/database-lookup/SKILL.md",
+        "line": 101,
+        "excerpt": "| SEC EDGAR | Requires User-Agent header | `curl -H \"User-Agent: YourApp you@email.com\" https://efts.sec.gov/LATEST/search-index?q=...` |",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "efts.sec.gov"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/database-lookup/SKILL.md",
+        "line": 155,
+        "excerpt": "test -n \"${FRED_API_KEY:-}\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/database-lookup/SKILL.md",
+        "line": 168,
+        "excerpt": "| Claude Code | `WebFetch` | `curl` via Bash |",
+        "disclosed": true,
         "automatic": false,
         "hosts": []
       },
       {
         "ruleId": "network",
-        "file": "skills/database-lookup/references/pride.md",
-        "line": 40,
-        "excerpt": "curl \"https://www.ebi.ac.uk/pride/ws/archive/v2/projects?keyword=alzheimer&pageSize=5\"",
-        "disclosed": false,
+        "file": "skills/database-lookup/SKILL.md",
+        "line": 177,
+        "excerpt": "curl -s -H \"Accept: application/json\" \"https://api.example.com/endpoint\"",
+        "disclosed": true,
         "automatic": false,
         "hosts": [
-          "www.ebi.ac.uk"
+          "api.example.com"
         ]
       },
       {
-        "ruleId": "network",
-        "file": "skills/database-lookup/references/pride.md",
-        "line": 43,
-        "excerpt": "curl \"https://www.ebi.ac.uk/pride/ws/archive/v2/projects/PXD010000\"",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": [
-          "www.ebi.ac.uk"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/database-lookup/references/pride.md",
-        "line": 46,
-        "excerpt": "curl \"https://www.ebi.ac.uk/pride/ws/archive/v2/projects/PXD010000/files?pageSize=10\"",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": [
-          "www.ebi.ac.uk"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/database-lookup/references/pride.md",
-        "line": 49,
-        "excerpt": "curl \"https://www.ebi.ac.uk/pride/ws/archive/v2/projects?filter=organisms_facet==9606&pageSize=5\"",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": [
-          "www.ebi.ac.uk"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/database-lookup/references/pride.md",
-        "line": 52,
-        "excerpt": "curl \"https://www.ebi.ac.uk/pride/ws/archive/v2/stats\"",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": [
-          "www.ebi.ac.uk"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/database-lookup/references/rummageo.md",
-        "line": 20,
-        "excerpt": "curl -X POST \"https://rummageo.com/api/enrich\" \\",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": [
-          "rummageo.com"
-        ]
+        "ruleId": "shell",
+        "file": "skills/database-lookup/SKILL.md",
+        "line": 177,
+        "excerpt": "curl -s -H \"Accept: application/json\" \"https://api.example.com/endpoint\"",
+        "disclosed": true,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "network": 7
+      "network": 7,
+      "shell": 2
     },
-    "score": 95,
+    "score": 94,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 11,
-    "filesSkipped": 75
+    "filesScanned": 10,
+    "filesSkipped": 76
   },
   "history": [
     {

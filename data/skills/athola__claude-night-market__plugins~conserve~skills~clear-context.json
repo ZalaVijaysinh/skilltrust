@@ -4,24 +4,127 @@
   "repo": "claude-night-market",
   "path": "plugins/conserve/skills/clear-context",
   "name": "clear-context",
-  "description": "",
+  "description": "Manages context overflow by handing off to a fresh subagent at 80% usage. Use when context pressure is critical and work must continue uninterrupted.",
   "stars": 348,
   "category": "coding",
   "commit": "4f94139a2d325f14442a62dc0b4cd28b41dbb5ba",
-  "contentHash": "edad9942dc35de4858b408210a50687a8e1e83ce893e5eed557a8eb8ea2c2b11",
+  "contentHash": "5b2c8b692bb4e23ed816a04d7cba037584de298901d1280156f8560176796447",
   "repoCreatedAt": "2025-11-23T06:45:40Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "plugins/conserve/skills/clear-context/SKILL.md",
+        "line": 313,
+        "excerpt": "claude -p \"/context\" --verbose --output-format json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/conserve/hooks/hooks.json",
+        "line": 8,
+        "excerpt": "\"command\": \"\\\"${CLAUDE_PLUGIN_ROOT}/hooks/setup.sh\\\"\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/conserve/hooks/hooks.json",
+        "line": 19,
+        "excerpt": "\"command\": \"python3 \\\"${CLAUDE_PLUGIN_ROOT}/hooks/permission_request.py\\\"\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/conserve/hooks/hooks.json",
+        "line": 31,
+        "excerpt": "\"command\": \"python3 \\\"${CLAUDE_PLUGIN_ROOT}/hooks/context_warning.py\\\"\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/conserve/hooks/hooks.json",
+        "line": 43,
+        "excerpt": "\"command\": \"python3 \\\"${CLAUDE_PLUGIN_ROOT}/hooks/tool_output_summarizer.py\\\"\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/conserve/hooks/hooks.json",
+        "line": 54,
+        "excerpt": "\"command\": \"python3 \\\"${CLAUDE_PLUGIN_ROOT}/hooks/pre_compact_preserve.py\\\"\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/conserve/hooks/hooks.json",
+        "line": 65,
+        "excerpt": "\"command\": \"\\\"${CLAUDE_PLUGIN_ROOT}/hooks/permission_denied_logger.py\\\"\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/conserve/hooks/hooks.json",
+        "line": 77,
+        "excerpt": "\"command\": \"\\\"${CLAUDE_PLUGIN_ROOT}/hooks/session-start.sh\\\"\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/conserve/hooks/hooks.json",
+        "line": 88,
+        "excerpt": "\"command\": \"\\\"${CLAUDE_PLUGIN_ROOT}/hooks/background_agent_notice.py\\\"\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/conserve/hooks/permission_denied_logger.py",
+        "line": 20,
+        "excerpt": "RETRY_SAFE_TOOLS = frozenset({\"Read\", \"Glob\", \"Grep\", \"WebFetch\", \"WebSearch\"})",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/conserve/hooks/permission_request.py",
+        "line": 96,
+        "excerpt": "(r\"rm\\s+-rf\\s+\\$HOME\", \"Blocked: recursive delete on home\"),",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/conserve/hooks/setup.sh",
+        "line": 59,
+        "excerpt": "setup_tasks+=(\"WARNING: jq not installed. Install with: brew install jq (macOS) or apt install jq (Linux). Some hooks will use fallback processing.\")",
+        "disclosed": false,
+        "automatic": true
+      }
+    ],
+    "findingTotals": {
+      "shell": 9,
+      "network": 1,
+      "writes-outside": 1,
+      "downloads-code": 1
+    },
+    "score": 65,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 18
+    "filesScanned": 30,
+    "filesSkipped": 0
   },
   "history": [
     {

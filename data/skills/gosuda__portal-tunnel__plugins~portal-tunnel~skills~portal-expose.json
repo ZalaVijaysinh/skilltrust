@@ -1,0 +1,147 @@
+{
+  "id": "gosuda__portal-tunnel__plugins~portal-tunnel~skills~portal-expose",
+  "owner": "gosuda",
+  "repo": "portal-tunnel",
+  "path": "plugins/portal-tunnel/skills/portal-expose",
+  "name": "portal-expose",
+  "description": "Expose, preview, protect with x402 payments or sign-in, or keep a local web app, static site, HTTP route set, or explicitly requested TCP/UDP service reachable through Portal, then verify the public endpoint and report its lifecycle. This is the app side of Portal, the same flow as the quick-start form on a relay website (install, run one portal expose command built from the app settings, open the public URL). Use when the user asks to deploy, publish, share, tunnel, expose, or connect a local app to Portal or to a specific relay, create a public preview, add a paid route, configure x402, limit who can open the URL with a login, needs an HTTPS URL on a phone or another device because a browser feature such as microphone, camera, geolocation, or PWA install refuses to work over a LAN http address, or wants a Go app to embed the Portal SDK. Do not use for deploying a Portal relay, generic cloud hosting, publishing this plugin, or reaching a service that someone else already published (portal-connect).",
+  "stars": 301,
+  "category": "devops",
+  "commit": "d67941c8efa55a141cc2ef3c0ece89493e620d5d",
+  "contentHash": "dfaf4e48425ce2b0fb3923d85cec16f38aa5e091f46afcb1116076ab93ef2131",
+  "repoCreatedAt": "2025-10-20T09:14:19Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "plugins/portal-tunnel/skills/portal-expose/SKILL.md",
+        "line": 119,
+        "excerpt": "- Verify the URL being handed off (`alias_url` when granted, otherwise `public_url`) with one bounded request. `*.localhost` often resolves to `::1` first, so u",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/portal-tunnel/skills/portal-expose/references/agent-backends.md",
+        "line": 39,
+        "excerpt": "- **Verify:** from outside, `curl -sS --max-time 10 -o /dev/null -w '%{http_code}\\n' https://<identity-bound host>/api/session` must return `401`. A `200` witho",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/portal-tunnel/skills/portal-expose/references/application-auth.md",
+        "line": 161,
+        "excerpt": "(umask 077 && mkdir -p ~/.config/portal && openssl rand -hex 32 > ~/.config/portal/my-app.proof)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/portal-tunnel/skills/portal-expose/references/application-auth.md",
+        "line": 204,
+        "excerpt": "1. `curl -sI https://<host>/` returns `303` with `Location: /_portal/auth/login?next=%2F`. A `200` means the gate is not on; stop and report it.",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/portal-tunnel/skills/portal-expose/references/application-auth.md",
+        "line": 205,
+        "excerpt": "2. `curl -s -X POST https://<host>/` returns `401` with `{\"error\":\"authentication required\"}`.",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/portal-tunnel/skills/portal-expose/references/application-auth.md",
+        "line": 206,
+        "excerpt": "3. `credential`: `curl -s -H \"X-Portal-Access-Credential: $C\" https://<host>/` returns the app's real response. Use the credential you already issued for the su",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/portal-tunnel/skills/portal-expose/references/application-auth.md",
+        "line": 207,
+        "excerpt": "4. `oidc` and `saml`: `curl -s -o /dev/null -w '%{http_code} %{redirect_url}\\n' https://<host>/_portal/auth/login` prints `303` and the provider's authorization",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/portal-tunnel/skills/portal-expose/references/application-auth.md",
+        "line": 208,
+        "excerpt": "5. `saml`: `curl -s https://<host>/_portal/auth/saml/metadata` returns the service provider metadata with the entity ID and the ACS address that the provider mu",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/portal-tunnel/skills/portal-expose/references/application-auth.md",
+        "line": 209,
+        "excerpt": "6. `email`: `curl -s -o /dev/null -w '%{http_code}\\n' -X POST -H 'Origin: https://<host>' -H 'Content-Type: application/json' -d '{\"email\":\"nobody@example.inval",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/portal-tunnel/skills/portal-expose/references/portal-cli.md",
+        "line": 17,
+        "excerpt": "curl -fsSL https://github.com/gosuda/portal-tunnel/releases/latest/download/install.sh | bash",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/portal-tunnel/skills/portal-expose/references/portal-cli.md",
+        "line": 17,
+        "excerpt": "curl -fsSL https://github.com/gosuda/portal-tunnel/releases/latest/download/install.sh | bash",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "github.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/portal-tunnel/skills/portal-expose/references/webhook-endpoints.md",
+        "line": 32,
+        "excerpt": "Make one unsigned `POST` with an empty JSON body (`curl -sS --max-time 10 -o /dev/null -w '%{http_code}\\n' -X POST -H 'Content-Type: application/json' --data '{",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "network": 10,
+      "writes-outside": 1,
+      "downloads-code": 1
+    },
+    "score": 72,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 13,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "d67941c8efa55a141cc2ef3c0ece89493e620d5d",
+      "scannedAt": "2026-11-09T10:28:36.295Z",
+      "score": 72,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

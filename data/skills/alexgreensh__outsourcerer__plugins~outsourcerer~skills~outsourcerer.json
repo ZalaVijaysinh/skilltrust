@@ -5,15 +5,15 @@
   "path": "plugins/outsourcerer/skills/outsourcerer",
   "name": "outsourcerer",
   "description": "Delegate coding work to Codex, Cursor, Devin, Gemini, OpenRouter or local models with your skills. Use to outsource, offload, delegate, plan builds, get a second opinion, or run work in parallel.",
-  "stars": 193,
+  "stars": 194,
   "category": "coding",
   "commit": "531fb52bec73a773d87ccad81c8cb9f626323ffd",
   "contentHash": "3d47443e35ab86465650d039e95b7945a9b721d45c03c9c0b12a3a3f90d65133",
   "repoCreatedAt": "2026-07-10T19:49:49Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
     "findings": [
       {
@@ -143,6 +143,14 @@
         "automatic": false
       },
       {
+        "ruleId": "shell",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/outsourcerer-winpty-broker.sh",
+        "line": 41,
+        "excerpt": "if winpty -Xallow-non-tty -Xplain /bin/sh -c 'exit 0' >/dev/null 2>&1; then",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
         "ruleId": "paid-api",
         "file": "plugins/outsourcerer/skills/outsourcerer/scripts/run-or-codex.sh",
         "line": 50,
@@ -165,20 +173,438 @@
         "excerpt": "{ OSRC_HOME=\"$_home\" OSRC_HEARTBEAT_DISABLED=1 bash -c 'echo \"$$ $PPID\" > \"$1\"; exec bash \"$2\"' _ \"$pid_file\" \"$suite\" >\"$out_file\" 2>&1; _suite_rc=$?; } 2>/dev",
         "disclosed": true,
         "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_advise.sh",
+        "line": 129,
+        "excerpt": "err_msg=\"$(bash -c '. \"$0\" >/dev/null 2>&1; cmd_advise \"\" 2>&1' \"$SRC\" 2>&1)\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_agentic_local_cert.py",
+        "line": 26,
+        "excerpt": "import urllib.request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_agentic_local_cert.py",
+        "line": 87,
+        "excerpt": "if not subprocess.run([\"bash\", \"-lc\", \"command -v claude\"], capture_output=True).stdout.strip():",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_agentic_local_cert.py",
+        "line": 105,
+        "excerpt": "shim = subprocess.Popen([sys.executable, SHIM], env=shim_env,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_agentic_local_cert.py",
+        "line": 106,
+        "excerpt": "stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_agentic_local_cert.py",
+        "line": 110,
+        "excerpt": "urllib.request.urlopen(\"http://127.0.0.1:%d/health\" % shim_port, timeout=1); ok = True; break",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_agentic_local_cert.py",
+        "line": 117,
+        "excerpt": "cenv = dict(os.environ)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_agentic_local_cert.py",
+        "line": 133,
+        "excerpt": "p = subprocess.run([\"claude\", \"-p\", \"--bare\", \"--permission-mode\", \"default\", \"--allowedTools\", \"Read\"],",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_agentic_local_cert.py",
+        "line": 136,
+        "excerpt": "except subprocess.TimeoutExpired:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_autodetach.sh",
+        "line": 66,
+        "excerpt": "if script -q /dev/null bash -c \"source '$EXTRACT'; $_envs _autodetach_should '$disp' '$mid' '$mtier' 2>/dev/null; echo \\$? > '$_rcf'\" 2>/dev/null; then",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_bearings.sh",
+        "line": 9,
+        "excerpt": "HOME=\"$TMP/home\"; export HOME; mkdir -p \"$HOME\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_bearings.sh",
+        "line": 24,
+        "excerpt": "snapshot=\"$(OSRC_HOME=\"$TMP/state\" bash -c 'src=\"$1\"; set --; . \"$src\" >/dev/null 2>&1; _fleet_snapshot_collect' bash \"$SRC\")\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_bearings.sh",
+        "line": 25,
+        "excerpt": "OSRC_HOME=\"$TMP/state\" bash -c 'src=\"$1\"; snapshot=\"$2\"; set --; . \"$src\" >/dev/null 2>&1; _fleet_snapshot_write \"$snapshot\"' bash \"$SRC\" \"$snapshot\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_bearings.sh",
+        "line": 54,
+        "excerpt": "line=\"$(OSRC_HOME=\"$TMP/line\" bash -c 'src=\"$1\"; snapshot=\"$2\"; set --; . \"$src\" >/dev/null 2>&1; _heartbeat_line \"$snapshot\"' bash \"$SRC\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_blind_turn_guard.sh",
+        "line": 392,
+        "excerpt": "out=\"$(OSRC_HEARTBEAT_DISABLED=1 OUTSOURCERER_DEPTH=0 bash -c '",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_cline_lane.sh",
+        "line": 92,
+        "excerpt": "grep -q 'npm i -g cline' \"$SRC\" && ok \"install instruction uses the real package (npm i -g cline)\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_cloud_autoisolate.sh",
+        "line": 22,
+        "excerpt": "mkdir -p \"$HOME\" \"$OSRC_HOME\" \"$XDG_CONFIG_HOME\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_cloud_autoisolate.sh",
+        "line": 49,
+        "excerpt": "env \"$@\" bash -c 'f=\"$1\"; d=\"$2\"; lane=\"$3\"; set --; OSRC_SOURCED=1; . \"$f\" >/dev/null 2>&1; cd \"$d\" || exit 9",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_cloud_autoisolate.sh",
+        "line": 74,
+        "excerpt": "gate=\"$(cd \"$wt\" && bash -c 'f=\"$1\"; set --; OSRC_SOURCED=1; . \"$f\" >/dev/null 2>&1; _secret_scan \"task\" devin && echo PASSED' _ \"$SRC\" 2>&1)\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_cloud_autoisolate.sh",
+        "line": 85,
+        "excerpt": "msg=\"$(cd \"$R\" && bash -c 'f=\"$1\"; set --; OSRC_SOURCED=1; . \"$f\" >/dev/null 2>&1; _secret_scan \"task\" devin' _ \"$SRC\" 2>&1)\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_cloud_autoisolate.sh",
+        "line": 96,
+        "excerpt": "msg=\"$(cd \"$R\" && bash -c 'f=\"$1\"; set --; OSRC_SOURCED=1; . \"$f\" >/dev/null 2>&1; _secret_scan \"task\" devin' _ \"$SRC\" 2>&1)\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_cloud_autoisolate.sh",
+        "line": 112,
+        "excerpt": "cl=\"$(bash -c 'f=\"$1\"; set --; OSRC_SOURCED=1; . \"$f\" >/dev/null 2>&1; cmd_cleanup job-test-1' _ \"$SRC\" 2>&1)\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_codex_windows_sandbox.sh",
+        "line": 21,
+        "excerpt": "export HOME=\"$TMP/home\"; mkdir -p \"$HOME\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_codex_windows_sandbox.sh",
+        "line": 80,
+        "excerpt": "unset CODEX_HOME; mkdir -p \"$HOME/.codex\"; printf '[windows]\\nsandbox = \"unelevated\"\\n' > \"$HOME/.codex/config.toml\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_codex_windows_sandbox.sh",
+        "line": 82,
+        "excerpt": "rm -rf \"$HOME/.codex\"; mkdir -p \"$TMP/up/.codex\"; printf '[windows]\\nsandbox = \"elevated\"\\n' > \"$TMP/up/.codex/config.toml\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_devin_grant_lock_share.sh",
+        "line": 46,
+        "excerpt": "SK=\"$HOME/.claude/skills/confskill\"; mkdir -p \"$SK\"; printf '# confskill\\n' > \"$SK/SKILL.md\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_devin_grant_lock_share.sh",
+        "line": 47,
+        "excerpt": "SK2=\"$HOME/.claude/skills/plugskill\"; mkdir -p \"$SK2\"; printf '# plugskill\\n' > \"$SK2/SKILL.md\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_devin_org_policy_posture.sh",
+        "line": 77,
+        "excerpt": "ln -s /etc/hosts \"$pf\" 2>/dev/null",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_devin_tls_diagnostics.sh",
+        "line": 81,
+        "excerpt": "mkdir -p \"$HOME/.local/share/devin/cli/logs\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_devin_tls_diagnostics.sh",
+        "line": 84,
+        "excerpt": "> \"$HOME/.local/share/devin/cli/logs/devin_old.log\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_devin_tls_diagnostics.sh",
+        "line": 92,
+        "excerpt": "} > \"$HOME/.local/share/devin/cli/logs/devin_newest.log\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_devin_tls_diagnostics.sh",
+        "line": 103,
+        "excerpt": "rm -f \"$HOME/.local/share/devin/cli/logs\"/devin_*.log",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_devin_tls_diagnostics.sh",
+        "line": 105,
+        "excerpt": "> \"$HOME/.local/share/devin/cli/logs/devin_clean.log\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_devin_tls_diagnostics.sh",
+        "line": 110,
+        "excerpt": "rm -rf \"$HOME/.local/share/devin\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_devin_tls_diagnostics.sh",
+        "line": 116,
+        "excerpt": "mkdir -p \"$HOME/.local/share/devin/cli/logs\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_devin_tls_diagnostics.sh",
+        "line": 117,
+        "excerpt": "printf '%s\\n' \"$rustls_fixture\" > \"$HOME/.local/share/devin/cli/logs/devin_newest.log\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_devin_tls_diagnostics.sh",
+        "line": 155,
+        "excerpt": "rm -f \"$HOME/.local/share/devin/cli/logs\"/devin_*.log",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_devin_tls_diagnostics.sh",
+        "line": 156,
+        "excerpt": "printf '%s\\n' 'INFO  devin: normal run, no TLS error' > \"$HOME/.local/share/devin/cli/logs/devin_clean.log\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_devin_tls_diagnostics.sh",
+        "line": 168,
+        "excerpt": "printf '%s\\n' \"$rustls_fixture\" > \"$HOME/.local/share/devin/cli/logs/devin_newest.log\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_escalation_classify.sh",
+        "line": 55,
+        "excerpt": "cat > \"$HOME/.env\" <<'EOF'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_escalation_classify.sh",
+        "line": 69,
+        "excerpt": "'error sending request for url (https://openrouter.ai/api/v1/responses)'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_hardening.sh",
+        "line": 46,
+        "excerpt": "cat > \"$TMP/.env\" <<'EOF'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_hardening.sh",
+        "line": 53,
+        "excerpt": "if grep -qE 'set -a|source .*~/.env|\\..*~/.env' \"$RUN_OR_MODEL\"; then bad \"run-or-model.sh still sources full ~/.env\"; else ok \"run-or-model.sh uses single-key ",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_hardening.sh",
+        "line": 65,
+        "excerpt": "if grep -qE 'set -a|source .*~/.env|\\..*~/.env' \"$RUN_OR_CODEX\"; then bad \"run-or-codex.sh still sources full ~/.env\"; else ok \"run-or-codex.sh uses single-key ",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_shim.py",
+        "line": 12,
+        "excerpt": "import urllib.request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_shim.py",
+        "line": 63,
+        "excerpt": "req = urllib.request.Request(\"http://127.0.0.1:%d/v1/messages\" % SHIM_PORT, data=data,",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_shim.py",
+        "line": 65,
+        "excerpt": "r = urllib.request.urlopen(req, timeout=10)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_shim.py",
+        "line": 82,
+        "excerpt": "if json.loads(urllib.request.urlopen(\"http://127.0.0.1:%d/health\" % SHIM_PORT, timeout=1).read()).get(\"ok\"):",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_shim.py",
+        "line": 93,
+        "excerpt": "check(\"health ok\", json.loads(urllib.request.urlopen(\"http://127.0.0.1:%d/health\" % SHIM_PORT).read()).get(\"ok\"))",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_tokenrouter_lane.sh",
+        "line": 52,
+        "excerpt": "bad \"delegate inlines TOKENROUTER_API_KEY in a curl -H argument (visible in the ps table)\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_tokenrouter_lane.sh",
+        "line": 54,
+        "excerpt": "ok \"delegate never inlines the key in a curl -H argument\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
       }
     ],
     "findingTotals": {
-      "downloads-code": 8,
-      "network": 4,
-      "writes-outside": 1,
-      "shell": 3,
-      "paid-api": 2
+      "downloads-code": 9,
+      "network": 13,
+      "writes-outside": 84,
+      "shell": 90,
+      "paid-api": 3,
+      "reads-secrets": 5
     },
-    "score": 67,
-    "band": "review",
+    "score": 47,
+    "band": "high",
     "rulesVersion": "1.3.0",
-    "filesScanned": 34,
-    "filesSkipped": 156
+    "filesScanned": 189,
+    "filesSkipped": 1
   },
   "history": [
     {

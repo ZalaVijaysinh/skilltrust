@@ -4,30 +4,223 @@
   "repo": "magpie",
   "path": "plugins/magpie-release-management/skills/rc-cut",
   "name": "rc-cut",
-  "description": "",
+  "description": "Emit the paste-ready commands to tag an RC, build the source archive\nreproducibly, sign, checksum and stage it to the distribution backend\n(or, with ASF automated signing, the tag push that triggers CI). Never\nruns them: the RM does, with their own key and credentials.",
   "stars": 139,
   "category": "security",
-  "commit": "c099f3fb6260f9a9acb9ac3686c8acddee393c81",
-  "contentHash": "2178f6aa34d5652aff4be45f9d503455106acb13d198beb379244807b43e5baa",
+  "commit": "3fd660b0b1316f475044c05dae17c5b86a12165e",
+  "contentHash": "ef0baf7298289829fd11285b9197ed7272154e08964285b8d90872dc755e81a5",
   "repoCreatedAt": "2026-04-28T18:59:46Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "plugins/magpie-release-management/skills/rc-cut/SKILL.md",
+        "line": 56,
+        "excerpt": "PYTHONPATH=\"$(python3 -I -c 'import hashlib,os,sys;h,d,m,i=sys.argv[1:];r=os.path.realpath(os.curdir);s=os.stat(r);p=os.path.join(h,d,hashlib.sha256(r.encode())",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/magpie-release-management/skills/rc-cut/SKILL.md",
+        "line": 227,
+        "excerpt": "uv run --project <framework>/tools/release-config release-config preflight \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/magpie-release-management/skills/rc-cut/SKILL.md",
+        "line": 282,
+        "excerpt": "uv run --project <framework>/tools/release-config release-config load \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/magpie-release-management/skills/rc-cut/SKILL.md",
+        "line": 326,
+        "excerpt": "uv run --project <framework>/tools/release-management release-management rc-cut render \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/magpie-release-management/skills/rc-cut/SKILL.md",
+        "line": 407,
+        "excerpt": "<render> --step 4 --record <scratch>/rc-record.txt --self-check \"<Step 2b outcome, or skipped>\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "AGENTS.md",
+        "line": 458,
+        "excerpt": "uv tool install prek   # or: pipx install prek",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "AGENTS.md",
+        "line": 522,
+        "excerpt": "`uvx --from ~/.claude/magpie/vetted-ops …`, and `uvx --from ~/.claude/magpie/adversarial-review adversarial-review …`.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/release-management/atr-release-runbook.md",
+        "line": 234,
+        "excerpt": "curl -LsSf https://astral.sh/uv/install.sh | sh",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "docs/release-management/atr-release-runbook.md",
+        "line": 234,
+        "excerpt": "curl -LsSf https://astral.sh/uv/install.sh | sh",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "astral.sh"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/release-management/atr-release-runbook.md",
+        "line": 239,
+        "excerpt": "pip3 install -U pip setuptools wheel",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/release-management/atr-release-runbook.md",
+        "line": 240,
+        "excerpt": "pip3 install \"git+https://github.com/apache/tooling-releases-client\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "tools/vetted-ops/README.md",
+        "line": 45,
+        "excerpt": "HTTP operations do not use `gh` or `curl`; they use the `urllib.request` standard library module.",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "tools/vetted-ops/README.md",
+        "line": 83,
+        "excerpt": "with `subprocess.run(..., shell=False)`. There is no string interpolation",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "tools/vetted-ops/README.md",
+        "line": 116,
+        "excerpt": "The `urllib.request` implementation automatically obeys `HTTP_PROXY` and `HTTPS_PROXY` environment variables (egress gateway).",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "tools/vetted-ops/README.md",
+        "line": 356,
+        "excerpt": "mkdir -p ~/.config/apache-magpie/vetted-ops && cp .apache-magpie-overrides/tools/vetted-ops/config.toml ~/.config/apache-magpie/vetted-ops/<project>.toml",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tools/vetted-ops/README.md",
+        "line": 594,
+        "excerpt": "`uvx --from` the module runs from a wheel in a cache the agent can write to,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tools/vetted-ops/README.md",
+        "line": 654,
+        "excerpt": "\"Bash(uvx --from ~/.claude/magpie/vetted-ops vetted-op-read *)\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tools/vetted-ops/README.md",
+        "line": 659,
+        "excerpt": "\"Bash(uvx --from ~/.claude/magpie/vetted-ops vetted-op *)\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tools/vetted-ops/README.md",
+        "line": 661,
+        "excerpt": "\"Bash(uvx --from ~/.claude/magpie/vetted-ops vetted-op-tracker *)\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tools/vetted-ops/README.md",
+        "line": 692,
+        "excerpt": "\"uvx --from ~/.claude/magpie/vetted-ops vetted-op-read *\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tools/vetted-ops/README.md",
+        "line": 694,
+        "excerpt": "\"uvx --from ~/.claude/magpie/vetted-ops vetted-op-tracker *\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tools/vetted-ops/README.md",
+        "line": 696,
+        "excerpt": "\"uvx --from ~/.claude/magpie/vetted-ops vetted-op *\"",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 6,
+      "downloads-code": 12,
+      "network": 3,
+      "writes-outside": 1
+    },
+    "score": 67,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 15,
-    "filesSkipped": 12
+    "filesScanned": 33,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "c099f3fb6260f9a9acb9ac3686c8acddee393c81",
       "scannedAt": "2026-11-07T22:05:48.475Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "3fd660b0b1316f475044c05dae17c5b86a12165e",
+      "scannedAt": "2026-11-09T10:28:36.295Z",
+      "score": 67,
       "rulesVersion": "1.3.0"
     }
   ]

@@ -1,0 +1,223 @@
+{
+  "id": "marcusgoll__spec-flow__.claude~skills~production-deployment-phase",
+  "owner": "marcusgoll",
+  "repo": "Spec-Flow",
+  "path": ".claude/skills/production-deployment-phase",
+  "name": "production-deployment-phase",
+  "description": "Executes production deployment workflow by promoting validated staging builds to production with semantic versioning, health checks, and release tagging. Use when running /ship-prod command, deploying to production after staging validation, or promoting staging builds to production environment.",
+  "stars": 96,
+  "category": "productivity",
+  "commit": "70e92795df74ffb1e85062348866b8923cbc262b",
+  "contentHash": "065390c6debfe5d823a78ad562b7c06915e704f7bf3a17ca55715716f6a95035",
+  "repoCreatedAt": "2025-10-04T01:21:22Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/production-deployment-phase/SKILL.md",
+        "line": 71,
+        "excerpt": "STATE_FILE=\"specs/$(ls -t specs/ | head -1)/state.yaml\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/production-deployment-phase/SKILL.md",
+        "line": 99,
+        "excerpt": "CURRENT_VERSION=$(node -p \"require('./package.json').version\")",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/production-deployment-phase/SKILL.md",
+        "line": 134,
+        "excerpt": "git tag -a \"v${NEW_VERSION}\" -m \"Release v${NEW_VERSION}",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/production-deployment-phase/SKILL.md",
+        "line": 158,
+        "excerpt": "git push origin main:production",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/production-deployment-phase/SKILL.md",
+        "line": 183,
+        "excerpt": "echo \"Running production health checks...\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/production-deployment-phase/SKILL.md",
+        "line": 187,
+        "excerpt": "STATUS=$(curl -s -o /dev/null -w \"%{http_code}\" \"https://production.example.com$ENDPOINT\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "production.example.com$endpoint"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/production-deployment-phase/SKILL.md",
+        "line": 226,
+        "excerpt": "cat > specs/$FEATURE_SLUG/production-ship-report.md <<EOF",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/production-deployment-phase/SKILL.md",
+        "line": 270,
+        "excerpt": "echo \"Monitoring production (15-30 minutes)...\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/production-deployment-phase/SKILL.md",
+        "line": 310,
+        "excerpt": "/ship-prod  # Staging not validated yet",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/production-deployment-phase/SKILL.md",
+        "line": 315,
+        "excerpt": "grep -A2 \"staging_validation:\" state.yaml",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/production-deployment-phase/SKILL.md",
+        "line": 325,
+        "excerpt": "git push origin main:production",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/production-deployment-phase/SKILL.md",
+        "line": 331,
+        "excerpt": "grep -A2 \"rollback:\" state.yaml | grep \"status: passed\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/production-deployment-phase/SKILL.md",
+        "line": 341,
+        "excerpt": "curl https://production.example.com/  # 200 OK, ship it!",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "production.example.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/production-deployment-phase/SKILL.md",
+        "line": 341,
+        "excerpt": "curl https://production.example.com/  # 200 OK, ship it!",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/production-deployment-phase/SKILL.md",
+        "line": 346,
+        "excerpt": "curl /health && curl /api/status && check-db && check-redis",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/production-deployment-phase/SKILL.md",
+        "line": 355,
+        "excerpt": "git push origin production",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/production-deployment-phase/SKILL.md",
+        "line": 361,
+        "excerpt": "vercel logs --follow &",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/production-deployment-phase/SKILL.md",
+        "line": 362,
+        "excerpt": "watch -n 10 'curl -s https://production.example.com/health'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "production.example.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/production-deployment-phase/SKILL.md",
+        "line": 372,
+        "excerpt": "npm version minor  # But API contract changed!",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/production-deployment-phase/SKILL.md",
+        "line": 378,
+        "excerpt": "npm version major -m \"chore: bump to %s (breaking: API v2)\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/production-deployment-phase/SKILL.md",
+        "line": 387,
+        "excerpt": "git push origin main:production",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/production-deployment-phase/SKILL.md",
+        "line": 393,
+        "excerpt": "git tag -a \"v2.7.0\" -m \"Release v2.7.0\"",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 19,
+      "network": 3
+    },
+    "score": 90,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "70e92795df74ffb1e85062348866b8923cbc262b",
+      "scannedAt": "2026-11-09T10:28:36.295Z",
+      "score": 90,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

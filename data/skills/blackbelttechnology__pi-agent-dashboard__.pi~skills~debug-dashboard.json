@@ -4,24 +4,257 @@
   "repo": "pi-agent-dashboard",
   "path": ".pi/skills/debug-dashboard",
   "name": "debug-dashboard",
-  "description": "",
-  "stars": 341,
+  "description": "Diagnose problems in the running pi-agent-dashboard system: server.log, /api/health, bridge WebSocket connectivity, vitest triage, known-issue FAQ entries. Routes UI/visual issues to the browser skill. Use when the server seems hung, a pi session won't connect, tests fail mysteriously, the dashboard shows a blank page, restart loops, port conflicts, or any \"why isn't X working\" question.",
+  "stars": 342,
   "category": "productivity",
   "commit": "3cf8afe9f75a2790c7c479dd3ccaee78ae168820",
   "contentHash": "597edc9d2302648ec09d8ce52271928ff9b132e8d8ad9e79a106c6cbda8a540a",
   "repoCreatedAt": "2026-03-23T05:08:48Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "downloads-code",
+        "file": ".pi/skills/debug-dashboard/SKILL.md",
+        "line": 12,
+        "excerpt": "L1[\"Layer 1 - Is the server alive?<br/>npx tsx ./scripts/health-probe.ts<br/>npx tsx ./scripts/tail-server-log.ts\"]",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".pi/skills/debug-dashboard/SKILL.md",
+        "line": 13,
+        "excerpt": "L2[\"Layer 2 - Are the bridges connecting?<br/>npx tsx ./scripts/list-sessions.ts<br/>npx tsx ./scripts/tail-server-log.ts --errors\"]",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".pi/skills/debug-dashboard/SKILL.md",
+        "line": 21,
+        "excerpt": "npx tsx ./scripts/health-probe.ts        # mode + uptime + version, or \"not-running\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".pi/skills/debug-dashboard/SKILL.md",
+        "line": 21,
+        "excerpt": "npx tsx ./scripts/health-probe.ts        # mode + uptime + version, or \"not-running\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".pi/skills/debug-dashboard/SKILL.md",
+        "line": 22,
+        "excerpt": "npx tsx ./scripts/tail-server-log.ts     # last 50 lines of current run",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".pi/skills/debug-dashboard/SKILL.md",
+        "line": 23,
+        "excerpt": "npx tsx ./scripts/list-sessions.ts       # connected pi sessions via REST",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".pi/skills/debug-dashboard/SKILL.md",
+        "line": 26,
+        "excerpt": "> Scripts are TypeScript (cross-platform). All invocations use `npx tsx` so they work on Linux, macOS, and Windows. `tsx` is already a project dep.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".pi/skills/debug-dashboard/SKILL.md",
+        "line": 53,
+        "excerpt": "npx tsx ./scripts/run-tests-triage.ts                 # all tests, tee to OS tmpdir, summarize failures",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".pi/skills/debug-dashboard/SKILL.md",
+        "line": 53,
+        "excerpt": "npx tsx ./scripts/run-tests-triage.ts                 # all tests, tee to OS tmpdir, summarize failures",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".pi/skills/debug-dashboard/SKILL.md",
+        "line": 54,
+        "excerpt": "npx tsx ./scripts/run-tests-triage.ts packages/server # restrict to one package's vitest",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".pi/skills/debug-dashboard/SKILL.md",
+        "line": 55,
+        "excerpt": "npx tsx ./scripts/run-tests-triage.ts -t 'my test'    # by test name",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".pi/skills/debug-dashboard/SKILL.md",
+        "line": 94,
+        "excerpt": "grep -ni '<keyword>' docs/faq.md docs/*.md README.md",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".pi/skills/debug-dashboard/references/known-issues.md",
+        "line": 62,
+        "excerpt": "watch -n2 'curl -s http://localhost:8000/api/health | jq .server.activeSessions'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".pi/skills/debug-dashboard/references/known-issues.md",
+        "line": 120,
+        "excerpt": "curl -s http://localhost:8000/api/health | jq .mode    # should be \"dev\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".pi/skills/debug-dashboard/references/known-issues.md",
+        "line": 158,
+        "excerpt": "curl -s http://localhost:8000/api/tunnel-status | jq",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".pi/skills/debug-dashboard/references/log-locations.md",
+        "line": 84,
+        "excerpt": "Where `npx tsx ./scripts/run-tests-triage.ts` captures `npm test` output. Lives until next reboot or until you re-run. On Windows, the path is `%TEMP%\\pi-test.l",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".pi/skills/debug-dashboard/references/log-locations.md",
+        "line": 112,
+        "excerpt": "| Why are my changes not appearing? | Are you in dev mode? `npx tsx ./scripts/health-probe.ts` |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".pi/skills/debug-dashboard/references/test-failure-triage.md",
+        "line": 47,
+        "excerpt": "npx vitest run path/to/file.test.ts",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".pi/skills/debug-dashboard/references/test-failure-triage.md",
+        "line": 52,
+        "excerpt": "npx vitest run -t 'my test name'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".pi/skills/debug-dashboard/references/test-failure-triage.md",
+        "line": 59,
+        "excerpt": "npx vitest -w packages/server   # one package",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".pi/skills/debug-dashboard/references/test-failure-triage.md",
+        "line": 93,
+        "excerpt": "Running `npx vitest run` (or a workspace test) directly ABORTS with:",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".pi/skills/debug-dashboard/references/test-failure-triage.md",
+        "line": 99,
+        "excerpt": "HOME=$(mktemp -d) npx vitest run packages/automation-plugin",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".pi/skills/debug-dashboard/references/ui-debug.md",
+        "line": 34,
+        "excerpt": "npx tsx ./scripts/health-probe.ts        # this skill",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".pi/skills/debug-dashboard/scripts/health-probe.ts",
+        "line": 46,
+        "excerpt": "const resp = await fetch(`http://localhost:${port}/api/health`, {",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".pi/skills/debug-dashboard/scripts/run-tests-triage.ts",
+        "line": 16,
+        "excerpt": "import { spawn } from 'node:child_process';",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".pi/skills/debug-dashboard/scripts/run-tests-triage.ts",
+        "line": 34,
+        "excerpt": "label: `npx vitest run -t '${rest}'`,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".pi/skills/debug-dashboard/scripts/run-tests-triage.ts",
+        "line": 40,
+        "excerpt": "return { cmd: 'npx', cmdArgs: ['vitest', 'run', first], label: `npx vitest run ${first}` };",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".pi/skills/debug-dashboard/scripts/run-tests-triage.ts.AGENTS.md",
+        "line": 3,
+        "excerpt": "Runs `npm test` (or scoped variant), tees output to `${tmpdir}/pi-test.log`, prints FAIL-marker summary. Flags: none = `npm test`; `-t '<name>` = `npx vitest ru",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "downloads-code": 20,
+      "shell": 4,
+      "network": 4
+    },
+    "score": 75,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 19
+    "filesScanned": 19,
+    "filesSkipped": 0
   },
   "history": [
     {

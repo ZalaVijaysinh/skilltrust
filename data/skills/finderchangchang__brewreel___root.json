@@ -5,7 +5,7 @@
   "path": "",
   "name": "brewreel",
   "description": "精酿 · BrewReel：四种玩法。宣传片：做竖版产品宣传短片（1080x1920，15–45 秒，抖音/视频号/小红书）。用户要做产品宣传片、推广短视频、App 介绍视频、功能演示视频、上新短片、带货片头时使用。支持软件、餐饮、电商实物、教培、美业、文旅住宿六个行业，支持中英双语。你只写 storyboard.json，校验拦规则和行业合规，一条命令出片。口播配画面：用户有 talk.mp4，或要给口播配画面时，只读 broll/SKILL-broll.md，只写 broll.json，跑 node scripts/talk.mjs，不要写 storyboard.json。造 AI 画面风格：用户用一句话描述画面风格时，读 docs/style-factory.md，跑 node scripts/broll/new-style.mjs，不要自己出图，不要替人跑 approve-style.mjs。讲课视频：用户要做讲解课、课程、普法、教程类横版视频时，只读 lesson/SKILL-lesson.md，只写 lesson.json（或 brief），跑 node scripts/lesson/make-lesson.mjs。",
-  "stars": 180,
+  "stars": 181,
   "category": "media",
   "commit": "217eb1f9c6c047b908bfa95ec03f729bec1247ce",
   "contentHash": "8ed7348b896be12eeb12e0b2e2d28893776b0069701d80a4c48e380cd3d4e598",
@@ -13,7 +13,7 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
     "findings": [
       {
@@ -194,7 +194,7 @@
       },
       {
         "ruleId": "shell",
-        "file": "scripts/lesson/presenter-media.mjs",
+        "file": "scripts/broll/style-factory.mjs",
         "line": 5,
         "excerpt": "import {spawnSync} from 'node:child_process';",
         "disclosed": false,
@@ -202,47 +202,79 @@
       },
       {
         "ruleId": "shell",
-        "file": "scripts/lesson/presenter-media.mjs",
-        "line": 66,
-        "excerpt": "const result = spawnSync(process.execPath, [remotion, command, ...argv], {cwd: template, encoding: 'utf8', windowsHide: true, maxBuffer: 8 * 1024 * 1024});",
+        "file": "scripts/broll/style-factory.mjs",
+        "line": 281,
+        "excerpt": "const probe = spawnSync(ffmpegPath(), ['-hide_banner', '-version'], {encoding: 'utf8', windowsHide: true});",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "scripts/test-tts.mjs",
-        "line": 11,
+        "file": "scripts/lesson/segments.mjs",
+        "line": 4,
         "excerpt": "import {spawnSync} from 'node:child_process';",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "scripts/test-tts.mjs",
-        "line": 713,
-        "excerpt": "const probe = spawnSync(PY, ['-c', 'import numpy, scipy'], {encoding: 'utf8'});",
+        "file": "scripts/lesson/segments.mjs",
+        "line": 99,
+        "excerpt": "const git = (args) => spawnSync('git', args, {cwd: root, encoding: 'utf8', windowsHide: true, env});",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "scripts/test-tts.mjs",
-        "line": 716,
-        "excerpt": "spawnSync(PY, [path.join(ROOT, 'scripts', 'make_bgm.py'), '--duration', '8', '--bpm', '120', '--cues', '[0,4]', '--out', out, ...extra], {",
+        "file": "scripts/lesson/segments.mjs",
+        "line": 465,
+        "excerpt": "if (ffmpeg) return spawnSync(ffmpeg, ['-y', '-hide_banner', '-loglevel', 'error', ...args], {encoding: 'utf8', windowsHide: true, maxBuffer: 32 * 1024 * 1024});",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/lesson/segments.mjs",
+        "line": 466,
+        "excerpt": "return spawnSync(process.execPath, [remotion, 'ffmpeg', '-y', '-hide_banner', '-loglevel', 'error', ...args], {cwd: template, encoding: 'utf8', windowsHide: tru",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/lesson/segments.mjs",
+        "line": 471,
+        "excerpt": "const ran = spawnSync(ffprobe, ['-v', 'error', '-select_streams', 'v:0', '-count_packets', '-show_entries', 'stream=nb_read_packets', '-of', 'csv=p=0', file], {",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tests/broll/motion-kit.mjs",
+        "line": 4,
+        "excerpt": "import {spawnSync} from 'node:child_process';",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tests/broll/motion-kit.mjs",
+        "line": 312,
+        "excerpt": "const run = spawnSync(process.execPath, [path.join(ROOT, 'scripts', 'broll', 'llm_broll.mjs'), dir, '--motion-look', 'neon'], {encoding: 'utf8', cwd: ROOT, wind",
         "disclosed": false,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "downloads-code": 31,
+      "downloads-code": 35,
       "writes-outside": 2,
-      "shell": 5
+      "shell": 9
     },
     "score": 70,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 160,
-    "filesSkipped": 1243
+    "filesScanned": 206,
+    "filesSkipped": 1197
   },
   "history": [
     {

@@ -4,7 +4,7 @@
   "repo": "claude-skills",
   "path": "confide/skills/red",
   "name": "red",
-  "description": "",
+  "description": "Residual re-identification RISK CHECK on text you have ALREADY redacted (defensive, dual-use). Use when the user asks to \"check residual re-id risk\", \"red-team my redaction\", \"what can an attacker still infer\", \"is this safe to share\", or assess \"re-identification risk\" after anonymizing. Re-runs the CONFIDE detectors on the redacted output to surface surviving identifiers (singling-out), checks multiple files for linkability, and optionally probes a local model for still-inferable attribute CATEGORIES (inference) — mapped to GDPR Art-29. Reports risk categories/counts only, never a re-identification recipe. Pairs with confide:anon (run AFTER redacting).",
   "stars": 410,
   "category": "other",
   "commit": "d542f76c9ba19ebd068a739a1b9a50ec92ee6266",
@@ -12,16 +12,55 @@
   "repoCreatedAt": "2025-10-25T14:58:50Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "confide/skills/red/SKILL.md",
+        "line": 51,
+        "excerpt": "python3 skills/red/scripts/red.py path/to/file.green.md",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "confide/skills/red/scripts/red.py",
+        "line": 154,
+        "excerpt": "import urllib.request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "confide/skills/red/scripts/red.py",
+        "line": 172,
+        "excerpt": "req = urllib.request.Request(url, data=json.dumps(body).encode(), headers=headers)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "confide/skills/red/scripts/red.py",
+        "line": 173,
+        "excerpt": "with urllib.request.urlopen(req, timeout=120) as r:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 1,
+      "network": 3
+    },
+    "score": 90,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 3
+    "filesScanned": 3,
+    "filesSkipped": 0
   },
   "history": [
     {

@@ -4,24 +4,148 @@
   "repo": "pi-agent-dashboard",
   "path": ".pi/skills/ship-change",
   "name": "ship-change",
-  "description": "",
-  "stars": 341,
+  "description": "Ship an OpenSpec change after openspec-apply completes. When only QA/manual tasks remain, marks them done (tested later), archives + syncs specs, commits, pushes, opens a PR against develop, watches CI, waits for CodeRabbit, auto-applies safe fixes and re-pushes, loops until CI green + no actionable review threads, then squash-merges with branch delete and removes the worktree. Use after implementation is done and the change is ready to land. Triggers: \"ship this change\", \"ship it\", \"land the change\", \"merge and clean up\", \"post-apply ship\".",
+  "stars": 342,
   "category": "productivity",
   "commit": "3cf8afe9f75a2790c7c479dd3ccaee78ae168820",
   "contentHash": "0f9f7e003f99b37dcbf1a08f1a0a4929442f82b731c5381dc8cfa18494c6e693",
   "repoCreatedAt": "2026-03-23T05:08:48Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "downloads-code",
+        "file": ".pi/skills/ship-change/SKILL.agent.md",
+        "line": 9,
+        "excerpt": "- CI scripts — `npx tsx ./scripts/list-recent-runs.ts [--failed]`, `scripts/show-failed-run.ts <run-id>`. OpenSpec skills resolve from parent root in worktree.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".pi/skills/ship-change/SKILL.agent.md",
+        "line": 21,
+        "excerpt": "- **6. Watch CI** — `gh pr checks \"$pr\" --watch --interval 30`; fail → `npx tsx ./scripts/show-failed-run.ts` → diagnose (ci-troubleshoot) → fix → push → re-wat",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".pi/skills/ship-change/SKILL.md",
+        "line": 19,
+        "excerpt": "- CI scripts: `npx tsx ./scripts/list-recent-runs.ts [--failed]`, `scripts/show-failed-run.ts <run-id>`.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".pi/skills/ship-change/SKILL.md",
+        "line": 66,
+        "excerpt": "git fetch origin develop",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".pi/skills/ship-change/SKILL.md",
+        "line": 80,
+        "excerpt": "npm test 2>&1 | tee /tmp/ship-test.log",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".pi/skills/ship-change/SKILL.md",
+        "line": 100,
+        "excerpt": "git add -A",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".pi/skills/ship-change/SKILL.md",
+        "line": 110,
+        "excerpt": "git push -u origin os/<change>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".pi/skills/ship-change/SKILL.md",
+        "line": 120,
+        "excerpt": "gh pr checks \"$pr\" --watch --interval 30",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".pi/skills/ship-change/SKILL.md",
+        "line": 123,
+        "excerpt": "On failure: `npx tsx ./scripts/show-failed-run.ts` → diagnose (see `ci-troubleshoot`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".pi/skills/ship-change/SKILL.md",
+        "line": 145,
+        "excerpt": "git add -A && git commit -m \"fix: apply CodeRabbit feedback for <change>\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".pi/skills/ship-change/SKILL.md",
+        "line": 170,
+        "excerpt": "test ! -d openspec/changes/<change>                              # active dir moved away",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".pi/skills/ship-change/SKILL.md",
+        "line": 186,
+        "excerpt": "gh pr merge \"$pr\" --squash --delete-branch",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".pi/skills/ship-change/SKILL.md",
+        "line": 203,
+        "excerpt": "parent=$(git -C .worktrees/os-<change> worktree list --porcelain | awk 'NR==1{print $2}')",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".pi/skills/ship-change/SKILL.md",
+        "line": 238,
+        "excerpt": "if [ \"${RUN_FAQ_MINE:-}\" = \"1\" ]; then",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".pi/skills/ship-change/SKILL.md",
+        "line": 249,
+        "excerpt": "if [ \"${RUN_FAQ_MINE:-}\" = \"1\" ] && ! git diff --quiet -- docs/faq.md docs/faq.agent.md; then",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "downloads-code": 4,
+      "shell": 11
+    },
+    "score": 82,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 3
+    "filesScanned": 3,
+    "filesSkipped": 0
   },
   "history": [
     {

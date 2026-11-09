@@ -7,13 +7,13 @@
   "description": "Preprocesses photographed sheets of many business cards — slicing each into overlapping high-resolution tiles and de-glaring them with container tooling (OpenCV/ImageMagick) — then reads every card via cheap parallel temperature-0 API calls (Haiku or Sonnet) using a distilled extraction prompt, and writes deduped contact fields to a CSV. Use when a user has photos or scans holding multiple business cards per image, mentions glare or unreadable cards, batch card transcription, contact extraction, or wants to read many cards without an expensive in-conversation pass. Triggers on 'business cards', 'card scan', 'extract contacts', 'read these cards', 'card glare', 'too many cards per photo'.",
   "stars": 158,
   "category": "media",
-  "commit": "2ef3d1f28ce295f1b4dbff220b8f8ca342e87340",
+  "commit": "487272b6d1d9a2c5248d9adfa2d7765f8ca2b6af",
   "contentHash": "546e81318d39c5440d8f0065450fe05e2e3d7ea8b59791cfb3b045c13d167d1f",
   "repoCreatedAt": "2025-10-17T02:32:23Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
     "findings": [
       {
@@ -39,22 +39,65 @@
         "excerpt": "python3 scripts/extract_cards.py --work /home/claude/cards_work \\",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/media-processing/skills/reading-business-cards/scripts/extract_cards.py",
+        "line": 29,
+        "excerpt": "import urllib.request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "plugins/media-processing/skills/reading-business-cards/scripts/extract_cards.py",
+        "line": 32,
+        "excerpt": "API_URL = \"https://api.anthropic.com/v1/messages\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/media-processing/skills/reading-business-cards/scripts/extract_cards.py",
+        "line": 83,
+        "excerpt": "req = urllib.request.Request(API_URL, data=body, headers={",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/media-processing/skills/reading-business-cards/scripts/extract_cards.py",
+        "line": 90,
+        "excerpt": "with urllib.request.urlopen(req, timeout=120) as r:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
       }
     ],
     "findingTotals": {
-      "shell": 3
+      "shell": 3,
+      "network": 3,
+      "paid-api": 1
     },
-    "score": 95,
+    "score": 80,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 3,
-    "filesSkipped": 3
+    "filesScanned": 5,
+    "filesSkipped": 1
   },
   "history": [
     {
       "commit": "2ef3d1f28ce295f1b4dbff220b8f8ca342e87340",
       "scannedAt": "2026-11-07T22:05:48.475Z",
       "score": 95,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "487272b6d1d9a2c5248d9adfa2d7765f8ca2b6af",
+      "scannedAt": "2026-11-09T10:28:36.295Z",
+      "score": 80,
       "rulesVersion": "1.3.0"
     }
   ]

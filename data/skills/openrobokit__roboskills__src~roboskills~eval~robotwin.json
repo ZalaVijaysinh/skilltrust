@@ -4,18 +4,50 @@
   "repo": "roboskills",
   "path": "src/roboskills/eval/robotwin",
   "name": "robotwin",
-  "description": "",
-  "stars": 142,
+  "description": "Run native RoboTwin 2.0 episodes (the aloha-agilex robot's two 6-DoF arms in SAPIEN) behind the shared Robot contract, and prepare the pinned checkout, assets and host environment.",
+  "stars": 149,
   "category": "other",
-  "commit": "eca4691d2dfbb808dd58f3dd279fed154de6828a",
-  "contentHash": "5f9e278a0657d564549c4702c0effb4ccd2a93f72117a5e6cb08ede49bffe046",
+  "commit": "72add84d883ec83a14fc471c23474eea5f4150f7",
+  "contentHash": "38cf2646ebd419afad938a4d25c847dc96a34d68ce6c50539578170bcf2e40dd",
   "repoCreatedAt": "2026-10-30T14:33:43Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "shell",
+        "file": "src/roboskills/eval/robotwin/SKILL.md",
+        "line": 26,
+        "excerpt": "export ROBOTWIN=\"$PWD/runs/vendor/RoboTwin\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "src/roboskills/eval/robotwin/SKILL.md",
+        "line": 44,
+        "excerpt": "PYTHONUTF8=1 CUDA_VISIBLE_DEVICES=0 src/roboskills/eval/robotwin/.venv/bin/python \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "src/roboskills/eval/robotwin/SKILL.md",
+        "line": 67,
+        "excerpt": "docker pull ghcr.io/openrobokit/roboskills-robotwin:0.2.0   # once per host; runtime=docker also pulls it when missing",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "src/roboskills/eval/robotwin/SKILL.md",
+        "line": 77,
+        "excerpt": "ROBOTWIN=\"$PWD/runs/vendor/RoboTwin\" PYTHONUTF8=1 CUDA_VISIBLE_DEVICES=0 src/roboskills/eval/robotwin/.venv/bin/python \\",
+        "disclosed": false,
+        "automatic": false
+      },
       {
         "ruleId": "downloads-code",
         "file": "src/roboskills/eval/robotwin/setup.sh",
@@ -23,22 +55,78 @@
         "excerpt": "uv pip install -q --python \"$here/.venv/bin/python\" --no-deps -e \"$here/../../../..\"",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docker/robotwin/Dockerfile",
+        "line": 4,
+        "excerpt": "RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates git build-essential unzip \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docker/robotwin/Dockerfile",
+        "line": 19,
+        "excerpt": "RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates libegl1 libgl1 libgles2 libglib2.0-0 libgomp1 libvulkan1 \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docker/robotwin/Dockerfile",
+        "line": 21,
+        "excerpt": "&& mkdir -p /usr/share/glvnd/egl_vendor.d \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docker/robotwin/Dockerfile",
+        "line": 23,
+        "excerpt": "> /usr/share/glvnd/egl_vendor.d/10_nvidia.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docker/robotwin/Dockerfile",
+        "line": 26,
+        "excerpt": "RUN mkdir -p /usr/share/vulkan/icd.d \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docker/robotwin/Dockerfile",
+        "line": 28,
+        "excerpt": "> /usr/share/vulkan/icd.d/nvidia_icd.json",
+        "disclosed": false,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "downloads-code": 1
+      "shell": 4,
+      "downloads-code": 3,
+      "writes-outside": 4
     },
-    "score": 85,
-    "band": "low",
+    "score": 70,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 2,
-    "filesSkipped": 11
+    "filesScanned": 16,
+    "filesSkipped": 1
   },
   "history": [
     {
       "commit": "eca4691d2dfbb808dd58f3dd279fed154de6828a",
       "scannedAt": "2026-11-07T22:05:48.475Z",
       "score": 85,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "72add84d883ec83a14fc471c23474eea5f4150f7",
+      "scannedAt": "2026-11-09T10:28:36.295Z",
+      "score": 70,
       "rulesVersion": "1.3.0"
     }
   ]

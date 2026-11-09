@@ -4,73 +4,632 @@
   "repo": "blurt",
   "path": "skills/blurt",
   "name": "blurt",
-  "description": "",
-  "stars": 289,
+  "description": "Screen + voice → structured work. The user records their screen while talking (demoing their product, browsing, exploring an idea); turn the recording into items — bug/polish issues with repro steps, frames and suspected code, ideas with the inspiration behind them, notes, tasks — let them review on a local page, then export (Markdown/CSV, a hand-off bundle (.zip), or any tracker or chat through the tools you already have) or start fixing. Use when the user wants to record feedback / QA / ideas by talking while using their screen, hands over such a video, wants to process recordings from the Blurt app, or wants their Blurt items packed up and sent somewhere. Triggers: \"blurt\", \"/blurt\", \"start blurt\", \"开始口喷\", \"口喷鸡\", \"开始录\", \"录屏提 bug\", \"录一下我的想法\", \"record feedback\", \"turn this recording into issues\", \"处理我录的视频\", \"process my recordings\", \"把这些问题打包发给…\", \"bundle these items for…\", \"set up Blurt's models\", \"帮我设置口喷鸡的模型\", \"配置听写模型 / API Key\".",
+  "stars": 321,
   "category": "coding",
-  "commit": "ac4b45d023d6e729281105e8747c95617b6a2adb",
-  "contentHash": "9272e8a6e088d4444cf615f653f12c3f993a009a76416178595e561e4403e986",
+  "commit": "2ca8dae28a5113cf6b9d77a5f8803f3c7a441c22",
+  "contentHash": "5685c1072dded79861427a5299731946d5ec9c51c1c4b1387cbc2ae71a20e747",
   "repoCreatedAt": "2026-09-25T09:59:27Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
     "findings": [
       {
-        "ruleId": "shell",
-        "file": "skills/blurt/scripts/handoff.py",
-        "line": 43,
-        "excerpt": "p = subprocess.run([sys.executable, str(script), *map(str, args)], capture_output=True, text=True,",
+        "ruleId": "writes-outside",
+        "file": "skills/blurt/recorder/macos/Sources/BlurtApp/App/UVSetup.swift",
+        "line": 12,
+        "excerpt": "static let installCommand = \"curl -LsSf https://astral.sh/uv/install.sh | env UV_INSTALL_DIR=\\\"$HOME/.blurt/bin\\\" UV_NO_MODIFY_PATH=1 sh\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/blurt/recorder/macos/Sources/BlurtApp/App/UVSetup.swift",
+        "line": 12,
+        "excerpt": "static let installCommand = \"curl -LsSf https://astral.sh/uv/install.sh | env UV_INSTALL_DIR=\\\"$HOME/.blurt/bin\\\" UV_NO_MODIFY_PATH=1 sh\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "astral.sh"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/blurt/recorder/macos/Sources/BlurtApp/Settings/AgentsPane.swift",
+        "line": 972,
+        "excerpt": "s.contains(\"`\") || [\"npm \", \"curl \", \"brew \", \"pip \", \"uv \", \"npx \"].contains { s.hasPrefix($0) }",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/blurt/recorder/macos/Sources/BlurtApp/Settings/CloudSpeechSheet.swift",
+        "line": 26,
+        "excerpt": "case .openai: return \"https://api.openai.com/v1\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/blurt/recorder/macos/Sources/BlurtCore/CloudServices.swift",
+        "line": 155,
+        "excerpt": "CloudEndpoint(nil, \"https://api.openai.com/v1\", key: \"https://platform.openai.com/api-keys\"),",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/blurt/recorder/macos/Sources/BlurtCore/CloudServices.swift",
+        "line": 158,
+        "excerpt": "CloudEndpoint(nil, \"https://api.anthropic.com\", key: \"https://platform.claude.com/settings/keys\"),",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/blurt/recorder/macos/Sources/BlurtCore/CloudServices.swift",
+        "line": 161,
+        "excerpt": "CloudEndpoint(nil, \"https://generativelanguage.googleapis.com/v1beta/openai\", key: \"https://aistudio.google.com/apikey\"),",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/blurt/recorder/macos/Sources/BlurtCore/CloudServices.swift",
+        "line": 164,
+        "excerpt": "CloudEndpoint(nil, \"https://openrouter.ai/api/v1\", key: \"https://openrouter.ai/keys\"),",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/blurt/recorder/macos/Sources/BlurtCore/CloudServices.swift",
+        "line": 568,
+        "excerpt": "let own = p == \"openai\" ? \"https://api.openai.com\" : \"https://api.anthropic.com\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/blurt/recorder/macos/Tests/BlurtCoreTests/CloudCuratedTests.swift",
+        "line": 206,
+        "excerpt": "XCTAssertNil(CloudCustom.problem(baseURL: \"https://openrouter.ai/api/v1\", model: \"moonshotai/kimi-k3\", typedKey: \"sk-or-1\", keySaved: false))",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/blurt/recorder/macos/Tests/BlurtCoreTests/CloudServicesTests.swift",
+        "line": 74,
+        "excerpt": "XCTAssertEqual(a.modelsURL?.absoluteString, \"https://api.anthropic.com/v1/models?limit=1000\")",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "skills/blurt/scripts/handoff.py",
-        "line": 44,
-        "excerpt": "encoding=\"utf-8\", errors=\"replace\", timeout=timeout, stdin=subprocess.DEVNULL)",
+        "file": "skills/blurt/recorder/macos/Tests/make_fixture.py",
+        "line": 117,
+        "excerpt": "out = subprocess.run([\"uv\", \"run\", \"-q\", str(SCRIPTS / \"index.py\"), \"scan\"], capture_output=True, text=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/blurt/scripts/_common.py",
+        "line": 64,
+        "excerpt": "hint = \"brew install ffmpeg\" if IS_MAC else \"winget install Gyan.FFmpeg\" if IS_WIN else \"sudo apt install ffmpeg\"",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "skills/blurt/scripts/handoff.py",
-        "line": 45,
+        "file": "skills/blurt/scripts/_common.py",
+        "line": 69,
+        "excerpt": "def run(cmd: list[str], check: bool = True, capture: bool = True, **kw) -> subprocess.CompletedProcess:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/blurt/scripts/_common.py",
+        "line": 70,
+        "excerpt": "return subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/blurt/scripts/_common.py",
+        "line": 675,
+        "excerpt": "def fetch(url: str, tmp: Path, size: int | None = None, progress=None, timeout: float = 60) -> int:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/blurt/scripts/_common.py",
+        "line": 679,
+        "excerpt": "import urllib.request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/blurt/scripts/_common.py",
+        "line": 690,
+        "excerpt": "r = urllib.request.urlopen(urllib.request.Request(url, headers=headers), timeout=timeout)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/blurt/scripts/agents.json",
+        "line": 11,
+        "excerpt": "\"install\": {\"zh\": \"curl -fsSL https://claude.ai/install.sh | bash\", \"en\": \"curl -fsSL https://claude.ai/install.sh | bash\"},",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/blurt/scripts/agents.json",
+        "line": 11,
+        "excerpt": "\"install\": {\"zh\": \"curl -fsSL https://claude.ai/install.sh | bash\", \"en\": \"curl -fsSL https://claude.ai/install.sh | bash\"},",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "claude.ai"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/blurt/scripts/agents.json",
+        "line": 27,
+        "excerpt": "\"install\": {\"zh\": \"npm i -g @openai/codex\", \"en\": \"npm i -g @openai/codex\"},",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/blurt/scripts/agents.json",
+        "line": 61,
+        "excerpt": "\"install\": {\"zh\": \"curl -fsSL https://opencode.ai/install | bash\", \"en\": \"curl -fsSL https://opencode.ai/install | bash\"},",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/blurt/scripts/agents.json",
+        "line": 61,
+        "excerpt": "\"install\": {\"zh\": \"curl -fsSL https://opencode.ai/install | bash\", \"en\": \"curl -fsSL https://opencode.ai/install | bash\"},",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "opencode.ai"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/blurt/scripts/agents.json",
+        "line": 78,
+        "excerpt": "\"install\": {\"zh\": \"npm i -g @google/gemini-cli\", \"en\": \"npm i -g @google/gemini-cli\"},",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/blurt/scripts/agents.json",
+        "line": 94,
+        "excerpt": "\"install\": {\"zh\": \"curl -fsSL https://x.ai/cli/install.sh | bash\", \"en\": \"curl -fsSL https://x.ai/cli/install.sh | bash\"},",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/blurt/scripts/agents.json",
+        "line": 94,
+        "excerpt": "\"install\": {\"zh\": \"curl -fsSL https://x.ai/cli/install.sh | bash\", \"en\": \"curl -fsSL https://x.ai/cli/install.sh | bash\"},",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "x.ai"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/blurt/scripts/agents.json",
+        "line": 107,
+        "excerpt": "\"install\": {\"zh\": \"npm install -g @tencent-ai/codebuddy-code\", \"en\": \"npm install -g @tencent-ai/codebuddy-code\"},",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/blurt/scripts/agents.py",
+        "line": 149,
+        "excerpt": "env = dict(os.environ) if env is None else env",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/blurt/scripts/agents.py",
+        "line": 160,
+        "excerpt": "p = subprocess.run([path, *args], capture_output=True, text=True, encoding=\"utf-8\", errors=\"replace\",",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/blurt/scripts/agents.py",
+        "line": 161,
+        "excerpt": "timeout=15, env=env, stdin=subprocess.DEVNULL)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/blurt/scripts/agents.py",
+        "line": 163,
+        "excerpt": "except (OSError, subprocess.TimeoutExpired):",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/blurt/scripts/agents.py",
+        "line": 354,
+        "excerpt": "p = subprocess.run([path, *args], capture_output=True, text=True, encoding=\"utf-8\", errors=\"replace\",",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/blurt/scripts/agents.py",
+        "line": 355,
+        "excerpt": "timeout=10, env=env, stdin=subprocess.DEVNULL)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/blurt/scripts/agents.py",
+        "line": 356,
+        "excerpt": "except (OSError, subprocess.TimeoutExpired):",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/blurt/scripts/agents.py",
+        "line": 616,
+        "excerpt": "p = subprocess.run(argv, capture_output=True, text=True, encoding=\"utf-8\", errors=\"replace\", timeout=timeout,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/blurt/scripts/agents.py",
+        "line": 617,
+        "excerpt": "env=env, stdin=subprocess.DEVNULL)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/blurt/scripts/agents.py",
+        "line": 619,
         "excerpt": "except (OSError, subprocess.TimeoutExpired) as e:",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "skills/blurt/scripts/handoff.py",
+        "file": "skills/blurt/scripts/dictation_lab.py",
+        "line": 466,
+        "excerpt": "r = subprocess.run([\"afconvert\", \"-f\", \"WAVE\", \"-d\", f\"LEI16@{SR}\", \"-c\", \"1\", str(src), str(dst)], capture_output=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/blurt/scripts/dictation_lab.py",
+        "line": 468,
+        "excerpt": "r = subprocess.run([shutil.which(\"ffmpeg\") or \"ffmpeg\", \"-nostdin\", \"-loglevel\", \"error\", \"-y\", \"-i\", str(src),",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/blurt/scripts/dictation_lab.py",
+        "line": 571,
+        "excerpt": "r = subprocess.run([uv, \"run\", \"-q\", str(HERE / script), *args], capture_output=True, text=True, timeout=timeout)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/blurt/scripts/dictation_lab.py",
+        "line": 572,
+        "excerpt": "except (OSError, subprocess.TimeoutExpired):",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/blurt/scripts/dictation_lab.py",
+        "line": 609,
+        "excerpt": "self.started: dict[str, subprocess.Popen] = {}",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/blurt/scripts/dictation_lab.py",
+        "line": 639,
+        "excerpt": "p = subprocess.Popen([uv, \"run\", \"-q\", str(HERE / script), *args], stdin=subprocess.DEVNULL,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/blurt/scripts/dictation_lab.py",
+        "line": 640,
+        "excerpt": "stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, env=env, start_new_session=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/blurt/scripts/dictation_lab.py",
+        "line": 701,
+        "excerpt": "r = subprocess.run(cmd, capture_output=True, text=True, timeout=180)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/blurt/scripts/doctor.py",
+        "line": 163,
+        "excerpt": "report[\"todo\"].append(\"Install ffmpeg: \" + (\"brew install ffmpeg\" if IS_MAC else \"winget install Gyan.FFmpeg\" if IS_WIN",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/blurt/scripts/doctor.py",
+        "line": 164,
+        "excerpt": "else \"sudo apt install ffmpeg\"))",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/blurt/scripts/doctor.py",
+        "line": 175,
+        "excerpt": "report[\"todo\"].append(\"Recording the mic needs PortAudio: sudo apt install libportaudio2\")",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/blurt/scripts/feedback.py",
+        "line": 38,
+        "excerpt": "import urllib.request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/blurt/scripts/feedback.py",
+        "line": 297,
+        "excerpt": "\"\"\"`length` bytes of an open file from `offset`, read in blocks (http.client streams a body with .read()).\"\"\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/blurt/scripts/feedback.py",
+        "line": 311,
+        "excerpt": "def _http(req: urllib.request.Request, timeout: float) -> dict:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/blurt/scripts/feedback.py",
+        "line": 314,
+        "excerpt": "with urllib.request.urlopen(req, timeout=timeout) as r:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/blurt/scripts/feedback.py",
+        "line": 343,
+        "excerpt": "o = _http(urllib.request.Request(f\"{base}/v1/report\", data=b\"\", method=\"POST\", headers={",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/blurt/scripts/feedback.py",
+        "line": 352,
+        "excerpt": "req = urllib.request.Request(f\"{base}/v1/report/{rid}/{i}\", data=_Slice(f, i * PART, n), method=\"PUT\",",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/blurt/scripts/mcp_server.py",
         "line": 110,
-        "excerpt": "out = subprocess.run([\"defaults\", \"read\", \"-g\", \"AppleLanguages\"], capture_output=True, text=True,",
+        "excerpt": "errors=\"replace\", env=dict(os.environ), stdin=subprocess.DEVNULL, timeout=60)",
         "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "shell",
-        "file": "skills/blurt/scripts/handoff.py",
-        "line": 115,
-        "excerpt": "except (OSError, subprocess.SubprocessError):",
+        "ruleId": "network",
+        "file": "skills/blurt/scripts/polish.py",
+        "line": 50,
+        "excerpt": "import urllib.request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/blurt/scripts/polish.py",
+        "line": 1973,
+        "excerpt": "with urllib.request.urlopen(urllib.request.Request(api, headers={\"User-Agent\": \"blurt\"}), timeout=30) as r:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/blurt/scripts/polish.py",
+        "line": 1994,
+        "excerpt": "got = fetch(url, tmp, f.get(\"Size\"), progress)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/blurt/scripts/polish_cloud.py",
+        "line": 27,
+        "excerpt": "import urllib.request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/blurt/scripts/polish_cloud.py",
+        "line": 39,
+        "excerpt": "\"openai\": {\"base_url\": \"https://api.openai.com/v1\", \"model\": \"\", \"protocol\": \"openai\"},",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/blurt/scripts/polish_cloud.py",
+        "line": 40,
+        "excerpt": "\"anthropic\": {\"base_url\": \"https://api.anthropic.com\", \"model\": \"\", \"protocol\": \"anthropic\"},",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/blurt/scripts/polish_cloud.py",
+        "line": 176,
+        "excerpt": "\"api.openai.com\": {\"reasoning_effort\": \"none\"},",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/blurt/scripts/polish_cloud.py",
+        "line": 179,
+        "excerpt": "NO_TEMPERATURE = (\"api.openai.com\", \"moonshot\", \"minimax\")      # fixed at 1 there (some refuse any other value)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/blurt/scripts/polish_cloud.py",
+        "line": 200,
+        "excerpt": "body[\"max_completion_tokens\" if host == \"api.openai.com\" else \"max_tokens\"] = max_tokens",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/blurt/scripts/polish_cloud.py",
+        "line": 244,
+        "excerpt": "req = urllib.request.Request(url, json.dumps(body).encode(), headers)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/blurt/scripts/polish_cloud.py",
+        "line": 245,
+        "excerpt": "with urllib.request.urlopen(req, timeout=timeout) as r:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/blurt/scripts/record.py",
+        "line": 25,
+        "excerpt": "record.py install-app                 double-clickable recorder: ~/Applications/Blurt.app / Start-menu \"Blurt\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/blurt/scripts/record.py",
+        "line": 1855,
+        "excerpt": "\"\"\"(Re)install the standalone recorder: ~/Applications/Blurt.app (macOS) / Start-menu \"Blurt\" (Windows).",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/blurt/scripts/transcribe.py",
+        "line": 1962,
+        "excerpt": "for name, default_base in ((\"BLURT_ASR_API_KEY\", \"https://api.openai.com/v1\"),",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/blurt/scripts/transcribe.py",
+        "line": 1963,
+        "excerpt": "(\"OPENAI_API_KEY\", \"https://api.openai.com/v1\"),",
         "disclosed": false,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 5
+      "writes-outside": 3,
+      "network": 30,
+      "paid-api": 15,
+      "shell": 112,
+      "downloads-code": 10,
+      "reads-secrets": 2
     },
-    "score": 95,
-    "band": "low",
+    "score": 42,
+    "band": "high",
     "rulesVersion": "1.3.0",
-    "filesScanned": 8,
-    "filesSkipped": 865
+    "filesScanned": 430,
+    "filesSkipped": 351
   },
   "history": [
     {
       "commit": "ac4b45d023d6e729281105e8747c95617b6a2adb",
       "scannedAt": "2026-11-07T22:05:48.475Z",
       "score": 95,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "2ca8dae28a5113cf6b9d77a5f8803f3c7a441c22",
+      "scannedAt": "2026-11-09T10:28:36.295Z",
+      "score": 42,
       "rulesVersion": "1.3.0"
     }
   ]

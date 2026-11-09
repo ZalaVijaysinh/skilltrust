@@ -5,15 +5,15 @@
   "path": "skills/portless-ops",
   "name": "portless-ops",
   "description": "Portless local-dev HTTPS proxy: replaces port numbers with named URLs (Caddy/nginx alternative for local dev). Triggers on: portless, local https proxy, named localhost URL, custom TLD, portless alias, portless.json, local CA trust, boot persistence, monorepo routing, Tailscale dev sharing.",
-  "stars": 79,
+  "stars": 80,
   "category": "coding",
   "commit": "82f5d0a34618bb4228d7e6662579a88d6fe5297c",
   "contentHash": "efd142927a1c5d38e1094b6227175c893b7f60ec6e54cf60cb59215a3c7fcc47",
   "repoCreatedAt": "2025-11-27T03:02:32Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
     "findings": [
       {
@@ -95,6 +95,112 @@
         "file": "skills/portless-ops/references/integration-patterns.md",
         "line": 158,
         "excerpt": "GOOD: pin version: npm install -g portless@0.13.0; record in your repo",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/portless-ops/references/tld-selection.md",
+        "line": 96,
+        "excerpt": "rm ~/.portless/routes.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/portless-ops/references/upstream-portless.md",
+        "line": 33,
+        "excerpt": "Install globally (recommended) or as a project dev dependency. Do NOT use `npx` or `pnpm dlx` for one-off execution.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/portless-ops/references/upstream-portless.md",
+        "line": 37,
+        "excerpt": "npm install -g portless",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/portless-ops/references/upstream-portless.md",
+        "line": 43,
+        "excerpt": "When installed per-project, invoke via package.json scripts or `npx portless` (since the package is local, npx will not download anything).",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/portless-ops/references/upstream-portless.md",
+        "line": 49,
+        "excerpt": "npm install -g portless",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/portless-ops/references/upstream-portless.md",
+        "line": 221,
+        "excerpt": "LAN mode depends on the system mDNS helpers that portless launches: macOS includes `dns-sd`, while Linux uses `avahi-publish-address` from `avahi-utils` (instal",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/portless-ops/references/windows-specifics.md",
+        "line": 50,
+        "excerpt": "Symptom: `curl https://myapp.test/` returns HTTP code 000, but the browser loads `https://myapp.test/` fine with a green padlock.",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "myapp.test"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/portless-ops/references/windows-specifics.md",
+        "line": 58,
+        "excerpt": "curl -k https://myapp.test/",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "myapp.test"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/portless-ops/references/windows-specifics.md",
+        "line": 118,
+        "excerpt": "Invoke-WebRequest -Uri https://x.lab -SkipCertificateCheck",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "x.lab"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/portless-ops/scripts/install-portless.ps1",
+        "line": 45,
+        "excerpt": "Invoke-WebRequest -Uri $tarballUrl -OutFile $tarball",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/portless-ops/scripts/install-portless.ps1",
+        "line": 118,
+        "excerpt": "Write-Host \"[5/6] npm install -g portless@$Version...\" -ForegroundColor Yellow",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/portless-ops/scripts/install-portless.ps1",
+        "line": 119,
+        "excerpt": "npm install -g portless@$Version 2>&1 | Tee-Object -Variable npmOutput | Out-Host",
         "disclosed": false,
         "automatic": false
       },
@@ -317,36 +423,20 @@
         "excerpt": "npx prettier --write \"$FILE\" 2>/dev/null && FORMATTED=true",
         "disclosed": false,
         "automatic": true
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "hooks/pre-commit-lint.sh",
-        "line": 60,
-        "excerpt": "echo \"$files\" | xargs npx eslint --max-warnings 0",
-        "disclosed": false,
-        "automatic": true
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "hooks/pre-install-scan.sh",
-        "line": 87,
-        "excerpt": "MSG+=$'\\n'\"  Socket CLI not installed (free):  npm install -g socket\"",
-        "disclosed": false,
-        "automatic": true
       }
     ],
     "findingTotals": {
-      "downloads-code": 15,
+      "downloads-code": 22,
       "shell": 16,
-      "writes-outside": 2,
-      "network": 4,
+      "writes-outside": 3,
+      "network": 8,
       "reads-secrets": 2
     },
     "score": 45,
     "band": "high",
     "rulesVersion": "1.3.0",
-    "filesScanned": 26,
-    "filesSkipped": 8
+    "filesScanned": 34,
+    "filesSkipped": 0
   },
   "history": [
     {

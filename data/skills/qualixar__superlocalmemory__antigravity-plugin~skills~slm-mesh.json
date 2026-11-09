@@ -4,30 +4,147 @@
   "repo": "superlocalmemory",
   "path": "antigravity-plugin/skills/slm-mesh",
   "name": "slm-mesh",
-  "description": "",
+  "description": "Cross-session peer coordination via the SLM mesh network. Lets multiple AI agent sessions on the same machine, and web apps the owner has allowed (ChatGPT, Claude on the web, Grok Bot, Muse, Composio), discover each other, send messages, wait for replies with mesh_wait, share lightweight state, and lock files to avoid conflicts. Covers the at-least-once delivery rule for web apps (pass ack_ids back as ack) and the two permissions a web app needs. Available in the default tool set and in the full, power and mesh MCP profiles. Only `slm mesh status` and `slm mesh peers` exist on the command line; the other tools are MCP-only.",
   "stars": 274,
   "category": "coding",
-  "commit": "93e58692ce51b196a879a43e3974d378652db748",
-  "contentHash": "da8c69dc4d474d5cef83870a3e5867568da937f306728b11c1807d60a129b5b0",
+  "commit": "67f0663bb9dd7d193ab7f6dcf2aa1c89fbcd1d19",
+  "contentHash": "0a7e0ea2c796219214d45e275a6291e9a4a00b3e79c822eefe3d51c6bbd307db",
   "repoCreatedAt": "2026-02-05T12:07:55Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "reads-secrets",
+        "file": "antigravity-plugin/scripts/antigravity_hook_adapter.py",
+        "line": 20,
+        "excerpt": "env = dict(os.environ)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "antigravity-plugin/scripts/antigravity_hook_adapter.py",
+        "line": 24,
+        "excerpt": "result = subprocess.run(",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "antigravity-plugin/hooks.json",
+        "line": 6,
+        "excerpt": "\"command\": \"python3 ./scripts/antigravity_hook_adapter.py pre-invocation\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "antigravity-plugin/hooks.json",
+        "line": 16,
+        "excerpt": "\"command\": \"python3 ./scripts/antigravity_hook_adapter.py pre-tool\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "antigravity-plugin/hooks.json",
+        "line": 28,
+        "excerpt": "\"command\": \"python3 ./scripts/antigravity_hook_adapter.py post-tool\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "antigravity-plugin/hooks.json",
+        "line": 37,
+        "excerpt": "\"command\": \"python3 ./scripts/antigravity_hook_adapter.py stop\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "antigravity-plugin/hooks/hooks.json",
+        "line": 8,
+        "excerpt": "\"command\": \"slm hook mandate 2>/dev/null || true\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "antigravity-plugin/hooks/hooks.json",
+        "line": 17,
+        "excerpt": "\"command\": \"slm hook start 2>/dev/null || true\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "network",
+        "file": "antigravity-plugin/hooks/hooks.json",
+        "line": 25,
+        "excerpt": "\"matcher\": \"WebSearch|WebFetch\",",
+        "disclosed": true,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "antigravity-plugin/hooks/hooks.json",
+        "line": 29,
+        "excerpt": "\"command\": \"slm hook before_web 2>/dev/null || true\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "network",
+        "file": "antigravity-plugin/hooks/hooks.json",
+        "line": 37,
+        "excerpt": "\"matcher\": \"Bash|Read|Write|Edit|Glob|Grep|Agent|WebFetch|WebSearch|NotebookEdit\",",
+        "disclosed": true,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "antigravity-plugin/hooks/hooks.json",
+        "line": 41,
+        "excerpt": "\"command\": \"slm hook post_tool_outcome 2>/dev/null || true\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "antigravity-plugin/hooks/hooks.json",
+        "line": 52,
+        "excerpt": "\"command\": \"slm hook stop_outcome 2>/dev/null || true\",",
+        "disclosed": false,
+        "automatic": true
+      }
+    ],
+    "findingTotals": {
+      "reads-secrets": 1,
+      "shell": 10,
+      "network": 2
+    },
+    "score": 82,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 4
+    "filesScanned": 6,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "93e58692ce51b196a879a43e3974d378652db748",
       "scannedAt": "2026-11-07T22:05:48.475Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "67f0663bb9dd7d193ab7f6dcf2aa1c89fbcd1d19",
+      "scannedAt": "2026-11-09T10:28:36.295Z",
+      "score": 82,
       "rulesVersion": "1.3.0"
     }
   ]

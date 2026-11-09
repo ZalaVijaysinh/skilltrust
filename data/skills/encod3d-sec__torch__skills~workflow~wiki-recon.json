@@ -4,7 +4,7 @@
   "repo": "TORCH",
   "path": "skills/workflow/wiki-recon",
   "name": "wiki-recon",
-  "description": "",
+  "description": "External recon and OSINT pipeline - subdomain enum, live host discovery, URL crawl, JS analysis, nuclei scan. Outputs to Attack-surface.md and scope/. Queries wiki before each phase. Use when starting recon on any target.",
   "stars": 340,
   "category": "coding",
   "commit": "d21b6c94982cec09c88ae9c0e98f4e3865de7148",
@@ -12,16 +12,80 @@
   "repoCreatedAt": "2026-07-14T07:25:10Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/workflow/wiki-recon/SKILL.md",
+        "line": 26,
+        "excerpt": "TARGET=\"target.com\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/workflow/wiki-recon/SKILL.md",
+        "line": 31,
+        "excerpt": "curl -s \"https://crt.sh/?q=%.${TARGET}&output=json\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "crt.sh"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/workflow/wiki-recon/SKILL.md",
+        "line": 41,
+        "excerpt": "cat $RECON_DIR/subs.txt | dnsx -silent | \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/workflow/wiki-recon/SKILL.md",
+        "line": 49,
+        "excerpt": "cat $RECON_DIR/live.txt | awk '{print $1}' | \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/workflow/wiki-recon/SKILL.md",
+        "line": 58,
+        "excerpt": "nuclei -l $RECON_DIR/live.txt -t ~/nuclei-templates/ \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/workflow/wiki-recon/SKILL.md",
+        "line": 65,
+        "excerpt": "ffuf -c -u https://HOST/FUZZ -w scripts/wordlists/harness-paths.txt -e .php,.py -mc 200,301,302,401,403 -ac",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/workflow/wiki-recon/SKILL.md",
+        "line": 75,
+        "excerpt": "xargs -I {} curl -sk {} | grep -E \"(api_key|apikey|secret|token|password|credential).*['\\\"][A-Za-z0-9+/]{20,}\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 5,
+      "network": 2
+    },
+    "score": 92,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 1
+    "filesScanned": 1,
+    "filesSkipped": 0
   },
   "history": [
     {

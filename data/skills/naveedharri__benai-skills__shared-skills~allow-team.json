@@ -5,7 +5,7 @@
   "path": "shared-skills/allow-team",
   "name": "allow-team",
   "description": "Puts a running Open WebUI or Odysseus on a shareable public URL through an ngrok tunnel, so a teammate can sign in and use the local models without installing anything. Use when the user says \"share Open WebUI with my team\", \"share Odysseus with my team\", \"let my colleague use my local AI\", \"expose Open WebUI\", \"share localhost:8080\", \"share localhost:7860\", \"give someone access to my models\", \"set up an ngrok tunnel\", \"make my local AI reachable from another machine\", or asks how to let someone else try their setup. Checks the harness's own login is on and enforced before it opens anything, installs ngrok if missing, then proves the URL works from outside. Requires Claude Code with shell access on the user's own machine; refuses to run in a sandbox.",
-  "stars": 79,
+  "stars": 80,
   "category": "coding",
   "commit": "4c7a2ec92f82d467e6a66a99cb5d9491d777806f",
   "contentHash": "3ea3a39733aa0ff9d70c3aa9c04b3704705f188b58caafa7368149bc1ec30fcb",
@@ -13,50 +13,41 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
     "findings": [
       {
         "ruleId": "network",
-        "file": "shared-skills/allow-team/references/safety-gate.md",
-        "line": 23,
-        "excerpt": "echo \"api, no session: $(curl -s -o /dev/null -w '%{http_code}' --max-time 8 \"http://localhost:$PORT/api/models\")\"",
+        "file": "shared-skills/allow-team/references/troubleshooting.md",
+        "line": 39,
+        "excerpt": "curl -s --max-time 3 http://localhost:4040/api/tunnels | head -c 200",
         "disclosed": true,
         "automatic": false,
         "hosts": []
       },
       {
         "ruleId": "network",
-        "file": "shared-skills/allow-team/references/safety-gate.md",
-        "line": 33,
-        "excerpt": "curl -s --max-time 8 \"http://localhost:$PORT/api/config\" | python3 -c \"",
+        "file": "shared-skills/allow-team/references/troubleshooting.md",
+        "line": 66,
+        "excerpt": "curl -s --max-time 5 \"http://localhost:$PORT/health\"                   # is it there locally?",
         "disclosed": true,
         "automatic": false,
         "hosts": []
       },
       {
         "ruleId": "network",
-        "file": "shared-skills/allow-team/references/safety-gate.md",
-        "line": 47,
-        "excerpt": "echo \"version:  $(curl -s --max-time 8 \"http://127.0.0.1:$PORT/api/version\")\"",
+        "file": "shared-skills/allow-team/references/troubleshooting.md",
+        "line": 67,
+        "excerpt": "curl -s http://localhost:4040/api/tunnels | grep -o '\"addr\":\"[^\"]*\"'   # where is ngrok pointed?",
         "disclosed": true,
         "automatic": false,
         "hosts": []
       },
       {
         "ruleId": "network",
-        "file": "shared-skills/allow-team/references/safety-gate.md",
-        "line": 48,
-        "excerpt": "echo \"config:   $(curl -s -o /dev/null -w '%{http_code}' --max-time 8 \"http://127.0.0.1:$PORT/api/config\")   # want 401\"",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "shared-skills/allow-team/references/safety-gate.md",
-        "line": 49,
-        "excerpt": "echo \"register: $(curl -s -o /dev/null -w '%{http_code}' --max-time 8 \"http://127.0.0.1:$PORT/register\")     # want 302\"",
+        "file": "shared-skills/allow-team/references/troubleshooting.md",
+        "line": 88,
+        "excerpt": "curl -s \"http://localhost:$PORT/api/config\" | python3 -c \"import sys,json;print(json.load(sys.stdin).get('features'))\"",
         "disclosed": true,
         "automatic": false,
         "hosts": []
@@ -159,7 +150,7 @@
       }
     ],
     "findingTotals": {
-      "network": 11,
+      "network": 10,
       "downloads-code": 3,
       "writes-outside": 2
     },

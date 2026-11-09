@@ -5,15 +5,15 @@
   "path": "skills/day-in-my-life",
   "name": "day-in-my-life",
   "description": "A 60 to 75 s hand-drawn ink film of the agent's day with its own user (\"a day in my life as <name>'s agent\"): one average session from the user's local Claude Code history, beginning to end. The story follows what they actually do (coding, tests, docs, shipping, videos, whatever the history shows), told with their real words (first message, check-ins, corrections, praise, memory titles). It is drawn in two-tone p5.brush strokes that boil at 8 fps and scored for strings composed note-for-note on the film's clock (the typed \"claude\" is the theme). Trigger on: \"day in my life as my agent\", \"a film about me and my agent\", \"what is it like to be my agent\", \"animate your day with me\", \"make a video of our sessions\". Covers harvesting the routine and receipts, the privacy gate, the chapter toolbox, the ink kit, the score, render and QC.",
-  "stars": 251,
+  "stars": 252,
   "category": "media",
   "commit": "ba7a0bb6d3567d124c51f6074625043bfe0b32eb",
   "contentHash": "0ceec7ebf19e0f5e14778707db4f990dc024b67520750aaff99a8134b5b24127",
   "repoCreatedAt": "2026-08-25T05:26:54Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
     "findings": [
       {
@@ -88,18 +88,82 @@
         "excerpt": "if rx.match(h) or rx.match(re.sub(r'^(npx|bunx|uvx|python3? -m)( -y| --yes)? ', '', h)): return act, h",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/day-in-my-life/scripts/new-film.mjs",
+        "line": 101,
+        "excerpt": "scripts: { check: 'npx --yes hyperframes@0.8.70 check', render: 'npx --yes hyperframes@0.8.70 render --fps 24 --crf 12 --browser-gpu -o renders/film.mp4' } }, n",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/day-in-my-life/scripts/qc.py",
+        "line": 20,
+        "excerpt": "raw = subprocess.run(['ffmpeg', '-v', 'error', '-i', mp4, '-vf', f'scale={W}:{H},format=gray', '-f', 'rawvideo', '-'], capture_output=True).stdout",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/day-in-my-life/scripts/qc.py",
+        "line": 43,
+        "excerpt": "au = np.frombuffer(subprocess.run(['ffmpeg', '-v', 'error', '-i', mp4, '-ac', '1', '-ar', '48000', '-f', 'f32le', '-'], capture_output=True).stdout, np.float32)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/day-in-my-life/scripts/qc.py",
+        "line": 50,
+        "excerpt": "r = subprocess.run(['ffmpeg', '-hide_banner', '-i', mp4, '-af', 'loudnorm=print_format=json', '-f', 'null', '-'], capture_output=True, text=True)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/day-in-my-life/scripts/score.py",
+        "line": 389,
+        "excerpt": "subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', src, '-af', 'acompressor=threshold=-24dB:ratio=2:attack=30:release=300', tmp], check=True)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/day-in-my-life/scripts/score.py",
+        "line": 391,
+        "excerpt": "r = subprocess.run(['ffmpeg', '-hide_banner', '-i', f, '-af', 'loudnorm=I=-17:TP=-1.5:LRA=11:print_format=json', '-f', 'null', '-'], capture_output=True, text=T",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/day-in-my-life/scripts/score.py",
+        "line": 396,
+        "excerpt": "subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', tmp, '-af', af, '-ar', str(FS), '-c:a', 'pcm_s24le', dst], check=True)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/day-in-my-life/scripts/setup.sh",
+        "line": 10,
+        "excerpt": "python3 -c \"import numpy, scipy\" 2>/dev/null || echo \"score.py needs numpy + scipy:  python3 -m pip install -r $(pwd)/requirements.txt\"",
+        "disclosed": false,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "downloads-code": 7,
-      "shell": 1,
+      "downloads-code": 9,
+      "shell": 7,
       "network": 1
     },
     "score": 77,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 15,
-    "filesSkipped": 7
+    "filesScanned": 22,
+    "filesSkipped": 0
   },
   "history": [
     {

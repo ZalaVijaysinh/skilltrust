@@ -4,18 +4,120 @@
   "repo": "GitHub-Copilot-for-Azure",
   "path": "plugins/azure-skills/skills/azure-diagnostics",
   "name": "azure-diagnostics",
-  "description": "",
-  "stars": 261,
-  "category": "other",
+  "description": "Debug Azure production issues using AppLens, Azure Monitor, resource health, and safe triage, including evidence-only diagnosis without live access. WHEN: debug production issues, troubleshoot app service, app service high CPU, app service deployment failure, troubleshoot container apps, container app 503 or target port mismatch, troubleshoot functions, function telemetry missing or stopped after a config/connection-string change, troubleshoot AKS, VM RDP, Linux SSH, VM black screen, can't connect to VM, reset VM password, NSG or firewall blocking, kubectl cannot connect, kube-system/CoreDNS failures, pod pending, crashloop, node not ready, upgrade failures, analyze logs, KQL, insights, image pull failures, cold start issues, health probe failures, resource health, root cause of errors, troubleshoot event hubs, troubleshoot service bus, messaging SDK error, AMQP connection failure, message lock lost, lock renewal during long-running processing, service bus dead letter.",
+  "stars": 262,
+  "category": "coding",
   "commit": "a24ce9820034b8c280236ac80ca28203cc9ab5c9",
-  "contentHash": "739285dbb678f6e3a208dc3c0c609f963a389e98b02eefb1ee712ac1b84b0738",
+  "contentHash": "d4551557c9825edcbb24202fbda8a2c34d090174498f30c4b3583fdae3915433",
   "repoCreatedAt": "2024-10-28T13:46:49Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "shell",
+        "file": "plugins/azure-skills/skills/azure-diagnostics/SKILL.md",
+        "line": 87,
+        "excerpt": "az resource show --ids RESOURCE_ID",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/azure-skills/skills/azure-diagnostics/SKILL.md",
+        "line": 145,
+        "excerpt": "az resource show --ids RESOURCE_ID",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/azure-skills/skills/azure-diagnostics/references/app-service/README.md",
+        "line": 106,
+        "excerpt": "curl -s -o /dev/null -w \"%{http_code}\" https://APP.azurewebsites.net/health",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "app.azurewebsites.net"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/azure-skills/skills/azure-diagnostics/references/container-apps/README.md",
+        "line": 71,
+        "excerpt": "curl https://APP.REGION.azurecontainerapps.io/health",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "app.region.azurecontainerapps.io"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/azure-skills/skills/azure-diagnostics/scripts/aks-baseline.sh",
+        "line": 149,
+        "excerpt": "run \"warning events\" bash -c \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/azure-skills/skills/azure-diagnostics/scripts/test-messaging-connectivity.ps1",
+        "line": 91,
+        "excerpt": "$resp = Invoke-WebRequest -Uri \"https://$fqdn/\" -Method Get -TimeoutSec 15 `",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$fqdn"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/azure-skills/skills/azure-diagnostics/scripts/test-messaging-connectivity.sh",
+        "line": 146,
+        "excerpt": "code=$(curl -s -o /dev/null -m 15 -w '%{http_code}' \"https://$FQDN/\" 2>/dev/null)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$fqdn"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/azure-skills/skills/azure-diagnostics/troubleshooting/aks/networking.md",
+        "line": 17,
+        "excerpt": "kubectl run netdebug --image=curlimages/curl -it --rm -n <ns> -- \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/azure-skills/skills/azure-diagnostics/troubleshooting/aks/networking.md",
+        "line": 18,
+        "excerpt": "curl -sv http://<service>.<ns>.svc.cluster.local:<port>/healthz",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/azure-skills/.mcp.json",
+        "line": 4,
+        "excerpt": "\"command\": \"npx\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/azure-skills/.mcp.json",
+        "line": 4,
+        "excerpt": "\"command\": \"npx\",",
+        "disclosed": false,
+        "automatic": true
+      },
       {
         "ruleId": "downloads-code",
         "file": "plugins/azure-skills/gemini-extension.json",
@@ -50,14 +152,15 @@
       }
     ],
     "findingTotals": {
-      "downloads-code": 2,
-      "shell": 2
+      "shell": 6,
+      "network": 6,
+      "downloads-code": 3
     },
-    "score": 80,
-    "band": "low",
+    "score": 75,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 7,
-    "filesSkipped": 57
+    "filesScanned": 65,
+    "filesSkipped": 0
   },
   "history": [
     {

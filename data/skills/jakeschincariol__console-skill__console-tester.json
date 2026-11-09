@@ -4,24 +4,75 @@
   "repo": "console-skill",
   "path": "console-tester",
   "name": "console-tester",
-  "description": "",
-  "stars": 340,
-  "category": "other",
+  "description": "Playtester. Runs the port again and again, reads every crash, ranks what to fix next and checks nothing broke. run.py starts ps2EntryRunner with your game's ELF under a hard timeout, kills the whole process tree, keeps the log in console/runs/ and calls the run PASS, HANG, CRASH or FAIL (soak repeats it N times; --input replays a controller script). triage.py reads the runtime's own log lines, clusters them by PC, names the function from your Ghidra CSV map, ranks them and names the /console-* skill that owns each; compare shows fixed, still there and new. abdiff.py finds the first divergence between PCSX2 and the port in register or memory dumps. Use when the user says \"run it\", \"does it boot\", \"test the port\", \"why did it crash\", \"what do I fix next\", \"did that break anything\", \"run it 100 times\", \"compare with PCSX2\", or after every build.",
+  "stars": 357,
+  "category": "data",
   "commit": "a508929f1e8f5dd6f54afe489fd74340df3b6f74",
   "contentHash": "2861526849244a686bfba00d6d0273ff51ec34d404e5c3515d08ff159691f678",
   "repoCreatedAt": "2026-10-22T14:12:44Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "console-tester/SKILL.md",
+        "line": 32,
+        "excerpt": "python3 \"${CLAUDE_SKILL_DIR}/run.py\" boot --runner out/build/ps2xRuntime/ps2EntryRunner \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "console-tester/run.py",
+        "line": 66,
+        "excerpt": "subprocess.run([\"taskkill\", \"/PID\", str(proc.pid), \"/T\", \"/F\"],",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "console-tester/run.py",
+        "line": 67,
+        "excerpt": "stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=15)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "console-tester/run.py",
+        "line": 68,
+        "excerpt": "except (OSError, subprocess.SubprocessError):",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "console-tester/run.py",
+        "line": 200,
+        "excerpt": "popen = dict(stdout=subprocess.PIPE, stderr=subprocess.STDOUT, stdin=subprocess.DEVNULL,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "console-tester/run.py",
+        "line": 208,
+        "excerpt": "proc = subprocess.Popen(cmd, **popen)",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 6
+    },
+    "score": 95,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 7
+    "filesScanned": 7,
+    "filesSkipped": 0
   },
   "history": [
     {

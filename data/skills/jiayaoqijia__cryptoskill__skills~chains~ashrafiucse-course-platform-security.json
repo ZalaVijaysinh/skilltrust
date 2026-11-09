@@ -3,31 +3,88 @@
   "owner": "jiayaoqijia",
   "repo": "cryptoskill",
   "path": "skills/chains/ashrafiucse-course-platform-security",
-  "name": "ashrafiucse-course-platform-security",
-  "description": "",
+  "name": "course-platform-security",
+  "description": "Audits course-selling / e-learning platforms for domain-specific security — catalog gating truth (draft/unpublished/private course exposure to public), preview-vs-full-content leaks, enrollment state machines (free enrollment without paid order), cohort/multi-cohort access control (student of cohort A reading cohort B), and persona-driven route checks (admin-only surfaces reachable by public/student). Use when the project sells or gates digital courses/content — look for courses, lessons, enrollments, cohorts, orders, subscriptions, previews.",
   "stars": 80,
   "category": "security",
-  "commit": "36a85d83a5ee5c998b6d7e274a3c42e620161d6b",
+  "commit": "edd8f75ffac374debb8569c929afbbad4408d1a7",
   "contentHash": "13471300b0a2ca5910240794a557d10e14ba6eeb0cc780a74e32a9461b4bcd2a",
   "repoCreatedAt": "2026-03-19T14:52:16Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/chains/ashrafiucse-course-platform-security/SKILL.md",
+        "line": 15,
+        "excerpt": "rg -n -i \"course|lesson|module|enrollment|cohort|preview|curriculum|subscription\" -g '**/models/**' -g '**/entities/**' -g '*.prisma' -g 'schema*' | head -25",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/chains/ashrafiucse-course-platform-security/SKILL.md",
+        "line": 27,
+        "excerpt": "rg -n \"courses?\\.(find|where|all|select)\" -g '*.js' -g '*.ts' -g '*.py' -g '*.rb'   # census: disposition every read path",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/chains/ashrafiucse-course-platform-security/SKILL.md",
+        "line": 40,
+        "excerpt": "rg -n -i \"preview|sample|trial|first.?lesson\" -g '*controller*' -g '*routes*' -g '*resolver*' | head",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/chains/ashrafiucse-course-platform-security/SKILL.md",
+        "line": 53,
+        "excerpt": "rg -n -i \"enrollment.*(create|insert|save)|grant.*access\" -g '*.js' -g '*.py' | head",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/chains/ashrafiucse-course-platform-security/SKILL.md",
+        "line": 66,
+        "excerpt": "rg -n -i \"cohort|batch|class_?id|group_?id\" -g '*.js' -g '*.py' -g '*.rb'   # census: disposition every cohort-touching read",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/chains/ashrafiucse-course-platform-security/SKILL.md",
+        "line": 78,
+        "excerpt": "rg -n -i \"admin|manage|catalog|publish|price|coupon\" -g '*routes*' -g '*controller*' | head",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 6
+    },
+    "score": 97,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 4
+    "filesScanned": 3,
+    "filesSkipped": 1
   },
   "history": [
     {
       "commit": "36a85d83a5ee5c998b6d7e274a3c42e620161d6b",
       "scannedAt": "2026-11-07T22:05:48.475Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "edd8f75ffac374debb8569c929afbbad4408d1a7",
+      "scannedAt": "2026-11-09T10:28:36.295Z",
+      "score": 97,
       "rulesVersion": "1.3.0"
     }
   ]

@@ -4,24 +4,48 @@
   "repo": "doubao-workbuddy-qwenwork-skills",
   "path": "workbuddy/experts/linkfox-expert-team-amazon-product-selection/skills/linkfox-aigc-imagegen-cloth",
   "name": "linkfox-aigc-imagegen-cloth",
-  "description": "",
-  "stars": 94,
+  "description": "服饰图生成（模特/服装类）。支持单张或套图：白底图（隐形模特）、模特图、种草图、卖点图、A+图、尺码图。单张单类型直接出图；多张多类型自动编排规划。用户上传模特图或服饰图（上装/下装/连衣裙/外套/鞋帽等）并说\"做套图\"\"做模特图\"\"做种草图\"\"做卖点图\"\"做A+图\"\"做尺码图\"\"做服饰白底图\"时触发。纯图片编辑操作走 linkfox-aigc-imagegen。",
+  "stars": 96,
   "category": "other",
   "commit": "5e45653f59a2e4a2a65f575e8aaf7637165674d5",
   "contentHash": "3ededdc9da56da8e3927e8b5806d8f05a24ea490aa1e95aaf2d766b21d92f9a4",
   "repoCreatedAt": "2026-07-07T07:33:58Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "shell",
+        "file": "workbuddy/experts/linkfox-expert-team-amazon-product-selection/skills/linkfox-aigc-imagegen-cloth/references/runtime/02-confirm.md",
+        "line": 55,
+        "excerpt": "- 子任务进程虽然各自有 `Saved full response: [...]`，但被 dispatch 用 `subprocess.run` capture，**不冒到对话气泡**——这条 Bash 没有图是正常的，**不要**因此误判为失败或重发。",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "workbuddy/experts/linkfox-expert-team-amazon-product-selection/skills/linkfox-aigc-imagegen-cloth/references/runtime/03-deliver.md",
+        "line": 102,
+        "excerpt": "- 子任务进程虽然各自 print 了自己的 `Saved full response: [...]`，但 dispatch 用 `subprocess.run(..., capture_output=True)` 抓取，stdout **不透传**到 dispatch 自己的 stdout，因此**不会**冒到对话气",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "workbuddy/experts/linkfox-expert-team-amazon-product-selection/skills/linkfox-aigc-imagegen-cloth/scripts/collection_pipeline/runner.py",
+        "line": 70,
+        "excerpt": "proc = subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      },
       {
         "ruleId": "shell",
         "file": "workbuddy/experts/linkfox-expert-team-amazon-product-selection/skills/linkfox-aigc-imagegen-cloth/scripts/collection_pipeline/single_task.py",
         "line": 10,
         "excerpt": "被 dispatch 用 ``subprocess.run(capture_output=True)`` 调用——这行不会冒到对话气泡。",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false
       },
       {
@@ -29,7 +53,7 @@
         "file": "workbuddy/experts/linkfox-expert-team-amazon-product-selection/skills/linkfox-aigc-imagegen-cloth/scripts/collection_pipeline/single_task.py",
         "line": 89,
         "excerpt": "proc = subprocess.run(",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false
       },
       {
@@ -37,18 +61,53 @@
         "file": "workbuddy/experts/linkfox-expert-team-amazon-product-selection/skills/linkfox-aigc-imagegen-cloth/scripts/collection_pipeline/single_task.py",
         "line": 107,
         "excerpt": "proc = subprocess.run(",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "workbuddy/experts/linkfox-expert-team-amazon-product-selection/skills/linkfox-aigc-imagegen-cloth/scripts/collection_pipeline/utils.py",
+        "line": 177,
+        "excerpt": "from urllib.request import urlopen as _lf_urlopen, Request as _lf_Request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "workbuddy/experts/linkfox-expert-team-amazon-product-selection/skills/linkfox-aigc-imagegen-cloth/scripts/collection_pipeline/utils.py",
+        "line": 354,
+        "excerpt": "def run_subprocess(cmd: list[str], *, input_text: str | None = None, timeout: int = 120) -> subprocess.CompletedProcess:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "workbuddy/experts/linkfox-expert-team-amazon-product-selection/skills/linkfox-aigc-imagegen-cloth/scripts/collection_pipeline/utils.py",
+        "line": 355,
+        "excerpt": "return subprocess.run(cmd, input=input_text, text=True, capture_output=True, timeout=timeout)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "workbuddy/experts/linkfox-expert-team-amazon-product-selection/skills/linkfox-aigc-imagegen-cloth/scripts/save_image_plan.py",
+        "line": 162,
+        "excerpt": "from urllib.request import urlopen as _lf_urlopen, Request as _lf_Request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
       }
     ],
     "findingTotals": {
-      "shell": 3
+      "shell": 8,
+      "network": 2
     },
-    "score": 95,
+    "score": 92,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 6,
-    "filesSkipped": 35
+    "filesScanned": 41,
+    "filesSkipped": 0
   },
   "history": [
     {

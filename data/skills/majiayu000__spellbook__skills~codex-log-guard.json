@@ -4,7 +4,7 @@
   "repo": "spellbook",
   "path": "skills/codex-log-guard",
   "name": "codex-log-guard",
-  "description": "",
+  "description": "Diagnose excessive Codex local SQLite diagnostic log writes with read-only evidence by default. Use when a user mentions logs_2.sqlite, logs_2.sqlite-wal, block_log_inserts, SSD/TBW wear, or explicitly asks to protect, clean up, verify, or restore Codex diagnostic logging.",
   "stars": 290,
   "category": "coding",
   "commit": "238e07625aeca5bcf0d6f7cb3e2d07f94c717194",
@@ -12,16 +12,91 @@
   "repoCreatedAt": "2025-12-09T08:17:18Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/codex-log-guard/SKILL.md",
+        "line": 86,
+        "excerpt": "for db in ~/.codex/logs_2.sqlite ~/.codex/sqlite/logs_2.sqlite; do",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/codex-log-guard/SKILL.md",
+        "line": 96,
+        "excerpt": ": \"${CODEX_LOG_DB:?set CODEX_LOG_DB to the verified active candidate}\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/codex-log-guard/SKILL.md",
+        "line": 110,
+        "excerpt": "sqlite3 \"$db\" \".tables\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/codex-log-guard/SKILL.md",
+        "line": 118,
+        "excerpt": "for i in 1 2 3; do",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/codex-log-guard/SKILL.md",
+        "line": 129,
+        "excerpt": "sqlite3 \"$db\" \"SELECT level, COUNT(*) AS n, ROUND(SUM(estimated_bytes)/1024.0/1024.0, 1) AS estimated_mib FROM logs GROUP BY level ORDER BY n DESC;\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/codex-log-guard/SKILL.md",
+        "line": 136,
+        "excerpt": "lsof ~/.codex/logs_2.sqlite ~/.codex/logs_2.sqlite-wal ~/.codex/logs_2.sqlite-shm \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/codex-log-guard/SKILL.md",
+        "line": 143,
+        "excerpt": "sqlite3 \"$db\" \"PRAGMA busy_timeout=10000; CREATE TRIGGER IF NOT EXISTS block_log_inserts BEFORE INSERT ON logs BEGIN SELECT RAISE(IGNORE); END;\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/codex-log-guard/SKILL.md",
+        "line": 149,
+        "excerpt": "backup=\"$db.bak.$(date +%Y%m%d-%H%M%S)\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/codex-log-guard/SKILL.md",
+        "line": 160,
+        "excerpt": "sqlite3 \"$db\" \"DROP TRIGGER IF EXISTS block_log_inserts;\"",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 9
+    },
+    "score": 97,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 2
+    "filesScanned": 2,
+    "filesSkipped": 0
   },
   "history": [
     {

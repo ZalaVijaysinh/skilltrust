@@ -4,89 +4,90 @@
   "repo": "skills",
   "path": "civilwar-letterifier",
   "name": "civilwar-letterifier",
-  "description": "",
+  "description": "Rewrite any text as a solemn, slightly absurd 19th-century Civil War field dispatch (Ken Burns documentary voice), then optionally turn it into a multimodal video — period narration via ElevenLabs, the letter in fancy script on aged parchment, a mournful music bed, and a slow Ken Burns pan/zoom of the letter being read. Use when the user types /civilwar, asks to \"civil-war-ify\" or \"Ken Burns\" some text, or asks for a documentary-style letter video.",
   "stars": 17,
-  "category": "other",
-  "commit": "f5cafc3437df4f972b4ec26532173de779997c2d",
+  "category": "media",
+  "commit": "ff2132360c4a12602f752a491f896043cb60584a",
   "contentHash": "dc31fd49364ddd5747e5546c3f232daab26678f92e2dd2212a9bbd921fba6852",
   "repoCreatedAt": "2025-10-22T09:12:17Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
-        "file": "civilwar-letterifier/scripts/build.mjs",
-        "line": 42,
+        "file": "civilwar-letterifier/SKILL.md",
+        "line": 97,
+        "excerpt": "node scripts/build.mjs --text \"My dear colleagues, ...the period prose... Pray proceed without me.\" --out out/letter.mp4",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "civilwar-letterifier/SKILL.md",
+        "line": 270,
+        "excerpt": "cd remotion && npm install && npm run studio",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "civilwar-letterifier/scripts/letterify.mjs",
+        "line": 37,
         "excerpt": "import {execFileSync} from 'node:child_process';",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "civilwar-letterifier/scripts/build.mjs",
-        "line": 88,
-        "excerpt": "execFileSync(cmd, args, {",
+        "file": "civilwar-letterifier/scripts/letterify.mjs",
+        "line": 47,
+        "excerpt": "return execFileSync('op', ['read', value], {encoding: 'utf8'}).trim();",
         "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "shell",
-        "file": "civilwar-letterifier/test/narrate.test.mjs",
-        "line": 2,
-        "excerpt": "import {execFileSync} from 'node:child_process';",
-        "disclosed": false,
+        "ruleId": "paid-api",
+        "file": "civilwar-letterifier/scripts/letterify.mjs",
+        "line": 75,
+        "excerpt": "const ENDPOINT = 'https://openrouter.ai/api/v1/chat/completions';",
+        "disclosed": true,
         "automatic": false
       },
       {
-        "ruleId": "shell",
-        "file": "civilwar-letterifier/test/narrate.test.mjs",
-        "line": 12,
-        "excerpt": "execFileSync('ffmpeg', [",
+        "ruleId": "network",
+        "file": "civilwar-letterifier/scripts/letterify.mjs",
+        "line": 149,
+        "excerpt": "const res = await fetch(ENDPOINT, {",
         "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "civilwar-letterifier/test/narrate.test.mjs",
-        "line": 17,
-        "excerpt": "execFileSync('ffmpeg', [",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "civilwar-letterifier/test/narrate.test.mjs",
-        "line": 22,
-        "excerpt": "execFileSync('ffmpeg', [",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "civilwar-letterifier/test/narrate.test.mjs",
-        "line": 30,
-        "excerpt": "execFileSync('ffmpeg', [",
-        "disclosed": false,
-        "automatic": false
+        "automatic": false,
+        "hosts": []
       }
     ],
     "findingTotals": {
-      "shell": 7
+      "shell": 4,
+      "paid-api": 1,
+      "network": 1
     },
-    "score": 95,
+    "score": 85,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 7,
-    "filesSkipped": 28
+    "filesScanned": 8,
+    "filesSkipped": 27
   },
   "history": [
     {
       "commit": "f5cafc3437df4f972b4ec26532173de779997c2d",
       "scannedAt": "2026-11-07T22:05:48.475Z",
       "score": 95,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "ff2132360c4a12602f752a491f896043cb60584a",
+      "scannedAt": "2026-11-09T10:28:36.295Z",
+      "score": 85,
       "rulesVersion": "1.3.0"
     }
   ]

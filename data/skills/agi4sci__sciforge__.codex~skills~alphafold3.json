@@ -1,0 +1,166 @@
+{
+  "id": "agi4sci__sciforge__.codex~skills~alphafold3",
+  "owner": "AGI4Sci",
+  "repo": "SciForge",
+  "path": ".codex/skills/alphafold3",
+  "name": "alphafold3",
+  "description": "Submit, monitor and retrieve AlphaFold3 predictions using an explicitly configured compatible inference service and optional Kubernetes data plane.",
+  "stars": 84,
+  "category": "data",
+  "commit": "ba00016cd864127102e9736e8acfb942050bfc80",
+  "contentHash": "4384176312e1d1f2f2e48920fdcc3a2e94e495ceecdb54657a3dc21dcaa5f4cd",
+  "repoCreatedAt": "2026-04-19T13:12:09Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".codex/skills/alphafold3/SKILL.md",
+        "line": 38,
+        "excerpt": "bash .codex/skills/alphafold3/scripts/alphafold3_submit.sh \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".codex/skills/alphafold3/SKILL.md",
+        "line": 96,
+        "excerpt": ": \"${ALPHAFOLD3_AUTH_URL:?}\" \"${ALPHAFOLD3_TASKS_URL:?}\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".codex/skills/alphafold3/SKILL.md",
+        "line": 100,
+        "excerpt": "TOKEN=$(curl -fsS -X POST \"$ALPHAFOLD3_AUTH_URL\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".codex/skills/alphafold3/SKILL.md",
+        "line": 108,
+        "excerpt": ": \"${ALPHAFOLD3_TASKS_URL:?}\" \"${TOKEN:?}\" \"${REMOTE_INPUT_JSON:?}\" \"${ALPHAFOLD3_MODEL_DIR:?}\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".codex/skills/alphafold3/SKILL.md",
+        "line": 110,
+        "excerpt": "TASK_ID=$(curl -fsS -X POST \"$ALPHAFOLD3_TASKS_URL\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".codex/skills/alphafold3/SKILL.md",
+        "line": 119,
+        "excerpt": ": \"${ALPHAFOLD3_TASKS_URL:?}\" \"${TASK_ID:?}\" \"${TOKEN:?}\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".codex/skills/alphafold3/SKILL.md",
+        "line": 120,
+        "excerpt": "curl -fsS \"${ALPHAFOLD3_TASKS_URL}/${TASK_ID}\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".codex/skills/alphafold3/SKILL.md",
+        "line": 127,
+        "excerpt": ": \"${ALPHAFOLD3_KUBECONFIG:?}\" \"${ALPHAFOLD3_NAMESPACE:?}\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".codex/skills/alphafold3/SKILL.md",
+        "line": 150,
+        "excerpt": "python3 -B .codex/skills/alphafold3/tests/test_submit.py -v",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": ".codex/skills/alphafold3/scripts/alphafold3_submit.sh",
+        "line": 44,
+        "excerpt": "set -a; source \"$SKILL_DIR/.env\"; set +a",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".codex/skills/alphafold3/scripts/alphafold3_submit.sh",
+        "line": 155,
+        "excerpt": "curl -s -X POST \"$API_AUTH\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".codex/skills/alphafold3/scripts/alphafold3_submit.sh",
+        "line": 361,
+        "excerpt": "TASK_RESP=$(curl -s -X POST \"$API_TASKS\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".codex/skills/alphafold3/scripts/alphafold3_submit.sh",
+        "line": 374,
+        "excerpt": "echo \"  curl -s \\\"${API_TASKS}/${TASK_ID}\\\" -H 'Authorization: Bearer ...' -H 'x-original-model: alphafold3'\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".codex/skills/alphafold3/scripts/alphafold3_submit.sh",
+        "line": 391,
+        "excerpt": "STATUS_RESP=$(curl -s \"${API_TASKS}/${TASK_ID}\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".codex/skills/alphafold3/tests/test_submit.py",
+        "line": 88,
+        "excerpt": "result = subprocess.run(['/bin/bash', str(self.script), *args],",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 7,
+      "network": 7,
+      "reads-secrets": 1
+    },
+    "score": 84,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 5,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "ba00016cd864127102e9736e8acfb942050bfc80",
+      "scannedAt": "2026-11-09T10:28:36.295Z",
+      "score": 84,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

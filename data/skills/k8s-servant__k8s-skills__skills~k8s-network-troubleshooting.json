@@ -4,30 +4,115 @@
   "repo": "k8s-skills",
   "path": "skills/k8s-network-troubleshooting",
   "name": "k8s-network-troubleshooting",
-  "description": "",
-  "stars": 35,
+  "description": "Use when traffic does not reach a workload in Kubernetes although its pods are running: a Service with no endpoints, a wrong selector or targetPort, connection refused or time-outs between pods, DNS names that do not resolve (NXDOMAIN, \"server can't find\"), a NetworkPolicy blocking traffic, or an Ingress or Gateway API route that does not route. Investigates with kubectl get and describe, asks before checks inside a container, and proposes fixes. Reads first and asks before changing anything.",
+  "stars": 36,
   "category": "devops",
-  "commit": "bfaba9c6fd833eaffc6772f2876c30d5777fddf9",
-  "contentHash": "5cc44c92134d4781929241f284a8497686759bb1b92cfb054dcd7e8fb986e66f",
+  "commit": "de23b57dd3888628abc62c20d2ed322751fc7d12",
+  "contentHash": "be9c116092b950db31af597655bbcb5b12ce302bf05b8fff4cbe7f7ebe70a3ec",
   "repoCreatedAt": "2026-10-23T12:54:21Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-network-troubleshooting/SKILL.md",
+        "line": 65,
+        "excerpt": "kubectl get service my-app -n my-namespace -o wide",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-network-troubleshooting/SKILL.md",
+        "line": 75,
+        "excerpt": "kubectl get pods -n my-namespace --show-labels -o wide",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-network-troubleshooting/SKILL.md",
+        "line": 87,
+        "excerpt": "kubectl logs deployment/my-web -n my-other-namespace --tail=50",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-network-troubleshooting/SKILL.md",
+        "line": 94,
+        "excerpt": "kubectl get networkpolicy -n my-namespace",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-network-troubleshooting/SKILL.md",
+        "line": 104,
+        "excerpt": "kubectl get pods -n kube-system -l k8s-app=kube-dns",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-network-troubleshooting/SKILL.md",
+        "line": 117,
+        "excerpt": "kubectl exec deployment/my-web -n my-other-namespace -- nslookup my-app.my-namespace",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/k8s-network-troubleshooting/SKILL.md",
+        "line": 118,
+        "excerpt": "kubectl exec deployment/my-web -n my-other-namespace -- wget -qO- -T 2 http://my-app.my-namespace:80/",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "my-app.my-namespace"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-network-troubleshooting/SKILL.md",
+        "line": 173,
+        "excerpt": "kubectl patch service my-app -n my-namespace --type=merge -p '{\"spec\": {\"selector\": {\"app\": \"my-app\"}}}'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-network-troubleshooting/SKILL.md",
+        "line": 185,
+        "excerpt": "kubectl patch service my-app -n my-namespace --type=json -p '[{\"op\": \"replace\", \"path\": \"/spec/ports/0/targetPort\", \"value\": 80}]'",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 8,
+      "network": 1
+    },
+    "score": 92,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 6
+    "filesScanned": 6,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "bfaba9c6fd833eaffc6772f2876c30d5777fddf9",
       "scannedAt": "2026-11-07T22:05:48.475Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "de23b57dd3888628abc62c20d2ed322751fc7d12",
+      "scannedAt": "2026-11-09T10:28:36.295Z",
+      "score": 92,
       "rulesVersion": "1.3.0"
     }
   ]

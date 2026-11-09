@@ -4,7 +4,7 @@
   "repo": "claude-brewcode",
   "path": "brewtools/skills/provider-switch",
   "name": "provider-switch",
-  "description": "",
+  "description": "Configure alt API providers: DeepSeek, Z.ai/GLM, Qwen, MiniMax, OpenRouter. Triggers: switch provider, openrouter.",
   "stars": 39,
   "category": "coding",
   "commit": "9ddf5c045b576a3b6493b37dc1743fa3015b5a22",
@@ -13,111 +13,160 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
-        "file": "brewtools/skills/provider-switch/tests/suite-secret.mjs",
-        "line": 3,
-        "excerpt": "import { spawnSync } from 'node:child_process';",
-        "disclosed": false,
+        "file": "brewtools/skills/provider-switch/SKILL.md",
+        "line": 74,
+        "excerpt": "IFS= read -r -d '' ARGS <<'__SKILL_ARGS__' || true",
+        "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "brewtools/skills/provider-switch/tests/suite-secret.mjs",
-        "line": 36,
-        "excerpt": "const run = (script, args, extraEnv = {}) => spawnSync('bash', [script, ...args], {",
-        "disclosed": false,
+        "file": "brewtools/skills/provider-switch/SKILL.md",
+        "line": 107,
+        "excerpt": "bash \"${CLAUDE_SKILL_DIR}/scripts/check-status.sh\" && echo \"OK status\" || echo \"FAILED status\"",
+        "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "brewtools/skills/provider-switch/tests/suite-secret.mjs",
-        "line": 169,
-        "excerpt": "const back = spawnSync('bash', ['-c', `set -a; . \"$SOURCED_RC\"; printf '%s' \"$ZAI_API_KEY\"`],",
-        "disclosed": false,
+        "file": "brewtools/skills/provider-switch/SKILL.md",
+        "line": 168,
+        "excerpt": "bash \"${CLAUDE_SKILL_DIR}/scripts/write-alias.sh\" init && echo \"OK init\" || echo \"FAILED init\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "brewtools/skills/provider-switch/SKILL.md",
+        "line": 179,
+        "excerpt": "umask 077; printf '%s' '<your-key>' > ~/.claude-PRV.key",
+        "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "brewtools/skills/provider-switch/tests/suite-verify.mjs",
-        "line": 3,
-        "excerpt": "import { spawnSync } from 'node:child_process';",
-        "disclosed": false,
+        "file": "brewtools/skills/provider-switch/SKILL.md",
+        "line": 196,
+        "excerpt": "bash \"${CLAUDE_SKILL_DIR}/scripts/read-secret.sh\" \"file:$HOME/.claude-PRV.key\" \"KEY_VAR_NAME\" && echo \"OK set-key\" || echo \"FAILED set-key\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "brewtools/skills/provider-switch/SKILL.md",
+        "line": 199,
+        "excerpt": "bash \"${CLAUDE_SKILL_DIR}/scripts/read-secret.sh\" \"env:KEY_VAR_NAME\" \"KEY_VAR_NAME\" && echo \"OK set-key\" || echo \"FAILED set-key\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "brewtools/skills/provider-switch/SKILL.md",
+        "line": 219,
+        "excerpt": "(umask 077; mkdir -p .claude/provider-switch) && echo \"OK request-dir\" || echo \"FAILED request-dir\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "brewtools/skills/provider-switch/SKILL.md",
+        "line": 225,
+        "excerpt": "python3 \"${CLAUDE_SKILL_DIR}/scripts/provider-alias.py\" --inspect .claude/provider-switch/selection-request.json && echo \"OK inspect-alias\" || echo \"FAILED insp",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "brewtools/skills/provider-switch/SKILL.md",
+        "line": 235,
+        "excerpt": "bash \"${CLAUDE_SKILL_DIR}/scripts/write-alias.sh\" set-alias --request .claude/provider-switch/alias-request.json && echo \"OK set-alias\" || echo \"FAILED set-alia",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "brewtools/skills/provider-switch/SKILL.md",
+        "line": 245,
+        "excerpt": "zsh -fc 'source ~/.zshrc >/dev/null 2>&1; whence -w ALIAS_NAME' && echo \"OK verify\" || echo \"FAILED verify\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "brewtools/skills/provider-switch/SKILL.md",
+        "line": 255,
+        "excerpt": "bash \"${CLAUDE_SKILL_DIR}/scripts/check-status.sh\" && echo \"OK final-status\" || echo \"FAILED final-status\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "brewtools/skills/provider-switch/SKILL.md",
+        "line": 259,
+        "excerpt": "bash \"${CLAUDE_SKILL_DIR}/scripts/verify-providers.sh\" all --requests .claude/provider-switch/requests && echo \"OK verify\" || echo \"FAILED verify\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "brewtools/skills/provider-switch/SKILL.md",
+        "line": 286,
+        "excerpt": "bash \"${CLAUDE_SKILL_DIR}/scripts/verify-providers.sh\" all && echo \"OK verify\" || echo \"FAILED verify\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "brewtools/skills/provider-switch/SKILL.md",
+        "line": 328,
+        "excerpt": "echo \"BASE_URL=${ANTHROPIC_BASE_URL:-not_set}\" && echo \"OPUS_MODEL=${ANTHROPIC_DEFAULT_OPUS_MODEL:-not_set}\" && echo \"OK detect-provider\" || echo \"FAILED detect",
+        "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "network",
-        "file": "brewtools/skills/provider-switch/tests/suite-verify.mjs",
-        "line": 29,
-        "excerpt": "cat > \"\\${STUB_CFG_LOG:-/dev/null}\"  # drain stdin like real \\`curl -K -\\`: an unread pipe SIGPIPEs printf -> rc 141",
+        "file": "brewtools/skills/provider-switch/SKILL.md",
+        "line": 394,
+        "excerpt": "SCOPE: in — docs.z.ai, open.bigmodel.cn/en via WebFetch/WebSearch. Out — other providers,",
         "disclosed": false,
         "automatic": false,
         "hosts": []
       },
       {
         "ruleId": "shell",
-        "file": "brewtools/skills/provider-switch/tests/suite-verify.mjs",
-        "line": 46,
-        "excerpt": "return spawnSync('bash', [VERIFY, target], {",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "brewtools/skills/provider-switch/tests/suite-verify.mjs",
-        "line": 224,
-        "excerpt": "const r = spawnSync('bash', ['-c', snippet], {",
-        "disclosed": false,
+        "file": "brewtools/skills/provider-switch/SKILL.md",
+        "line": 426,
+        "excerpt": "printf 'header = \"x-api-key: %s\"\\n' \"$(printf '%s' \"${ZAI_API_KEY:-missing}\" | sed -e 's/\\\\/\\\\\\\\/g' -e 's/\"/\\\\\"/g')\" \\",
+        "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "network",
-        "file": "brewtools/hooks/hardmode-guard.mjs",
-        "line": 129,
-        "excerpt": "const ALWAYS_BLOCK = new Set(['Write', 'Edit', 'NotebookEdit', 'WebFetch']);",
+        "file": "brewtools/skills/provider-switch/SKILL.md",
+        "line": 427,
+        "excerpt": "| curl -s -K - -o /dev/null -w \"%{http_code}\" -X POST \"https://api.z.ai/api/anthropic/v1/messages\" -H \"content-type: application/json\" -H \"anthropic-version: 20",
         "disclosed": false,
-        "automatic": true,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "brewtools/hooks/hardmode-guard.mjs",
-        "line": 445,
-        "excerpt": "if (tool === 'WebSearch') {",
-        "disclosed": false,
-        "automatic": true,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "brewtools/hooks/hardmode-guard.mjs",
-        "line": 447,
-        "excerpt": "deny('Hard wall (strict): WebSearch is blocked in the main session.');",
-        "disclosed": false,
-        "automatic": true,
-        "hosts": []
-      },
-      {
-        "ruleId": "shell",
-        "file": "brewtools/hooks/hooks.json",
-        "line": 8,
-        "excerpt": "\"command\": \"/bin/sh\",",
-        "disclosed": false,
-        "automatic": true
+        "automatic": false,
+        "hosts": [
+          "api.z.ai"
+        ]
       }
     ],
     "findingTotals": {
-      "shell": 7,
-      "network": 4
+      "shell": 14,
+      "writes-outside": 1,
+      "network": 2
     },
-    "score": 90,
+    "score": 87,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 11,
-    "filesSkipped": 18
+    "filesScanned": 9,
+    "filesSkipped": 19
   },
   "history": [
     {

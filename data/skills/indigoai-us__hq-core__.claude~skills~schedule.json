@@ -4,7 +4,7 @@
   "repo": "hq-core",
   "path": ".claude/skills/schedule",
   "name": "schedule",
-  "description": "",
+  "description": "Schedule recurring Claude/Codex agent jobs on the user's Outpost — structured checklist requirements, dm alert profile, status-aware list from hq-pro. Alias: /job (deprecated).",
   "stars": 93,
   "category": "other",
   "commit": "3e95070dec3ce239ecdde8c7346f4962230bfc0c",
@@ -12,16 +12,61 @@
   "repoCreatedAt": "2026-04-21T21:20:20Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/schedule/SKILL.md",
+        "line": 54,
+        "excerpt": "hq sync push --personal --hq-root <hqRoot> --on-conflict overwrite -- \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/schedule/SKILL.md",
+        "line": 86,
+        "excerpt": "BASE=\"${HQ_VAULT_API_URL:-https://hqapi.hq.computer}\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/schedule/SKILL.md",
+        "line": 88,
+        "excerpt": "curl -fsS -H \"Authorization: Bearer $TOKEN\" \"$BASE/outpost/jobs/status\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/schedule/SKILL.md",
+        "line": 138,
+        "excerpt": "bash core/scripts/jobs-schedule-parse.sh --tz \"$TZ_IANA\" \"$SCHEDULE_TEXT\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/schedule/SKILL.md",
+        "line": 206,
+        "excerpt": "bash core/scripts/jobs-validate.sh personal/jobs/{id}.yaml   # or company path",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 4,
+      "network": 1
+    },
+    "score": 92,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 1,
-    "filesSkipped": 1
+    "filesScanned": 2,
+    "filesSkipped": 0
   },
   "history": [
     {

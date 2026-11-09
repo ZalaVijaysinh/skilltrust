@@ -4,7 +4,7 @@
   "repo": "TORCH",
   "path": "skills/workflow/ctf-box",
   "name": "ctf-box",
-  "description": "",
+  "description": "Boot-to-root methodology for a full machine (THM/HTB/PG/CTF box, \"get user.txt+root.txt\", \"root the box\", \"foothold to root\"). Enforces basic-tool recon (nmap, nc, ffuf, nuclei, dig) before anything custom, wiki-first lookups, and ALWAYS pspy + linpeas/winpeas for privesc. Use when handed a box/IP to own end-to-end.",
   "stars": 340,
   "category": "coding",
   "commit": "d21b6c94982cec09c88ae9c0e98f4e3865de7148",
@@ -12,16 +12,92 @@
   "repoCreatedAt": "2026-07-14T07:25:10Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/workflow/ctf-box/SKILL.md",
+        "line": 43,
+        "excerpt": "**`vm.sh` drops long foreground commands (exit 255, no output) past ~2 min.** Run scans/cracks/sprays DETACHED (a tmux tab via `vm-scan.sh`, or `nohup <cmd> >/t",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/workflow/ctf-box/SKILL.md",
+        "line": 48,
+        "excerpt": "T=<ip>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/workflow/ctf-box/SKILL.md",
+        "line": 65,
+        "excerpt": "whatweb -a3 http://$T ; curl -s -I http://$T    # own tmux tab so it gets a recon card",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$t"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/workflow/ctf-box/SKILL.md",
+        "line": 76,
+        "excerpt": "- **Capture it as-is first**: `capture.sh web <eng> <slug> http://T:PORT/` (browser shot) + `curl -s http://T:PORT/ > poc/<slug>-source.html` (raw source), for ",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "t"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/workflow/ctf-box/SKILL.md",
+        "line": 80,
+        "excerpt": "- **Read the client JS and snippet what it reveals.** Grep bundles for `fetch(`/`axios`/`/api`/`token`/`secret`/`admin`; a JS/SPA's POST-only JSON API is invisi",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/workflow/ctf-box/SKILL.md",
+        "line": 95,
+        "excerpt": "- **Diagnose target->attacker EGRESS before committing to a shell channel (recurring time-sink).** A connect-back that silently fails is usually a FILTERED egre",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/workflow/ctf-box/SKILL.md",
+        "line": 163,
+        "excerpt": "./pspy64 -pf -i 1000     # see every exec + file event as root; reveals per-minute cron/systemd timers",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/workflow/ctf-box/SKILL.md",
+        "line": 167,
+        "excerpt": "./linpeas.sh         # linux   (winpeas.exe / winpeas.bat on windows)",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "writes-outside": 1,
+      "shell": 4,
+      "network": 3
+    },
+    "score": 84,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 1
+    "filesScanned": 1,
+    "filesSkipped": 0
   },
   "history": [
     {

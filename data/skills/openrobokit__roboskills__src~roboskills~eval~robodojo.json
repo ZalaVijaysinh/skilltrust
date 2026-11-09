@@ -4,41 +4,160 @@
   "repo": "roboskills",
   "path": "src/roboskills/eval/robodojo",
   "name": "robodojo",
-  "description": "",
-  "stars": 142,
-  "category": "other",
-  "commit": "eca4691d2dfbb808dd58f3dd279fed154de6828a",
-  "contentHash": "5635b1aaae89316125d76297bedc3239b927c2bf161ecfbc1f4b74cea14244ee",
+  "description": "Run RoboDojo episodes (two ARX X5 arms in Isaac Sim 5.1, or 6.0 in a Kubernetes Pod) behind the shared Robot contract, and prepare or troubleshoot the pinned simulator image, host environment and benchmark assets.",
+  "stars": 149,
+  "category": "devops",
+  "commit": "72add84d883ec83a14fc471c23474eea5f4150f7",
+  "contentHash": "238eb2a4bdea249b15ad6b4591a17c3daa0c4d2e52107ccb3a4066ec5b8afcc7",
   "repoCreatedAt": "2026-10-30T14:33:43Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "shell",
+        "file": "src/roboskills/eval/robodojo/SKILL.md",
+        "line": 25,
+        "excerpt": "GRASP_BACKEND=roboskills.eval.robodojo.grasp_backend GRASP_POLICY_PYTHON=... \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "src/roboskills/eval/robodojo/SKILL.md",
+        "line": 41,
+        "excerpt": "src/roboskills/eval/robodojo/.venv/bin/python -m roboskills.eval.robodojo.launch replay runs/rd-general_pickup gpu=0",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "src/roboskills/eval/robodojo/SKILL.md",
+        "line": 50,
+        "excerpt": "src/roboskills/eval/robodojo/.venv/bin/python -m roboskills.eval.check roboskills.eval.robodojo.launch \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "src/roboskills/eval/robodojo/SKILL.md",
+        "line": 118,
+        "excerpt": "rd_repo=$(git rev-parse --show-toplevel)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "src/roboskills/eval/robodojo/SKILL.md",
+        "line": 129,
+        "excerpt": "export ROBODOJO_VENDOR=/absolute/path/to/RoboDojo",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "src/roboskills/eval/robodojo/SKILL.md",
+        "line": 132,
+        "excerpt": "uv pip install --python \"$rd_skill/.venv/bin/python\" --no-deps -e \"$rd_repo\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "src/roboskills/eval/robodojo/SKILL.md",
+        "line": 171,
+        "excerpt": "uv run --no-project --with huggingface_hub python - <<'PY'",
+        "disclosed": true,
+        "automatic": false
+      },
       {
         "ruleId": "shell",
         "file": "src/roboskills/eval/robodojo/grasp_backend.py",
         "line": 68,
         "excerpt": "p = subprocess.Popen(cmd, stdout=f, stderr=subprocess.STDOUT, env=env, cwd=str(Path(cmd[0]).parents[2]))",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "src/roboskills/eval/robodojo/launch.py",
+        "line": 163,
+        "excerpt": "subprocess.run(server.prefix + [\"mkdir\", \"-p\", f\"/isaac-sim/kit/data/{EXTS}\"], check=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "src/roboskills/eval/robodojo/launch.py",
+        "line": 164,
+        "excerpt": "subprocess.run([\"docker\", \"cp\", f\"{exts}/.\", f\"{server.name}:/isaac-sim/kit/data/{EXTS}\"], check=True,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "src/roboskills/eval/robodojo/rgbd.py",
+        "line": 92,
+        "excerpt": "self.p = subprocess.Popen([\"uv\", \"run\", \"--quiet\", str(HERE / \"depth_worker.py\")], stdin=subprocess.PIPE,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "src/roboskills/eval/robodojo/rgbd.py",
+        "line": 93,
+        "excerpt": "stdout=subprocess.PIPE, text=True, bufsize=1)  # fmt: skip",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docker/robodojo/Dockerfile",
+        "line": 4,
+        "excerpt": "RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates git \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docker/robodojo/Dockerfile",
+        "line": 17,
+        "excerpt": "RUN /isaac-sim/python.sh -m pip install --no-cache-dir --no-deps -r /tmp/runtime-requirements.txt \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docker/robodojo/Dockerfile",
+        "line": 18,
+        "excerpt": "&& L=/opt/robodojo-deps/IsaacLab/source && P=\"/isaac-sim/python.sh -m pip install --no-cache-dir --no-deps --no-build-isolation\" \\",
         "disclosed": false,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 1
+      "shell": 11,
+      "downloads-code": 4
     },
-    "score": 95,
+    "score": 82,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 5,
-    "filesSkipped": 59
+    "filesScanned": 64,
+    "filesSkipped": 1
   },
   "history": [
     {
       "commit": "eca4691d2dfbb808dd58f3dd279fed154de6828a",
       "scannedAt": "2026-11-07T22:05:48.475Z",
       "score": 95,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "72add84d883ec83a14fc471c23474eea5f4150f7",
+      "scannedAt": "2026-11-09T10:28:36.295Z",
+      "score": 82,
       "rulesVersion": "1.3.0"
     }
   ]

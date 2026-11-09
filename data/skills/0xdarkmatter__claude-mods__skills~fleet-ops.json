@@ -4,18 +4,50 @@
   "repo": "claude-mods",
   "path": "skills/fleet-ops",
   "name": "fleet-ops",
-  "description": "",
-  "stars": 79,
+  "description": "Landing discipline for parallel work: sequential test-gated landing queue, pre-land scrub, auto-rebase of in-flight lanes, fleet status, one-shot revert, post-wave sweep. Native primitives spawn; fleet-ops lands and cleans up. Triggers: landing queue, land branches, merge queue, test gate, fleet status, land agent-team/background-agent branches, clean up after a wave, stale worktrees, archive finished sessions.",
+  "stars": 80,
   "category": "coding",
   "commit": "82f5d0a34618bb4228d7e6662579a88d6fe5297c",
-  "contentHash": "fea33aca41f3662fecd38716b1371b1401b0bfcd0149edec4b26abd1d985771c",
+  "contentHash": "0ba4800ec6ce7db66ade04d16464e1bd63489bbc55fb84d1b8c1785dd6fb9dd8",
   "repoCreatedAt": "2025-11-27T03:02:32Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/fleet-ops/SKILL.md",
+        "line": 96,
+        "excerpt": "bash .claude/fleet/signal.sh READY <test-log> <exit-code>   # refuses dirty trees and failing runs",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/fleet-ops/references/session-prompt.md",
+        "line": 72,
+        "excerpt": "| Node (jest) | `npx jest src/X 2>&1 \\| tee tests/test_X.log` |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/fleet-ops/tests/run.sh",
+        "line": 554,
+        "excerpt": "bash -c 'trap \"\" TERM; exec sleep 60' & WEDGED=$!",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/fleet-ops/tests/run.sh",
+        "line": 603,
+        "excerpt": "dead_pid(){ bash -c 'exit 0' & local p=$!; wait \"$p\" 2>/dev/null; echo \"$p\"; }",
+        "disclosed": true,
+        "automatic": false
+      },
       {
         "ruleId": "reads-secrets",
         "file": "tests/hooks.sh",
@@ -89,7 +121,7 @@
         "file": "hooks/README.md",
         "line": 183,
         "excerpt": "(`bash -c \"WORKTREE_ROOT=<root> exec bash <your-home>/.claude/hooks/worktree-create.sh\"`),",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -97,7 +129,7 @@
         "file": "hooks/README.md",
         "line": 257,
         "excerpt": "\"os.system(\"",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -105,7 +137,7 @@
         "file": "hooks/README.md",
         "line": 258,
         "excerpt": "\"subprocess.call.*shell=True\"",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -121,7 +153,7 @@
         "file": "hooks/README.md",
         "line": 427,
         "excerpt": "| `os.system(`, `subprocess.call.*shell=True` | Command injection |",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -145,7 +177,7 @@
         "file": "hooks/hooks.json",
         "line": 9,
         "excerpt": "\"command\": \"bash \\\"${CLAUDE_PLUGIN_ROOT}/hooks/pre-write-peer-guard.sh\\\"\",",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -153,7 +185,7 @@
         "file": "hooks/hooks.json",
         "line": 19,
         "excerpt": "\"command\": \"bash \\\"${CLAUDE_PLUGIN_ROOT}/hooks/pre-install-scan.sh\\\"\",",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -161,7 +193,7 @@
         "file": "hooks/hooks.json",
         "line": 24,
         "excerpt": "\"command\": \"bash \\\"${CLAUDE_PLUGIN_ROOT}/hooks/worktree-guard.sh\\\"\",",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -169,7 +201,7 @@
         "file": "hooks/hooks.json",
         "line": 36,
         "excerpt": "\"command\": \"bash \\\"${CLAUDE_PLUGIN_ROOT}/hooks/manifest-dep-scan.sh\\\"\",",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -177,7 +209,7 @@
         "file": "hooks/hooks.json",
         "line": 41,
         "excerpt": "\"command\": \"bash \\\"${CLAUDE_PLUGIN_ROOT}/hooks/session-touched-ledger.sh\\\"\",",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -185,7 +217,7 @@
         "file": "hooks/hooks.json",
         "line": 52,
         "excerpt": "\"command\": \"bash \\\"${CLAUDE_PLUGIN_ROOT}/hooks/session-start-unicode-scan.sh\\\"\",",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -193,7 +225,7 @@
         "file": "hooks/hooks.json",
         "line": 63,
         "excerpt": "\"command\": \"bash \\\"${CLAUDE_PLUGIN_ROOT}/hooks/config-change-guard.sh\\\"\",",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -246,17 +278,17 @@
       }
     ],
     "findingTotals": {
+      "shell": 14,
+      "downloads-code": 13,
       "reads-secrets": 2,
       "network": 2,
-      "downloads-code": 12,
-      "writes-outside": 1,
-      "shell": 11
+      "writes-outside": 1
     },
-    "score": 45,
+    "score": 47,
     "band": "high",
     "rulesVersion": "1.3.0",
-    "filesScanned": 27,
-    "filesSkipped": 12
+    "filesScanned": 40,
+    "filesSkipped": 0
   },
   "history": [
     {

@@ -5,15 +5,15 @@
   "path": ".agents/skills/opendesigner-review",
   "name": "opendesigner-review",
   "description": "Checks a built UI like a careful user would: every screen size and theme, scrolling, hover, keyboard, motion frames, and measured spacing, type, fonts and contrast. Reports findings with evidence.",
-  "stars": 79,
+  "stars": 110,
   "category": "design",
-  "commit": "b3300254b038cb2c80cf0af672230d16ba00866a",
-  "contentHash": "a9d8d8126407b5e9907b432632492673532f8fd7d0bbee2c9d6ab29e86323cfa",
+  "commit": "b9dac0f5d3459e87d4289486fc484bdc77fe2b72",
+  "contentHash": "9cf0668c8efe4d88dff3a31e45d0002928a4dfc4494e9c4b2e396505f339b411",
   "repoCreatedAt": "2026-09-23T12:54:12Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
     "findings": [
       {
@@ -31,22 +31,125 @@
         "excerpt": "raise SystemExit(\"Playwright for Python is not installed. Ask the person before installing it: pip install playwright && playwright install chromium. \"",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/opendesigner-review/scripts/review.py",
+        "line": 1020,
+        "excerpt": "\"window.__odSave=(n,d)=>fetch(B+'save?name='+encodeURIComponent(n),{method:'POST',body:JSON.stringify(d)}).then(r=>r.text());\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/opendesigner-review/scripts/test_probe_live.py",
+        "line": 309,
+        "excerpt": "r = subprocess.run(args, capture_output=True, text=True, timeout=240)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/opendesigner-review/scripts/test_probe_live.py",
+        "line": 317,
+        "excerpt": "r2 = subprocess.run([sys.executable, str(HERE / \"review.py\"), \"check\", d, \"--dir\", d, \"--json\"], capture_output=True, text=True)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/opendesigner-review/scripts/test_probe_live.py",
+        "line": 321,
+        "excerpt": "refused = subprocess.run([sys.executable, str(HERE / \"capture.py\"), \"--url\", remote, \"--out\", d], capture_output=True, text=True)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/opendesigner-review/scripts/test_probe_live.py",
+        "line": 324,
+        "excerpt": "sneaky = subprocess.run([sys.executable, str(HERE / \"capture.py\"), \"--url\", f\"http://localhost:{self.port}\", \"--routes\", \"//example.com/\", \"--out\", d],",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/opendesigner-review/scripts/test_review.py",
+        "line": 750,
+        "excerpt": "import urllib.request",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/opendesigner-review/scripts/test_review.py",
+        "line": 751,
+        "excerpt": "req = urllib.request.Request(url, data=data, method=\"POST\" if data is not None else \"GET\", headers=headers or {})",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/opendesigner-review/scripts/test_review.py",
+        "line": 753,
+        "excerpt": "with urllib.request.urlopen(req, timeout=5) as r:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/opendesigner-review/scripts/test_review.py",
+        "line": 895,
+        "excerpt": "for banned in (\"fetch(\", \"XMLHttpRequest\", \"WebSocket\", \"sendBeacon\", \"eval(\", \"new Function\", \"import(\", \"localStorage\", \"sessionStorage\", \"document.cookie\", \"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/opendesigner-review/scripts/test_review.py",
+        "line": 900,
+        "excerpt": "for banned in (\"fetch(\", \"XMLHttpRequest\", \"WebSocket\", \"sendBeacon\", \"eval(\", \"new Function\", \"import(\", \"localStorage\", \"sessionStorage\", \"document.cookie\", \"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/opendesigner-review/scripts/test_review.py",
+        "line": 905,
+        "excerpt": "for banned in (\"import requests\", \"urllib.request\", \"http.client\", \"import socket\", \"subprocess\", \"0.0.0.0\", 'ThreadingHTTPServer((\"\",'):",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
       }
     ],
     "findingTotals": {
-      "downloads-code": 2
+      "downloads-code": 2,
+      "network": 7,
+      "shell": 4
     },
-    "score": 85,
-    "band": "low",
+    "score": 77,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 9,
-    "filesSkipped": 11
+    "filesScanned": 20,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "b3300254b038cb2c80cf0af672230d16ba00866a",
       "scannedAt": "2026-11-07T22:05:48.475Z",
       "score": 85,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "b9dac0f5d3459e87d4289486fc484bdc77fe2b72",
+      "scannedAt": "2026-11-09T10:28:36.295Z",
+      "score": 77,
       "rulesVersion": "1.3.0"
     }
   ]

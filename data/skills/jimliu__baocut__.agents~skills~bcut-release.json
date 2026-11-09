@@ -1,0 +1,141 @@
+{
+  "id": "jimliu__baocut__.agents~skills~bcut-release",
+  "owner": "JimLiu",
+  "repo": "baocut",
+  "path": ".agents/skills/bcut-release",
+  "name": "bcut-release",
+  "description": "Release BaoCut Electron desktop apps through GitHub Actions tags by default; use local/manual packaging only when explicitly requested. Also handles App version bumps, release continuation and portable signing backups; excludes craft skills and legacy standalone CLI releases.",
+  "stars": 1708,
+  "category": "coding",
+  "commit": "7e86c0ad6873a318f43f4d9899c4bd49e816e4a8",
+  "contentHash": "17799e02e0ae8d609edf345d9b57922a37db56b3b41ae315a2fadd80f400a4e6",
+  "repoCreatedAt": "2026-07-13T07:06:42Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/bcut-release/SKILL.md",
+        "line": 63,
+        "excerpt": "gh release edit \"$release_tag\" --repo \"$release_repo\" --latest",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/bcut-release/references/download-links.md",
+        "line": 38,
+        "excerpt": "curl -s https://baocut.com/api/release",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "baocut.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/bcut-release/references/download-links.md",
+        "line": 39,
+        "excerpt": "curl -s -o /dev/null -w '%{http_code} %{redirect_url}\\n' https://baocut.com/download/mac-dmg",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "baocut.com"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/bcut-release/references/download-links.md",
+        "line": 54,
+        "excerpt": "`npx --yes wrangler@4.144.0 tail --config apps/portal/wrangler.jsonc --format pretty`",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "apps/desktop/README.md",
+        "line": 17,
+        "excerpt": "桌面构建把当前 CLI、离线工具目录和 Runtime 放在同一个 App 中。macOS 的入口是 `BaoCut.app/Contents/MacOS/baocut-cli`，Windows 是安装目录里的 `baocut.cmd`；两者都使用包内的 Electron，无需另装 Node。让终端直接找到 `baoc",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "apps/portal/README.md",
+        "line": 34,
+        "excerpt": "npx --yes wrangler@4.144.0 login     # 第一次",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "apps/portal/README.md",
+        "line": 43,
+        "excerpt": "npx --yes wrangler@4.144.0 secret put GITHUB_TOKEN --config apps/portal/wrangler.jsonc",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "apps/portal/README.md",
+        "line": 57,
+        "excerpt": "- 每次到 GitHub 重取都记一条 `github-releases` 日志：`status`、`limit` / `remaining`（额度上限与剩余；`limit` 为 5000 说明 token 生效，60 说明没带上）、`token`（有没有设，不含值）与各平台取到的构建号；失败时记 `console.w",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "apps/portal/README.md",
+        "line": 75,
+        "excerpt": "npx vitest run apps/portal",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/development-workflow.md",
+        "line": 138,
+        "excerpt": "- 只确认能否构建时，在 `apps/desktop` 里运行 `npx electron-vite build --outDir <仓库外的绝对路径>`：main、preload、renderer 都落在那里，不碰 `out/`（相对路径会把 renderer 放进 `src/renderer/` 下）。这份产物在仓",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "docs/macos-signing.md",
+        "line": 161,
+        "excerpt": "subprocess.run(['security', 'list-keychains', '-d', 'user', '-s',",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "docs/macos-signing.md",
+        "line": 190,
+        "excerpt": "subprocess.run(['security', 'list-keychains', '-d', 'user', '-s', *previous], check=True)",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 3,
+      "network": 2,
+      "downloads-code": 7
+    },
+    "score": 84,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 10,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "7e86c0ad6873a318f43f4d9899c4bd49e816e4a8",
+      "scannedAt": "2026-11-09T10:28:36.295Z",
+      "score": 84,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

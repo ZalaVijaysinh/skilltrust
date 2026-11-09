@@ -4,30 +4,107 @@
   "repo": "OpenDesigner",
   "path": ".claude/skills/od-pr-review",
   "name": "od-pr-review",
-  "description": "",
-  "stars": 79,
+  "description": "Review pull requests to the OpenDesigner repo and merge the ones that pass. Checks for malicious code, prompt injection, unrelated or off-goal changes, broken project rules and unverified claims. Use for \"review PRs\", \"check this contribution\", \"should we merge #N\", \"merge the open PRs\".",
+  "stars": 110,
   "category": "design",
-  "commit": "b3300254b038cb2c80cf0af672230d16ba00866a",
+  "commit": "b9dac0f5d3459e87d4289486fc484bdc77fe2b72",
   "contentHash": "119f1913f6fdb5314fe90baacd0cbceb0d58003e32c4b2f094bb155f09ffa90b",
   "repoCreatedAt": "2026-09-23T12:54:12Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/od-pr-review/SKILL.md",
+        "line": 23,
+        "excerpt": "gh pr list --state open --json number,title,author,isDraft,headRefOid,maintainerCanModify,changedFiles",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/od-pr-review/SKILL.md",
+        "line": 37,
+        "excerpt": "python3 .claude/skills/od-pr-review/scripts/scan_pr.py origin/main refs/od-review/pr-<N>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/od-pr-review/SKILL.md",
+        "line": 104,
+        "excerpt": "git worktree add --detach .worktrees/merge-check origin/main",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/od-pr-review/scripts/scan_pr.py",
+        "line": 69,
+        "excerpt": "(\"BLOCK\", \"pipe from the network into a shell\", r\"(curl|wget|iwr|Invoke-WebRequest)[^\\n|]*\\|\\s*(ba|z)?sh|\\|\\s*iex\", None),",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/od-pr-review/scripts/scan_pr.py",
+        "line": 74,
+        "excerpt": "r\"|urlopen\\(|\\b(requests|httpx)\\.(get|post|put|request)\\(|socket\\.socket\\(|fetch\\(|XMLHttpRequest|sendBeacon|WebSocket\\(\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/od-pr-review/scripts/scan_pr.py",
+        "line": 77,
+        "excerpt": "r\"|__import__|importlib)\\b|(?<![\\w.])(eval|exec|compile)\\s*\\(|new Function\\(|child_process\", r\"\\.(py|js|mjs|ts|html?|sh)$\"),",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/od-pr-review/scripts/scan_pr.py",
+        "line": 89,
+        "excerpt": "r = subprocess.run([\"git\", *args], capture_output=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/od-pr-review/scripts/scan_pr.py",
+        "line": 145,
+        "excerpt": "\"only npx scripts pinned to an exact version; open it and check\")",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 5,
+      "network": 2,
+      "downloads-code": 1
+    },
+    "score": 79,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 2,
-    "filesSkipped": 2
+    "filesScanned": 4,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "b3300254b038cb2c80cf0af672230d16ba00866a",
       "scannedAt": "2026-11-07T22:05:48.475Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "b9dac0f5d3459e87d4289486fc484bdc77fe2b72",
+      "scannedAt": "2026-11-09T10:28:36.295Z",
+      "score": 79,
       "rulesVersion": "1.3.0"
     }
   ]

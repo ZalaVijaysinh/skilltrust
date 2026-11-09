@@ -1,0 +1,136 @@
+{
+  "id": "nightly-labs__openbot__.agents~skills~signal-deploy",
+  "owner": "nightly-labs",
+  "repo": "openbot",
+  "path": ".agents/skills/signal-deploy",
+  "name": "signal-deploy",
+  "description": "Check and deploy Signal (the `remote-api` service in `remote/`) to production from a release tag. Use when asked to deploy, redeploy, update or roll back Signal, to check that a Signal deployment has all its secrets and no regressions, or when a release tag changes `remote/` or `packages/contracts/src/signal-protocol`.",
+  "stars": 6583,
+  "category": "coding",
+  "commit": "01ad8de9c48c46361d9833050a7e450276bbadf4",
+  "contentHash": "6349d2123b11eecafb82f078245052ee548eec6e53c7b00c85d31d2f812a9f84",
+  "repoCreatedAt": "2026-08-12T21:32:03Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/signal-deploy/SKILL.md",
+        "line": 44,
+        "excerpt": "curl -fsS https://signal.openbot.run/health/live",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "signal.openbot.run"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/signal-deploy/SKILL.md",
+        "line": 44,
+        "excerpt": "curl -fsS https://signal.openbot.run/health/live",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/signal-deploy/SKILL.md",
+        "line": 51,
+        "excerpt": "ssh sui-alexandria 'docker inspect openbot-remote-remote-api-1 --format \"{{.Image}} {{.Created}} {{.State.Health.Status}}\"'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/signal-deploy/SKILL.md",
+        "line": 52,
+        "excerpt": "ssh sui-alexandria 'docker exec openbot-remote-remote-api-1 sh -c \"cd /app/remote/api/src && sha256sum *.ts\"'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/signal-deploy/SKILL.md",
+        "line": 65,
+        "excerpt": "git diff --stat <running> <tag> -- remote packages/contracts/src/signal-protocol",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/signal-deploy/SKILL.md",
+        "line": 94,
+        "excerpt": "git show <tag>:remote/.env.production | grep -vE '^#|^$' | cut -d= -f1 | sort",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/RELEASING.md",
+        "line": 396,
+        "excerpt": "`bunx` beside it so that `npx -y <package>` has something to answer it. The pin has its own script",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "docs/RELEASING.md",
+        "line": 746,
+        "excerpt": "16. read the running Signal commit from `curl -fsS https://signal.openbot.run/health/live`. If it is",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "signal.openbot.run"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "docs/RELEASING.md",
+        "line": 753,
+        "excerpt": "Confirm that `curl -fsS https://signal.openbot.run/health/live` shows the tag commit. A client",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "signal.openbot.run"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/remote-session-deployment.md",
+        "line": 25,
+        "excerpt": "bunx wrangler deployments list --cwd apps/auth-api --json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/remote-session-deployment.md",
+        "line": 26,
+        "excerpt": "bunx wrangler d1 execute openbot-auth --cwd apps/auth-api --remote \\",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "network": 3,
+      "shell": 5,
+      "downloads-code": 3
+    },
+    "score": 75,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 4,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "01ad8de9c48c46361d9833050a7e450276bbadf4",
+      "scannedAt": "2026-11-09T10:28:36.295Z",
+      "score": 75,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

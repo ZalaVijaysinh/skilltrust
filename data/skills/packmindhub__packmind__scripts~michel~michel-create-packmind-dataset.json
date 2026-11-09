@@ -4,7 +4,7 @@
   "repo": "packmind",
   "path": "scripts/michel/michel-create-packmind-dataset",
   "name": "michel-create-packmind-dataset",
-  "description": "",
+  "description": "Seed a local Packmind instance with a realistic dataset — one organization populated with standards, commands, and skills — so an autonomous agent can exercise its own changes against lifelike data instead of an empty app. Use this whenever you need populated Packmind data to verify a change end-to-end: reproducing a bug that only shows with existing artifacts, recording a UI/CLI demo that needs content on screen, smoke-testing a new endpoint or page against a non-empty playbook, or validating CLI commands (standards list, playbook add/submit) against real records. The artifacts you create are NOT fixed — choose standards, commands, and skills that match what the current task actually needs to test (e.g. seed React/TypeScript standards when testing a standards-list filter; seed a skill when testing the Skills page). Triggers on \"seed Packmind data\", \"create a dataset\", \"populate the playbook\", \"set up a test org with standards/commands/skills\", \"I need data to test this against\", or any task that would fail or be meaningless against an empty instance. Defers stack lifecycle to michel-run-local-dev-stack and looks up product behavior through the packmind-user-docs MCP. Prefer this over hand-rolling SQL inserts or clicking through the UI blind.",
   "stars": 321,
   "category": "coding",
   "commit": "e9904844638eac5e0848a1bd759b8e7d31004e3b",
@@ -12,16 +12,112 @@
   "repoCreatedAt": "2025-09-05T09:42:35Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "scripts/michel/michel-create-packmind-dataset/SKILL.md",
+        "line": 33,
+        "excerpt": "export PACKMIND_EDITION=\"$(bash scripts/michel/resolve-edition.sh)\"   # oss | proprietary, from the git remote",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "scripts/michel/michel-create-packmind-dataset/SKILL.md",
+        "line": 36,
+        "excerpt": "until curl -sf \"localhost:$PM_WEB\" >/dev/null; do sleep 2; done   # frontend ready",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "scripts/michel/michel-create-packmind-dataset/SKILL.md",
+        "line": 37,
+        "excerpt": "curl -s -o /dev/null -w \"%{http_code}\\n\" \"localhost:$PM_WEB/api/v0\"   # API via Vite proxy -> 200",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/michel/michel-create-packmind-dataset/SKILL.md",
+        "line": 47,
+        "excerpt": "docker compose --profile dev down -v",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/michel/michel-create-packmind-dataset/SKILL.md",
+        "line": 86,
+        "excerpt": "node ./dist/apps/cli/main.cjs playbook add <skill-directory> --space global",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/michel/michel-create-packmind-dataset/SKILL.md",
+        "line": 102,
+        "excerpt": "npm run packmind-cli:build                                          # -> dist/apps/cli/main.cjs",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/michel/michel-create-packmind-dataset/SKILL.md",
+        "line": 113,
+        "excerpt": "node ./dist/apps/cli/main.cjs whoami           # Host/Organization/User",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/michel/michel-create-packmind-dataset/SKILL.md",
+        "line": 123,
+        "excerpt": "docker compose --profile dev down        # keeps the dataset",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/michel/michel-create-packmind-dataset/SKILL.md",
+        "line": 131,
+        "excerpt": "export PACKMIND_EDITION=\"$(bash scripts/michel/resolve-edition.sh)\"   # oss | proprietary",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "scripts/michel/michel-create-packmind-dataset/SKILL.md",
+        "line": 134,
+        "excerpt": "until curl -sf \"localhost:$PM_WEB\" >/dev/null; do sleep 2; done",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "scripts/michel/michel-create-packmind-dataset/SKILL.md",
+        "line": 135,
+        "excerpt": "curl -s -o /dev/null -w \"%{http_code}\\n\" \"localhost:$PM_WEB/api/v0\"   # -> 200",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 7,
+      "network": 4
+    },
+    "score": 90,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 1
+    "filesScanned": 1,
+    "filesSkipped": 0
   },
   "history": [
     {

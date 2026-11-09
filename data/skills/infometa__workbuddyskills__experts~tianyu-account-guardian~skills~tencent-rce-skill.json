@@ -5,29 +5,100 @@
   "path": "experts/tianyu-account-guardian/skills/tencent-rce-skill",
   "name": "tencent-rce-skill",
   "description": "",
-  "stars": 424,
+  "stars": 427,
   "category": "other",
-  "commit": "1e18d8c8eea945f9cde31256c469dda7b1f227a9",
+  "commit": "0749999031be0d5fa14cdc08afe9cefdf857cbfd",
   "contentHash": "ce4a021ccd28ad974b379cec2bffa3865aaac50077f90f3dfe576b056a4efe60",
   "repoCreatedAt": "2026-07-21T02:46:31Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "experts/tianyu-account-guardian/skills/tencent-rce-skill/AGENT.md",
+        "line": 11,
+        "excerpt": "| Windows（PowerShell） | [`AGENT_windows.md`](./AGENT_windows.md) | 使用 `$env:AUTH_CONFIG='...'` 设置环境变量、`Invoke-WebRequest` 安装 amccli.exe、反引号 `` ` `` 续行 |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "experts/tianyu-account-guardian/skills/tencent-rce-skill/AGENT_unix.md",
+        "line": 30,
+        "excerpt": "( command -v amccli >/dev/null 2>&1 || { mkdir -p \"$HOME/.local/bin\" && OS_TAG=$(uname -s | tr '[:upper:]' '[:lower:]') && case \"$(uname -m)\" in x86_64|amd64) A",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "experts/tianyu-account-guardian/skills/tencent-rce-skill/AGENT_unix.md",
+        "line": 30,
+        "excerpt": "( command -v amccli >/dev/null 2>&1 || { mkdir -p \"$HOME/.local/bin\" && OS_TAG=$(uname -s | tr '[:upper:]' '[:lower:]') && case \"$(uname -m)\" in x86_64|amd64) A",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "agent-identity-1302490086.cos.ap-guangzhou.myqcloud.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "experts/tianyu-account-guardian/skills/tencent-rce-skill/AGENT_unix.md",
+        "line": 38,
+        "excerpt": "INSTALL_DIR=\"$HOME/.local/bin\"; rm -rf \"$INSTALL_DIR/amccli\"; mkdir -p \"$INSTALL_DIR\"; case \"$(uname -s)\" in Linux*) OS_TAG=\"linux\" ;; Darwin*) OS_TAG=\"darwin\" ",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "agent-identity-1302490086.cos.ap-guangzhou.myqcloud.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "experts/tianyu-account-guardian/skills/tencent-rce-skill/AGENT_windows.md",
+        "line": 30,
+        "excerpt": "if (-not (Get-Command amccli.exe -ErrorAction SilentlyContinue)) { $d=\"$env:USERPROFILE\\.local\\bin\"; if (-not (Test-Path $d)) { New-Item -ItemType Directory -Pa",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "agent-identity-1302490086.cos.ap-guangzhou.myqcloud.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "experts/tianyu-account-guardian/skills/tencent-rce-skill/AGENT_windows.md",
+        "line": 38,
+        "excerpt": "$InstallDir = Join-Path $env:USERPROFILE \".local\\bin\"; if (Test-Path (Join-Path $InstallDir \"amccli.exe\")) { Remove-Item (Join-Path $InstallDir \"amccli.exe\") -F",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "agent-identity-1302490086.cos.ap-guangzhou.myqcloud.com"
+        ]
+      }
+    ],
+    "findingTotals": {
+      "network": 5,
+      "writes-outside": 1
+    },
+    "score": 85,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 4
+    "filesScanned": 3,
+    "filesSkipped": 1
   },
   "history": [
     {
       "commit": "1e18d8c8eea945f9cde31256c469dda7b1f227a9",
       "scannedAt": "2026-11-07T22:05:48.475Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "0749999031be0d5fa14cdc08afe9cefdf857cbfd",
+      "scannedAt": "2026-11-09T10:28:36.295Z",
+      "score": 85,
       "rulesVersion": "1.3.0"
     }
   ]

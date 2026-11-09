@@ -4,7 +4,7 @@
   "repo": "TORCH",
   "path": "skills/hunt/hunt-cloud",
   "name": "hunt-cloud",
-  "description": "",
+  "description": "Cloud attack hunting for AWS / Azure / GCP - credential discovery, metadata SSRF, IAM privesc, service enumeration, persistence. Scope + billing aware. Wiki-first, FIND schema output.",
   "stars": 340,
   "category": "coding",
   "commit": "d21b6c94982cec09c88ae9c0e98f4e3865de7148",
@@ -12,16 +12,100 @@
   "repoCreatedAt": "2026-07-14T07:25:10Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "skills/hunt/hunt-cloud/SKILL.md",
+        "line": 48,
+        "excerpt": "your system\"). Install with `curl -sL https://aka.ms/InstallAzureCLIDeb | DIST_CODE=bookworm bash`,",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "aka.ms"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt/hunt-cloud/SKILL.md",
+        "line": 57,
+        "excerpt": "aws sts get-caller-identity",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt/hunt-cloud/SKILL.md",
+        "line": 64,
+        "excerpt": "curl http://169.254.169.254/latest/meta-data/iam/security-credentials/<role>",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "169.254.169.254"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt/hunt-cloud/SKILL.md",
+        "line": 64,
+        "excerpt": "curl http://169.254.169.254/latest/meta-data/iam/security-credentials/<role>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt/hunt-cloud/SKILL.md",
+        "line": 66,
+        "excerpt": "curl -H \"Metadata:true\" \"http://169.254.169.254/metadata/identity/oauth2/token?api-version=2018-02-01&resource=https://management.azure.com/\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "169.254.169.254",
+          "management.azure.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt/hunt-cloud/SKILL.md",
+        "line": 68,
+        "excerpt": "curl -H \"Metadata-Flavor: Google\" \"http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "metadata.google.internal"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hunt/hunt-cloud/SKILL.md",
+        "line": 72,
+        "excerpt": "aws iam get-account-authorization-details;  enumerate-iam --access-key ... --secret-key ...   # or pacu",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hunt/hunt-cloud/SKILL.md",
+        "line": 74,
+        "excerpt": "gcloud projects get-iam-policy <proj>;  curl https://... (roadtools / ROADrecon for Entra)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "..."
+        ]
+      }
+    ],
+    "findingTotals": {
+      "network": 5,
+      "shell": 3
+    },
+    "score": 90,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 1
+    "filesScanned": 1,
+    "filesSkipped": 0
   },
   "history": [
     {

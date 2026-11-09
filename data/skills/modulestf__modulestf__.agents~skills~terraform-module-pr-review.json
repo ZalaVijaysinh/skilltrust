@@ -4,30 +4,224 @@
   "repo": "modulestf",
   "path": ".agents/skills/terraform-module-pr-review",
   "name": "terraform-module-pr-review",
-  "description": "",
-  "stars": 369,
+  "description": "Reviews a GitHub pull request, or a single commit, against a Terraform module repository. Use when the request carries a pull request URL like github.com/owner/repo/pull/123, a short reference like owner/repo#123, or a commit URL like github.com/owner/repo/commit/<sha>, and asks for a review, a verdict, a comment to post, \"what should I reply on this pull request\", or \"is this ready to merge\". Not for a local diff or a set of changed files with no pull request (use terraform-module-reviewer), not for making the change (use terraform-module-maintainer), and not for fixing and pushing a pull request (use terraform-module-pr-fix).",
+  "stars": 370,
   "category": "devops",
-  "commit": "06f726782014a74415405de16cb33e8299b78352",
-  "contentHash": "722b93ccf1a01efb7f44b9b9173d7cd5c42d15e913aa9812b873ddb7036ae015",
+  "commit": "a7427a828c6dbdd445e328a76be8838c351bd43e",
+  "contentHash": "8c4463075b21083f2a2558099bf4cecb2b3097e8745b614466fed180d77b47df",
   "repoCreatedAt": "2017-11-25T17:07:05Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/terraform-module-pr-review/references/ladder-pass.md",
+        "line": 64,
+        "excerpt": "- `curl -q --proto =https --max-redirs 0 --max-filesize 512M` fetches each zip into the cache, with an empty environment and home; the zip is checked before it ",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/terraform-module-pr-review/references/plan-runner/Dockerfile.runner",
+        "line": 20,
+        "excerpt": "&& apt-get install -y --no-install-recommends \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/terraform-module-pr-review/references/plan-runner/Dockerfile.runner",
+        "line": 39,
+        "excerpt": "curl -fsSLo terraform.zip \"https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_${TARGETARCH}.zip\"; \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "releases.hashicorp.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/terraform-module-pr-review/references/plan-runner/Dockerfile.runner",
+        "line": 42,
+        "excerpt": "curl -fsSLo awscli.zip \"https://awscli.amazonaws.com/awscli-exe-linux-${cli_arch}-${AWSCLI_VERSION}.zip\"; \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "awscli.amazonaws.com"
+        ]
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".agents/skills/terraform-module-pr-review/references/plan-runner/Dockerfile.runner",
+        "line": 45,
+        "excerpt": "./aws/install -i /usr/local/aws-cli -b /usr/local/bin; \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/terraform-module-pr-review/references/plan-runner/Dockerfile.runner",
+        "line": 64,
+        "excerpt": "curl -fsSLo python.tar.gz \"https://github.com/astral-sh/python-build-standalone/releases/download/${PBS_RELEASE}/cpython-${PY312_VERSION}%2B${PBS_RELEASE}-${arc",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "github.com"
+        ]
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".agents/skills/terraform-module-pr-review/references/plan-runner/Dockerfile.runner",
+        "line": 69,
+        "excerpt": "ln -s /opt/python3.12/bin/python3.12 /usr/local/bin/python3.12; \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/terraform-module-pr-review/references/plan-runner/README.md",
+        "line": 149,
+        "excerpt": "| `test-entry.sh` | Test container entrypoint: unpacks the archive, `pipenv install --dev` or `pip install -r requirements-dev.txt`, `python -m pytest`, prints ",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/terraform-module-pr-review/references/plan-runner/egress-probe.sh",
+        "line": 23,
+        "excerpt": "tcp() { timeout 5 bash -c \"exec 3<>/dev/tcp/$1/$2\" 2> /dev/null; } # host, port: 0 when it connects",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/terraform-module-pr-review/references/plan-runner/egress-probe.sh",
+        "line": 48,
+        "excerpt": "out=\"$(curl -s -o /dev/null --max-time 15 -w '%{http_connect}' -x \"$HTTPS_PROXY\" \"$1\" 2> /dev/null)\"; rc=$?",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/terraform-module-pr-review/references/plan-runner/egress-probe.sh",
+        "line": 138,
+        "excerpt": "code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 15 -x \"$HTTP_PROXY\" http://registry.terraform.io/ 2>/dev/null)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "registry.terraform.io"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/terraform-module-pr-review/references/plan-runner/egress-probe.sh",
+        "line": 145,
+        "excerpt": "code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 15 -x \"$HTTPS_PROXY\" \"https://$host/\" 2>/dev/null)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$host"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/terraform-module-pr-review/references/plan-runner/egress-probe.sh",
+        "line": 155,
+        "excerpt": "code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 15 -x \"$HTTPS_PROXY\" https://sts.us-east-1.amazonaws.com:8443/ 2>/dev/null)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "sts.us-east-1.amazonaws.com"
+        ]
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".agents/skills/terraform-module-pr-review/references/plan-runner/run-tests.sh",
+        "line": 124,
+        "excerpt": "docker run --rm --name \"$runner\" \"${common[@]}\" --entrypoint /usr/local/bin/egress-probe \"$runner_image\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".agents/skills/terraform-module-pr-review/references/plan-runner/smoke/attack/main.tf",
+        "line": 18,
+        "excerpt": "\"ln -sf /etc/passwd /work/out/status; ln -sf /etc/hostname /work/out/plan.log; ln -sf /etc/passwd /work/out/extra; head -c 6000000 /dev/zero > /work/out/probe-i",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/terraform-module-pr-review/references/plan-runner/test-entry.sh",
+        "line": 36,
+        "excerpt": "in_budget /work/venv/bin/python -m pip install -q -r requirements-dev.txt > /dev/null 2>&1",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/terraform-module-pr-review/references/review-run-details.md",
+        "line": 57,
+        "excerpt": "Every pattern a shell test matches has no repetition bound over 255, which bash 3.2's regex refuses on macOS: a longer value takes an unbounded pattern and a se",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/terraform-module-pr-review/references/schema-pass.sh",
+        "line": 92,
+        "excerpt": "fetch() { # url, output file, byte cap, allowed hosts",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/terraform-module-pr-review/references/schema-pass.sh",
+        "line": 101,
+        "excerpt": "code=\"$(curl -s --proto '=https' --tlsv1.2 --max-redirs 0 --connect-timeout 10 --max-time 120 \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/terraform-module-pr-review/references/test-pass.md",
+        "line": 24,
+        "excerpt": "4. In the container ([plan-runner/test-entry.sh](plan-runner/test-entry.sh)): `pipenv install --dev`, or a virtual environment and `pip install -r requirements-",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "network": 10,
+      "downloads-code": 4,
+      "writes-outside": 4,
+      "shell": 2
+    },
+    "score": 69,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 3,
-    "filesSkipped": 74
+    "filesScanned": 78,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "06f726782014a74415405de16cb33e8299b78352",
       "scannedAt": "2026-11-07T22:05:48.475Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "a7427a828c6dbdd445e328a76be8838c351bd43e",
+      "scannedAt": "2026-11-09T10:28:36.295Z",
+      "score": 69,
       "rulesVersion": "1.3.0"
     }
   ]

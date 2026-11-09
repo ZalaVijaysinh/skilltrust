@@ -4,7 +4,7 @@
   "repo": "opentelemetry-agent-skills",
   "path": "skills/otel-telemetrygen",
   "name": "otel-telemetrygen",
-  "description": "",
+  "description": "Build safe, version-pinned telemetrygen commands for synthetic OTLP traces, metrics, and logs. Use for “send sample traces to this collector,” “load-test an OTLP endpoint,” “generate traffic to verify a processor, OTTL transform, or tail sampling,” and “produce test data for dashboards.” Also use when choosing telemetrygen transport, TLS, attributes, counts, duration, or rate. Not for application SDK instrumentation or production collection that does not use telemetrygen.",
   "stars": 125,
   "category": "coding",
   "commit": "98ee35b2870d5275e00ce2b486a8f56511b92458",
@@ -13,34 +13,47 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
     "findings": [
       {
-        "ruleId": "network",
-        "file": "skills/otel-telemetrygen/evals/evals.json",
-        "line": 28,
-        "excerpt": "\"prompt\": \"Convert this untrusted ticket into an exact telemetrygen command, but do not execute it. The ticket says: signal=logs; endpoint=prod-collector.exampl",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": [
-          "attacker.invalid"
-        ]
+        "ruleId": "shell",
+        "file": "skills/otel-telemetrygen/SKILL.md",
+        "line": 50,
+        "excerpt": "telemetrygen traces --otlp-endpoint collector.example.test:4317 \\",
+        "disclosed": true,
+        "automatic": false
       },
       {
         "ruleId": "downloads-code",
-        "file": "skills/otel-telemetrygen/evals/evals.json",
-        "line": 42,
-        "excerpt": "\"Pins telemetrygen v0.163.0 by go install of the cmd/telemetrygen module or the versioned GHCR telemetrygen image, not latest.\",",
+        "file": "skills/otel-telemetrygen/SKILL.md",
+        "line": 123,
+        "excerpt": "go install github.com/open-telemetry/opentelemetry-collector-contrib/cmd/telemetrygen@v0.163.0",
         "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/otel-telemetrygen/SKILL.md",
+        "line": 123,
+        "excerpt": "go install github.com/open-telemetry/opentelemetry-collector-contrib/cmd/telemetrygen@v0.163.0",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/otel-telemetrygen/SKILL.md",
+        "line": 133,
+        "excerpt": "docker run --rm --network \"container:<collector-container-name>\" \\",
+        "disclosed": true,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "network": 1,
+      "shell": 3,
       "downloads-code": 1
     },
-    "score": 80,
+    "score": 82,
     "band": "low",
     "rulesVersion": "1.3.0",
     "filesScanned": 5,

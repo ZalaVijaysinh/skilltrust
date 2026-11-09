@@ -5,7 +5,7 @@
   "path": "",
   "name": "ghost-editor",
   "description": "AI video editor for talking-head reels. Turns a raw phone recording of someone talking to camera (retakes, pauses, false starts) into a finished vertical 1080x1920 reel for Instagram, TikTok or Shorts: the best take of each sentence, pause trimming, word-timed captions that never cover the face, motion scenes on the spoken word, sound effects mixed against the voice and checked B-roll. Use when the user hands over a talking-head video and says \"edit this\", \"make a reel\", \"make it look like this video\", \"add captions/sound effects\", \"pick the best takes\", \"remove the pauses\", asks for a re-cut, or names a style. Named styles (recipes/, docs/PLAYBOOK.md): Clean OS, Seoul list, RESULT, Face RESULT, stan style, vector explainer, POV montage, Whiteboard, Kinetic doc, Step Deck, Product page, Tactile paper, Caption News, News Package, Telestrator, Halftone Dossier, Swiss Grid, Data Story, Hologram HUD; plus seven presets (clean, editorial, meme, cinematic, launch, kinetic, pop). Not for landscape screen recordings.",
-  "stars": 254,
+  "stars": 269,
   "category": "media",
   "commit": "ce172726c36293722b08eb57b5b307d4f06389e8",
   "contentHash": "5f163fcb4a74125a610730b5b41f3da9b584d7e736a165973519ed8675b66e93",
@@ -13,7 +13,7 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
     "findings": [
       {
@@ -178,85 +178,141 @@
       },
       {
         "ruleId": "shell",
-        "file": "recipes/hologram-hud/hologramhud.py",
-        "line": 56,
-        "excerpt": "r = subprocess.run([\"ffprobe\", \"-v\", \"error\", \"-show_entries\", \"format=duration\", \"-of\", \"csv=p=0\", path], capture_output=True, text=True)",
+        "file": "scripts/allframes_qa.py",
+        "line": 109,
+        "excerpt": "r = subprocess.run([\"ffprobe\", \"-v\", \"error\", \"-show_entries\", \"format=duration\", \"-of\", \"csv=p=0\", path],",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "scripts/allframes_qa.py",
+        "line": 197,
+        "excerpt": "from google import genai",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "scripts/allframes_qa.py",
+        "line": 197,
+        "excerpt": "from google import genai",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "generativelanguage.googleapis.com"
+        ]
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "scripts/allframes_qa.py",
+        "line": 198,
+        "excerpt": "from google.genai import types",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "scripts/allframes_qa.py",
+        "line": 198,
+        "excerpt": "from google.genai import types",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "generativelanguage.googleapis.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/approval_sheet.py",
+        "line": 111,
+        "excerpt": "procs.append((idx, d, subprocess.Popen(hf(\"snapshot\", pr.path, \"--at\", at, \"-o\", d, \"--describe\", \"false\", \"--no-end\"),",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "recipes/product-page/productpage.py",
-        "line": 472,
-        "excerpt": "subprocess.run([GHOST_PY, os.path.join(HERE, \"fontwidths.py\"), p, *miss], check=True)",
+        "file": "scripts/approval_sheet.py",
+        "line": 112,
+        "excerpt": "cwd=pr.path, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)))",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/approval_sheet.py",
+        "line": 668,
+        "excerpt": "subprocess.run([\"open\", out])",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
-        "file": "scripts/broll_gen.py",
-        "line": 7,
-        "excerpt": "the key is never printed. Needs google-genai (pip install google-genai).",
+        "file": "scripts/hf_version.py",
+        "line": 4,
+        "excerpt": "(doctor.sh warns while it is set). Unpinned `npx hyperframes` fetches whatever was published last, so two machines,",
         "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "paid-api",
-        "file": "scripts/broll_gen.py",
-        "line": 35,
-        "excerpt": "from google import genai",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "network",
-        "file": "scripts/broll_gen.py",
-        "line": 35,
-        "excerpt": "from google import genai",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": [
-          "generativelanguage.googleapis.com"
-        ]
-      },
-      {
-        "ruleId": "paid-api",
-        "file": "scripts/broll_gen.py",
-        "line": 36,
-        "excerpt": "from google.genai import types",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "network",
-        "file": "scripts/broll_gen.py",
-        "line": 36,
-        "excerpt": "from google.genai import types",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": [
-          "generativelanguage.googleapis.com"
-        ]
-      },
-      {
         "ruleId": "shell",
-        "file": "scripts/house_look.py",
-        "line": 144,
-        "excerpt": "subprocess.run([\"ffmpeg\", \"-v\", \"error\", \"-y\", \"-i\", a.plate, \"-map\", \"0:v\", \"-map\", \"0:a?\", \"-c:a\", \"copy\", \"-vf\", vf,",
+        "file": "scripts/hf_version.py",
+        "line": 8,
+        "excerpt": "subprocess.run(hf(\"render\", \"-o\", out), cwd=project)       # [\"npx\", \"-y\", \"hyperframes@<VERSION>\", \"render\", ...]",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "scripts/islands_tx.py",
-        "line": 22,
-        "excerpt": "return np.frombuffer(subprocess.run([\"ffmpeg\", \"-v\", \"error\", \"-i\", path, \"-vn\", \"-ac\", \"1\", \"-ar\", str(SR), \"-f\", \"f32le\", \"-\"],",
+        "file": "scripts/lib/facereel.py",
+        "line": 79,
+        "excerpt": "out = subprocess.run([\"ffprobe\", \"-v\", \"error\", \"-show_entries\", \"format=duration\", \"-of\", \"csv=p=0\", p],",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/lib/facereel.py",
+        "line": 85,
+        "excerpt": "out = subprocess.run([\"ffprobe\", \"-v\", \"error\", \"-select_streams\", \"v:0\", \"-show_entries\",",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/lib/facereel.py",
+        "line": 245,
+        "excerpt": "raw = subprocess.run([\"ffmpeg\", \"-v\", \"error\", \"-i\", self.voice, \"-vn\", \"-ac\", \"1\", \"-ar\", \"16000\", \"-f\", \"f32le\", \"-\"],",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/lib/facereel.py",
+        "line": 282,
+        "excerpt": "subprocess.run([\"ffmpeg\", \"-v\", \"error\", \"-y\", \"-i\", os.path.join(LIB, \"sfx\", m[\"file\"]), \"-t\", f\"{d:.3f}\", \"-af\",",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/lib/facereel.py",
+        "line": 311,
+        "excerpt": "err = subprocess.run([\"ffmpeg\", \"-hide_banner\", \"-nostats\", \"-i\", os.path.join(self.P, src), \"-t\", \"60\", \"-af\", \"ebur128\",",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/lib/facereel.py",
+        "line": 469,
+        "excerpt": "subprocess.run([\"ffmpeg\", \"-v\", \"error\", \"-y\", \"-i\", self.plate_src, \"-t\", f\"{self.TV}\", \"-an\", \"-vf\",",
         "disclosed": true,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 13,
+      "shell": 25,
       "downloads-code": 11,
       "writes-outside": 1,
       "paid-api": 2,

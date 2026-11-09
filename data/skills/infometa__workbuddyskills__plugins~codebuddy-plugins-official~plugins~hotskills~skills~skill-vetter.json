@@ -4,30 +4,90 @@
   "repo": "workbuddyskills",
   "path": "plugins/codebuddy-plugins-official/plugins/hotskills/skills/skill-vetter",
   "name": "skill-vetter",
-  "description": "",
-  "stars": 424,
-  "category": "other",
-  "commit": "1e18d8c8eea945f9cde31256c469dda7b1f227a9",
+  "description": "Security-first skill vetting for AI agents. Use before installing any skill from community, GitHub, or other sources. Checks for red flags, permission scope, and suspicious patterns.",
+  "stars": 427,
+  "category": "security",
+  "commit": "0749999031be0d5fa14cdc08afe9cefdf857cbfd",
   "contentHash": "7b59c1a68f9e8b561e3b0fc1b4222f9dd9613b771352adabdf0e8a9e3de0e871",
   "repoCreatedAt": "2026-07-21T02:46:31Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/codebuddy-plugins-official/plugins/hotskills/skills/skill-vetter/SKILL.md",
+        "line": 40,
+        "excerpt": "• Reads ~/.ssh, ~/.aws, ~/.config without clear reason",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/codebuddy-plugins-official/plugins/hotskills/skills/skill-vetter/SKILL.md",
+        "line": 111,
+        "excerpt": "curl -s \"https://api.github.com/repos/OWNER/REPO\" | jq '{stars: .stargazers_count, forks: .forks_count, updated: .updated_at}'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.github.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/codebuddy-plugins-official/plugins/hotskills/skills/skill-vetter/SKILL.md",
+        "line": 111,
+        "excerpt": "curl -s \"https://api.github.com/repos/OWNER/REPO\" | jq '{stars: .stargazers_count, forks: .forks_count, updated: .updated_at}'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/codebuddy-plugins-official/plugins/hotskills/skills/skill-vetter/SKILL.md",
+        "line": 114,
+        "excerpt": "curl -s \"https://api.github.com/repos/OWNER/REPO/contents/skills/SKILL_NAME\" | jq '.[].name'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.github.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/codebuddy-plugins-official/plugins/hotskills/skills/skill-vetter/SKILL.md",
+        "line": 117,
+        "excerpt": "curl -s \"https://raw.githubusercontent.com/OWNER/REPO/main/skills/SKILL_NAME/SKILL.md\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "raw.githubusercontent.com"
+        ]
+      }
+    ],
+    "findingTotals": {
+      "reads-secrets": 1,
+      "network": 3,
+      "shell": 1
+    },
+    "score": 80,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 1
+    "filesScanned": 1,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "1e18d8c8eea945f9cde31256c469dda7b1f227a9",
       "scannedAt": "2026-11-07T22:05:48.475Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "0749999031be0d5fa14cdc08afe9cefdf857cbfd",
+      "scannedAt": "2026-11-09T10:28:36.295Z",
+      "score": 80,
       "rulesVersion": "1.3.0"
     }
   ]

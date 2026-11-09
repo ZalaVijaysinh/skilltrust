@@ -4,24 +4,99 @@
   "repo": "pi-agent-dashboard",
   "path": "packages/craft-apps/.pi/skills/craft-beat-cut",
   "name": "craft-beat-cut",
-  "description": "",
-  "stars": 341,
-  "category": "productivity",
+  "description": "Cut footage on the beat with ArtCraft FilmCraft - analyse a track, cut it to length on its downbeat grid, pick camera-punch hits, place edits on downbeats and keyframe punch-ins on the hits, deliver an mp4 with the music. Use for \"cut my footage to the beat\", \"sync the video edit to the music drops\", \"add camera punches on the hits\", \"make a beat-synced edit from these clips\".",
+  "stars": 342,
+  "category": "media",
   "commit": "3cf8afe9f75a2790c7c479dd3ccaee78ae168820",
   "contentHash": "df9579f981c5e2b35ebe241b611d540806e0e4e61781917ccf5cb8d2af9203c9",
   "repoCreatedAt": "2026-03-23T05:08:48Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "packages/craft-apps/.pi/skills/craft-beat-cut/SKILL.md",
+        "line": 50,
+        "excerpt": "jq -e '.name and .workflow and (.steps | type == \"object\")' \"craft-jobs/$SLUG/job.json\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/craft-apps/.pi/skills/craft-beat-cut/SKILL.md",
+        "line": 62,
+        "excerpt": "jq -e '.schema==\"music-map/1\"' track_map.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/craft-apps/.pi/skills/craft-beat-cut/SKILL.md",
+        "line": 74,
+        "excerpt": "pi-craft verify \"$JOB/02-music/edit.wav\" --duration \"${D}±0.1\" --has-audio",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/craft-apps/.pi/skills/craft-beat-cut/SKILL.md",
+        "line": 79,
+        "excerpt": "jq -e '.schema==\"music-edit/1\" and .duration > 0 and (.downbeats_video | length) > 0' edit_edit.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/craft-apps/.pi/skills/craft-beat-cut/SKILL.md",
+        "line": 92,
+        "excerpt": "jq -e '.schema==\"music-hits/1\" and (.hits|length>0)' hits.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/craft-apps/.pi/skills/craft-beat-cut/SKILL.md",
+        "line": 101,
+        "excerpt": "pi-craft soundcraft exec convert \"$JOB/02-music/edit.wav\" \"$JOB/04-audio/music.wav\" --bit-depth 24 --rate 48000",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/craft-apps/.pi/skills/craft-beat-cut/SKILL.md",
+        "line": 118,
+        "excerpt": "CUTS=$(jq -n --slurpfile e edit_edit.json --slurpfile h hits.json --argjson n 4 --argjson fps \"$FPS\" '",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/craft-apps/.pi/skills/craft-beat-cut/SKILL.md",
+        "line": 146,
+        "excerpt": "pi-craft filmcraft exec --project \"$JOB/06-delivery/p.fcproj\" --save run \"$JOB/06-delivery/punch.jsonl\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/craft-apps/.pi/skills/craft-beat-cut/SKILL.md",
+        "line": 174,
+        "excerpt": "FPS=25; D=8",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 9
+    },
+    "score": 95,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 1
+    "filesScanned": 1,
+    "filesSkipped": 0
   },
   "history": [
     {

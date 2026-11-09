@@ -5,15 +5,15 @@
   "path": "doubao/skills/ppt",
   "name": "ppt",
   "description": "飞书幻灯片：创建和编辑幻灯片。创建演示文稿、读取幻灯片内容、管理幻灯片页面（创建、删除、读取、局部替换）。当用户需要创建或编辑幻灯片、读取或修改单个页面时使用。",
-  "stars": 94,
+  "stars": 96,
   "category": "other",
   "commit": "5e45653f59a2e4a2a65f575e8aaf7637165674d5",
   "contentHash": "b4a93541351523b916eccace0100d5d92ab854d670b141b9cd0baf0b3cfa61ea",
   "repoCreatedAt": "2026-07-07T07:33:58Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
     "findings": [
       {
@@ -50,6 +50,98 @@
         "automatic": false
       },
       {
+        "ruleId": "network",
+        "file": "doubao/skills/ppt/references/workflow/windows-compat.md",
+        "line": 8,
+        "excerpt": "2. **不假设 Unix 工具存在**：`jq` / `wget` / `unzip` / `sed` / `awk` / `pdftotext` / `base64` / `file` 在 Windows 上都没有；`curl` 是 `Invoke-WebRequest` 别名，参数完全不同。",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "doubao/skills/ppt/references/workflow/windows-compat.md",
+        "line": 16,
+        "excerpt": "10. **需要使用 `python -m pip` 来代替 `pip`**：Windows 环境中没有 `pip` 命令，安装依赖一律写 `python -m pip install <包名>`，不直接调用 `pip` / `pip3`。",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "doubao/skills/ppt/references/workflow/windows-compat.md",
+        "line": 24,
+        "excerpt": "| `cmd1 && cmd2` | `The token '&&' is not a valid statement separator` | 拆成两次 Bash 调用；或 `python3 -c \"import subprocess; subprocess.check_call([...]); subprocess",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "doubao/skills/ppt/references/workflow/windows-compat.md",
+        "line": 36,
+        "excerpt": "| `wget URL -O file` | `python3 -c \"import urllib.request; urllib.request.urlretrieve('URL','file')\"` |",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "doubao/skills/ppt/references/workflow/windows-compat.md",
+        "line": 37,
+        "excerpt": "| `curl -L -o file URL` | 同上；或显式 `curl.exe -L -o file URL`（`.exe` 后缀绕过 PS 别名） |",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "doubao/skills/ppt/references/xml/xml-schema-quick-ref.md",
+        "line": 335,
+        "excerpt": "- `src` 的标准来源是 `slides +media-upload` 返回的 `file_token`（统一两步创建下的做法）；`@<本地路径>` 占位符仅 `+create --slides` 一步法自动上传并替换，而一步法已不作默认路径。**禁止使用 http(s) 外链 URL**——飞书 slides 渲",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "doubao/skills/ppt/scripts/build_schema_index_test.py",
+        "line": 103,
+        "excerpt": "result = subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "doubao/skills/ppt/scripts/gen_svg_charts.py",
+        "line": 1456,
+        "excerpt": "subprocess.run([\"rsvg-convert\", \"-w\", str(width), \"-b\", \"white\", str(src), \"-o\", str(path)], check=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "doubao/skills/ppt/scripts/gen_svg_charts.py",
+        "line": 1466,
+        "excerpt": "subprocess.run([\"qlmanage\", \"-t\", \"-s\", str(width), \"-o\", tmp, str(src)], check=True, capture_output=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "doubao/skills/ppt/scripts/iconpark_tool_test.py",
+        "line": 126,
+        "excerpt": "def run_tool(self, *args: str) -> subprocess.CompletedProcess[str]:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "doubao/skills/ppt/scripts/iconpark_tool_test.py",
+        "line": 127,
+        "excerpt": "return subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
         "ruleId": "shell",
         "file": "doubao/skills/ppt/scripts/line_image_lint_test.py",
         "line": 153,
@@ -59,22 +151,103 @@
       },
       {
         "ruleId": "shell",
-        "file": "doubao/skills/ppt/scripts/tests/test_chart_contracts.py",
-        "line": 221,
+        "file": "doubao/skills/ppt/scripts/lint_inspect_test.py",
+        "line": 89,
+        "excerpt": "return subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "doubao/skills/ppt/scripts/lint_inspect_test.py",
+        "line": 317,
         "excerpt": "result = subprocess.run(",
         "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "doubao/skills/ppt/scripts/parse_template.py",
+        "line": 457,
+        "excerpt": "subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "doubao/skills/ppt/scripts/parse_template.py",
+        "line": 650,
+        "excerpt": "proc = subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "doubao/skills/ppt/scripts/parse_template.py",
+        "line": 899,
+        "excerpt": "proc = subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "doubao/skills/ppt/scripts/parse_template.py",
+        "line": 912,
+        "excerpt": "except subprocess.TimeoutExpired:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "doubao/skills/ppt/scripts/parse_template.py",
+        "line": 1053,
+        "excerpt": "proc = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, timeout=timeout)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "doubao/skills/ppt/scripts/parse_template.py",
+        "line": 1060,
+        "excerpt": "except subprocess.TimeoutExpired:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "doubao/skills/ppt/scripts/parse_template.py",
+        "line": 1520,
+        "excerpt": "proc = subprocess.run(cmd, cwd=str(work), capture_output=True, text=True, timeout=timeout)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "doubao/skills/ppt/scripts/parse_template.py",
+        "line": 1521,
+        "excerpt": "except subprocess.TimeoutExpired:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "doubao/skills/ppt/scripts/parse_template.py",
+        "line": 2403,
+        "excerpt": "\"soffice/libreoffice 缺失（macOS: `brew install libreoffice`；Ubuntu: `apt install libreoffice`；Win: 官网下载后加入 PATH）——本地联图无法生成；若 lark-cli + Pillow 可用会走 screenshot 云端联",
+        "disclosed": false,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "network": 1,
-      "shell": 5
+      "network": 5,
+      "shell": 50,
+      "downloads-code": 2
     },
-    "score": 94,
-    "band": "low",
+    "score": 79,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 24,
-    "filesSkipped": 287
+    "filesScanned": 310,
+    "filesSkipped": 1
   },
   "history": [
     {

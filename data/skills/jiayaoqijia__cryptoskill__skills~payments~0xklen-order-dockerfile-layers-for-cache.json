@@ -3,31 +3,80 @@
   "owner": "jiayaoqijia",
   "repo": "cryptoskill",
   "path": "skills/payments/0xklen-order-dockerfile-layers-for-cache",
-  "name": "0xklen-order-dockerfile-layers-for-cache",
-  "description": "",
+  "name": "order-dockerfile-layers-for-cache",
+  "description": "Use when image builds are slow because every code change re-installs dependencies. Orders Dockerfile instructions so rarely-changing layers sit early and cheap layers late.",
   "stars": 80,
-  "category": "other",
-  "commit": "36a85d83a5ee5c998b6d7e274a3c42e620161d6b",
+  "category": "coding",
+  "commit": "edd8f75ffac374debb8569c929afbbad4408d1a7",
   "contentHash": "805911881285f65b153578b3990c9a57e05ed88827c71034b1169935ace4602a",
   "repoCreatedAt": "2026-03-19T14:52:16Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/payments/0xklen-order-dockerfile-layers-for-cache/SKILL.md",
+        "line": 21,
+        "excerpt": "`COPY requirements.txt ./` then `RUN pip install --require-hashes -r requirements.txt` then `COPY . .`.",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/payments/0xklen-order-dockerfile-layers-for-cache/SKILL.md",
+        "line": 25,
+        "excerpt": "`RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certificates && rm -rf /var/lib/apt/lists/*`.",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/payments/0xklen-order-dockerfile-layers-for-cache/SKILL.md",
+        "line": 33,
+        "excerpt": "- `apt-get update` in a layer separate from `apt-get install` caches a stale index and later installs 404 on packages.",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/payments/0xklen-order-dockerfile-layers-for-cache/TRUST.auto.yaml",
+        "line": 34,
+        "excerpt": "- 'pattern: pip install'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/payments/0xklen-order-dockerfile-layers-for-cache/TRUST.auto.yaml",
+        "line": 76,
+        "excerpt": "- 'scan: no curl|sh / wget|sh pattern matched'",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "downloads-code": 5
+    },
+    "score": 92,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 4
+    "filesScanned": 4,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "36a85d83a5ee5c998b6d7e274a3c42e620161d6b",
       "scannedAt": "2026-11-07T22:05:48.475Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "edd8f75ffac374debb8569c929afbbad4408d1a7",
+      "scannedAt": "2026-11-09T10:28:36.295Z",
+      "score": 92,
       "rulesVersion": "1.3.0"
     }
   ]

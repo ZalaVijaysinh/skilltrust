@@ -4,18 +4,34 @@
   "repo": "magpie",
   "path": "plugins/magpie-issue/skills/reproducer",
   "name": "reproducer",
-  "description": "",
+  "description": "For a single `<issue-tracker>` issue identifying a code-level\nbug, extract the reporter's example code from the issue body,\nadapt it to run on the current `<default-branch>`, execute via\n`<runtime>`, and compose a `verdict.json` describing the\nobserved behaviour vs the expected failure. Read-only on the\ntracker — produces evidence, never posts. Invoked by\n`issue-triage` and `issue-reassess`; can also be run standalone.",
   "stars": 139,
   "category": "security",
-  "commit": "c099f3fb6260f9a9acb9ac3686c8acddee393c81",
-  "contentHash": "e343b113238545a80e34aad39c833cea35ccc31f7e2688eb3c8b4d45b1095899",
+  "commit": "3fd660b0b1316f475044c05dae17c5b86a12165e",
+  "contentHash": "76bb4d4efcc71d3a7d272483e64a2fb59ed3307bfb5c48d49a7ef58ab9d184c6",
   "repoCreatedAt": "2026-04-28T18:59:46Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "shell",
+        "file": "plugins/magpie-issue/skills/reproducer/SKILL.md",
+        "line": 60,
+        "excerpt": "PYTHONPATH=\"$(python3 -I -c 'import hashlib,os,sys;h,d,m,i=sys.argv[1:];r=os.path.realpath(os.curdir);s=os.stat(r);p=os.path.join(h,d,hashlib.sha256(r.encode())",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/magpie-issue/skills/reproducer/runtime-recipes.md",
+        "line": 22,
+        "excerpt": "- Python projects with build artefacts: `pip install -e .`",
+        "disclosed": false,
+        "automatic": false
+      },
       {
         "ruleId": "downloads-code",
         "file": "AGENTS.md",
@@ -31,22 +47,499 @@
         "excerpt": "`uvx --from ~/.claude/magpie/vetted-ops …`, and `uvx --from ~/.claude/magpie/adversarial-review adversarial-review …`.",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 217,
+        "excerpt": "sudo apt-get install --no-install-recommends \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 219,
+        "excerpt": "npm install -g --no-save @anthropic-ai/claude-code@latest",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 321,
+        "excerpt": "sudo apt-get install --no-install-recommends \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 342,
+        "excerpt": "sudo dnf install \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 348,
+        "excerpt": "optional. If you want socat, `brew install socat` (current Homebrew",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 356,
+        "excerpt": "npm install -g --no-save @anthropic-ai/claude-code@latest",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 378,
+        "excerpt": "sudo apt-get install --no-install-recommends \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 532,
+        "excerpt": "\"uvx --from ~/.claude/magpie/vetted-ops vetted-op-read *\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 534,
+        "excerpt": "\"uvx --from ~/.claude/magpie/vetted-ops vetted-op-tracker *\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 536,
+        "excerpt": "\"uvx --from ~/.claude/magpie/vetted-ops vetted-op *\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 537,
+        "excerpt": "\"uvx --from ~/.claude/magpie/adversarial-review adversarial-review *\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 562,
+        "excerpt": "\"~/.gnupg/\",                  // gpg keyring reads (needed for signing, not sufficient on Linux — see sandbox-troubleshooting.md)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 564,
+        "excerpt": "\"~/.ssh/id_ed25519_sk.pub\"    // ONLY with `gpg.format=ssh`: the public half git hands to `ssh-keygen -Y sign`. Use the file `git config user.signingkey` names ",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 697,
+        "excerpt": "\"Bash(uvx --from ~/.claude/magpie/vetted-ops vetted-op-read *)\",   // same dispatcher, the form bulk gatherer agents use",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 717,
+        "excerpt": "\"WebFetch(domain:cveawg.mitre.org)\", \"WebFetch(domain:pypi.org)\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 720,
+        "excerpt": "\"Read(~/.aws/**)\", \"Read(~/.ssh/**)\", \"Read(~/.netrc)\",",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 721,
+        "excerpt": "\"Read(~/.docker/**)\", \"Read(~/.kube/**)\",",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 725,
+        "excerpt": "\"Read(~/.config/gcloud/**)\", \"Read(~/.azure/**)\",",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 733,
+        "excerpt": "\"Bash(pip install --upgrade *)\", \"Bash(uv self update *)\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 762,
+        "excerpt": "\"Bash(uvx --from ~/.claude/magpie/vetted-ops vetted-op *)\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 764,
+        "excerpt": "\"Bash(uvx --from ~/.claude/magpie/vetted-ops vetted-op-tracker *)\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 972,
+        "excerpt": "mkdir -p ~/.config/apache-magpie/vetted-ops && cp .apache-magpie-overrides/tools/vetted-ops/config.toml ~/.config/apache-magpie/vetted-ops/<project>.toml",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 1004,
+        "excerpt": "1. `permissions.allow` carries `vetted-op-read` for both launchers (`uvx --from` and `uv run --project`) with the literal `~/.claude/magpie/vetted-ops` base.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 1005,
+        "excerpt": "2. No `permissions.ask` rule, in any scope, matches a `vetted-op-read` command in either launcher form; a broad rule such as `Bash(uvx *)` counts.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 1639,
+        "excerpt": "mkdir -p ~/.claude/agent-isolation",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 1788,
+        "excerpt": "mkdir -p ~/.claude/scripts",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 1824,
+        "excerpt": "echo '{\"tool_name\":\"Bash\",\"tool_input\":{\"command\":\"ls ~/.aws\",\"description\":\"check aws creds\",\"dangerouslyDisableSandbox\":true}}' \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 1902,
+        "excerpt": "mkdir -p ~/.claude/scripts/guards.d",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 1909,
+        "excerpt": "cp /path/to/magpie/skills/*/guards/*.py ~/.claude/scripts/guards.d/ 2>/dev/null || true",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 2069,
+        "excerpt": "mkdir -p ~/.claude/scripts",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 2286,
+        "excerpt": "mkdir -p ~/.claude/scripts",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 2438,
+        "excerpt": "mkdir -p ~/.claude/scripts",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 2646,
+        "excerpt": "ssh-add -L > ~/.ssh/id_yubikey.pub",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 2646,
+        "excerpt": "ssh-add -L > ~/.ssh/id_yubikey.pub",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 2648,
+        "excerpt": "git config --global user.signingkey ~/.ssh/id_yubikey.pub",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 2770,
+        "excerpt": "mkdir -p ~/.claude/scripts",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 2883,
+        "excerpt": "ln -s gpg-touch-overlay.sh ~/.claude/scripts/gpg-touch-wrap-ssh-keygen",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 2933,
+        "excerpt": "mkdir -p ~/.claude/scripts/shims",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 2935,
+        "excerpt": "ln -sfn ~/.claude/scripts/gpg-touch-overlay.sh ~/.claude/scripts/shims/\"$p\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 3010,
+        "excerpt": "mkdir -p ~/.claude/scripts",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 3013,
+        "excerpt": "rm -f ~/.claude/scripts/container-gateway-hook.sh",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 3014,
+        "excerpt": "cp /path/to/magpie/tools/agent-isolation/container-gateway-hook.sh ~/.claude/scripts/",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 3016,
+        "excerpt": "mkdir -p ~/.claude/scripts/container-gateway/src",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 3224,
+        "excerpt": "podman run --rm -v \"$HOME/.ssh:/x\" alpine true # expected: 403 container-gateway: bind-mount …",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 3309,
+        "excerpt": "mkdir -p ~/.claude",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 3311,
+        "excerpt": "mv ~/.claude/CLAUDE.md ~/.claude/CLAUDE.md.bak",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 3800,
+        "excerpt": "test -r ~/.aws/credentials && echo readable   # → nothing (denied or absent; see the 7a sentinel rule)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 3802,
+        "excerpt": "curl https://example.com                      # → blocked by permissions.deny",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "example.com"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 3871,
+        "excerpt": "`~/.aws/credentials`, the `~/.ssh/id_*` private keys (list the readable ones with",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 3872,
+        "excerpt": "`find -H ~/.ssh -maxdepth 1 -name 'id_*' ! -name '*.pub' -exec test -r {} \\; -print`,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 3874,
+        "excerpt": "`~/.ssh`; its error separates absent from denied except under",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 3876,
+        "excerpt": "`~/.config/gh/hosts.yml`, `~/.netrc`, `~/.docker/config.json`:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 3892,
+        "excerpt": "`claude-iso`. (c) `curl https://example.com` is denied.",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "example.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 4260,
+        "excerpt": "missing (new vetted-ops read forms, MCP read tools, WebFetch",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 4272,
+        "excerpt": "variable names only, 7c `curl https://example.com`) and confirm",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "example.com"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 4332,
+        "excerpt": "`dangerouslyDisableSandbox: true` to run `ls ~/.aws/`\"*. The",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 4355,
+        "excerpt": "![Sandboxed Bash call running `python3 -c 'os.listdir(os.path.expanduser(\"~/.aws/\"))'`; the inner syscall fails with PermissionError: [Errno 1] Operation not pe",
+        "disclosed": true,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "downloads-code": 2
+      "shell": 1,
+      "downloads-code": 32,
+      "reads-secrets": 15,
+      "network": 5,
+      "writes-outside": 28
     },
-    "score": 85,
-    "band": "low",
+    "score": 57,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 5,
-    "filesSkipped": 7
+    "filesScanned": 17,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "c099f3fb6260f9a9acb9ac3686c8acddee393c81",
       "scannedAt": "2026-11-07T22:05:48.475Z",
       "score": 85,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "3fd660b0b1316f475044c05dae17c5b86a12165e",
+      "scannedAt": "2026-11-09T10:28:36.295Z",
+      "score": 57,
       "rulesVersion": "1.3.0"
     }
   ]

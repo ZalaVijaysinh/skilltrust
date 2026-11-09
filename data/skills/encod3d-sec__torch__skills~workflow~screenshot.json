@@ -4,7 +4,7 @@
   "repo": "TORCH",
   "path": "skills/workflow/screenshot",
   "name": "screenshot",
-  "description": "",
+  "description": "Capture web-page / PoC screenshots into the engagement evidence (targets/<eng>/poc/) and embed them in walkthrough.md. Live pages + authenticated/exploited states (post-login dashboard, the flag page, an SSTI/cmdi render). Runs chromium on the Kali tooling host (VPN path to targets); hands off to the evidence skill for redaction before a real report. Use when building PoC evidence or asked to \"take a screenshot / capture the PoC\".",
   "stars": 340,
   "category": "coding",
   "commit": "d21b6c94982cec09c88ae9c0e98f4e3865de7148",
@@ -12,16 +12,132 @@
   "repoCreatedAt": "2026-07-14T07:25:10Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/workflow/screenshot/SKILL.md",
+        "line": 43,
+        "excerpt": "bash /root/vm.sh 'python3 /tmp/exploit.py 2>&1 | tee /tmp/poc/flag3.log'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/workflow/screenshot/SKILL.md",
+        "line": 60,
+        "excerpt": "scripts/capture.sh web <eng> home http://T:PORT/            # the landing page, as seen in a browser",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/workflow/screenshot/SKILL.md",
+        "line": 73,
+        "excerpt": "headers + body, response status + headers + body), run it through the `req` mode - it runs `curl -sS -iv`,",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/workflow/screenshot/SKILL.md",
+        "line": 76,
+        "excerpt": "scripts/capture.sh req <eng> <slug> -- -sk -X POST https://T:5000/login --data @/tmp/body.txt",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/workflow/screenshot/SKILL.md",
+        "line": 88,
+        "excerpt": "Write the script to `echo \"# comment\"` and `echo \"$ <command>\"` then run the real `curl -i`/exploit",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/workflow/screenshot/SKILL.md",
+        "line": 103,
+        "excerpt": "B64=$(base64 -w0 scripts/shot.py); bash /root/vm.sh \"mkdir -p /tmp/poc; echo $B64 | base64 -d > /tmp/shot.py\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/workflow/screenshot/SKILL.md",
+        "line": 111,
+        "excerpt": "bash /root/vm.sh 'curl -s -b \"session=VAL\" http://T:PORT/internal/dashboard > /tmp/d.html;",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "t"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/workflow/screenshot/SKILL.md",
+        "line": 122,
+        "excerpt": "bash /root/vm.sh 'nmap -sV T | tee /tmp/o.txt;",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/workflow/screenshot/SKILL.md",
+        "line": 125,
+        "excerpt": "bash /root/vm.sh 'curl -s http://T/logs/app.log > /tmp/l.txt;",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "t"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/workflow/screenshot/SKILL.md",
+        "line": 140,
+        "excerpt": "bash scripts/vm-scan.sh <eng> T 'nmap -sV -Pn T'                 # tab: T",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/workflow/screenshot/SKILL.md",
+        "line": 146,
+        "excerpt": "bash /root/vm.sh 'python3 /tmp/shot.py --tmux <eng>:T --step 2 --slug nmap --dir /tmp/poc'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/workflow/screenshot/SKILL.md",
+        "line": 155,
+        "excerpt": "bash /root/vm.sh 'python3 /tmp/shot.py --window \"Burp Suite\" --step 3 --slug burp --dir /tmp/poc'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/workflow/screenshot/SKILL.md",
+        "line": 167,
+        "excerpt": "mkdir -p targets/<eng>/poc",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 9,
+      "network": 4
+    },
+    "score": 92,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 1
+    "filesScanned": 1,
+    "filesSkipped": 0
   },
   "history": [
     {

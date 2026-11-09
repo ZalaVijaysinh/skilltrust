@@ -4,7 +4,7 @@
   "repo": "dot-skills",
   "path": "skills/.experimental/io-bound-data-processing",
   "name": "io-bound-data-processing",
-  "description": "",
+  "description": "Processing, transforming, or moving datasets that may exceed RAM on a single low-compute box — covers memory discipline (streaming, generators, dtype shrinkage), I/O access patterns (sequential vs random, mmap, async), data formats (Parquet vs CSV vs JSON, predicate pushdown), chunking & batching, spill-to-disk (external merge sort, DuckDB/Polars), pipelining (bounded queues, backpressure, checkpointing), codec selection (zstd/lz4/gzip), concurrency for I/O-bound workloads (asyncio, threads, prefetch), and observability (iowait vs CPU%, rows/sec, py-spy/strace). Trigger on \"process a large file\", \"stream this\", \"out-of-core\", \"OOM kill\", \"this is slow\", or code with `pd.read_csv` of multi-GB files, `requests.get(...).content` on big bodies, `BytesIO` on unbounded inputs, per-row INSERTs, sequential `requests.get` loops, falling `tqdm` rates — even if I/O or memory isn't mentioned. Complement to computer-science-algorithms.",
   "stars": 222,
   "category": "data",
   "commit": "cf93c57cac89d6fc3e4194686000411567f5caf3",
@@ -13,15 +13,63 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/io-bound-data-processing/SKILL.md",
+        "line": 3,
+        "excerpt": "description: Processing, transforming, or moving datasets that may exceed RAM on a single low-compute box — covers memory discipline (streaming, generators, dty",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/io-bound-data-processing/SKILL.md",
+        "line": 20,
+        "excerpt": "- You see one-row-per-RTT writes (`INSERT` per row, `requests.get` per URL, `f.read(32)` per record)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/io-bound-data-processing/references/conc-thread-pools-for-blocking-io-libraries.md",
+        "line": 64,
+        "excerpt": "results = list(pool.map(lambda u: requests.get(u).json(), urls))",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/io-bound-data-processing/references/io-batch-and-pipeline-network-roundtrips.md",
+        "line": 55,
+        "excerpt": "resp = httpx.post(\"/api/users/batch\", json={\"ids\": user_ids})",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/io-bound-data-processing/references/io-batch-and-pipeline-network-roundtrips.md",
+        "line": 58,
+        "excerpt": "async with httpx.AsyncClient(http2=True) as client:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "network": 5
+    },
+    "score": 97,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 5,
-    "filesSkipped": 42
+    "filesScanned": 8,
+    "filesSkipped": 39
   },
   "history": [
     {

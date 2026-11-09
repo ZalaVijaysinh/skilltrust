@@ -5,15 +5,15 @@
   "path": "skills/codexqa-code-wiki",
   "name": "codexqa-code-wiki",
   "description": "Builds a local architecture wiki for a repository from the CodexQA symbol graph (no model needed): modules, who calls whom and how often, reading paths, and one self-contained HTML page. Use when the user mentions codexqa-code-wiki, code-wiki, wiki, knowledge graph, architecture wiki, module map, reading guide, 代码知识图谱, 架构 Wiki, 模块地图, 阅读导览, wiki inputs, --no-llm, community detection, 社区检测, HTML 报告, or asks to map modules / generate a repo wiki without an LLM. Not change review (that is codexqa-code-analyzer), not CodexQA evidence-pack HTML review (that is codexqa-code-reviewer), and not SAST+agent code-risk scan reports (that is codexqa-defect-analyzer). Former skill name: code-wiki.",
-  "stars": 236,
+  "stars": 237,
   "category": "coding",
   "commit": "783954281fc4898a9fac66a575363f419d4683e4",
   "contentHash": "e9aef64d2645cb0aa6f3f248aec00203c5939b358a13795c0d1eebb0ceaac052",
   "repoCreatedAt": "2026-09-05T06:21:19Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
     "findings": [
       {
@@ -79,16 +79,90 @@
         "excerpt": "npm install -g @openqa-cn/codexqa --registry https://registry.npmjs.org/",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/codexqa-code-wiki/scripts/lib/repo.mjs",
+        "line": 1,
+        "excerpt": "import { execFileSync } from 'node:child_process';",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/codexqa-code-wiki/scripts/lib/repo.mjs",
+        "line": 10,
+        "excerpt": "return execFileSync('git', ['-C', dir, ...args], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/codexqa-code-wiki/scripts/wiki.mjs",
+        "line": 3,
+        "excerpt": "import { spawnSync } from 'node:child_process';",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/codexqa-code-wiki/scripts/wiki.mjs",
+        "line": 66,
+        "excerpt": "const r = spawnSync(win && !/[\\\\/]/.test(bin) ? `${bin}.cmd` : bin, quoted, {",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/codexqa-code-wiki/scripts/wiki.mjs",
+        "line": 70,
+        "excerpt": "throw new UsageError(`\\`${bin}\\` not found. Install it with: npm install -g @openqa-cn/codexqa --registry https://registry.npmjs.org/ (or set CODEXQA_BIN)`);",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/codexqa-code-wiki/tests/cli.test.mjs",
+        "line": 3,
+        "excerpt": "import { spawnSync } from 'node:child_process';",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/codexqa-code-wiki/tests/cli.test.mjs",
+        "line": 14,
+        "excerpt": "writeFileSync(bin, `#!/usr/bin/env node",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/codexqa-code-wiki/tests/cli.test.mjs",
+        "line": 33,
+        "excerpt": "const r = spawnSync(process.execPath, [WIKI, ...args], {",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/codexqa-code-wiki/tests/cli.test.mjs",
+        "line": 70,
+        "excerpt": "assert.match(r.err, /not found\\. Install it with: npm install -g @openqa-cn\\/codexqa/);",
+        "disclosed": false,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "downloads-code": 8
+      "downloads-code": 10,
+      "shell": 6,
+      "writes-outside": 1
     },
-    "score": 85,
-    "band": "low",
+    "score": 70,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 12,
-    "filesSkipped": 15
+    "filesScanned": 27,
+    "filesSkipped": 0
   },
   "history": [
     {

@@ -4,30 +4,140 @@
   "repo": "workbuddyskills",
   "path": "experts/personal-fitness-coach/skills/fitness-nutrition",
   "name": "fitness-nutrition",
-  "description": "",
-  "stars": 424,
-  "category": "other",
-  "commit": "1e18d8c8eea945f9cde31256c469dda7b1f227a9",
+  "description": "健身动作库与营养查询。通过 wger API 搜索 690+ 动作（按肌群/器械/名称）， 通过 USDA FoodData Central 查询 38万+ 食物营养数据。 离线计算器：BMI、TDEE、1RM、宏量分配、体脂率。纯 Python，无 pip 依赖。",
+  "stars": 427,
+  "category": "coding",
+  "commit": "0749999031be0d5fa14cdc08afe9cefdf857cbfd",
   "contentHash": "39b2fce843d2aeece4b96dc82ee919479af0e9410586f0d84fe56906fb5d1ce2",
   "repoCreatedAt": "2026-07-21T02:46:31Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "experts/personal-fitness-coach/skills/fitness-nutrition/SKILL.md",
+        "line": 35,
+        "excerpt": "QUERY=\"$1\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "experts/personal-fitness-coach/skills/fitness-nutrition/SKILL.md",
+        "line": 37,
+        "excerpt": "curl -s \"https://wger.de/api/v2/exercise/search/?term=${ENCODED}&language=english&format=json\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "wger.de"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "experts/personal-fitness-coach/skills/fitness-nutrition/SKILL.md",
+        "line": 50,
+        "excerpt": "EXERCISE_ID=\"$1\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "experts/personal-fitness-coach/skills/fitness-nutrition/SKILL.md",
+        "line": 51,
+        "excerpt": "curl -s \"https://wger.de/api/v2/exerciseinfo/${EXERCISE_ID}/?format=json\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "wger.de"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "experts/personal-fitness-coach/skills/fitness-nutrition/SKILL.md",
+        "line": 72,
+        "excerpt": "FILTER=\"$1\"  # e.g. \"muscles=4\" or \"category=11\" or \"equipment=3\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "experts/personal-fitness-coach/skills/fitness-nutrition/SKILL.md",
+        "line": 73,
+        "excerpt": "curl -s \"https://wger.de/api/v2/exercise/?${FILTER}&language=2&status=2&limit=20&format=json\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "wger.de"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "experts/personal-fitness-coach/skills/fitness-nutrition/SKILL.md",
+        "line": 90,
+        "excerpt": "python3 scripts/nutrition_search.py \"chicken breast\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "experts/personal-fitness-coach/skills/fitness-nutrition/SKILL.md",
+        "line": 99,
+        "excerpt": "python3 scripts/body_calc.py bmi <体重kg> <身高cm>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "experts/personal-fitness-coach/skills/fitness-nutrition/scripts/nutrition_search.py",
+        "line": 17,
+        "excerpt": "import urllib.request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "experts/personal-fitness-coach/skills/fitness-nutrition/scripts/nutrition_search.py",
+        "line": 32,
+        "excerpt": "req = urllib.request.Request(url, headers={\"Accept\": \"application/json\"})",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "experts/personal-fitness-coach/skills/fitness-nutrition/scripts/nutrition_search.py",
+        "line": 33,
+        "excerpt": "with urllib.request.urlopen(req, timeout=15) as r:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 5,
+      "network": 6
+    },
+    "score": 90,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 4
+    "filesScanned": 3,
+    "filesSkipped": 1
   },
   "history": [
     {
       "commit": "1e18d8c8eea945f9cde31256c469dda7b1f227a9",
       "scannedAt": "2026-11-07T22:05:48.475Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "0749999031be0d5fa14cdc08afe9cefdf857cbfd",
+      "scannedAt": "2026-11-09T10:28:36.295Z",
+      "score": 90,
       "rulesVersion": "1.3.0"
     }
   ]

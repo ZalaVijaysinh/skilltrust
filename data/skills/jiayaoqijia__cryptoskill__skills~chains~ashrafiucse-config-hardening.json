@@ -3,158 +3,37 @@
   "owner": "jiayaoqijia",
   "repo": "cryptoskill",
   "path": "skills/chains/ashrafiucse-config-hardening",
-  "name": "config-hardening",
-  "description": "Audits configuration security in any project — HTTP security headers, CORS policy, cookie flags, TLS settings, debug modes in production configs, default credentials, exposed admin/debug endpoints, CI/CD pipeline risks (GitHub Actions, GitLab CI), and exposed sensitive files. Use when auditing web server, framework, reverse proxy, or CI configuration files.",
+  "name": "ashrafiucse-config-hardening",
+  "description": "",
   "stars": 80,
-  "category": "devops",
-  "commit": "36a85d83a5ee5c998b6d7e274a3c42e620161d6b",
+  "category": "other",
+  "commit": "edd8f75ffac374debb8569c929afbbad4408d1a7",
   "contentHash": "7eb591a1dcbb1f0e52edc90cac71e6940c91362fb910059b235b7c575a81deb5",
   "repoCreatedAt": "2026-03-19T14:52:16Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": false,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": true,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
-    "findings": [
-      {
-        "ruleId": "shell",
-        "file": "skills/chains/ashrafiucse-config-hardening/SKILL.md",
-        "line": 12,
-        "excerpt": "rg --files -g '*.conf' -g '*.cfg' -g '*.ini' -g '*.toml' -g '*.yaml' -g '*.yml' \\",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/chains/ashrafiucse-config-hardening/SKILL.md",
-        "line": 24,
-        "excerpt": "rg -n -i \"content-security-policy|script-src|default-src\" -g '*.conf' -g '*.yml' -g '*.js' -g '*.html' -g '*.py' | head -10",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/chains/ashrafiucse-config-hardening/SKILL.md",
-        "line": 29,
-        "excerpt": "rg -n \"script[^>]+src=[\"']https?://\" -g '*.html' -g '*.ejs' -g '*.php' | rg -v integrity   # census: every SRI-less script dispositioned",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/chains/ashrafiucse-config-hardening/SKILL.md",
-        "line": 38,
-        "excerpt": "rg -n -i \"access-control-allow-origin|cors\\(|allow_origins|origin.*\\*\" -g '!*.md' -g '!docs/**'",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/chains/ashrafiucse-config-hardening/SKILL.md",
-        "line": 48,
-        "excerpt": "rg -n -i \"debug\\s*=\\s*true|debug\\s*:\\s*true|app\\.debug|debug_mode\" -g '!*.md' -g '!docs/**'",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/chains/ashrafiucse-config-hardening/SKILL.md",
-        "line": 64,
-        "excerpt": "rg -n \"pull_request_target|secrets\\.|curl.*\\|\\s*(ba)?sh|sudo|GITHUB_TOKEN|persist-credentials\" .github/workflows/ 2>/dev/null",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/chains/ashrafiucse-config-hardening/SKILL.md",
-        "line": 68,
-        "excerpt": "- **Workflow script injection**: `${{ github.event.pull_request.title }}` (or body/comment/review text) interpolated directly inside a `run:` block → attacker p",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/chains/ashrafiucse-config-hardening/SKILL.md",
-        "line": 69,
-        "excerpt": "- `curl ... | bash` in workflows/Dockerfiles → HIGH",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/chains/ashrafiucse-config-hardening/SKILL.md",
-        "line": 85,
-        "excerpt": "rg -n \"addEventListener\\(\\s*['\\\"]message|onmessage\\s*=|\\.receive\\(|window\\.postMessage|\\.postMessage\\(\" -g '*.js' -g '*.ts' -g '*.html' -g '*.vue' -g '*.svelte'",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/chains/ashrafiucse-config-hardening/SKILL.md",
-        "line": 99,
-        "excerpt": "rg --files -g '*.wasm' -g '*.wat'",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/chains/ashrafiucse-config-hardening/SKILL.md",
-        "line": 104,
-        "excerpt": "- wasm module fetched from a **client-controlled URL** (query param → `fetch(url)` → `WebAssembly.instantiateStreaming`) → HIGH — attacker-chosen code executes ",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/chains/ashrafiucse-config-hardening/SKILL.md",
-        "line": 114,
-        "excerpt": "rg -n \"(axios|fetch|requests|http\\.get|RestTemplate|WebClient)\\(\" -g '*.js' -g '*.ts' -g '*.py' -g '*.java' | rg -v timeout | head",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/chains/ashrafiucse-config-hardening/SKILL.md",
-        "line": 114,
-        "excerpt": "rg -n \"(axios|fetch|requests|http\\.get|RestTemplate|WebClient)\\(\" -g '*.js' -g '*.ts' -g '*.py' -g '*.java' | rg -v timeout | head",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/chains/ashrafiucse-config-hardening/TRUST.auto.yaml",
-        "line": 35,
-        "excerpt": "- 'pattern: remote install script -> implies install (curl evil.sh | sh)'",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/chains/ashrafiucse-config-hardening/TRUST.auto.yaml",
-        "line": 77,
-        "excerpt": "- 'pattern: curl evil.sh | sh'",
-        "disclosed": false,
-        "automatic": false
-      }
-    ],
-    "findingTotals": {
-      "shell": 9,
-      "downloads-code": 4,
-      "network": 2
-    },
-    "score": 79,
-    "band": "review",
+    "findings": [],
+    "findingTotals": {},
+    "score": 100,
+    "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 4,
-    "filesSkipped": 0
+    "filesScanned": 1,
+    "filesSkipped": 3
   },
   "history": [
     {
       "commit": "36a85d83a5ee5c998b6d7e274a3c42e620161d6b",
       "scannedAt": "2026-11-07T22:05:48.475Z",
       "score": 79,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "edd8f75ffac374debb8569c929afbbad4408d1a7",
+      "scannedAt": "2026-11-09T10:28:36.295Z",
+      "score": 100,
       "rulesVersion": "1.3.0"
     }
   ]

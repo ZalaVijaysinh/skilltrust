@@ -4,24 +4,266 @@
   "repo": "lemo-wake",
   "path": "skills/wake",
   "name": "wake",
-  "description": "",
-  "stars": 309,
-  "category": "coding",
+  "description": "Turn one image into a ~5 s looping animation. 把一张图做成约 5 秒的循环动图。",
+  "stars": 324,
+  "category": "media",
   "commit": "f070df8bdf891d792012aabc054582b16e04f759",
   "contentHash": "c5c96a4a63ad16eef90cc6237c37ed41f7140fbf0a9f3c8e372c3024f369bf07",
   "repoCreatedAt": "2026-10-03T12:57:31Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/wake/SKILL.md",
+        "line": 48,
+        "excerpt": "node $S/scripts/doctor.mjs          # says what is missing; --fix installs npm deps + headless browser (~190 MB)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wake/SKILL.md",
+        "line": 64,
+        "excerpt": "$S/scripts/new_project.py <image> <slug> --dur 4.5 [--out 16:9]   # render length; total = this + any reset transition appended later",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wake/SKILL.md",
+        "line": 79,
+        "excerpt": "$S/scripts/sheet.py <proj>/parts.png --parts <src>                  # cut-outs on a checkerboard, masks over the image, plates, depth",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wake/SKILL.md",
+        "line": 84,
+        "excerpt": "$S/scripts/measure.py grid <src>/assets/source.jpg <proj>/grid.png   # coordinate grid, drawn 1.5x larger with labels in source pixels",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wake/SKILL.md",
+        "line": 136,
+        "excerpt": "node $S/scripts/render.mjs <src> stills 0.2 1.0 2.0 3.0 4.4",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wake/SKILL.md",
+        "line": 145,
+        "excerpt": "node $S/scripts/render.mjs <src> frames                           # -> <src>/frames/f_00000.jpg ...; page errors go to render.log, exit code 2",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wake/SKILL.md",
+        "line": 153,
+        "excerpt": "$S/scripts/encode.py <frames dir> <proj>/<slug> --no-webp --no-sticker   # the default formats; drop a --no-x to add one",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/wake/scripts/_models.py",
+        "line": 29,
+        "excerpt": "import hashlib, json, os, re, sys, time, urllib.request",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/wake/scripts/_models.py",
+        "line": 236,
+        "excerpt": "req = urllib.request.Request(url, headers={\"User-Agent\": \"lemo-wake\"})",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/wake/scripts/_models.py",
+        "line": 237,
+        "excerpt": "with urllib.request.urlopen(req, timeout=60) as r, open(tmp, \"wb\") as f:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/wake/scripts/_models.py",
+        "line": 271,
+        "excerpt": "def fetch(name):",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/wake/scripts/_models.py",
+        "line": 301,
+        "excerpt": "path = fetch(name)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wake/scripts/doctor.mjs",
+        "line": 6,
+        "excerpt": "import { execSync, spawnSync } from 'child_process';",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wake/scripts/doctor.mjs",
+        "line": 18,
+        "excerpt": "const has = cmd => spawnSync(process.platform === 'win32' ? 'where' : 'which', [cmd], { stdio: 'ignore' }).status === 0;",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wake/scripts/doctor.mjs",
+        "line": 19,
+        "excerpt": "const ver = cmd => { try { return execSync(cmd, { stdio: ['ignore', 'pipe', 'ignore'] }).toString().split('\\n')[0].trim(); } catch { return ''; } };",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/wake/scripts/doctor.mjs",
+        "line": 21,
+        "excerpt": "darwin: { ffmpeg: 'brew install ffmpeg', uv: 'brew install uv' },",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/wake/scripts/doctor.mjs",
+        "line": 22,
+        "excerpt": "linux: { ffmpeg: 'sudo apt install ffmpeg', uv: 'curl -LsSf https://astral.sh/uv/install.sh | sh' },",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/wake/scripts/doctor.mjs",
+        "line": 22,
+        "excerpt": "linux: { ffmpeg: 'sudo apt install ffmpeg', uv: 'curl -LsSf https://astral.sh/uv/install.sh | sh' },",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "astral.sh"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wake/scripts/doctor.mjs",
+        "line": 32,
+        "excerpt": "if (!fs.existsSync(pw) && FIX) { console.log('installing npm dependencies...'); execSync('npm install --silent', { cwd: HERE, stdio: 'inherit' }); }",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wake/scripts/doctor.mjs",
+        "line": 42,
+        "excerpt": "execSync(`node \"${path.join(pw, 'cli.js')}\" install --only-shell --no-remove chromium`, { stdio: 'inherit' });",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wake/scripts/encode.py",
+        "line": 61,
+        "excerpt": "subprocess.run([\"ffmpeg\", \"-v\", \"error\", \"-y\", *args], check=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/wake/scripts/fetch_fonts.mjs",
+        "line": 17,
+        "excerpt": "const res = await fetch(`https://fonts.googleapis.com/css2?${f}&display=block`, { headers: { 'User-Agent': UA } });",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "fonts.googleapis.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/wake/scripts/fetch_fonts.mjs",
+        "line": 24,
+        "excerpt": "fs.writeFileSync(path.join(fdir, name), Buffer.from(await (await fetch(u)).arrayBuffer()));",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wake/scripts/livephoto.py",
+        "line": 45,
+        "excerpt": "r = subprocess.run([swiftc, \"-O\", src, \"-o\", out], capture_output=True, text=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wake/scripts/livephoto.py",
+        "line": 97,
+        "excerpt": "r = subprocess.run([\"ffmpeg\", \"-v\", \"error\", \"-y\", \"-framerate\", f\"{a.fps:g}\", \"-i\", pat,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wake/scripts/livephoto.py",
+        "line": 104,
+        "excerpt": "r = subprocess.run(args, capture_output=True, text=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wake/scripts/livephoto.py",
+        "line": 107,
+        "excerpt": "v = subprocess.run([tool(\"validate\"), pvt], capture_output=True, text=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/wake/scripts/models.py",
+        "line": 56,
+        "excerpt": "print(M.fetch(n))",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 17,
+      "network": 9,
+      "downloads-code": 2
+    },
+    "score": 79,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 1,
-    "filesSkipped": 42
+    "filesScanned": 43,
+    "filesSkipped": 0
   },
   "history": [
     {

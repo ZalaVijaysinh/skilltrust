@@ -4,30 +4,111 @@
   "repo": "claude-skills-vault",
   "path": ".claude/skills/firebase-cli",
   "name": "firebase-cli",
-  "description": "",
+  "description": "Safety-first Firebase CLI (firebase-tools v15) skill for full project control — deploy, Hosting (sites/channels/rollback), Cloud Functions (+secrets), Firestore (databases/indexes/backups/delete), Realtime Database, Auth import/export, Remote Config, App Distribution, App Hosting, Extensions, Data Connect, Emulator Suite & MCP server. Classifies every command by risk tier via a deterministic classifier script and gates destructive/irreversible/cost-incurring ops behind AskUserQuestion confirmation; enforces the --non-interactive/--force contract so nothing hangs and nothing is auto-confirmed. Wrong-project preflight prevents deploying to prod by accident. Ships a 3-level self-test (static classifier battery, live read-only, guarded live-write w/ cleanup). Use when running, planning, or debugging any `firebase` command.",
   "stars": 30,
   "category": "coding",
-  "commit": "af6fa69a9cc3db1b8983e31eeff16940022c9d64",
+  "commit": "8edf73d71795ecb8aaddff196d9abf675792caf8",
   "contentHash": "d014c374bbb4987c1b2f134b41291291f68ce77ad3798e00ffa4a17fa103743d",
   "repoCreatedAt": "2026-01-04T08:56:37Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/firebase-cli/SKILL.md",
+        "line": 22,
+        "excerpt": "bash scripts/firebase_preflight.sh [target-project-id]",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/firebase-cli/SKILL.md",
+        "line": 58,
+        "excerpt": "python3 scripts/firebase_risk.py \"firebase firestore:delete --all-collections -P prod\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/firebase-cli/SKILL.md",
+        "line": 112,
+        "excerpt": "bash scripts/self_test.sh                                            # static — no network, ~60 classifier assertions",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/firebase-cli/references/patterns.md",
+        "line": 106,
+        "excerpt": "| `firebase: command not found` | Not installed | `npm i -g firebase-tools` or `curl -sL https://firebase.tools \\| bash` |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/firebase-cli/references/patterns.md",
+        "line": 106,
+        "excerpt": "| `firebase: command not found` | Not installed | `npm i -g firebase-tools` or `curl -sL https://firebase.tools \\| bash` |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "firebase.tools"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/firebase-cli/scripts/firebase_preflight.sh",
+        "line": 17,
+        "excerpt": "echo \"      → npm install -g firebase-tools   (or: curl -sL https://firebase.tools | bash)\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/firebase-cli/scripts/firebase_preflight.sh",
+        "line": 17,
+        "excerpt": "echo \"      → npm install -g firebase-tools   (or: curl -sL https://firebase.tools | bash)\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "firebase.tools"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/firebase-cli/scripts/self_test.sh",
+        "line": 115,
+        "excerpt": "t 10 \"npx firebase-tools deploy --only hosting\"",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 3,
+      "downloads-code": 3,
+      "network": 2
+    },
+    "score": 77,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 8
+    "filesScanned": 8,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "af6fa69a9cc3db1b8983e31eeff16940022c9d64",
       "scannedAt": "2026-11-07T22:05:48.475Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "8edf73d71795ecb8aaddff196d9abf675792caf8",
+      "scannedAt": "2026-11-09T10:28:36.295Z",
+      "score": 77,
       "rulesVersion": "1.3.0"
     }
   ]

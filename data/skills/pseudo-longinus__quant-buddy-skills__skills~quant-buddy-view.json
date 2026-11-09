@@ -5,7 +5,7 @@
   "path": "skills/quant-buddy-view",
   "name": "quant-buddy-view",
   "description": "将量化分析或已有 JPG/PNG、HTML、PDF 发布为 Quant Buddy 可分享活页或实时看板，并支持创建、更新、复用、验收和公开链接交付。适用于个股画像、估值财务、指数异动、多因子筛选、商品日报、模板、分享壳及卡片等页面。\n用户提供 QuantBuddy 活页 URL 并要求解读时也使用。显式调用 /quant-buddy-view、/qbv、qbv 或 QBV，且请求并非纯咨询、代码维护或文档解释时，默认按可分享活页任务处理。\n输入可唯一识别的 A 股名称、简称或代码，或简单要求单股综合分析（如“贵州茅台”“600519”“分析一下贵州茅台”）均默认请求个股快页；宿主开启 page_first_fast 时，取得 task_id 后立即并行调用 new_asset_page 与有限公开搜索，页面 ready 后先展示页面和前五章数据，搜索完成后再补综合观察；其它模式先通过 QBS 验证并回复完整个股分析，再同轮 new_asset_page，无需用户补说“生成页面”。\nWebAgent 宿主要求金融问题统一交付问答与活页时，一次性行情、涨跌幅、估值、概念解释和口语近况问题也在 QBS 首答后交接本技能。无此宿主约定时一次性问题由 QBS 回答；复盘、监控、画图、回测、K线等操作仍默认有活页意图。明确不要网页或只回复文字时不建页。",
-  "stars": 201,
+  "stars": 203,
   "category": "coding",
   "commit": "8a9b228259b451366ba5690d42b490bc4c95a562",
   "contentHash": "0513a4627d14b045b4d1e07c51eda2f5b34ed2566eb038426410c8d825c9fce3",
@@ -13,7 +13,7 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
     "findings": [
       {
@@ -100,51 +100,48 @@
         "hosts": []
       },
       {
-        "ruleId": "network",
-        "file": "skills/quant-buddy-view/scripts/prepare_existing_file.py",
-        "line": 198,
-        "excerpt": "if re.search(r'\\b(?:fetch\\s*\\(|axios\\b|XMLHttpRequest\\b|EventSource\\b|WebSocket\\b)', text):",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
         "ruleId": "shell",
-        "file": "skills/quant-buddy-view/scripts/prepare_existing_file.py",
-        "line": 201,
-        "excerpt": "proc = subprocess.run(['node', str(script), str(carrier), str(snapshot)], capture_output=True,",
+        "file": "skills/quant-buddy-view/scripts/formula_snapshot.py",
+        "line": 29,
+        "excerpt": "result = subprocess.run(command, capture_output=True, timeout=180)",
         "disclosed": true,
         "automatic": false
       },
       {
-        "ruleId": "network",
-        "file": "skills/quant-buddy-view/scripts/retrofit_share_shell.py",
-        "line": 27,
-        "excerpt": "import urllib.request",
+        "ruleId": "shell",
+        "file": "skills/quant-buddy-view/scripts/formula_snapshot.py",
+        "line": 30,
+        "excerpt": "except (OSError, subprocess.TimeoutExpired):",
         "disclosed": true,
-        "automatic": false,
-        "hosts": []
+        "automatic": false
       },
       {
-        "ruleId": "network",
-        "file": "skills/quant-buddy-view/scripts/retrofit_share_shell.py",
-        "line": 130,
-        "excerpt": "req = urllib.request.Request(str(url), method=\"GET\")",
+        "ruleId": "shell",
+        "file": "skills/quant-buddy-view/scripts/page_continuation.py",
+        "line": 22,
+        "excerpt": "result = subprocess.run(",
         "disclosed": true,
-        "automatic": false,
-        "hosts": []
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/quant-buddy-view/scripts/page_continuation.py",
+        "line": 33,
+        "excerpt": "except (OSError, ValueError, subprocess.TimeoutExpired):",
+        "disclosed": true,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 5,
+      "shell": 8,
       "downloads-code": 3,
-      "network": 6
+      "network": 3
     },
     "score": 79,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 21,
-    "filesSkipped": 139
+    "filesScanned": 22,
+    "filesSkipped": 138
   },
   "history": [
     {

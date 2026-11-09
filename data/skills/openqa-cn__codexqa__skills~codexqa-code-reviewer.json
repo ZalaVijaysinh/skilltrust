@@ -5,15 +5,15 @@
   "path": "skills/codexqa-code-reviewer",
   "name": "codexqa-code-reviewer",
   "description": "Graph-evidence AI code review (codexqa-code-reviewer) for ANY language repo using ONLY the CodexQA CLI symbol graph (call chains, classes, methods, configs, blast radius, test edges), then an order-16 Agent LLM judgment pass by the host agent's embedded model with deterministic dedupe/merge against heuristic findings. Use when the user asks for codexqa-code-reviewer (former name ai-code-reviewer), code review, PR review, 代码评审, impact analysis, 影响面, regression scope, test gaps, full-repo health review, 全仓评审, CodexQA evidence-pack, 证据包, graph-backed review, or LLM semantic CR on a pack. Requires codexqa CLI for every language; never embeds CodexQA source; never substitutes git-diff-only analysis. Not SAST+agent scan reports (that is codexqa-defect-analyzer), not structure/impact mapping alone (that is codexqa-code-analyzer), and not exception RCA (that is codexqa-rootcause-analyzer).",
-  "stars": 236,
+  "stars": 237,
   "category": "coding",
   "commit": "783954281fc4898a9fac66a575363f419d4683e4",
   "contentHash": "ac2c8db7e932172113dcfd8988f2918a8db03b453cc414a8308306760842219a",
   "repoCreatedAt": "2026-09-05T06:21:19Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
     "findings": [
       {
@@ -407,18 +407,124 @@
         "excerpt": "codexqa_die \"codexqa CLI is mandatory for ALL language repos. Resolve it with codexqa_cli_path (npmrc prefix and npm prefix -g) before installing. Install only ",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/codexqa-code-reviewer/scripts/lib/install-sast-tools.sh",
+        "line": 35,
+        "excerpt": "prefix in ~/.npmrc, $npm_config_prefix, and `npm prefix -g`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/codexqa-code-reviewer/scripts/lib/install-sast-tools.sh",
+        "line": 140,
+        "excerpt": "tag=\"$(curl -fsSL --max-time 20 \"https://api.github.com/repos/${repo}/releases/latest\" | jq -r '.tag_name // empty')\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.github.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/codexqa-code-reviewer/scripts/lib/install-sast-tools.sh",
+        "line": 141,
+        "excerpt": "url=\"$(curl -fsSL --max-time 20 \"https://api.github.com/repos/${repo}/releases/latest\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.github.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/codexqa-code-reviewer/scripts/lib/install-sast-tools.sh",
+        "line": 149,
+        "excerpt": "printf 'curl -fsSL -L -o \"$HOME/.local/bin/%s\" %q && chmod +x \"$HOME/.local/bin/%s\"\\n' \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/codexqa-code-reviewer/scripts/lib/install-sast-tools.sh",
+        "line": 153,
+        "excerpt": "mkdir -p \"${HOME}/.local/bin\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/codexqa-code-reviewer/scripts/lib/install-sast-tools.sh",
+        "line": 155,
+        "excerpt": "curl -fsSL --max-time 45 -L \"$url\" -o \"$tmp/asset\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/codexqa-code-reviewer/scripts/lib/install-sast-tools.sh",
+        "line": 168,
+        "excerpt": "mv -f \"$found\" \"${HOME}/.local/bin/${dest_name}\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/codexqa-code-reviewer/scripts/lib/install-sast-tools.sh",
+        "line": 188,
+        "excerpt": "printf 'curl -fsSL -L -o \"$HOME/.local/bin/%s\" <latest %s release matching %s> && chmod +x \"$HOME/.local/bin/%s\"\\n' \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/codexqa-code-reviewer/scripts/validate-skill.sh",
+        "line": 1950,
+        "excerpt": "await retry(() => fetch(\"https://pay.example/charge/\" + id));",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "pay.example"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/codexqa-code-reviewer/scripts/validate-skill.sh",
+        "line": 1952,
+        "excerpt": "return Promise.all(ids.map((id) => fetch(\"https://pay.example/status/\" + id)));",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "pay.example"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/codexqa-code-reviewer/scripts/validate-skill.sh",
+        "line": 4059,
+        "excerpt": "return requests.get(request.args.get(\"url\"))",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
       }
     ],
     "findingTotals": {
-      "downloads-code": 20,
+      "downloads-code": 34,
       "shell": 22,
-      "network": 8
+      "network": 16,
+      "reads-secrets": 1,
+      "writes-outside": 2
     },
-    "score": 79,
-    "band": "review",
+    "score": 49,
+    "band": "high",
     "rulesVersion": "1.3.0",
-    "filesScanned": 145,
-    "filesSkipped": 19
+    "filesScanned": 164,
+    "filesSkipped": 0
   },
   "history": [
     {

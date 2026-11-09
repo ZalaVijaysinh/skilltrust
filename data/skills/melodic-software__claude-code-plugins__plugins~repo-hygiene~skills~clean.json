@@ -7,13 +7,13 @@
   "description": "Repo hygiene action-router: scan (inventory), caches, build, git (prune/branch audit), stash (stash audit/triage), tree (destructive fresh-pull reset), tree-batch (multi-repo tree reset with skip-list + dirty guard), all, and fleet batch forms of the selective tiers (caches-batch / build-batch / git-batch / all-batch over many repos behind one gate). Bare invocation detects intent from conversation or shows a menu. Dry-run-first; destructive actions require explicit confirmation. Use when reclaiming disk space in a repo, clearing tool caches or build artifacts, pruning git metadata, auditing stale branches or stashes, or resetting a working tree to match origin, in one repository or across a fleet: 'clean', 'free up disk space', 'fresh pull', 'stale branches', 'repo hygiene'. Skip: removing git worktree directories (a worktree-management tool handles those).",
   "stars": 30,
   "category": "coding",
-  "commit": "81c72446af1553c2cd25651e6d086297b658726d",
-  "contentHash": "74e9a1c3aa2072662199e9670270d07cefcb8f63a5dca7bf3aa61a4cdb896fbd",
+  "commit": "677e7988f432dacb5e2d4df2b124f96da8e8f9f3",
+  "contentHash": "784cd161950ead76a127e016e6fd1d958a3feab825ea2a3804600d37b3588881",
   "repoCreatedAt": "2026-06-22T18:28:56Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
     "findings": [
       {
@@ -106,91 +106,105 @@
       },
       {
         "ruleId": "shell",
-        "file": "plugins/repo-hygiene/skills/clean/scripts/git-tree-reset.test.sh",
-        "line": 28,
-        "excerpt": "run_reset() { bash -c \"cd '$R' && bash '$RESET' $*\"; }",
+        "file": "plugins/repo-hygiene/skills/clean/scripts/destructive-guard.test.sh",
+        "line": 84,
+        "excerpt": "\"bash -c 'rm -rf build'\" \\",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "plugins/repo-hygiene/skills/clean/scripts/git-tree-reset.test.sh",
-        "line": 161,
-        "excerpt": "out=\"$(PATH=\"$SHIM:$PATH\" bash -c \"cd '$R2' && bash '$RESET' --apply\" 2>&1)\" || rc=$?",
+        "file": "plugins/repo-hygiene/skills/clean/scripts/destructive-guard.test.sh",
+        "line": 85,
+        "excerpt": "\"sh -c \\\"git clean -fdx\\\"\" \\",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "plugins/repo-hygiene/skills/clean/scripts/git-tree-reset.test.sh",
-        "line": 196,
-        "excerpt": "out=\"$(bash -c \"cd '$R3' && bash '$RESET' --dry-run\" 2>&1)\" || rc=$?",
+        "file": "plugins/repo-hygiene/skills/clean/scripts/destructive-guard.test.sh",
+        "line": 86,
+        "excerpt": "\"bash -c 'echo hi; git branch -D x'\"; do",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "plugins/repo-hygiene/skills/clean/scripts/git-tree-reset.test.sh",
-        "line": 204,
-        "excerpt": "out=\"$(bash -c \"cd '$R3' && bash '$RESET' --apply\" 2>&1)\" || rc=$?",
+        "file": "plugins/repo-hygiene/skills/clean/scripts/destructive-guard.test.sh",
+        "line": 89,
+        "excerpt": "assert_exit \"allows a shell -c operand that is benign\" 0 \"$(guard_exit \"bash -c \\\"echo 'git branch -D'\\\"\")\"",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "plugins/repo-hygiene/skills/clean/scripts/git-tree-reset.test.sh",
-        "line": 235,
-        "excerpt": "out=\"$(PATH=\"$CLEAN_SHIM:$PATH\" bash -c \"cd '$R4' && bash '$RESET' --apply\" 2>&1)\" || rc=$?",
+        "file": "plugins/repo-hygiene/skills/clean/scripts/destructive-guard.test.sh",
+        "line": 108,
+        "excerpt": "\"sudo bash -c 'git stash drop'\"",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "plugins/repo-hygiene/skills/clean/scripts/git-tree-reset.test.sh",
-        "line": 269,
-        "excerpt": "out=\"$(PATH=\"$RESTORE_SHIM:$PATH\" bash -c \"cd '$R5' && bash '$RESET' --apply\" 2>&1)\" || rc=$?",
+        "file": "plugins/repo-hygiene/skills/clean/scripts/destructive-guard.test.sh",
+        "line": 109,
+        "excerpt": "\"timeout 5 bash -c 'git stash drop'\"",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "plugins/repo-hygiene/skills/clean/scripts/git-tree-reset.test.sh",
-        "line": 293,
-        "excerpt": "out=\"$(PATH=\"$MIXED_SHIM:$PATH\" bash -c \"cd '$R6' && bash '$RESET' --apply\" 2>&1)\" || rc=$?",
+        "file": "plugins/repo-hygiene/skills/clean/scripts/destructive-guard.test.sh",
+        "line": 110,
+        "excerpt": "\"env X=1 bash -c 'git stash drop'\"",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "plugins/repo-hygiene/skills/clean/scripts/git-tree-reset.test.sh",
-        "line": 316,
-        "excerpt": "out=\"$(PATH=\"$SILENT_SHIM:$PATH\" bash -c \"cd '$R7' && bash '$RESET' --apply\" 2>&1)\" || rc=$?",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/repo-hygiene/hooks/exec-bash.mjs",
+        "file": "plugins/repo-hygiene/skills/clean/scripts/destructive-guard.test.sh",
         "line": 111,
-        "excerpt": "import { spawn, spawnSync } from \"node:child_process\";",
+        "excerpt": "\"xargs bash -c 'git stash drop'\"",
         "disclosed": true,
-        "automatic": true
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/repo-hygiene/skills/clean/scripts/destructive-guard.test.sh",
+        "line": 275,
+        "excerpt": "guard_exit \"bash -c 'bash scripts/clean-caches.sh --dry-run'\" >/dev/null",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/repo-hygiene/skills/clean/scripts/destructive-guard.test.sh",
+        "line": 278,
+        "excerpt": "pass \"a skill-script dry-run inside bash -c refreshes the marker\"",
+        "disclosed": true,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 19,
+      "shell": 77,
       "writes-outside": 1
     },
     "score": 92,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 21,
-    "filesSkipped": 30
+    "filesScanned": 29,
+    "filesSkipped": 22
   },
   "history": [
     {
       "commit": "81c72446af1553c2cd25651e6d086297b658726d",
       "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "677e7988f432dacb5e2d4df2b124f96da8e8f9f3",
+      "scannedAt": "2026-11-09T10:28:36.295Z",
       "score": 92,
       "rulesVersion": "1.3.0"
     }

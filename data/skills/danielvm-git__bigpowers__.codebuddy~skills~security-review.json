@@ -4,30 +4,98 @@
   "repo": "bigpowers",
   "path": ".codebuddy/skills/security-review",
   "name": "security-review",
-  "description": "",
+  "description": "AI-powered security analysis of code changes — traces data flow, detects injection, auth bypass, secrets exposure, and unsafe deserialization across files. Use when reviewing pending changes, before release-branch, during verify-work Phase 5, during build-epic Step 0 threat modeling, or when the user says \"security review\" or \"scan for vulns\".",
   "stars": 288,
   "category": "coding",
-  "commit": "9b9a662c40ad97a16c0f74554bdc7cf2252d2363",
+  "commit": "c19edc76adb8363921bc3edb4a410216b63d9618",
   "contentHash": "5fb60793ad1f5da201f387abaca5166ef0f002d6a2d962f29c60ac2bc0332d6c",
   "repoCreatedAt": "2026-04-24T21:03:16Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".codebuddy/skills/security-review/SKILL.md",
+        "line": 29,
+        "excerpt": "bash scripts/lib/parallel-review-worktrees.sh security-review",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".codebuddy/skills/security-review/SKILL.md",
+        "line": 133,
+        "excerpt": "- `os.system(f\"rm {user_path}\")` where user controls the path",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".codebuddy/skills/security-review/SKILL.md",
+        "line": 308,
+        "excerpt": "| **Vulnerable** | User-controlled URL passed to server-side HTTP client: `requests.get(user_url)` |",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".codebuddy/skills/security-review/SKILL.md",
+        "line": 310,
+        "excerpt": "| **Look for** | User input → `fetch`, `requests.get`, `axios.get`, `urllib`, `curl`, `http.get`; host control only (path-only is excluded) |",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".codebuddy/skills/security-review/SKILL.md",
+        "line": 316,
+        "excerpt": "| **Vulnerable** | User input in shell commands: `os.system(f\"ping {host}\")`, `subprocess.run(f\"grep {pattern} file\", shell=True)` |",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".codebuddy/skills/security-review/SKILL.md",
+        "line": 317,
+        "excerpt": "| **Safe** | `subprocess.run([\"ping\", host])` with arguments as list; `shlex.quote()` |",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".codebuddy/skills/security-review/SKILL.md",
+        "line": 318,
+        "excerpt": "| **Look for** | `shell=True`, `os.system`, `os.popen`, `exec()`, `eval()`, `$()`, backticks |",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 5,
+      "network": 2
+    },
+    "score": 94,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 1
+    "filesScanned": 1,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "9b9a662c40ad97a16c0f74554bdc7cf2252d2363",
       "scannedAt": "2026-11-07T22:05:48.475Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "c19edc76adb8363921bc3edb4a410216b63d9618",
+      "scannedAt": "2026-11-09T10:28:36.295Z",
+      "score": 94,
       "rulesVersion": "1.3.0"
     }
   ]

@@ -4,24 +4,123 @@
   "repo": "developer-kit",
   "path": "plugins/developer-kit-core/skills/docs-updater",
   "name": "docs-updater",
-  "description": "",
+  "description": "Provides automated documentation updates by analyzing git changes between the current branch and the last release tag. Performs git diff analysis to identify modifications, then updates README.md, CHANGELOG.md following Keep a Changelog standard, and discovers documentation folders for contextual updates. Use when preparing a release, maintaining documentation sync, or before creating a pull request. Triggers on \"update docs\", \"update changelog\", \"sync documentation\", \"update readme\", \"prepare release documentation\".",
   "stars": 367,
   "category": "coding",
   "commit": "fe73fb33a09ee6562eeec7415a3f9a3bcf795177",
-  "contentHash": "d1050462ca5328b52d3fbda121ebac9b1a0c42c303d786ff87791e46e9043824",
+  "contentHash": "0d15b30a32184dca59dd8165570530887dba867e22ae61a9c2df26163879b556",
   "repoCreatedAt": "2025-10-21T08:08:21Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "plugins/developer-kit-core/skills/docs-updater/SKILL.md",
+        "line": 29,
+        "excerpt": "git rev-parse --git-dir",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/developer-kit-core/skills/docs-updater/SKILL.md",
+        "line": 52,
+        "excerpt": "LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/developer-kit-core/skills/docs-updater/SKILL.md",
+        "line": 78,
+        "excerpt": "COMMIT_COUNT=$(git rev-list --count ${LATEST_TAG}..HEAD 2>/dev/null || echo \"0\")",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/developer-kit-core/skills/docs-updater/SKILL.md",
+        "line": 89,
+        "excerpt": "COMMITS=$(git log ${LATEST_TAG}..HEAD --pretty=format:\"%h|%s|%b\" --reverse)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/developer-kit-core/skills/docs-updater/SKILL.md",
+        "line": 99,
+        "excerpt": "CHANGED_FILES=$(git diff --name-only ${LATEST_TAG}..HEAD)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/developer-kit-core/skills/docs-updater/SKILL.md",
+        "line": 109,
+        "excerpt": "echo \"$CHANGED_FILES\" | grep -E \"^plugins/\" | cut -d'/' -f2 | sort -u",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/developer-kit-core/skills/docs-updater/SKILL.md",
+        "line": 122,
+        "excerpt": "DOC_FOLDERS=()",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/developer-kit-core/skills/docs-updater/SKILL.md",
+        "line": 143,
+        "excerpt": "DOC_FILES=()",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/developer-kit-core/skills/docs-updater/SKILL.md",
+        "line": 232,
+        "excerpt": "CURRENT_CHANGELOG=$(cat CHANGELOG.md)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/developer-kit-core/skills/docs-updater/SKILL.md",
+        "line": 267,
+        "excerpt": "test -f CHANGELOG.md && echo \"CHANGELOG.md present\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/developer-kit-core/commands/documentation/devkit.generate-changelog.md",
+        "line": 547,
+        "excerpt": "subprocess.run(['./scripts/update-changelog.sh', version])",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/developer-kit-core/hooks/hooks.json",
+        "line": 10,
+        "excerpt": "\"command\": \"${CLAUDE_PLUGIN_ROOT}/hooks/prevent-destructive-commands.py\",",
+        "disclosed": false,
+        "automatic": true
+      }
+    ],
+    "findingTotals": {
+      "shell": 12
+    },
+    "score": 95,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 1,
-    "filesSkipped": 5
+    "filesScanned": 29,
+    "filesSkipped": 0
   },
   "history": [
     {

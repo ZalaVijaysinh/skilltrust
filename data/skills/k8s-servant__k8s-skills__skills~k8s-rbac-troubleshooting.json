@@ -4,30 +4,119 @@
   "repo": "k8s-skills",
   "path": "skills/k8s-rbac-troubleshooting",
   "name": "k8s-rbac-troubleshooting",
-  "description": "",
-  "stars": 35,
+  "description": "Use when a Kubernetes request is refused by RBAC: \"Error from server (Forbidden)\", \"User ... cannot list resource ... in the namespace\" or \"at the cluster scope\", a ServiceAccount, controller, CI job or person getting 403, a RoleBinding that does not seem to apply (wrong namespace, wrong subject, a ClusterRole bound with a RoleBinding), \"is attempting to grant RBAC permissions not currently held\", \"roleRef ... field is immutable\", 401 Unauthorized versus 403 Forbidden, or a custom resource that `view` cannot read. Investigates with kubectl auth can-i, get and describe, and proposes fixes. Reads first and asks before changing anything.",
+  "stars": 36,
   "category": "devops",
-  "commit": "bfaba9c6fd833eaffc6772f2876c30d5777fddf9",
-  "contentHash": "ec6d53e7ff58236d0aa931f3c05778de2b553e649d3e785daa9a9026c9091d95",
+  "commit": "de23b57dd3888628abc62c20d2ed322751fc7d12",
+  "contentHash": "ee227c38f704620f40d0a79226d7bcecc4db96e9bae23cd1a2f99a9b42ba2e0d",
   "repoCreatedAt": "2026-10-23T12:54:21Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-rbac-troubleshooting/SKILL.md",
+        "line": 66,
+        "excerpt": "kubectl logs -n my-namespace deployment/my-app --tail=50",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-rbac-troubleshooting/SKILL.md",
+        "line": 75,
+        "excerpt": "kubectl get pods -n my-namespace -l app=my-app -o jsonpath='{range .items[*]}{.metadata.name}{\" sa=\"}{.spec.serviceAccountName}{\" automount=\"}{.spec.automountSe",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-rbac-troubleshooting/SKILL.md",
+        "line": 84,
+        "excerpt": "kubectl auth can-i list configmaps -n my-namespace --as=system:serviceaccount:my-namespace:my-app",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-rbac-troubleshooting/SKILL.md",
+        "line": 93,
+        "excerpt": "kubectl get rolebindings -n my-namespace -o wide",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-rbac-troubleshooting/SKILL.md",
+        "line": 104,
+        "excerpt": "kubectl get role my-role -n my-namespace -o yaml",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-rbac-troubleshooting/SKILL.md",
+        "line": 160,
+        "excerpt": "kubectl apply -f my-app-role.yaml",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-rbac-troubleshooting/SKILL.md",
+        "line": 171,
+        "excerpt": "kubectl create clusterrolebinding my-app-node-reader --clusterrole=my-app-node-reader --serviceaccount=my-namespace:my-app",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-rbac-troubleshooting/SKILL.md",
+        "line": 180,
+        "excerpt": "kubectl get rolebinding my-binding -n my-namespace -o yaml",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-rbac-troubleshooting/SKILL.md",
+        "line": 186,
+        "excerpt": "kubectl delete rolebinding my-binding -n my-namespace",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-rbac-troubleshooting/SKILL.md",
+        "line": 197,
+        "excerpt": "kubectl rollout restart deployment/my-app -n my-namespace",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 10
+    },
+    "score": 95,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 4
+    "filesScanned": 4,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "bfaba9c6fd833eaffc6772f2876c30d5777fddf9",
       "scannedAt": "2026-11-07T22:05:48.475Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "de23b57dd3888628abc62c20d2ed322751fc7d12",
+      "scannedAt": "2026-11-09T10:28:36.295Z",
+      "score": 95,
       "rulesVersion": "1.3.0"
     }
   ]

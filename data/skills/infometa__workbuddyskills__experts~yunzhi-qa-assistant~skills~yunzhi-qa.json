@@ -4,30 +4,191 @@
   "repo": "workbuddyskills",
   "path": "experts/yunzhi-qa-assistant/skills/yunzhi-qa",
   "name": "yunzhi-qa",
-  "description": "",
-  "stars": 424,
-  "category": "other",
-  "commit": "1e18d8c8eea945f9cde31256c469dda7b1f227a9",
+  "description": "Tencent Yunzhi (Lexiang) knowledge base Q&A capability. Wraps the lexiang MCP `search_kb_embedding_search` tool with query rewriting, parallel retrieval, dedup, citation-grounded answer generation. Supports a gated competitive-analysis mode (the only web-search exception) and an orthogonal international/overseas retrieval switch (UDF filtering, no web). When the knowledge base has no relevant hits, explicitly refuses to answer (no web search fallback). Activates whenever the user asks a question that should be answered from the bound Lexiang knowledge base.\n触发词：云知问答、乐享检索、知识库问答、kb_embedding_search、search_kb_embedding_search、查知识库、问知识库、检索增强、RAG、citation、竞品对比、竞对、友商、海外、国际版、出海、多语言、overseas、international",
+  "stars": 427,
+  "category": "research",
+  "commit": "0749999031be0d5fa14cdc08afe9cefdf857cbfd",
   "contentHash": "6ac16a0227f3a7a3b8b7139f75b03c7899e989e711acd58a36a09f76f8cac2e7",
   "repoCreatedAt": "2026-07-21T02:46:31Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "experts/yunzhi-qa-assistant/skills/yunzhi-qa/SKILL.md",
+        "line": 33,
+        "excerpt": "| **竞品破例联网** | `WebSearch` / `WebFetch` | **仅 `mode=competitive`** 时用于站外竞品官网检索；`mode=standard` 严禁调用。白/黑名单与过滤规则见 `@references/competitive-analysis.md`。 |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "experts/yunzhi-qa-assistant/skills/yunzhi-qa/SKILL.md",
+        "line": 70,
+        "excerpt": "| `competitive` | 通道 A 站内基线 + 通道 B 站外竞品官网（`WebSearch`/`WebFetch`） | ✅ 仅此例外 | 缺失项写「官方未披露」，其余照常输出 |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "experts/yunzhi-qa-assistant/skills/yunzhi-qa/references/agent-architecture.md",
+        "line": 34,
+        "excerpt": "├─ 逐厂商独立 WebSearch/WebFetch（site: + allowed_domains 双重过滤）",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "experts/yunzhi-qa-assistant/skills/yunzhi-qa/references/agent-architecture.md",
+        "line": 69,
+        "excerpt": "resp = requests.post(url, headers=headers, json=payload, timeout=10)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "experts/yunzhi-qa-assistant/skills/yunzhi-qa/references/agent-architecture.md",
+        "line": 270,
+        "excerpt": "> 本小节是全专家**唯一允许 `WebSearch`/`WebFetch` 联网**处。`mode=standard` 绝不进入。完整规则（白/黑名单、过滤流水线、来源分级、品类维度词典）见 [`competitive-analysis.md`](./competitive-analysis.md)，此处仅列关键动作",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "experts/yunzhi-qa-assistant/skills/yunzhi-qa/references/agent-architecture.md",
+        "line": 276,
+        "excerpt": "| 3. 双重过滤 | `WebSearch(allowed_domains=[...])` + 查询词带 `site:官网域名`，只认白名单官网 |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "experts/yunzhi-qa-assistant/skills/yunzhi-qa/references/agent-architecture.md",
+        "line": 278,
+        "excerpt": "| 5. 抓全文 | 目标页用 `WebFetch` 抓取，记录 URL + 页面日期 |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "experts/yunzhi-qa-assistant/skills/yunzhi-qa/references/competitive-analysis.md",
+        "line": 47,
+        "excerpt": "用 WorkBuddy **内置** `WebSearch` / `WebFetch` 检索竞品官网公开信息，**零额外依赖**。",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "experts/yunzhi-qa-assistant/skills/yunzhi-qa/references/competitive-analysis.md",
+        "line": 51,
+        "excerpt": "| `WebSearch` | `WebSearch(query=\"site:aliyun.com OSS 定价\", allowed_domains=[\"aliyun.com\"])` |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "experts/yunzhi-qa-assistant/skills/yunzhi-qa/references/competitive-analysis.md",
+        "line": 52,
+        "excerpt": "| `WebFetch`（Google） | `WebFetch(url=\"https://www.google.com/search?q=site:aws.amazon.com+S3+pricing\")` |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "www.google.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "experts/yunzhi-qa-assistant/skills/yunzhi-qa/references/competitive-analysis.md",
+        "line": 53,
+        "excerpt": "| `WebFetch`（Bing） | `WebFetch(url=\"https://cn.bing.com/search?q=site:huaweicloud.com+OBS+定价&ensearch=0\")` |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "cn.bing.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "experts/yunzhi-qa-assistant/skills/yunzhi-qa/references/competitive-analysis.md",
+        "line": 54,
+        "excerpt": "| `WebFetch`（Brave） | `WebFetch(url=\"https://search.brave.com/search?q=site:azure.microsoft.com+pricing\")` |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "search.brave.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "experts/yunzhi-qa-assistant/skills/yunzhi-qa/references/competitive-analysis.md",
+        "line": 55,
+        "excerpt": "| `WebFetch`（目标页） | `WebFetch(url=\"https://www.aliyun.com/price/detail/oss\")` 直接抓官网页 |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "www.aliyun.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "experts/yunzhi-qa-assistant/skills/yunzhi-qa/references/competitive-analysis.md",
+        "line": 59,
+        "excerpt": "1. **`site:` + `allowed_domains` 双重过滤**：`WebSearch` 必传 `allowed_domains` 白名单；`WebFetch` 走搜索引擎时查询词必带 `site:官网域名`。",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "experts/yunzhi-qa-assistant/skills/yunzhi-qa/references/competitive-analysis.md",
+        "line": 62,
+        "excerpt": "4. **找到目标页后直接 `WebFetch` 抓全文**提取结构化数据，不逐条抓所有结果。",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "experts/yunzhi-qa-assistant/skills/yunzhi-qa/references/competitive-analysis.md",
+        "line": 106,
+        "excerpt": "4. WebFetch 访问页面",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "network": 16
+    },
+    "score": 95,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 6
+    "filesScanned": 6,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "1e18d8c8eea945f9cde31256c469dda7b1f227a9",
       "scannedAt": "2026-11-07T22:05:48.475Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "0749999031be0d5fa14cdc08afe9cefdf857cbfd",
+      "scannedAt": "2026-11-09T10:28:36.295Z",
+      "score": 95,
       "rulesVersion": "1.3.0"
     }
   ]

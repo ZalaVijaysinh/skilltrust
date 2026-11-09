@@ -4,30 +4,202 @@
   "repo": "magpie",
   "path": "plugins/magpie-pr-management/skills/pr-triage",
   "name": "pr-triage",
-  "description": "",
+  "description": "Sweep open PRs on the configured `<upstream>` repo, classify\neach against the project's quality criteria, and — on the\nmaintainer's confirmation — act via `gh`. One disposition per\nPR: draft / comment / close / rebase / CI-rerun /\nworkflow-approve / ping-stale-reviewer / request author\nconfirmation of readiness / mark `ready for maintainer\nreview` / promote bot-authored draft. Does **not** review\ncode — that is `pr-management-code-review`.",
   "stars": 139,
   "category": "security",
-  "commit": "c099f3fb6260f9a9acb9ac3686c8acddee393c81",
-  "contentHash": "394822eaff7e97b4e7effad6e678b1d4924bb8890c933619fe9a4b03f413e8b5",
+  "commit": "3fd660b0b1316f475044c05dae17c5b86a12165e",
+  "contentHash": "b7d27e79912fd6852c76f236a798e9b7ae932d2d5f61b28ffaf39b14c2905784",
   "repoCreatedAt": "2026-04-28T18:59:46Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "plugins/magpie-pr-management/skills/pr-triage/SKILL.md",
+        "line": 55,
+        "excerpt": "PYTHONPATH=\"$(python3 -I -c 'import hashlib,os,sys;h,d,m,i=sys.argv[1:];r=os.path.realpath(os.curdir);s=os.stat(r);p=os.path.join(h,d,hashlib.sha256(r.encode())",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/magpie-pr-management/skills/pr-triage/SKILL.md",
+        "line": 250,
+        "excerpt": "python3 <framework>/skills/pr-management-triage/scripts/pr_link.py \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/magpie-pr-management/skills/pr-triage/SKILL.md",
+        "line": 320,
+        "excerpt": "uv run --project ~/.claude/magpie/vetted-ops vetted-op-read --caller pr-management-triage --save triage-pages.json <sweep operation> [<parameter>]",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/magpie-pr-management/skills/pr-triage/SKILL.md",
+        "line": 340,
+        "excerpt": "uv run --project <framework>/tools/pr-management pr-management triage classify --saved-dir <workspace>/saved --viewer <viewer> \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/magpie-pr-management/skills/pr-triage/interaction-loop.md",
+        "line": 261,
+        "excerpt": "uvx --from ~/.claude/magpie/skill-lock skill-lock acquire pr-management-triage --repo <upstream> --note \"<selector or pool summary>\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/magpie-pr-management/skills/pr-triage/interaction-loop.md",
+        "line": 282,
+        "excerpt": "uvx --from ~/.claude/magpie/skill-lock skill-lock release pr-management-triage --repo <upstream> --token <token>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/magpie-pr-management/skills/pr-triage/workflow-approval.md",
+        "line": 91,
+        "excerpt": "network call (`curl`, `wget`, `httpx`, raw `requests.post`)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/magpie-pr-management/skills/pr-triage/workflow-approval.md",
+        "line": 104,
+        "excerpt": "- Injection of `run: curl …| sh` or `… | bash` anywhere in the",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/magpie-pr-management/skills/pr-triage/workflow-approval.md",
+        "line": 119,
+        "excerpt": "- Modifications to `Dockerfile*` that add `curl | sh` /",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/magpie-pr-management/skills/pr-triage/workflow-approval.md",
+        "line": 120,
+        "excerpt": "`npm install` from an arbitrary URL / `pip install` from a",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/magpie-pr-management/skills/pr-triage/workflow-approval.md",
+        "line": 175,
+        "excerpt": "- .github/workflows/new.yml:15 — \"curl … | sh\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "AGENTS.md",
+        "line": 458,
+        "excerpt": "uv tool install prek   # or: pipx install prek",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "AGENTS.md",
+        "line": 522,
+        "excerpt": "`uvx --from ~/.claude/magpie/vetted-ops …`, and `uvx --from ~/.claude/magpie/adversarial-review adversarial-review …`.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tools/skill-lock/README.md",
+        "line": 76,
+        "excerpt": "uvx --from ~/.claude/magpie/skill-lock skill-lock acquire <skill> --repo <owner/repo> [--ttl 7200] [--note \"...\"]",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tools/skill-lock/README.md",
+        "line": 77,
+        "excerpt": "uvx --from ~/.claude/magpie/skill-lock skill-lock renew   <skill> --repo <owner/repo> [--ttl 7200] [--token <t>]",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tools/skill-lock/README.md",
+        "line": 78,
+        "excerpt": "uvx --from ~/.claude/magpie/skill-lock skill-lock release <skill> --repo <owner/repo> [--token <t>] [--force]",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tools/skill-lock/README.md",
+        "line": 79,
+        "excerpt": "uvx --from ~/.claude/magpie/skill-lock skill-lock status  <skill> --repo <owner/repo>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tools/skill-lock/README.md",
+        "line": 80,
+        "excerpt": "uvx --from ~/.claude/magpie/skill-lock skill-lock list",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tools/skill-lock/README.md",
+        "line": 103,
+        "excerpt": "Skills run it as `uvx --from ~/.claude/magpie/skill-lock skill-lock …` on every",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tools/skill-lock/README.md",
+        "line": 107,
+        "excerpt": "which is why the launcher is `uvx --from` (it builds into uv's cache) rather than",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 4,
+      "downloads-code": 15,
+      "network": 1
+    },
+    "score": 77,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 9,
-    "filesSkipped": 55
+    "filesScanned": 70,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "c099f3fb6260f9a9acb9ac3686c8acddee393c81",
       "scannedAt": "2026-11-07T22:05:48.475Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "3fd660b0b1316f475044c05dae17c5b86a12165e",
+      "scannedAt": "2026-11-09T10:28:36.295Z",
+      "score": 77,
       "rulesVersion": "1.3.0"
     }
   ]

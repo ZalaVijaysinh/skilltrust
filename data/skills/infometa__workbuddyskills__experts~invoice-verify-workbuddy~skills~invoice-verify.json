@@ -5,15 +5,15 @@
   "path": "experts/invoice-verify-workbuddy/skills/invoice-verify",
   "name": "invoice-verify",
   "description": "智能发票专家团的发票识别、税局验真、商业信用核查和智能票夹归档能力。当用户上传发票文件（图片/PDF/OFD/XML）、 批量上传表格、指定本地文件夹或提供发票四要素信息时， 自动识别发票内容、查验真伪、核查开票方商业信用，并输出归档报告。",
-  "stars": 424,
+  "stars": 427,
   "category": "other",
-  "commit": "1e18d8c8eea945f9cde31256c469dda7b1f227a9",
+  "commit": "0749999031be0d5fa14cdc08afe9cefdf857cbfd",
   "contentHash": "0fec1611c9cc3d1526ffc338e82ded4e7f2a4a6a9d1fbd32a549465a2db906b5",
   "repoCreatedAt": "2026-07-21T02:46:31Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
     "findings": [
       {
@@ -41,22 +41,82 @@
         "disclosed": false,
         "automatic": false,
         "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "experts/invoice-verify-workbuddy/skills/invoice-verify/references/risk_rules.md",
+        "line": 37,
+        "excerpt": "**查询优先级**：三项风险查询（灰名单、欠税、重大违法）必须优先通过 `call_mcp.py` 调用百望 MCP 接口。**严禁跳过 MCP 直接使用 WebSearch**。仅当 MCP 接口确认不可用时（网络超时、权限拒绝、脚本执行失败、沙箱 [100006] 无权操作等）才降级到 WebSearch 查询公开",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "experts/invoice-verify-workbuddy/skills/invoice-verify/scripts/call_mcp.py",
+        "line": 40,
+        "excerpt": "from urllib.request import Request, urlopen",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "experts/invoice-verify-workbuddy/skills/invoice-verify/scripts/call_mcp.py",
+        "line": 389,
+        "excerpt": "with urlopen(request, timeout=READ_TIMEOUT, context=ssl_ctx) as response:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "experts/invoice-verify-workbuddy/skills/invoice-verify/scripts/upload_to_oss.py",
+        "line": 31,
+        "excerpt": "from urllib.request import Request, urlopen",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "experts/invoice-verify-workbuddy/skills/invoice-verify/scripts/upload_to_oss.py",
+        "line": 203,
+        "excerpt": "with urlopen(req, timeout=120, context=ssl_ctx) as resp:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "experts/invoice-verify-workbuddy/skills/invoice-verify/scripts/upload_to_oss.py",
+        "line": 314,
+        "excerpt": "with urlopen(req, timeout=120, context=ssl_ctx) as response:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
       }
     ],
     "findingTotals": {
       "downloads-code": 1,
-      "network": 2
+      "network": 8
     },
     "score": 80,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 4,
-    "filesSkipped": 7
+    "filesScanned": 11,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "1e18d8c8eea945f9cde31256c469dda7b1f227a9",
       "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 80,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "0749999031be0d5fa14cdc08afe9cefdf857cbfd",
+      "scannedAt": "2026-11-09T10:28:36.295Z",
       "score": 80,
       "rulesVersion": "1.3.0"
     }

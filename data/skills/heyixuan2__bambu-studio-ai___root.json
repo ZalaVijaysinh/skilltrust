@@ -5,15 +5,15 @@
   "path": "",
   "name": "bambu-studio-ai",
   "description": "End-to-end 3D printing for Bambu Lab printers. Finds models online (MakerWorld, Printables), generates them with AI (text-to-3D, image-to-3D) or as exact-dimension parametric CAD, checks and repairs printability, converts textures to AMS multi-color, renders previews, opens them in Bambu Studio for the user to print, and reads printer status, AMS filaments and print progress. Use this whenever the user wants to 3D print something, design or model an object for printing, work with STL/3MF/OBJ/GLB files for a printer, check on a Bambu Lab printer (A1, A1 Mini, A2L, P1S, P2S, X1C, X1E, X2D, H2C, H2S, H2D, H2D Pro), or asks about AMS filament, slicing or print progress, even if they don't say \"Bambu\".",
-  "stars": 259,
+  "stars": 261,
   "category": "media",
   "commit": "cdc26987d5bf1052a055d9403e3cb9630959dd08",
   "contentHash": "9324f151cdb8ee015b82df9e4edcaf709555fa2464a49dbf2f2a7de10077822b",
   "repoCreatedAt": "2026-03-02T08:42:20Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
     "findings": [
       {
@@ -259,31 +259,229 @@
       },
       {
         "ruleId": "shell",
-        "file": "tests/test_bambu_map.py",
-        "line": 53,
-        "excerpt": "r = subprocess.run([sys.executable, os.path.join(SCRIPTS, \"colorize\"), \"model.glb\", \"--bambu-finish\", \"shiny\"],",
+        "file": "scripts/bambu_studio_ai/render/bambu_studio.py",
+        "line": 82,
+        "excerpt": "result = subprocess.run(  # noqa: S603  (fixed argv, no shell)",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "tests/test_parametric_fixes.py",
-        "line": 20,
-        "excerpt": "return subprocess.run([sys.executable, SCRIPT, *args], capture_output=True, encoding=\"utf-8\", timeout=60)",
+        "file": "scripts/bambu_studio_ai/render/bambu_studio.py",
+        "line": 91,
+        "excerpt": "except subprocess.TimeoutExpired as exc:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/bambu_studio_ai/render/blender.py",
+        "line": 147,
+        "excerpt": "process = subprocess.Popen(  # noqa: S603  (fixed argv, no shell)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/bambu_studio_ai/render/blender.py",
+        "line": 149,
+        "excerpt": "stdout=subprocess.PIPE,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/bambu_studio_ai/render/blender.py",
+        "line": 150,
+        "excerpt": "stderr=subprocess.STDOUT,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/bambu_studio_ai/render/blender.py",
+        "line": 151,
+        "excerpt": "stdin=subprocess.DEVNULL,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "scripts/bambu_studio_ai/search/transport.py",
+        "line": 33,
+        "excerpt": "response = requests.get(url, params=dict(params), headers=_HEADERS, timeout=timeout)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "scripts/bambu_studio_ai/search/transport.py",
+        "line": 49,
+        "excerpt": "response = requests.post(",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "scripts/bambu_studio_ai/slicing/discovery.py",
+        "line": 48,
+        "excerpt": "return cls(system=platform.system(), home=Path.home(), env=dict(os.environ))",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/bambu_studio_ai/slicing/runner.py",
+        "line": 130,
+        "excerpt": "completed = subprocess.run(  # noqa: S603 (argv list, no shell; cli is Bambu Studio)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/bambu_studio_ai/slicing/runner.py",
+        "line": 139,
+        "excerpt": "except subprocess.TimeoutExpired as exc:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/bambu_studio_ai/slicing/runner.py",
+        "line": 157,
+        "excerpt": "work_dir: Path, completed: subprocess.CompletedProcess[str]",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/bambu_studio_ai/slicing/runner.py",
+        "line": 205,
+        "excerpt": "result: dict[str, object] | None, completed: subprocess.CompletedProcess[str]",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/bambu_studio_ai/slicing/runner.py",
+        "line": 216,
+        "excerpt": "def _output_tail(completed: subprocess.CompletedProcess[str]) -> str:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/common.py",
+        "line": 230,
+        "excerpt": "result = subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/common.py",
+        "line": 264,
+        "excerpt": "r = subprocess.run([\"flatpak\", \"info\", \"com.bambulab.BambuStudio\"],",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/common.py",
+        "line": 282,
+        "excerpt": "kwargs = {\"stdout\": subprocess.DEVNULL, \"stderr\": subprocess.DEVNULL}",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/common.py",
+        "line": 286,
+        "excerpt": "subprocess.Popen(cmd + [path], **kwargs)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/common.py",
+        "line": 298,
+        "excerpt": "subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/common.py",
+        "line": 303,
+        "excerpt": "subprocess.run([\"notify-send\", f\"Bambu Studio AI: {title}\", message],",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/doctor.py",
+        "line": 65,
+        "excerpt": "r = subprocess.run([path, \"--version\"], capture_output=True, text=True, timeout=10)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "tests/generation_fakes.py",
+        "line": 66,
+        "excerpt": "\"\"\"Stands in for requests.Session: replies are queued per (method, URL without query).",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "tests/generation_fakes.py",
+        "line": 202,
+        "excerpt": "def fetch(self, ref, output_format, dest_dir):",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "tests/search_fakes.py",
+        "line": 33,
+        "excerpt": "\"\"\"Stands in for requests.get (MakerWorld) and requests.post (Printables).",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "tests/test_analyze_cli.py",
+        "line": 41,
+        "excerpt": "result = subprocess.run([sys.executable, str(SCRIPT), str(model), \"--json\"],",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tests/test_bambu_map.py",
+        "line": 53,
+        "excerpt": "r = subprocess.run([sys.executable, os.path.join(SCRIPTS, \"colorize\"), \"model.glb\", \"--bambu-finish\", \"shiny\"],",
         "disclosed": true,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "downloads-code": 22,
-      "network": 9,
-      "shell": 2
+      "downloads-code": 27,
+      "network": 14,
+      "shell": 40,
+      "reads-secrets": 1
     },
-    "score": 79,
+    "score": 59,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 88,
-    "filesSkipped": 248
+    "filesScanned": 334,
+    "filesSkipped": 2
   },
   "history": [
     {

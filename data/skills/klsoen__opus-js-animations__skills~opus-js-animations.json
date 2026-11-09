@@ -12,8 +12,8 @@
   "repoCreatedAt": "2026-09-24T06:29:23Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
     "findings": [
       {
@@ -212,6 +212,32 @@
       },
       {
         "ruleId": "shell",
+        "file": "skills/opus-js-animations/scripts/lib.mjs",
+        "line": 4,
+        "excerpt": "import { spawn } from 'node:child_process';",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/opus-js-animations/scripts/lib.mjs",
+        "line": 50,
+        "excerpt": "try { targets = await (await fetch(`http://127.0.0.1:${port}/json/list`)).json(); if (targets.some(t => t.type === 'page')) break; } catch {}",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/opus-js-animations/scripts/lib.mjs",
+        "line": 53,
+        "excerpt": "const ws = new WebSocket(targets.find(t => t.type === 'page').webSocketDebuggerUrl);",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
         "file": "skills/opus-js-animations/scripts/page_audio.mjs",
         "line": 10,
         "excerpt": "import { spawnSync } from 'node:child_process';",
@@ -266,18 +292,102 @@
         "excerpt": "const p = spawnSync('ffprobe', ['-v', 'error', '-count_packets', '-show_entries', 'stream=codec_type,width,height,nb_read_packets:format=duration',",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/opus-js-animations/scripts/voiceover.py",
+        "line": 26,
+        "excerpt": "import argparse, base64, json, os, shutil, subprocess, sys, urllib.error, urllib.request, wave",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/opus-js-animations/scripts/voiceover.py",
+        "line": 76,
+        "excerpt": "req = urllib.request.Request(url, data=data, headers=headers, method='POST' if data else 'GET')",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/opus-js-animations/scripts/voiceover.py",
+        "line": 78,
+        "excerpt": "with urllib.request.urlopen(req, timeout=180) as r:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/opus-js-animations/scripts/voiceover.py",
+        "line": 91,
+        "excerpt": "vs = json.loads(request('https://api.elevenlabs.io/v1/voices', key)).get('voices', [])",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/opus-js-animations/scripts/voiceover.py",
+        "line": 101,
+        "excerpt": "vs = json.loads(request('https://api.elevenlabs.io/v1/voices', key)).get('voices', [])",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/opus-js-animations/scripts/voiceover.py",
+        "line": 114,
+        "excerpt": "r = json.loads(request(f'https://api.elevenlabs.io/v1/text-to-speech/{voice_id}/with-timestamps?output_format=mp3_44100_128', key, body))",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/opus-js-animations/scripts/voiceover.py",
+        "line": 120,
+        "excerpt": "return request('https://api.openai.com/v1/audio/speech', key, body, accept='audio/mpeg'), None",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/opus-js-animations/scripts/voiceover.py",
+        "line": 138,
+        "excerpt": "return subprocess.run(['ffmpeg', '-v', 'error', '-i', str(path), '-ac', '1', '-ar', str(SR), '-f', 's16le', '-'],",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/opus-js-animations/scripts/voiceover.py",
+        "line": 143,
+        "excerpt": "sys.exit('needs ffmpeg on PATH (macOS: brew install ffmpeg)')",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/opus-js-animations/scripts/voiceover.py",
+        "line": 195,
+        "excerpt": "subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', str(out / 'voice.wav'), '-c:a', 'libmp3lame', '-q:a', '2', str(out / 'voice.mp3')], check=True)",
+        "disclosed": false,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 15,
-      "network": 9,
-      "downloads-code": 6
+      "shell": 18,
+      "network": 14,
+      "downloads-code": 7,
+      "paid-api": 4
     },
-    "score": 77,
+    "score": 67,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 23,
-    "filesSkipped": 5
+    "filesScanned": 28,
+    "filesSkipped": 0
   },
   "history": [
     {

@@ -4,18 +4,34 @@
   "repo": "claude-skills",
   "path": "plugins/environment-and-config/skills/container-layer",
   "name": "container-layer",
-  "description": "Authors and caches a personalized container environment from a Dockerfile- like spec, as a single layer or as a composition of independently cached layers. Use when the user mentions \"container layer\", \"Containerfile\", \"custom container\", \"cache my installs\", \"composable layers\", \"uv shim\", or wants package installations, skills and environment config to survive an ephemeral session. Also for snapshotting, restoring or rebuilding that environment, and for capturing ad-hoc installs into a reproducible spec.",
+  "description": "",
   "stars": 158,
   "category": "other",
-  "commit": "2ef3d1f28ce295f1b4dbff220b8f8ca342e87340",
+  "commit": "487272b6d1d9a2c5248d9adfa2d7765f8ca2b6af",
   "contentHash": "16763c9e528b52583ea23ef3b1c37ff54912e5843637b1916a5cea4b905aac23",
   "repoCreatedAt": "2025-10-17T02:32:23Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/environment-and-config/skills/container-layer/CHANGELOG.md",
+        "line": 32,
+        "excerpt": "when it sees `apt-get install`, but before this fix they weren't baselined,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/environment-and-config/skills/container-layer/CHANGELOG.md",
+        "line": 33,
+        "excerpt": "so any layer with `apt-get install <one tiny package>` ballooned by ~600MB",
+        "disclosed": false,
+        "automatic": false
+      },
       {
         "ruleId": "writes-outside",
         "file": "plugins/environment-and-config/skills/container-layer/Containerfile",
@@ -57,94 +73,6 @@
         "automatic": false
       },
       {
-        "ruleId": "downloads-code",
-        "file": "plugins/environment-and-config/skills/container-layer/SKILL.md",
-        "line": 47,
-        "excerpt": "RUN apt-get install -y foo        # system packages",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "plugins/environment-and-config/skills/container-layer/SKILL.md",
-        "line": 48,
-        "excerpt": "RUN uv pip install pandas numpy   # Python packages (preferred)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "plugins/environment-and-config/skills/container-layer/SKILL.md",
-        "line": 49,
-        "excerpt": "RUN pip install requests          # also works",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/environment-and-config/skills/container-layer/SKILL.md",
-        "line": 87,
-        "excerpt": "python -m scripts.cli restore /path/to/Containerfile --repo user/cache-repo",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/environment-and-config/skills/container-layer/SKILL.md",
-        "line": 117,
-        "excerpt": "python -m scripts.cli compose \\",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/environment-and-config/skills/container-layer/SKILL.md",
-        "line": 129,
-        "excerpt": "python -m scripts.cli compose \\",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/environment-and-config/skills/container-layer/SKILL.md",
-        "line": 140,
-        "excerpt": "python -m scripts.cli restore Containerfile.mojo --name mojo",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/environment-and-config/skills/container-layer/SKILL.md",
-        "line": 149,
-        "excerpt": "source /path/to/container-layer/scripts/uv_shim.sh /path/to/Containerfile",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "plugins/environment-and-config/skills/container-layer/SKILL.md",
-        "line": 152,
-        "excerpt": "Now `uv pip install foo` both installs the package AND appends `RUN uv pip install foo` to your Containerfile.",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "plugins/environment-and-config/skills/container-layer/SKILL.md",
-        "line": 180,
-        "excerpt": "RUN uv pip install --system pandas numpy requests",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "plugins/environment-and-config/skills/container-layer/SKILL.md",
-        "line": 183,
-        "excerpt": "RUN echo '/mnt/skills/user/remembering' > /usr/local/lib/python3.12/dist-packages/muninn-remembering.pth",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "plugins/environment-and-config/skills/container-layer/boot-ccotw.sh",
         "line": 56,
@@ -165,33 +93,30 @@
         "hosts": [
           "codeload.github.com"
         ]
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "plugins/environment-and-config/skills/container-layer/scripts/uv_shim.sh",
-        "line": 57,
-        "excerpt": "local install_line=\"RUN uv pip install --system$args_after_install\"",
-        "disclosed": false,
-        "automatic": false
       }
     ],
     "findingTotals": {
-      "writes-outside": 2,
-      "downloads-code": 10,
-      "shell": 5,
+      "downloads-code": 6,
+      "writes-outside": 1,
       "network": 2
     },
-    "score": 65,
+    "score": 70,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 9,
-    "filesSkipped": 6
+    "filesScanned": 7,
+    "filesSkipped": 8
   },
   "history": [
     {
       "commit": "2ef3d1f28ce295f1b4dbff220b8f8ca342e87340",
       "scannedAt": "2026-11-07T22:05:48.475Z",
       "score": 65,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "487272b6d1d9a2c5248d9adfa2d7765f8ca2b6af",
+      "scannedAt": "2026-11-09T10:28:36.295Z",
+      "score": 70,
       "rulesVersion": "1.3.0"
     }
   ]

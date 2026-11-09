@@ -12,8 +12,8 @@
   "repoCreatedAt": "2026-10-24T13:16:53Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
     "findings": [
       {
@@ -72,42 +72,422 @@
         "hosts": []
       },
       {
+        "ruleId": "reads-secrets",
+        "file": "skills/vps-forge/evals/coolify-host/case.yaml",
+        "line": 4,
+        "excerpt": "Recognises the Coolify host and adapts the hardening instead of applying the defaults: root keeps key login (prohibit-password, not \"no\") with root allowed thro",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
         "ruleId": "writes-outside",
-        "file": "skills/vps-forge/scripts/install-alerts.sh",
-        "line": 44,
-        "excerpt": "rm -f /etc/systemd/system/vps-forge-health.{service,timer}",
+        "file": "skills/vps-forge/references/alerts-monitoring.md",
+        "line": 23,
+        "excerpt": "First write `/etc/vps-forge/notify.env` (mode 600) with the channel settings. See `assets/alerts/notify.env.example`. Write it over SSH via heredoc so secrets d",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/vps-forge/references/alerts-monitoring.md",
+        "line": 23,
+        "excerpt": "First write `/etc/vps-forge/notify.env` (mode 600) with the channel settings. See `assets/alerts/notify.env.example`. Write it over SSH via heredoc so secrets d",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/vps-forge/references/backups.md",
+        "line": 25,
+        "excerpt": "install -d -m 700 /etc/restic /var/backups/db",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "writes-outside",
-        "file": "skills/vps-forge/scripts/install-alerts.sh",
-        "line": 47,
-        "excerpt": "tmp=$(mktemp); grep -vF \"$PAM_LINE\" /etc/pam.d/sshd > \"$tmp\"; cat \"$tmp\" > /etc/pam.d/sshd; rm -f \"$tmp\"",
+        "file": "skills/vps-forge/references/backups.md",
+        "line": 26,
+        "excerpt": "( umask 077; openssl rand -base64 48 > /etc/restic/password )   # born 600: no window where it is readable",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "writes-outside",
-        "file": "skills/vps-forge/scripts/install-alerts.sh",
-        "line": 49,
-        "excerpt": "rm -f /usr/local/bin/vps-notify /usr/local/sbin/vps-forge-health /usr/local/sbin/vps-forge-ssh-login",
+        "file": "skills/vps-forge/references/backups.md",
+        "line": 31,
+        "excerpt": "- `assets/restic/env.example` → `/etc/restic/env` (600; create it private with `( umask 077; cat > /etc/restic/env )` or `install -m 600 /dev/null /etc/restic/e",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/vps-forge/references/base.md",
+        "line": 23,
+        "excerpt": "ssh host 'sudo install -m 755 /dev/stdin /usr/local/sbin/vps-forge-deadman' < scripts/deadman.sh",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/vps-forge/references/base.md",
+        "line": 31,
+        "excerpt": "3. Upgrade, then one `apt-get install`.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/vps-forge/references/base.md",
+        "line": 52,
+        "excerpt": "install -d -m 755 /etc/fail2ban/jail.d",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/vps-forge/references/base.md",
+        "line": 64,
+        "excerpt": "- **Install everything in one go.** Add the packages the chosen profiles need to this same command: `restic` for backups, Docker or Caddy from their own reposit",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/vps-forge/references/base.md",
+        "line": 84,
+        "excerpt": "Third-party repositories are not covered, so Docker, Caddy, Tailscale and CrowdSec never update by themselves, and `audit.sh` warns about each one (`updates.thi",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/vps-forge/references/base.md",
+        "line": 116,
+        "excerpt": "grep -q '^/swapfile ' /etc/fstab || echo '/swapfile none swap sw 0 0' >> /etc/fstab",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/vps-forge/references/base.md",
+        "line": 142,
+        "excerpt": "for l in 'restic/' 'vps-forge/*.env' 'wireguard/'; do grep -qxF \"$l\" /etc/.gitignore || printf '%s\\n' \"$l\" >> /etc/.gitignore; done",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/vps-forge/references/base.md",
+        "line": 156,
+        "excerpt": "3. After a minute, from a new connection: `ssh -o ControlPath=none -o BatchMode=yes -p <port> <admin>@<host> 'sudo -n ufw status | head -n 1; systemctl --failed",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/vps-forge/references/docker.md",
+        "line": 31,
+        "excerpt": "install -m 0755 -d /etc/apt/keyrings",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/vps-forge/references/docker.md",
+        "line": 32,
+        "excerpt": "curl -fsSL \"https://download.docker.com/linux/$ID/gpg\" -o /etc/apt/keyrings/docker.asc",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "download.docker.com"
+        ]
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/vps-forge/references/docker.md",
+        "line": 35,
+        "excerpt": "> /etc/apt/sources.list.d/docker.list",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/vps-forge/references/docker.md",
+        "line": 125,
+        "excerpt": "With rootless Docker, the daemon runs as an unprivileged user, so a container escape lands as that user, not root. Costs: ports below 1024 need `net.ipv4.ip_unp",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/vps-forge/references/firewall.md",
+        "line": 121,
+        "excerpt": "**Start order.** Debian 13 and Ubuntu 24.04 start fail2ban the moment it is installed, with the stock sshd jail and no admin IP. So on a fresh box (base.md, pha",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/vps-forge/references/firewall.md",
+        "line": 151,
+        "excerpt": "install -d -m 755 /etc/apt/keyrings",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/vps-forge/references/firewall.md",
+        "line": 152,
+        "excerpt": "curl -fsSL https://packagecloud.io/crowdsec/crowdsec/gpgkey | gpg --dearmor -o /etc/apt/keyrings/crowdsec_crowdsec-archive-keyring.gpg",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "packagecloud.io"
+        ]
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/vps-forge/references/firewall.md",
+        "line": 153,
+        "excerpt": "echo 'deb [signed-by=/etc/apt/keyrings/crowdsec_crowdsec-archive-keyring.gpg] https://packagecloud.io/crowdsec/crowdsec/any any main' > /etc/apt/sources.list.d/",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/vps-forge/references/firewall.md",
+        "line": 154,
+        "excerpt": "apt-get update && apt-get install -y crowdsec crowdsec-firewall-bouncer-nftables",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/vps-forge/references/kernel.md",
+        "line": 78,
+        "excerpt": "- **auditd:** `apt-get install auditd`, then load a rules file that watches identity and privilege files (`/etc/passwd`, `/etc/shadow`, `/etc/sudoers*`, `/etc/s",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/vps-forge/references/kernel.md",
+        "line": 79,
+        "excerpt": "- **AIDE** (file integrity): `apt-get install aide && aideinit` (takes minutes), then copy the new database into place as the installer prints. A daily check ru",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/vps-forge/references/reproducibility.md",
+        "line": 22,
+        "excerpt": "- **The SSH crypto drop-in is generated, not copied.** KEX and cipher names differ between OpenSSH versions (a file from Debian 13 makes `sshd` on Ubuntu 22.04 ",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/vps-forge/references/ssh.md",
+        "line": 70,
+        "excerpt": "printf '[Unit]\\nDescription=Remove the temporary vps-forge sudo grant\\n[Service]\\nType=oneshot\\nExecStart=/bin/rm -f /etc/sudoers.d/90-vps-forge-temp\\n' > /etc/",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/vps-forge/references/ssh.md",
+        "line": 71,
+        "excerpt": "printf '[Unit]\\nDescription=Deadline for the temporary vps-forge sudo grant\\n[Timer]\\nOnCalendar=%s\\nPersistent=true\\n[Install]\\nWantedBy=timers.target\\n' \"$(da",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/vps-forge/references/ssh.md",
+        "line": 77,
+        "excerpt": "Always write sudoers files with `visudo -cf <file>` before moving them into place, using mode 440, inside a deadman window (step 2 above): `printf '%s ALL=(ALL)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/vps-forge/references/ssh.md",
+        "line": 125,
+        "excerpt": "cat > /etc/ssh/sshd_config.d/01-vps-forge-crypto.conf <<EOF",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/vps-forge/references/ssh.md",
+        "line": 138,
+        "excerpt": "echo \"PerSourcePenaltyExemptList $ADMIN_IP\" >> /etc/ssh/sshd_config.d/01-vps-forge-crypto.conf",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/vps-forge/references/ssh.md",
+        "line": 146,
+        "excerpt": "- Check from the user's machine: `ssh-audit <host>` (`pipx run ssh-audit <host>`), or `external-check.sh --ssh-audit`. ssh-audit opens dozens of connections, so",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/vps-forge/references/ssh.md",
+        "line": 167,
+        "excerpt": "- **TOTP as a second factor:** `apt-get install libpam-google-authenticator`. The user runs `google-authenticator` **as themselves, interactively**, because the",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/vps-forge/references/ssh.md",
+        "line": 191,
+        "excerpt": "4. Last step, in one call, because afterwards you have no root: `sudo sh -c 'systemctl disable --now vps-forge-temp-sudo-expiry.timer; rm -f /etc/systemd/system",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/vps-forge/references/ssh.md",
+        "line": 191,
+        "excerpt": "4. Last step, in one call, because afterwards you have no root: `sudo sh -c 'systemctl disable --now vps-forge-temp-sudo-expiry.timer; rm -f /etc/systemd/system",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/vps-forge/references/ssh.md",
+        "line": 206,
+        "excerpt": "IdentityFile ~/.ssh/id_ed25519",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/vps-forge/references/troubleshooting.md",
+        "line": 5,
+        "excerpt": "An agent without the skill hardens a server with no dead-man switch. The sure sign: it changes SSH or the firewall without running `deadman.sh arm` first. It us",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/vps-forge/references/troubleshooting.md",
+        "line": 16,
+        "excerpt": "mv /etc/ssh/sshd_config.d/00-vps-forge.conf /root/   # also 01-vps-forge-crypto.conf",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/vps-forge/references/troubleshooting.md",
+        "line": 48,
+        "excerpt": "- `ImportError: systemd` → `apt-get install python3-systemd`.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/vps-forge/references/vpn.md",
+        "line": 18,
+        "excerpt": "curl -fsSL \"https://pkgs.tailscale.com/stable/$ID/$VERSION_CODENAME.noarmor.gpg\" -o /usr/share/keyrings/tailscale-archive-keyring.gpg",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "pkgs.tailscale.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/vps-forge/references/vpn.md",
+        "line": 19,
+        "excerpt": "curl -fsSL \"https://pkgs.tailscale.com/stable/$ID/$VERSION_CODENAME.tailscale-keyring.list\" -o /etc/apt/sources.list.d/tailscale.list",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "pkgs.tailscale.com"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/vps-forge/references/vpn.md",
+        "line": 20,
+        "excerpt": "apt-get update && apt-get install -y tailscale       # their signed apt repository, set up explicitly",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/vps-forge/references/vpn.md",
+        "line": 61,
+        "excerpt": "- Start it: `systemctl enable --now wg-quick@wg0`. A recent handshake in `wg show` only proves the keys and the UDP path, not routing: from the client, `ping 10",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "ifconfig.me"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/vps-forge/references/web.md",
+        "line": 71,
+        "excerpt": "curl -sSI http://example.com | head -n 3             # 301/308 → https",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "example.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/vps-forge/references/web.md",
+        "line": 72,
+        "excerpt": "curl -sSI https://example.com | grep -iE 'strict-transport|x-content-type|referrer-policy|server'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "example.com"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/vps-forge/scripts/external-check.sh",
+        "line": 263,
+        "excerpt": "warn \"ssh-audit requested but not installed (pipx install ssh-audit)\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/vps-forge/scripts/external-check.sh",
+        "line": 276,
+        "excerpt": "r=$(curl -sS -o /dev/null -w '%{http_code} %{redirect_url}' --max-time 10 \"http://$DOMAIN/\"); crc=$?",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$domain"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/vps-forge/scripts/external-check.sh",
+        "line": 301,
+        "excerpt": "hraw=$(curl -sS -D - -o /dev/null -L --max-redirs 5 --max-time 10 \"https://$DOMAIN/\" 2>&1); hrc=$?",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$domain"
+        ]
       },
       {
         "ruleId": "downloads-code",
         "file": "skills/vps-forge/scripts/install-alerts.sh",
         "line": 55,
         "excerpt": "command -v curl >/dev/null || { say \"installing curl\"; DEBIAN_FRONTEND=noninteractive apt-get install -y -qq curl >/dev/null; }",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "skills/vps-forge/scripts/install-alerts.sh",
-        "line": 100,
-        "excerpt": "cat > /usr/local/bin/vps-notify <<'EOF'",
         "disclosed": false,
         "automatic": false
       },
@@ -121,38 +501,6 @@
         "hosts": []
       },
       {
-        "ruleId": "writes-outside",
-        "file": "skills/vps-forge/scripts/install-alerts.sh",
-        "line": 177,
-        "excerpt": "cat > /usr/local/sbin/vps-forge-ssh-login <<'EOF'",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "skills/vps-forge/scripts/install-alerts.sh",
-        "line": 215,
-        "excerpt": "cp -a /etc/pam.d/sshd \"/etc/pam.d/.sshd.vps-forge-backup.$(date +%Y%m%d%H%M%S)\" 2>/dev/null || true",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "skills/vps-forge/scripts/install-alerts.sh",
-        "line": 216,
-        "excerpt": "printf '\\n# vps-forge: SSH login alert (optional: never blocks a login)\\n%s\\n' \"$PAM_LINE\" >> /etc/pam.d/sshd",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "skills/vps-forge/scripts/install-alerts.sh",
-        "line": 226,
-        "excerpt": "cat > /usr/local/sbin/vps-forge-health <<'EOF'",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "skills/vps-forge/scripts/install-alerts.sh",
         "line": 407,
@@ -160,35 +508,20 @@
         "disclosed": false,
         "automatic": false,
         "hosts": []
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "skills/vps-forge/scripts/install-alerts.sh",
-        "line": 413,
-        "excerpt": "cat > /etc/systemd/system/vps-forge-health.service <<'EOF'",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "skills/vps-forge/scripts/install-alerts.sh",
-        "line": 426,
-        "excerpt": "cat > /etc/systemd/system/vps-forge-health.timer <<'EOF'",
-        "disclosed": false,
-        "automatic": false
       }
     ],
     "findingTotals": {
-      "downloads-code": 3,
-      "reads-secrets": 1,
-      "network": 5,
-      "writes-outside": 10
+      "downloads-code": 17,
+      "reads-secrets": 3,
+      "network": 15,
+      "writes-outside": 34,
+      "shell": 2
     },
-    "score": 60,
+    "score": 57,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 32,
-    "filesSkipped": 74
+    "filesScanned": 105,
+    "filesSkipped": 1
   },
   "history": [
     {

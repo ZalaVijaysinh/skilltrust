@@ -4,30 +4,79 @@
   "repo": "k8s-skills",
   "path": "skills/k8s-istio-troubleshooting",
   "name": "k8s-istio-troubleshooting",
-  "description": "",
-  "stars": 35,
+  "description": "Use when traffic fails in an Istio service mesh on Kubernetes: HTTP 403 \"RBAC: access denied\" from an AuthorizationPolicy, 503 \"no healthy upstream\" or \"upstream connect error or disconnect/reset before headers\", 404 from a route that does not match, \"Connection reset by peer\" after PeerAuthentication STRICT, sidecars that are not injected, VirtualService, DestinationRule, Gateway or ServiceEntry rules that do not apply, or istiod and proxy problems. Reads Envoy's access log and response flags (UH, NR, UF, URX, filter_chain_not_found), covers sidecar mode and ambient mode, and proposes fixes. Investigates with kubectl get, describe, events and logs, asks before reading Envoy's admin API inside a proxy. Reads first and asks before changing anything.",
+  "stars": 36,
   "category": "devops",
-  "commit": "bfaba9c6fd833eaffc6772f2876c30d5777fddf9",
-  "contentHash": "388be58bf91a1a4f9c042a65812ca6018a7b81bad07124a5efb8dd2ea1564830",
+  "commit": "de23b57dd3888628abc62c20d2ed322751fc7d12",
+  "contentHash": "e3dec0b83c43c5f11389727c5d15b027e499b918e585766326c80211ac302239",
   "repoCreatedAt": "2026-10-23T12:54:21Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-istio-troubleshooting/SKILL.md",
+        "line": 72,
+        "excerpt": "kubectl get namespace my-namespace --show-labels",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-istio-troubleshooting/SKILL.md",
+        "line": 81,
+        "excerpt": "kubectl logs -n my-namespace deployment/my-web -c istio-proxy --tail=20",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-istio-troubleshooting/SKILL.md",
+        "line": 93,
+        "excerpt": "kubectl get virtualservices,destinationrules,gateways,serviceentries,sidecars -A",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-istio-troubleshooting/SKILL.md",
+        "line": 107,
+        "excerpt": "kubectl exec my-pod -n my-namespace -c istio-proxy -- pilot-agent request GET clusters",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-istio-troubleshooting/SKILL.md",
+        "line": 160,
+        "excerpt": "kubectl rollout restart deployment/my-web -n my-namespace",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 5
+    },
+    "score": 95,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 2,
-    "filesSkipped": 2
+    "filesScanned": 4,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "bfaba9c6fd833eaffc6772f2876c30d5777fddf9",
       "scannedAt": "2026-11-07T22:05:48.475Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "de23b57dd3888628abc62c20d2ed322751fc7d12",
+      "scannedAt": "2026-11-09T10:28:36.295Z",
+      "score": 95,
       "rulesVersion": "1.3.0"
     }
   ]

