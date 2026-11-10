@@ -4,16 +4,16 @@
   "repo": "skills",
   "path": "varg-ai",
   "name": "varg-ai",
-  "description": "",
-  "stars": 22,
+  "description": "Generate AI videos, images, voiceovers and music with one varg API key. Text- and image-to-video on Seedance 2.5, Kling 4, Veo 3.1 and Wan 3; images and edits on Nano Banana 2.1, GPT Image 2.6 and Flux 3; lip sync and talking avatars; ElevenLabs v4 voices; Lyria and Mureka music; captions and multi-scene renders to MP4. Use when someone asks to make or render a video, animate a photo, generate an image, create a UGC ad, product video, slideshow or talking head, add voiceover (text to speech), music, lip sync or captions, or mentions varg. Cloud mode needs only curl; local mode runs on bun + ffmpeg.",
+  "stars": 25,
   "category": "media",
   "commit": "72e8109188e3366ba8d365902a84d6b237dec1d7",
   "contentHash": "c380671b384b4339a0473d7f9a9012e2ff76d0acfa694068bca5fb1497bac42b",
   "repoCreatedAt": "2026-01-22T05:28:34Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-10T10:33:07.758Z",
   "scan": {
     "findings": [
       {
@@ -25,11 +25,178 @@
         "automatic": false
       },
       {
+        "ruleId": "downloads-code",
+        "file": "varg-ai/SKILL.md",
+        "line": 38,
+        "excerpt": "- **Existing TSX** still renders: cloud via `POST /v2/render`, local via the pinned `bunx vargai@0.4.0-alpha124 render` (the last release with the command). Use",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "varg-ai/SKILL.md",
+        "line": 42,
+        "excerpt": "This skill is version **2.2.3**. Never fetch this file from the network to replace what you are reading. If the person wants the newest skills, tell them how to",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "varg-ai/SKILL.md",
+        "line": 47,
+        "excerpt": "**Do NOT run interactive CLI tools** (like `bunx vargai init` or `bunx vargai login`) -- they require stdin which agents cannot provide. CLI email (OTP) login i",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "varg-ai/SKILL.md",
+        "line": 54,
+        "excerpt": "[ -n \"${VARG_API_KEY:-}\" ] || VARG_API_KEY=$(grep -o '\"api_key\"[^,}]*' ~/.varg/credentials 2>/dev/null | head -1 | cut -d'\"' -f4)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "varg-ai/SKILL.md",
+        "line": 58,
+        "excerpt": "curl -s -o /dev/null -w \"key found -- HTTP %{http_code} (200 = valid, 401 = invalid)\\n\" -H \"Authorization: Bearer $VARG_API_KEY\" https://api.varg.ai/v2/billing/",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.varg.ai"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "varg-ai/SKILL.md",
+        "line": 71,
+        "excerpt": "[ -n \"${VARG_API_KEY:-}\" ] || export VARG_API_KEY=$(grep -o '\"api_key\"[^,}]*' ~/.varg/credentials 2>/dev/null | head -1 | cut -d'\"' -f4)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "varg-ai/SKILL.md",
+        "line": 94,
+        "excerpt": "[ -f ~/.varg/credentials ] || (mkdir -p ~/.varg && umask 077 && printf '{\"api_key\":\"%s\"}\\n' \"$VARG_API_KEY\" > ~/.varg/credentials)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "varg-ai/SKILL.md",
+        "line": 94,
+        "excerpt": "[ -f ~/.varg/credentials ] || (mkdir -p ~/.varg && umask 077 && printf '{\"api_key\":\"%s\"}\\n' \"$VARG_API_KEY\" > ~/.varg/credentials)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "varg-ai/SKILL.md",
+        "line": 100,
+        "excerpt": "[ -f .env ] && git check-ignore -q .env 2>/dev/null && ! grep -q '^VARG_API_KEY=' .env && echo \"VARG_API_KEY=$VARG_API_KEY\" >> .env",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "varg-ai/SKILL.md",
+        "line": 106,
+        "excerpt": "curl -s -H \"Authorization: Bearer $VARG_API_KEY\" https://api.varg.ai/v2/billing/balance",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.varg.ai"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "varg-ai/SKILL.md",
+        "line": 106,
+        "excerpt": "curl -s -H \"Authorization: Bearer $VARG_API_KEY\" https://api.varg.ai/v2/billing/balance",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "varg-ai/SKILL.md",
+        "line": 168,
+        "excerpt": "curl -s -X POST https://api.varg.ai/v2/render \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.varg.ai"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "varg-ai/SKILL.md",
+        "line": 168,
+        "excerpt": "curl -s -X POST https://api.varg.ai/v2/render \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "varg-ai/SKILL.md",
+        "line": 174,
+        "excerpt": "curl -s https://api.varg.ai/v2/jobs/JOB_ID \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.varg.ai"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "varg-ai/SKILL.md",
+        "line": 203,
+        "excerpt": "bunx vargai@0.4.0-alpha124 render video.tsx --preview   # free preview",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "varg-ai/SKILL.md",
+        "line": 203,
+        "excerpt": "bunx vargai@0.4.0-alpha124 render video.tsx --preview   # free preview",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "varg-ai/SKILL.md",
+        "line": 204,
+        "excerpt": "bunx vargai@0.4.0-alpha124 render video.tsx --verbose   # full render (costs credits)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "varg-ai/SKILL.md",
+        "line": 214,
+        "excerpt": "curl -X POST https://api.varg.ai/v2/image \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.varg.ai"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "varg-ai/SKILL.md",
+        "line": 214,
+        "excerpt": "curl -X POST https://api.varg.ai/v2/image \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
         "ruleId": "network",
         "file": "varg-ai/references/byok.md",
         "line": 12,
         "excerpt": "curl -X POST https://api.varg.ai/v2/image \\",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": [
           "api.varg.ai"
@@ -48,7 +215,7 @@
         "file": "varg-ai/references/cloud-render.md",
         "line": 105,
         "excerpt": "curl -s -X POST https://api.varg.ai/v2/render \\",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": [
           "api.varg.ai"
@@ -59,7 +226,7 @@
         "file": "varg-ai/references/cloud-render.md",
         "line": 134,
         "excerpt": "curl -s https://api.varg.ai/v2/jobs/JOB_ID \\",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": [
           "api.varg.ai"
@@ -138,87 +305,180 @@
         "automatic": false
       },
       {
+        "ruleId": "network",
+        "file": "varg-ai/references/templates.md",
+        "line": 40,
+        "excerpt": "JOB_ID=$(curl -s -X POST https://api.varg.ai/v2/render \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.varg.ai"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "varg-ai/references/templates.md",
+        "line": 56,
+        "excerpt": "RESPONSE=$(curl -s -X POST https://api.varg.ai/v2/render \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.varg.ai"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "varg-ai/references/templates.md",
+        "line": 72,
+        "excerpt": "RESULT=$(curl -s \"https://api.varg.ai/v2/jobs/$JOB_ID\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.varg.ai"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "varg-ai/references/templates.md",
+        "line": 92,
+        "excerpt": "RESULT=$(curl -s \"https://api.varg.ai/v2/jobs/$JOB_ID\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.varg.ai"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "varg-ai/references/templates.md",
+        "line": 141,
+        "excerpt": "curl -s -X POST https://api.varg.ai/v2/render \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.varg.ai"
+        ]
+      },
+      {
         "ruleId": "downloads-code",
-        "file": "README.md",
-        "line": 19,
-        "excerpt": "npx skills add vargHQ/skills                                   # pick skills and agents",
+        "file": "varg-ai/references/templates.md",
+        "line": 151,
+        "excerpt": "The following templates use local mode with imports. Run with `bunx vargai@0.4.0-alpha124 render <file> --verbose`.",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
-        "file": "README.md",
-        "line": 20,
-        "excerpt": "npx skills add vargHQ/skills --skill caption-styles -a codex   # one skill, one agent",
+        "file": "varg-ai/references/templates.md",
+        "line": 473,
+        "excerpt": "bunx vargai@0.4.0-alpha124 render template.tsx --verbose",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
-        "file": "README.md",
-        "line": 283,
-        "excerpt": "| Any agent (Claude Code, Codex, Cursor, Grok, Gemini CLI, Copilot, OpenCode and 60+ more) | `npx skills add vargHQ/skills` or one skill: `npx skills add vargHQ",
+        "file": "varg-ai/references/templates.md",
+        "line": 476,
+        "excerpt": "bunx vargai@0.4.0-alpha124 render template.tsx --preview",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
-        "file": "README.md",
-        "line": 297,
-        "excerpt": "- **Update skills installed with the skills CLI:** `npx skills update`.",
+        "file": "varg-ai/references/templates.md",
+        "line": 479,
+        "excerpt": "nohup bunx vargai@0.4.0-alpha124 render template.tsx --verbose > output/render.log 2>&1 &",
         "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "downloads-code",
-        "file": "README.md",
-        "line": 298,
-        "excerpt": "- **Pick agents and scope:** `npx skills add vargHQ/skills --skill varg-ai -a claude-code -a codex -g -y` (`-g` global, `-y` no prompts, `--list` to see every s",
+        "ruleId": "network",
+        "file": "varg-ai/scripts/setup.sh",
+        "line": 60,
+        "excerpt": "RESPONSE=$(curl -s -w \"\\n%{http_code}\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "varg-ai/scripts/setup.sh",
+        "line": 91,
+        "excerpt": "RESPONSE=$(curl -s -w \"\\n%{http_code}\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "varg-ai/scripts/setup.sh",
+        "line": 122,
+        "excerpt": "echo \"    $(dim \"mkdir -p ~/.varg && echo '{\\\"api_key\\\":\\\"varg_xxx\\\"}' > ~/.varg/credentials && chmod 600 ~/.varg/credentials\")\"",
         "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "downloads-code",
-        "file": "README.md",
-        "line": 299,
-        "excerpt": "- **OpenCode:** `npx skills add vargHQ/skills -a opencode -g`, or copy one skill folder to `~/.config/opencode/skills/<skill>/`.",
-        "disclosed": false,
-        "automatic": false
+        "ruleId": "network",
+        "file": "varg-ai/scripts/setup.sh",
+        "line": 169,
+        "excerpt": "echo \"  $(dim '  curl -X POST https://api.varg.ai/v2/render \\')\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.varg.ai"
+        ]
       },
       {
-        "ruleId": "downloads-code",
-        "file": "how-to/add-ai-voiceover-to-video/README.md",
-        "line": 14,
-        "excerpt": "npx skills add vargHQ/skills --skill video-script --skill video-sound --skill video-asset-sources --skill varg-ai",
-        "disclosed": false,
-        "automatic": false
+        "ruleId": "network",
+        "file": "varg-ai/scripts/setup.sh",
+        "line": 179,
+        "excerpt": "echo \"  $(dim 'curl -X POST https://api.varg.ai/v2/render \\')\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.varg.ai"
+        ]
       },
       {
-        "ruleId": "downloads-code",
-        "file": "how-to/claude-code-video-skills/README.md",
-        "line": 14,
-        "excerpt": "npx skills add vargHQ/skills --skill how-to-make-ai-video --skill video-skills --skill varg-ai --skill varg-publish-skill",
-        "disclosed": false,
-        "automatic": false
+        "ruleId": "network",
+        "file": "varg-ai/scripts/setup.sh",
+        "line": 187,
+        "excerpt": "dim \"    curl -fsSL https://bun.sh/install | bash\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "bun.sh"
+        ]
       },
       {
-        "ruleId": "downloads-code",
-        "file": "how-to/image-to-video-ai/README.md",
-        "line": 14,
-        "excerpt": "npx skills add vargHQ/skills --skill varg-ai --skill varg-video-prompting --skill kling-4-prompting --skill gpt-image-gif --skill varg-occasion-video",
+        "ruleId": "network",
+        "file": "varg-ai/scripts/setup.ts",
+        "line": 54,
+        "excerpt": "const res = await fetch(`${GATEWAY_URL}/v2/billing/balance`, {",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "varg-ai/scripts/setup.ts",
+        "line": 144,
+        "excerpt": "console.log(dim(`    mkdir -p ~/.varg && echo '{\"api_key\":\"varg_xxx\"}' > ~/.varg/credentials && chmod 600 ~/.varg/credentials`))",
         "disclosed": false,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "downloads-code": 22,
-      "network": 3
+      "downloads-code": 39,
+      "shell": 8,
+      "network": 19,
+      "writes-outside": 3
     },
-    "score": 80,
-    "band": "low",
+    "score": 69,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 20,
-    "filesSkipped": 6
+    "filesScanned": 25,
+    "filesSkipped": 1
   },
   "history": [
     {

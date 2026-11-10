@@ -1,0 +1,339 @@
+{
+  "id": "nvidia__model-optimizer__plugins~modelopt~skills~deployment",
+  "owner": "NVIDIA",
+  "repo": "Model-Optimizer",
+  "path": "plugins/modelopt/skills/deployment",
+  "name": "deployment",
+  "description": "Serve a quantized or unquantized LLM checkpoint as an OpenAI-compatible API endpoint using vLLM, SGLang, or TRT-LLM. Use when user says \"deploy model\", \"serve model\", \"start vLLM server\", \"launch SGLang\", \"TRT-LLM deploy\", \"AutoDeploy\", \"benchmark throughput\", \"serve checkpoint\", or needs an inference endpoint from a HuggingFace or ModelOpt-quantized checkpoint. Do NOT use for quantizing models (use ptq) or evaluating accuracy (use evaluation).",
+  "stars": 5579,
+  "category": "devops",
+  "commit": "6713c5a679fab80fdd9b688df01845f545c307b1",
+  "contentHash": "a716b29064111f6d021b05e6c1bce9849280152bb4cc2de78f0f25fcd2429cfb",
+  "repoCreatedAt": "2024-04-23T19:00:54Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-10T10:33:07.758Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "plugins/modelopt/skills/deployment/SKILL.md",
+        "line": 17,
+        "excerpt": "\"$SKILL_DIR/scripts/deploy.sh\" start --model ./qwen3-0.6b-fp8",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/modelopt/skills/deployment/SKILL.md",
+        "line": 44,
+        "excerpt": "ls \"$MODELOPT_WORKSPACE_ROOT/<session_id>/\" 2>/dev/null",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/modelopt/skills/deployment/SKILL.md",
+        "line": 62,
+        "excerpt": "cat <checkpoint_path>/hf_quant_config.json 2>/dev/null || echo \"No hf_quant_config.json\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/modelopt/skills/deployment/SKILL.md",
+        "line": 87,
+        "excerpt": "python -c \"import vllm; print(f'vLLM {vllm.__version__}')\" 2>/dev/null || echo \"vLLM not installed\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/modelopt/skills/deployment/SKILL.md",
+        "line": 119,
+        "excerpt": "python -m vllm.entrypoints.openai.api_server \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/modelopt/skills/deployment/SKILL.md",
+        "line": 148,
+        "excerpt": "python -m sglang.launch_server \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/modelopt/skills/deployment/SKILL.md",
+        "line": 185,
+        "excerpt": "curl -s http://localhost:8000/health",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/modelopt/skills/deployment/SKILL.md",
+        "line": 185,
+        "excerpt": "curl -s http://localhost:8000/health",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/modelopt/skills/deployment/SKILL.md",
+        "line": 188,
+        "excerpt": "curl -s http://localhost:8000/v1/models | python -m json.tool",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/modelopt/skills/deployment/SKILL.md",
+        "line": 191,
+        "excerpt": "curl -s http://localhost:8000/v1/completions \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/modelopt/skills/deployment/SKILL.md",
+        "line": 220,
+        "excerpt": "source \"<common-skill-dir>/remote_exec.sh\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/modelopt/skills/deployment/SKILL.md",
+        "line": 231,
+        "excerpt": "remote_sync_to <local_checkpoint_path> <session_id>/<model>/checkpoints/",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/modelopt/skills/deployment/SKILL.md",
+        "line": 241,
+        "excerpt": "remote_run \"nohup python -m vllm.entrypoints.openai.api_server --model <path> --port 8000 > deploy.log 2>&1 &\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/modelopt/skills/deployment/SKILL.md",
+        "line": 247,
+        "excerpt": "remote_run \"curl -s http://localhost:8000/health\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/modelopt/skills/deployment/SKILL.md",
+        "line": 247,
+        "excerpt": "remote_run \"curl -s http://localhost:8000/health\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/modelopt/skills/deployment/SKILL.md",
+        "line": 248,
+        "excerpt": "remote_run \"curl -s http://localhost:8000/v1/models\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/modelopt/skills/deployment/references/benchmarking.md",
+        "line": 20,
+        "excerpt": "aiperf-venv/bin/pip install -q aiperf",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/modelopt/skills/deployment/references/benchmarking.md",
+        "line": 33,
+        "excerpt": "curl -s http://localhost:8000/v1/chat/completions \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/modelopt/skills/deployment/references/setup.md",
+        "line": 8,
+        "excerpt": "pip install vllm",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/modelopt/skills/deployment/references/setup.md",
+        "line": 16,
+        "excerpt": "pip install \"sglang[all]\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/modelopt/skills/deployment/references/setup.md",
+        "line": 32,
+        "excerpt": "pip install tensorrt-llm",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/modelopt/skills/deployment/references/setup.md",
+        "line": 57,
+        "excerpt": "bash -c \"python -m vllm.entrypoints.openai.api_server \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/modelopt/skills/deployment/references/sglang.md",
+        "line": 29,
+        "excerpt": "- `pip install sglang[all]`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/modelopt/skills/deployment/references/trtllm.md",
+        "line": 7,
+        "excerpt": "- Or: `pip install tensorrt-llm`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/modelopt/skills/deployment/references/unsupported-models.md",
+        "line": 42,
+        "excerpt": "- **`VLLM_USE_PRECOMPILED=1 pip install --editable .`** — when patching vLLM source directly (instead of `sed`), this rebuilds only Python code without recompil",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/modelopt/skills/deployment/references/vllm.md",
+        "line": 6,
+        "excerpt": "- `pip install vllm`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/modelopt/skills/deployment/scripts/deploy.sh",
+        "line": 362,
+        "excerpt": "if curl -s \"http://localhost:$PORT/health\" >/dev/null 2>&1; then",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/modelopt/skills/deployment/scripts/deploy.sh",
+        "line": 430,
+        "excerpt": "if ! curl -s \"http://localhost:$PORT/health\" >/dev/null 2>&1; then",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/modelopt/skills/deployment/scripts/deploy.sh",
+        "line": 438,
+        "excerpt": "curl -s \"http://localhost:$PORT/v1/models\" | python3 -m json.tool 2>/dev/null || true",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/modelopt/skills/deployment/scripts/deploy.sh",
+        "line": 443,
+        "excerpt": "model_id=$(curl -s \"http://localhost:$PORT/v1/models\" | python3 -c \"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/modelopt/skills/deployment/scripts/deploy.sh",
+        "line": 461,
+        "excerpt": "response=$(curl -s \"http://localhost:$PORT/v1/completions\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/modelopt/skills/deployment/tests/evals.json",
+        "line": 36,
+        "excerpt": "\"Verifies remotely: remote_run 'curl -s http://localhost:8000/health'\",",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/modelopt/.claude-plugin/plugin.json",
+        "line": 22,
+        "excerpt": "\"command\": \"uvx\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/modelopt/.claude-plugin/plugin.json",
+        "line": 22,
+        "excerpt": "\"command\": \"uvx\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/modelopt/.mcp.json",
+        "line": 3,
+        "excerpt": "\"command\": \"uvx\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/modelopt/.mcp.json",
+        "line": 3,
+        "excerpt": "\"command\": \"uvx\",",
+        "disclosed": false,
+        "automatic": true
+      }
+    ],
+    "findingTotals": {
+      "shell": 14,
+      "network": 12,
+      "downloads-code": 10
+    },
+    "score": 77,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 13,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "6713c5a679fab80fdd9b688df01845f545c307b1",
+      "scannedAt": "2026-11-10T10:33:07.758Z",
+      "score": 77,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

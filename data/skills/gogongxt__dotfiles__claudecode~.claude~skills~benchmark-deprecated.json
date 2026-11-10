@@ -1,0 +1,207 @@
+{
+  "id": "gogongxt__dotfiles__claudecode~.claude~skills~benchmark-deprecated",
+  "owner": "gogongxt",
+  "repo": "dotfiles",
+  "path": "claudecode/.claude/skills/benchmark-deprecated",
+  "name": "benchmark-deprecated",
+  "description": "Run LLM serving benchmarks (sglang/vllm) on remote GPU machines - environment check, service launch, benchmark execution, and result collection",
+  "stars": 57,
+  "category": "other",
+  "commit": "8bca2f0f3649f53d9b5bbadd075d30dbd9ef5710",
+  "contentHash": "8b47bff2b3d0f5de9717736cbbef9981511b712c7c4e5875c62a77edda48d319",
+  "repoCreatedAt": "2023-05-13T15:01:13Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-10T10:33:07.758Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "claudecode/.claude/skills/benchmark-deprecated/SKILL.md",
+        "line": 59,
+        "excerpt": "ssh <host> \"test -f <BENCH_SH> && echo 'bench.sh OK' || echo 'bench.sh MISSING'\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "claudecode/.claude/skills/benchmark-deprecated/SKILL.md",
+        "line": 77,
+        "excerpt": "ssh <host> \"pip show sglang 2>/dev/null | head -2; pip show vllm 2>/dev/null | head -2\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "claudecode/.claude/skills/benchmark-deprecated/SKILL.md",
+        "line": 80,
+        "excerpt": "ssh <host> \"docker exec <CONTAINER> bash -c 'pip show sglang 2>/dev/null | head -2; pip show vllm 2>/dev/null | head -2'\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "claudecode/.claude/skills/benchmark-deprecated/SKILL.md",
+        "line": 90,
+        "excerpt": "python3 -m sglang.launch_server \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "claudecode/.claude/skills/benchmark-deprecated/SKILL.md",
+        "line": 102,
+        "excerpt": "vllm serve <MODEL_PATH> \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "claudecode/.claude/skills/benchmark-deprecated/SKILL.md",
+        "line": 141,
+        "excerpt": "ssh <host> \"grep -i 'kv cache\\|tokens' <service_log> | tail -5\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "claudecode/.claude/skills/benchmark-deprecated/SKILL.md",
+        "line": 179,
+        "excerpt": "ssh <host> \"nvidia-smi --query-gpu=index,name,memory.total --format=csv,noheader,nounits\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "claudecode/.claude/skills/benchmark-deprecated/SKILL.md",
+        "line": 187,
+        "excerpt": "ssh <host> \"nvidia-smi --query-gpu=index,memory.used,memory.free,utilization.gpu --format=csv,noheader,nounits\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "claudecode/.claude/skills/benchmark-deprecated/SKILL.md",
+        "line": 206,
+        "excerpt": "ssh <host> \"nohup python3 -m sglang.launch_server --model-path <MODEL_PATH> --tp <tp> --host 0.0.0.0 --port <SERVE_PORT> > <LOG_DIR>/serve-$(date +%Y%m%d-%H%M%S",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "claudecode/.claude/skills/benchmark-deprecated/SKILL.md",
+        "line": 212,
+        "excerpt": "ssh <host> \"docker exec -d <CONTAINER> bash -c 'python3 -m sglang.launch_server --model-path <MODEL_PATH> --tp <tp> --host 0.0.0.0 --port <SERVE_PORT> > <LOG_DI",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "claudecode/.claude/skills/benchmark-deprecated/SKILL.md",
+        "line": 215,
+        "excerpt": "ssh <host> \"docker exec -d <CONTAINER> bash -c 'vllm serve <MODEL_PATH> --host 0.0.0.0 --port <SERVE_PORT> --tensor-parallel-size <tp> > <LOG_DIR>/serve-$(date ",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "claudecode/.claude/skills/benchmark-deprecated/SKILL.md",
+        "line": 225,
+        "excerpt": "for i in $(seq 1 120); do",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "claudecode/.claude/skills/benchmark-deprecated/SKILL.md",
+        "line": 226,
+        "excerpt": "if ssh <host> \"curl -sf http://127.0.0.1:<SERVE_PORT>/health\"; then",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "claudecode/.claude/skills/benchmark-deprecated/SKILL.md",
+        "line": 238,
+        "excerpt": "ssh <host> \"tail -50 <LOG_DIR>/serve-<timestamp>-<model>-tp<tp>.log\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "claudecode/.claude/skills/benchmark-deprecated/SKILL.md",
+        "line": 260,
+        "excerpt": "ssh <host> \"grep -i 'kv cache\\|tokens' <LOG_DIR>/serve-<timestamp>-<model>-tp<tp>.log | tail -5\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "claudecode/.claude/skills/benchmark-deprecated/SKILL.md",
+        "line": 291,
+        "excerpt": "ssh <host> \"cd <BENCH_DIR> && \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "claudecode/.claude/skills/benchmark-deprecated/SKILL.md",
+        "line": 304,
+        "excerpt": "ssh <host> \"docker exec <CONTAINER> bash -c 'cd <BENCH_DIR> && \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "claudecode/.claude/skills/benchmark-deprecated/SKILL.md",
+        "line": 337,
+        "excerpt": "ssh <host> \"kill <pid> 2>/dev/null; sleep 5\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "claudecode/.claude/skills/benchmark-deprecated/SKILL.md",
+        "line": 347,
+        "excerpt": "ssh <host> \"pkill -f 'python.*sglang.*launch_server.*--port <SERVE_PORT>' || pkill -f 'vllm serve.*--port <SERVE_PORT>' || true\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "claudecode/.claude/skills/benchmark-deprecated/SKILL.md",
+        "line": 350,
+        "excerpt": "ssh <host> \"docker exec <CONTAINER> bash -c 'pkill -f \\\"python.*sglang.*launch_server.*--port <SERVE_PORT>\\\" || pkill -f \\\"vllm serve.*--port <SERVE_PORT>\\\" || ",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "claudecode/.claude/skills/benchmark-deprecated/SKILL.md",
+        "line": 356,
+        "excerpt": "ssh <host> \"ps aux | grep '<SERVE_PORT>' | grep -v grep\"",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 23,
+      "network": 1
+    },
+    "score": 92,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "8bca2f0f3649f53d9b5bbadd075d30dbd9ef5710",
+      "scannedAt": "2026-11-10T10:33:07.758Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

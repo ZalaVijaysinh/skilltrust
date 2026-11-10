@@ -1,0 +1,181 @@
+{
+  "id": "glowingkitty__openmates__.claude~skills~update-prod-server",
+  "owner": "glowingkitty",
+  "repo": "OpenMates",
+  "path": ".claude/skills/update-prod-server",
+  "name": "update-prod-server",
+  "description": "Monitor a production release, verify frontend/backend compatibility, update prod via OpenMates CLI over prod SSH, then verify frontend promotion.",
+  "stars": 53,
+  "category": "design",
+  "commit": "9f30b48af4e3bc3a77df2382c5fd9563540505d4",
+  "contentHash": "e7424a906e9a6750319db61f1626ee53dfc1a47d7789819518aad8861ebc8643",
+  "repoCreatedAt": "2024-01-25T12:24:45Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-10T10:33:07.758Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/update-prod-server/SKILL.md",
+        "line": 34,
+        "excerpt": "python3 scripts/sessions.py start --mode feature --task \"update production server from merged PR\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/update-prod-server/SKILL.md",
+        "line": 45,
+        "excerpt": "gh pr view <PR> --repo glowingkitty/OpenMates --json number,state,mergedAt,mergeCommit,headRefOid,baseRefName,title,url",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/update-prod-server/SKILL.md",
+        "line": 107,
+        "excerpt": "python3 scripts/verify_release_api_routes.py --schema-file <LIVE_ROUTES_JSON> --require POST /v1/auth/password-v2/challenge",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/update-prod-server/SKILL.md",
+        "line": 127,
+        "excerpt": "gh run watch <RUN_ID> --repo glowingkitty/OpenMates --interval 30 --exit-status",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/update-prod-server/SKILL.md",
+        "line": 135,
+        "excerpt": "vercel ls open-mates-webapp --meta githubCommitSha=<MERGE_SHA>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/update-prod-server/SKILL.md",
+        "line": 166,
+        "excerpt": "./scripts/prod-ssh.sh status",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/update-prod-server/SKILL.md",
+        "line": 173,
+        "excerpt": "set -euo pipefail; set +u; set -a; source .env; set +a; set -u; key=\"${PROD_SSH_KEY/#\\~/$HOME}\"; if [ -f \"${key}.pub\" ]; then printf '%s\\n' \"$(<\"${key}.pub\")\"; ",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/update-prod-server/SKILL.md",
+        "line": 179,
+        "excerpt": "./scripts/temp-ssh-access.sh start \"<DEV_PUBKEY>\" --minutes 30",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/update-prod-server/SKILL.md",
+        "line": 186,
+        "excerpt": "printf '%s\\n' '<TOTP>' | ./scripts/prod-ssh.sh open",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/update-prod-server/SKILL.md",
+        "line": 200,
+        "excerpt": "./scripts/prod-ssh.sh \"openmates --version\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/update-prod-server/SKILL.md",
+        "line": 227,
+        "excerpt": "./scripts/prod-ssh.sh \"env OPENMATES_SELFHOST_COMPOSE_URL=https://raw.githubusercontent.com/glowingkitty/OpenMates/<MERGE_SHA>/frontend/packages/openmates-cli/t",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/update-prod-server/SKILL.md",
+        "line": 247,
+        "excerpt": "./scripts/prod-ssh.sh \"openmates server status --path /home/superdev/openmates --json\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/update-prod-server/SKILL.md",
+        "line": 277,
+        "excerpt": "./scripts/prod-ssh.sh \"env OPENMATES_SELFHOST_COMPOSE_URL=https://raw.githubusercontent.com/glowingkitty/OpenMates/<MERGE_SHA>/frontend/packages/openmates-cli/t",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/update-prod-server/SKILL.md",
+        "line": 283,
+        "excerpt": "./scripts/prod-ssh.sh \"env OPENMATES_SELFHOST_COMPOSE_URL=https://raw.githubusercontent.com/glowingkitty/OpenMates/<MERGE_SHA>/frontend/packages/openmates-cli/t",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/update-prod-server/SKILL.md",
+        "line": 290,
+        "excerpt": "./scripts/prod-ssh.sh \"env OPENMATES_SELFHOST_COMPOSE_URL=https://raw.githubusercontent.com/glowingkitty/OpenMates/<MERGE_SHA>/frontend/packages/openmates-cli/t",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/update-prod-server/SKILL.md",
+        "line": 302,
+        "excerpt": "./scripts/prod-ssh.sh \"openmates server update --path /home/superdev/openmates --exclude webapp --image-tag <LAST_HEALTHY_TAG> --yes\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/update-prod-server/SKILL.md",
+        "line": 315,
+        "excerpt": "./scripts/prod-ssh.sh \"openmates server status --path /home/superdev/openmates\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/update-prod-server/SKILL.md",
+        "line": 386,
+        "excerpt": "./scripts/prod-ssh.sh close",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 18
+    },
+    "score": 95,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "9f30b48af4e3bc3a77df2382c5fd9563540505d4",
+      "scannedAt": "2026-11-10T10:33:07.758Z",
+      "score": 95,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

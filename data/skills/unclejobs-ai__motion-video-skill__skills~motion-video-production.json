@@ -5,15 +5,15 @@
   "path": "skills/motion-video-production",
   "name": "motion-video-production",
   "description": "Plan, build and verify 15–90 second motion graphics, promo and character videos. Take a reference video apart with OpenCV into measured targets, then produce through gated stages (story, character, keyframes, clips, voice and music, assembly) on a bundled engine, Remotion (carry oracle, one-word cut template) or HyperFrames, and judge the rendered mp4 against the targets. Voice via ElevenLabs or Fish Audio through the composio CLI, a procedural score, mix and verify. Use for video production, reference matching, keyframes, character consistency and motion graphics assembly. 모션 그래픽·홍보 영상·캐릭터 영상 제작과 레퍼런스 영상 분석에 사용한다.",
-  "stars": 136,
+  "stars": 138,
   "category": "media",
   "commit": "5fe3cca881eb1d5e397d415c7862cee73ee473c7",
   "contentHash": "aab52d31d3c48311489dfbc961c26a5ddb299c60870fc783f2f8ec98fce9da0b",
   "repoCreatedAt": "2026-10-02T07:52:47Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-10T10:33:07.758Z",
   "scan": {
     "findings": [
       {
@@ -63,17 +63,271 @@
         "excerpt": "const dur = f => Number(execFileSync('ffprobe', ['-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', f], { encoding: 'utf8' }).trim());",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/motion-video-production/engines/remotion/pipeline/vo.mjs",
+        "line": 9,
+        "excerpt": "import { execFileSync } from 'node:child_process';",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/motion-video-production/engines/remotion/pipeline/vo.mjs",
+        "line": 22,
+        "excerpt": "const list = JSON.parse(execFileSync('composio', ['link', TOOLKIT[v.provider], '--list'], { encoding: 'utf8' }));",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/motion-video-production/engines/remotion/pipeline/vo.mjs",
+        "line": 29,
+        "excerpt": "const out = execFileSync('composio', ['execute', slug, '--account', account, '-d', JSON.stringify(data)], { encoding: 'utf8', maxBuffer: 64 << 20 });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/motion-video-production/engines/remotion/pipeline/vo.mjs",
+        "line": 54,
+        "excerpt": "execFileSync('curl', ['-sSfL', '-o', file, url]);",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/motion-video-production/engines/remotion/productions/wordcut/drift.mjs",
+        "line": 14,
+        "excerpt": "import { execFileSync } from 'node:child_process';",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/motion-video-production/engines/remotion/productions/wordcut/drift.mjs",
+        "line": 37,
+        "excerpt": "execFileSync('node', ['productions/wordcut/render.mjs', 'stills', aspect, ...frames.map(String), ...flag, '--out', out], { stdio: 'inherit' });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/motion-video-production/engines/remotion/productions/wordcut/drift.mjs",
+        "line": 40,
+        "excerpt": "const rgb = (png) => execFileSync('ffmpeg', ['-loglevel', 'error', '-i', png, '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-'], { maxBuffer: W * H * 4 });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/motion-video-production/engines/remotion/productions/wordcut/focus.mjs",
+        "line": 7,
+        "excerpt": "import { execFileSync } from 'node:child_process';",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/motion-video-production/engines/remotion/productions/wordcut/focus.mjs",
+        "line": 20,
+        "excerpt": "const [w0, h0] = execFileSync('ffprobe', ['-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=width,height', '-of', 'csv=p=0', src]).toString().tr",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/motion-video-production/engines/remotion/productions/wordcut/focus.mjs",
+        "line": 22,
+        "excerpt": "const rgb = execFileSync('ffmpeg', ['-loglevel', 'error', '-i', src, '-vf', `select=eq(n\\\\,${n}),scale=${W}:${H}:flags=area`, '-frames:v', '1', '-f', 'rawvideo'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/motion-video-production/engines/remotion/productions/wordcut/focus.mjs",
+        "line": 42,
+        "excerpt": "execFileSync('ffmpeg', ['-loglevel', 'error', '-y', '-i', src, '-vf', `select='${sel}',scale=${portrait ? '270:480' : '480:270'},tile=${portrait ? '9x2' : '6x3'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/motion-video-production/engines/remotion/productions/wordcut/frame0.mjs",
+        "line": 14,
+        "excerpt": "import { execFileSync } from 'node:child_process';",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/motion-video-production/engines/remotion/productions/wordcut/frame0.mjs",
+        "line": 22,
+        "excerpt": "const [w0, h0] = execFileSync('ffprobe', ['-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=width,height', '-of', 'csv=p=0', src]).toString().tr",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/motion-video-production/engines/remotion/productions/wordcut/frame0.mjs",
+        "line": 24,
+        "excerpt": "const rgb = execFileSync('ffmpeg', ['-loglevel', 'error', ...(t ? ['-ss', t] : []), '-i', src, '-frames:v', '1', '-vf', `scale=${W}:${H}:flags=area`, '-f', 'raw",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/motion-video-production/engines/remotion/productions/wordcut/look-fit.mjs",
+        "line": 8,
+        "excerpt": "import { execFileSync } from 'node:child_process';",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/motion-video-production/engines/remotion/productions/wordcut/render.mjs",
+        "line": 32,
+        "excerpt": "return undefined; // Remotion's own headless shell (`npx remotion browser ensure` downloads it once; ask first)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/motion-video-production/references/engines.md",
+        "line": 16,
+        "excerpt": "| 렌더 브라우저 | Playwright 헤드리스 셸이나 `CHROME_PATH`. 없으면 `npx remotion browser ensure`(다운로드, 먼저 물어봄) | 시스템 Chrome. 없으면 `npx hyperframes browser ensure`(다운로드, 먼저 물어봄) ",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/motion-video-production/references/engines.md",
+        "line": 67,
+        "excerpt": "| 검사 | `npx hyperframes lint`, `npx hyperframes validate` |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/motion-video-production/references/engines.md",
+        "line": 68,
+        "excerpt": "| 미리보기 | `npx hyperframes preview` (계속 도는 서버) |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/motion-video-production/references/engines.md",
+        "line": 69,
+        "excerpt": "| 렌더 | `npx hyperframes render --fps 30 --quality high -o renders/<이름>.mp4` |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/motion-video-production/references/engines.md",
+        "line": 71,
+        "excerpt": "`index.html`의 루트 요소에 `data-composition-id`, `data-width`, `data-height`, `data-duration`을 두고, `gsap.timeline({ paused: true })`를 `window.__timelines[\"<컴포지션 ID>\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/motion-video-production/references/providers.md",
+        "line": 33,
+        "excerpt": "- `pip install openai-whisper` 후 `whisper <wav> --model small --language ko`.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/motion-video-production/references/reference-analysis.md",
+        "line": 11,
+        "excerpt": ".venv-ref/bin/pip install -r \"$SKILL_ROOT/scripts/requirements-ref.txt\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/motion-video-production/scripts/verify.sh",
+        "line": 46,
+        "excerpt": "echo \"== whisper 미설치: 받아쓰기 생략 (pip install openai-whisper)\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/motion-video-production/timeline/README.md",
+        "line": 77,
+        "excerpt": "- Captions are burned into the picture, matching the preview, when ffmpeg has libass. The build uses `$FFMPEG`, else `ffmpeg` on PATH, else Homebrew's keg-only ",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/motion-video-production/timeline/build.mjs",
+        "line": 81,
+        "excerpt": "if (burn && !canBurn) console.warn(`${FFMPEG} has no subtitles filter (libass), so the text goes in as a subtitle track only. macOS: brew install ffmpeg-full; e",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/motion-video-production/timeline/editor.html",
+        "line": 189,
+        "excerpt": "const r = await fetch(`/api/doc${first ? '' : `?since=${S.rev}`}`);",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/motion-video-production/timeline/editor.html",
+        "line": 209,
+        "excerpt": "const r = await fetch('/api/apply', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ops, revision: S.rev }) });",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/motion-video-production/timeline/editor.html",
+        "line": 298,
+        "excerpt": "if (!S.peaks[a.file]) S.peaks[a.file] = fetch(`/api/peaks?file=${encodeURIComponent(a.file)}`).then((r) => (r.ok ? r.json() : []));",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/motion-video-production/timeline/editor.html",
+        "line": 507,
+        "excerpt": "if (!S.buffers[file]) S.buffers[file] = fetch(`/media/${file.split('/').map(encodeURIComponent).join('/')}`).then((r) => r.arrayBuffer()).then((b) => ctx.decode",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/motion-video-production/timeline/editor.html",
+        "line": 573,
+        "excerpt": "const r = await (await fetch(path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' })).json();",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
       }
     ],
     "findingTotals": {
-      "downloads-code": 1,
-      "shell": 5
+      "downloads-code": 12,
+      "shell": 35,
+      "network": 5
     },
-    "score": 80,
-    "band": "low",
+    "score": 75,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 21,
-    "filesSkipped": 68
+    "filesScanned": 88,
+    "filesSkipped": 1
   },
   "history": [
     {

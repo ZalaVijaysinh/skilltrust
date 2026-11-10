@@ -4,24 +4,293 @@
   "repo": "vercel-plugin",
   "path": ".claude/skills/benchmark-sandbox",
   "name": "benchmark-sandbox",
-  "description": "",
-  "stars": 328,
-  "category": "other",
-  "commit": "2a163af1e4b9ba5f8a02de3737eb0c884e21d765",
+  "description": "Run vercel-plugin eval scenarios in Vercel Sandboxes instead of local WezTerm panels. Provisions ephemeral microVMs with Claude Code + plugin pre-installed, runs benchmark prompts, extracts hook artifacts, and produces coverage reports.",
+  "stars": 329,
+  "category": "coding",
+  "commit": "39e5102c79293b91a02d84543c197940fa383852",
   "contentHash": "65681d0cda96d09a5b55a2dcf399ca7db1ca197e72bc7aed834061ab56c1987d",
   "repoCreatedAt": "2026-03-04T16:46:22Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-10T10:33:07.758Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/benchmark-sandbox/SKILL.md",
+        "line": 22,
+        "excerpt": "bun run .claude/skills/benchmark-sandbox/run-eval.ts",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/benchmark-sandbox/SKILL.md",
+        "line": 141,
+        "excerpt": "2. **Plugin install**: Use `npx add-plugin <path> -s project -y --target claude-code` — works because claude is in PATH after `npm install -g`. The `--target cl",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/benchmark-sandbox/SKILL.md",
+        "line": 145,
+        "excerpt": "6. **OIDC for sandbox SDK**: Run `npx vercel link --scope vercel-labs -y` + `npx vercel env pull` once before first use.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/benchmark-sandbox/SKILL.md",
+        "line": 150,
+        "excerpt": "11. **agent-browser works in sandboxes**: Install via `npm install -g agent-browser`. Claude Code can use it for browser-based verification inside the sandbox.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/benchmark-sandbox/SKILL.md",
+        "line": 161,
+        "excerpt": "| **Session type** | Interactive TTY via `/bin/zsh -ic` | Direct `sh -c` invocation (PTY not required) |",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/benchmark-sandbox/SKILL.md",
+        "line": 172,
+        "excerpt": "2. **Install tools**: `npm install -g @anthropic-ai/claude-code vercel agent-browser` (~20s per sandbox)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/benchmark-sandbox/SKILL.md",
+        "line": 174,
+        "excerpt": "4. **Upload plugin**: `sandbox.writeFiles()` for 80 plugin files, then `npx add-plugin`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/benchmark-sandbox/SKILL.md",
+        "line": 177,
+        "excerpt": "7. **Start dev server**: If not already running, start `npx next dev --port 3000`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/benchmark-sandbox/SKILL.md",
+        "line": 194,
+        "excerpt": "├─ npm install -g @anthropic-ai/claude-code vercel agent-browser   (~20s)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/benchmark-sandbox/SKILL.md",
+        "line": 198,
+        "excerpt": "├─ npx add-plugin /home/vercel-sandbox/vercel-plugin -s project -y --target claude-code",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/benchmark-sandbox/SKILL.md",
+        "line": 242,
+        "excerpt": "- **Starts dev server itself** if not already running — the prompt tells Claude to check `localhost:3000` and run `npx next dev --port 3000` if needed",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/benchmark-sandbox/SKILL.md",
+        "line": 277,
+        "excerpt": "npx vercel link --scope vercel-labs -y",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/benchmark-sandbox/SKILL.md",
+        "line": 277,
+        "excerpt": "npx vercel link --scope vercel-labs -y",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/benchmark-sandbox/SKILL.md",
+        "line": 278,
+        "excerpt": "npx vercel env pull .env.local",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/benchmark-sandbox/SKILL.md",
+        "line": 292,
+        "excerpt": "bun run .claude/skills/benchmark-sandbox/run-eval.ts --scenarios-file /tmp/my-scenarios.json",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/benchmark-sandbox/SKILL.md",
+        "line": 321,
+        "excerpt": "\"curl -s -o /dev/null -w '%{http_code}' http://localhost:3000\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/benchmark-sandbox/run-eval.ts",
+        "line": 31,
+        "excerpt": "import { execSync } from \"node:child_process\";",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/benchmark-sandbox/run-eval.ts",
+        "line": 86,
+        "excerpt": "After building all files, start the dev server on port 3000 with \\`npx next dev --port 3000\\`.`,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/benchmark-sandbox/run-eval.ts",
+        "line": 105,
+        "excerpt": "After building all files, start the dev server on port 3000 with \\`npx next dev --port 3000\\`.`,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/benchmark-sandbox/run-eval.ts",
+        "line": 125,
+        "excerpt": "After building all files, start the dev server on port 3000 with \\`npx next dev --port 3000\\`.`,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/benchmark-sandbox/run-eval.ts",
+        "line": 145,
+        "excerpt": "After building all files, start the dev server on port 3000 with \\`npx next dev --port 3000\\`.`,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/benchmark-sandbox/run-eval.ts",
+        "line": 165,
+        "excerpt": "After building all files, start the dev server on port 3000 with \\`npx next dev --port 3000\\`.`,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "browser-secrets",
+        "file": ".claude/skills/benchmark-sandbox/run-eval.ts",
+        "line": 199,
+        "excerpt": "return execSync('security find-generic-password -a \"$USER\" -s \"ANTHROPIC_AUTH_TOKEN\" -w', {",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/benchmark-sandbox/run-eval.ts",
+        "line": 199,
+        "excerpt": "return execSync('security find-generic-password -a \"$USER\" -s \"ANTHROPIC_AUTH_TOKEN\" -w', {",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/benchmark-sandbox/run-eval.ts",
+        "line": 325,
+        "excerpt": "Then make sure the dev server is running. Check if http://localhost:3000 responds. If not, run \\`npx next dev --port 3000\\` in the background and wait for it to",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/benchmark-sandbox/run-eval.ts",
+        "line": 342,
+        "excerpt": "- Restart the dev server if needed: kill the old one and run \\`npx next dev --port 3000\\` again",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/benchmark-sandbox/run-eval.ts",
+        "line": 610,
+        "excerpt": "await sandbox.runCommand(\"sh\", [\"-c\", \"npm install -g @anthropic-ai/claude-code vercel agent-browser\"]);",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/benchmark-sandbox/run-eval.ts",
+        "line": 628,
+        "excerpt": "await sh(sandbox, `cd ${projectDir} && npx -y add-plugin ${SANDBOX_PLUGIN_DIR} -s project -y --target claude-code 2>&1 | tail -1`);",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/benchmark-sandbox/run-eval.ts",
+        "line": 650,
+        "excerpt": "sh(sandbox!, \"curl -s -o /dev/null -w '%{http_code}' http://localhost:3000 2>/dev/null || echo 'down'\"),",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/benchmark-sandbox/run-eval.ts",
+        "line": 821,
+        "excerpt": "`A Next.js app was built with this prompt:\\n\"${scenario.prompt.slice(0, 500)}\"\\n\\nThe following files were created:\\n${fileList}\\n\\nPort 3000 status: ${await sh",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/benchmark-sandbox/run-eval.ts",
+        "line": 831,
+        "excerpt": "const portCheck = await sh(sandbox, \"curl -s -o /dev/null -w '%{http_code}' http://localhost:3000 2>/dev/null\");",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/benchmark-sandbox/run-eval.ts",
+        "line": 842,
+        "excerpt": "const status = await sh(sandbox, \"curl -s -o /dev/null -w '%{http_code}' http://localhost:3000 2>/dev/null\");",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": ".claude/skills/benchmark-sandbox/run-eval.ts",
+        "line": 879,
+        "excerpt": "const existing = await sh(sandbox, `cat ${projectDir}/.env.local 2>/dev/null`);",
+        "disclosed": false,
+        "automatic": false
+      },
       {
         "ruleId": "shell",
         "file": ".claude/skills/benchmark-sandbox/sandbox-runner.ts",
         "line": 25,
         "excerpt": "import { execSync } from \"node:child_process\";",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false
       },
       {
@@ -29,7 +298,7 @@
         "file": ".claude/skills/benchmark-sandbox/sandbox-runner.ts",
         "line": 135,
         "excerpt": "const keychainKey = execSync(",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false
       },
       {
@@ -37,15 +306,7 @@
         "file": ".claude/skills/benchmark-sandbox/sandbox-runner.ts",
         "line": 136,
         "excerpt": "'security find-generic-password -a \"$USER\" -s \"ANTHROPIC_AUTH_TOKEN\" -w',",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": ".claude/skills/benchmark-sandbox/sandbox-runner.ts",
-        "line": 378,
-        "excerpt": "const install = await run(sandbox, \"sh\", [\"-c\", \"npm install -g @anthropic-ai/claude-code\"]);",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false
       },
       {
@@ -53,23 +314,139 @@
         "file": ".claude/skills/benchmark-sandbox/sandbox-runner.ts",
         "line": 388,
         "excerpt": "\"ln -sf $(which claude) /usr/local/bin/claude && ln -sf $(which node) /usr/local/bin/node && ln -sf $(which npm) /usr/local/bin/npm && ln -sf $(which npx) /usr/",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/benchmark-sandbox/spike/create-snapshot.ts",
+        "line": 28,
+        "excerpt": "import { execSync } from \"node:child_process\";",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/benchmark-sandbox/spike/create-snapshot.ts",
+        "line": 60,
+        "excerpt": "const keychainKey = execSync(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "browser-secrets",
+        "file": ".claude/skills/benchmark-sandbox/spike/create-snapshot.ts",
+        "line": 61,
+        "excerpt": "'security find-generic-password -a \"$USER\" -s \"ANTHROPIC_AUTH_TOKEN\" -w',",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "commands/env.md",
+        "line": 222,
+        "excerpt": "cat .env.custom.bak >> .env.local  # Re-append custom vars",
         "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "downloads-code",
-        "file": ".claude/skills/benchmark-sandbox/sandbox-runner.ts",
-        "line": 453,
-        "excerpt": "const claudeInstall = await run(sandbox, \"sh\", [\"-c\", \"npm install -g @anthropic-ai/claude-code\"]);",
+        "ruleId": "reads-secrets",
+        "file": "commands/env.md",
+        "line": 242,
+        "excerpt": "source <(grep -v '^#' .env.local | sed 's/^/export /') && node scripts/migrate.js",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "commands/status.md",
+        "line": 99,
+        "excerpt": "curl -s -H \"Authorization: Bearer $VERCEL_TOKEN\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 9,
+        "excerpt": "\"command\": \"node \\\"${CLAUDE_PLUGIN_ROOT}/hooks/session-start-seen-skills.mjs\\\"\"",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 13,
+        "excerpt": "\"command\": \"node \\\"${CLAUDE_PLUGIN_ROOT}/hooks/session-start-profiler.mjs\\\"\"",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 17,
+        "excerpt": "\"command\": \"node \\\"${CLAUDE_PLUGIN_ROOT}/hooks/inject-claude-md.mjs\\\"\"",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 28,
+        "excerpt": "\"command\": \"node \\\"${CLAUDE_PLUGIN_ROOT}/hooks/posttooluse-skill-telemetry.mjs\\\"\",",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 39,
+        "excerpt": "\"command\": \"node \\\"${CLAUDE_PLUGIN_ROOT}/hooks/session-end-cleanup.mjs\\\"\",",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "network",
+        "file": "hooks/lexical-index.mjs",
+        "line": 336,
+        "excerpt": "fetch(key, initial) {",
+        "disclosed": true,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "hooks/lexical-index.mjs",
+        "line": 1589,
+        "excerpt": "const indexData = this._index.fetch(term, createMap);",
+        "disclosed": true,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "hooks/lexical-index.mjs",
+        "line": 1608,
+        "excerpt": "const indexData = this._index.fetch(term, createMap);",
+        "disclosed": true,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/opencode-plugin.mjs",
+        "line": 2,
+        "excerpt": "import { exec, execFile } from \"child_process\";",
+        "disclosed": true,
+        "automatic": true
       },
       {
         "ruleId": "shell",
         "file": "hooks/session-start-profiler-binary-resolution.test.ts",
         "line": 2,
         "excerpt": "import { execSync } from \"node:child_process\";",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -77,35 +454,69 @@
         "file": "hooks/session-start-profiler-binary-resolution.test.ts",
         "line": 89,
         "excerpt": "const output = execSync(buildShellCommand(binary, [\"--version\"]), {",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
         "ruleId": "shell",
-        "file": "hooks/src/skill-telemetry.mts",
-        "line": 10,
-        "excerpt": "import { spawn } from \"node:child_process\";",
-        "disclosed": false,
+        "file": "hooks/session-start-profiler.mjs",
+        "line": 368,
+        "excerpt": "import { execFileSync, execSync } from \"child_process\";",
+        "disclosed": true,
         "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/session-start-profiler.mjs",
+        "line": 597,
+        "excerpt": "return execSync(buildShellCommand(binaryPath, args), options).trim();",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "network",
+        "file": "hooks/src/telemetry.mts",
+        "line": 107,
+        "excerpt": "const response = await fetch(BRIDGE_ENDPOINT, {",
+        "disclosed": true,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "hooks/telemetry.mjs",
+        "line": 49,
+        "excerpt": "const response = await fetch(BRIDGE_ENDPOINT, {",
+        "disclosed": true,
+        "automatic": true,
+        "hosts": []
       }
     ],
     "findingTotals": {
-      "shell": 5,
-      "browser-secrets": 1,
-      "downloads-code": 2,
+      "shell": 27,
+      "downloads-code": 46,
+      "network": 11,
+      "browser-secrets": 3,
+      "reads-secrets": 3,
       "writes-outside": 1
     },
-    "score": 45,
+    "score": 41,
     "band": "high",
     "rulesVersion": "1.3.0",
-    "filesScanned": 10,
-    "filesSkipped": 74
+    "filesScanned": 84,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "2a163af1e4b9ba5f8a02de3737eb0c884e21d765",
       "scannedAt": "2026-11-07T22:05:48.475Z",
       "score": 45,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "39e5102c79293b91a02d84543c197940fa383852",
+      "scannedAt": "2026-11-10T10:33:07.758Z",
+      "score": 41,
       "rulesVersion": "1.3.0"
     }
   ]

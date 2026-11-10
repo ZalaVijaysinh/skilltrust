@@ -1,0 +1,113 @@
+{
+  "id": "lamngockhuong__aiteamkit__plugins~atkx~skills~skill-eval",
+  "owner": "lamngockhuong",
+  "repo": "aiteamkit",
+  "path": "plugins/atkx/skills/skill-eval",
+  "name": "skill-eval",
+  "description": "Evaluate an agent skill a project has written, for Claude Code, Codex or Cursor: a static check of its structure, metadata, size and safety, with a security gate for what the skill does and not only what it holds, a check against the project's own written conventions, trigger measurement on Claude Code, drafted trigger cases it lacks, a review of one run of it in this conversation, and one composite score with a grade above the figures behind it. Reads the skill and changes nothing in it. Use before a skill is shared or installed, after its description changes, or when a skill keeps firing on the wrong requests. Triggers on: \"evaluate this skill\", \"eval skill\", \"check skill quality\", \"score this skill\", \"optimise this skill\", \"/atkx:skill-eval\".",
+  "stars": 12,
+  "category": "coding",
+  "commit": "5dae3246a6bf94cee91f3941fcadcd1c50779509",
+  "contentHash": "6185ee32f885bc76064b5ca472bf210208751231d58b84098524447202d2d7c9",
+  "repoCreatedAt": "2026-01-08T06:22:04Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-10T10:33:07.758Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "plugins/atkx/skills/skill-eval/SKILL.md",
+        "line": 61,
+        "excerpt": "/atkx:skill-eval <skill-path>                # static check, project conventions, then the score",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/atkx/skills/skill-eval/references/static-checks.md",
+        "line": 160,
+        "excerpt": "| `network` | a network call to a host the skill's `SKILL.md` does not name: the usual command-line downloaders, `fetch(...)`, an HTTP client of Node, Python or",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/atkx/skills/skill-eval/references/static-checks.md",
+        "line": 241,
+        "excerpt": "A command that runs a package runner, `npx`, `npm x`, `npm exec`, `pnpm dlx`, `yarn dlx`, `bunx`,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/atkx/skills/skill-eval/references/static-checks.md",
+        "line": 242,
+        "excerpt": "`uvx`, `uv tool run`, `pipx run`, or `create` or `init` of `npm`, `yarn`, `pnpm` or `bun` with a",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/atkx/skills/skill-eval/scripts/static-check.mjs",
+        "line": 749,
+        "excerpt": "const SECRET_FILE = /(?:^|\\/)(?:\\.env(?:\\.(?!(?:example|sample|template|dist)$|[^/]*\\.(?:example|sample)$)[^/]*)?|id_rsa|id_dsa|id_ecdsa|id_ed25519|\\.netrc|\\.pg",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/atkx/skills/skill-eval/scripts/trigger-run.mjs",
+        "line": 40,
+        "excerpt": "import { spawn, spawnSync } from 'node:child_process';",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/atkx/skills/skill-eval/scripts/trigger-run.mjs",
+        "line": 163,
+        "excerpt": "const r = spawnSync('pkill', ['-KILL', '-u', String(uid), '-f', '--', `--settings ${escapeRe(join(dir, 'settings.json'))}`], { stdio: 'ignore' });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/atkx/skills/skill-eval/scripts/trigger-run.mjs",
+        "line": 186,
+        "excerpt": "if (IS_WINDOWS) spawnSync('taskkill', ['/pid', String(child.pid), '/t', '/f'], { stdio: 'ignore' });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/atkx/skills/skill-eval/scripts/trigger-run.mjs",
+        "line": 244,
+        "excerpt": "const res = spawnSync('git', ['-C', repo, 'ls-files', '-z', '--cached', '--others', '--exclude-standard'], {",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 5,
+      "network": 1,
+      "downloads-code": 2,
+      "reads-secrets": 1
+    },
+    "score": 65,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 16,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "5dae3246a6bf94cee91f3941fcadcd1c50779509",
+      "scannedAt": "2026-11-10T10:33:07.758Z",
+      "score": 65,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

@@ -1,0 +1,306 @@
+{
+  "id": "triggerdotdev__trigger.dev__.claude~skills~errors-api-e2e",
+  "owner": "triggerdotdev",
+  "repo": "trigger.dev",
+  "path": ".claude/skills/errors-api-e2e",
+  "name": "errors-api-e2e",
+  "description": "End-to-end smoke test for the public Errors HTTP API (error groups). Seeds failed runs into ClickHouse so the error materialized views populate, then drives the real endpoints against the running webapp — list (with filters + pagination), retrieve, resolve/ignore/unresolve, the `filter[error]` runs filter, user attribution via the `trigger.dev mint-token` -> JWT exchange, and the 401/403/404 negatives. Use for \"smoke test the errors API\", \"test the errors API e2e\", \"prove the errors endpoints work\", or to re-verify after changes.",
+  "stars": 16738,
+  "category": "coding",
+  "commit": "41ad1995b30573a9b55cfaab80c3293b7c35c1f8",
+  "contentHash": "6bed2495d16ea5bd5aca475c496c552ac83b324ae726c05c2134ac02f48cd317",
+  "repoCreatedAt": "2022-11-30T14:59:07Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-10T10:33:07.758Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/errors-api-e2e/SKILL.md",
+        "line": 28,
+        "excerpt": "- Webapp running on http://localhost:3030 (`pnpm run dev --filter webapp`). Confirm `curl -s http://localhost:3030/healthcheck`.",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/errors-api-e2e/SKILL.md",
+        "line": 41,
+        "excerpt": "cli() { node packages/cli-v3/dist/esm/index.js \"$@\"; }",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/errors-api-e2e/SKILL.md",
+        "line": 48,
+        "excerpt": "cd apps/webapp",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/errors-api-e2e/SKILL.md",
+        "line": 70,
+        "excerpt": "RUN=$(node -e 'console.log(Date.now().toString(36))')",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/errors-api-e2e/SKILL.md",
+        "line": 83,
+        "excerpt": "printf '%s' \"$ROWS\" | curl -s \"$CHURL/?query=$Q\" --data-binary @-",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/errors-api-e2e/SKILL.md",
+        "line": 87,
+        "excerpt": "N=$(curl -s \"$CHURL\" --data-binary \"SELECT count() FROM (SELECT 1 FROM trigger_dev.errors_v1 WHERE environment_id='$ENV' AND error_fingerprint IN ('$FP_A','$FP_",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/errors-api-e2e/SKILL.md",
+        "line": 97,
+        "excerpt": "curl -s \"$B/api/v1/errors?filter%5BtaskIdentifier%5D=$TASK&filter%5Bperiod%5D=1d\" -H \"$H\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/errors-api-e2e/SKILL.md",
+        "line": 97,
+        "excerpt": "curl -s \"$B/api/v1/errors?filter%5BtaskIdentifier%5D=$TASK&filter%5Bperiod%5D=1d\" -H \"$H\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/errors-api-e2e/SKILL.md",
+        "line": 104,
+        "excerpt": "curl -s \"$B/api/v1/errors?filter%5BtaskIdentifier%5D=$TASK&filter%5Bstatus%5D=unresolved&filter%5Bperiod%5D=1d\" -H \"$H\" | python3 -c \"import sys,json;print('unr",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/errors-api-e2e/SKILL.md",
+        "line": 104,
+        "excerpt": "curl -s \"$B/api/v1/errors?filter%5BtaskIdentifier%5D=$TASK&filter%5Bstatus%5D=unresolved&filter%5Bperiod%5D=1d\" -H \"$H\" | python3 -c \"import sys,json;print('unr",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/errors-api-e2e/SKILL.md",
+        "line": 105,
+        "excerpt": "curl -s \"$B/api/v1/errors?filter%5BtaskIdentifier%5D=$TASK&filter%5Bsearch%5D=AlphaBoom&filter%5Bperiod%5D=1d\" -H \"$H\" | python3 -c \"import sys,json;print('sear",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/errors-api-e2e/SKILL.md",
+        "line": 106,
+        "excerpt": "curl -s \"$B/api/v1/errors?filter%5BtaskIdentifier%5D=$TASK&filter%5Bperiod%5D=1d&page%5Bsize%5D=1\" -H \"$H\" | python3 -c \"import sys,json;d=json.load(sys.stdin);",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/errors-api-e2e/SKILL.md",
+        "line": 113,
+        "excerpt": "curl -s \"$B/api/v1/errors/$ERRID_A\" -H \"$H\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/errors-api-e2e/SKILL.md",
+        "line": 113,
+        "excerpt": "curl -s \"$B/api/v1/errors/$ERRID_A\" -H \"$H\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/errors-api-e2e/SKILL.md",
+        "line": 121,
+        "excerpt": "st(){ python3 -c \"import sys,json;d=json.load(sys.stdin);print('status',d['status'],'| resolvedInVersion',d['resolvedInVersion'],'| resolvedBy',d['resolvedBy'],",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/errors-api-e2e/SKILL.md",
+        "line": 123,
+        "excerpt": "curl -s -X POST \"$B/api/v1/errors/$ERRID_A/resolve\" -H \"$H\" -H 'Content-Type: application/json' -d '{\"resolvedInVersion\":\"20240101.1\"}' >/dev/null",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/errors-api-e2e/SKILL.md",
+        "line": 124,
+        "excerpt": "curl -s \"$B/api/v1/errors/$ERRID_A\" -H \"$H\" | st   # status resolved | resolvedInVersion 20240101.1 | resolvedBy None",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/errors-api-e2e/SKILL.md",
+        "line": 126,
+        "excerpt": "curl -s -X POST \"$B/api/v1/errors/$ERRID_B/ignore\" -H \"$H\" -H 'Content-Type: application/json' -d '{\"duration\":3600000,\"reason\":\"known flake\"}' >/dev/null",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/errors-api-e2e/SKILL.md",
+        "line": 127,
+        "excerpt": "curl -s \"$B/api/v1/errors/$ERRID_B\" -H \"$H\" | st   # status ignored | ignoredUntil True | reason known flake",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/errors-api-e2e/SKILL.md",
+        "line": 129,
+        "excerpt": "curl -s -X POST \"$B/api/v1/errors/$ERRID_A/unresolve\" -H \"$H\" >/dev/null",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/errors-api-e2e/SKILL.md",
+        "line": 130,
+        "excerpt": "curl -s \"$B/api/v1/errors/$ERRID_A\" -H \"$H\" | st   # status unresolved",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/errors-api-e2e/SKILL.md",
+        "line": 134,
+        "excerpt": "curl -s \"$B/api/v1/errors?filter%5BtaskIdentifier%5D=$TASK&filter%5Bstatus%5D=ignored&filter%5Bperiod%5D=1d\" -H \"$H\" | python3 -c \"import sys,json;print([e['id'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/errors-api-e2e/SKILL.md",
+        "line": 134,
+        "excerpt": "curl -s \"$B/api/v1/errors?filter%5BtaskIdentifier%5D=$TASK&filter%5Bstatus%5D=ignored&filter%5Bperiod%5D=1d\" -H \"$H\" | python3 -c \"import sys,json;print([e['id'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/errors-api-e2e/SKILL.md",
+        "line": 142,
+        "excerpt": "RID=\"re2e${RUN}\"; FRID=\"run_${RID}\"; FP_R=\"fpR${RUN}\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/errors-api-e2e/SKILL.md",
+        "line": 148,
+        "excerpt": "printf '%s' \"$ROW\" | curl -s \"$CHURL/?query=$Q\" --data-binary @-",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/errors-api-e2e/SKILL.md",
+        "line": 150,
+        "excerpt": "curl -s \"$B/api/v1/runs?filter%5Berror%5D=error_$FP_R\" -H \"$H\" | python3 -c \"import sys,json;d=json.load(sys.stdin);print('runs:',[r['id'] for r in d['data']])\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/errors-api-e2e/SKILL.md",
+        "line": 157,
+        "excerpt": "TOKEN=$(cli mint-token --profile $PROFILE --client errors-api-e2e --cap read:errors,write:errors 2>/dev/null)            # UAT",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/errors-api-e2e/SKILL.md",
+        "line": 158,
+        "excerpt": "ENVJWT=$(curl -sS -X POST \"$B/api/v1/projects/$REF/dev/jwt\" -H \"Authorization: Bearer $TOKEN\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/errors-api-e2e/SKILL.md",
+        "line": 164,
+        "excerpt": "curl -s -X POST \"$B/api/v1/errors/$ERRID_A/resolve\" -H \"Authorization: Bearer $ENVJWT\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/errors-api-e2e/SKILL.md",
+        "line": 166,
+        "excerpt": "curl -s \"$B/api/v1/errors/$ERRID_A\" -H \"$H\" | python3 -c \"import sys,json;d=json.load(sys.stdin);print('resolvedBy:',d['resolvedBy'])\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/errors-api-e2e/SKILL.md",
+        "line": 173,
+        "excerpt": "curl -s -o /dev/null -w 'unknown id: %{http_code} (404)\\n'        \"$B/api/v1/errors/error_doesnotexist0000\" -H \"$H\"",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "network": 26,
+      "shell": 11
+    },
+    "score": 92,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "41ad1995b30573a9b55cfaab80c3293b7c35c1f8",
+      "scannedAt": "2026-11-10T10:33:07.758Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

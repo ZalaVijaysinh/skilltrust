@@ -4,30 +4,160 @@
   "repo": "orchestkit",
   "path": "src/skills/browser-tools",
   "name": "browser-tools",
-  "description": "",
-  "stars": 299,
+  "description": "Safety rules over the upstream agent-browser skill: scraping ethics, auth, request pacing, local URLs. Use for browser automation.",
+  "stars": 301,
   "category": "coding",
-  "commit": "caa53466305523ad17d7cc0695d28bbfc3011395",
-  "contentHash": "13ace2b87c23556e839ae6de2da87d4c5c9aab2b91dce7b7acc3dd88d260f029",
+  "commit": "0d38e66123f2a4a70737bfae758df796070f07df",
+  "contentHash": "7a163fa4da6fd05f9c061f99a7e914d7174aad4ac88aa0ee7545addbf3135071",
   "repoCreatedAt": "2025-12-31T05:58:52Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-10T10:33:07.758Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "downloads-code",
+        "file": "src/skills/browser-tools/SKILL.md",
+        "line": 53,
+        "excerpt": "Use **Portless** (`npm i -g portless`) for stable local dev URLs instead of guessing ports. When Portless is running, navigate to `myapp.localhost` instead of `",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "src/skills/browser-tools/SKILL.md",
+        "line": 57,
+        "excerpt": "agent-browser open \"https://myapp.localhost\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "src/skills/browser-tools/SKILL.md",
+        "line": 85,
+        "excerpt": "agent-browser webmcp list [tool]         # Full metadata; optional --frame <frame-id>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "src/skills/browser-tools/SKILL.md",
+        "line": 264,
+        "excerpt": "agent-browser fill @e2 \"hardcoded-password\"    # Never hardcode credentials",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "src/skills/browser-tools/references/upstream-dogfood.md",
+        "line": 24,
+        "excerpt": "Always use `agent-browser` directly -- never `npx agent-browser`. The direct binary uses the fast Rust client. `npx` routes through Node.js and is significantly",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "src/skills/browser-tools/references/upstream-sandbox.md",
+        "line": 64,
+        "excerpt": "`sudo dnf clean all 2>&1 && sudo dnf install -y --skip-broken ${CHROMIUM_SYSTEM_DEPS.join(\" \")} 2>&1 && sudo ldconfig 2>&1`,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "src/skills/browser-tools/references/upstream-sandbox.md",
+        "line": 197,
+        "excerpt": "`sudo dnf clean all 2>&1 && sudo dnf install -y --skip-broken ${CHROMIUM_SYSTEM_DEPS.join(\" \")} 2>&1 && sudo ldconfig 2>&1`,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "src/skills/browser-tools/references/upstream-sandbox.md",
+        "line": 216,
+        "excerpt": "npx tsx examples/environments/scripts/create-snapshot.ts",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "src/skills/browser-tools/references/upstream.md",
+        "line": 10,
+        "excerpt": "Install: `npm i -g agent-browser && agent-browser install`",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "src/skills/browser-tools/rules/browser-portless-local-dev.md",
+        "line": 18,
+        "excerpt": "curl http://localhost:5173/api/health             # port changed after restart",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "src/skills/browser-tools/rules/browser-portless-local-dev.md",
+        "line": 38,
+        "excerpt": "curl https://api.localhost/api/health",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.localhost"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "src/skills/browser-tools/rules/browser-portless-local-dev.md",
+        "line": 47,
+        "excerpt": "PLAYWRIGHT_BASE_URL=\"https://app.localhost\" npx playwright test",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "src/skills/browser-tools/rules/browser-portless-local-dev.md",
+        "line": 79,
+        "excerpt": "- Install Portless globally: `npm i -g portless`",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "src/skills/browser-tools/rules/browser-scraping-ethics.md",
+        "line": 35,
+        "excerpt": "ROBOTS=$(curl -s \"https://docs.example.com/robots.txt\")",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "docs.example.com"
+        ]
+      }
+    ],
+    "findingTotals": {
+      "downloads-code": 8,
+      "shell": 3,
+      "network": 3
+    },
+    "score": 84,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 18
+    "filesScanned": 18,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "caa53466305523ad17d7cc0695d28bbfc3011395",
       "scannedAt": "2026-11-07T22:05:48.475Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "0d38e66123f2a4a70737bfae758df796070f07df",
+      "scannedAt": "2026-11-10T10:33:07.758Z",
+      "score": 84,
       "rulesVersion": "1.3.0"
     }
   ]

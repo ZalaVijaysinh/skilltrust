@@ -5,29 +5,29 @@
   "path": "skills/watch-video",
   "name": "watch-video",
   "description": "When you want to extract content from a video — YouTube, Loom, Vimeo, Riverside, Zoom recording, local MP4, X/IG video, anything yt-dlp supports. Three depth modes user picks per invocation — transcript (just words, fast/free), visual (transcript + ffmpeg frame extraction + Claude vision pass on key moments), multimodal (Gemini native video ingestion if $GEMINI_API_KEY set, else dense Claude vision). Uses local Whisper for transcription (MLX-Whisper on Apple Silicon, faster-whisper elsewhere), falls back to platform-provided transcripts when available (Loom, Riverside, YouTube auto-subs). Saves to ~/Documents/videos/<source>-<slug>-<date>/ and optionally captures summary to second-brain raw/ as call-/meeting-/note-. Triggers on \"/watch-video <url>,\" \"watch this video,\" \"transcribe this loom,\" \"analyze this video,\" \"summarize this recording,\" \"key moments from this,\" \"what happened in this video.\" For a post's text and engagement, use social-fetch.",
-  "stars": 893,
+  "stars": 905,
   "category": "media",
-  "commit": "0f20eaf6e4479ce03858ee09a56fe93e7440ed1b",
-  "contentHash": "fe3298df7ec1bb5dbbc19106a9deecd43f4fd366f98aee9265e4c65b4d9c843b",
+  "commit": "b465319a5e675a89ea9fd87a15191c9a8ad13649",
+  "contentHash": "93453c6ac75000281d3d9c42f2a1439534b14ae3a7225a8d15be5647d53514a1",
   "repoCreatedAt": "2026-06-03T23:23:24Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-08T05:42:07.685Z",
+  "scannedAt": "2026-11-10T10:33:07.758Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "skills/watch-video/SKILL.md",
         "line": 41,
-        "excerpt": "yt-dlp --print \"%(title)s|%(uploader)s|%(duration_string)s|%(upload_date>%Y-%m-%d)s|%(description)s\" \\",
+        "excerpt": "yt-dlp --skip-download --print \"%(.{title,uploader,duration_string,upload_date,webpage_url,chapters,description})j\" \"<url>\"",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/watch-video/SKILL.md",
-        "line": 50,
+        "line": 51,
         "excerpt": "ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 \"<file>\"",
         "disclosed": false,
         "automatic": false
@@ -35,39 +35,47 @@
       {
         "ruleId": "shell",
         "file": "skills/watch-video/SKILL.md",
-        "line": 77,
-        "excerpt": "python3 -c \"import mlx_whisper; mlx_whisper.transcribe('<file>', path_or_hf_repo='mlx-community/whisper-large-v3-turbo')\" \\",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/watch-video/SKILL.md",
-        "line": 82,
-        "excerpt": "3. **Not on Apple Silicon** (Linux, Intel Mac, Windows, cloud agents): `faster-whisper` (`pip install faster-whisper`, CPU or CUDA) or `whisper.cpp`. Same model",
+        "line": 78,
+        "excerpt": "python3 -I - \"<file>\" \"<workdir>/transcript\" <<'PY'",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/watch-video/SKILL.md",
-        "line": 87,
-        "excerpt": "yt-dlp -f \"bv*[height<=720]+ba/b[height<=720]\" -o \"<workdir>/video.%(ext)s\" \"<url>\"",
+        "line": 97,
+        "excerpt": "python3 -I - \"<file>\" \"<workdir>/transcript\" <<'PY'",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/watch-video/SKILL.md",
-        "line": 96,
-        "excerpt": "awk '",
+        "line": 116,
+        "excerpt": "yt-dlp -f \"bv*[height<=720]+ba/b[height<=720]\" --merge-output-format mp4 -o \"<workdir>/video.%(ext)s\" \"<url>\"",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/watch-video/SKILL.md",
-        "line": 130,
+        "line": 124,
+        "excerpt": "python3 -I - \"<workdir>/transcript.en.vtt\" \"<workdir>/transcript.txt\" <<'PY'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/watch-video/SKILL.md",
+        "line": 171,
+        "excerpt": "mlx_whisper <file> --model mlx-community/whisper-large-v3-turbo --output-dir <workdir> --output-format srt --condition-on-previous-text False",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/watch-video/SKILL.md",
+        "line": 203,
         "excerpt": "mkdir -p \"<workdir>/frames\"",
         "disclosed": false,
         "automatic": false
@@ -75,15 +83,23 @@
       {
         "ruleId": "shell",
         "file": "skills/watch-video/SKILL.md",
-        "line": 137,
-        "excerpt": "ffmpeg -i \"<workdir>/video.mp4\" -vf \"select='gt(scene,0.3)',showinfo\" -vsync vfr \"<workdir>/frames/scene-%04d.png\" 2> \"<workdir>/scene-detection.log\"",
+        "line": 210,
+        "excerpt": "ffmpeg -i \"<workdir>/video.mp4\" -vf \"select='gt(scene,0.3)',showinfo\" -fps_mode vfr \"<workdir>/frames/scene-%04d.png\" 2> \"<workdir>/scene-detection.log\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/watch-video/SKILL.md",
+        "line": 222,
+        "excerpt": "mkdir -p \"<workdir>/dense\"",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "paid-api",
         "file": "skills/watch-video/SKILL.md",
-        "line": 206,
+        "line": 295,
         "excerpt": "FILE_URI=$(curl -s -X POST \"https://generativelanguage.googleapis.com/upload/v1beta/files?key=$GEMINI_API_KEY\" \\",
         "disclosed": false,
         "automatic": false
@@ -91,7 +107,7 @@
       {
         "ruleId": "network",
         "file": "skills/watch-video/SKILL.md",
-        "line": 206,
+        "line": 295,
         "excerpt": "FILE_URI=$(curl -s -X POST \"https://generativelanguage.googleapis.com/upload/v1beta/files?key=$GEMINI_API_KEY\" \\",
         "disclosed": true,
         "automatic": false,
@@ -102,7 +118,7 @@
       {
         "ruleId": "shell",
         "file": "skills/watch-video/SKILL.md",
-        "line": 206,
+        "line": 295,
         "excerpt": "FILE_URI=$(curl -s -X POST \"https://generativelanguage.googleapis.com/upload/v1beta/files?key=$GEMINI_API_KEY\" \\",
         "disclosed": false,
         "automatic": false
@@ -110,7 +126,7 @@
       {
         "ruleId": "network",
         "file": "skills/watch-video/SKILL.md",
-        "line": 213,
+        "line": 302,
         "excerpt": "STATE=$(curl -s \"$FILE_URI?key=$GEMINI_API_KEY\" | jq -r '.state')",
         "disclosed": true,
         "automatic": false,
@@ -119,7 +135,7 @@
       {
         "ruleId": "paid-api",
         "file": "skills/watch-video/SKILL.md",
-        "line": 219,
+        "line": 308,
         "excerpt": "curl -s -X POST \"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=$GEMINI_API_KEY\" \\",
         "disclosed": false,
         "automatic": false
@@ -127,7 +143,7 @@
       {
         "ruleId": "network",
         "file": "skills/watch-video/SKILL.md",
-        "line": 219,
+        "line": 308,
         "excerpt": "curl -s -X POST \"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=$GEMINI_API_KEY\" \\",
         "disclosed": true,
         "automatic": false,
@@ -138,7 +154,7 @@
       {
         "ruleId": "downloads-code",
         "file": "skills/watch-video/SKILL.md",
-        "line": 306,
+        "line": 395,
         "excerpt": "| No subtitles + Whisper not installed | Tell the user: `pip install mlx-whisper` (Apple Silicon) or `pip install faster-whisper` (anything else) |",
         "disclosed": false,
         "automatic": false
@@ -146,7 +162,7 @@
       {
         "ruleId": "downloads-code",
         "file": "skills/watch-video/SKILL.md",
-        "line": 307,
+        "line": 396,
         "excerpt": "| ffmpeg missing (for visual/multimodal) | Tell the user: `brew install ffmpeg` |",
         "disclosed": false,
         "automatic": false
@@ -154,17 +170,17 @@
       {
         "ruleId": "downloads-code",
         "file": "skills/watch-video/SKILL.md",
-        "line": 310,
+        "line": 399,
         "excerpt": "| `yt-dlp` binary missing | `brew install yt-dlp` |",
         "disclosed": false,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 8,
-      "downloads-code": 4,
+      "shell": 11,
       "paid-api": 2,
-      "network": 3
+      "network": 3,
+      "downloads-code": 3
     },
     "score": 67,
     "band": "review",
@@ -182,6 +198,12 @@
     {
       "commit": "0f20eaf6e4479ce03858ee09a56fe93e7440ed1b",
       "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 67,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "b465319a5e675a89ea9fd87a15191c9a8ad13649",
+      "scannedAt": "2026-11-10T10:33:07.758Z",
       "score": 67,
       "rulesVersion": "1.3.0"
     }

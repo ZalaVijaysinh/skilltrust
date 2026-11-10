@@ -7,13 +7,13 @@
   "description": "当用户要用本机已登录 Chrome 操作或验收网页（含测试自己的站、E2E、截图）、读取登录后台、抓取无 API 的数据、填表，或排查 OpenCLI doctor、会话、adapter 故障，或明确提到 opencli、浏览器自动化、标签页被抢时使用。公开文本先用 HTTP；话题调研交 agent-reach；SEO 与选词决策交 rankup；外链选点、提交与 Semrush、Similarweb 报表判读交 backlink；本 Skill 只负责浏览器驱动、会话与取数机制。",
   "stars": 232,
   "category": "coding",
-  "commit": "3164ecd574887ad6324a6b7c4b67f60c8a1aa117",
-  "contentHash": "4816b4289c3be1b24437842bf65cd0ffd949df19e8da1bc3339b5678108d2167",
+  "commit": "7c6856a9db1bd5c28cbe5047010458fc1a3e29b9",
+  "contentHash": "f3f2deca30f672b712a4b1f5d33250230c2a172d8e191916c6f3a0526af0169e",
   "repoCreatedAt": "2026-07-05T07:14:39Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-10T10:33:07.758Z",
   "scan": {
     "findings": [
       {
@@ -238,24 +238,135 @@
         "disclosed": true,
         "automatic": false,
         "hosts": []
+      },
+      {
+        "ruleId": "browser-secrets",
+        "file": "opencli/references/drivers.md",
+        "line": 38,
+        "excerpt": "2. **macOS TCC 挡住读取 `~/Library/Application Support/Google/Chrome`**，",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "opencli/references/our-fork.md",
+        "line": 81,
+        "excerpt": "npm i -g https://github.com/yan-labs/OpenCLI/releases/download/v1.9.0-yan.2/opencli-cli-1.9.0-yan.2.tgz",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "opencli/references/our-fork.md",
+        "line": 167,
+        "excerpt": "`frames --debug` 会报 `unknown option`，`npm i -g` 上面那个新 URL 即可。",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "opencli/references/troubleshooting.md",
+        "line": 90,
+        "excerpt": "守护进程的 HTTP 接口要求 `X-OpenCLI` 头，直接 `curl http://127.0.0.1:19825/status`",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "opencli/references/troubleshooting.md",
+        "line": 110,
+        "excerpt": "| `unknown option '--debug'`（跑 `frames --debug` 时） | 该选项已随 **v1.9.0-yan.2** 发布；全局装的仍是旧 tgz | `npm i -g https://github.com/yan-labs/OpenCLI/releases/download/v1.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "opencli/references/troubleshooting.md",
+        "line": 260,
+        "excerpt": "curl -s -H 'accept: application/dns-json'   'https://1.1.1.1/dns-query?name=<域名>&type=A'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "1.1.1.1"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "opencli/references/troubleshooting.md",
+        "line": 263,
+        "excerpt": "curl -sI --max-time 20 -x \"$HTTPS_PROXY\" https://<域名>/robots.txt | head -1",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "opencli/scripts/clash-leak-check.mjs",
+        "line": 3,
+        "excerpt": "import { execFileSync } from 'node:child_process';",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "opencli/scripts/clash-leak-check.mjs",
+        "line": 10,
+        "excerpt": "const output = execFileSync('opencli', ['browser', session, '--window', 'dedicated', ...args], { encoding: 'utf8', timeout: 45000 });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "opencli/scripts/daemon-restart-safe.mjs",
+        "line": 24,
+        "excerpt": "import { execFileSync } from 'node:child_process';",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "opencli/scripts/daemon-restart-safe.mjs",
+        "line": 38,
+        "excerpt": "try { return execFileSync(cmd, args, { encoding: 'utf8', timeout: opts.timeoutMs ?? 60_000 }); }",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "opencli/scripts/x-research.mjs",
+        "line": 29,
+        "excerpt": "const res = await fetch(`https://api.fxtwitter.com/status/${id}`, {",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.fxtwitter.com"
+        ]
       }
     ],
     "findingTotals": {
-      "shell": 16,
-      "network": 7,
-      "downloads-code": 4
+      "shell": 25,
+      "network": 11,
+      "downloads-code": 7,
+      "browser-secrets": 1
     },
-    "score": 77,
+    "score": 64,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 9,
-    "filesSkipped": 26
+    "filesScanned": 35,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "3164ecd574887ad6324a6b7c4b67f60c8a1aa117",
       "scannedAt": "2026-11-07T22:05:48.475Z",
       "score": 77,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "7c6856a9db1bd5c28cbe5047010458fc1a3e29b9",
+      "scannedAt": "2026-11-10T10:33:07.758Z",
+      "score": 64,
       "rulesVersion": "1.3.0"
     }
   ]

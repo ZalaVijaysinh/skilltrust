@@ -4,57 +4,424 @@
   "repo": "vercel-plugin",
   "path": "skills/offload-to-sandbox",
   "name": "offload-to-sandbox",
-  "description": "",
-  "stars": 328,
-  "category": "other",
-  "commit": "2a163af1e4b9ba5f8a02de3737eb0c884e21d765",
+  "description": "Offload heavy builds, full test suites and parallel experiments from the local machine to Vercel Sandboxes with the `vercel sandbox` CLI. Use when a local machine is overloaded or shared by several agents, when a test suite should be sharded, or when many tasks should run side by side without consuming local CPU, memory or disk.",
+  "stars": 329,
+  "category": "productivity",
+  "commit": "39e5102c79293b91a02d84543c197940fa383852",
   "contentHash": "074ba976177fe6f5d5a671460b0081baf33b9d31c581ba3b0360b4a2a33514dc",
   "repoCreatedAt": "2026-03-04T16:46:22Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-10T10:33:07.758Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
-        "file": "hooks/session-start-profiler-binary-resolution.test.ts",
-        "line": 2,
-        "excerpt": "import { execSync } from \"node:child_process\";",
+        "file": "skills/offload-to-sandbox/SKILL.md",
+        "line": 4,
+        "excerpt": "summary: \"Offload heavy work to Vercel Sandboxes: build a base snapshot once (toolchain + deps + baseline build), create one non-persistent sandbox per task fro",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/offload-to-sandbox/SKILL.md",
+        "line": 98,
+        "excerpt": "vercel sandbox create --name base-builder --non-persistent --vcpus 8 --timeout 2h --image vercel/sandbox/universal",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/offload-to-sandbox/SKILL.md",
+        "line": 102,
+        "excerpt": "vercel sandbox exec base-builder -- sh -c 'cd /vercel/sandbox && sh setup-base.sh; echo \"exit=$?\"'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/offload-to-sandbox/SKILL.md",
+        "line": 125,
+        "excerpt": "vercel sandbox create --name exp-parser --non-persistent --snapshot \"$(cat BASE_SNAPSHOT)\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/offload-to-sandbox/SKILL.md",
+        "line": 147,
+        "excerpt": "sbx push exp-parser . /vercel/sandbox/cand",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/offload-to-sandbox/SKILL.md",
+        "line": 157,
+        "excerpt": "The standalone `sandbox` CLI supports file commands in releases containing [vercel/sandbox#380](https://github.com/vercel/sandbox/pull/380). Install or update i",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/offload-to-sandbox/SKILL.md",
+        "line": 160,
+        "excerpt": "sandbox --version",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/offload-to-sandbox/SKILL.md",
+        "line": 171,
+        "excerpt": "name=exp-parser",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/offload-to-sandbox/SKILL.md",
+        "line": 199,
+        "excerpt": "vercel sandbox exec --timeout 2h exp-parser -- sh -c 'cd /vercel/sandbox/cand && npm test -- --shard 1/4; echo \"exit=$?\"'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/offload-to-sandbox/SKILL.md",
+        "line": 202,
+        "excerpt": "- Pass the whole command as **one single-quoted string** to `sh -c`. Your local shell otherwise expands `$VARS` and globs before the sandbox sees them. zsh in p",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/offload-to-sandbox/SKILL.md",
+        "line": 203,
+        "excerpt": "- **Check the bundled CLI's exit behavior.** With `vercel` 64.5.0 (Sandbox CLI 4.4.0), `vercel sandbox exec` exits 0 even when the remote command fails. On that",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/offload-to-sandbox/SKILL.md",
+        "line": 213,
+        "excerpt": "sandbox --version",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/offload-to-sandbox/SKILL.md",
+        "line": 223,
+        "excerpt": "name=exp-parser",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/offload-to-sandbox/SKILL.md",
+        "line": 227,
+        "excerpt": "command_id=$(sandbox exec --scope \"$SBX_SCOPE\" --project \"$SBX_PROJECT\" --detach \"$name\" -- sh -c 'cd /vercel/sandbox/cand && npm run test:all')",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/offload-to-sandbox/SKILL.md",
+        "line": 240,
+        "excerpt": "sandbox commands kill --scope \"$SBX_SCOPE\" --project \"$SBX_PROJECT\" \"$name\" \"$command_id\" --signal SIGTERM",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/offload-to-sandbox/SKILL.md",
+        "line": 251,
+        "excerpt": "printf 'hello\\n' | sandbox exec --scope \"$SBX_SCOPE\" --project \"$SBX_PROJECT\" --stdin \"$name\" -- cat",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/offload-to-sandbox/SKILL.md",
+        "line": 261,
+        "excerpt": "vercel sandbox exec exp-parser -- sh -c 'cd /vercel/sandbox/cand && rm -f /tmp/test.status && nohup sh -c \"npm run test:all > /tmp/test.log 2>&1; echo \\$? > /tm",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/offload-to-sandbox/SKILL.md",
+        "line": 263,
+        "excerpt": "vercel sandbox exec --timeout 30s exp-parser -- sh -c 'cat /tmp/test.status 2>/dev/null || tail -3 /tmp/test.log'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/offload-to-sandbox/SKILL.md",
+        "line": 309,
+        "excerpt": "set -eu",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/offload-to-sandbox/SKILL.md",
+        "line": 332,
+        "excerpt": "sh -c 'sh -c \"$0\" sh \"$@\"; echo \"__sbx_exit=$?\"' \"$script\" \"$@\" | tee \"$log\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/offload-to-sandbox/SKILL.md",
+        "line": 412,
+        "excerpt": "sbx create exp-parser",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "agents/deployment-expert.md",
+        "line": 258,
+        "excerpt": "run: npm install -g vercel",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "agents/deployment-expert.md",
+        "line": 299,
+        "excerpt": "- run: npx playwright test",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "agents/deployment-expert.md",
+        "line": 308,
+        "excerpt": "- run: npm install -g vercel",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "agents/deployment-expert.md",
+        "line": 333,
+        "excerpt": "- run: npm install -g vercel",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "agents/deployment-expert.md",
+        "line": 389,
+        "excerpt": "- run: npm ci && npx playwright install --with-deps",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "agents/deployment-expert.md",
+        "line": 390,
+        "excerpt": "- run: npx playwright test",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "agents/performance-optimizer.md",
+        "line": 141,
+        "excerpt": "Next.js ships version-matched docs inside the `next` package at `node_modules/next/dist/docs/`. Read the relevant page there before recommending a Next.js code ",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "agents/performance-optimizer.md",
+        "line": 152,
+        "excerpt": "For multi-step Cache Components work (adopting it across an app, or tuning a route for instant navigation), suggest the official skills: `npx skills add vercel/",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "commands/deploy.md",
+        "line": 14,
+        "excerpt": "- If missing: `npm i -g vercel` (or `pnpm add -g vercel` / `bun add -g vercel`).",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "commands/env.md",
+        "line": 14,
+        "excerpt": "- If missing: `npm i -g vercel` (or `pnpm add -g vercel` / `bun add -g vercel`).",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "commands/env.md",
+        "line": 222,
+        "excerpt": "cat .env.custom.bak >> .env.local  # Re-append custom vars",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "commands/env.md",
+        "line": 238,
+        "excerpt": "npx dotenv -e .env.local -- npx drizzle-kit push",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "commands/env.md",
+        "line": 239,
+        "excerpt": "npx dotenv -e .env.local -- npx tsx scripts/seed.ts",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "commands/env.md",
+        "line": 242,
+        "excerpt": "source <(grep -v '^#' .env.local | sed 's/^/export /') && node scripts/migrate.js",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "commands/status.md",
+        "line": 16,
+        "excerpt": "2. Verify `vercel` CLI is available on PATH. If missing, suggest `npm i -g vercel`.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "commands/status.md",
+        "line": 99,
+        "excerpt": "curl -s -H \"Authorization: Bearer $VERCEL_TOKEN\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 9,
+        "excerpt": "\"command\": \"node \\\"${CLAUDE_PLUGIN_ROOT}/hooks/session-start-seen-skills.mjs\\\"\"",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "network",
+        "file": "hooks/lexical-index.mjs",
+        "line": 336,
+        "excerpt": "fetch(key, initial) {",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "hooks/lexical-index.mjs",
+        "line": 1589,
+        "excerpt": "const indexData = this._index.fetch(term, createMap);",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "hooks/lexical-index.mjs",
+        "line": 1608,
+        "excerpt": "const indexData = this._index.fetch(term, createMap);",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "hooks/session-start-profiler.mjs",
+        "line": 816,
+        "excerpt": "\"Strongly recommend the user install it with `npm i -g vercel` to unlock agentic features like `vercel env pull`, `vercel deploy`, and `vercel logs`.\"",
         "disclosed": false,
         "automatic": true
       },
       {
-        "ruleId": "shell",
-        "file": "hooks/session-start-profiler-binary-resolution.test.ts",
-        "line": 89,
-        "excerpt": "const output = execSync(buildShellCommand(binary, [\"--version\"]), {",
+        "ruleId": "downloads-code",
+        "file": "hooks/session-start-profiler.mjs",
+        "line": 823,
+        "excerpt": "\"Strongly recommend the user upgrade with `npm i -g vercel@latest` or `pnpm add -g vercel@latest` for best compatibility.\",",
         "disclosed": false,
         "automatic": true
       },
       {
-        "ruleId": "shell",
-        "file": "hooks/src/skill-telemetry.mts",
-        "line": 10,
-        "excerpt": "import { spawn } from \"node:child_process\";",
+        "ruleId": "downloads-code",
+        "file": "hooks/src/session-start-profiler.mts",
+        "line": 727,
+        "excerpt": "\"Strongly recommend the user install it with `npm i -g vercel` to unlock agentic features like `vercel env pull`, `vercel deploy`, and `vercel logs`.\",",
         "disclosed": false,
         "automatic": true
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "hooks/src/session-start-profiler.mts",
+        "line": 734,
+        "excerpt": "\"Strongly recommend the user upgrade with `npm i -g vercel@latest` or `pnpm add -g vercel@latest` for best compatibility.\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "network",
+        "file": "hooks/src/telemetry.mts",
+        "line": 107,
+        "excerpt": "const response = await fetch(BRIDGE_ENDPOINT, {",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "hooks/telemetry.mjs",
+        "line": 49,
+        "excerpt": "const response = await fetch(BRIDGE_ENDPOINT, {",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": []
       }
     ],
     "findingTotals": {
-      "shell": 3
+      "shell": 36,
+      "downloads-code": 19,
+      "reads-secrets": 2,
+      "network": 6
     },
-    "score": 95,
-    "band": "low",
+    "score": 67,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 9,
-    "filesSkipped": 66
+    "filesScanned": 75,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "2a163af1e4b9ba5f8a02de3737eb0c884e21d765",
       "scannedAt": "2026-11-07T22:05:48.475Z",
       "score": 95,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "39e5102c79293b91a02d84543c197940fa383852",
+      "scannedAt": "2026-11-10T10:33:07.758Z",
+      "score": 67,
       "rulesVersion": "1.3.0"
     }
   ]

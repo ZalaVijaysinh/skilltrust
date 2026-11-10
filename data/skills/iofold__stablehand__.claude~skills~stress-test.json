@@ -1,0 +1,363 @@
+{
+  "id": "iofold__stablehand__.claude~skills~stress-test",
+  "owner": "iofold",
+  "repo": "stablehand",
+  "path": ".claude/skills/stress-test",
+  "name": "stress-test",
+  "description": "Full stress-test suite for stablehand — exercises tools, chaining, HITL, multi-model, code execution",
+  "stars": 14,
+  "category": "coding",
+  "commit": "a9a59695ebb742b916e971e66698adf3febd5ded",
+  "contentHash": "f0ec4fba75dc5d96729065e9a3b8981f905c02743a910c340df9361c04290b58",
+  "repoCreatedAt": "2026-10-22T08:21:49Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-10T10:33:07.758Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/stress-test/SKILL.md",
+        "line": 38,
+        "excerpt": "docker compose up --build -d",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/stress-test/SKILL.md",
+        "line": 45,
+        "excerpt": "curl -sf http://localhost:3002/api/agents > /dev/null && echo \"API: OK\" || echo \"API: DOWN\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/stress-test/SKILL.md",
+        "line": 45,
+        "excerpt": "curl -sf http://localhost:3002/api/agents > /dev/null && echo \"API: OK\" || echo \"API: DOWN\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/stress-test/SKILL.md",
+        "line": 51,
+        "excerpt": "curl -sf http://localhost:9000/minio/health/live > /dev/null 2>&1 && echo \"MinIO: OK\" || echo \"MinIO: DOWN — artifact tests will be skipped\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/stress-test/SKILL.md",
+        "line": 75,
+        "excerpt": "set -euo pipefail",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/stress-test/SKILL.md",
+        "line": 80,
+        "excerpt": "curl -s \"$API_BASE/api/agents\" | jq -r --arg name \"$name\" 'first(.[] | select(.name == $name) | .id)'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/stress-test/SKILL.md",
+        "line": 87,
+        "excerpt": "curl -s -X POST \"$API_BASE/api/agents/$agent_id/message\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/stress-test/SKILL.md",
+        "line": 102,
+        "excerpt": "status=\"$(curl -s \"$API_BASE/api/agents/$agent_id/sessions\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/stress-test/SKILL.md",
+        "line": 109,
+        "excerpt": "has_interrupt=\"$(curl -s \"$API_BASE/api/agents/$agent_id/interrupts\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/stress-test/SKILL.md",
+        "line": 131,
+        "excerpt": "interrupt=\"$(curl -s \"$API_BASE/api/agents/$agent_id/interrupts\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/stress-test/SKILL.md",
+        "line": 146,
+        "excerpt": "curl -s -X POST \"$API_BASE/api/agents/$agent_id/interrupt\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/stress-test/SKILL.md",
+        "line": 157,
+        "excerpt": "npx tsx tests/stress/seed.ts",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/stress-test/SKILL.md",
+        "line": 157,
+        "excerpt": "npx tsx tests/stress/seed.ts",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/stress-test/SKILL.md",
+        "line": 183,
+        "excerpt": "LG_OPENAI_SID=\"$(send_message \"$LG_OPENAI_ID\" \"Run the stress test now. Confirm you are operational and emit stress.tools.complete.\")\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/stress-test/SKILL.md",
+        "line": 187,
+        "excerpt": "curl -s \"$API_BASE/api/events?type=stress.tools.complete&agentId=$LG_OPENAI_ID&limit=20\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/stress-test/SKILL.md",
+        "line": 206,
+        "excerpt": "LG_GEMINI_SID=\"$(send_message \"$LG_GEMINI_ID\" \"Verify Gemini LangGraph execution and emit stress.gemini.complete.\")\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/stress-test/SKILL.md",
+        "line": 210,
+        "excerpt": "curl -s \"$API_BASE/api/events?type=stress.gemini.complete&limit=20\" | jq '.events | length'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/stress-test/SKILL.md",
+        "line": 216,
+        "excerpt": "PI_GEMINI_SID=\"$(send_message \"$PI_GEMINI_ID\" \"Verify Gemini PI-agent execution and emit stress.pi-gemini.complete.\")\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/stress-test/SKILL.md",
+        "line": 220,
+        "excerpt": "curl -s \"$API_BASE/api/events?type=stress.pi-gemini.complete&limit=20\" | jq '.events | length'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/stress-test/SKILL.md",
+        "line": 238,
+        "excerpt": "CHAIN_BEFORE=\"$(curl -s \"$API_BASE/api/agents/$CHAIN_ID/sessions\" | jq '.sessions | length')\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/stress-test/SKILL.md",
+        "line": 238,
+        "excerpt": "CHAIN_BEFORE=\"$(curl -s \"$API_BASE/api/agents/$CHAIN_ID/sessions\" | jq '.sessions | length')\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/stress-test/SKILL.md",
+        "line": 240,
+        "excerpt": "curl -s -X POST \"$API_BASE/api/triggers/emit\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/stress-test/SKILL.md",
+        "line": 248,
+        "excerpt": "CHAIN_SID=\"$(curl -s \"$API_BASE/api/agents/$CHAIN_ID/sessions\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/stress-test/SKILL.md",
+        "line": 258,
+        "excerpt": "curl -s \"$API_BASE/api/events?type=stress.chain.done&limit=20\" | jq '.events | length'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/stress-test/SKILL.md",
+        "line": 275,
+        "excerpt": "CLAUDE_SID=\"$(send_message \"$CLAUDE_ID\" \"Write the stress test file now, verify it exists, and emit stress.claude.complete.\")\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/stress-test/SKILL.md",
+        "line": 279,
+        "excerpt": "curl -s \"$API_BASE/api/events?type=stress.claude.complete&limit=20\" | jq '.events | length'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/stress-test/SKILL.md",
+        "line": 299,
+        "excerpt": "HITL_APPROVE_SID=\"$(send_message \"$HITL_ID\" \"Request approval for writing stress test results, then emit stress.hitl.complete.\")\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/stress-test/SKILL.md",
+        "line": 309,
+        "excerpt": "curl -s \"$API_BASE/api/agents/$HITL_ID/interrupts\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/stress-test/SKILL.md",
+        "line": 316,
+        "excerpt": "HITL_REJECT_SID=\"$(send_message \"$HITL_ID\" \"Request approval again — this one will be rejected.\")\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/stress-test/SKILL.md",
+        "line": 323,
+        "excerpt": "curl -s \"$API_BASE/api/agents/$HITL_ID/interrupts\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/stress-test/SKILL.md",
+        "line": 341,
+        "excerpt": "curl -s \"$API_BASE/api/events?limit=200\" | jq '[.events[].type] | unique'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/stress-test/SKILL.md",
+        "line": 341,
+        "excerpt": "curl -s \"$API_BASE/api/events?limit=200\" | jq '[.events[].type] | unique'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/stress-test/SKILL.md",
+        "line": 362,
+        "excerpt": "curl -s \"$API_BASE/api/settings\" | jq .",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/stress-test/SKILL.md",
+        "line": 362,
+        "excerpt": "curl -s \"$API_BASE/api/settings\" | jq .",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/stress-test/SKILL.md",
+        "line": 404,
+        "excerpt": "if curl -sf http://localhost:9000/minio/health/live > /dev/null 2>&1; then",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/stress-test/SKILL.md",
+        "line": 455,
+        "excerpt": "HITL_PERSIST_SID=\"$(send_message \"$HITL_ID\" \"Request approval for the durable interrupt persistence stress test, then emit stress.hitl.complete.\")\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/stress-test/SKILL.md",
+        "line": 495,
+        "excerpt": "npx tsx tests/stress/seed.ts --clean",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/stress-test/SKILL.md",
+        "line": 495,
+        "excerpt": "npx tsx tests/stress/seed.ts --clean",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 16,
+      "network": 36,
+      "downloads-code": 2
+    },
+    "score": 77,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "a9a59695ebb742b916e971e66698adf3febd5ded",
+      "scannedAt": "2026-11-10T10:33:07.758Z",
+      "score": 77,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

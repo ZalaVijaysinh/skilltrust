@@ -5,15 +5,15 @@
   "path": "video-sound",
   "name": "video-sound",
   "description": "Make the sound of any video so it feels real: AI voices that don't sound fake (cast from candidates a person picks, directed with each model's documented tags), dialogue and narration written for the ear with pauses, breaths and small actions, sound effects on the right frame, music planned bar by bar with a quiet part, and a measured mix. Built from 480 sourced findings (Walter Murch, Randy Thom, Ben Burtt, trailer editors, NPR, voice directors, model docs, HyperFrames, earshot) plus paid tests. An agent can't hear, so every step writes numbers: a cue sheet, scripts that build and grade the mix (LUFS, true peak, voice over music, effects within a frame, cuts on the beat, dead air), a voice audition page and an audio LLM judge that shortlists takes. Use for \"add sound\", \"voiceover\", \"sound design\", \"music for my video\", \"make the AI voice sound real\", \"pick the best take\", \"SFX\", \"mix\", \"launch video audio\", \"trailer sound\", in HyperFrames, Remotion or AI films. Not for making a song as the product.",
-  "stars": 22,
+  "stars": 25,
   "category": "media",
   "commit": "72e8109188e3366ba8d365902a84d6b237dec1d7",
   "contentHash": "eb562ff4650199a83bcb389034e0c21d284bef50c5216b83fb696ee6b5e95fda",
   "repoCreatedAt": "2026-01-22T05:28:34Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-10T10:33:07.758Z",
   "scan": {
     "findings": [
       {
@@ -57,6 +57,98 @@
         "automatic": false
       },
       {
+        "ruleId": "network",
+        "file": "video-sound/examples/launch-20s/fetch.sh",
+        "line": 7,
+        "excerpt": "get() { curl -sfL -A \"Mozilla/5.0\" -o \"$2\" \"$B/$1.mp3\"; }",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "video-sound/references/evidence.md",
+        "line": 526,
+        "excerpt": "- HyperFrames places an effect so its peak lands one frame AFTER its picture (disagrees with OpenMontage's 10-20 ms lead; see OpenMontage finding). — \"Place a c",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "video-sound/references/evidence.md",
+        "line": 530,
+        "excerpt": "- Duck the bed with a volume lane from word timings (full before the voice, about 0.3-0.4 while anyone speaks), then run the carve so only the voice bands dip. ",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "video-sound/scripts/audition.py",
+        "line": 18,
+        "excerpt": "import argparse, json, os, re, shutil, subprocess, sys, time, urllib.error, urllib.request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "video-sound/scripts/audition.py",
+        "line": 61,
+        "excerpt": "req = urllib.request.Request(API + path, method=method, data=json.dumps(body).encode() if body else None,",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "video-sound/scripts/audition.py",
+        "line": 65,
+        "excerpt": "with urllib.request.urlopen(req, timeout=120) as r:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "video-sound/scripts/audition.py",
+        "line": 106,
+        "excerpt": "subprocess.run([\"curl\", \"-sL\", \"-A\", \"Mozilla/5.0\", \"-o\", os.path.join(base, t[\"file\"]), url], check=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "video-sound/scripts/audition.py",
+        "line": 114,
+        "excerpt": "return subprocess.run([\"ffmpeg\", \"-hide_banner\", \"-nostats\", \"-i\", path, \"-af\", af, \"-f\", \"null\", \"-\"],",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "video-sound/scripts/audition.py",
+        "line": 115,
+        "excerpt": "stderr=subprocess.PIPE, text=True).stderr",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "video-sound/scripts/audition.py",
+        "line": 116,
+        "excerpt": "dur = float(subprocess.run([\"ffprobe\", \"-v\", \"error\", \"-show_entries\", \"format=duration\", \"-of\", \"csv=p=0\", path],",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "video-sound/scripts/audition.py",
+        "line": 117,
+        "excerpt": "stdout=subprocess.PIPE, text=True).stdout.strip() or 0)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
         "ruleId": "shell",
         "file": "video-sound/scripts/judge_takes.py",
         "line": 99,
@@ -78,6 +170,62 @@
         "line": 104,
         "excerpt": "stdout=subprocess.PIPE, text=True, check=True).stdout",
         "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "video-sound/scripts/sound.py",
+        "line": 40,
+        "excerpt": "die(\"ffmpeg is not on PATH (brew install ffmpeg / apt install ffmpeg)\")",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "video-sound/scripts/sound.py",
+        "line": 44,
+        "excerpt": "p = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "video-sound/scripts/sound.py",
+        "line": 51,
+        "excerpt": "out = subprocess.run([\"ffprobe\", \"-v\", \"error\", \"-show_entries\", \"format=duration\", \"-of\", \"csv=p=0\", path],",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "video-sound/scripts/sound.py",
+        "line": 52,
+        "excerpt": "stdout=subprocess.PIPE, text=True).stdout.strip()",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "video-sound/scripts/sound.py",
+        "line": 85,
+        "excerpt": "p = subprocess.run([\"ffmpeg\", \"-v\", \"error\", \"-i\", path, *([\"-af\", af] if af else []), \"-ac\", \"1\", \"-ar\", str(sr),",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "video-sound/scripts/sound.py",
+        "line": 86,
+        "excerpt": "\"-f\", \"f32le\", \"-\"], stdout=subprocess.PIPE)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "video-sound/scripts/sound.py",
+        "line": 146,
+        "excerpt": "die(\"librosa is missing. Run:  uv run --with librosa python3 sound.py ...  (or pip install librosa)\")",
+        "disclosed": false,
         "automatic": false
       },
       {
@@ -170,14 +318,15 @@
       }
     ],
     "findingTotals": {
-      "downloads-code": 13,
-      "shell": 6
+      "downloads-code": 17,
+      "shell": 16,
+      "network": 4
     },
-    "score": 82,
-    "band": "low",
+    "score": 77,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 17,
-    "filesSkipped": 18
+    "filesScanned": 34,
+    "filesSkipped": 1
   },
   "history": [
     {

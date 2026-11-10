@@ -1,0 +1,102 @@
+{
+  "id": "enitrat__skill-issue__skills~bx-boxes",
+  "owner": "enitrat",
+  "repo": "skill-issue",
+  "path": "skills/bx-boxes",
+  "name": "bx-boxes",
+  "description": "Run work on short-lived Boat sandboxes with the `bx` CLI and steer it with herdr. Use when a task needs a clean Linux machine, more parallelism than this Mac allows, or isolation between runs (evals, test shards, agent trials that share /tmp, ports or a browser), or when the user says box, Boat, sandbox, spawn a machine or run it remotely.",
+  "stars": 15,
+  "category": "other",
+  "commit": "6cddc7e22fe4df16c3203d51e983ffdb99506d1b",
+  "contentHash": "5912119a94c6c611b5c1f5bc78733da0a159cf87ceeb9afadc4b3f8d2af67d45",
+  "repoCreatedAt": "2025-12-16T21:30:49Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-10T10:33:07.758Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/bx-boxes/SKILL.md",
+        "line": 39,
+        "excerpt": "cp .git/index /tmp/idx && GIT_INDEX_FILE=/tmp/idx git add -A \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bx-boxes/SKILL.md",
+        "line": 74,
+        "excerpt": "for name in eval-1 eval-2 eval-3 eval-4; do bx new --snapshot zama --name \"$name\" > \"/tmp/$name.id\" & done; wait",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bx-boxes/SKILL.md",
+        "line": 100,
+        "excerpt": "herdr --machine <box> pane run w1:p1 \"cd ~/<snapshot>/<repo> && <cmd>; echo EXIT=\\$?\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bx-boxes/SKILL.md",
+        "line": 118,
+        "excerpt": "ssh <id> 'pkill -x herdr'   # -x matches the process name, not this shell's command line",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/bx-boxes/SKILL.md",
+        "line": 127,
+        "excerpt": "ssh <id> 'cd <dir> && nohup sh -c \"<cmd> > ~/run.log 2>&1; echo \\$? > ~/run.exit\" >/dev/null 2>&1 &'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bx-boxes/SKILL.md",
+        "line": 127,
+        "excerpt": "ssh <id> 'cd <dir> && nohup sh -c \"<cmd> > ~/run.log 2>&1; echo \\$? > ~/run.exit\" >/dev/null 2>&1 &'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bx-boxes/SKILL.md",
+        "line": 134,
+        "excerpt": "herdr --machine <box> pane run w1:p1 \"cd ~/<snapshot>/<repo>\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bx-boxes/SKILL.md",
+        "line": 173,
+        "excerpt": "ssh <id> 'tar czf ~/results.tgz -C ~ --exclude=\"*/node_modules\" --exclude=\"*/work\" <results-dir>'",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 7,
+      "writes-outside": 1
+    },
+    "score": 87,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "6cddc7e22fe4df16c3203d51e983ffdb99506d1b",
+      "scannedAt": "2026-11-10T10:33:07.758Z",
+      "score": 87,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

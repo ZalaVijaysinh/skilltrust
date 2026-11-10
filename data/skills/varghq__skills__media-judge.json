@@ -5,15 +5,15 @@
   "path": "media-judge",
   "name": "media-judge",
   "description": "Judge a finished AI-made video, image or track by measuring it, then rank takes on the defects found. One command reads every frame and writes facts with timestamps and evidence: broken frames, banding after a simulated X or YouTube upload, numbers that jiggle, spelling, too much on screen, nothing leading the eye, motion with no cause, pinned graphics, sliding labels, a face, outfit or light that changed, sound after the cut, loudness, voice against the script, and distance to references against the template. A fresh agent settles only what eyes can settle. No score out of 10. Use when someone says \"review this video\", \"check my render\", \"self-review\", \"QA\", \"judge\", \"critique\", \"score these takes\", \"pick the best take\", \"does it match the reference\", \"it looks like a template\", \"is it ready to post\", \"reverse engineer this reel\", or after any agent finishes a film, short drama, reel or ad. Not for making or repairing media (varg-ai, varg-video-editing) or ad law (ai-ad-compliance-check).",
-  "stars": 22,
+  "stars": 25,
   "category": "media",
   "commit": "72e8109188e3366ba8d365902a84d6b237dec1d7",
   "contentHash": "7b1e68f0333ffb47643f94fa35949779cd161ca30610e8562a0b485c60480a2e",
   "repoCreatedAt": "2026-01-22T05:28:34Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-10T10:33:07.758Z",
   "scan": {
     "findings": [
       {
@@ -58,9 +58,116 @@
       },
       {
         "ruleId": "shell",
+        "file": "media-judge/references/recipes/sound_vs_cuts.py",
+        "line": 10,
+        "excerpt": "raw = subprocess.run([\"ffmpeg\", \"-v\", \"error\", \"-i\", path, \"-f\", \"f32le\", \"-ac\", \"1\", \"-ar\", str(sr), \"-\"], capture_output=True).stdout",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
         "file": "media-judge/scripts/mj_audio.py",
         "line": 23,
         "excerpt": "proc = subprocess.run(cmd, capture_output=True)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "media-judge/scripts/mj_common.py",
+        "line": 8,
+        "excerpt": "import urllib.request",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "media-judge/scripts/mj_common.py",
+        "line": 29,
+        "excerpt": "def run(cmd: list[str], check: bool = True, **kw) -> subprocess.CompletedProcess:",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "media-judge/scripts/mj_common.py",
+        "line": 30,
+        "excerpt": "return subprocess.run(cmd, check=check, capture_output=True, text=True, **kw)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "media-judge/scripts/mj_common.py",
+        "line": 49,
+        "excerpt": "req = urllib.request.Request(url, headers={\"User-Agent\": \"media-judge\"})",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "media-judge/scripts/mj_common.py",
+        "line": 50,
+        "excerpt": "with urllib.request.urlopen(req, timeout=120) as r:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "media-judge/scripts/mj_common.py",
+        "line": 149,
+        "excerpt": "proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "media-judge/scripts/mj_common.py",
+        "line": 168,
+        "excerpt": "proc = subprocess.run(cmd, capture_output=True)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "media-judge/scripts/mj_text.py",
+        "line": 47,
+        "excerpt": "proc = subprocess.run([\"tesseract\", \"stdin\", \"stdout\", \"--psm\", \"11\", \"tsv\"], input=buf.tobytes(), capture_output=True)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "media-judge/scripts/mj_text.py",
+        "line": 491,
+        "excerpt": "raw = subprocess.run(cmd, capture_output=True).stdout",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "media-judge/tests/make_fixtures.py",
+        "line": 39,
+        "excerpt": "data = subprocess.run(cmd, capture_output=True).stdout",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "media-judge/tests/make_fixtures.py",
+        "line": 118,
+        "excerpt": "p = subprocess.Popen(cmd, stdin=subprocess.PIPE)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "media-judge/tests/run_bench.py",
+        "line": 27,
+        "excerpt": "p = subprocess.run(cmd, capture_output=True, text=True)",
         "disclosed": false,
         "automatic": false
       },
@@ -171,13 +278,14 @@
     ],
     "findingTotals": {
       "downloads-code": 15,
-      "shell": 4
+      "shell": 14,
+      "network": 3
     },
-    "score": 80,
-    "band": "low",
+    "score": 77,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 29,
-    "filesSkipped": 20
+    "filesScanned": 48,
+    "filesSkipped": 1
   },
   "history": [
     {

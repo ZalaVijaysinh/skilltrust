@@ -5,15 +5,15 @@
   "path": "threejs-animatic",
   "name": "threejs-animatic",
   "description": "Build a three.js animatic (\"animatronic\", 3D previz, blockout) of a multi-shot video: every storyboard shot becomes a schematic 3D scene drawn in code, with jointed mannequins and poses, master sets in real metres and props, a real camera per shot (START/END keys, lens in mm, move and ease), timed to the music or voiceover, reviewed in the browser with a top-down set map of every camera frustum, approved, exported as a camera plan, rendered to MP4 frame by frame (headless Chrome or HyperFrames), then used as the @video1 reference for Seedance 2.5 video-to-video on varg so the generated shots keep the approved camera and blocking. Use when someone asks for a three.js animatic or animatronic, a 3D previz or blockout, camera blocking, a camera plan, shot sizes and lenses, a grey-box of a storyboard, previz to Seedance, a reference video for video-to-video, or a look blockout (reference pictures as textures on the blockout, stills for look approval). Includes a working starter project (no npm).",
-  "stars": 22,
+  "stars": 25,
   "category": "media",
   "commit": "72e8109188e3366ba8d365902a84d6b237dec1d7",
   "contentHash": "f0552c4b44b91adc6a58935143469602c42361da02afb11e33c701244037a7c9",
   "repoCreatedAt": "2026-01-22T05:28:34Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-10T10:33:07.758Z",
   "scan": {
     "findings": [
       {
@@ -61,6 +61,100 @@
         "file": "threejs-animatic/references/seek-safe-rendering.md",
         "line": 93,
         "excerpt": "the first frame after it. Then `npx hyperframes render hf -o renders/animatic_hf.mp4`. The demo: lint 0/0,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "threejs-animatic/starter/README.md",
+        "line": 17,
+        "excerpt": "bun tools/make_hf.ts && npx hyperframes render hf -o renders/animatic_hf.mp4   # same film through HyperFrames",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "threejs-animatic/starter/js/main.js",
+        "line": 13,
+        "excerpt": "try { const r = await fetch('data/edits.json', { cache: 'no-store' }); if (r.ok) edits = await r.json(); } catch { /* first run */ }",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "threejs-animatic/starter/js/main.js",
+        "line": 146,
+        "excerpt": "if (FILM.audio) fetch(FILM.audio).then(r => (r.ok ? r.blob() : Promise.reject(r.status)))",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "threejs-animatic/starter/js/main.js",
+        "line": 280,
+        "excerpt": "const r = await fetch(path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "threejs-animatic/starter/serve.ts",
+        "line": 17,
+        "excerpt": "async fetch(req) {",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "threejs-animatic/starter/tools/capture.ts",
+        "line": 59,
+        "excerpt": "const ff = Bun.spawn(['ffmpeg', '-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(fps), '-c:v', 'png', '-i', '-',",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "threejs-animatic/starter/tools/cdp.ts",
+        "line": 26,
+        "excerpt": "const proc = Bun.spawn([",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "threejs-animatic/starter/tools/cdp.ts",
+        "line": 40,
+        "excerpt": "page = (await (await fetch(`http://127.0.0.1:${port}/json/list`)).json()).find((t: any) => t.type === 'page');",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "threejs-animatic/starter/tools/cdp.ts",
+        "line": 43,
+        "excerpt": "const ws = new WebSocket(page.webSocketDebuggerUrl);",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "threejs-animatic/starter/tools/check.ts",
+        "line": 43,
+        "excerpt": "const sheet = Bun.spawnSync(['ffmpeg', '-y', '-loglevel', 'error', '-framerate', '1', '-i', join(out, 'f_%03d.png'),",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "threejs-animatic/starter/tools/make_hf.ts",
+        "line": 67,
+        "excerpt": "console.log(`hf/ ready (${W}x${H}, ${FILM.duration} s). Next: npx hyperframes lint hf && npx hyperframes render hf -o renders/animatic_hf.mp4`);",
         "disclosed": false,
         "automatic": false
       },
@@ -122,14 +216,15 @@
       }
     ],
     "findingTotals": {
-      "downloads-code": 12,
-      "shell": 1
+      "downloads-code": 14,
+      "shell": 4,
+      "network": 6
     },
-    "score": 80,
-    "band": "low",
+    "score": 77,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 15,
-    "filesSkipped": 18
+    "filesScanned": 32,
+    "filesSkipped": 1
   },
   "history": [
     {

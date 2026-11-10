@@ -1,0 +1,160 @@
+{
+  "id": "kortix-ai__companyos__.agents~skills~contributing",
+  "owner": "kortix-ai",
+  "repo": "CompanyOS",
+  "path": ".agents/skills/contributing",
+  "name": "contributing",
+  "description": "The pull request loop for this repo: branch → commit → verify in your own box (local tests + local stack) → PR into dev → demo video recorded with agent-browser on the local stack → `gh --attach` → self-merge → verify on dev. A PR into dev runs no CI unless a person adds the `test` or `preview` label (one run each). Load when opening, updating, or finishing a pull request; when asking what CI runs where; when adding or explaining PR labels or the per-PR preview environment; or when attaching an image or video to a PR, issue, or comment. The PR title and body are the create-pr skill.",
+  "stars": 20624,
+  "category": "coding",
+  "commit": "43fc65ad0b0edaa3d92636611732f6917f208e3a",
+  "contentHash": "394497ba7d2284de1481c7052e77b9586d330b63172d486e396ffab8be3bb8db",
+  "repoCreatedAt": "2024-10-05T17:01:01Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-10T10:33:07.758Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/contributing/SKILL.md",
+        "line": 21,
+        "excerpt": "gh --version                 # ≥ 2.99.0: first release with --attach",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/contributing/SKILL.md",
+        "line": 22,
+        "excerpt": "agent-browser --version      # installed: npm i -g agent-browser && agent-browser install",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/contributing/SKILL.md",
+        "line": 78,
+        "excerpt": "set -euo pipefail",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/contributing/SKILL.md",
+        "line": 121,
+        "excerpt": "for t in 1 5 10 15; do ffmpeg -v error -y -ss $t -i output/pr/demo.mp4 -frames:v 1 -vf scale=720:-1 output/pr/frame-$t.png; done",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/contributing/SKILL.md",
+        "line": 132,
+        "excerpt": "git push -u origin HEAD",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/contributing/SKILL.md",
+        "line": 155,
+        "excerpt": "gh pr edit <pr> --body-file output/pr/body.md --attach ./output/pr/demo.mp4",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/contributing/SKILL.md",
+        "line": 166,
+        "excerpt": "gh pr view <pr> --json body --jq .body | grep -oE 'https://github.com/user-attachments/assets/[0-9a-f-]+'  # ≥ 1 URL",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/contributing/references/attachments.md",
+        "line": 72,
+        "excerpt": "- An asset URL answers `302` to a signed S3 URL that expires after 5 minutes. `curl -I` gets",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/contributing/references/attachments.md",
+        "line": 74,
+        "excerpt": "`curl -sL -o /tmp/a.mp4 -w '%{http_code} %{content_type}\\n' <asset-url>` → `200 video/mp4`.",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/contributing/scripts/preview-auth-email.sh",
+        "line": 28,
+        "excerpt": "id=\"$(curl -fsS -G \"${mailpit}/search\" --data-urlencode \"query=to:${email}\" |",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/contributing/scripts/preview-auth-email.sh",
+        "line": 33,
+        "excerpt": "body=\"$(curl -fsS \"${mailpit}/message/${id}\" | jq -r '(.Text // \"\") + \"\\n\" + (.HTML // \"\")' |",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "tests/src/core/client.ts",
+        "line": 708,
+        "excerpt": "res = await fetch(url, {",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "tests/src/fixtures/billing.ts",
+        "line": 24,
+        "excerpt": "const res = await fetch(`https://api.stripe.com/v1${path}`, {",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.stripe.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "tests/src/fixtures/billing.ts",
+        "line": 155,
+        "excerpt": "const res = await fetch(`${env.apiUrl}/billing/webhook/stripe`, {",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 6,
+      "downloads-code": 1,
+      "network": 7
+    },
+    "score": 79,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 18,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "43fc65ad0b0edaa3d92636611732f6917f208e3a",
+      "scannedAt": "2026-11-10T10:33:07.758Z",
+      "score": 79,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

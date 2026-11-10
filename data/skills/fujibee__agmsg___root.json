@@ -5,15 +5,15 @@
   "path": "",
   "name": "agmsg",
   "description": "Cross-agent messaging via SQLite. Send messages between Claude Code, Codex, Gemini CLI, and other agents. No network, no dependencies beyond bash and sqlite3, and no daemon required (the optional agmsgd is a local resident service).",
-  "stars": 1580,
+  "stars": 1581,
   "category": "coding",
-  "commit": "95105e5da72716ec584931cfea1feaff4ea9ef65",
-  "contentHash": "1b12c663727f4bf51937d076f8595111628182beeef988087b60b77f4883ac7f",
+  "commit": "622ec9fac9f0c06a40f83359b9137709a605f8ab",
+  "contentHash": "c3476e9aecc1c43b364cea137568395f4b71feb3e86335b3cd0d62f7a276bf9b",
   "repoCreatedAt": "2026-04-02T20:43:41Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-08T05:42:07.685Z",
+  "scannedAt": "2026-11-10T10:33:07.758Z",
   "scan": {
     "findings": [
       {
@@ -835,7 +835,7 @@
       {
         "ruleId": "writes-outside",
         "file": "tests/remote_sync_engine.test.mjs",
-        "line": 713,
+        "line": 717,
         "excerpt": "await writeFile(script, \"#!/usr/bin/env bash\\ncat > /dev/null\\nexit 9\\n\", { mode: 0o755 });",
         "disclosed": true,
         "automatic": false
@@ -843,7 +843,7 @@
       {
         "ruleId": "writes-outside",
         "file": "tests/remote_sync_engine.test.mjs",
-        "line": 2836,
+        "line": 2876,
         "excerpt": "await writeFile(mock, `#!/usr/bin/env bash",
         "disclosed": true,
         "automatic": false
@@ -851,7 +851,7 @@
       {
         "ruleId": "writes-outside",
         "file": "tests/remote_sync_engine.test.mjs",
-        "line": 4675,
+        "line": 4715,
         "excerpt": "await writeFile(script, `#!/usr/bin/env bash",
         "disclosed": true,
         "automatic": false
@@ -859,7 +859,7 @@
       {
         "ruleId": "writes-outside",
         "file": "tests/remote_sync_engine.test.mjs",
-        "line": 4751,
+        "line": 4791,
         "excerpt": "await writeFile(script, `#!/usr/bin/env bash",
         "disclosed": true,
         "automatic": false
@@ -867,8 +867,40 @@
       {
         "ruleId": "writes-outside",
         "file": "tests/remote_sync_engine.test.mjs",
-        "line": 5541,
+        "line": 5581,
         "excerpt": "await writeFile(driverScript, \"#!/usr/bin/env bash\\necho \\\"$1\\\"\\ncat\\n\", { mode: 0o755 });",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "tests/remote_sync_engine.test.mjs",
+        "line": 5683,
+        "excerpt": "writeFileSync(remote, `#!/usr/bin/env bash\\nprintf '%s\\\\n' \"$*\" >> ${shellQuote(log)}\\n${startOutput}\\n`, { mode: 0o755 });",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "tests/remote_sync_engine.test.mjs",
+        "line": 5729,
+        "excerpt": "writeFileSync(remote, `#!/usr/bin/env bash\\nprintf '%s\\\\n' \"$*\" >> ${shellQuote(log)}\\necho \"Sync engine started for demo (pid 2).\"\\n`, { mode: 0o755 });",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "tests/remote_sync_engine.test.mjs",
+        "line": 5758,
+        "excerpt": "writeFileSync(remote, \"#!/usr/bin/env bash\\nexit 1\\n\", { mode: 0o755 });",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "tests/remote_sync_engine.test.mjs",
+        "line": 5767,
+        "excerpt": "writeFileSync(remote, `#!/usr/bin/env bash\\nprintf '%s\\\\n' \"$@\" > ${shellQuote(argvLog)}\\n`, { mode: 0o755 });",
         "disclosed": true,
         "automatic": false
       },
@@ -935,52 +967,20 @@
         "excerpt": "mkdir -p \"$HOME\"",
         "disclosed": true,
         "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "tests/test_codex_shim.bats",
-        "line": 190,
-        "excerpt": "mkdir -p \"$HOME\"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "tests/test_codex_shim.bats",
-        "line": 210,
-        "excerpt": "mkdir -p \"$HOME/.agents/bin\"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "tests/test_codex_shim.bats",
-        "line": 212,
-        "excerpt": "cp \"$FAKE_CODEX\" \"$HOME/.agents/bin/codex\"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "tests/test_codex_shim.bats",
-        "line": 224,
-        "excerpt": "mkdir -p \"$HOME\"",
-        "disclosed": true,
-        "automatic": false
       }
     ],
     "findingTotals": {
-      "downloads-code": 69,
-      "shell": 695,
-      "network": 81,
+      "downloads-code": 80,
+      "shell": 750,
+      "network": 83,
       "reads-secrets": 36,
       "browser-secrets": 15,
-      "writes-outside": 98
+      "writes-outside": 103
     },
     "score": 39,
     "band": "high",
     "rulesVersion": "1.3.0",
-    "filesScanned": 886,
+    "filesScanned": 896,
     "filesSkipped": 85
   },
   "history": [
@@ -993,6 +993,12 @@
     {
       "commit": "95105e5da72716ec584931cfea1feaff4ea9ef65",
       "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 39,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "622ec9fac9f0c06a40f83359b9137709a605f8ab",
+      "scannedAt": "2026-11-10T10:33:07.758Z",
       "score": 39,
       "rulesVersion": "1.3.0"
     }

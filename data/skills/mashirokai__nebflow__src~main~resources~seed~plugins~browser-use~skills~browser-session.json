@@ -1,0 +1,119 @@
+{
+  "id": "mashirokai__nebflow__src~main~resources~seed~plugins~browser-use~skills~browser-session",
+  "owner": "MashiroKai",
+  "repo": "Nebflow",
+  "path": "src/main/resources/seed/plugins/browser-use/skills/browser-session",
+  "name": "browser-session",
+  "description": "持久浏览器会话与人在环登录——用本机 Chrome（有头窗口、独立持久用户配置文件）跨调用保持登录态；检测到登录页/验证码/2FA 时把截图与状态交回会话，由用户在可见窗口人工完成验证，脚本轮询登录成功判据（URL 正则/元素选择器，可按站点配置）确认后继续；含拟人化操作原语与反爬拦截识别（识别即如实报告，不假装成功）。Use when 任务需要登录态或 SSO 平台操作、需要人工配合过验证码、需要跨多次调用保持同一浏览器会话、或需要判断页面是否被反爬拦截。",
+  "stars": 10,
+  "category": "other",
+  "commit": "d75d72dfd6b0095f40c3b181899a437cd281cdd7",
+  "contentHash": "a4589c35c63803c506010457a39fce879314fd114eabee09df10f232748dfbbe",
+  "repoCreatedAt": "2026-05-14T15:39:55Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-10T10:33:07.758Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "src/main/resources/seed/plugins/browser-use/skills/browser-session/SKILL.md",
+        "line": 34,
+        "excerpt": "node ${SKILL_DIR}/scripts/chrome-session.mjs bootstrap",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "src/main/resources/seed/plugins/browser-use/skills/browser-session/SKILL.md",
+        "line": 61,
+        "excerpt": "node ${SKILL_DIR}/scripts/login.mjs detect <登录入口URL> --session paper \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "src/main/resources/seed/plugins/browser-use/skills/browser-session/SKILL.md",
+        "line": 76,
+        "excerpt": "node ${SKILL_DIR}/scripts/login.mjs wait --session paper --timeout 300",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "src/main/resources/seed/plugins/browser-use/skills/browser-session/scripts/lib.mjs",
+        "line": 19,
+        "excerpt": "import {spawn, spawnSync} from 'node:child_process';",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "src/main/resources/seed/plugins/browser-use/skills/browser-session/scripts/lib.mjs",
+        "line": 143,
+        "excerpt": "return fetch(url, {...opts, signal: AbortSignal.timeout(ms)});",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "src/main/resources/seed/plugins/browser-use/skills/browser-session/scripts/lib.mjs",
+        "line": 197,
+        "excerpt": "const r = spawnSync('tasklist', ['/FI', `PID eq ${sess.pid}`, '/NH'], {timeout: 8000});",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "src/main/resources/seed/plugins/browser-use/skills/browser-session/scripts/lib.mjs",
+        "line": 278,
+        "excerpt": "spawnSync('taskkill', ['/PID', String(sess.pid), '/T', '/F'], {timeout: 10000});",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "src/main/resources/seed/plugins/browser-use/skills/browser-session/scripts/lib.mjs",
+        "line": 290,
+        "excerpt": "const r = spawnSync('tasklist', ['/FI', `PID eq ${pid}`, '/NH'], {timeout: 8000});",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "src/main/resources/seed/plugins/browser-use/skills/browser-session/scripts/lib.mjs",
+        "line": 324,
+        "excerpt": "const r = spawnSync(npmCmd, ['install', 'playwright', '--prefix', rt, '--no-fund', '--no-audit', '--loglevel', 'error'], {",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "src/main/resources/seed/plugins/browser-use/skills/browser-session/scripts/lib.mjs",
+        "line": 358,
+        "excerpt": "const g = spawnSync(process.platform === 'win32' ? 'npm.cmd' : 'npm', ['root', '-g'], {",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 9,
+      "network": 1
+    },
+    "score": 90,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 6,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "d75d72dfd6b0095f40c3b181899a437cd281cdd7",
+      "scannedAt": "2026-11-10T10:33:07.758Z",
+      "score": 90,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "id": "aeonfun__aeon__skills~canister-status",
+  "owner": "aeonfun",
+  "repo": "aeon",
+  "path": "skills/canister-status",
+  "name": "canister-status",
+  "description": "Monitor Internet Computer canisters for control-plane changes - a new controller, a module-hash change (upgrade), or a canister going missing from the public index - and alert the moment one happens. Uses only the public IC dashboard API.",
+  "stars": 791,
+  "category": "coding",
+  "commit": "5981e1caa880e9bc186e1bf9f27c095b3ba9ef22",
+  "contentHash": "1a5c2c16a5706c80fed14f72889ba323f91d9f7937106084d337d833e698ff27",
+  "repoCreatedAt": "2026-03-04T19:44:49Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-10T10:33:07.758Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "skills/canister-status/README.md",
+        "line": 29,
+        "excerpt": "curl -sS -o /tmp/canister.json -w 'http=%{http_code}\\n' \"https://ic-api.internetcomputer.org/api/v3/canisters/ryjl3-tyaaa-aaaaa-aaaba-cai\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "ic-api.internetcomputer.org"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/canister-status/SKILL.md",
+        "line": 34,
+        "excerpt": "curl -sS --max-time 20 -o \"/tmp/canister-<ID>.json\" -w 'canister http=%{http_code} bytes=%{size_download}\\n' \"https://ic-api.internetcomputer.org/api/v3/caniste",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "ic-api.internetcomputer.org"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/canister-status/SKILL.md",
+        "line": 34,
+        "excerpt": "curl -sS --max-time 20 -o \"/tmp/canister-<ID>.json\" -w 'canister http=%{http_code} bytes=%{size_download}\\n' \"https://ic-api.internetcomputer.org/api/v3/caniste",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/canister-status/SKILL.md",
+        "line": 38,
+        "excerpt": "node skills/canister-status/reconcile.mjs --id <ID> --http <CODE> --body /tmp/canister-<ID>.json --state memory/topics/icp-canister-state.json --now <NOW>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/canister-status/SKILL.md",
+        "line": 44,
+        "excerpt": "./notify --severity <SEVERITY> --title \"Canister status changed\" -f /tmp/canister-status-<ID>.md",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "network": 2,
+      "shell": 3
+    },
+    "score": 92,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 3,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "5981e1caa880e9bc186e1bf9f27c095b3ba9ef22",
+      "scannedAt": "2026-11-10T10:33:07.758Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

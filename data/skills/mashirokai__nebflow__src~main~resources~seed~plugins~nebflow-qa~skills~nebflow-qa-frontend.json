@@ -1,0 +1,73 @@
+{
+  "id": "mashirokai__nebflow__src~main~resources~seed~plugins~nebflow-qa~skills~nebflow-qa-frontend",
+  "owner": "MashiroKai",
+  "repo": "Nebflow",
+  "path": "src/main/resources/seed/plugins/nebflow-qa/skills/nebflow-qa-frontend",
+  "name": "nebflow-qa-frontend",
+  "description": "Nebflow 前端验证域知识——隔离真实例三步验证（隔离 sbt 实例/C2 Playwright 冒烟套件/资源可达性实测含动态 import 链）、禁静态服务器替身规则、FAIL 判定三条款、双端契约静态审核四维方法、只验不改纪律。Use when 验证 Nebflow 前端（src/main/resources/web/）交付：合并回归、资源可达性、WS/REST 契约一致性。",
+  "stars": 10,
+  "category": "design",
+  "commit": "d75d72dfd6b0095f40c3b181899a437cd281cdd7",
+  "contentHash": "8cd5054658216f353414576004a7792ffbd9a0e0ed4e16b69a5eb6272d27c8da",
+  "repoCreatedAt": "2026-05-14T15:39:55Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-10T10:33:07.758Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "src/main/resources/seed/plugins/nebflow-qa/skills/nebflow-qa-frontend/SKILL.md",
+        "line": 18,
+        "excerpt": "sbt \"run --home <隔离 home> --port <隔离端口> --no-browser\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "src/main/resources/seed/plugins/nebflow-qa/skills/nebflow-qa-frontend/SKILL.md",
+        "line": 22,
+        "excerpt": "- 等待就绪：`curl -s http://localhost:<隔离端口>/api/health` 返回 200 后才开始。",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "src/main/resources/seed/plugins/nebflow-qa/skills/nebflow-qa-frontend/SKILL.md",
+        "line": 34,
+        "excerpt": "- `curl -o /dev/null -w '%{http_code}' http://localhost:<隔离端口>/<path>` 断言 200，或 Playwright network 断言。",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "src/main/resources/seed/plugins/nebflow-qa/skills/nebflow-qa-frontend/SKILL.md",
+        "line": 40,
+        "excerpt": "前端验证**禁止**用 python http.server、`npx serve` 等静态文件服务器做路由替身——静态服务器对任意深度路径都返回 200，掩盖真实路由缺口。跑在替身上的「全绿」一律无效，视为未验证。",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 1,
+      "network": 2,
+      "downloads-code": 1
+    },
+    "score": 77,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "d75d72dfd6b0095f40c3b181899a437cd281cdd7",
+      "scannedAt": "2026-11-10T10:33:07.758Z",
+      "score": 77,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}
