@@ -1,0 +1,93 @@
+{
+  "id": "lilinji__genetind-life-skills__skills~bio-workflows-fastq-to-variants",
+  "owner": "lilinji",
+  "repo": "GeneTind-Life-Skills",
+  "path": "skills/bio-workflows-fastq-to-variants",
+  "name": "bio-workflows-fastq-to-variants",
+  "description": "Orchestrates the end-to-end germline short-variant pipeline from FASTQ to a filtered, normalized, benchmarked VCF, chaining QC/trim, BWA-MEM2 alignment, duplicate marking, optional BQSR, calling (bcftools/GATK HaplotypeCaller/DeepVariant/DRAGEN), normalization, site+genotype filtering, annotation, and hap.py/vcfeval benchmarking. Use when deciding the pipeline-wide reference-genome commitment (GRCh38 analysis set vs T2T, ALT/decoy handling), sequencing the steps in the defensible order (normalize BEFORE annotate, filter site- then genotype-level), choosing the calling engine and single-sample vs cohort joint-calling, picking a filtering strategy by cohort size, or benchmarking stratified within GIAB confident regions. Hands off mechanism to the variant-calling and read-alignment component skills; not a re-teach of any single step.",
+  "stars": 17,
+  "category": "other",
+  "commit": "908229c955510a1841b216e8bf58f6b22818d4dc",
+  "contentHash": "125a4d886b716a4e88efc2b85c938cdb37d5dbce92734fd1ea86546e13f638d6",
+  "repoCreatedAt": "2026-03-09T01:58:35Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-11T09:56:52.235Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-workflows-fastq-to-variants/SKILL.md",
+        "line": 128,
+        "excerpt": "fastp -i sample_R1.fastq.gz -I sample_R2.fastq.gz \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-workflows-fastq-to-variants/SKILL.md",
+        "line": 141,
+        "excerpt": "bwa-mem2 index reference.fa   # once",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-workflows-fastq-to-variants/SKILL.md",
+        "line": 155,
+        "excerpt": "samtools collate -@ 8 -O -u aligned/sample.bam \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-workflows-fastq-to-variants/SKILL.md",
+        "line": 167,
+        "excerpt": "bcftools mpileup -Ou -f reference.fa -a FORMAT/DP,FORMAT/AD --max-depth 250 --min-MQ 20 --min-BQ 20 \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-workflows-fastq-to-variants/SKILL.md",
+        "line": 182,
+        "excerpt": "bcftools filter -Oz -s LowQual \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-workflows-fastq-to-variants/SKILL.md",
+        "line": 198,
+        "excerpt": "gatk CreateSequenceDictionary -R reference.fa",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-workflows-fastq-to-variants/SKILL.md",
+        "line": 234,
+        "excerpt": "hap.py truth.vcf.gz query.norm.vcf.gz \\",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 7
+    },
+    "score": 95,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 4,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "908229c955510a1841b216e8bf58f6b22818d4dc",
+      "scannedAt": "2026-11-11T09:56:52.235Z",
+      "score": 95,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

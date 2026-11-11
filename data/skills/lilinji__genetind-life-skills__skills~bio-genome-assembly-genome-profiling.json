@@ -1,0 +1,61 @@
+{
+  "id": "lilinji__genetind-life-skills__skills~bio-genome-assembly-genome-profiling",
+  "owner": "lilinji",
+  "repo": "GeneTind-Life-Skills",
+  "path": "skills/bio-genome-assembly-genome-profiling",
+  "name": "bio-genome-assembly-genome-profiling",
+  "description": "Profiles a genome from raw reads BEFORE assembly with a k-mer spectrum (KMC or Jellyfish histogram), then models it with GenomeScope2 to estimate genome size, heterozygosity, repeat content, and ploidy, and Smudgeplot to infer ploidy from heterozygous k-mer pairs (diploid AB vs triploid AAB vs tetraploid AABB). Covers choosing k via Merqury best_k.sh, the k-mer-coverage vs sequencing-coverage confusion, reading het/repeat/contamination/organelle peaks, why noisy ONT must not be used for counting, and how the estimate becomes the NG50 denominator, the Flye -g value, the hifiasm --hom-cov/purge setting, and the 1.5-2x-too-big haplotig sanity check. Use when starting any de novo assembly, deciding whether short reads can work, estimating genome size for an unknown organism, diagnosing ploidy, or sanity-checking an assembly's size against expectation.",
+  "stars": 17,
+  "category": "other",
+  "commit": "908229c955510a1841b216e8bf58f6b22818d4dc",
+  "contentHash": "d4e5ed84f79b7a8ab2dcf4dfaabb1855d8c21862f552a5300c7f8379986f15ff",
+  "repoCreatedAt": "2026-03-09T01:58:35Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-11T09:56:52.235Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-genome-assembly-genome-profiling/SKILL.md",
+        "line": 61,
+        "excerpt": "sh $MERQURY/best_k.sh 3100000000          # ~3.1 Gb vertebrate -> k=21 (the common GenomeScope default)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-genome-assembly-genome-profiling/SKILL.md",
+        "line": 72,
+        "excerpt": "kmc -k21 -t16 -m64 -ci1 -cs10000 @fastq_list.txt kmc_db tmp/",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-genome-assembly-genome-profiling/SKILL.md",
+        "line": 93,
+        "excerpt": "L=$(smudgeplot.py cutoff kmc_db.histo L)     # ~0.5x the haploid peak (errors below)",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 3
+    },
+    "score": 95,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 3,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "908229c955510a1841b216e8bf58f6b22818d4dc",
+      "scannedAt": "2026-11-11T09:56:52.235Z",
+      "score": 95,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

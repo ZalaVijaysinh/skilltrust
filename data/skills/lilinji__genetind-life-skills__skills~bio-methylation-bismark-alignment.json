@@ -1,0 +1,77 @@
+{
+  "id": "lilinji__genetind-life-skills__skills~bio-methylation-bismark-alignment",
+  "owner": "lilinji",
+  "repo": "GeneTind-Life-Skills",
+  "path": "skills/bio-methylation-bismark-alignment",
+  "name": "bio-methylation-bismark-alignment",
+  "description": "Aligns bisulfite-converted (WGBS, RRBS, PBAT) and enzymatic (EM-seq) short reads to an in-silico C->T/G->A-converted reference with Bismark (Bowtie2 or HISAT2), preparing the genome index, choosing the directional vs non-directional vs PBAT strand flag, deduplicating WGBS/EM-seq (never RRBS), and bounding bisulfite conversion efficiency with unmethylated lambda and methylated pUC19 spike-ins. Covers why the library protocol (not the aligner) decides whether calls are meaningful, why incomplete conversion masquerades as methylation, the 3-letter reduced-complexity mapping bias (50-70% efficiency is normal), and M-bias end-clipping. Use when aligning bisulfite or EM-seq reads, preparing a bisulfite genome, choosing the strand flag, or diagnosing low mapping efficiency. For methylation extraction see methylation-calling; for long-read MM/ML modification calling see long-read-sequencing/nanopore-methylation.",
+  "stars": 17,
+  "category": "other",
+  "commit": "908229c955510a1841b216e8bf58f6b22818d4dc",
+  "contentHash": "ddc8a60737bbd4b303b51b25e9994e5a27fc1bec63267a7ec172d4724b46b8bb",
+  "repoCreatedAt": "2026-03-09T01:58:35Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-11T09:56:52.235Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-methylation-bismark-alignment/SKILL.md",
+        "line": 87,
+        "excerpt": "bismark_genome_preparation --bowtie2 genome/   # or --hisat2 for large genomes, lower RAM",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-methylation-bismark-alignment/SKILL.md",
+        "line": 99,
+        "excerpt": "trim_galore --paired R1.fq.gz R2.fq.gz                 # WGBS / EM-seq (auto-detect adapter, -q 20)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-methylation-bismark-alignment/SKILL.md",
+        "line": 107,
+        "excerpt": "bismark --genome genome/ -1 R1_val_1.fq.gz -2 R2_val_2.fq.gz \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-methylation-bismark-alignment/SKILL.md",
+        "line": 121,
+        "excerpt": "deduplicate_bismark --paired --bam out/sample_R1_bismark_bt2_pe.bam   # WGBS/EM-seq ONLY",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-methylation-bismark-alignment/SKILL.md",
+        "line": 134,
+        "excerpt": "bismark_genome_preparation --bowtie2 lambda/   # lambda: residual %meth = non-conversion rate (target <=1%)",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 5
+    },
+    "score": 95,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 3,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "908229c955510a1841b216e8bf58f6b22818d4dc",
+      "scannedAt": "2026-11-11T09:56:52.235Z",
+      "score": 95,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

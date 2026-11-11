@@ -1,0 +1,86 @@
+{
+  "id": "lilinji__genetind-life-skills__skills~bio-genome-intervals-coverage-analysis",
+  "owner": "lilinji",
+  "repo": "GeneTind-Life-Skills",
+  "path": "skills/bio-genome-intervals-coverage-analysis",
+  "name": "bio-genome-intervals-coverage-analysis",
+  "description": "Computes and interprets sequencing read depth and coverage over a genome, windows, or target regions with mosdepth (windowed depth, cumulative distribution, --quantize callable BEDs), bedtools genomecov/coverage (bedGraph tracks, per-target stats), samtools depth/coverage (per-base depth, per-contig depth+breadth). Covers the breadth-vs-mean distinction, the cumulative-coverage curve, evenness (CV/Fano/fold-80/Gini), what each tool silently counts (duplicates, secondary/supplementary, MAPQ, read span vs fragment, mate-overlap), the samtools-depth 8000-cap version trap, and the bedtools coverage -a/-b orientation flip. Use when assessing sequencing adequacy, building coverage tracks, computing breadth at a depth threshold, defining callable regions, or QCing target-capture uniformity.",
+  "stars": 17,
+  "category": "other",
+  "commit": "908229c955510a1841b216e8bf58f6b22818d4dc",
+  "contentHash": "ae684b40e328efaf3ca4c9e917c7dc2bf99a0ef88531dbff58ce0c355562d528",
+  "repoCreatedAt": "2026-03-09T01:58:35Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-11T09:56:52.235Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-genome-intervals-coverage-analysis/SKILL.md",
+        "line": 67,
+        "excerpt": "mosdepth --by 500 -Q 20 sample in.bam     # --by 500 = 500 bp windows; -Q 20 = drop MAPQ<20 (repeat coverage collapses, intentionally)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-genome-intervals-coverage-analysis/SKILL.md",
+        "line": 80,
+        "excerpt": "mosdepth --quantize 0:1:4:150: callable in.bam   # bins: [0,1)=NO_COVERAGE, [1,4)=LOW, [4,150)=CALLABLE, [150,inf)=HIGH",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-genome-intervals-coverage-analysis/SKILL.md",
+        "line": 88,
+        "excerpt": "bedtools genomecov -ibam in.bam -bga > cov.bedGraph   # -bga = bedGraph INCLUDING zero-coverage runs; -bg omits zeros",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-genome-intervals-coverage-analysis/SKILL.md",
+        "line": 99,
+        "excerpt": "bedtools coverage -a targets.bed -b in.bam > per_target.bed   # stats reported FOR each A interval",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-genome-intervals-coverage-analysis/SKILL.md",
+        "line": 108,
+        "excerpt": "samtools coverage in.bam                          # per-contig: rname..numreads covbases coverage(=breadth%) meandepth meanbaseq meanmapq",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/bio-genome-intervals-coverage-analysis/usage-guide.md",
+        "line": 12,
+        "excerpt": "pip install pybedtools numpy",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 5,
+      "downloads-code": 1
+    },
+    "score": 80,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 4,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "908229c955510a1841b216e8bf58f6b22818d4dc",
+      "scannedAt": "2026-11-11T09:56:52.235Z",
+      "score": 80,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

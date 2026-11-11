@@ -1,0 +1,156 @@
+{
+  "id": "narailabs__narai-primitives__plugins~connector-creator~skills~connector-creator",
+  "owner": "narailabs",
+  "repo": "narai-primitives",
+  "path": "plugins/connector-creator/skills/connector-creator",
+  "name": "connector-creator",
+  "description": "Use this skill when the user wants to add a custom connector to their project —\nwrapping a SaaS API, REST endpoint, GraphQL endpoint, SDK, or CLI tool so\nClaude can call it via `gather()` from `narai-primitives`. Trigger even when\nthe user doesn't say \"connector\" explicitly: phrases like \"I want to query\nStripe from Claude\", \"add Slack to our agents\", \"wrap our internal orders\nAPI\", \"connect Salesforce\", \"make a Linear agent\" all warrant this skill.\nAlso triggers for: \"gate kubectl in prod\", \"approve before force push\",\n\"pull from Linear, summarize, post to Slack\", \"document this workflow\".\nScaffolds a minimal local connector at `.connectors/connectors/<name>/`\n(project scope, default) or `~/.connectors/connectors/<name>/` (user scope) —\nno `git init`, no `npm publish`, no plugin manifest, no marketplace entry.\nDo NOT use for: modifying an existing connector (just edit the file),\nwrapping an MCP server (different abstraction), querying databases (the `db`\nconnector inside narai-primitives already covers postgres/mysql/sqlite/mssql/\nmongodb/dynamodb/oracle), or contributing a new builtin connector (that's a\nPR to https://github.com/narailabs/narai-primitives — see its CONTRIBUTING.md).",
+  "stars": 10,
+  "category": "coding",
+  "commit": "fbd912a14c3271d87cff847b4e8a639eec3ea331",
+  "contentHash": "792cd6010800cf308c7a66a70f0d9d054f0452a462211f97f2ea08deff088431",
+  "repoCreatedAt": "2026-04-28T01:38:44Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-11T09:56:52.235Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "plugins/connector-creator/skills/connector-creator/SKILL.md",
+        "line": 236,
+        "excerpt": "<scope>/.connectors/connectors/<slug>/bin/<slug> --action <first-action> --params '{}'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/connector-creator/skills/connector-creator/SKILL.md",
+        "line": 243,
+        "excerpt": "node -e 'import(\"narai-primitives\").then(({gather}) => gather({prompt:\"call <slug> <first-action>\"}).then(r => console.log(JSON.stringify(r, null, 2))))'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/connector-creator/skills/connector-creator/SKILL.md",
+        "line": 288,
+        "excerpt": "echo '{\"tool_name\":\"Bash\",\"tool_input\":{\"command\":\"kubectl delete pod --all -n prod\"}}' \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/connector-creator/skills/connector-creator/SKILL.md",
+        "line": 317,
+        "excerpt": "<scope>/.connectors/connectors/<slug>/bin/<slug> --action <first-action> --params '{}'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/connector-creator/skills/connector-creator/assets/templates/connector-SKILL.md.tmpl",
+        "line": 10,
+        "excerpt": "Loaded by `gather()` from `narai-primitives` via the `connectors.{{SLUG}}` entry in your `.connectors/config.yaml`. Spawn-isolated: each invocation runs in its ",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/connector-creator/skills/connector-creator/assets/templates/index.mjs.tmpl",
+        "line": 36,
+        "excerpt": "const res = await fetch(url, {",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/connector-creator/skills/connector-creator/assets/templates/tests-example.mjs.tmpl",
+        "line": 12,
+        "excerpt": "import { spawnSync } from \"node:child_process\";",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/connector-creator/skills/connector-creator/assets/templates/tests-example.mjs.tmpl",
+        "line": 23,
+        "excerpt": "return spawnSync(BIN, args, { encoding: \"utf-8\", env: cleanEnv });",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/connector-creator/skills/connector-creator/references/action-design.md",
+        "line": 113,
+        "excerpt": "The default `client.ts.tmpl` is HTTP-shaped: it bakes in `validateUrl`, `_throttle`, `_authHeaders`, `request<T>(method, relPath, ...)`, `Retry-After` parsing, ",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/connector-creator/skills/connector-creator/references/connector-anatomy.md",
+        "line": 10,
+        "excerpt": "- **Library** — `import { fetch } from \"@narai/<pkg>\"; await fetch(action, params)` returns the same envelope as a JS object. Implemented by `connector.fetch(ac",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/connector-creator/skills/connector-creator/references/connector-anatomy.md",
+        "line": 22,
+        "excerpt": "sdk: async () => new MyClient({...}),   // build the client; called once per main()/fetch()",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/connector-creator/skills/connector-creator/references/db-connector-pointer.md",
+        "line": 67,
+        "excerpt": "4. **Smoke test**: `npx db-agent-connector --action query --params '{\"server\":\"prod\",\"sql\":\"SELECT 1\"}'`.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/connector-creator/skills/connector-creator/references/research-patterns.md",
+        "line": 12,
+        "excerpt": "| Names a SaaS the skill doesn't recognize | `WebFetch` on `<service>.com/docs/api` (or whatever doc URL the user mentions) |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/connector-creator/skills/connector-creator/references/research-patterns.md",
+        "line": 15,
+        "excerpt": "| Vague service description, no URL | `WebSearch` to find the official docs URL, then `WebFetch` |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 8,
+      "network": 5,
+      "downloads-code": 1
+    },
+    "score": 77,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 25,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "fbd912a14c3271d87cff847b4e8a639eec3ea331",
+      "scannedAt": "2026-11-11T09:56:52.235Z",
+      "score": 77,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

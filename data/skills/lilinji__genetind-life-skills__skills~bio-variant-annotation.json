@@ -1,0 +1,177 @@
+{
+  "id": "lilinji__genetind-life-skills__skills~bio-variant-annotation",
+  "owner": "lilinji",
+  "repo": "GeneTind-Life-Skills",
+  "path": "skills/bio-variant-annotation",
+  "name": "bio-variant-annotation",
+  "description": "Annotates VCF variants with functional consequences, population frequencies, and pathogenicity scores using bcftools annotate/csq, Ensembl VEP, SnpEff, and ANNOVAR. Use when deciding which annotation engine and version to pin, which transcript set to report on (RefSeq vs Ensembl vs MANE Select/Plus Clinical, and why VEP --pick is dangerous clinically), how to reconcile HGVS 3'-shifting with VCF left-alignment, which consequence plus NMD status governs PVS1 eligibility, which single calibrated predictor to use for PP3/BP4 (REVEL, AlphaMissense, CADD, SpliceAI deltas), or how to read gnomAD v2/v3/v4 grpmax filtering allele frequency instead of one global AF cutoff. Not for ACMG combining rules or final classification (see variant-calling/clinical-interpretation).",
+  "stars": 17,
+  "category": "other",
+  "commit": "908229c955510a1841b216e8bf58f6b22818d4dc",
+  "contentHash": "40431ae203563c1793bb6ab26125e93c2855e47762e0e6a8c55758ba3171ee02",
+  "repoCreatedAt": "2026-03-09T01:58:35Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-11T09:56:52.235Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-variant-annotation/SKILL.md",
+        "line": 42,
+        "excerpt": "bcftools norm -f reference.fa -m-any input.vcf.gz -Oz -o normalized.vcf.gz",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-variant-annotation/SKILL.md",
+        "line": 69,
+        "excerpt": "vep -i norm.vcf --vcf --cache --offline --assembly GRCh38 \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-variant-annotation/SKILL.md",
+        "line": 94,
+        "excerpt": "vep -i norm.vcf.gz -o out.vcf --vcf --cache --offline \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-variant-annotation/SKILL.md",
+        "line": 100,
+        "excerpt": "vep -i norm.vcf.gz -o out.vcf --vcf --cache --offline \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-variant-annotation/SKILL.md",
+        "line": 114,
+        "excerpt": "snpEff -Xmx8g ann GRCh38.105 norm.vcf > out.vcf",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-variant-annotation/SKILL.md",
+        "line": 125,
+        "excerpt": "table_annovar.pl norm.vcf humandb/ -buildver hg38 -out annotated -remove \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-variant-annotation/SKILL.md",
+        "line": 137,
+        "excerpt": "bcftools csq -f reference.fa -g genes.gff3.gz norm.vcf.gz -Oz -o csq.vcf.gz   # adds BCSQ",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-variant-annotation/SKILL.md",
+        "line": 210,
+        "excerpt": "set -euo pipefail",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/bio-variant-annotation/usage-guide.md",
+        "line": 13,
+        "excerpt": "- Python parsing: `cyvcf2` (`pip install cyvcf2`)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/bio-variant-annotation/usage-guide.md",
+        "line": 264,
+        "excerpt": "wget https://ftp.ncbi.nih.gov/snp/latest_release/VCF/GCF_000001405.40.gz",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "ftp.ncbi.nih.gov"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/bio-variant-annotation/usage-guide.md",
+        "line": 265,
+        "excerpt": "wget https://ftp.ncbi.nih.gov/snp/latest_release/VCF/GCF_000001405.40.gz.tbi",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "ftp.ncbi.nih.gov"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/bio-variant-annotation/usage-guide.md",
+        "line": 277,
+        "excerpt": "wget https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.0/vcf/genomes/gnomad.genomes.v4.0.sites.chr1.vcf.bgz",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "gnomad-public-us-east-1.s3.amazonaws.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/bio-variant-annotation/usage-guide.md",
+        "line": 278,
+        "excerpt": "wget https://gnomad-public-us-east-1.s3.amazonaws.com/release/4.0/vcf/genomes/gnomad.genomes.v4.0.sites.chr1.vcf.bgz.tbi",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "gnomad-public-us-east-1.s3.amazonaws.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/bio-variant-annotation/usage-guide.md",
+        "line": 292,
+        "excerpt": "wget https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh38/clinvar.vcf.gz",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "ftp.ncbi.nlm.nih.gov"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/bio-variant-annotation/usage-guide.md",
+        "line": 293,
+        "excerpt": "wget https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh38/clinvar.vcf.gz.tbi",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "ftp.ncbi.nlm.nih.gov"
+        ]
+      }
+    ],
+    "findingTotals": {
+      "shell": 8,
+      "downloads-code": 1,
+      "network": 6
+    },
+    "score": 77,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 3,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "908229c955510a1841b216e8bf58f6b22818d4dc",
+      "scannedAt": "2026-11-11T09:56:52.235Z",
+      "score": 77,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

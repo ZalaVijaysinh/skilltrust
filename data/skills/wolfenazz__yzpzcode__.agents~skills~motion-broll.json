@@ -1,0 +1,190 @@
+{
+  "id": "wolfenazz__yzpzcode__.agents~skills~motion-broll",
+  "owner": "wolfenazz",
+  "repo": "YzPzCode",
+  "path": ".agents/skills/motion-broll",
+  "name": "motion-broll",
+  "description": "Turn a talking-head video and its transcript into motion-graphic B-roll timed to the speaker's words, in a continuous one-shape style (one element that morphs and never cuts, driven by a cursor, spring motion). Use when someone gives a video (and ideally a transcript) and asks for motion graphics, B-roll, animated cutaways or overlays.",
+  "stars": 20,
+  "category": "coding",
+  "commit": "fe7a0b72ceba504d58f83a654d92c5dc8269a7b8",
+  "contentHash": "36609ea3595bafb8a5f69e67a0956d16edf5934de4be7f855a123f102c7a28bc",
+  "repoCreatedAt": "2026-03-24T21:54:24Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-11T09:56:52.235Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/motion-broll/SKILL.md",
+        "line": 24,
+        "excerpt": "bash $SKILL/scripts/setup.sh ./motion",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/motion-broll/SKILL.md",
+        "line": 34,
+        "excerpt": "- **The transcript.** An SRT or VTT with timestamps is best. With plain text only, get word timestamps from the audio (`pip install faster-whisper`) or ask for ",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/motion-broll/SKILL.md",
+        "line": 49,
+        "excerpt": "python3 $SKILL/scripts/inspect_video.py motion/work/source.mp4 motion/work",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/motion-broll/SKILL.md",
+        "line": 90,
+        "excerpt": "python3 $SKILL/engine/build.py motion/dist motion/clips/*.html",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/motion-broll/SKILL.md",
+        "line": 98,
+        "excerpt": "NODE_PATH=./motion/node_modules node $SKILL/engine/beats.js motion/dist/NN-name.html motion/work/NN.png 0.4 1.2 2.1 …",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/motion-broll/SKILL.md",
+        "line": 106,
+        "excerpt": "NODE_PATH=./motion/node_modules node $SKILL/engine/render.js motion/dist/NN-name.html motion/out/NN-name_0m32s40.mp4 30000/1001",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/motion-broll/SKILL.md",
+        "line": 119,
+        "excerpt": "python3 $SKILL/scripts/composite.py motion/plan.json motion/out/preview.mp4",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/motion-broll/engine/beats.js",
+        "line": 2,
+        "excerpt": "const {chromium}=require('playwright');const path=require('path');const {execSync}=require('child_process');const fs=require('fs');",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/motion-broll/engine/beats.js",
+        "line": 10,
+        "excerpt": "execSync(`ffmpeg -loglevel error -y -i ${dir}/%03d.png -vf \"scale=640:-1,tile=${cols}x${rows}:padding=4:color=white\" -frames:v 1 ${out}`);",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/motion-broll/engine/render.js",
+        "line": 3,
+        "excerpt": "const {chromium}=require('playwright');const {spawn}=require('child_process');const path=require('path');",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/motion-broll/scripts/composite.py",
+        "line": 14,
+        "excerpt": "subprocess.run(cmd, check=True); print('wrote', out)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/motion-broll/scripts/inspect_video.py",
+        "line": 5,
+        "excerpt": "p = json.loads(subprocess.run(['ffprobe','-v','error','-print_format','json','-show_streams','-show_format',v],capture_output=True,text=True).stdout)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/motion-broll/scripts/inspect_video.py",
+        "line": 8,
+        "excerpt": "subprocess.run(['ffmpeg','-loglevel','error','-y','-i',v,'-vf',f'fps=1/{max(1,dur/16):.2f},scale=480:-1,tile=4x4:padding=4','-frames:v','1',f'{out}/contact.png'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/motion-broll/scripts/inspect_video.py",
+        "line": 9,
+        "excerpt": "raw = subprocess.run(['ffmpeg','-loglevel','error','-i',v,'-vf','fps=4,scale=96:54,format=gray','-f','rawvideo','-'],capture_output=True).stdout",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/motion-broll/scripts/make_pages.py",
+        "line": 14,
+        "excerpt": "os.system(f'ffmpeg -loglevel error -y -f lavfi -i color=black:s=1920x1080 -i \"{f}\" -filter_complex \"[0][1]overlay=shortest=1\" -c:v libx264 -crf 20 -pix_fmt yuv4",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/motion-broll/scripts/make_pages.py",
+        "line": 22,
+        "excerpt": "dur = float(os.popen(f'ffprobe -v error -show_entries format=duration -of csv=p=0 \"{preview}\"').read().strip() or 0)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/motion-broll/scripts/setup.sh",
+        "line": 8,
+        "excerpt": "command -v ffmpeg >/dev/null || missing+=(\"ffmpeg (macOS: brew install ffmpeg)\")",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/motion-broll/scripts/setup.sh",
+        "line": 11,
+        "excerpt": "python3 -c \"import numpy\" 2>/dev/null || python3 -m pip install --user numpy || python3 -m pip install --break-system-packages numpy",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/motion-broll/scripts/setup.sh",
+        "line": 13,
+        "excerpt": "(cd \"$MOTION_DIR\" && [ -f package.json ] || echo '{\"private\":true}' > \"$MOTION_DIR/package.json\"; cd \"$MOTION_DIR\" && npm install --silent playwright && npx pla",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 15,
+      "downloads-code": 4
+    },
+    "score": 82,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 22,
+    "filesSkipped": 2
+  },
+  "history": [
+    {
+      "commit": "fe7a0b72ceba504d58f83a654d92c5dc8269a7b8",
+      "scannedAt": "2026-11-11T09:56:52.235Z",
+      "score": 82,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

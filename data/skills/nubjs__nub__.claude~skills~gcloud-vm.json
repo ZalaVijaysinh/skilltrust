@@ -5,53 +5,21 @@
   "path": ".claude/skills/gcloud-vm",
   "name": "gcloud-vm",
   "description": "Provision, start, reach, and use Google Cloud VMs for nub — for any real-OS work the local macOS host and Docker can't do (real Linux-kernel enforcement, real Windows/AppContainer/MSVC, a clean multi-GB build box). Invoke whenever you think \"I need a Linux box\" or \"I need a Windows box\" — you can START the existing `nub-linux`/`nub-win` instances OR CREATE a fresh one on demand with `gcloud compute instances create`. Encodes the load-bearing gotchas: IPs change on every restart (never trust a hardcoded one), SSH user is `nub` with a throwaway key per box under `~/.cache/nub/vm-keys/<name>/`, never through the SSH agent, a RUNNING box can be a wedged box (read the serial console), size any nub-building Linux box at ≥16 GB, and prefer cross-compiling on the Mac + scp'ing the artifact over building on the VM. AUTH IS NOT A BLOCKER — `gcloud` USER auth expires constantly (org session-control revokes the refresh token), but Keyward holds a durable SERVICE-ACCOUNT KEY that makes every VM op work: run each command as `keyward --reason \"<what it is for>\" -- gcloud …` (one Touch ID covers ten minutes of this repository's runs; a locked screen means wait for the unlock, not retry). Never conclude \"the VMs are unavailable\" from a `Reauthentication failed. cannot prompt during non-interactive execution` error — that is the user login; go through Keyward. Boxes you create do NOT get `--max-run-duration`: it cannot be changed while the instance runs, so it strands long jobs — use the guest-side idle auto-stop instead, and delete the box when done.",
-  "stars": 4435,
+  "stars": 4439,
   "category": "coding",
-  "commit": "719c61790622df363e1f81a4766866745d0f06b4",
-  "contentHash": "ed0231a2dbda6daa38513355f8d3340dcb69ae70102936311e7e4637d54bbbc0",
+  "commit": "9b734566fd36ceed8379f67a92291bc68af60801",
+  "contentHash": "fdab8f536dbae7895e985fa26e1c27e312bdd66fd29cd51db3d5f425ea890a9b",
   "repoCreatedAt": "2026-06-03T18:36:21Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-08T05:42:07.685Z",
+  "scannedAt": "2026-11-11T09:56:52.235Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": ".claude/skills/gcloud-vm/SKILL.md",
-        "line": 49,
-        "excerpt": "cat > /tmp/idle-stop.sh <<'SH'",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": ".claude/skills/gcloud-vm/SKILL.md",
-        "line": 70,
-        "excerpt": "install -m 0755 /dev/stdin /usr/local/sbin/nub-idle-stop <<'INNER'",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": ".claude/skills/gcloud-vm/SKILL.md",
-        "line": 73,
-        "excerpt": "cat > /etc/systemd/system/nub-idle.service <<'UNIT'",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": ".claude/skills/gcloud-vm/SKILL.md",
-        "line": 78,
-        "excerpt": "cat > /etc/systemd/system/nub-idle.timer <<'UNIT'",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": ".claude/skills/gcloud-vm/SKILL.md",
-        "line": 106,
+        "line": 64,
         "excerpt": "keyward --reason \"nub: delete the VM <name>\" -- \\",
         "disclosed": true,
         "automatic": false
@@ -59,7 +27,7 @@
       {
         "ruleId": "writes-outside",
         "file": ".claude/skills/gcloud-vm/SKILL.md",
-        "line": 108,
+        "line": 66,
         "excerpt": "rm -rf ~/.cache/nub/vm-keys/<name>                                      # its key goes with it",
         "disclosed": false,
         "automatic": false
@@ -67,7 +35,7 @@
       {
         "ruleId": "writes-outside",
         "file": ".claude/skills/gcloud-vm/SKILL.md",
-        "line": 111,
+        "line": 69,
         "excerpt": "**⛔ A FULL DISK IS INDISTINGUISHABLE FROM A BROKEN BOX, AND IT IS THE MOST COMMON CAUSE HERE.** Measured 2026-08-05 on `nub-linux`: `/dev/root 193G 193G 0 100%`",
         "disclosed": false,
         "automatic": false
@@ -75,7 +43,7 @@
       {
         "ruleId": "shell",
         "file": ".claude/skills/gcloud-vm/SKILL.md",
-        "line": 116,
+        "line": 74,
         "excerpt": "keyward --reason \"nub: list the VMs\" -- gcloud compute instances list --project pullfrog # names + STATUS + current external IP",
         "disclosed": true,
         "automatic": false
@@ -83,7 +51,7 @@
       {
         "ruleId": "shell",
         "file": ".claude/skills/gcloud-vm/SKILL.md",
-        "line": 128,
+        "line": 86,
         "excerpt": "NAME=nub-linux",
         "disclosed": true,
         "automatic": false
@@ -91,7 +59,7 @@
       {
         "ruleId": "shell",
         "file": ".claude/skills/gcloud-vm/SKILL.md",
-        "line": 145,
+        "line": 103,
         "excerpt": "NAME=nub-linux",
         "disclosed": true,
         "automatic": false
@@ -99,7 +67,7 @@
       {
         "ruleId": "writes-outside",
         "file": ".claude/skills/gcloud-vm/SKILL.md",
-        "line": 147,
+        "line": 105,
         "excerpt": "mkdir -p ~/.cache/nub/vm-keys && chmod 700 ~/.cache/nub/vm-keys",
         "disclosed": false,
         "automatic": false
@@ -107,7 +75,7 @@
       {
         "ruleId": "writes-outside",
         "file": ".claude/skills/gcloud-vm/SKILL.md",
-        "line": 157,
+        "line": 115,
         "excerpt": "- **The key goes with the box**: `rm -rf ~/.cache/nub/vm-keys/<name>` when you delete it.",
         "disclosed": false,
         "automatic": false
@@ -115,7 +83,7 @@
       {
         "ruleId": "shell",
         "file": ".claude/skills/gcloud-vm/SKILL.md",
-        "line": 168,
+        "line": 126,
         "excerpt": "keyward --reason \"nub: create the Linux VM nub-linux-tmp\" -- \\",
         "disclosed": true,
         "automatic": false
@@ -123,7 +91,7 @@
       {
         "ruleId": "shell",
         "file": ".claude/skills/gcloud-vm/SKILL.md",
-        "line": 194,
+        "line": 152,
         "excerpt": "NAME=nub-win-tmp",
         "disclosed": true,
         "automatic": false
@@ -131,7 +99,7 @@
       {
         "ruleId": "writes-outside",
         "file": ".claude/skills/gcloud-vm/SKILL.md",
-        "line": 196,
+        "line": 154,
         "excerpt": "mkdir -p ~/.cache/nub/vm-keys && chmod 700 ~/.cache/nub/vm-keys",
         "disclosed": false,
         "automatic": false
@@ -139,7 +107,7 @@
       {
         "ruleId": "shell",
         "file": ".claude/skills/gcloud-vm/SKILL.md",
-        "line": 251,
+        "line": 211,
         "excerpt": "printf '@echo off\\r\\ncd /d C:\\\\nub\\r\\nset RUSTUP_HOME=C:\\\\Users\\\\nub\\\\.rustup\\r\\nset CARGO_HOME=C:\\\\Users\\\\nub\\\\.cargo\\r\\n\"C:\\\\Users\\\\nub\\\\.rustup\\\\toolchains\\\\",
         "disclosed": true,
         "automatic": false
@@ -147,7 +115,7 @@
       {
         "ruleId": "shell",
         "file": ".claude/skills/gcloud-vm/SKILL.md",
-        "line": 273,
+        "line": 233,
         "excerpt": "keyward --reason \"nub: delete the VM <name>\" -- gcloud compute instances delete <name> --zone us-central1-a --project pullfrog --quiet",
         "disclosed": true,
         "automatic": false
@@ -155,7 +123,7 @@
       {
         "ruleId": "writes-outside",
         "file": ".claude/skills/gcloud-vm/SKILL.md",
-        "line": 274,
+        "line": 234,
         "excerpt": "rm -rf ~/.cache/nub/vm-keys/<name>",
         "disclosed": false,
         "automatic": false
@@ -163,7 +131,7 @@
       {
         "ruleId": "shell",
         "file": ".claude/skills/gcloud-vm/SKILL.md",
-        "line": 282,
+        "line": 242,
         "excerpt": "keyward --reason \"nub: list the VMs\" -- gcloud compute instances list --project pullfrog",
         "disclosed": true,
         "automatic": false
@@ -171,7 +139,7 @@
       {
         "ruleId": "shell",
         "file": ".claude/skills/gcloud-vm/SKILL.md",
-        "line": 287,
+        "line": 247,
         "excerpt": "- **The command's first word must be `gcloud`.** `keyward -- sh -c '…'` or a runner is refused, so give each gcloud call its own `keyward`; the shell around it ",
         "disclosed": true,
         "automatic": false
@@ -179,7 +147,7 @@
       {
         "ruleId": "shell",
         "file": ".claude/skills/gcloud-vm/SKILL.md",
-        "line": 298,
+        "line": 258,
         "excerpt": "keyward --reason \"nub: read nub-linux's serial console\" -- \\",
         "disclosed": true,
         "automatic": false
@@ -187,21 +155,45 @@
       {
         "ruleId": "downloads-code",
         "file": ".claude/skills/gcloud-vm/SKILL.md",
-        "line": 306,
+        "line": 266,
         "excerpt": "- **Prefer cross-compile-on-Mac + scp the artifact over building on the VM.** Running a binary needs almost no RAM. For Windows, the VM's MSVC BuildTools is oft",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "scripts/vm-idle/linux-startup.sh",
+        "line": 10,
+        "excerpt": "install -m 0755 /dev/stdin /usr/local/sbin/nub-idle-stop <<'SCRIPT'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "scripts/vm-idle/linux-startup.sh",
+        "line": 29,
+        "excerpt": "cat > /etc/systemd/system/nub-idle.service <<'UNIT'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "scripts/vm-idle/linux-startup.sh",
+        "line": 35,
+        "excerpt": "cat > /etc/systemd/system/nub-idle.timer <<'UNIT'",
         "disclosed": false,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 12,
+      "shell": 11,
       "writes-outside": 9,
       "downloads-code": 1
     },
     "score": 72,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 1,
+    "filesScanned": 3,
     "filesSkipped": 0
   },
   "history": [
@@ -214,6 +206,12 @@
     {
       "commit": "719c61790622df363e1f81a4766866745d0f06b4",
       "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 72,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "9b734566fd36ceed8379f67a92291bc68af60801",
+      "scannedAt": "2026-11-11T09:56:52.235Z",
       "score": 72,
       "rulesVersion": "1.3.0"
     }

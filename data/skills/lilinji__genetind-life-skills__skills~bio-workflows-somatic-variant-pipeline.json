@@ -1,0 +1,117 @@
+{
+  "id": "lilinji__genetind-life-skills__skills~bio-workflows-somatic-variant-pipeline",
+  "owner": "lilinji",
+  "repo": "GeneTind-Life-Skills",
+  "path": "skills/bio-workflows-somatic-variant-pipeline",
+  "name": "bio-workflows-somatic-variant-pipeline",
+  "description": "Chains a somatic (tumor-normal) SNV/indel and structural-variant pipeline end to end with GATK Mutect2 (or Strelka2), wiring the somatic-specific machinery - panel-of-normals and gnomAD germline-resource priors, GetPileupSummaries/CalculateContamination, and LearnReadOrientationModel FFPE/oxoG orientation-bias filtering fed into FilterMutectCalls. Use when calling somatic mutations from a tumor-normal pair (or tumor-only with PoN caveats), deciding which artifact filter removes which class of false positive, reasoning about VAF/purity/ploidy and clonal-vs-subclonal detection, adding somatic SV/CNV or TMB/MSI/signatures, or routing variants to AMP/ASCO/CAP tier and oncogenicity interpretation (never germline ACMG).",
+  "stars": 17,
+  "category": "other",
+  "commit": "908229c955510a1841b216e8bf58f6b22818d4dc",
+  "contentHash": "dd8d111709a6b37b70ccbd53576959009fa093c055aedd536cc32cc8d080602c",
+  "repoCreatedAt": "2026-03-09T01:58:35Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-11T09:56:52.235Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-workflows-somatic-variant-pipeline/SKILL.md",
+        "line": 91,
+        "excerpt": "for normal in normal1.bam normal2.bam normal3.bam; do",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-workflows-somatic-variant-pipeline/SKILL.md",
+        "line": 107,
+        "excerpt": "gatk Mutect2 -R reference.fa \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-workflows-somatic-variant-pipeline/SKILL.md",
+        "line": 120,
+        "excerpt": "gatk LearnReadOrientationModel -I f1r2.tar.gz -O read-orientation-model.tar.gz",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-workflows-somatic-variant-pipeline/SKILL.md",
+        "line": 128,
+        "excerpt": "gatk GetPileupSummaries -I tumor.bam \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-workflows-somatic-variant-pipeline/SKILL.md",
+        "line": 142,
+        "excerpt": "gatk FilterMutectCalls -R reference.fa -V unfiltered.vcf.gz \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-workflows-somatic-variant-pipeline/SKILL.md",
+        "line": 159,
+        "excerpt": "gatk Mutect2 -R reference.fa -I tumor.bam \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-workflows-somatic-variant-pipeline/SKILL.md",
+        "line": 179,
+        "excerpt": "configManta.py --normalBam normal.bam --tumorBam tumor.bam \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-workflows-somatic-variant-pipeline/SKILL.md",
+        "line": 203,
+        "excerpt": "bcftools isec -n+2 -p consensus_dir \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-workflows-somatic-variant-pipeline/SKILL.md",
+        "line": 220,
+        "excerpt": "bcftools norm -f reference.fa -m- somatic_final.vcf.gz -Oz -o somatic_norm.vcf.gz  # left-align + split multiallelics",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-workflows-somatic-variant-pipeline/SKILL.md",
+        "line": 256,
+        "excerpt": "bcftools query -f '%FILTER\\n' filtered.vcf.gz | sort | uniq -c   # counts by filter status",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 10
+    },
+    "score": 95,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 3,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "908229c955510a1841b216e8bf58f6b22818d4dc",
+      "scannedAt": "2026-11-11T09:56:52.235Z",
+      "score": 95,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

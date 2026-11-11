@@ -4,24 +4,280 @@
   "repo": "awesome-ascend-skills",
   "path": "skills/inference/vllm-bench-serve",
   "name": "vllm-bench-serve",
-  "description": "",
-  "stars": 183,
-  "category": "other",
+  "description": "Interactive online benchmark orchestrator for vLLM inference services using `vllm bench serve`. Supports single benchmarks, multi-case batch execution with result aggregation, and auto-optimization to find optimal concurrency/throughput under latency SLO constraints (TTFT, TPOT, P99, success rate). Use this skill whenever the user wants to benchmark, stress test, or measure performance of a running LLM/multimodal/embedding inference service — even if they don't say \"vllm bench serve\" explicitly. Do NOT use for offline inference throughput, service deployment/startup, profiling/tracing, health checks only, or analyzing existing benchmark results without running new tests.",
+  "stars": 184,
+  "category": "devops",
   "commit": "75ec89ce9d401be8ac95980e1c3f42f8d4315057",
   "contentHash": "a7d0b7b98d6e0985026c07263c963f08f1542f8b603298f0429051495070eca8",
   "repoCreatedAt": "2026-02-14T10:09:43Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-11T09:56:52.235Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "skills/inference/vllm-bench-serve/SKILL.md",
+        "line": 123,
+        "excerpt": "1. **Service reachable?** — `curl -s --connect-timeout 5 http://ip:port/health`",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "ip"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/inference/vllm-bench-serve/SKILL.md",
+        "line": 153,
+        "excerpt": "bash <skill-path>/scripts/probe_service.sh --base-url http://ip:port",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/inference/vllm-bench-serve/SKILL.md",
+        "line": 349,
+        "excerpt": "python3 <skill-path>/scripts/generate_bench_cmd.py \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/inference/vllm-bench-serve/SKILL.md",
+        "line": 357,
+        "excerpt": "vllm bench serve \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/inference/vllm-bench-serve/references/environment-checks.md",
+        "line": 14,
+        "excerpt": "| aiohttp available | `python3 -c \"import aiohttp; print(aiohttp.__version__)\"` | Version string |",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/inference/vllm-bench-serve/references/environment-checks.md",
+        "line": 15,
+        "excerpt": "| Service reachable | `curl -s --connect-timeout 5 http://IP:PORT/health` | HTTP 200 |",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "ip"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/inference/vllm-bench-serve/references/environment-checks.md",
+        "line": 46,
+        "excerpt": "curl -s --connect-timeout 5 http://TARGET/health",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "target"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/inference/vllm-bench-serve/references/environment-checks.md",
+        "line": 57,
+        "excerpt": "→ If user says install here → pip install vllm (but this is outside skill scope)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/inference/vllm-bench-serve/references/troubleshooting.md",
+        "line": 71,
+        "excerpt": "1. Verify the service is running: `curl -s http://IP:PORT/health`",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "ip"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/inference/vllm-bench-serve/references/troubleshooting.md",
+        "line": 83,
+        "excerpt": "- Wrong `--served-model-name`: the model name in requests doesn't match what the service expects. Check with `curl http://IP:PORT/v1/models`.",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "ip"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/inference/vllm-bench-serve/references/troubleshooting.md",
+        "line": 88,
+        "excerpt": "- Verify model name: `curl -s http://IP:PORT/v1/models | python3 -c \"import sys,json; [print(m['id']) for m in json.load(sys.stdin)['data']]\"`",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "ip"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/inference/vllm-bench-serve/scripts/auto_optimize.py",
+        "line": 62,
+        "excerpt": "result = subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/inference/vllm-bench-serve/scripts/auto_optimize.py",
+        "line": 63,
+        "excerpt": "cmd, shell=True, capture_output=True, text=True, timeout=600",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/inference/vllm-bench-serve/scripts/auto_optimize.py",
+        "line": 69,
+        "excerpt": "except subprocess.TimeoutExpired:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/inference/vllm-bench-serve/scripts/check_bench_env.sh",
+        "line": 55,
+        "excerpt": "AIOHTTP_VER=$(python3 -c \"import aiohttp; print(aiohttp.__version__)\" 2>/dev/null) && \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/inference/vllm-bench-serve/scripts/check_bench_env.sh",
+        "line": 62,
+        "excerpt": "HTTP_CODE=$(curl -s -o /dev/null -w \"%{http_code}\" --connect-timeout 5 \"$BASE_URL/health\" 2>/dev/null) || HTTP_CODE=\"000\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/inference/vllm-bench-serve/scripts/probe_service.sh",
+        "line": 31,
+        "excerpt": "HTTP_CODE=$(curl -s -o /dev/null -w \"%{http_code}\" --connect-timeout \"$TIMEOUT\" \"$BASE_URL/health\" 2>/dev/null) || HTTP_CODE=\"000\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/inference/vllm-bench-serve/scripts/probe_service.sh",
+        "line": 37,
+        "excerpt": "MODELS_RAW=$(curl -s --connect-timeout \"$TIMEOUT\" \"$BASE_URL/v1/models\" 2>/dev/null) || MODELS_RAW=\"\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/inference/vllm-bench-serve/scripts/probe_service.sh",
+        "line": 57,
+        "excerpt": "COMP_CODE=$(curl -s -o /dev/null -w \"%{http_code}\" --connect-timeout \"$TIMEOUT\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/inference/vllm-bench-serve/scripts/probe_service.sh",
+        "line": 66,
+        "excerpt": "CHAT_CODE=$(curl -s -o /dev/null -w \"%{http_code}\" --connect-timeout \"$TIMEOUT\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/inference/vllm-bench-serve/scripts/probe_service.sh",
+        "line": 75,
+        "excerpt": "EMB_CODE=$(curl -s -o /dev/null -w \"%{http_code}\" --connect-timeout \"$TIMEOUT\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/inference/vllm-bench-serve/scripts/probe_service.sh",
+        "line": 84,
+        "excerpt": "RERANK_CODE=$(curl -s -o /dev/null -w \"%{http_code}\" --connect-timeout \"$TIMEOUT\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/inference/vllm-bench-serve/scripts/run_batch.sh",
+        "line": 104,
+        "excerpt": "timeout \"$CASE_TIMEOUT\" bash -c \"$FULL_CMD\" > \"$RESULT_DIR/${CASE_NAME}.log\" 2>&1 || _EC=$?",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/inference/vllm-bench-serve/scripts/run_batch.sh",
+        "line": 106,
+        "excerpt": "bash -c \"$FULL_CMD\" > \"$RESULT_DIR/${CASE_NAME}.log\" 2>&1 || _EC=$?",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/inference/vllm-bench-serve/scripts/run_batch.sh",
+        "line": 119,
+        "excerpt": "timeout \"$CASE_TIMEOUT\" bash -c \"$FULL_CMD\" 2>&1 | tee \"$RESULT_DIR/${CASE_NAME}.log\" || EXIT_CODE=$?",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/inference/vllm-bench-serve/scripts/run_batch.sh",
+        "line": 124,
+        "excerpt": "bash -c \"$FULL_CMD\" 2>&1 | tee \"$RESULT_DIR/${CASE_NAME}.log\" || EXIT_CODE=$?",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/inference/vllm-bench-serve/scripts/run_bench.sh",
+        "line": 56,
+        "excerpt": "timeout \"$BENCH_TIMEOUT\" bash -c \"$BENCH_CMD\" 2>&1 | tee \"$LOG_FILE\" || EXIT_CODE=$?",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/inference/vllm-bench-serve/scripts/run_bench.sh",
+        "line": 61,
+        "excerpt": "bash -c \"$BENCH_CMD\" 2>&1 | tee \"$LOG_FILE\" || EXIT_CODE=$?",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "network": 15,
+      "shell": 12,
+      "downloads-code": 1
+    },
+    "score": 79,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 1,
-    "filesSkipped": 17
+    "filesScanned": 18,
+    "filesSkipped": 0
   },
   "history": [
     {

@@ -3,257 +3,36 @@
   "owner": "LeoYeAI",
   "repo": "agent-master-skills",
   "path": "skills/security-audit-tools",
-  "name": "skill-install-guardian",
-  "description": "Inspect third-party Claude/OpenClaw/Codex/OpenCode skills, plugins, repos, npm packages, pip packages, shell installers, and GitHub Actions before any download or installation. Use automatically whenever a user asks to install, add, pull, clone, run, curl-bash, npm install, pip install, clawhub install, or use a skill/plugin from GitHub, ClawHub, or other registries. Perform source reputation checks first, then pre-download code review, then post-download deep inspection without executing install scripts. Block or escalate when you detect credential theft, data exfiltration, remote command execution, malicious IP/domain beacons, wallet theft, obfuscation, suspicious lifecycle hooks, prompt-injection-to-shell patterns, unknown packages, typosquatting, dependency confusion, or unsafe GitHub Actions/workflows.",
-  "stars": 2184,
+  "name": "security-audit-tools",
+  "description": "",
+  "stars": 2186,
   "category": "coding",
   "commit": "8f88f9a0dd5a1075d4f0c7626f9d960844d57575",
   "contentHash": "1c1166c71ff42dca5f8c4fb8bae69ff89fdcd4e23797c3d0389166a327559822",
   "repoCreatedAt": "2026-03-02T02:02:25Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": false,
-  "scannedAt": "2026-11-08T05:42:07.685Z",
+  "incomplete": true,
+  "scannedAt": "2026-11-11T09:56:52.235Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
-        "file": "skills/security-audit-tools/SKILL.md",
-        "line": 91,
-        "excerpt": "python3 /tmp/quick_security_scan.py <target_directory>",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/security-audit-tools/SKILL.md",
-        "line": 214,
-        "excerpt": "3. **Never run `curl ... | sh`, `wget ... | bash` during review.**",
+        "file": "skills/security-audit-tools/tools/audit-git-history.sh",
+        "line": 59,
+        "excerpt": "git log -p --all | grep -E \"^\\+.*child_process|^\\+.*\\.exec\\(|^\\+.*\\.spawn\\(\" | head -10 || echo \"✅ No process creation found\"",
         "disclosed": false,
         "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/security-audit-tools/SKILL.md",
-        "line": 235,
-        "excerpt": "mcp filesystem read_file path=\"src/index.ts\"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/security-audit-tools/SKILL.md",
-        "line": 245,
-        "excerpt": "mcp git log repo=\"owner/repo\" max_count=50",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/security-audit-tools/SKILL.md",
-        "line": 254,
-        "excerpt": "mcp postgres query sql=\"SELECT * FROM known_malware WHERE package_name = ?\"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/security-audit-tools/SKILL.md",
-        "line": 262,
-        "excerpt": "mcp http get url=\"https://registry.npmjs.org/package/version\"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/security-audit-tools/SKILL.md",
-        "line": 270,
-        "excerpt": "mcp memory store key=\"audit:package@version\" value=\"{...}\"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/security-audit-tools/SKILL.md",
-        "line": 309,
-        "excerpt": "curl -s https://api.github.com/repos/owner/repo | jq '{...}'",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": [
-          "api.github.com"
-        ]
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/security-audit-tools/SKILL.md",
-        "line": 309,
-        "excerpt": "curl -s https://api.github.com/repos/owner/repo | jq '{...}'",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/security-audit-tools/SKILL.md",
-        "line": 312,
-        "excerpt": "curl -s \"https://api.github.com/repos/owner/repo/issues?labels=security\"",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": [
-          "api.github.com"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/security-audit-tools/SKILL.md",
-        "line": 315,
-        "excerpt": "curl -s https://api.github.com/repos/owner/repo/stargazers | jq 'group_by(.login[:3]) | map(length) | max'",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": [
-          "api.github.com"
-        ]
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/security-audit-tools/SKILL.md",
-        "line": 321,
-        "excerpt": "npm view package@version --json",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/security-audit-tools/SKILL.md",
-        "line": 352,
-        "excerpt": "git clone --depth 50 https://github.com/owner/repo.git",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/security-audit-tools/SKILL.md",
-        "line": 358,
-        "excerpt": "git log --format=\"%an <%ae>\" | sort | uniq -c | sort -rn",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/security-audit-tools/SKILL.md",
-        "line": 367,
-        "excerpt": "git log --oneline --since=\"YYYY-MM-DD\"  # NPM publish date",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/security-audit-tools/SKILL.md",
-        "line": 376,
-        "excerpt": "git show <commit-hash> --stat",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/security-audit-tools/SKILL.md",
-        "line": 427,
-        "excerpt": "find src -name \"*.ts\" -o -name \"*.js\" | wc -l",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/security-audit-tools/SKILL.md",
-        "line": 527,
-        "excerpt": "grep -rn \"child_process\\|exec\\|spawn\" src/ --include=\"*.ts\"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/security-audit-tools/SKILL.md",
-        "line": 545,
-        "excerpt": "npm pack package@version",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/security-audit-tools/SKILL.md",
-        "line": 551,
-        "excerpt": "mkdir npm-extract && tar -xzf package-version.tgz -C npm-extract",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/security-audit-tools/SKILL.md",
-        "line": 558,
-        "excerpt": "cat npm-extract/package/package.json | jq '.scripts'",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/security-audit-tools/SKILL.md",
-        "line": 569,
-        "excerpt": "npm view package@version integrity",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/security-audit-tools/SKILL.md",
-        "line": 581,
-        "excerpt": "cat package.json | jq '.dependencies | keys'",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/security-audit-tools/SKILL.md",
-        "line": 586,
-        "excerpt": "npm ls --all",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "obfuscated",
-        "file": "skills/security-audit-tools/findings-catalog.md",
-        "line": 15,
-        "excerpt": "- `curl|bash`, `wget|sh`, `Invoke-Expression`, `eval(Buffer.from(...))`, `python -c` downloaders",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/security-audit-tools/findings-catalog.md",
-        "line": 15,
-        "excerpt": "- `curl|bash`, `wget|sh`, `Invoke-Expression`, `eval(Buffer.from(...))`, `python -c` downloaders",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/security-audit-tools/tools/quick_scan.py",
-        "line": 81,
-        "excerpt": "if re.search(r'(fetch|axios|http\\.get|http\\.post).*\\+.*private', line, re.I):",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
       }
     ],
     "findingTotals": {
-      "shell": 34,
-      "downloads-code": 2,
-      "network": 4,
-      "obfuscated": 1
+      "shell": 1
     },
-    "score": 66,
-    "band": "review",
+    "score": 95,
+    "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 9,
-    "filesSkipped": 0
+    "filesScanned": 4,
+    "filesSkipped": 6
   },
   "history": [
     {

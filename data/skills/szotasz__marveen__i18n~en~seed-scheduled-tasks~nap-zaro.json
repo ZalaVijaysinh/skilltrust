@@ -1,0 +1,123 @@
+{
+  "id": "szotasz__marveen__i18n~en~seed-scheduled-tasks~nap-zaro",
+  "owner": "Szotasz",
+  "repo": "marveen",
+  "path": "i18n/en/seed-scheduled-tasks/nap-zaro",
+  "name": "nap-zaro",
+  "description": "Evening day close. Writes into the daily log what happened since the last entry (new memories, moved cards), so that the afternoon and the evening do not go missing from the log.",
+  "stars": 133,
+  "category": "coding",
+  "commit": "3be62f56172f66f5f8425ac43af2ca96ccd25492",
+  "contentHash": "03d724b6bacbe94e9e143f37833198e261c8fbc33727b35b1c6c1ee22253f4f8",
+  "repoCreatedAt": "2026-04-08T11:00:40Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-11T09:56:52.235Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "i18n/en/seed-scheduled-tasks/nap-zaro/SKILL.md",
+        "line": 33,
+        "excerpt": "PORT=\"$(sed -n 's/^WEB_PORT=//p' {{INSTALL_DIR}}/.env 2>/dev/null | head -1 | tr -d '\"')\"; PORT=\"${PORT:-3420}\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "i18n/en/seed-scheduled-tasks/nap-zaro/SKILL.md",
+        "line": 36,
+        "excerpt": "curl -s -H \"Authorization: Bearer $TOKEN\" \"http://localhost:$PORT/api/daily-log?agent={{MAIN_AGENT_ID}}&date=$TODAY\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "i18n/en/seed-scheduled-tasks/nap-zaro/SKILL.md",
+        "line": 46,
+        "excerpt": "SINCE=<the last_ts value from step 1; if 0, then: $(date -d \"$TODAY 00:00\" +%s)>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "i18n/en/seed-scheduled-tasks/nap-zaro/SKILL.md",
+        "line": 48,
+        "excerpt": "import json, sys, urllib.request, datetime as dt",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "i18n/en/seed-scheduled-tasks/nap-zaro/SKILL.md",
+        "line": 51,
+        "excerpt": "req = urllib.request.Request(f'http://localhost:{port}{path}', headers={'Authorization': f'Bearer {token}'})",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "i18n/en/seed-scheduled-tasks/nap-zaro/SKILL.md",
+        "line": 52,
+        "excerpt": "return json.load(urllib.request.urlopen(req))",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "i18n/en/seed-scheduled-tasks/nap-zaro/SKILL.md",
+        "line": 84,
+        "excerpt": "find ~/.claude/skills ~/.claude/scheduled-tasks {{INSTALL_DIR}}/.claude/skills -name 'SKILL.md' -newermt \"@$SINCE\" 2>/dev/null",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "i18n/en/seed-scheduled-tasks/nap-zaro/SKILL.md",
+        "line": 97,
+        "excerpt": "python3 -c \"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "i18n/en/seed-scheduled-tasks/nap-zaro/SKILL.md",
+        "line": 140,
+        "excerpt": "python3 -c \"import json,sys; print(json.dumps({'agent_id':'{{MAIN_AGENT_ID}}','content':sys.stdin.read()}))\" <<'TXT' \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "i18n/en/seed-scheduled-tasks/nap-zaro/SKILL.md",
+        "line": 141,
+        "excerpt": "| curl -s -X POST \"http://localhost:$PORT/api/daily-log\" -H \"Content-Type: application/json\" -H \"Authorization: Bearer $TOKEN\" -d @-",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 5,
+      "network": 5
+    },
+    "score": 90,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "3be62f56172f66f5f8425ac43af2ca96ccd25492",
+      "scannedAt": "2026-11-11T09:56:52.235Z",
+      "score": 90,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

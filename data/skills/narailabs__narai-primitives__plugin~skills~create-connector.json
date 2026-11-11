@@ -1,0 +1,196 @@
+{
+  "id": "narailabs__narai-primitives__plugin~skills~create-connector",
+  "owner": "narailabs",
+  "repo": "narai-primitives",
+  "path": "plugin/skills/create-connector",
+  "name": "create-connector",
+  "description": "Use this skill whenever the user wants to add a new agent connector to their\n@narai connectors workspace — wrapping a SaaS API, REST endpoint, GraphQL\nendpoint, SDK, or CLI tool into the canonical @narai connector shape (CLI +\nlibrary + Claude Code plugin). Trigger even if the user doesn't say\n\"connector\" explicitly: phrases like \"I want to query Stripe from Claude\",\n\"add Slack to our agents\", \"wrap our internal orders API\", \"connect\nSalesforce\", \"I have a GraphQL endpoint we need exposed\", \"make a Linear\nagent\" all warrant this skill. Walks the user through identity, auth, and\naction-surface questions, then scaffolds the package, plugin layer, and tests\nby stamping out canonical templates and generating per-connector code. Do NOT\nuse for: modifying existing connectors (just edit the file), wrapping MCP\nservers (different abstraction), or querying databases (db-agent-connector\nalready covers postgres/mysql/sqlite/mssql/mongodb/dynamodb/oracle).",
+  "stars": 10,
+  "category": "coding",
+  "commit": "fbd912a14c3271d87cff847b4e8a639eec3ea331",
+  "contentHash": "6e3f2845f4a25a2cb6e93761f425f69898e906ff2aab77772c9bebd670b1e056",
+  "repoCreatedAt": "2026-04-28T01:38:44Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-11T09:56:52.235Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "plugin/skills/create-connector/SKILL.md",
+        "line": 68,
+        "excerpt": "| CLI tool to wrap | scaffold; client method bodies shell out via `child_process.execFile` |",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugin/skills/create-connector/SKILL.md",
+        "line": 283,
+        "excerpt": "cd <new-connector-dir>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugin/skills/create-connector/assets/templates/connector/README.md.tmpl",
+        "line": 36,
+        "excerpt": "const result = await fetch(\"{{FIRST_ACTION}}\", { /* params */ });",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugin/skills/create-connector/assets/templates/connector/tests/integration/framework.test.ts.tmpl",
+        "line": 75,
+        "excerpt": "const r = await c.fetch(\"{{FIRST_ACTION}}\", {{FIRST_ACTION_PARAMS_JSON}});",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugin/skills/create-connector/evals/evals.json",
+        "line": 84,
+        "excerpt": "\"expected_output\": \"The skill recognizes that db-agent-connector already supports Postgres and redirects the user to install/configure it instead of scaffolding",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugin/skills/create-connector/evals/evals.json",
+        "line": 145,
+        "excerpt": "\"expected_output\": \"An incident-cli-agent-connector scaffold whose client methods shell out to the incident-cli binary via child_process (instead of HTTP fetch)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugin/skills/create-connector/evals/evals.json",
+        "line": 149,
+        "excerpt": "\"src/lib/<slug>_client.ts uses node:child_process (execFile or spawn) instead of HTTP fetch for at least the action methods\",",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugin/skills/create-connector/evals/grader.py",
+        "line": 129,
+        "excerpt": "r = subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugin/skills/create-connector/evals/grader.py",
+        "line": 132,
+        "excerpt": "except subprocess.TimeoutExpired:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugin/skills/create-connector/evals/grader.py",
+        "line": 147,
+        "excerpt": "r = subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugin/skills/create-connector/evals/grader.py",
+        "line": 155,
+        "excerpt": "except (subprocess.TimeoutExpired, FileNotFoundError) as e:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugin/skills/create-connector/evals/grader.py",
+        "line": 493,
+        "excerpt": "\"src/lib/<slug>_client.ts uses node:child_process (execFile or spawn) \"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugin/skills/create-connector/evals/grader.py",
+        "line": 496,
+        "excerpt": "file_contains(client, re.compile(r\"child_process|execFile|spawn\")),",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugin/skills/create-connector/references/action-design.md",
+        "line": 113,
+        "excerpt": "The default `client.ts.tmpl` is HTTP-shaped: it bakes in `validateUrl`, `_throttle`, `_authHeaders`, `request<T>(method, relPath, ...)`, `Retry-After` parsing, ",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugin/skills/create-connector/references/connector-anatomy.md",
+        "line": 10,
+        "excerpt": "- **Library** — `import { fetch } from \"@narai/<pkg>\"; await fetch(action, params)` returns the same envelope as a JS object. Implemented by `connector.fetch(ac",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugin/skills/create-connector/references/connector-anatomy.md",
+        "line": 22,
+        "excerpt": "sdk: async () => new MyClient({...}),   // build the client; called once per main()/fetch()",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugin/skills/create-connector/references/db-connector-pointer.md",
+        "line": 67,
+        "excerpt": "4. **Smoke test**: `npx db-agent-connector --action query --params '{\"server\":\"prod\",\"sql\":\"SELECT 1\"}'`.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugin/hooks/hooks.json",
+        "line": 8,
+        "excerpt": "\"command\": \"diff -q \\\"${CLAUDE_PLUGIN_ROOT}/package.json\\\" \\\"${CLAUDE_PLUGIN_DATA}/package.json\\\" >/dev/null 2>&1 || (mkdir -p \\\"${CLAUDE_PLUGIN_DATA}\\\" && cp \\",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugin/hooks/hooks.json",
+        "line": 19,
+        "excerpt": "\"command\": \"node \\\"${CLAUDE_PLUGIN_ROOT}/plugin/hooks/guardrails.mjs\\\" 2>/dev/null || true\"",
+        "disclosed": true,
+        "automatic": true
+      }
+    ],
+    "findingTotals": {
+      "shell": 13,
+      "network": 4,
+      "writes-outside": 1,
+      "downloads-code": 1
+    },
+    "score": 67,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 36,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "fbd912a14c3271d87cff847b4e8a639eec3ea331",
+      "scannedAt": "2026-11-11T09:56:52.235Z",
+      "score": 67,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

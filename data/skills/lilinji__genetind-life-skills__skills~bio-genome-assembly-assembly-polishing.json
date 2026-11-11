@@ -1,0 +1,77 @@
+{
+  "id": "lilinji__genetind-life-skills__skills~bio-genome-assembly-assembly-polishing",
+  "owner": "lilinji",
+  "repo": "GeneTind-Life-Skills",
+  "path": "skills/bio-genome-assembly-assembly-polishing",
+  "name": "bio-genome-assembly-assembly-polishing",
+  "description": "Decides whether and how to polish a draft genome assembly to raise consensus accuracy (QV) with read-type-matched tools - Racon and medaka (ONT consensus), dorado polish, Polypolish and pypolca (Illumina, repeat-aware), Pilon (legacy short-read), NextPolish/NextPolish2, Hapo-G (haplotype-aware), ntEdit, and DeepPolisher/PEPPER-Margin-DeepVariant for human. Covers the do-not-polish-HiFi rule, the medaka basecaller-model footgun, held-out Merqury QV as the only honest stop signal, and the haplotype-collapse trap. Use when correcting homopolymer indels or residual SNPs in a long-read assembly, deciding if a HiFi assembly needs polishing, or choosing an ONT vs hybrid vs short-read polishing chain.",
+  "stars": 17,
+  "category": "other",
+  "commit": "908229c955510a1841b216e8bf58f6b22818d4dc",
+  "contentHash": "2e00630c7d8839d6fbb344c689d48378aed54eb2738831d3f4b00ce688ed23d5",
+  "repoCreatedAt": "2026-03-09T01:58:35Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-11T09:56:52.235Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-genome-assembly-assembly-polishing/SKILL.md",
+        "line": 69,
+        "excerpt": "minimap2 -t 16 -ax map-ont draft.fasta reads.fq.gz > aln.sam   # map-pb for PacBio CLR",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-genome-assembly-assembly-polishing/SKILL.md",
+        "line": 77,
+        "excerpt": "medaka_consensus -i reads.fq.gz -d racon_final.fasta -o medaka_out -t 16 \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-genome-assembly-assembly-polishing/SKILL.md",
+        "line": 88,
+        "excerpt": "bwa index draft.fasta",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-genome-assembly-assembly-polishing/SKILL.md",
+        "line": 101,
+        "excerpt": "bwa mem -t 16 draft.fasta r1.fq r2.fq | samtools sort -o frags.bam",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-genome-assembly-assembly-polishing/SKILL.md",
+        "line": 115,
+        "excerpt": "K=$(sh $MERQURY/best_k.sh 5000000 | tail -n1 | awk '{print int($1+0.5)}')   # K from genome size; round float->int",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 5
+    },
+    "score": 95,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 3,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "908229c955510a1841b216e8bf58f6b22818d4dc",
+      "scannedAt": "2026-11-11T09:56:52.235Z",
+      "score": 95,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

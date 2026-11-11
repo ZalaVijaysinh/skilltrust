@@ -1,0 +1,133 @@
+{
+  "id": "lilinji__genetind-life-skills__skills~bio-consensus-sequences",
+  "owner": "lilinji",
+  "repo": "GeneTind-Life-Skills",
+  "path": "skills/bio-consensus-sequences",
+  "name": "bio-consensus-sequences",
+  "description": "Generate consensus FASTA sequences by applying VCF variants onto a reference with bcftools consensus, or build viral/amplicon consensus with iVar. Use when reconstructing a sample-specific reference or haplotype, deciding -H haplotype vs IUPAC vs all-ALT projection, masking no-coverage sites so a consensus does not manufacture false reference calls, or setting iVar min-depth/min-frequency policy for surveillance genomes.",
+  "stars": 17,
+  "category": "other",
+  "commit": "908229c955510a1841b216e8bf58f6b22818d4dc",
+  "contentHash": "97ede492d98f2c5171d5dbbe5ad5d701b74b8af366ed79074bffb48215c99239",
+  "repoCreatedAt": "2026-03-09T01:58:35Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-11T09:56:52.235Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-consensus-sequences/SKILL.md",
+        "line": 43,
+        "excerpt": "bcftools index input.vcf.gz                                    # .csi index (or tabix -p vcf)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-consensus-sequences/SKILL.md",
+        "line": 51,
+        "excerpt": "bcftools query -l input.vcf.gz                                 # list samples",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-consensus-sequences/SKILL.md",
+        "line": 58,
+        "excerpt": "bcftools consensus -f reference.fa -r chr1:1000000-1010000 -s sample1 input.vcf.gz > gene.fa",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-consensus-sequences/SKILL.md",
+        "line": 76,
+        "excerpt": "bcftools query -f '%CHROM\\t%POS[\\t%GT]\\n' input.vcf.gz | head   # phased: 0|1 ; unphased: 0/1",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-consensus-sequences/SKILL.md",
+        "line": 100,
+        "excerpt": "bcftools view -i 'GT=\"AA\"' input.vcf.gz | bcftools consensus -f reference.fa > hom_alt.fa",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-consensus-sequences/SKILL.md",
+        "line": 112,
+        "excerpt": "samtools depth -a aligned.bam | awk '$3 < 10 {print $1\"\\t\"$2-1\"\\t\"$2}' | bedtools merge > lowcov.bed",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-consensus-sequences/SKILL.md",
+        "line": 128,
+        "excerpt": "bcftools norm -f reference.fa input.vcf.gz -Oz -o norm.vcf.gz",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-consensus-sequences/SKILL.md",
+        "line": 136,
+        "excerpt": "bcftools consensus -f reference.fa norm.vcf.gz 2>&1 >consensus.fa | grep -i 'overlap\\|warn'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-consensus-sequences/SKILL.md",
+        "line": 146,
+        "excerpt": "ivar trim -b primers.bed -p trimmed -i aligned.bam",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-consensus-sequences/SKILL.md",
+        "line": 167,
+        "excerpt": "bcftools view -f PASS input.vcf.gz -Oz -o pass.vcf.gz && bcftools index pass.vcf.gz",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-consensus-sequences/SKILL.md",
+        "line": 180,
+        "excerpt": "bcftools consensus -f reference.fa -c chain.txt -p \"sample1_\" input.vcf.gz > consensus.fa",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-consensus-sequences/SKILL.md",
+        "line": 203,
+        "excerpt": "minimap2 -a reference.fa consensus.fa | samtools view -b -o aln.bam   # inspect where it diverges",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 12
+    },
+    "score": 95,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 3,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "908229c955510a1841b216e8bf58f6b22818d4dc",
+      "scannedAt": "2026-11-11T09:56:52.235Z",
+      "score": 95,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "id": "lilinji__genetind-life-skills__skills~bio-genome-assembly-metagenome-assembly",
+  "owner": "lilinji",
+  "repo": "GeneTind-Life-Skills",
+  "path": "skills/bio-genome-assembly-metagenome-assembly",
+  "name": "bio-genome-assembly-metagenome-assembly",
+  "description": "Assembles microbial-community sequencing into metagenome-assembled genomes (MAGs) with metaFlye (ONT), metaSPAdes/MEGAHIT (Illumina), and hifiasm-meta/metaMDBG (PacBio HiFi), then recovers genomes via multi-binner consolidation (MetaBAT2, MaxBin2, CONCOCT, SemiBin2, VAMB -> DAS_Tool) and QCs them against MIMAG with CheckM2, GUNC, and GTDB-Tk. Covers why a metagenome is not a genome (uneven coverage, micro-diversity, strain collapse to consensus), differential-coverage binning, co-assembly vs per-sample, the rRNA-operon collapse that fails short-read MAGs, and strain resolution with inStrain. Use when reconstructing genomes from a microbiome, soil, ocean, or gut community, recovering MAGs, or resolving strain-level variation.",
+  "stars": 17,
+  "category": "other",
+  "commit": "908229c955510a1841b216e8bf58f6b22818d4dc",
+  "contentHash": "4a7bdf5cc72c1a4e89504f78cb50974e8f40641af6eb1409d1d71fa9ef15b990",
+  "repoCreatedAt": "2026-03-09T01:58:35Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-11T09:56:52.235Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-genome-assembly-metagenome-assembly/SKILL.md",
+        "line": 73,
+        "excerpt": "flye --meta --nano-hq ont.fastq.gz --out-dir flye_out -t 32",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-genome-assembly-metagenome-assembly/SKILL.md",
+        "line": 85,
+        "excerpt": "spades.py --meta -1 R1.fastq.gz -2 R2.fastq.gz -o spades_out -t 32 -m 500",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-genome-assembly-metagenome-assembly/SKILL.md",
+        "line": 99,
+        "excerpt": "hifiasm_meta -t 32 -o asm hifi.fastq.gz",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-genome-assembly-metagenome-assembly/SKILL.md",
+        "line": 109,
+        "excerpt": "minimap2 -ax map-ont -t 32 contigs.fa reads.fq.gz | samtools sort -@ 32 -o s1.sorted.bam -",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-genome-assembly-metagenome-assembly/SKILL.md",
+        "line": 123,
+        "excerpt": "Fasta_to_Contig2Bin.sh -i metabat/ -e fa    > metabat.tsv",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-genome-assembly-metagenome-assembly/SKILL.md",
+        "line": 141,
+        "excerpt": "inStrain profile sample.sorted.bam mags.fa -o instrain_out -p 16 -g genes.fna",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/bio-genome-assembly-metagenome-assembly/usage-guide.md",
+        "line": 13,
+        "excerpt": "pip install metaMDBG   # or conda; hifiasm-meta from bioconda",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 6,
+      "downloads-code": 1
+    },
+    "score": 80,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 3,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "908229c955510a1841b216e8bf58f6b22818d4dc",
+      "scannedAt": "2026-11-11T09:56:52.235Z",
+      "score": 80,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

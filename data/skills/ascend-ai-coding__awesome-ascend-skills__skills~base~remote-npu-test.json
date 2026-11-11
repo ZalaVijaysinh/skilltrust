@@ -4,24 +4,132 @@
   "repo": "awesome-ascend-skills",
   "path": "skills/base/remote-npu-test",
   "name": "remote-npu-test",
-  "description": "",
-  "stars": 183,
-  "category": "other",
+  "description": "Run NPU inference/training tests on a remote SSH server with vllm-ascend Docker container. Use when the user asks to test models on NPU, run inference on Ascend devices, or deploy models to an SSH server.",
+  "stars": 184,
+  "category": "devops",
   "commit": "75ec89ce9d401be8ac95980e1c3f42f8d4315057",
   "contentHash": "4ec141e6f482a08348445be53812d11b5a13115260ff178dc2556115bf4565d5",
   "repoCreatedAt": "2026-02-14T10:09:43Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-11T09:56:52.235Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/base/remote-npu-test/SKILL.md",
+        "line": 25,
+        "excerpt": "ssh -o ConnectTimeout=10 -o StrictHostKeyChecking=no $0 \"echo 'SSH connection successful'\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/base/remote-npu-test/SKILL.md",
+        "line": 38,
+        "excerpt": "ssh $0 \"docker images --format '{{.Repository}}:{{.Tag}}' | grep -w '$1'\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/base/remote-npu-test/SKILL.md",
+        "line": 45,
+        "excerpt": "ssh $0 \"docker images --format '{{.Repository}}:{{.Tag}}' | grep 'vllm-ascend' | sort -V -t: -k2 | tail -1\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/base/remote-npu-test/SKILL.md",
+        "line": 57,
+        "excerpt": "ssh $0 \"npu-smi info -t board 2>/dev/null || npu-smi info 2>/dev/null\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/base/remote-npu-test/SKILL.md",
+        "line": 67,
+        "excerpt": "ssh $0 \"docker run -d \\\\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/base/remote-npu-test/SKILL.md",
+        "line": 86,
+        "excerpt": "-it $IMAGE bash -c '$TEST_CMD'\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/base/remote-npu-test/SKILL.md",
+        "line": 114,
+        "excerpt": "docker exec vllm-ascend-env pip install <missing-package-1> <missing-package-2> ... -i $PIP_MIRRORS",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/base/remote-npu-test/SKILL.md",
+        "line": 114,
+        "excerpt": "docker exec vllm-ascend-env pip install <missing-package-1> <missing-package-2> ... -i $PIP_MIRRORS",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/base/remote-npu-test/SKILL.md",
+        "line": 124,
+        "excerpt": "docker exec vllm-ascend-env pip freeze > requirements_ai.txt",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/base/remote-npu-test/SKILL.md",
+        "line": 128,
+        "excerpt": "ssh $0 \"docker cp vllm-ascend-env:/requirements_ai.txt /tmp/requirements_ai.txt\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/base/remote-npu-test/SKILL.md",
+        "line": 179,
+        "excerpt": "ssh $0 \"cat > /home/l00910600/report.txt << 'EOF'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/base/remote-npu-test/SKILL.md",
+        "line": 226,
+        "excerpt": "scp $0:/home/l00910600/report.txt ./report_$(date +%Y%m%d_%H%M%S).txt",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/base/remote-npu-test/SKILL.md",
+        "line": 295,
+        "excerpt": "- Prefer `pip install` over `pip3 install` inside Docker containers (usually the default)",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 11,
+      "downloads-code": 2
+    },
+    "score": 82,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 1
+    "filesScanned": 1,
+    "filesSkipped": 0
   },
   "history": [
     {

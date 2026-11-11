@@ -1,0 +1,78 @@
+{
+  "id": "lilinji__genetind-life-skills__skills~bio-genome-intervals-proximity-operations",
+  "owner": "lilinji",
+  "repo": "GeneTind-Life-Skills",
+  "path": "skills/bio-genome-intervals-proximity-operations",
+  "name": "bio-genome-intervals-proximity-operations",
+  "description": "Performs proximity operations on genomic intervals with bedtools (closest, window, flank, slop) and pybedtools - nearest-feature queries with signed/strand-aware distance, fixed-radius window searches, strand-aware promoter construction, and interval extension. Covers the closest -d/-D a/b/ref/-t/-k/-io/-iu/-id flags, the -D ref strand sign-flip, silent chromosome-end clipping in slop/flank, -t all tie double-counting, and the critical distinction between a geometry answer (nearest TSS) and a biology answer (which gene an element regulates). Use when assigning peaks or variants to genes, defining promoters from a gene model, building distance-to-TSS distributions, finding features within a window, or extending intervals - and when deciding whether nearest-gene is a fair prior (GWAS locus) or a trap (distal enhancer).",
+  "stars": 17,
+  "category": "other",
+  "commit": "908229c955510a1841b216e8bf58f6b22818d4dc",
+  "contentHash": "72342fe6ac9725609adc77f5e37ed2f63bd11dcabef7816017c3a3082afcffb5",
+  "repoCreatedAt": "2026-03-09T01:58:35Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-11T09:56:52.235Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-genome-intervals-proximity-operations/SKILL.md",
+        "line": 66,
+        "excerpt": "bedtools sort -i peaks.bed > peaks.sorted.bed",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-genome-intervals-proximity-operations/SKILL.md",
+        "line": 95,
+        "excerpt": "bedtools window -a peaks.bed -b genes.bed -w 50000 -c > peak_gene_counts.bed",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-genome-intervals-proximity-operations/SKILL.md",
+        "line": 112,
+        "excerpt": "awk -v OFS='\\t' '{ if ($6==\"+\") print $1,$2,$2+1,$4,$5,$6; else print $1,$3-1,$3,$4,$5,$6 }' genes.bed > tss.bed",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-genome-intervals-proximity-operations/SKILL.md",
+        "line": 132,
+        "excerpt": "bedtools flank -i exons.bed -g genome.txt -s -b 1000 > exon_flanks.bed   # 1 kb each side, strand-aware",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/bio-genome-intervals-proximity-operations/usage-guide.md",
+        "line": 12,
+        "excerpt": "pip install pybedtools",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 4,
+      "downloads-code": 1
+    },
+    "score": 80,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 4,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "908229c955510a1841b216e8bf58f6b22818d4dc",
+      "scannedAt": "2026-11-11T09:56:52.235Z",
+      "score": 80,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

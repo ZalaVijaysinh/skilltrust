@@ -1,0 +1,85 @@
+{
+  "id": "lilinji__genetind-life-skills__skills~bio-hi-c-analysis-contact-pairs",
+  "owner": "lilinji",
+  "repo": "GeneTind-Life-Skills",
+  "path": "skills/bio-hi-c-analysis-contact-pairs",
+  "name": "bio-hi-c-analysis-contact-pairs",
+  "description": "Turns Hi-C/Micro-C FASTQ into a deduplicated, filtered .pairs file with pairtools and decides whether the library worked. Covers the bwa mem -SP5M / bwa-mem2 / chromap --preset hic alignment idiom (mates mapped as independent single-end reads), pairtools parse vs parse2 and the walks-policy choice (5unique pairwise vs all for Pore-C/Micro-C concatemers), pair-type classification (keep UU and rescued UC), dedup (PCR vs optical/by-tile), select by pair_type/MAPQ/distance, restriction-fragment handling (restrict, Arima dual-enzyme, Micro-C/DNase fragment-free), and allele-specific phasing (pairtools phase to two coolers). The library-QC decision uses % long-range cis as the one-number quality metric, trans as the noise floor, orientation balance as fragment-map-free dangling-end/self-circle QC, and % duplicates as a complexity proxy. Use when processing Hi-C/Micro-C/Omni-C reads into pairs, judging library quality, handling multi-enzyme or restriction-agnostic protocols, or generating allele-specific contacts.",
+  "stars": 17,
+  "category": "other",
+  "commit": "908229c955510a1841b216e8bf58f6b22818d4dc",
+  "contentHash": "684fec1d201ed7d81be33a55c5ebb1e21889deac81401a81e08059269fbde63a",
+  "repoCreatedAt": "2026-03-09T01:58:35Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-11T09:56:52.235Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-hi-c-analysis-contact-pairs/SKILL.md",
+        "line": 60,
+        "excerpt": "bwa index ref.fa                                            # or bwa-mem2 index ref.fa",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-hi-c-analysis-contact-pairs/SKILL.md",
+        "line": 72,
+        "excerpt": "pairtools parse -c chrom.sizes --walks-policy 5unique --min-mapq 1 \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-hi-c-analysis-contact-pairs/SKILL.md",
+        "line": 88,
+        "excerpt": "pairtools stats --bytile-dups -o sample.stats.tsv sample.valid.pairs.gz",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-hi-c-analysis-contact-pairs/SKILL.md",
+        "line": 99,
+        "excerpt": "pairtools select '(chrom1!=chrom2) or (abs(pos2-pos1) > 1000)' \\   # keep trans + cis beyond the orientation-equalization distance",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-hi-c-analysis-contact-pairs/SKILL.md",
+        "line": 108,
+        "excerpt": "cooler digest --out frags.bed chrom.sizes ref.fa DpnII     # single-enzyme: DpnII ^GATC",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-hi-c-analysis-contact-pairs/SKILL.md",
+        "line": 121,
+        "excerpt": "bcftools consensus -H 1 -f ref.fa phased.vcf.gz > hap1.fa   # build a diploid (two-homolog) reference",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 6
+    },
+    "score": 95,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 3,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "908229c955510a1841b216e8bf58f6b22818d4dc",
+      "scannedAt": "2026-11-11T09:56:52.235Z",
+      "score": 95,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}
