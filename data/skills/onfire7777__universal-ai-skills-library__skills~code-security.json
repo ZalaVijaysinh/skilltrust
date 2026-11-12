@@ -5,15 +5,15 @@
   "path": "skills/code-security",
   "name": "code-security",
   "description": "Security guidelines for writing secure code. Use when writing code, reviewing code for vulnerabilities, or asking about secure coding practices like 'check for SQL injection' or 'review security'. IMPORTANT: Always consult this skill when writing or reviewing any code that handles user input, authentication, file operations, database queries, network requests, cryptography, or infrastructure configuration (Terraform, Kubernetes, Docker, GitHub Actions) — even if the user doesn't explicitly mention security. Also use when users ask to 'review my code', 'check this for bugs', or 'is this safe'.",
-  "stars": 16,
+  "stars": 17,
   "category": "coding",
   "commit": "2a76bf42ce5c860adf8d0f3fcf3f6804109ac65b",
   "contentHash": "540b33bd43ceb86f30cadbbceee5521a73e86c7996392175c69e507f960f3d14",
   "repoCreatedAt": "2026-03-25T00:16:34Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-12T10:25:14.233Z",
   "scan": {
     "findings": [
       {
@@ -277,27 +277,81 @@
       },
       {
         "ruleId": "network",
-        "file": "skills/code-security/rules/code-injection.md",
-        "line": 25,
-        "excerpt": "blah = \"import requests; r = requests.get('https://example.com')\"",
+        "file": "skills/code-security/rules/best-practice.md",
+        "line": 54,
+        "excerpt": "r = requests.get(url)",
         "disclosed": true,
         "automatic": false,
-        "hosts": [
-          "example.com"
-        ]
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/code-security/rules/command-injection.md",
+        "line": 26,
+        "excerpt": "subprocess.run(\"ping \" + ip, shell=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/code-security/rules/command-injection.md",
+        "line": 39,
+        "excerpt": "subprocess.run([\"ping\", ip])",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/code-security/rules/command-injection.md",
+        "line": 48,
+        "excerpt": "const { exec } = require('child_process');",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/code-security/rules/command-injection.md",
+        "line": 59,
+        "excerpt": "const { spawn } = require('child_process');",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/code-security/rules/docker.md",
+        "line": 20,
+        "excerpt": "RUN apt-get update && apt-get install -y some-package",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/code-security/rules/docker.md",
+        "line": 30,
+        "excerpt": "RUN apt-get update && apt-get install -y some-package",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/code-security/rules/terraform-aws.md",
+        "line": 198,
+        "excerpt": "region = \"us-west-2\"; shared_credentials_file = \"~/.aws/creds\"; profile = \"myprofile\"",
+        "disclosed": true,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 4,
-      "network": 20,
-      "reads-secrets": 1,
-      "downloads-code": 3
+      "shell": 8,
+      "network": 38,
+      "reads-secrets": 2,
+      "downloads-code": 5
     },
     "score": 69,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 7,
-    "filesSkipped": 27
+    "filesScanned": 34,
+    "filesSkipped": 0
   },
   "history": [
     {

@@ -4,24 +4,183 @@
   "repo": "universal-ai-skills-library",
   "path": "skills/hardening-docker-daemon-configuration",
   "name": "hardening-docker-daemon-configuration",
-  "description": "",
-  "stars": 16,
+  "description": "Harden the Docker daemon by configuring daemon.json with user namespace remapping, TLS authentication, rootless mode, and CIS benchmark controls.",
+  "stars": 17,
   "category": "devops",
   "commit": "2a76bf42ce5c860adf8d0f3fcf3f6804109ac65b",
   "contentHash": "21153edbb38b24af23d235d07c84fc9ba078d9a935772a5c1ea15732fe77ea09",
   "repoCreatedAt": "2026-03-25T00:16:34Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-12T10:25:14.233Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/hardening-docker-daemon-configuration/SKILL.md",
+        "line": 114,
+        "excerpt": "cat /etc/subuid",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hardening-docker-daemon-configuration/SKILL.md",
+        "line": 161,
+        "excerpt": "openssl genrsa -aes256 -out ca-key.pem 4096",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/hardening-docker-daemon-configuration/SKILL.md",
+        "line": 189,
+        "excerpt": "sudo mkdir -p /etc/docker/tls",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/hardening-docker-daemon-configuration/SKILL.md",
+        "line": 190,
+        "excerpt": "sudo cp ca.pem server-cert.pem server-key.pem /etc/docker/tls/",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hardening-docker-daemon-configuration/SKILL.md",
+        "line": 209,
+        "excerpt": "docker --tlsverify \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hardening-docker-daemon-configuration/SKILL.md",
+        "line": 220,
+        "excerpt": "sudo chown root:docker /var/run/docker.sock",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hardening-docker-daemon-configuration/SKILL.md",
+        "line": 235,
+        "excerpt": "sudo apt-get update",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/hardening-docker-daemon-configuration/SKILL.md",
+        "line": 236,
+        "excerpt": "sudo apt-get install -y docker-ce-rootless-extras",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hardening-docker-daemon-configuration/SKILL.md",
+        "line": 256,
+        "excerpt": "export DOCKER_CONTENT_TRUST=1",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hardening-docker-daemon-configuration/SKILL.md",
+        "line": 270,
+        "excerpt": "docker info --format '{{.SecurityOptions}}'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hardening-docker-daemon-configuration/SKILL.md",
+        "line": 283,
+        "excerpt": "sudo aa-status",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hardening-docker-daemon-configuration/SKILL.md",
+        "line": 296,
+        "excerpt": "docker info",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/hardening-docker-daemon-configuration/assets/template.md",
+        "line": 59,
+        "excerpt": "2. Restore backup: `sudo cp /etc/docker/daemon.json.bak /etc/docker/daemon.json`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/hardening-docker-daemon-configuration/references/workflows.md",
+        "line": 24,
+        "excerpt": "sudo cp /etc/docker/daemon.json /etc/docker/daemon.json.bak 2>/dev/null",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/hardening-docker-daemon-configuration/references/workflows.md",
+        "line": 29,
+        "excerpt": "sudo tee /etc/docker/daemon.json <<'EOF'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/hardening-docker-daemon-configuration/references/workflows.md",
+        "line": 77,
+        "excerpt": "}' /etc/docker/daemon.json | sudo tee /etc/docker/daemon.json.new",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/hardening-docker-daemon-configuration/references/workflows.md",
+        "line": 78,
+        "excerpt": "sudo mv /etc/docker/daemon.json.new /etc/docker/daemon.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hardening-docker-daemon-configuration/references/workflows.md",
+        "line": 106,
+        "excerpt": "curl -s http://127.0.0.1:9323/metrics | head -20",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hardening-docker-daemon-configuration/scripts/process.py",
+        "line": 96,
+        "excerpt": "result = subprocess.run([\"docker\", \"info\", \"--format\", \"{{json .}}\"],",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 10,
+      "writes-outside": 7,
+      "downloads-code": 1,
+      "network": 1
+    },
+    "score": 67,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 8
+    "filesScanned": 8,
+    "filesSkipped": 0
   },
   "history": [
     {

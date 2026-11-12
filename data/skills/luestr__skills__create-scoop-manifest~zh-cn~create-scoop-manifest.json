@@ -4,30 +4,148 @@
   "repo": "skills",
   "path": "create-scoop-manifest/zh-CN/create-scoop-manifest",
   "name": "create-scoop-manifest",
-  "description": "",
-  "stars": 93,
+  "description": "为 Windows 应用创建与维护 Scoop bucket manifest（bucket 目录下的 appname.json），以及围绕它的安装、校验、体检与排错。 当用户说「生成 scoop manifest」「给 xxx 写 manifest」「加到我的 bucket」「提交 PR 到 scoop-extras / main / versions」 「写 checkver / autoupdate」「这个包装了没 / 怎么装」「bucket 里的包过期了 / hash 不对 / 审计一下」 「和 BucketTemplate 同步 / 升 GitHub Actions」「scoop 报错 / 装不上 / 解压失败 / 缺 hash / 找不到包 / 下载慢」时， 都必须使用本技能，即使对方没有明确说出「scoop」这个词。 只要涉及 Windows 上的 app manifest（NSIS .exe / MSI / 便携 .zip）、bucket 仓库、可移植软件安装或 Scoop 自身配置与排错，就触发本技能； 只发 macOS/Linux 包的项目不适用。",
+  "stars": 94,
   "category": "other",
-  "commit": "283d591d0d1de2dcf35edcfe8617982d258a7c07",
+  "commit": "b115464d14efbcf261bc10b7e0efb21978f01813",
   "contentHash": "c707187ef18283bcbe8cf84193ab74f23773aee1256a4da3b8c66779cf123ab6",
   "repoCreatedAt": "2026-10-09T13:47:49Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-12T10:25:14.233Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "create-scoop-manifest/zh-CN/create-scoop-manifest/SKILL.md",
+        "line": 132,
+        "excerpt": "gh repo view <owner>/<repo> --json url,description,licenseInfo -q '{homepage:.url, description:.description, license:.licenseInfo.spdxId}'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "create-scoop-manifest/zh-CN/create-scoop-manifest/SKILL.md",
+        "line": 145,
+        "excerpt": "node <skill>/scripts/fetch-windows-assets.mjs <owner>/<repo> [tag]",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "create-scoop-manifest/zh-CN/create-scoop-manifest/SKILL.md",
+        "line": 210,
+        "excerpt": "pwsh -NoProfile -File <skill>/scripts/manifest-lint.ps1 bucket/<appname>.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "create-scoop-manifest/zh-CN/create-scoop-manifest/SKILL.md",
+        "line": 221,
+        "excerpt": "没装 Scoop 时至少：`node -e \"require('./bucket/<appname>.json')\"` + `curl -I` 确认 URL 200。",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "create-scoop-manifest/zh-CN/create-scoop-manifest/SKILL.md",
+        "line": 236,
+        "excerpt": "pwsh -NoProfile -File tools/audit.ps1            # 完整：checkver -s + checkhashes + lint + autoupdate + sources",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "create-scoop-manifest/zh-CN/create-scoop-manifest/references/autoupdate-reference.md",
+        "line": 152,
+        "excerpt": "\"$page = Invoke-WebRequest 'https://example.com/download' -UseBasicParsing\",",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "example.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "create-scoop-manifest/zh-CN/create-scoop-manifest/references/install-and-setup.md",
+        "line": 42,
+        "excerpt": "Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "get.scoop.sh"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "create-scoop-manifest/zh-CN/create-scoop-manifest/references/troubleshooting.md",
+        "line": 79,
+        "excerpt": "| 下载了但装在别处 / 报 `Invoke-WebRequest` 异常 | URL 里带了 `#/...` 片段 | 片段是 Scoop 指令不是 HTTP 的一部分；用 `scripts/hashurl.ps1` 算 hash 时会自动剥掉 |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "create-scoop-manifest/zh-CN/create-scoop-manifest/scripts/fetch-windows-assets.mjs",
+        "line": 40,
+        "excerpt": "const res = await fetch(apiUrl, { headers });",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "create-scoop-manifest/zh-CN/create-scoop-manifest/scripts/fetch-windows-assets.ps1",
+        "line": 87,
+        "excerpt": "$release = Invoke-RestMethod -Uri $apiUrl -Headers $headers -ErrorAction Stop",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "create-scoop-manifest/zh-CN/create-scoop-manifest/scripts/fetch-windows-assets.ps1",
+        "line": 98,
+        "excerpt": "Write-Verbose \"Invoke-RestMethod failed ($($_.Exception.Message)); retrying with curl.exe\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "create-scoop-manifest/zh-CN/create-scoop-manifest/scripts/hashurl.ps1",
+        "line": 83,
+        "excerpt": "Invoke-WebRequest -Uri $httpUrl -OutFile $tmp -UserAgent $userAgent -MaximumRedirection 10 -ErrorAction Stop",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 4,
+      "network": 8
+    },
+    "score": 90,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 2,
-    "filesSkipped": 13
+    "filesScanned": 15,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "283d591d0d1de2dcf35edcfe8617982d258a7c07",
       "scannedAt": "2026-11-08T09:45:03.483Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "b115464d14efbcf261bc10b7e0efb21978f01813",
+      "scannedAt": "2026-11-12T10:25:14.233Z",
+      "score": 90,
       "rulesVersion": "1.3.0"
     }
   ]

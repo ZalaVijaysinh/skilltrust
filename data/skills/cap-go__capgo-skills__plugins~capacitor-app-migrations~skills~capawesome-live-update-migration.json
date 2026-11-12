@@ -4,24 +4,124 @@
   "repo": "capgo-skills",
   "path": "plugins/capacitor-app-migrations/skills/capawesome-live-update-migration",
   "name": "capawesome-live-update-migration",
-  "description": "",
-  "stars": 77,
+  "description": "Migrates a Capacitor app from Capawesome Cloud live updates (@capawesome/capacitor-live-update, LiveUpdate.ready/sync/setNextBundle/reload, plugins.LiveUpdate config with appId, autoUpdateStrategy, defaultChannel, readyTimeout, publicKey, and @capawesome/cli bundle upload commands) to Capgo Updater (@capgo/capacitor-updater). Covers the package swap, config and API mapping, the notifyAppReady startup hook, deleting custom update glue, replacing CI upload commands, overlap with devices still on old binaries, verification, and Capgo positioning (native updater runtime, open source, cheaper at comparable scale, longer track record). Do not use for Ionic Appflow (ionic-appflow-migration), a fresh Capgo setup (capgo-live-updates), channel and rollout strategy after migration (capgo-release-workflows), or Capawesome plugins unrelated to live updates.",
+  "stars": 78,
   "category": "coding",
-  "commit": "e90bb5639130e34387f00bf0a95c6d47e4a2ebb8",
-  "contentHash": "ccd5db39cdb6a00516cd6a14254eece3f26c6d7c9a844bcaf02181789d77a5e1",
+  "commit": "e82217b8fa76e11a2b2fdb49c6a221df8359cb54",
+  "contentHash": "2a101871551361e5e1f5b62251f0cefd052c3e7842d1f98fdfc118e89c107757",
   "repoCreatedAt": "2026-01-25T02:28:05Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-12T10:25:14.233Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "plugins/capacitor-app-migrations/skills/capawesome-live-update-migration/SKILL.md",
+        "line": 30,
+        "excerpt": "node -e \"const fs=require('fs');if(!fs.existsSync('package.json'))process.exit(0);const pkg=JSON.parse(fs.readFileSync('package.json','utf8'));const out=[];for(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/capacitor-app-migrations/skills/capawesome-live-update-migration/SKILL.md",
+        "line": 38,
+        "excerpt": "rg -n \"capawesome|LiveUpdate|capacitor-live-update|CapacitorUpdater|@capgo/capacitor-updater\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/capacitor-app-migrations/skills/capawesome-live-update-migration/SKILL.md",
+        "line": 47,
+        "excerpt": "npm uninstall @capawesome/capacitor-live-update",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/capacitor-app-migrations/skills/capawesome-live-update-migration/SKILL.md",
+        "line": 49,
+        "excerpt": "npx cap sync",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/capacitor-app-migrations/skills/capawesome-live-update-migration/SKILL.md",
+        "line": 77,
+        "excerpt": "| `appId` | Capgo app (created by `npx @capgo/cli@latest init`, keyed on the Capacitor `appId`); set `CapacitorUpdater.appId` only for multi-app binaries |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/capacitor-app-migrations/skills/capawesome-live-update-migration/SKILL.md",
+        "line": 84,
+        "excerpt": "| `publicKey` (signing) | Capgo end-to-end encryption: `npx @capgo/cli@latest key create`, then `publicKey` is written to config |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/capacitor-app-migrations/skills/capawesome-live-update-migration/SKILL.md",
+        "line": 126,
+        "excerpt": "npx @capgo/cli@latest login   # interactive login; CI uses the CAPGO_TOKEN secret",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/capacitor-app-migrations/skills/capawesome-live-update-migration/SKILL.md",
+        "line": 126,
+        "excerpt": "npx @capgo/cli@latest login   # interactive login; CI uses the CAPGO_TOKEN secret",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/capacitor-app-migrations/skills/capawesome-live-update-migration/SKILL.md",
+        "line": 128,
+        "excerpt": "npx @capgo/cli@latest bundle upload --path <webDir> --channel production",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/capacitor-app-migrations/skills/capawesome-live-update-migration/SKILL.md",
+        "line": 150,
+        "excerpt": "2. `npx cap sync` and fresh native builds on iOS and Android succeed.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/capacitor-app-migrations/skills/capawesome-live-update-migration/SKILL.md",
+        "line": 162,
+        "excerpt": "| `Cannot find API key in local folder or global, please login first` | `npx @capgo/cli@latest login` or set `CAPGO_TOKEN` in CI |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/capacitor-app-migrations/skills/capawesome-live-update-migration/SKILL.md",
+        "line": 164,
+        "excerpt": "| Device never gets updates | Device's channel has no compatible bundle; check channel assignment and `npx @capgo/cli@latest bundle compatibility --channel <nam",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 4,
+      "downloads-code": 8
+    },
+    "score": 82,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 5
+    "filesScanned": 5,
+    "filesSkipped": 1
   },
   "history": [
     {
@@ -34,6 +134,12 @@
       "commit": "e90bb5639130e34387f00bf0a95c6d47e4a2ebb8",
       "scannedAt": "2026-11-08T09:45:03.483Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "e82217b8fa76e11a2b2fdb49c6a221df8359cb54",
+      "scannedAt": "2026-11-12T10:25:14.233Z",
+      "score": 82,
       "rulesVersion": "1.3.0"
     }
   ]

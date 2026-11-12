@@ -4,44 +4,148 @@
   "repo": "skills",
   "path": "create-scoop-manifest/en-US/create-scoop-manifest",
   "name": "create-scoop-manifest",
-  "description": "",
-  "stars": 93,
-  "category": "other",
-  "commit": "283d591d0d1de2dcf35edcfe8617982d258a7c07",
+  "description": "Create and maintain Scoop bucket manifests (appname.json inside a bucket directory) for Windows apps, plus the install, verification, health-check and troubleshooting work that surrounds them. Use this skill whenever the user says \"create a scoop manifest\", \"write a manifest for that app\", \"add this to my bucket\", \"submit a PR to scoop-extras / main / versions\", \"write checkver / autoupdate\", \"is this app packaged yet / how do I install it\", \"the packages in my bucket are outdated / the hash is wrong / audit this bucket\", \"sync with BucketTemplate / bump GitHub Actions\", or \"scoop errors out / won't install / extraction fails / missing hash / package not found / downloads are slow\" - even if they never say the word \"scoop\". Trigger on anything involving Windows app manifests (NSIS .exe / MSI / portable .zip), bucket repositories, portable software installation, or Scoop's own configuration and troubleshooting. Projects that only ship macOS/Linux artifacts are out of scope.",
+  "stars": 94,
+  "category": "security",
+  "commit": "b115464d14efbcf261bc10b7e0efb21978f01813",
   "contentHash": "d23de399e707687e7d94ee4b612d39114a9cb746b65a5b3528437c75adda3af0",
   "repoCreatedAt": "2026-10-09T13:47:49Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-12T10:25:14.233Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "shell",
+        "file": "create-scoop-manifest/en-US/create-scoop-manifest/SKILL.md",
+        "line": 169,
+        "excerpt": "gh repo view <owner>/<repo> --json url,description,licenseInfo -q '{homepage:.url, description:.description, license:.licenseInfo.spdxId}'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "create-scoop-manifest/en-US/create-scoop-manifest/SKILL.md",
+        "line": 188,
+        "excerpt": "node <skill>/scripts/fetch-windows-assets.mjs <owner>/<repo> [tag]",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "create-scoop-manifest/en-US/create-scoop-manifest/SKILL.md",
+        "line": 266,
+        "excerpt": "pwsh -NoProfile -File <skill>/scripts/manifest-lint.ps1 bucket/<appname>.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "create-scoop-manifest/en-US/create-scoop-manifest/SKILL.md",
+        "line": 277,
+        "excerpt": "Without Scoop installed, at minimum: `node -e \"require('./bucket/<appname>.json')\"` plus a `curl -I`",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "create-scoop-manifest/en-US/create-scoop-manifest/SKILL.md",
+        "line": 298,
+        "excerpt": "pwsh -NoProfile -File tools/audit.ps1            # full: checkver -s + checkhashes + lint + autoupdate + sources",
+        "disclosed": false,
+        "automatic": false
+      },
       {
         "ruleId": "network",
         "file": "create-scoop-manifest/en-US/create-scoop-manifest/references/autoupdate-reference.md",
         "line": 152,
         "excerpt": "\"$page = Invoke-WebRequest 'https://example.com/download' -UseBasicParsing\",",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": [
           "example.com"
         ]
+      },
+      {
+        "ruleId": "network",
+        "file": "create-scoop-manifest/en-US/create-scoop-manifest/references/install-and-setup.md",
+        "line": 42,
+        "excerpt": "Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "get.scoop.sh"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "create-scoop-manifest/en-US/create-scoop-manifest/references/troubleshooting.md",
+        "line": 79,
+        "excerpt": "| It downloads but installs somewhere else / throws an `Invoke-WebRequest` exception | The URL carries a `#/...` fragment | The fragment is a Scoop directive, n",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "create-scoop-manifest/en-US/create-scoop-manifest/scripts/fetch-windows-assets.mjs",
+        "line": 40,
+        "excerpt": "const res = await fetch(apiUrl, { headers });",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "create-scoop-manifest/en-US/create-scoop-manifest/scripts/fetch-windows-assets.ps1",
+        "line": 87,
+        "excerpt": "$release = Invoke-RestMethod -Uri $apiUrl -Headers $headers -ErrorAction Stop",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "create-scoop-manifest/en-US/create-scoop-manifest/scripts/fetch-windows-assets.ps1",
+        "line": 98,
+        "excerpt": "Write-Verbose \"Invoke-RestMethod failed ($($_.Exception.Message)); retrying with curl.exe\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "create-scoop-manifest/en-US/create-scoop-manifest/scripts/hashurl.ps1",
+        "line": 83,
+        "excerpt": "Invoke-WebRequest -Uri $httpUrl -OutFile $tmp -UserAgent $userAgent -MaximumRedirection 10 -ErrorAction Stop",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
       }
     ],
     "findingTotals": {
-      "network": 1
+      "shell": 4,
+      "network": 8
     },
-    "score": 95,
+    "score": 92,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 2,
-    "filesSkipped": 13
+    "filesScanned": 15,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "283d591d0d1de2dcf35edcfe8617982d258a7c07",
       "scannedAt": "2026-11-08T09:45:03.483Z",
       "score": 95,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "b115464d14efbcf261bc10b7e0efb21978f01813",
+      "scannedAt": "2026-11-12T10:25:14.233Z",
+      "score": 92,
       "rulesVersion": "1.3.0"
     }
   ]

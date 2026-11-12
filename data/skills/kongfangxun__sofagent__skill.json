@@ -3,19 +3,43 @@
   "owner": "KongFangXun",
   "repo": "sofagent",
   "path": "SKILL",
-  "name": "SKILL",
-  "description": "",
+  "name": "sofagent",
+  "description": "FDE Skill——帮 FDE（前线部署工程师）更好完成企业 AI 落地的方法论 Skill。约束 Agent 行为、审计每次变更、沉淀经验。 底层实现叫约束层——一个层五种能力：注入·审计·回溯·沉淀·进化。FORGE 自迭代工具链是内部开发工具。 内置持续优化模式（sustain），自动读 audit 报告趋势生成优化报告。",
   "stars": 55,
-  "category": "coding",
-  "commit": "136a148837a31dc2471d578e15a76afc3328b0f6",
-  "contentHash": "56f97fa5b8df0c7bb863c06af685e4b14d24a59a4738e86f70a702d74429dbc9",
+  "category": "security",
+  "commit": "4ff31442ec41315e8f9867d83ec71f42c8237519",
+  "contentHash": "49b3c575dc72ab4aba543684e35803dcf7ddcd989b016986083b2f78029bcf6c",
   "repoCreatedAt": "2026-06-18T08:53:06Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-12T10:25:14.233Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "shell",
+        "file": "SKILL/agents/audit/SKILL.md",
+        "line": 26,
+        "excerpt": "sofagent orchestrator subagent run audit --task \"<用户的任务描述，原样传入>\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "SKILL/agents/engineer/SKILL.md",
+        "line": 185,
+        "excerpt": "npm run build  # 失败→停止→修复→重试",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "SKILL/agents/engineer/SKILL.md",
+        "line": 191,
+        "excerpt": "git add <changed-files>",
+        "disclosed": false,
+        "automatic": false
+      },
       {
         "ruleId": "shell",
         "file": "SKILL/agents/fde/SKILL.md",
@@ -40,23 +64,63 @@
         "disclosed": false,
         "automatic": false,
         "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "SKILL/harness/entry-gate.md",
+        "line": 20,
+        "excerpt": "| bash | `command -v bash` | 不可 `rm -rf /`/删非项目文件/改系统配置/`curl\\|bash` | ✅ | ⚠️ | ❌ | ✅/❌/N/A |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "SKILL/harness/installer.md",
+        "line": 36,
+        "excerpt": "{ \"step\": 1, \"status\": \"blocked\", \"missing\": [\"node>=18\"], \"advice\": \"brew install node@18 或 nvm install 18\", \"rollback\": \"none（本步零副作用）\" }",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "SKILL/harness/installer.md",
+        "line": 58,
+        "excerpt": "{ \"step\": 2, \"status\": \"failed\", \"exitCode\": 1, \"stderrTail\": \"<最后 5 行>\", \"advice\": \"按 stderr 指路修复后重跑本步\", \"rollback\": \"rm -rf ~/.sofagent/<本版目录>（安装未完成时）；已存在旧版则恢",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "SKILL/harness/loop-evaluate.md",
+        "line": 68,
+        "excerpt": "> 💡 评分证据的机械核验：`engine/core/src/verify-evidence.ts`——扫描 `data/task/logs/` 今日记录，有测试/lint 等客观证据标 `[已验证]`，无标 `[未验证]`。用法 `npx ts-node src/verify-evidence.ts [--daem",
+        "disclosed": false,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 2,
-      "network": 1
+      "shell": 5,
+      "network": 1,
+      "downloads-code": 3,
+      "writes-outside": 1
     },
-    "score": 90,
-    "band": "low",
+    "score": 65,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 2,
-    "filesSkipped": 27
+    "filesScanned": 30,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "136a148837a31dc2471d578e15a76afc3328b0f6",
       "scannedAt": "2026-11-08T09:45:03.483Z",
       "score": 90,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "4ff31442ec41315e8f9867d83ec71f42c8237519",
+      "scannedAt": "2026-11-12T10:25:14.233Z",
+      "score": 65,
       "rulesVersion": "1.3.0"
     }
   ]

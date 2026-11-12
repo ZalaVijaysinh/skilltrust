@@ -4,24 +4,67 @@
   "repo": "dotfiles",
   "path": ".claude/skills/native-app-performance",
   "name": "native-app-performance",
-  "description": "",
-  "stars": 336,
-  "category": "other",
-  "commit": "882e72b7775a02562e9fefaddb0fc2c376e31e3e",
+  "description": "Native macOS/iOS app performance profiling via xctrace/Time Profiler and CLI-only analysis of Instruments traces. Use when asked to profile, attach, record, or analyze Instruments .trace files, find hotspots, or optimize native app performance without opening Instruments UI.",
+  "stars": 335,
+  "category": "design",
+  "commit": "6fad105e7c606c1e7112642b4d8ef083919159b8",
   "contentHash": "d3f12fa6146dcdb9a3d419f3bb78deda20f9da72a20267a8606c99a0ea5a510c",
   "repoCreatedAt": "2020-08-30T18:47:03Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-12T10:25:14.233Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/native-app-performance/SKILL.md",
+        "line": 16,
+        "excerpt": "xcrun xctrace record --template 'Time Profiler' --time-limit 90s --output /tmp/App.trace --attach <pid>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/native-app-performance/SKILL.md",
+        "line": 22,
+        "excerpt": "xcrun xctrace record --template 'Time Profiler' --time-limit 90s --output /tmp/App.trace --launch -- /path/App.app/Contents/MacOS/App",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/native-app-performance/SKILL.md",
+        "line": 28,
+        "excerpt": "scripts/extract_time_samples.py --trace /tmp/App.trace --output /tmp/time-sample.xml",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/native-app-performance/SKILL.md",
+        "line": 35,
+        "excerpt": "vmmap <pid> | rg -m1 \"__TEXT\" -n",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/native-app-performance/SKILL.md",
+        "line": 41,
+        "excerpt": "scripts/top_hotspots.py --samples /tmp/time-sample.xml \\",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 5
+    },
+    "score": 95,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 1
+    "filesScanned": 1,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -34,6 +77,12 @@
       "commit": "882e72b7775a02562e9fefaddb0fc2c376e31e3e",
       "scannedAt": "2026-11-08T09:45:03.483Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "6fad105e7c606c1e7112642b4d8ef083919159b8",
+      "scannedAt": "2026-11-12T10:25:14.233Z",
+      "score": 95,
       "rulesVersion": "1.3.0"
     }
   ]
