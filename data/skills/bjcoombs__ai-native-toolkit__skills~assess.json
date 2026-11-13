@@ -7,13 +7,13 @@
   "description": "Assess a codebase's readiness for AI agent contributors using the layered contract model, and generate a complexity hotspot SVG treemap (size = LOC, hue = cyclomatic complexity, saturation = recent git churn). TRIGGER when the user types /assess, asks for an AI-readiness review, wants a complexity heatmap or hotspot map, asks 'how complex is this code?', wants migration risk triage, or asks for a codebase snapshot/report. Produces an MD report + SVG that can be opened as a PR in the target repo.",
   "stars": 32,
   "category": "coding",
-  "commit": "82a6017d2079ff660452106e2f48e3030801feb5",
-  "contentHash": "4c3245e308b179d50f6220f40fb78390c0123592b160431602c4f2703f362dd7",
+  "commit": "f31582e1c9fe75950a9e522649565b93e3072fe0",
+  "contentHash": "5218d1c7b219ee87e15dec078a7a258a6a77733b3c5d6cf8c9bb0a7ffbacd779",
   "repoCreatedAt": "2026-01-13T14:50:25Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
     "findings": [
       {
@@ -271,22 +271,119 @@
         "excerpt": "if head != \"uvx\":",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/assess/scripts/lib/agent_harness.py",
+        "line": 40,
+        "excerpt": "directory (``~/.ssh``, ``~/.aws``, ``~/.config/gcloud`` ...).",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/assess/scripts/lib/agent_harness.py",
+        "line": 146,
+        "excerpt": "r\"|\\.netrc|\\.npmrc|\\.pypirc|\\.git-credentials\")",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/assess/scripts/lib/ci_workflow.py",
+        "line": 42,
+        "excerpt": "+ \"        run: go install github.com/boyter/scc/v3@v3.7.0\\n\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/assess/scripts/lib/ci_workflow.py",
+        "line": 47,
+        "excerpt": "+ \"        run: go install honnef.co/go/tools/cmd/staticcheck@2026.1\\n\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/assess/scripts/lib/ci_workflow.py",
+        "line": 52,
+        "excerpt": "+ \"        run: npm install -g ts-prune@0.10.3\\n\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/assess/scripts/lib/ci_workflow.py",
+        "line": 57,
+        "excerpt": "+ \"        run: npm install -g knip@6.16.1\\n\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/assess/scripts/lib/command_resolver.py",
+        "line": 31,
+        "excerpt": "script or ``[tool.*]`` table, a file), uvx, tox (``-e`` environments), nox",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/assess/scripts/lib/command_resolver.py",
+        "line": 536,
+        "excerpt": "if words[0] == \"uvx\":",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/assess/scripts/lib/command_resolver.py",
+        "line": 726,
+        "excerpt": "\"uv\": _uv, \"uvx\": _uv, \"poetry\": _poetry, \"tox\": _tox, \"nox\": _nox,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/assess/scripts/lib/liveness_scan.py",
+        "line": 225,
+        "excerpt": "\"(npm install -g knip)\"),",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/assess/tests/test_agent_ops.py",
+        "line": 64,
+        "excerpt": "\"permissions\": {\"allow\": [\"Bash(ls:*)\", \"Read\"], \"deny\": [\"WebFetch\"]},",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
       }
     ],
     "findingTotals": {
-      "shell": 45,
-      "downloads-code": 12
+      "shell": 126,
+      "downloads-code": 21,
+      "reads-secrets": 2,
+      "network": 1
     },
-    "score": 82,
-    "band": "low",
+    "score": 69,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 33,
-    "filesSkipped": 224
+    "filesScanned": 167,
+    "filesSkipped": 91
   },
   "history": [
     {
       "commit": "82a6017d2079ff660452106e2f48e3030801feb5",
       "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 69,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "f31582e1c9fe75950a9e522649565b93e3072fe0",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
       "score": 69,
       "rulesVersion": "1.3.0"
     }

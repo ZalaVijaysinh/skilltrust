@@ -3,25 +3,216 @@
   "owner": "jiayaoqijia",
   "repo": "cryptoskill",
   "path": "skills/chains/ashrafiucse-injection-flaws",
-  "name": "ashrafiucse-injection-flaws",
-  "description": "",
-  "stars": 80,
-  "category": "other",
-  "commit": "edd8f75ffac374debb8569c929afbbad4408d1a7",
+  "name": "injection-flaws",
+  "description": "Detects injection vulnerabilities in code — SQL/NoSQL injection (including NoSQL operator injection), OS command injection, cross-site scripting (XSS), path traversal, SSRF, insecure deserialization, template injection (SSTI), XXE, prototype pollution, ReDoS, open redirect, and unsafe file upload handling. Covers Node/JS, Python, Java, Go, PHP, Ruby, C# with per-language grep patterns and context-review rules. Use when auditing input handling, query construction, file operations, subprocess calls, XML parsing, file uploads, or template rendering.",
+  "stars": 81,
+  "category": "coding",
+  "commit": "0dc9f60ab1f3fcae24da49c4cef09c46c589f903",
   "contentHash": "5e43bfaef5e3fcaab8fc49d63a8706e9812a24cadfdb02e45b4dd0257d7ba95c",
   "repoCreatedAt": "2026-03-19T14:52:16Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/chains/ashrafiucse-injection-flaws/SKILL.md",
+        "line": 23,
+        "excerpt": "rg -n \"\\.raw\\(|\\.literal\\(|knex\\.raw|sequelize\\.literal|typeOrm.*\\.query\\(|createNativeQuery|cursor\\.execute\\(\\s*f?[\\\"'].*\\{|MyBatis.*\\$\\{\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/chains/ashrafiucse-injection-flaws/SKILL.md",
+        "line": 29,
+        "excerpt": "rg -nU \"execute\\(\\s*[frb]?['\\\"]{3}[\\s\\S]{0,300}(SELECT|INSERT|UPDATE|DELETE)[\\s\\S]{0,300}(\\$\\{|%s|\\+|f['\\\"]|#\\{)\" app/ db/ models/ 2>/dev/null",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/chains/ashrafiucse-injection-flaws/SKILL.md",
+        "line": 36,
+        "excerpt": "rg -n -i \"(SELECT|INSERT|UPDATE|DELETE).*(\\$\\{|%s|%d|\\+|f['\\\"]|\\.\\s*\\$|#{|\\\"\\s*\\+)\" -g '!*.min.js' -g '!test/**'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/chains/ashrafiucse-injection-flaws/SKILL.md",
+        "line": 43,
+        "excerpt": "rg -n \"(query|execute)\\(\\s*\\w+\\s*\\+\" -g '*.js' -g '*.ts'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/chains/ashrafiucse-injection-flaws/SKILL.md",
+        "line": 48,
+        "excerpt": "rg -n \"(find|findOne|findOneAndUpdate|updateOne|deleteOne|aggregate)\\(\\s*\\{\\s*\\.\\.\\.(req|ctx|event)\\.|\\{\\s*\\.\\.\\.(body|query|params)|find(One)?\\(\\s*\\{[^}]*req\\.",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/chains/ashrafiucse-injection-flaws/SKILL.md",
+        "line": 54,
+        "excerpt": "rg -n \"os\\.system|subprocess\\.(call|run|Popen)\\(.*shell\\s*=\\s*True|child_process\\.(exec|execSync)|spawn\\([^)]*shell:\\s*true|Runtime\\.getRuntime\\(\\)\\.exec|system",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/chains/ashrafiucse-injection-flaws/SKILL.md",
+        "line": 61,
+        "excerpt": "rg -n -i \"\\b(system|exec|passthru|shell_exec|proc_open|popen)\\s*\\(\" -g '*.php'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/chains/ashrafiucse-injection-flaws/SKILL.md",
+        "line": 64,
+        "excerpt": "`exec(\"ls \" + filename)` = classic. Safe: `execFile(cmd, [args])`, `subprocess.run([cmd, arg])` without `shell=True`. **`spawn(cmd, [args], { shell: true })` is",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/chains/ashrafiucse-injection-flaws/SKILL.md",
+        "line": 68,
+        "excerpt": "rg -n \"innerHTML|insertAdjacentHTML|outerHTML\\s*=|createContextualFragment|document\\.write|v-html|dangerouslySetInnerHTML|\\.html\\(|render_template_string|autoes",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/chains/ashrafiucse-injection-flaws/SKILL.md",
+        "line": 89,
+        "excerpt": "rg -n \"open\\(|readFile|writeFile|sendFile|send_file|File\\(|Path\\.Combine|require\\(.*\\+|include\\(.*\\$|fopen\\(\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/chains/ashrafiucse-injection-flaws/SKILL.md",
+        "line": 95,
+        "excerpt": "rg -n \"requests\\.get\\(|axios\\.(get|post)|fetch\\(|urllib\\.request|HttpClient|curl_exec|http\\.Get\\(\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/chains/ashrafiucse-injection-flaws/SKILL.md",
+        "line": 95,
+        "excerpt": "rg -n \"requests\\.get\\(|axios\\.(get|post)|fetch\\(|urllib\\.request|HttpClient|curl_exec|http\\.Get\\(\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/chains/ashrafiucse-injection-flaws/SKILL.md",
+        "line": 101,
+        "excerpt": "rg -n \"(webhook|callback|notify|hook)[_a-z]*(url|uri|endpoint)\" -g '*.js' -g '*.ts' -g '*.py' -g '*.java' -g '*.rb' -g '*.php'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/chains/ashrafiucse-injection-flaws/SKILL.md",
+        "line": 102,
+        "excerpt": "rg -n \"(fetch|axios|requests\\.get|http\\.Get|RestTemplate|curl)\\(\\s*\\w*[Hh]ook\\w*\\.?(url|uri|endpoint)\" | head",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/chains/ashrafiucse-injection-flaws/SKILL.md",
+        "line": 111,
+        "excerpt": "rg -n \"http_tokens|metadata_options|hop_limit\" -g '*.tf' -g '*.yaml' -g '*.json'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/chains/ashrafiucse-injection-flaws/SKILL.md",
+        "line": 117,
+        "excerpt": "rg -n \"pickle\\.loads?|yaml\\.load\\((?!.*Loader=)|marshal\\.loads|ObjectInputStream|readObject|unserialize\\(|eval\\(|exec\\(|new Function\\(|Function\\(\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/chains/ashrafiucse-injection-flaws/SKILL.md",
+        "line": 123,
+        "excerpt": "rg -n \"setHeader\\(|addHeader\\(|res\\.set\\(|header\\(\\s*['\\\"]Location|redirect\\(.*\\+\\s*req|Location.*\\+ *request\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/chains/ashrafiucse-injection-flaws/SKILL.md",
+        "line": 131,
+        "excerpt": "rg -n \"(normalize|NFC|NFD|NFKC)\" -g '*.js' -g '*.py' | head    # absent = check comparisons manually",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/chains/ashrafiucse-injection-flaws/SKILL.md",
+        "line": 142,
+        "excerpt": "rg -n \"render_template_string|Template\\(.*\\+|Jinja2\\(.*from_string|erb\\.new\\(.*\\+|Mustache\\.render\\(.*\\+|StringTemplate|do_shortcode\\s*\\(\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/chains/ashrafiucse-injection-flaws/SKILL.md",
+        "line": 148,
+        "excerpt": "rg -n \"(__proto__|constructor\\s*[\\[.:]|\\.prototype\\s*\\[)\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/chains/ashrafiucse-injection-flaws/SKILL.md",
+        "line": 152,
+        "excerpt": "Any recursive merge / `_.set` / `Object.assign` that copies user-controlled **keys** into existing objects lets `__proto__`/`constructor.prototype` overwrite bu",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/chains/ashrafiucse-injection-flaws/SKILL.md",
+        "line": 156,
+        "excerpt": "rg -n \"DocumentBuilderFactory|SAXParserFactory|XMLInputFactory|XMLReader\"          # Java — check hardening",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/chains/ashrafiucse-injection-flaws/TRUST.auto.yaml",
+        "line": 76,
+        "excerpt": "- 'scan: no curl|sh / wget|sh pattern matched'",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 24,
+      "network": 2,
+      "downloads-code": 1
+    },
+    "score": 79,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 1,
-    "filesSkipped": 5
+    "filesScanned": 3,
+    "filesSkipped": 3
   },
   "history": [
     {
@@ -34,6 +225,12 @@
       "commit": "edd8f75ffac374debb8569c929afbbad4408d1a7",
       "scannedAt": "2026-11-09T10:28:36.295Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "0dc9f60ab1f3fcae24da49c4cef09c46c589f903",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 79,
       "rulesVersion": "1.3.0"
     }
   ]

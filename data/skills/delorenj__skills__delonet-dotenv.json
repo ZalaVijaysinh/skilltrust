@@ -4,24 +4,33 @@
   "repo": "skills",
   "path": "delonet-dotenv",
   "name": "delonet-dotenv",
-  "description": "",
+  "description": "Fill .env and .env.op for Docker Compose stacks on DeLoNET hosts. Separates nonsecret literals from 1Password references resolved with `op run`; covers Postgres addressing, Traefik and delo.sh routing, port collisions, MinIO, Cloudflare, and SMTP. Use when populating stack environment variables, deciding whether a value belongs in 1Password, wiring a delo.sh subdomain, or authoring .env.op references. Do NOT use for cloud-only deploys, CI secrets, Kubernetes, or non-DeLoNET hosts.",
   "stars": 17,
-  "category": "other",
-  "commit": "ff2132360c4a12602f752a491f896043cb60584a",
-  "contentHash": "a1ea078ae43cc6b7ff57edb54fe0d8c0ad921e3a40b0be3cfbca846d09f1d92a",
+  "category": "devops",
+  "commit": "e863bb35bbf36ca9a3c3f7c30a8b00da9d9c32bd",
+  "contentHash": "c25830773742cd6d349c008fbef3427f4a7de5dbf0931d6cf2ae65e970cd032b",
   "repoCreatedAt": "2025-10-22T09:12:17Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "network",
+        "file": "delonet-dotenv/SKILL.md",
+        "line": 110,
+        "excerpt": "7. Curl the public URL: `curl -I https://<service>.delo.sh`. Expect 200 or a framework-appropriate redirect.",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
       {
         "ruleId": "network",
         "file": "delonet-dotenv/references/gotchas.md",
         "line": 140,
         "excerpt": "**Symptom.** `curl https://<new>.delo.sh` returns Cloudflare 1003 (\"Direct IP access not allowed\") or NXDOMAIN.",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": []
       },
@@ -30,48 +39,19 @@
         "file": "delonet-dotenv/references/gotchas.md",
         "line": 216,
         "excerpt": "set -a && source .env && set +a && op run --env-file .env.op -- docker compose up -d",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false
-      },
-      {
-        "ruleId": "network",
-        "file": "delonet-dotenv/references/traefik-routing.md",
-        "line": 109,
-        "excerpt": "If a new subdomain doesn't resolve (`curl https://<new>.delo.sh` returns 1003 / no route), check:",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "delonet-dotenv/references/traefik-routing.md",
-        "line": 121,
-        "excerpt": "curl -s http://192.168.1.12:8080/api/http/routers | jq '.[] | select(.name | contains(\"<myapp>\")) | .name + \" \" + .status'",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": [
-          "192.168.1.12"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": "delonet-dotenv/references/traefik-routing.md",
-        "line": 124,
-        "excerpt": "curl -I https://<myservice>.delo.sh",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
       }
     ],
     "findingTotals": {
-      "network": 4,
+      "network": 2,
       "reads-secrets": 1
     },
-    "score": 75,
-    "band": "review",
+    "score": 87,
+    "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 4,
-    "filesSkipped": 5
+    "filesScanned": 5,
+    "filesSkipped": 7
   },
   "history": [
     {
@@ -84,6 +64,12 @@
       "commit": "ff2132360c4a12602f752a491f896043cb60584a",
       "scannedAt": "2026-11-09T10:28:36.295Z",
       "score": 75,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "e863bb35bbf36ca9a3c3f7c30a8b00da9d9c32bd",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 87,
       "rulesVersion": "1.3.0"
     }
   ]

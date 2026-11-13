@@ -4,30 +4,196 @@
   "repo": "fluxo_criativo",
   "path": ".claude/skills/trafego-conexao",
   "name": "trafego-conexao",
-  "description": "",
+  "description": "Especificação técnica completa da conexão com o Meta Ads (Facebook + Instagram). A conexão sempre começa pelo conector oficial da Meta no Claude (MCP_CONECTOR) e é testada; o App via Facebook Developers (APP, token permanente no .env) só entra quando o teste mostra que a conta ainda não foi liberada no conector ou o conector não responde. Confere os pré-requisitos no Meta, valida a conexão, salva a conta padrão no .env nos dois modos e documenta as lacunas do conector (operações sem ferramenta no MCP) com o passo a passo manual guiado que todas as skills de tráfego seguem. Consultada pelo command /trafego-conexao.",
   "stars": 18,
-  "category": "other",
-  "commit": "eee577da15962dc8b78c14a148efec91c33f6f88",
+  "category": "marketing",
+  "commit": "5cf3899064c2ea4b6f14f677f86dd08e2de30862",
   "contentHash": "d94a6d802e83f881f8e6a1b410b3ff9376db87df3d13f6d1179401cf8c5ea80c",
   "repoCreatedAt": "2026-05-06T18:10:38Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/trafego-conexao/SKILL.md",
+        "line": 97,
+        "excerpt": "Toda exclusão (inclusive de público pelo conector) tem bloco 🛡️ e \"sim\" próprios: **nunca entra no \"sim\" de um lote**. No modo `APP` a regra é a mesma: não rod",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/trafego-conexao/SKILL.md",
+        "line": 147,
+        "excerpt": "curl -sS -X POST \"https://graph.facebook.com/v25.0/act_<FB_AD_ACCOUNT_ID>/adimages?access_token=$(grep ^FB_TOKEN_MIDIA= .env | cut -d= -f2-)\" -F \"img1=@/caminho",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "graph.facebook.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/trafego-conexao/SKILL.md",
+        "line": 147,
+        "excerpt": "curl -sS -X POST \"https://graph.facebook.com/v25.0/act_<FB_AD_ACCOUNT_ID>/adimages?access_token=$(grep ^FB_TOKEN_MIDIA= .env | cut -d= -f2-)\" -F \"img1=@/caminho",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/trafego-conexao/SKILL.md",
+        "line": 252,
+        "excerpt": "grep \"^META_AUTH_MODO=\" .env | cut -d= -f2-",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/trafego-conexao/SKILL.md",
+        "line": 260,
+        "excerpt": "grep -q \"^FB_ACCESS_TOKEN_PERMANENTE=.\" .env && echo \"presente\" || echo \"ausente\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/trafego-conexao/SKILL.md",
+        "line": 268,
+        "excerpt": "grep -q \"^FB_AD_ACCOUNT_ID=.\" .env && echo \"presente\" || echo \"ausente\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/trafego-conexao/SKILL.md",
+        "line": 418,
+        "excerpt": "grep -q \"^FB_ACCESS_TOKEN_PERMANENTE=.\" .env && echo \"presente\" || echo \"ausente\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/trafego-conexao/SKILL.md",
+        "line": 455,
+        "excerpt": "curl -s \"https://graph.facebook.com/v25.0/me/adaccounts?fields=id,account_id,name,account_status,currency,timezone_name&limit=100&access_token=$(grep ^FB_ACCESS",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "graph.facebook.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/trafego-conexao/SKILL.md",
+        "line": 455,
+        "excerpt": "curl -s \"https://graph.facebook.com/v25.0/me/adaccounts?fields=id,account_id,name,account_status,currency,timezone_name&limit=100&access_token=$(grep ^FB_ACCESS",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/trafego-conexao/SKILL.md",
+        "line": 588,
+        "excerpt": "curl -s \"https://graph.facebook.com/v25.0/me?access_token=$(grep ^FB_ACCESS_TOKEN_PERMANENTE= .env | cut -d= -f2-)\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "graph.facebook.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/trafego-conexao/SKILL.md",
+        "line": 588,
+        "excerpt": "curl -s \"https://graph.facebook.com/v25.0/me?access_token=$(grep ^FB_ACCESS_TOKEN_PERMANENTE= .env | cut -d= -f2-)\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/trafego-conexao/SKILL.md",
+        "line": 592,
+        "excerpt": "curl -s \"https://graph.facebook.com/v25.0/me/adaccounts?access_token=$(grep ^FB_ACCESS_TOKEN_PERMANENTE= .env | cut -d= -f2-)\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "graph.facebook.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/trafego-conexao/SKILL.md",
+        "line": 592,
+        "excerpt": "curl -s \"https://graph.facebook.com/v25.0/me/adaccounts?access_token=$(grep ^FB_ACCESS_TOKEN_PERMANENTE= .env | cut -d= -f2-)\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/trafego-conexao/SKILL.md",
+        "line": 596,
+        "excerpt": "curl -s \"https://graph.facebook.com/v25.0/act_<FB_AD_ACCOUNT_ID>/campaigns?limit=1&access_token=$(grep ^FB_ACCESS_TOKEN_PERMANENTE= .env | cut -d= -f2-)\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "graph.facebook.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/trafego-conexao/SKILL.md",
+        "line": 596,
+        "excerpt": "curl -s \"https://graph.facebook.com/v25.0/act_<FB_AD_ACCOUNT_ID>/campaigns?limit=1&access_token=$(grep ^FB_ACCESS_TOKEN_PERMANENTE= .env | cut -d= -f2-)\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/trafego-conexao/SKILL.md",
+        "line": 674,
+        "excerpt": "- **APP:** `curl -s \"https://graph.facebook.com/v25.0/act_<FB_AD_ACCOUNT_ID>/promote_pages?fields=id,name&access_token=...\"` e, para a Página escolhida, `curl -",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "graph.facebook.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/trafego-conexao/SKILL.md",
+        "line": 728,
+        "excerpt": "4. **`APP`:** conferir se `FB_ACCESS_TOKEN_PERMANENTE` e `FB_AD_ACCOUNT_ID` têm valor, com o padrão da seção \"LEITURA SEGURA DO .env\" do CLAUDE.md (linha vazia ",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "network": 8,
+      "shell": 9
+    },
+    "score": 92,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 1
+    "filesScanned": 1,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "eee577da15962dc8b78c14a148efec91c33f6f88",
       "scannedAt": "2026-11-09T10:28:36.295Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "5cf3899064c2ea4b6f14f677f86dd08e2de30862",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 92,
       "rulesVersion": "1.3.0"
     }
   ]

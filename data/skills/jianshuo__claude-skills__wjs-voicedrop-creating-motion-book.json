@@ -4,24 +4,152 @@
   "repo": "claude-skills",
   "path": "wjs-voicedrop-creating-motion-book",
   "name": "wjs-voicedrop-creating-motion-book",
-  "description": "",
-  "stars": 139,
-  "category": "coding",
-  "commit": "81dfa2e7e4d99c03c3f4f6b30c29cab77dff7114",
-  "contentHash": "9450685ef8fdc0a4f7aa14e7656de334d2dae182aff256ef0b32b2e32b366332",
+  "description": "Use when the user wants a whole book (usually a VoiceDrop 书架 book) turned into a chaptered explainer animation narrated by the book's own audiobook (书架「听本章」) — vertical 视频号 9:16 by default, art style auto-picked from the book's content, delivered as an in-browser HTML player and optionally MP4. Triggers — \"把这本书做成动画\", \"做成艺术动画片\", \"读书动画\", \"听书配动画\", \"motion book\", \"/wjs-voicedrop-creating-motion-book <书名>\".",
+  "stars": 140,
+  "category": "media",
+  "commit": "5fe4c17073cff54fe6857a9fe042ea2ed4b6e4bf",
+  "contentHash": "2a2b82b590e54751e9b9e282737f027092e05f358f104f3130c4dd8510599639",
   "repoCreatedAt": "2026-05-11T10:55:36Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "reads-secrets",
+        "file": "wjs-voicedrop-creating-motion-book/cloud/harvest_kits.sh",
+        "line": 12,
+        "excerpt": "KEY=${MB_DEPLOY_KEY:-/opt/claude-agent/.ssh/id_claude_skills_deploy}",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "wjs-voicedrop-creating-motion-book/cloud/setup_worker.sh",
+        "line": 22,
+        "excerpt": "sudo -u mb -H NODE_V=\"$NODE_V\" bash -c '",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "wjs-voicedrop-creating-motion-book/cloud/setup_worker.sh",
+        "line": 25,
+        "excerpt": "mkdir -p ~/code ~/.claude/skills ~/art-films ~/.local",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "wjs-voicedrop-creating-motion-book/cloud/setup_worker.sh",
+        "line": 27,
+        "excerpt": "curl -fsSL \"https://nodejs.org/dist/$NODE_V/node-$NODE_V-linux-x64.tar.xz\" | tar -xJ -C ~/.local",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "nodejs.org"
+        ]
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "wjs-voicedrop-creating-motion-book/cloud/setup_worker.sh",
+        "line": 28,
+        "excerpt": "rm -rf ~/.local/node; mv ~/.local/node-$NODE_V-linux-x64 ~/.local/node",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "wjs-voicedrop-creating-motion-book/cloud/setup_worker.sh",
+        "line": 31,
+        "excerpt": "command -v uv >/dev/null || curl -LsSf https://astral.sh/uv/install.sh | sh",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "wjs-voicedrop-creating-motion-book/cloud/setup_worker.sh",
+        "line": 31,
+        "excerpt": "command -v uv >/dev/null || curl -LsSf https://astral.sh/uv/install.sh | sh",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "astral.sh"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "wjs-voicedrop-creating-motion-book/cloud/setup_worker.sh",
+        "line": 32,
+        "excerpt": "command -v claude >/dev/null || curl -fsSL https://claude.ai/install.sh | bash",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "wjs-voicedrop-creating-motion-book/cloud/setup_worker.sh",
+        "line": 32,
+        "excerpt": "command -v claude >/dev/null || curl -fsSL https://claude.ai/install.sh | bash",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "claude.ai"
+        ]
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "wjs-voicedrop-creating-motion-book/cloud/setup_worker.sh",
+        "line": 35,
+        "excerpt": "ln -sfn ~/code/huashu-art-motion ~/.claude/skills/huashu-art-motion",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "wjs-voicedrop-creating-motion-book/cloud/setup_worker.sh",
+        "line": 36,
+        "excerpt": "ln -sfn ~/code/claude-skills/wjs-voicedrop-creating-motion-book ~/.claude/skills/wjs-voicedrop-creating-motion-book",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "wjs-voicedrop-creating-motion-book/cloud/setup_worker.sh",
+        "line": 42,
+        "excerpt": "echo 'export PATH=$HOME/.local/node/bin:$HOME/.local/bin:$PATH RENDER_SLOTS=1   # motion-book worker' >> /home/mb/.profile",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "wjs-voicedrop-creating-motion-book/cloud/setup_worker.sh",
+        "line": 45,
+        "excerpt": "install -d /etc/systemd/system/user-$(id -u mb).slice.d",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "wjs-voicedrop-creating-motion-book/cloud/setup_worker.sh",
+        "line": 46,
+        "excerpt": "cat > /etc/systemd/system/user-$(id -u mb).slice.d/50-motion-book.conf <<EOF",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "reads-secrets": 1,
+      "shell": 1,
+      "writes-outside": 7,
+      "network": 3,
+      "downloads-code": 2
+    },
+    "score": 45,
+    "band": "high",
     "rulesVersion": "1.3.0",
-    "filesScanned": 7,
-    "filesSkipped": 137
+    "filesScanned": 13,
+    "filesSkipped": 130
   },
   "history": [
     {
@@ -34,6 +162,12 @@
       "commit": "81dfa2e7e4d99c03c3f4f6b30c29cab77dff7114",
       "scannedAt": "2026-11-09T10:28:36.295Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "5fe4c17073cff54fe6857a9fe042ea2ed4b6e4bf",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 45,
       "rulesVersion": "1.3.0"
     }
   ]

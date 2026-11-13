@@ -4,24 +4,100 @@
   "repo": "skills",
   "path": "skills/uipath-connector-builder",
   "name": "uipath-connector-builder",
-  "description": "",
-  "stars": 177,
-  "category": "other",
-  "commit": "1f84c3d9d26d24fa83499517e1f3c43c091a06e4",
+  "description": "UiPath Integration Service connector authoring (REST+JSON) on disk via `uip is connectors builder`. Triggers on `element.json`, `element-metadata.json`, `standard-resources/*.json`, a `periodic-uipath-*`/`periodic-design-*` connector repo, or any request to build/edit an IS connector: init the connector shell, configure auth (19 types via `auth set`, incl. jwtOauth claims, FPS, none), add activities with fields/params/methods/hooks, wire polling/webhook triggers, add auth-system resources, inspect, validate, and surgically read/write files via state. Import + publish live on the parent `uip is connectors` (need `uip login`). NOT for operating a published connector — connections, ping, run an activity→uipath-platform; NOT for `.flow` connector nodes→uipath-maestro-flow.",
+  "stars": 180,
+  "category": "design",
+  "commit": "ffb978f85a2e7a0de5c9bbdafc4725131b632f3a",
   "contentHash": "95cdd7de68c7d4c91d599ff431b37f277964f6af38245c37ae90befd8d50cee7",
   "repoCreatedAt": "2026-01-21T21:13:53Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "network",
+        "file": "skills/uipath-connector-builder/SKILL.md",
+        "line": 32,
+        "excerpt": "10. **Prefer a built-in over a hook.** Before writing JS, consult the decision table ([references/hooks.md](references/hooks.md) §\"Decide first: hook or built-i",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/uipath-connector-builder/SKILL.md",
+        "line": 57,
+        "excerpt": "uip login status            # check Data.Status == \"Logged in\" — NOT the envelope",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/uipath-connector-builder/SKILL.md",
+        "line": 103,
+        "excerpt": "uip is connectors builder inspect --output json     # map what exists first",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/uipath-connector-builder/SKILL.md",
+        "line": 117,
+        "excerpt": "uip is connectors builder activity list --output json    # confirm the activity exists",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/uipath-connector-builder/SKILL.md",
+        "line": 128,
+        "excerpt": "uip is connectors builder activity method curate --resource cases --method GET \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/uipath-connector-builder/SKILL.md",
+        "line": 137,
+        "excerpt": "uip is connectors builder inspect --output json",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/uipath-connector-builder/references/debugging.md",
+        "line": 58,
+        "excerpt": "- **Hook throws / 500 from a hook**: a real JS error, or a `require()` of a module Denali doesn't provide (it supports `axios`/`crypto`/`url`/`querystring`/`lod",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/uipath-connector-builder/references/hooks.md",
+        "line": 36,
+        "excerpt": "- **Multi-call orchestration** — a secondary call via `require('axios')`, a thread→run→poll state machine, read-modify-write. Chains via `request_previous_respo",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/uipath-connector-builder/references/hooks.md",
+        "line": 114,
+        "excerpt": "module set: `axios` (secondary HTTP calls — the basis of multi-call orchestration), `crypto`, `url`,",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
       {
         "ruleId": "shell",
         "file": "hooks/hooks.json",
         "line": 8,
         "excerpt": "\"command\": \"echo `# <#` >/dev/null\\ncommand -v node >/dev/null 2>&1 || exit 0\\nnode \\\"${CLAUDE_PLUGIN_ROOT}/hooks/suggest-permissions.mjs\\\"\\nexit $?\\n: <<'POLYE",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -29,7 +105,7 @@
         "file": "hooks/hooks.json",
         "line": 14,
         "excerpt": "\"command\": \"echo `# <#` >/dev/null\\ncommand -v node >/dev/null 2>&1 || exit 0\\nnode \\\"${CLAUDE_PLUGIN_ROOT}/hooks/set-session-env.mjs\\\"\\nexit $?\\n: <<'POLYEOF' ",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -37,7 +113,7 @@
         "file": "hooks/hooks.json",
         "line": 19,
         "excerpt": "\"command\": \"echo `# <#` >/dev/null\\ncommand -v uip >/dev/null 2>&1 || exit 0\\nuip track --hook >/dev/null 2>&1\\nexit 0\\n: <<'POLYEOF' #> > $null\\n$c = Get-Comma",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -45,7 +121,7 @@
         "file": "hooks/hooks.json",
         "line": 31,
         "excerpt": "\"command\": \"echo `# <#` >/dev/null\\ncommand -v uip >/dev/null 2>&1 || exit 0\\nuip track --hook >/dev/null 2>&1\\nexit 0\\n: <<'POLYEOF' #> > $null\\n$c = Get-Comma",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -53,7 +129,7 @@
         "file": "hooks/hooks.json",
         "line": 42,
         "excerpt": "\"command\": \"echo `# <#` >/dev/null\\ncommand -v uip >/dev/null 2>&1 || exit 0\\nuip track --hook >/dev/null 2>&1\\nexit 0\\n: <<'POLYEOF' #> > $null\\n$c = Get-Comma",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -61,7 +137,7 @@
         "file": "hooks/hooks.json",
         "line": 53,
         "excerpt": "\"command\": \"echo `# <#` >/dev/null\\ncommand -v uip >/dev/null 2>&1 || exit 0\\nuip track --hook >/dev/null 2>&1\\nexit 0\\n: <<'POLYEOF' #> > $null\\n$c = Get-Comma",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -69,24 +145,31 @@
         "file": "hooks/hooks.json",
         "line": 64,
         "excerpt": "\"command\": \"echo `# <#` >/dev/null\\ncommand -v uip >/dev/null 2>&1 || exit 0\\nuip track --hook >/dev/null 2>&1\\nexit 0\\n: <<'POLYEOF' #> > $null\\n$c = Get-Comma",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       }
     ],
     "findingTotals": {
-      "shell": 7
+      "network": 4,
+      "shell": 12
     },
-    "score": 95,
+    "score": 92,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 9,
-    "filesSkipped": 12
+    "filesScanned": 20,
+    "filesSkipped": 1
   },
   "history": [
     {
       "commit": "1f84c3d9d26d24fa83499517e1f3c43c091a06e4",
       "scannedAt": "2026-11-08T09:45:03.483Z",
       "score": 95,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "ffb978f85a2e7a0de5c9bbdafc4725131b632f3a",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 92,
       "rulesVersion": "1.3.0"
     }
   ]

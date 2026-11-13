@@ -4,18 +4,73 @@
   "repo": "fluxo_criativo",
   "path": ".agents/skills/trafego-analise",
   "name": "trafego-analise",
-  "description": "",
+  "description": "Análise narrada de tráfego pago Meta Ads com terminologia VTSD (Mandala de 18 tipos, Urgência Oculta, Quadro na Parede, Furadeira, Decorados, 3 Identidades, HOT/COLD/SUPERCOLD, Caixa Rápido, Pico vs Evergreen). Hub de menu com 10 outputs narrativos: Diagnóstico Rápido, Performance & Funil, Criativos & Copy, Geo & Demografia, Timing & Sazonalidade, Investigação Profunda, Lifecycle & Histórico, Problemas Ocultos, Orçamento & Projeção, Comparativo A x B. Aluno escolhe um output por vez, recebe análise completa pelo método VTSD com handoff para skill executora quando ação for necessária. Lê os dados pelo conector da Meta (MCP) ou, no modo App, pelos scripts próprios com cache do dia. Use quando o aluno pedir análise narrada, ranking, comparativo, diagnóstico, mapa do funil, ou quiser ensinar tráfego pelo método.",
   "stars": 18,
-  "category": "other",
-  "commit": "eee577da15962dc8b78c14a148efec91c33f6f88",
-  "contentHash": "4d8274d29825b487b15b065d6a22e6ac8698b139566e73b00f92e86c0980c0fa",
+  "category": "productivity",
+  "commit": "5cf3899064c2ea4b6f14f677f86dd08e2de30862",
+  "contentHash": "a50f662065760affdd8fb461169c96fd8dd8fa1e7f6aa99a989a82a413dd267e",
   "repoCreatedAt": "2026-05-06T18:10:38Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "reads-secrets",
+        "file": ".agents/skills/trafego-analise/SKILL.md",
+        "line": 48,
+        "excerpt": "Ler `META_AUTH_MODO` no `.env` (`grep \"^META_AUTH_MODO=\" .env | cut -d= -f2-`). **Se vazio, ausente ou com valor diferente de `MCP_CONECTOR` e `APP`** (inclusiv",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/trafego-analise/SKILL.md",
+        "line": 84,
+        "excerpt": "**6. `curl` na Graph API (modo `APP`): `-g`, valores codificados e token por substituição.** Usar `curl -g` quando o `fields` tem nesting (`campaign{name}`, `cr",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/trafego-analise/SKILL.md",
+        "line": 100,
+        "excerpt": "curl -s \"https://graph.facebook.com/v25.0/?ids=act_<id1>,act_<id2>,act_<id3>&fields=name&access_token=$(grep ^FB_ACCESS_TOKEN_PERMANENTE= .env | cut -d= -f2-)\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "graph.facebook.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/trafego-analise/SKILL.md",
+        "line": 171,
+        "excerpt": "APP: curl -s \"https://graph.facebook.com/v25.0/act_{AD_ACCOUNT_ID_ATUAL}/campaigns?fields=id,name,objective,status",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "graph.facebook.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/trafego-analise/SKILL.md",
+        "line": 342,
+        "excerpt": "{PY} .claude/skills/trafego-analise/scripts/trafego_fetch.py \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/trafego-analise/SKILL.md",
+        "line": 363,
+        "excerpt": "{PY} .claude/skills/trafego-analise/scripts/trafego_processar.py \\",
+        "disclosed": true,
+        "automatic": false
+      },
       {
         "ruleId": "network",
         "file": ".agents/skills/trafego-analise/scripts/fetch-ad-insights.py",
@@ -72,6 +127,15 @@
       },
       {
         "ruleId": "network",
+        "file": ".agents/skills/trafego-analise/scripts/trafego_processar.py",
+        "line": 28,
+        "excerpt": "O --cache-dir é o mesmo do fetch (a skill passa a pasta do produto ativo); sem",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
         "file": ".agents/skills/trafego-analise/sub-skills/10-comparativo.md",
         "line": 53,
         "excerpt": "curl -s \"https://graph.facebook.com/v25.0/act_{AD_ACCOUNT_ID_ATUAL}/campaigns",
@@ -102,22 +166,107 @@
         "hosts": [
           "graph.facebook.com"
         ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/trafego-analise/sub-skills/2-performance-funil.md",
+        "line": 75,
+        "excerpt": "curl -s \"https://graph.facebook.com/v25.0/act_{AD_ACCOUNT_ID_ATUAL}/insights?fields=campaign_id,campaign_name,spend,impressions,cpm,actions,action_values&level=",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "graph.facebook.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/trafego-analise/sub-skills/2-performance-funil.md",
+        "line": 79,
+        "excerpt": "curl -s \"https://graph.facebook.com/v25.0/act_{AD_ACCOUNT_ID_ATUAL}/insights?fields=campaign_id,campaign_name,spend,impressions,cpm,actions,action_values&level=",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "graph.facebook.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/trafego-analise/sub-skills/4-geo-demografia.md",
+        "line": 39,
+        "excerpt": "curl -s \"https://graph.facebook.com/v25.0/act_{AD_ACCOUNT_ID_ATUAL}/insights\\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "graph.facebook.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/trafego-analise/sub-skills/4-geo-demografia.md",
+        "line": 56,
+        "excerpt": "curl -s \"https://graph.facebook.com/v25.0/act_{AD_ACCOUNT_ID_ATUAL}/insights\\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "graph.facebook.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/trafego-analise/sub-skills/4-geo-demografia.md",
+        "line": 75,
+        "excerpt": "curl -s \"https://graph.facebook.com/v25.0/act_{AD_ACCOUNT_ID_ATUAL}/insights\\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "graph.facebook.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/trafego-analise/sub-skills/5-timing-sazonalidade.md",
+        "line": 58,
+        "excerpt": "curl -s \"https://graph.facebook.com/v25.0/act_{AD_ACCOUNT_ID_ATUAL}/insights",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "graph.facebook.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/trafego-analise/sub-skills/5-timing-sazonalidade.md",
+        "line": 83,
+        "excerpt": "curl -s \"https://graph.facebook.com/v25.0/act_{AD_ACCOUNT_ID_ATUAL}/insights",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "graph.facebook.com"
+        ]
       }
     ],
     "findingTotals": {
-      "network": 9
+      "reads-secrets": 1,
+      "network": 36,
+      "shell": 2
     },
-    "score": 95,
-    "band": "low",
+    "score": 72,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 5,
-    "filesSkipped": 11
+    "filesScanned": 16,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "eee577da15962dc8b78c14a148efec91c33f6f88",
       "scannedAt": "2026-11-09T10:28:36.295Z",
       "score": 95,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "5cf3899064c2ea4b6f14f677f86dd08e2de30862",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 72,
       "rulesVersion": "1.3.0"
     }
   ]

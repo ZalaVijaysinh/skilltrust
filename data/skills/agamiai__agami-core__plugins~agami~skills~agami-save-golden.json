@@ -4,22 +4,22 @@
   "repo": "agami-core",
   "path": "plugins/agami/skills/agami-save-golden",
   "name": "agami-save-golden",
-  "description": "Writes golden-dataset items for a profile through two doors. The import door turns a question bank — a CSV, one sheet of an Excel .xlsx workbook, or a table pasted into chat — into items after the parsed rows have been shown and agreed to: a row that already carries a statement is written confirmed, a bare question is written unconfirmed. The save door writes one question, the statement that answered it and the result the person accepted, as a confirmed item. The curation door applies the changes queued on the golden-dataset explorer page, which may weaken a claim and may never grant one. Every write goes through agami-core's writer, is re-read by the runner's own reader before it is kept, and is append-only: a write that would change an item that already exists stops and shows the before and the after. This skill writes only; it never runs or scores a dataset.",
+  "description": "Writes golden-dataset items for a profile through two doors. The import door turns a question bank — a CSV, one sheet of an Excel .xlsx workbook, or a table pasted into chat — into items after the parsed rows have been shown and agreed to: a row that already carries a statement is written confirmed, a bare question is written unconfirmed. The save door writes one question, the statement that answered it and the result the person accepted, as a confirmed item. The curation door applies changes to a dataset decided on cards in the chat (or a block from an older, editable explorer page), which may weaken a claim and may never grant one. Every write goes through agami-core's writer, is re-read by the runner's own reader before it is kept, and is append-only: a write that would change an item that already exists stops and shows the before and the after. This skill writes only; it never runs or scores a dataset.",
   "stars": 30,
   "category": "data",
-  "commit": "5b601c6c207908d5e405fff675594775d7ccb8eb",
-  "contentHash": "ca5bea472cb711f95eae3d48f39731c8aea421271cc780f132b3f8a101a686c3",
+  "commit": "b08d29ab89744bd491f9196cc5493faa6a28840b",
+  "contentHash": "abfa0adb8f77241b56c7c744a0b61742496889ca9502a081053f15590b7e518b",
   "repoCreatedAt": "2026-05-06T04:45:23Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "plugins/agami/skills/agami-save-golden/SKILL.md",
-        "line": 83,
+        "line": 84,
         "excerpt": "mkdir -p \"<artifacts_dir>/local/tmp\"   # a first command: its `>` opens the file before py runs",
         "disclosed": true,
         "automatic": false
@@ -27,48 +27,56 @@
       {
         "ruleId": "shell",
         "file": "plugins/agami/skills/agami-save-golden/SKILL.md",
-        "line": 121,
-        "excerpt": "bash \"$AGAMI_PLUGIN_ROOT/scripts/py\" golden_author.py import \\",
+        "line": 127,
+        "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/py\" golden_author.py import \\",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "plugins/agami/skills/agami-save-golden/SKILL.md",
-        "line": 163,
-        "excerpt": "bash \"$AGAMI_PLUGIN_ROOT/scripts/py\" golden_author.py save \\",
+        "line": 169,
+        "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/py\" golden_author.py save \\",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "plugins/agami/skills/agami-save-golden/SKILL.md",
-        "line": 190,
-        "excerpt": "bash \"$AGAMI_PLUGIN_ROOT/scripts/py\" render_golden_datasets.py \\",
+        "line": 205,
+        "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/py\" render_golden_datasets.py \\",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "plugins/agami/skills/agami-save-golden/SKILL.md",
-        "line": 200,
-        "excerpt": "bash \"$AGAMI_PLUGIN_ROOT/scripts/py\" parse_golden_feedback.py \\",
+        "line": 215,
+        "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/py\" serve_page.py \"<artifacts_dir>/local/eval/<profile>/datasets-<ts>.html\" --minutes 30",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "plugins/agami/skills/agami-save-golden/SKILL.md",
-        "line": 210,
-        "excerpt": "bash \"$AGAMI_PLUGIN_ROOT/scripts/py\" golden_author.py apply \\",
+        "line": 223,
+        "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/py\" parse_golden_feedback.py \\",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "plugins/agami/skills/agami-save-golden/SKILL.md",
-        "line": 247,
-        "excerpt": "bash \"$AGAMI_PLUGIN_ROOT/scripts/py\" golden_author.py save \\",
+        "line": 233,
+        "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/py\" golden_author.py apply \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agami/skills/agami-save-golden/SKILL.md",
+        "line": 270,
+        "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/py\" golden_author.py save \\",
         "disclosed": true,
         "automatic": false
       },
@@ -147,7 +155,7 @@
       {
         "ruleId": "downloads-code",
         "file": "plugins/agami/scripts/sm",
-        "line": 69,
+        "line": 68,
         "excerpt": "\"$PY\" -m pip install --user -q \"$@\" >&2 2>/dev/null \\",
         "disclosed": false,
         "automatic": false
@@ -155,7 +163,7 @@
       {
         "ruleId": "downloads-code",
         "file": "plugins/agami/scripts/sm",
-        "line": 70,
+        "line": 69,
         "excerpt": "|| \"$PY\" -m pip install -q \"$@\" >&2 2>/dev/null \\",
         "disclosed": false,
         "automatic": false
@@ -163,7 +171,7 @@
       {
         "ruleId": "downloads-code",
         "file": "plugins/agami/scripts/sm",
-        "line": 71,
+        "line": 70,
         "excerpt": "|| \"$PY\" -m pip install --user --break-system-packages -q \"$@\" >&2 2>/dev/null \\",
         "disclosed": false,
         "automatic": false
@@ -171,7 +179,7 @@
       {
         "ruleId": "downloads-code",
         "file": "plugins/agami/scripts/sm",
-        "line": 72,
+        "line": 71,
         "excerpt": "|| \"$PY\" -m pip install --break-system-packages -q \"$@\" >&2",
         "disclosed": false,
         "automatic": false
@@ -179,26 +187,32 @@
       {
         "ruleId": "downloads-code",
         "file": "plugins/agami/scripts/sm",
-        "line": 177,
-        "excerpt": "echo \"       Try:  $PY -m pip install --user --upgrade \\\"agami-core[model] @ ${GIT_BASE}@${GIT_REF}#subdirectory=packages/agami-core\\\"\" >&2",
+        "line": 196,
+        "excerpt": "echo \"       Try:  $PY -m pip install --user --upgrade \\\"agami-core[$EXTRAS] @ ${GIT_BASE}@${GIT_REF}#subdirectory=packages/agami-core\\\"\" >&2",
         "disclosed": false,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 16,
+      "shell": 17,
       "downloads-code": 5
     },
     "score": 82,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 10,
+    "filesScanned": 13,
     "filesSkipped": 0
   },
   "history": [
     {
       "commit": "5b601c6c207908d5e405fff675594775d7ccb8eb",
       "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 82,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "b08d29ab89744bd491f9196cc5493faa6a28840b",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
       "score": 82,
       "rulesVersion": "1.3.0"
     }

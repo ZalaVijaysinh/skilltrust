@@ -4,24 +4,112 @@
   "repo": "sample-apex-skills",
   "path": "skills/eks-well-architected-review",
   "name": "eks-well-architected-review",
-  "description": "",
-  "stars": 95,
+  "description": "Deterministic AWS Well-Architected Framework review of an Amazon EKS cluster (Linux nodes only). Unofficial — not the AWS Well-Architected Tool, no official EKS lens exists, and it maps to no compliance framework (CIS, PCI or otherwise). Collects live data via kubectl and aws, scores it across five of the six pillars (Operational Excellence, Security, Reliability, Performance Efficiency, Cost Optimization; not Sustainability, not cluster-observable) using fixed jq detections so scores are stable, separates measured from governance findings, withholds a pillar score when under half its measured questions apply, and the overall when fewer than four pillars score or no Linux node is Ready, and renders a self-contained HTML report. Use ONLY when the user explicitly asks to run a Well-Architected review (WAFR) of an EKS cluster. Any other request — a cluster audit, score, cost, security, inventory, upgrade, best-practice or design question, even one naming a pillar — belongs to another skill.",
+  "stars": 99,
   "category": "devops",
-  "commit": "3ab6c5dd31e7910e2faed03010acf4af434cc94a",
-  "contentHash": "64125c76c344ec695a7fc9c20e5df3603e70dec49bc97cae9707366838fa3d09",
+  "commit": "2a7a931290803e6eebf0d665b50dc0ce91f74ad3",
+  "contentHash": "417f4ded1dcd6b0df972676501cd9c4849d25eb7477aff34ae9130dabae992d5",
   "repoCreatedAt": "2026-03-23T08:30:59Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/eks-well-architected-review/SKILL.md",
+        "line": 153,
+        "excerpt": "kubectl version --client && aws --version && aws sts get-caller-identity",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/eks-well-architected-review/SKILL.md",
+        "line": 193,
+        "excerpt": "aws eks list-clusters --region <REGION> --output json",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/eks-well-architected-review/SKILL.md",
+        "line": 204,
+        "excerpt": "mkdir -p -m 700 eks-war-<CLUSTER>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/eks-well-architected-review/SKILL.md",
+        "line": 220,
+        "excerpt": "${CLAUDE_SKILL_DIR}/assets/collect.sh --cluster <CLUSTER> --region <REGION> --context <CLUSTER> --work \"$PWD/eks-war-<CLUSTER>\" --kubeconfig \"$PWD/eks-war-<CLUS",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/eks-well-architected-review/SKILL.md",
+        "line": 241,
+        "excerpt": "jq -r '.cluster.computeConfig.enabled == true' \"$PWD/eks-war-<CLUSTER>/cluster.json\"        # EKS Auto Mode?",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/eks-well-architected-review/SKILL.md",
+        "line": 287,
+        "excerpt": "${CLAUDE_SKILL_DIR}/assets/score.sh operational-excellence \"$PWD/eks-war-<CLUSTER>\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/eks-well-architected-review/SKILL.md",
+        "line": 321,
+        "excerpt": "${CLAUDE_SKILL_DIR}/assets/reduce.sh -o \"$PWD/eks-war-<CLUSTER>/scores.json\" \"$PWD/eks-war-<CLUSTER>\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/eks-well-architected-review/SKILL.md",
+        "line": 372,
+        "excerpt": "python3 -B ${CLAUDE_SKILL_DIR}/assets/render-report.py \"$PWD/eks-war-<CLUSTER>\" -o \"$PWD/eks-war-<CLUSTER>/report.html\"        # follows the reader's OS",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/eks-well-architected-review/assets/collect.sh",
+        "line": 58,
+        "excerpt": "echo \"  falls back to kubectl's own KUBECONFIG / ~/.kube/config.\" >&2",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/eks-well-architected-review/references/security/workload-security.md",
+        "line": 599,
+        "excerpt": "- **Anything that only speaks IMDSv1 breaks the moment tokens are required** — old AWS SDK versions, vendored third-party agents, and any `curl http://169.254.1",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "169.254.169.254"
+        ]
+      }
+    ],
+    "findingTotals": {
+      "shell": 8,
+      "reads-secrets": 1,
+      "network": 1
+    },
+    "score": 84,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 5,
-    "filesSkipped": 12
+    "filesScanned": 17,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -34,6 +122,12 @@
       "commit": "3ab6c5dd31e7910e2faed03010acf4af434cc94a",
       "scannedAt": "2026-11-09T10:28:36.295Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "2a7a931290803e6eebf0d665b50dc0ce91f74ad3",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 84,
       "rulesVersion": "1.3.0"
     }
   ]

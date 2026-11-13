@@ -4,18 +4,99 @@
   "repo": "dot-skills",
   "path": "skills/.experimental/react-fetch-cache-patterns",
   "name": "react-fetch-cache-patterns",
-  "description": "",
-  "stars": 222,
-  "category": "other",
+  "description": "React data-fetching patterns at scale — recommender carousels, infinite feeds, pages with many parallel fetches, dashboards. Covers request orchestration (parallelism, batching, deduplication), cache strategy (keys, normalization, staleTime, SWR), backend protection (concurrency caps, debounce/throttle, jittered retries, circuit breakers), prefetching (route loaders, hover/intent, idle, server hydration), failure resilience (AbortController, timeouts, error boundaries, stale fallback, idempotent mutations), and feed/carousel patterns (virtualization, cursor pagination, summary/detail split). Includes 5 ready-to-use scaffolding templates (resource query hook, carousel data loader, infinite feed, hover-prefetch link, request collapser). Trigger when building, reviewing, or refactoring React components that fetch data — even if the user doesn't explicitly mention \"performance\" or \"scale\".",
+  "stars": 226,
+  "category": "data",
   "commit": "cf93c57cac89d6fc3e4194686000411567f5caf3",
   "contentHash": "86627353875fd7f30752c3d0fe38319bcf7db1609482ca839cb6116a908b24ef",
   "repoCreatedAt": "2026-01-16T16:53:45Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/react-fetch-cache-patterns/assets/templates/carousel-data-loader.template.tsx",
+        "line": 6,
+        "excerpt": "*   - Viewport-triggered detail fetch ([[feed-split-summary-from-detail]])",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/react-fetch-cache-patterns/assets/templates/infinite-feed.template.tsx",
+        "line": 11,
+        "excerpt": "*   - AbortSignal forwarded to fetch ([[resilience-abort-on-unmount]])",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/react-fetch-cache-patterns/assets/templates/request-collapser.template.ts",
+        "line": 100,
+        "excerpt": "return collapser.enqueue(() => fetch(input, init));",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/react-fetch-cache-patterns/assets/templates/request-collapser.template.ts",
+        "line": 106,
+        "excerpt": ".collapse(signature, () => fetch(input, init))",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/react-fetch-cache-patterns/assets/templates/use-resource-query.template.tsx",
+        "line": 97,
+        "excerpt": "const res = await fetch(`${apiBase}/${encodeURIComponent(id)}`, { signal: merged });",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/react-fetch-cache-patterns/assets/templates/use-resource-query.template.tsx",
+        "line": 110,
+        "excerpt": "const res = await fetch(`${apiBase}?${search}`, { signal: merged });",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/react-fetch-cache-patterns/references/feed-cursor-pagination.md",
+        "line": 18,
+        "excerpt": "const res = await fetch(`/api/feed?page=${page}&size=20`);",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/react-fetch-cache-patterns/references/feed-cursor-pagination.md",
+        "line": 35,
+        "excerpt": "const res = await fetch(`/api/feed?${params}`);",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/react-fetch-cache-patterns/references/mutate-cancel-queries-on-mutate.md",
+        "line": 59,
+        "excerpt": "fetch(`/api/posts/${id}`, { signal }).then(r => r.json());",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
       {
         "ruleId": "network",
         "file": "skills/.experimental/react-fetch-cache-patterns/references/orch-dedupe-in-flight-requests.md",
@@ -27,40 +108,103 @@
       },
       {
         "ruleId": "network",
-        "file": "skills/.experimental/react-fetch-cache-patterns/references/protect-rate-limit-aware-client.md",
-        "line": 19,
-        "excerpt": "const res = await fetch(url);",
+        "file": "skills/.experimental/react-fetch-cache-patterns/references/orch-server-fetch-when-possible.md",
+        "line": 21,
+        "excerpt": "queryFn: () => fetch(`/api/products/${id}`).then(r => r.json()),",
         "disclosed": false,
         "automatic": false,
         "hosts": []
       },
       {
         "ruleId": "network",
-        "file": "skills/.experimental/react-fetch-cache-patterns/references/protect-rate-limit-aware-client.md",
-        "line": 35,
-        "excerpt": "const res = await fetch(url, init);",
+        "file": "skills/.experimental/react-fetch-cache-patterns/references/prefetch-budget-and-priority.md",
+        "line": 46,
+        "excerpt": "return fetch(url, { priority }); // fetch() supports priority hints in Chrome/Edge",
         "disclosed": false,
         "automatic": false,
         "hosts": []
       },
       {
         "ruleId": "network",
-        "file": "skills/.experimental/react-fetch-cache-patterns/references/protect-rate-limit-aware-client.md",
-        "line": 63,
-        "excerpt": "const res = await fetch(url, init);",
+        "file": "skills/.experimental/react-fetch-cache-patterns/references/protect-collapse-identical-requests.md",
+        "line": 21,
+        "excerpt": "axios.interceptors.response.use(null, async (error) => {",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/react-fetch-cache-patterns/references/protect-collapse-identical-requests.md",
+        "line": 23,
+        "excerpt": "await axios.post('/auth/refresh'); // ❌ 20 parallel requests = 20 refresh calls",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/react-fetch-cache-patterns/references/protect-collapse-identical-requests.md",
+        "line": 24,
+        "excerpt": "return axios.request(error.config); // retry original",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/react-fetch-cache-patterns/references/protect-collapse-identical-requests.md",
+        "line": 37,
+        "excerpt": "refreshInFlight = axios.post('/auth/refresh').then(",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/react-fetch-cache-patterns/references/protect-collapse-identical-requests.md",
+        "line": 44,
+        "excerpt": "axios.interceptors.response.use(null, async (error) => {",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/react-fetch-cache-patterns/references/protect-collapse-identical-requests.md",
+        "line": 47,
+        "excerpt": "return axios.request(error.config);",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/react-fetch-cache-patterns/references/protect-collapse-identical-requests.md",
+        "line": 69,
+        "excerpt": "const res = await fetch('/api/flags');",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/react-fetch-cache-patterns/references/protect-concurrency-limit-fanout.md",
+        "line": 10,
+        "excerpt": "Browsers limit themselves to ~6 concurrent connections per origin (HTTP/1.1) or several hundred multiplexed streams (HTTP/2). Fire 500 parallel `fetch()` calls ",
         "disclosed": false,
         "automatic": false,
         "hosts": []
       }
     ],
     "findingTotals": {
-      "network": 4
+      "network": 31
     },
     "score": 95,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 5,
-    "filesSkipped": 54
+    "filesScanned": 59,
+    "filesSkipped": 0
   },
   "history": [
     {

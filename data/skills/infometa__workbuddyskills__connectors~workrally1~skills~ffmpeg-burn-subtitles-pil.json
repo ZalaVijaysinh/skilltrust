@@ -4,24 +4,59 @@
   "repo": "workbuddyskills",
   "path": "connectors/workrally1/skills/ffmpeg-burn-subtitles-pil",
   "name": "ffmpeg-burn-subtitles-pil",
-  "description": "",
-  "stars": 427,
+  "description": "在**缺少字幕滤镜的 ffmpeg 构建**上把字幕烧进视频像素（硬字幕），并完成「标题板 + 正片 + 片尾板」的成片合板。当用户要求烧字幕/硬字幕/把 SRT 压进画面，或本机 ffmpeg 报 `No such filter ass` / `subtitles` / `drawtext`，或需要把多段对白按时间轴排布成双语字幕时使用。核心方案：PIL 渲染透明 PNG 图层 → ffmpeg concat + 单次 overlay（不依赖 libass/freetype）。同时覆盖静音/无声视频的四轨混音与侧链闪避不可用时的电平差替代方案。注意：若只是外挂 SRT 或环境有 libass，请直接用 `subtitles` 滤镜，不要走本流程。",
+  "stars": 443,
   "category": "other",
-  "commit": "0749999031be0d5fa14cdc08afe9cefdf857cbfd",
+  "commit": "33b6151ccee9aa0816c6f32d021be77d82772755",
   "contentHash": "49c0150e3197e82272887f8a32d33dfddea1bc01acee67903d3807faeacf3c73",
   "repoCreatedAt": "2026-07-21T02:46:31Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "connectors/workrally1/skills/ffmpeg-burn-subtitles-pil/SKILL.md",
+        "line": 29,
+        "excerpt": "ffmpeg -hide_banner -filters > /tmp/ff_filters.txt",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "connectors/workrally1/skills/ffmpeg-burn-subtitles-pil/SKILL.md",
+        "line": 74,
+        "excerpt": "PROJ=<项目根> BASE=<无字幕母版.mp4> OUT=<输出.mp4> python3 scripts/gen_sub_layer.py --tlimit=120   # 先出小样",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "connectors/workrally1/skills/ffmpeg-burn-subtitles-pil/SKILL.md",
+        "line": 94,
+        "excerpt": "ffmpeg -f concat -safe 0 -i list.txt -c copy -movflags +faststart out.mp4",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "connectors/workrally1/skills/ffmpeg-burn-subtitles-pil/scripts/verify_lcut.py",
+        "line": 25,
+        "excerpt": "r = subprocess.run(cmd, capture_output=True)",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 4
+    },
+    "score": 97,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 5
+    "filesScanned": 3,
+    "filesSkipped": 2
   },
   "history": [
     {
@@ -34,6 +69,12 @@
       "commit": "0749999031be0d5fa14cdc08afe9cefdf857cbfd",
       "scannedAt": "2026-11-09T10:28:36.295Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "33b6151ccee9aa0816c6f32d021be77d82772755",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 97,
       "rulesVersion": "1.3.0"
     }
   ]

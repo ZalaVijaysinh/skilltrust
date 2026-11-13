@@ -5,7 +5,7 @@
   "path": "skills/reels-creator",
   "name": "reels-creator",
   "description": "",
-  "stars": 266,
+  "stars": 268,
   "category": "other",
   "commit": "ca79376d624d244e601f9182fa80b5bf66efec9c",
   "contentHash": "968ef373dcd5b24465e8e5a32fde6a0f7e19f6ae63f05cafdb64152b6088538b",
@@ -13,7 +13,7 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
     "findings": [
       {
@@ -33,15 +33,6 @@
         "automatic": false
       },
       {
-        "ruleId": "network",
-        "file": "skills/reels-creator/references/assembly.md",
-        "line": 23,
-        "excerpt": "**Getting files in.** Download every input by its generation URL (`curl -L` or `requests`).",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
-      },
-      {
         "ruleId": "downloads-code",
         "file": "skills/reels-creator/references/code/check.mjs",
         "line": 24,
@@ -51,135 +42,70 @@
       },
       {
         "ruleId": "shell",
-        "file": "skills/reels-creator/references/code/host_lipsync.py",
-        "line": 26,
-        "excerpt": "out = subprocess.run(['ffmpeg', '-v', 'error', '-i', path, '-vn', '-ac', '1', '-ar', str(sr), '-f', 's16le', '-'],",
+        "file": "skills/reels-creator/references/code/host_check.py",
+        "line": 21,
+        "excerpt": "st = json.loads(subprocess.run(['ffprobe', '-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=width,height,r_frame_rate',",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "skills/reels-creator/references/code/host_lipsync.py",
-        "line": 44,
-        "excerpt": "subprocess.run(['ffmpeg', '-v', 'error', '-y', '-f', 's16le', '-ar', str(SR), '-ac', '1', '-i', '-', '-c:a', 'pcm_s16le',",
+        "file": "skills/reels-creator/references/code/host_check.py",
+        "line": 30,
+        "excerpt": "raw = subprocess.run(['ffmpeg', '-v', 'error', '-ss', f'{max(0.0, t0):.4f}', '-i', path, '-frames:v', str(n), '-vf',",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "skills/reels-creator/references/code/host_lipsync.py",
-        "line": 52,
-        "excerpt": "subprocess.run(['ffmpeg', '-v', 'error', '-y', *seek, '-i', src, '-frames:v', '1', '-q:v', '2', out + '_frame.jpg'], check=True)",
+        "file": "skills/reels-creator/references/code/host_check.py",
+        "line": 37,
+        "excerpt": "raw = subprocess.run(['ffmpeg', '-v', 'error', '-ss', f'{t0:.4f}', '-t', f'{d:.4f}', '-i', path, '-vn', '-ac', '1', '-ar', str(SR),",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "skills/reels-creator/references/code/host_lipsync.py",
-        "line": 58,
-        "excerpt": "p = json.loads(subprocess.run(['ffprobe', '-v', 'error', '-select_streams', 'v:0', '-show_entries',",
+        "file": "skills/reels-creator/references/code/mix_check.py",
+        "line": 18,
+        "excerpt": "a = np.frombuffer(subprocess.run(['ffmpeg', '-v', 'error', '-i', src, '-vn', '-ac', '1', '-ar', str(SR), '-f', 'f32le', '-'], capture_output=True).stdout, np.fl",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "skills/reels-creator/references/code/host_reel.py",
-        "line": 88,
-        "excerpt": "a = np.frombuffer(subprocess.run(cmd, capture_output=True).stdout, np.float32).copy()",
+        "file": "skills/reels-creator/references/code/mix_check.py",
+        "line": 27,
+        "excerpt": "m = subprocess.run(['ffmpeg', '-hide_banner', '-i', src, '-af', 'ebur128=peak=true', '-f', 'null', '-'], capture_output=True, text=True).stderr",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "skills/reels-creator/references/code/host_reel.py",
-        "line": 529,
-        "excerpt": "subprocess.run(['ffmpeg', '-v', 'error', '-y', '-f', 'f32le', '-ar', str(SR), '-ac', '2', '-i', '-', raw], input=mix.astype('<f4').tobytes(), check=True)",
+        "file": "skills/reels-creator/references/code/render.mjs",
+        "line": 8,
+        "excerpt": "import { spawn } from \"node:child_process\";",
         "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "shell",
-        "file": "skills/reels-creator/references/code/host_reel.py",
-        "line": 530,
-        "excerpt": "m = subprocess.run(['ffmpeg', '-hide_banner', '-i', raw, '-af', 'loudnorm=I=-14:TP=-1.5:LRA=11:print_format=json', '-f', 'null', '-'],",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/reels-creator/references/code/host_reel.py",
-        "line": 535,
-        "excerpt": "subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', raw, '-af', ln, '-ar', str(SR), wav], check=True)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/reels-creator/references/code/host_reel.py",
-        "line": 546,
-        "excerpt": "subprocess.run(['ffmpeg', '-v', 'error', '-y', '-f', 'concat', '-safe', '0', '-i', lst, '-map', '0:v', '-c', 'copy', pic], check=True)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/reels-creator/references/code/host_reel.py",
-        "line": 552,
-        "excerpt": "subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', pic, '-i', wav, '-map', '0:v', '-map', '1:a', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k',",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/reels-creator/references/code/host_reel.py",
-        "line": 628,
-        "excerpt": "enc = subprocess.Popen(['ffmpeg', '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(fps), '-i', '-',",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/reels-creator/references/code/host_reel.py",
-        "line": 631,
-        "excerpt": "'-shortest', '-movflags', '+faststart', out + '.mp4'], stdin=subprocess.PIPE)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/reels-creator/references/code/host_reel.py",
-        "line": 637,
-        "excerpt": "dec = subprocess.Popen(['ffmpeg', '-v', 'error', '-ss', f\"{ss:.4f}\", '-i', s['clip']] + ([] if warp else ['-frames:v', str(s['n'])]) +",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/reels-creator/references/code/host_reel.py",
-        "line": 638,
-        "excerpt": "['-vf', vf, '-pix_fmt', 'rgb24', '-f', 'rawvideo', '-'], stdout=subprocess.PIPE)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/reels-creator/references/code/host_reel.py",
-        "line": 640,
-        "excerpt": "num, den = subprocess.run(['ffprobe', '-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=r_frame_rate', '-of', 'csv=p=0',",
+        "ruleId": "downloads-code",
+        "file": "skills/reels-creator/references/code/render.mjs",
+        "line": 23,
+        "excerpt": "console.error(\"playwright not found: npm i playwright here, then npx playwright install chromium\"); process.exit(2);",
         "disclosed": false,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "downloads-code": 3,
-      "network": 1,
-      "shell": 15
+      "downloads-code": 4,
+      "shell": 6
     },
-    "score": 75,
-    "band": "review",
+    "score": 80,
+    "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 6,
-    "filesSkipped": 17
+    "filesScanned": 7,
+    "filesSkipped": 16
   },
   "history": [
     {

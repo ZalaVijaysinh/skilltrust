@@ -4,22 +4,22 @@
   "repo": "ai-native-toolkit",
   "path": "skills/ghreport",
   "name": "ghreport",
-  "description": "Read-only org repo state report. Reuses ghsync's repo discovery (teams union org-repo-list) but, instead of cloning, queries each repo's remote GitHub state - open PRs, CI on the default branch, open security alerts (Dependabot / code-scanning / secret-scanning), and branch protection - and rolls it into a terminal summary plus a timestamped markdown file. Endpoints that need admin and return 403/404 are reported as no-access / unknown, never as a clean zero. TRIGGER when the user types /ghreport, asks 'what state are the org's repos in', wants an org health report or repo state snapshot, or asks about open PRs / failing GitHub Actions / security alerts across a whole org or personal account.",
+  "description": "Read-only org repo state report for GitHub or GitLab. Reuses ghsync's repo discovery (on GitHub, teams union org-repo-list; on GitLab, every group you belong to with nested subgroups and shared projects) but, instead of cloning, queries each repo's remote state - on GitHub open PRs, CI on the default branch, open security alerts (Dependabot / code-scanning / secret-scanning) and branch protection; on GitLab open merge requests, the latest default-branch pipeline, open vulnerabilities and default-branch protection - and rolls it into a terminal summary plus a timestamped markdown file. Endpoints the token or tier cannot read are reported as no-access / unknown, never as a clean zero. TRIGGER when the user types /ghreport, asks 'what state are the org's repos in', wants an org health report or repo state snapshot, asks about open PRs / failing GitHub Actions / security alerts across a whole org or personal account, or asks the same of GitLab: 'what state are our GitLab projects in', open merge requests / failing pipelines / vulnerabilities across a GitLab group or self-hosted GitLab host.",
   "stars": 32,
   "category": "coding",
-  "commit": "82a6017d2079ff660452106e2f48e3030801feb5",
-  "contentHash": "bcb08cac512ea130ab5270af940ba27fcac81b4135febd11d76254cdc8199d2e",
+  "commit": "f31582e1c9fe75950a9e522649565b93e3072fe0",
+  "contentHash": "b4916ff414c29235618b4ecd02a2f5d1d5dbb36eba89fe33ceea039a2fdc2ab6",
   "repoCreatedAt": "2026-01-13T14:50:25Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "skills/ghreport/SKILL.md",
-        "line": 43,
+        "line": 82,
         "excerpt": "cd ~/dev/github.com/meridianhub",
         "disclosed": true,
         "automatic": false
@@ -27,22 +27,30 @@
       {
         "ruleId": "shell",
         "file": "skills/ghreport/SKILL.md",
-        "line": 50,
+        "line": 89,
         "excerpt": "bash \"${CLAUDE_SKILL_DIR}/scripts/ghreport.sh\" --org meridianhub --root ~/dev/github.com/meridianhub",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/ghreport/SKILL.md",
+        "line": 95,
+        "excerpt": "bash \"${CLAUDE_SKILL_DIR}/scripts/ghreport.sh\" --provider gitlab --host gitlab.example.com",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
         "file": "skills/ghreport/scripts/ghreport.sh",
-        "line": 64,
+        "line": 123,
         "excerpt": "echo \"Error: $cmd not found. Install it (e.g. brew install $cmd).\" >&2",
         "disclosed": false,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 2,
+      "shell": 3,
       "downloads-code": 1
     },
     "score": 82,
@@ -55,6 +63,12 @@
     {
       "commit": "82a6017d2079ff660452106e2f48e3030801feb5",
       "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 82,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "f31582e1c9fe75950a9e522649565b93e3072fe0",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
       "score": 82,
       "rulesVersion": "1.3.0"
     }

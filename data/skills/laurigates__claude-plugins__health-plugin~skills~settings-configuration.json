@@ -4,87 +4,40 @@
   "repo": "claude-plugins",
   "path": "health-plugin/skills/settings-configuration",
   "name": "settings-configuration",
-  "description": "Claude Code settings hierarchy, permission wildcards, and configuration patterns. Use when setting up permissions, debugging settings issues, or understanding allowed tools.",
-  "stars": 59,
+  "description": "Claude Code settings precedence and permission rules: allow/ask/deny, modes, Bash wildcards. Use when writing permissions or a setting won't apply.",
+  "stars": 60,
   "category": "coding",
-  "commit": "16af2dca8c1e706bab01e003bf03a7d19192b346",
-  "contentHash": "c1bb044eaaab8466725693c9d2d2520fcefed6092872160ef255c4d028359f6b",
+  "commit": "b47840019d190aa9afa1fd8d6d42ddd584a45641",
+  "contentHash": "013223259d63c69215d73d86274c73519aa7b37b7e1af53d5b09182ffeb00133",
   "repoCreatedAt": "2025-12-16T11:24:04Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
     "findings": [
       {
-        "ruleId": "writes-outside",
+        "ruleId": "shell",
         "file": "health-plugin/skills/settings-configuration/SKILL.md",
-        "line": 119,
-        "excerpt": "| `>` / `>>` | Redirection | `echo x > /etc/passwd` |",
+        "line": 73,
+        "excerpt": "- Rules match command text: `/usr/bin/curl` or `sh -c 'curl …'` escape `Bash(curl *)`. The sandbox is the enforced boundary.",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "health-plugin/skills/settings-configuration/SKILL.md",
+        "line": 86,
+        "excerpt": "| `WebFetch(domain:example.com)` | that host only; add `WebFetch(domain:*.example.com)` for subdomains |",
         "disclosed": false,
-        "automatic": false
+        "automatic": false,
+        "hosts": []
       },
       {
         "ruleId": "shell",
         "file": "health-plugin/skills/settings-configuration/SKILL.md",
-        "line": 137,
-        "excerpt": "npm test && npm run build",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "health-plugin/skills/settings-configuration/SKILL.md",
-        "line": 236,
-        "excerpt": "mkdir -p .claude",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "health-plugin/skills/settings-configuration/SKILL.md",
-        "line": 242,
-        "excerpt": "cat > .claude/settings.json << 'EOF'",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "health-plugin/skills/settings-configuration/SKILL.md",
-        "line": 258,
-        "excerpt": "echo \".claude/settings.local.json\" >> .gitignore",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "health-plugin/skills/settings-configuration/SKILL.md",
-        "line": 264,
-        "excerpt": "cat > .claude/settings.local.json << 'EOF'",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "health-plugin/skills/settings-configuration/SKILL.md",
-        "line": 280,
-        "excerpt": "cat .claude/settings.json | jq .",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "health-plugin/skills/settings-configuration/SKILL.md",
-        "line": 286,
-        "excerpt": "cat .claude/settings.json | jq '.permissions'",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "health-plugin/skills/settings-configuration/SKILL.md",
-        "line": 294,
-        "excerpt": "echo \"=== User ===\" && cat ~/.claude/settings.json 2>/dev/null | jq '.permissions // empty'",
+        "line": 118,
+        "excerpt": "jq . .claude/settings.json",
         "disclosed": true,
         "automatic": false
       },
@@ -199,17 +152,25 @@
         "excerpt": "\"command\": \"bash \\\"${CLAUDE_PLUGIN_ROOT}/hooks/health-drift-probe.sh\\\"\",",
         "disclosed": true,
         "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "health-plugin/.claude-plugin/plugin.json",
+        "line": 23,
+        "excerpt": "\"command\": \"bash \\\"${CLAUDE_PLUGIN_ROOT}/hooks/config-drift-probe.sh\\\"\",",
+        "disclosed": true,
+        "automatic": true
       }
     ],
     "findingTotals": {
-      "writes-outside": 1,
-      "shell": 21,
+      "shell": 15,
+      "network": 1,
       "downloads-code": 2
     },
-    "score": 72,
+    "score": 77,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 6,
+    "filesScanned": 7,
     "filesSkipped": 0
   },
   "history": [
@@ -223,6 +184,12 @@
       "commit": "16af2dca8c1e706bab01e003bf03a7d19192b346",
       "scannedAt": "2026-11-09T10:28:36.295Z",
       "score": 72,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "b47840019d190aa9afa1fd8d6d42ddd584a45641",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 77,
       "rulesVersion": "1.3.0"
     }
   ]

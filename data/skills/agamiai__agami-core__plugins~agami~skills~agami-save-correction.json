@@ -7,20 +7,20 @@
   "description": "Saves a user correction so future queries learn from it. Always appends a (question, corrected_sql) pair to the subject area's example library under <artifacts_dir>/<profile>/prompt_examples/<area>/. Additionally, classifies the correction and — when applicable — applies a surgical edit to the semantic model itself (relationship fix, column metadata, or new metric) via the curation engine. Every model edit is validated before write; the validator is the binding gate, and a failed validation reverts. Shows the user a model diff for approval before any model mutation.",
   "stars": 30,
   "category": "data",
-  "commit": "5b601c6c207908d5e405fff675594775d7ccb8eb",
-  "contentHash": "d43dfde4133e04a23157b907dde696a4857509d5806dd0ba7bfc08389b0eac0f",
+  "commit": "b08d29ab89744bd491f9196cc5493faa6a28840b",
+  "contentHash": "cf8fd915402ee99ade5122ba7e41ae99ad0e23b49b5240aaaa7a120e4f00efc4",
   "repoCreatedAt": "2026-05-06T04:45:23Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "plugins/agami/skills/agami-save-correction/SKILL.md",
         "line": 87,
-        "excerpt": "bash \"$AGAMI_PLUGIN_ROOT/scripts/sm\" add-example \"$ROOT\" --area <area> --file \"<artifacts_dir>/local/tmp/agami-correction-example.json\"",
+        "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/sm\" add-example \"$ROOT\" --area <area> --file \"<artifacts_dir>/local/tmp/agami-correction-example.json\"",
         "disclosed": true,
         "automatic": false
       },
@@ -36,7 +36,7 @@
         "ruleId": "shell",
         "file": "plugins/agami/skills/agami-save-correction/SKILL.md",
         "line": 363,
-        "excerpt": "bash \"$AGAMI_PLUGIN_ROOT/scripts/sm\" curate \"$ROOT\" --ops-file \"<artifacts_dir>/local/tmp/agami-correction-ops.json\"",
+        "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/sm\" curate \"$ROOT\" --ops-file \"<artifacts_dir>/local/tmp/agami-correction-ops.json\"",
         "disclosed": true,
         "automatic": false
       },
@@ -44,8 +44,48 @@
         "ruleId": "shell",
         "file": "plugins/agami/skills/agami-save-correction/SKILL.md",
         "line": 373,
-        "excerpt": "bash \"$AGAMI_PLUGIN_ROOT/scripts/sm\" add \"$ROOT\" --kind metric --area <area> --file \"<artifacts_dir>/local/tmp/agami-new-metric.json\"",
+        "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/sm\" add \"$ROOT\" --kind metric --area <area> --file \"<artifacts_dir>/local/tmp/agami-new-metric.json\"",
         "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/agami/scripts/sm",
+        "line": 68,
+        "excerpt": "\"$PY\" -m pip install --user -q \"$@\" >&2 2>/dev/null \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/agami/scripts/sm",
+        "line": 69,
+        "excerpt": "|| \"$PY\" -m pip install -q \"$@\" >&2 2>/dev/null \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/agami/scripts/sm",
+        "line": 70,
+        "excerpt": "|| \"$PY\" -m pip install --user --break-system-packages -q \"$@\" >&2 2>/dev/null \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/agami/scripts/sm",
+        "line": 71,
+        "excerpt": "|| \"$PY\" -m pip install --break-system-packages -q \"$@\" >&2",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/agami/scripts/sm",
+        "line": 196,
+        "excerpt": "echo \"       Try:  $PY -m pip install --user --upgrade \\\"agami-core[$EXTRAS] @ ${GIT_BASE}@${GIT_REF}#subdirectory=packages/agami-core\\\"\" >&2",
+        "disclosed": false,
         "automatic": false
       },
       {
@@ -59,18 +99,24 @@
     ],
     "findingTotals": {
       "shell": 4,
-      "downloads-code": 1
+      "downloads-code": 6
     },
     "score": 82,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 13,
+    "filesScanned": 14,
     "filesSkipped": 0
   },
   "history": [
     {
       "commit": "5b601c6c207908d5e405fff675594775d7ccb8eb",
       "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 82,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "b08d29ab89744bd491f9196cc5493faa6a28840b",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
       "score": 82,
       "rulesVersion": "1.3.0"
     }

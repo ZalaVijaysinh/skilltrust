@@ -7,21 +7,110 @@
   "description": "",
   "stars": 17,
   "category": "other",
-  "commit": "ff2132360c4a12602f752a491f896043cb60584a",
+  "commit": "e863bb35bbf36ca9a3c3f7c30a8b00da9d9c32bd",
   "contentHash": "7671023f83028f1f57f5f0c4d68e0d0372b927eef1200ee50fbd0ffadc98bb68",
   "repoCreatedAt": "2025-10-22T09:12:17Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "reads-secrets",
+        "file": "plane-identity-provisioning/scripts/ego-mint-token.sh",
+        "line": 25,
+        "excerpt": "const EMAIL = $(python3 -c 'import json,os;print(json.dumps(os.environ[\"EMAIL\"]))');",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plane-identity-provisioning/scripts/ego-mint-token.sh",
+        "line": 26,
+        "excerpt": "const PW    = $(python3 -c 'import json,os;print(json.dumps(os.environ[\"PW\"]))');",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plane-identity-provisioning/scripts/ego-mint-token.sh",
+        "line": 27,
+        "excerpt": "const NAME  = $(python3 -c 'import json,os;print(json.dumps(os.environ[\"NAME\"]))');",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plane-identity-provisioning/scripts/ego-signup.sh",
+        "line": 16,
+        "excerpt": "const EMAIL = $(python3 -c 'import json,os;print(json.dumps(os.environ[\"EMAIL\"]))');",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plane-identity-provisioning/scripts/ego-signup.sh",
+        "line": 17,
+        "excerpt": "const PW    = $(python3 -c 'import json,os;print(json.dumps(os.environ[\"PW\"]))');",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plane-identity-provisioning/scripts/provision-plane-identity.sh",
+        "line": 52,
+        "excerpt": "curl -sS -H \"X-Auth-Key: ${CF_GLOBAL}\" -H \"X-Auth-Email: ${CF_EMAIL}\" \"$@\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plane-identity-provisioning/scripts/provision-plane-identity.sh",
+        "line": 54,
+        "excerpt": "curl -sS -H \"Authorization: Bearer ${CF_SCOPED}\" \"$@\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plane-identity-provisioning/scripts/provision-plane-identity.sh",
+        "line": 132,
+        "excerpt": "IS_MEMBER=\"$(curl -sS -H \"X-API-Key: ${PLANE_KEY}\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plane-identity-provisioning/scripts/provision-plane-identity.sh",
+        "line": 150,
+        "excerpt": "INV=\"$(curl -sS -X POST \"${PLANE_BASE}/api/v1/workspaces/${WORKSPACE}/invitations/\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plane-identity-provisioning/scripts/provision-plane-identity.sh",
+        "line": 178,
+        "excerpt": "printf '  verify: curl -s -H \"X-API-Key: $(op read %s)\" %s/api/v1/users/me/ | jq -r .email\\n' \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "reads-secrets": 5,
+      "network": 5
+    },
+    "score": 75,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 6
+    "filesScanned": 5,
+    "filesSkipped": 1
   },
   "history": [
     {
@@ -34,6 +123,12 @@
       "commit": "ff2132360c4a12602f752a491f896043cb60584a",
       "scannedAt": "2026-11-09T10:28:36.295Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "e863bb35bbf36ca9a3c3f7c30a8b00da9d9c32bd",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 75,
       "rulesVersion": "1.3.0"
     }
   ]

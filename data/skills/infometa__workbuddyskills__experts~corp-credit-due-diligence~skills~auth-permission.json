@@ -4,26 +4,47 @@
   "repo": "workbuddyskills",
   "path": "experts/corp-credit-due-diligence/skills/auth-permission",
   "name": "auth-permission",
-  "description": "业务Skill执行前的权限检查服务，这是系统安全基础步骤。如果业务Skill中添加了前置条件指向这里，必须在执行其他业务 Skill 前先调用本Skill，做认证和鉴权操作。同时，auth-permission也支持重置登录态操作（清除当前Agent身份）。",
-  "stars": 427,
+  "description": "",
+  "stars": 443,
   "category": "other",
-  "commit": "0749999031be0d5fa14cdc08afe9cefdf857cbfd",
+  "commit": "33b6151ccee9aa0816c6f32d021be77d82772755",
   "contentHash": "bbc6fc9cd2d6d22f4e0c2ccdfebe79f55676771eae759271db8e70e3a4e983fc",
   "repoCreatedAt": "2026-07-21T02:46:31Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
     "findings": [
       {
+        "ruleId": "writes-outside",
+        "file": "experts/corp-credit-due-diligence/skills/auth-permission/SKILL_unix.md",
+        "line": 23,
+        "excerpt": "( command -v authcli >/dev/null 2>&1 || { mkdir -p \"$HOME/.local/bin\" && OS_TAG=$(uname -s | tr '[:upper:]' '[:lower:]') && case \"$(uname -m)\" in x86_64|amd64) ",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
         "ruleId": "network",
-        "file": "experts/corp-credit-due-diligence/skills/auth-permission/SKILL.md",
-        "line": 13,
-        "excerpt": "| Windows（PowerShell） | [`SKILL_windows.md`](./SKILL_windows.md) | 使用 `$env:KEY=...` 设置环境变量、`Invoke-WebRequest` 安装 authcli.exe |",
+        "file": "experts/corp-credit-due-diligence/skills/auth-permission/SKILL_unix.md",
+        "line": 23,
+        "excerpt": "( command -v authcli >/dev/null 2>&1 || { mkdir -p \"$HOME/.local/bin\" && OS_TAG=$(uname -s | tr '[:upper:]' '[:lower:]') && case \"$(uname -m)\" in x86_64|amd64) ",
         "disclosed": false,
         "automatic": false,
-        "hosts": []
+        "hosts": [
+          "agent-identity-1302490086.cos.ap-guangzhou.myqcloud.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "experts/corp-credit-due-diligence/skills/auth-permission/SKILL_unix.md",
+        "line": 78,
+        "excerpt": "INSTALL_DIR=\"$HOME/.local/bin\"; rm -rf \"$INSTALL_DIR/authcli\"; mkdir -p \"$INSTALL_DIR\"; case \"$(uname -s)\" in Linux*) OS_TAG=\"linux\" ;; Darwin*) OS_TAG=\"darwin\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "agent-identity-1302490086.cos.ap-guangzhou.myqcloud.com"
+        ]
       },
       {
         "ruleId": "network",
@@ -49,9 +70,10 @@
       }
     ],
     "findingTotals": {
-      "network": 3
+      "writes-outside": 1,
+      "network": 4
     },
-    "score": 95,
+    "score": 85,
     "band": "low",
     "rulesVersion": "1.3.0",
     "filesScanned": 2,
@@ -68,6 +90,12 @@
       "commit": "0749999031be0d5fa14cdc08afe9cefdf857cbfd",
       "scannedAt": "2026-11-09T10:28:36.295Z",
       "score": 95,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "33b6151ccee9aa0816c6f32d021be77d82772755",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 85,
       "rulesVersion": "1.3.0"
     }
   ]

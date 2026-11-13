@@ -3,25 +3,95 @@
   "owner": "jiayaoqijia",
   "repo": "cryptoskill",
   "path": "skills/chains/ashrafiucse-flow-security",
-  "name": "ashrafiucse-flow-security",
-  "description": "",
-  "stars": 80,
+  "name": "flow-security",
+  "description": "Audits multi-step business flows for vulnerabilities that are invisible when endpoints are checked in isolation — order/payment/invoice state-machine violations, cross-step data provenance (stale or client-supplied totals at terminal steps), chained/association IDOR (ownership through entity joins), replay and duplication across steps, step-skipping via direct access, post-payment mutation, amount drift, and privilege transitions between hops. Use when the app has stateful workflows (checkout, signup/verify, submit/approve/publish, request/approve/execute, refunds, provisioning) — the classic case is \"order, payment, and invoice each look fine alone, but order → payment → invoice compromises security at invoice generation.\"",
+  "stars": 81,
   "category": "security",
-  "commit": "edd8f75ffac374debb8569c929afbbad4408d1a7",
+  "commit": "0dc9f60ab1f3fcae24da49c4cef09c46c589f903",
   "contentHash": "76d2fd905768902977843975abed4c90bd2cc30df0f6a1d42abfa59a2491f4c5",
   "repoCreatedAt": "2026-03-19T14:52:16Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/chains/ashrafiucse-flow-security/SKILL.md",
+        "line": 27,
+        "excerpt": "rg -n \"status|state|phase|stage\" -g '**/models/**' -g '**/entities/**' -g '*.prisma' -g 'schema*' | rg -v \"test\" | head -20",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/chains/ashrafiucse-flow-security/SKILL.md",
+        "line": 60,
+        "excerpt": "rg -n -i \"update.*set.*status|status\\s*:\\s*['\\\"]\" | rg -v \"where.*status|AND status|status\\s*==\" | head",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/chains/ashrafiucse-flow-security/SKILL.md",
+        "line": 70,
+        "excerpt": "rg -n \"req\\.(body|query)\\.(total|amount|price|qty|quantity|discount|currency)\" | head",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/chains/ashrafiucse-flow-security/SKILL.md",
+        "line": 81,
+        "excerpt": "rg -n \"(invoice|receipt|shipment|refund).*find(By)?\\(\\s*\\{?\\s*(orderId|order_id|paymentId|payment_id)\" | head",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/chains/ashrafiucse-flow-security/SKILL.md",
+        "line": 97,
+        "excerpt": "rg -n -i \"idempot|unique.*payment|uniqueIndex|ON CONFLICT|duplicate key\" | head",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/chains/ashrafiucse-flow-security/SKILL.md",
+        "line": 108,
+        "excerpt": "rg -n \"(put|patch|update).*(order|payment|cart)\" -i | head",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/chains/ashrafiucse-flow-security/SKILL.md",
+        "line": 138,
+        "excerpt": "SendGrid/Resend, `fetch(hook.url)` — with attacker-influenced subject/body.",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/chains/ashrafiucse-flow-security/TRUST.auto.yaml",
+        "line": 76,
+        "excerpt": "- 'scan: no curl|sh / wget|sh pattern matched'",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 6,
+      "network": 1,
+      "downloads-code": 1
+    },
+    "score": 77,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 4
+    "filesScanned": 4,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -34,6 +104,12 @@
       "commit": "edd8f75ffac374debb8569c929afbbad4408d1a7",
       "scannedAt": "2026-11-09T10:28:36.295Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "0dc9f60ab1f3fcae24da49c4cef09c46c589f903",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 77,
       "rulesVersion": "1.3.0"
     }
   ]

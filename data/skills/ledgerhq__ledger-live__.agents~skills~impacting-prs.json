@@ -1,0 +1,101 @@
+{
+  "id": "ledgerhq__ledger-live__.agents~skills~impacting-prs",
+  "owner": "LedgerHQ",
+  "repo": "ledger-live",
+  "path": ".agents/skills/impacting-prs",
+  "name": "impacting-prs",
+  "description": "Find which open PRs are impacted by a migration/sunset/refactor and notify their authors — blocking review when the old path is already gone from develop, heads-up comment when it is only deprecated or its removal is still in review, silent study report only when the replacement does not exist yet. Use when asked to check/flag/notify/block open PRs about a breaking change, deprecation or migration they need to follow.",
+  "stars": 627,
+  "category": "coding",
+  "commit": "fc34951404624cf04905a2bacef9f44ac179f050",
+  "contentHash": "05e1524ca6db227618c80370f1f9ac231b2172414cab344a6d0f96ccc349d29e",
+  "repoCreatedAt": "2022-01-04T16:56:49Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/impacting-prs/SKILL.md",
+        "line": 40,
+        "excerpt": "gh pr view <migration-pr> --json state,mergedAt      # is the removal on develop yet?",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/impacting-prs/SKILL.md",
+        "line": 49,
+        "excerpt": "git grep -hE '\\b<Symbol>\\b' origin/<base> -- '<layer-path>' \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/impacting-prs/SKILL.md",
+        "line": 56,
+        "excerpt": "gh pr diff <migration-pr>                       # the actual before → after",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/impacting-prs/SKILL.md",
+        "line": 82,
+        "excerpt": ".agents/skills/impacting-prs/scan-prs.sh -p 'cryptoassets' -o \"$TMPDIR/scan\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/impacting-prs/SKILL.md",
+        "line": 108,
+        "excerpt": "grep -lE '^\\+\\+\\+ b/(<deleted-path-1>|<deleted-path-2>)' \"$OUT\"/diffs/*.diff",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/impacting-prs/SKILL.md",
+        "line": 147,
+        "excerpt": "gh api repos/$GH_REPO/pulls/<n>/reviews --input payload.json --jq .html_url",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/impacting-prs/SKILL.md",
+        "line": 159,
+        "excerpt": "gh pr view <n> --json state,mergeable --jq '\"\\(.state) \\(.mergeable)\"'   # expect: OPEN MERGEABLE",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/impacting-prs/scan-prs.sh",
+        "line": 60,
+        "excerpt": "| (cd \"$OUT/diffs\" && xargs -P \"$JOBS\" -I@ sh -c 'gh pr diff @ > @.diff 2>/dev/null || rm -f @.diff')",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 8
+    },
+    "score": 95,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 3,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "fc34951404624cf04905a2bacef9f44ac179f050",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 95,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

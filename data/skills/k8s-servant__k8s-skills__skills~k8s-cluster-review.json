@@ -1,0 +1,133 @@
+{
+  "id": "k8s-servant__k8s-skills__skills~k8s-cluster-review",
+  "owner": "k8s-servant",
+  "repo": "k8s-skills",
+  "path": "skills/k8s-cluster-review",
+  "name": "k8s-cluster-review",
+  "description": "Use when nothing is broken but someone wants to know whether a Kubernetes cluster, or one namespace, is still in good shape: \"review the cluster\", \"check it against best practices\", \"what drifted since we deployed it?\", after taking over a cluster, or before a busy period. Reviews the live objects, not manifests in a repository, in three groups. Reliability: workloads with one replica, no readiness probe or no requests, PodDisruptionBudgets that allow 0 disruptions or match no pod, all replicas on one node or zone. Security: privileged or root containers, hostPath and hostNetwork, namespaces without Pod Security labels, cluster-admin bound to users or ServiceAccounts, namespaces without NetworkPolicies, :latest images. Hygiene and cost: PVCs no pod mounts, Released PVs, Services without endpoints, LoadBalancers, workloads at 0 replicas, failed Jobs, stale CronJobs. Reports each finding once per workload, with why it matters and when it is fine. Read-only: never changes anything itself.",
+  "stars": 38,
+  "category": "devops",
+  "commit": "74d5a211e1bf7cd3696b4a5ba2110d24a49f3ae7",
+  "contentHash": "16bae42f07abdc29d1f5103b7e5a111a9ad22d645c0b746c948140741dfa2a15",
+  "repoCreatedAt": "2026-10-23T12:54:21Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-cluster-review/SKILL.md",
+        "line": 73,
+        "excerpt": "kubectl get namespaces --show-labels",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-cluster-review/SKILL.md",
+        "line": 81,
+        "excerpt": "kubectl get deployments,statefulsets -A -o custom-columns='KIND:.kind,NAMESPACE:.metadata.namespace,NAME:.metadata.name,REPLICAS:.spec.replicas'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-cluster-review/SKILL.md",
+        "line": 91,
+        "excerpt": "kubectl get pods -A -o jsonpath='{range .items[*]}{.metadata.namespace}/{.metadata.name}{\" owner=\"}{.metadata.ownerReferences[0].kind}/{.metadata.ownerReference",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-cluster-review/SKILL.md",
+        "line": 102,
+        "excerpt": "kubectl get pvc -A",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-cluster-review/SKILL.md",
+        "line": 223,
+        "excerpt": "kubectl scale deployment my-app -n my-namespace --replicas=2",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-cluster-review/SKILL.md",
+        "line": 234,
+        "excerpt": "kubectl patch deployment my-app -n my-namespace --type=json -p '[{\"op\": \"add\", \"path\": \"/spec/template/spec/containers/0/readinessProbe\", \"value\": {\"httpGet\": {",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-cluster-review/SKILL.md",
+        "line": 243,
+        "excerpt": "kubectl patch pdb my-app -n my-namespace --type=json -p '[{\"op\": \"remove\", \"path\": \"/spec/minAvailable\"}, {\"op\": \"add\", \"path\": \"/spec/maxUnavailable\", \"value\":",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-cluster-review/SKILL.md",
+        "line": 255,
+        "excerpt": "kubectl patch deployment my-app -n my-namespace --type=json -p '[{\"op\": \"add\", \"path\": \"/spec/template/spec/containers/0/securityContext\", \"value\": {\"privileged",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-cluster-review/SKILL.md",
+        "line": 265,
+        "excerpt": "kubectl label --dry-run=server --overwrite namespace my-namespace pod-security.kubernetes.io/enforce=baseline",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-cluster-review/SKILL.md",
+        "line": 276,
+        "excerpt": "kubectl get clusterrolebinding my-app-admin -o yaml > my-app-admin.yaml",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-cluster-review/SKILL.md",
+        "line": 286,
+        "excerpt": "kubectl delete job my-job -n my-namespace",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/k8s-cluster-review/SKILL.md",
+        "line": 295,
+        "excerpt": "kubectl delete pvc my-data -n my-namespace",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 12
+    },
+    "score": 95,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 5,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "74d5a211e1bf7cd3696b4a5ba2110d24a49f3ae7",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 95,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

@@ -4,16 +4,16 @@
   "repo": "ai-driven-development",
   "path": "skills/maintaining-macos-health",
   "name": "maintaining-macos-health",
-  "description": "Hands-on playbook for macOS disk cleanup, dev-machine optimization, and proactive health alerting. Use when the Mac is full or slow, when a process persistently burns CPU, when a kernel panic / watchdog timeout / vm-compressor-space-shortage / Jetsam event happened, when the user asks to free disk space, audit storage, set up disk/memory/CPU alerts, or restore the same monitoring on a new Mac. Built around Mole (`mo` CLI) for safety guards plus a custom LaunchAgent-based alerter for active warnings. Covers Apple Silicon laptops with heavy AI/Docker workloads. Not for general macOS support, hardware diagnostics, networking issues, GUI / window-manager bugs, Time Machine recovery, or broken app installs.",
-  "stars": 169,
+  "description": "",
+  "stars": 179,
   "category": "coding",
-  "commit": "cd40a5e7a5170de8e6bd15e6d335914dc0ffade2",
-  "contentHash": "5d151dbeb1e454eaa7f50e11ff34e307b86a92501cb8b96e4c9d12ec26cbed6e",
+  "commit": "bcc63f2536dbacb13dbbb16185bee761510d7f01",
+  "contentHash": "b65f80fe71a54e1c4be1643d1333dcb524c2594aa289072ac4d5338cb72d9253",
   "repoCreatedAt": "2026-01-16T20:49:38Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
     "findings": [
       {
@@ -89,78 +89,6 @@
         "automatic": false
       },
       {
-        "ruleId": "downloads-code",
-        "file": "skills/maintaining-macos-health/SKILL.md",
-        "line": 64,
-        "excerpt": "1. **Monitor passively** — Stats menubar (`brew install --cask stats`) — you see issues forming, not just when they explode.",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/maintaining-macos-health/SKILL.md",
-        "line": 92,
-        "excerpt": "python3 .../assets/render-cleanup-plan.py /tmp/cleanup-data-<ts>.json",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/maintaining-macos-health/SKILL.md",
-        "line": 98,
-        "excerpt": "python3 .../assets/apply-cleanup-selection.py /tmp/cleanup-selection-<ts>.json",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/maintaining-macos-health/SKILL.md",
-        "line": 112,
-        "excerpt": "4. `brew install vjeantet/tap/alerter` (NOT terminal-notifier — it's broken in 2026 on Sequoia/Tahoe).",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/maintaining-macos-health/SKILL.md",
-        "line": 113,
-        "excerpt": "5. `brew install --cask stats` for passive layer.",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "skills/maintaining-macos-health/SKILL.md",
-        "line": 128,
-        "excerpt": "- Constant alerts during heavy dev work — `touch ~/.config/mac-health/silent` to suppress.",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/maintaining-macos-health/assets/apply-cleanup-selection.py",
-        "line": 239,
-        "excerpt": "proc = subprocess.run(",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/maintaining-macos-health/assets/apply-cleanup-selection.py",
-        "line": 241,
-        "excerpt": "shell=True,",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/maintaining-macos-health/assets/apply-cleanup-selection.py",
-        "line": 264,
-        "excerpt": "except subprocess.TimeoutExpired:",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "shell",
         "file": "skills/maintaining-macos-health/assets/disk_agent.py",
         "line": 39,
@@ -186,135 +114,118 @@
       },
       {
         "ruleId": "shell",
-        "file": "skills/maintaining-macos-health/assets/disk_responses.py",
-        "line": 77,
-        "excerpt": "process = subprocess.Popen(command, stdin=subprocess.DEVNULL, stdout=output,",
+        "file": "skills/maintaining-macos-health/assets/disk_safety.py",
+        "line": 85,
+        "excerpt": "result = subprocess.run([\"/bin/df\", \"-Pk\", volume], check=True,",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "skills/maintaining-macos-health/assets/disk_responses.py",
-        "line": 78,
-        "excerpt": "stderr=subprocess.STDOUT, start_new_session=True)",
+        "file": "skills/maintaining-macos-health/assets/disk_safety.py",
+        "line": 179,
+        "excerpt": "result = subprocess.run([str(scanner), \"--json\", \"--workers\", \"4\", \"--top\", \"20\", str(path)],",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/maintaining-macos-health/assets/disk_safety.py",
+        "line": 181,
+        "excerpt": "stdin=subprocess.DEVNULL)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/maintaining-macos-health/assets/disk_safety.py",
+        "line": 196,
+        "excerpt": "except (OSError, subprocess.SubprocessError, ValueError) as exc:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/maintaining-macos-health/assets/disk_safety.py",
+        "line": 198,
+        "excerpt": "if isinstance(exc, (FileNotFoundError, TimeoutError, subprocess.TimeoutExpired)):",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/maintaining-macos-health/assets/disk_safety.py",
+        "line": 215,
+        "excerpt": "result = subprocess.run(command, capture_output=True, text=True, timeout=timeout,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/maintaining-macos-health/assets/disk_safety.py",
+        "line": 216,
+        "excerpt": "stdin=subprocess.DEVNULL)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/maintaining-macos-health/assets/disk_safety.py",
+        "line": 219,
+        "excerpt": "except (OSError, subprocess.SubprocessError) as exc:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/maintaining-macos-health/assets/disk_safety.py",
+        "line": 233,
+        "excerpt": "result = subprocess.run([\"/bin/ps\", \"-axo\", \"comm=\"], check=True,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/maintaining-macos-health/assets/disk_safety.py",
+        "line": 257,
+        "excerpt": "result = subprocess.run([\"/bin/bash\", str(ASSETS / \"mole-exact-file.sh\"),",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/maintaining-macos-health/assets/disk_safety.py",
+        "line": 259,
+        "excerpt": "env=env, stdin=subprocess.DEVNULL,",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "network",
-        "file": "skills/maintaining-macos-health/assets/disk_review.py",
-        "line": 62,
-        "excerpt": "document = document.replace(\"await fetch('/cancel', { method: 'POST' })\",",
+        "file": "skills/maintaining-macos-health/tests/test_disk_responses.py",
+        "line": 15,
+        "excerpt": "import urllib.request",
         "disclosed": true,
         "automatic": false,
         "hosts": []
       },
       {
         "ruleId": "network",
-        "file": "skills/maintaining-macos-health/assets/disk_review.py",
-        "line": 63,
-        "excerpt": "\"await fetch('/cancel', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Cleanup-Token': CLEANUP_TOKEN }, body: '{}' })\")",
+        "file": "skills/maintaining-macos-health/tests/test_disk_responses.py",
+        "line": 296,
+        "excerpt": "request = urllib.request.Request(self.server.origin + path,",
         "disclosed": true,
         "automatic": false,
         "hosts": []
       },
       {
         "ruleId": "network",
-        "file": "skills/maintaining-macos-health/assets/disk_review.py",
-        "line": 69,
-        "excerpt": "const response=await fetch('/status',{headers:{'X-Cleanup-Token':CLEANUP_TOKEN}});const data=await response.json();",
+        "file": "skills/maintaining-macos-health/tests/test_disk_responses.py",
+        "line": 299,
+        "excerpt": "with urllib.request.urlopen(request, timeout=5) as response:",
         "disclosed": true,
         "automatic": false,
         "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/maintaining-macos-health/assets/disk_review.py",
-        "line": 77,
-        "excerpt": "confirmAutomatic.disabled=true;const response=await fetch('/confirm',{method:'POST',headers:{'Content-Type':'application/json','X-Cleanup-Token':CLEANUP_TOKEN},",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/maintaining-macos-health/assets/disk_review.py",
-        "line": 108,
-        "excerpt": "result = subprocess.run([sys.executable, str(ASSETS / \"apply-cleanup-selection.py\"),",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/maintaining-macos-health/assets/disk_review.py",
-        "line": 110,
-        "excerpt": "stdin=subprocess.DEVNULL, capture_output=True, text=True, timeout=300)",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/maintaining-macos-health/assets/disk_review.py",
-        "line": 243,
-        "excerpt": "subprocess.run([\"/usr/bin/open\", url], check=True, timeout=10)",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "skills/maintaining-macos-health/references/optional-disk-responses.md",
-        "line": 46,
-        "excerpt": "mkdir -p \"$HOME/.local/share/mac-health\" \"$HOME/bin\"",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "skills/maintaining-macos-health/references/optional-disk-responses.md",
-        "line": 49,
-        "excerpt": "cp -R \"$SKILL\" \"$HOME/.local/share/mac-health/skill\"",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "skills/maintaining-macos-health/references/optional-disk-responses.md",
-        "line": 52,
-        "excerpt": "ln -sfn \"$HOME/.local/share/mac-health/skill/assets/mac-health-disk\" \"$HOME/bin/mac-health-disk\"",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "skills/maintaining-macos-health/references/optional-disk-responses.md",
-        "line": 106,
-        "excerpt": "touch \"$HOME/.config/mac-health/pause-disk-responses\"",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "skills/maintaining-macos-health/references/optional-disk-responses.md",
-        "line": 108,
-        "excerpt": "rm \"$HOME/.config/mac-health/pause-disk-responses\"",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/maintaining-macos-health/tests/test_bulk_audit.py",
-        "line": 23,
-        "excerpt": "with patch('disk_safety.subprocess.run',side_effect=run):",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/maintaining-macos-health/tests/test_bulk_audit.py",
-        "line": 28,
-        "excerpt": "with patch('disk_safety.subprocess.run',side_effect=FileNotFoundError('scanner not built')):",
-        "disclosed": true,
-        "automatic": false
       },
       {
         "ruleId": "shell",
@@ -434,6 +345,14 @@
         "file": "hooks/balanced-safety-hooks/README.md",
         "line": 110,
         "excerpt": "- executor wrappers that hide the real command (`sudo rm`, `env FOO=bar rm`, `xargs rm`, `find -delete`, `bash -c \"rm ...\"`, `eval \"rm ...\"`, `ssh host \"rm ...\"",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/balanced-safety-hooks/README.md",
+        "line": 129,
+        "excerpt": "| **rm via wrappers** | `sudo rm`, `env FOO=bar rm`, `xargs rm`, `find -delete`, `find -exec rm`, `bash -c \"rm ...\"`, `eval \"rm ...\"`, `ssh host \"rm ...\"`, `chr",
         "disclosed": true,
         "automatic": true
       },
@@ -643,6 +562,15 @@
         ]
       },
       {
+        "ruleId": "network",
+        "file": "hooks/balanced-safety-hooks/src/testdata/fixtures/curl_post_elasticsearch.json",
+        "line": 3,
+        "excerpt": "\"description\": \"curl -X POST on elasticsearch\",",
+        "disclosed": true,
+        "automatic": true,
+        "hosts": []
+      },
+      {
         "ruleId": "downloads-code",
         "file": "hooks/balanced-safety-hooks/src/testdata/fixtures/docker_ps_allow.json",
         "line": 7,
@@ -697,24 +625,78 @@
         "excerpt": "\"command\": \"eval 'rm -rf /etc/nginx'\"",
         "disclosed": false,
         "automatic": true
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "hooks/balanced-safety-hooks/src/testdata/fixtures/rm_rf_Library.json",
+        "line": 3,
+        "excerpt": "\"description\": \"rm -rf /home/example-user/Library/<...>\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "hooks/balanced-safety-hooks/src/testdata/fixtures/rm_rf_Library.json",
+        "line": 8,
+        "excerpt": "\"command\": \"rm -rf /home/example-user/Library/Application\\\\ Support/X\"",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "hooks/balanced-safety-hooks/src/testdata/fixtures/rm_rf_System.json",
+        "line": 7,
+        "excerpt": "\"command\": \"rm -rf /System/Library/Frameworks/X\"",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "hooks/balanced-safety-hooks/src/testdata/fixtures/rm_rf_etc.json",
+        "line": 3,
+        "excerpt": "\"description\": \"rm -rf /etc/nginx\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "hooks/balanced-safety-hooks/src/testdata/fixtures/rm_rf_etc.json",
+        "line": 7,
+        "excerpt": "\"command\": \"rm -rf /etc/nginx\"",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "hooks/balanced-safety-hooks/src/testdata/fixtures/rm_rf_usr.json",
+        "line": 3,
+        "excerpt": "\"description\": \"rm -rf /usr/local/bin\",",
+        "disclosed": false,
+        "automatic": true
       }
     ],
     "findingTotals": {
-      "downloads-code": 20,
-      "writes-outside": 28,
-      "shell": 201,
-      "network": 24
+      "downloads-code": 17,
+      "writes-outside": 22,
+      "shell": 200,
+      "network": 23
     },
     "score": 76,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 215,
-    "filesSkipped": 30
+    "filesScanned": 214,
+    "filesSkipped": 31
   },
   "history": [
     {
       "commit": "cd40a5e7a5170de8e6bd15e6d335914dc0ffade2",
       "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 76,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "bcc63f2536dbacb13dbbb16185bee761510d7f01",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
       "score": 76,
       "rulesVersion": "1.3.0"
     }

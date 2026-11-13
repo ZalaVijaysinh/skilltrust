@@ -7,13 +7,13 @@
   "description": "往 CodeChat 制品发布接口发产物（两种部署都打企业端域名，路径恒为 `/api/publish/*`，静态令牌鉴权；test / drill / prod 三个环境，四条产物线共用一个脚本 upload.mjs）：桌面端三件套（dmg / mac.zip / exe，取 CI 的 Release 后 `--type desktop` 分片直传 → sha512 + feed 核验）、文档站包（本地 docs:pack 出包 → `--type docs` 单次上传 → 企业端 /docs/ 验对象）、远控 Web 页（pack:remote 出包 → `--type remote` 单次上传）、wave 官方插件市场快照（`--type plugin-market` 内容寻址 + latest 指针），外加台账读写（`--list` / `--delete` 回退版本）。当用户要求「上传/发布桌面端」「发 beta」「发/传文档站」「发/构建/传远控页（远端页、手机页面、web 端）」「发插件市场」「回滚版本」，或询问制品发布接口、发布令牌、发布台账时使用。",
   "stars": 32,
   "category": "writing",
-  "commit": "dcd92f8fce373af225aac4bfee6a121f99ecd8a4",
-  "contentHash": "d1950cf171f1e78a1459ca6d7122b0b5c4a9336548536061ada5b30c8c3e6be9",
+  "commit": "ca9a8c89cd3928af1040c610e46af361768f0456",
+  "contentHash": "c7c5734ef085782250581baa5fd9d7e013b362ffd9abf136ef6c46e3422ceeb5",
   "repoCreatedAt": "2025-10-27T02:28:19Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
     "findings": [
       {
@@ -27,7 +27,15 @@
       {
         "ruleId": "shell",
         "file": ".wave/skills/ops-upload/SKILL.md",
-        "line": 86,
+        "line": 83,
+        "excerpt": "V=1.2.6; DIR=/tmp/wave-desktop-$V",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".wave/skills/ops-upload/SKILL.md",
+        "line": 105,
         "excerpt": "V=1.2.6",
         "disclosed": true,
         "automatic": false
@@ -35,7 +43,7 @@
       {
         "ruleId": "shell",
         "file": ".wave/skills/ops-upload/SKILL.md",
-        "line": 122,
+        "line": 141,
         "excerpt": "gh release view -R netease-lcap/wave-agent \"wave-desktop@$V\" --json body -q .body > /tmp/wave-desktop-$V/notes.md",
         "disclosed": true,
         "automatic": false
@@ -43,7 +51,7 @@
       {
         "ruleId": "shell",
         "file": ".wave/skills/ops-upload/SKILL.md",
-        "line": 140,
+        "line": 159,
         "excerpt": "node .wave/skills/ops-upload/upload.mjs --list --env test        # 生产去掉 --env test",
         "disclosed": true,
         "automatic": false
@@ -51,7 +59,7 @@
       {
         "ruleId": "shell",
         "file": ".wave/skills/ops-upload/SKILL.md",
-        "line": 145,
+        "line": 164,
         "excerpt": "python3 -c \"import base64,hashlib;print(base64.b64encode(hashlib.sha512(open('/tmp/wave-desktop-1.2.6/CodeWave.IDE-1.2.6-arm64.dmg','rb').read()).digest()).deco",
         "disclosed": true,
         "automatic": false
@@ -59,7 +67,7 @@
       {
         "ruleId": "network",
         "file": ".wave/skills/ops-upload/SKILL.md",
-        "line": 153,
+        "line": 172,
         "excerpt": "curl -sI \"<上一步打印的 downloadUrl>\" | grep -iE '^HTTP/|content-length'",
         "disclosed": true,
         "automatic": false,
@@ -68,7 +76,7 @@
       {
         "ruleId": "shell",
         "file": ".wave/skills/ops-upload/SKILL.md",
-        "line": 153,
+        "line": 172,
         "excerpt": "curl -sI \"<上一步打印的 downloadUrl>\" | grep -iE '^HTTP/|content-length'",
         "disclosed": true,
         "automatic": false
@@ -76,7 +84,7 @@
       {
         "ruleId": "shell",
         "file": ".wave/skills/ops-upload/SKILL.md",
-        "line": 160,
+        "line": 179,
         "excerpt": "unzip -o -q /tmp/wave-desktop-1.2.6/CodeWave.IDE-1.2.6-arm64-mac.zip \"CodeWave IDE.app/Contents/Resources/app.asar\" -d /tmp/asar-chk",
         "disclosed": true,
         "automatic": false
@@ -84,7 +92,7 @@
       {
         "ruleId": "shell",
         "file": ".wave/skills/ops-upload/SKILL.md",
-        "line": 168,
+        "line": 187,
         "excerpt": "printf '%s' '企业本期额度已用尽' | python3 -c \"import sys;print(''.join(r'\\u%04X'%ord(c) for c in sys.stdin.read()))\"",
         "disclosed": true,
         "automatic": false
@@ -92,7 +100,7 @@
       {
         "ruleId": "shell",
         "file": ".wave/skills/ops-upload/SKILL.md",
-        "line": 179,
+        "line": 198,
         "excerpt": "python3 - <<'PY'",
         "disclosed": true,
         "automatic": false
@@ -100,7 +108,7 @@
       {
         "ruleId": "network",
         "file": ".wave/skills/ops-upload/SKILL.md",
-        "line": 180,
+        "line": 199,
         "excerpt": "import base64, hashlib, urllib.request",
         "disclosed": true,
         "automatic": false,
@@ -109,7 +117,7 @@
       {
         "ruleId": "network",
         "file": ".wave/skills/ops-upload/SKILL.md",
-        "line": 184,
+        "line": 203,
         "excerpt": "txt = urllib.request.urlopen(f'{server}/api/downloads/{chan}/{plat}/{yml}').read().decode()",
         "disclosed": true,
         "automatic": false,
@@ -118,7 +126,7 @@
       {
         "ruleId": "network",
         "file": ".wave/skills/ops-upload/SKILL.md",
-        "line": 200,
+        "line": 219,
         "excerpt": "curl -s \"https://codechat.codewave-test.163yun.com/api/downloads/desktop-beta/mac/latest-mac.yml\"",
         "disclosed": true,
         "automatic": false,
@@ -129,7 +137,7 @@
       {
         "ruleId": "shell",
         "file": ".wave/skills/ops-upload/SKILL.md",
-        "line": 200,
+        "line": 219,
         "excerpt": "curl -s \"https://codechat.codewave-test.163yun.com/api/downloads/desktop-beta/mac/latest-mac.yml\"",
         "disclosed": true,
         "automatic": false
@@ -137,7 +145,15 @@
       {
         "ruleId": "shell",
         "file": ".wave/skills/ops-upload/SKILL.md",
-        "line": 217,
+        "line": 232,
+        "excerpt": "gh release view -R netease-lcap/wave-agent \"wave-desktop@$V\" --json assets \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".wave/skills/ops-upload/SKILL.md",
+        "line": 248,
         "excerpt": "pnpm run docs:pack                           # 生成截图 → vitepress build --base /docs/ → 打 tar.gz",
         "disclosed": true,
         "automatic": false
@@ -145,7 +161,7 @@
       {
         "ruleId": "shell",
         "file": ".wave/skills/ops-upload/SKILL.md",
-        "line": 225,
+        "line": 256,
         "excerpt": "- `docs:pack` 里 `execFileSync(\"pnpm\", …)` 在 Windows 上找不到 `pnpm.cmd`（脚本已在 `scripts/pack-docs.mjs` 里用 `shell: win32` 兜住；改之前手动跑就得逐条替换成 `pnpm …`）。",
         "disclosed": true,
         "automatic": false
@@ -153,7 +169,7 @@
       {
         "ruleId": "shell",
         "file": ".wave/skills/ops-upload/SKILL.md",
-        "line": 231,
+        "line": 262,
         "excerpt": "node .wave/skills/ops-upload/upload.mjs --file docs-<version>.tar.gz --type docs --env prod",
         "disclosed": true,
         "automatic": false
@@ -161,7 +177,7 @@
       {
         "ruleId": "shell",
         "file": ".wave/skills/ops-upload/SKILL.md",
-        "line": 256,
+        "line": 287,
         "excerpt": "pnpm -F wave-agent-sdk build",
         "disclosed": true,
         "automatic": false
@@ -169,7 +185,7 @@
       {
         "ruleId": "shell",
         "file": ".wave/skills/ops-upload/SKILL.md",
-        "line": 265,
+        "line": 296,
         "excerpt": "S=.wave/skills/ops-upload/upload.mjs",
         "disclosed": true,
         "automatic": false
@@ -177,7 +193,7 @@
       {
         "ruleId": "network",
         "file": ".wave/skills/ops-upload/SKILL.md",
-        "line": 285,
+        "line": 316,
         "excerpt": "curl -s \"https://codechat.codewave-test.163yun.com/remote/?cb=$RANDOM\" | grep -o \"wave-remote-config[^>]*\"",
         "disclosed": true,
         "automatic": false,
@@ -188,7 +204,7 @@
       {
         "ruleId": "shell",
         "file": ".wave/skills/ops-upload/SKILL.md",
-        "line": 285,
+        "line": 316,
         "excerpt": "curl -s \"https://codechat.codewave-test.163yun.com/remote/?cb=$RANDOM\" | grep -o \"wave-remote-config[^>]*\"",
         "disclosed": true,
         "automatic": false
@@ -196,7 +212,7 @@
       {
         "ruleId": "network",
         "file": ".wave/skills/ops-upload/SKILL.md",
-        "line": 289,
+        "line": 320,
         "excerpt": "curl -s -o /dev/null -w \"%{http_code} %{size_download}B\\n\" \\",
         "disclosed": true,
         "automatic": false,
@@ -205,7 +221,7 @@
       {
         "ruleId": "shell",
         "file": ".wave/skills/ops-upload/SKILL.md",
-        "line": 316,
+        "line": 347,
         "excerpt": "cd ~/github/wave-plugins-official      # 仓库位置因机器而异",
         "disclosed": true,
         "automatic": false
@@ -213,7 +229,7 @@
       {
         "ruleId": "shell",
         "file": ".wave/skills/ops-upload/SKILL.md",
-        "line": 330,
+        "line": 361,
         "excerpt": "S=.wave/skills/ops-upload/upload.mjs",
         "disclosed": true,
         "automatic": false
@@ -221,7 +237,7 @@
       {
         "ruleId": "network",
         "file": ".wave/skills/ops-upload/SKILL.md",
-        "line": 347,
+        "line": 378,
         "excerpt": "2. **指针生效**：`curl -s {企业端}/wave-plugins-official/latest` 应等于本次 sha（无扩展名路径被 ingress 精确 rewrite 到 `latest.txt`，`no-cache`）。滞后多半是 CDN 边缘，等 1–2 分钟再看，别立即判失败。",
         "disclosed": true,
         "automatic": false,
@@ -230,27 +246,11 @@
       {
         "ruleId": "network",
         "file": ".wave/skills/ops-upload/SKILL.md",
-        "line": 348,
+        "line": 379,
         "excerpt": "3. **zip 真能下**：`curl -sI {企业端}/wave-plugins-official/<sha>.zip` → `200`，且 `cache-control` 含 `immutable`（sha 命名的 zip 走长缓存入口）。",
         "disclosed": true,
         "automatic": false,
         "hosts": []
-      },
-      {
-        "ruleId": "shell",
-        "file": ".wave/skills/ops-upload/SKILL.md",
-        "line": 360,
-        "excerpt": "node .wave/skills/ops-upload/upload.mjs --list --env test",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": ".wave/skills/ops-upload/SKILL.md",
-        "line": 401,
-        "excerpt": "node .wave/skills/ops-upload/upload.mjs \\",
-        "disclosed": true,
-        "automatic": false
       },
       {
         "ruleId": "network",
@@ -281,7 +281,7 @@
       }
     ],
     "findingTotals": {
-      "shell": 23,
+      "shell": 25,
       "network": 11
     },
     "score": 94,
@@ -294,6 +294,12 @@
     {
       "commit": "dcd92f8fce373af225aac4bfee6a121f99ecd8a4",
       "scannedAt": "2026-11-09T10:28:36.295Z",
+      "score": 94,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "ca9a8c89cd3928af1040c610e46af361768f0456",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
       "score": 94,
       "rulesVersion": "1.3.0"
     }

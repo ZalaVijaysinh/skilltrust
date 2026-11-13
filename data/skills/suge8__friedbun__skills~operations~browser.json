@@ -1,0 +1,123 @@
+{
+  "id": "suge8__friedbun__skills~operations~browser",
+  "owner": "Suge8",
+  "repo": "friedbun",
+  "path": "skills/operations/browser",
+  "name": "browser",
+  "description": "操作和调试网页：导航、点击、填写、snapshot、截图、console、network；需要用户登录态或反检测的站点、用户要预览 dev server 时同样用它。",
+  "stars": 13,
+  "category": "coding",
+  "commit": "465188d14f5e01c8dab59802949df60cb64b1754",
+  "contentHash": "3b32058cde906b255096d4114febbb2200d914cc626f23bae1401e14baf82472",
+  "repoCreatedAt": "2026-08-20T12:32:40Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/operations/browser/SKILL.md",
+        "line": 29,
+        "excerpt": "bbu --mine <账户> execute 'await page.goto(\"https://example.com\"); return await page.title()'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "browser-secrets",
+        "file": "skills/operations/browser/SKILL.md",
+        "line": 48,
+        "excerpt": "export OP_SERVICE_ACCOUNT_TOKEN=\"$(security find-generic-password -s op-agent-token -w)\"  # 每次 bash 调用都要",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/operations/browser/SKILL.md",
+        "line": 48,
+        "excerpt": "export OP_SERVICE_ACCOUNT_TOKEN=\"$(security find-generic-password -s op-agent-token -w)\"  # 每次 bash 调用都要",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/operations/browser/bin/bbu",
+        "line": 54,
+        "excerpt": "[ -x \"$bin\" ] || die \"CloakBrowser not found; run: npm install -g cloakbrowser && cloakbrowser install\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/operations/browser/bin/helper.mjs",
+        "line": 12,
+        "excerpt": "import { execFile, execFileSync, spawn } from 'node:child_process';",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/operations/browser/bin/helper.mjs",
+        "line": 25,
+        "excerpt": "const socket = new WebSocket(ws);",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/operations/browser/bin/helper.mjs",
+        "line": 73,
+        "excerpt": "const handlers = JSON.parse(execFileSync('plutil', ['-convert', 'json', '-o', '-', plist], { encoding: 'utf8' })).LSHandlers;",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/operations/browser/bin/helper.mjs",
+        "line": 97,
+        "excerpt": "const password = execFileSync('security', ['find-generic-password', '-w', '-s', browser.key], { encoding: 'utf8' }).trim();",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/operations/browser/bin/helper.mjs",
+        "line": 209,
+        "excerpt": "const response = await fetch(state.endpoint + '/cli/session/new', {",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/operations/browser/test/bbu.test.sh",
+        "line": 15,
+        "excerpt": "rm -rf \"$T\" \"$HOME/.agent-browser/namespaces/$AGENT_BROWSER_NAMESPACE\"",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 5,
+      "browser-secrets": 1,
+      "downloads-code": 1,
+      "network": 2,
+      "writes-outside": 1
+    },
+    "score": 54,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 4,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "465188d14f5e01c8dab59802949df60cb64b1754",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 54,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

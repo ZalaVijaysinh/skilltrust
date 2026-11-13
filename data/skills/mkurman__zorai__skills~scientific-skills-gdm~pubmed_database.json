@@ -1,0 +1,112 @@
+{
+  "id": "mkurman__zorai__skills~scientific-skills-gdm~pubmed_database",
+  "owner": "mkurman",
+  "repo": "zorai",
+  "path": "skills/scientific-skills-gdm/pubmed_database",
+  "name": "pubmed-database",
+  "description": "Search PubMed for scientific literature, including published clinical trials. Fetch abstracts and full text. Link published research to biological databases (gene, protein, nucleotide, PubChem) to discover associations between papers and specific compounds or genes. Verify medical spelling, match raw citations, and cache result sets for bulk processing. Interfaces NCBI E-utilities and PMC BioC APIs.",
+  "stars": 327,
+  "category": "research",
+  "commit": "8ea1fc3ae126b6e103b8508bacd8f5aa60b6f4ad",
+  "contentHash": "c45636bbee28c867552062bbc14c98bd05a5d4b361789a5b5ffbb910a66eb725",
+  "repoCreatedAt": "2026-03-10T11:40:49Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/scientific-skills-gdm/pubmed_database/SKILL.md",
+        "line": 40,
+        "excerpt": "printf \"Enter NCBI API key (typing hidden): \" && read -s key && echo && echo \"NCBI_API_KEY=$key\" >> \"ENV_FILE\" && echo \"Saved.\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/scientific-skills-gdm/pubmed_database/SKILL.md",
+        "line": 44,
+        "excerpt": "printf \"Enter contact email: \" && read email && echo \"USER_EMAIL=$email\" >> \"ENV_FILE\" && echo \"Saved.\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/scientific-skills-gdm/pubmed_database/SKILL.md",
+        "line": 91,
+        "excerpt": "uv run scripts/pubmed_api.py <output_file> <function_name> <required_args> [--flag value ...]",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/scientific-skills-gdm/pubmed_database/SKILL.md",
+        "line": 105,
+        "excerpt": "uv run scripts/pubmed_api.py ./search_results.json search_pubmed \"BRCA1\" --max_results 5",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/scientific-skills-gdm/pubmed_database/SKILL.md",
+        "line": 116,
+        "excerpt": "cat ./search_results.json | jq -r 'join(\",\")'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/scientific-skills-gdm/pubmed_database/SKILL.md",
+        "line": 122,
+        "excerpt": "cat ./abstracts.json | jq '[.[] | {pmid, title, snippet: (.abstract // \"\")[:500]}]'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/scientific-skills-gdm/pubmed_database/SKILL.md",
+        "line": 128,
+        "excerpt": "cat ./abstracts.json | jq '[.[] | select((.title // \"\") | contains(\"Review\"))]'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/scientific-skills-gdm/pubmed_database/scripts/pubmed_api.py",
+        "line": 131,
+        "excerpt": "resp = get_eutils_client().fetch(url, method=\"POST\", data=data_bytes)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/scientific-skills-gdm/pubmed_database/scripts/pubmed_api.py",
+        "line": 638,
+        "excerpt": "dotenv.load_dotenv(os.path.expanduser(\"~/.env\"))",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 7,
+      "network": 1,
+      "reads-secrets": 1
+    },
+    "score": 84,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 11,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "8ea1fc3ae126b6e103b8508bacd8f5aa60b6f4ad",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 84,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

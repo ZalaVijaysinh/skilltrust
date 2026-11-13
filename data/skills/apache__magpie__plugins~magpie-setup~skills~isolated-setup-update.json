@@ -4,24 +4,610 @@
   "repo": "magpie",
   "path": "plugins/magpie-setup/skills/isolated-setup-update",
   "name": "isolated-setup-update",
-  "description": "",
-  "stars": 139,
+  "description": "Report drift between the installed secure setup and the framework's current one — checkout, pinned tools, user-scope script copies, denial commands, MCP checkouts. Read-only: it surfaces diffs and the user decides.",
+  "stars": 146,
   "category": "security",
-  "commit": "3fd660b0b1316f475044c05dae17c5b86a12165e",
-  "contentHash": "50c62e37d5859ef70163a028ce487e32f2318adf6ec90e141051d41a967c6b91",
+  "commit": "8d24b52457f7a2731d7cc3329af96430a16715fd",
+  "contentHash": "3dba0696b87b30220047213663c756326297a9e5815df99d2050b565f77ed272",
   "repoCreatedAt": "2026-04-28T18:59:46Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/magpie-setup/skills/isolated-setup-update/SKILL.md",
+        "line": 85,
+        "excerpt": "This skill does not bump the manifest, edit `~/.claude/scripts/`, `git pull`, `npm install -g`, or modify the user's shell rc.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/magpie-setup/skills/isolated-setup-update/SKILL.md",
+        "line": 92,
+        "excerpt": "Recommend `npm install -g --no-save @anthropic-ai/claude-code@latest` whenever a newer build exists, and treat a runtime below the manifest's `min_version` floo",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/magpie-setup/skills/isolated-setup-update/SKILL.md",
+        "line": 139,
+        "excerpt": "Every read-only entry the framework allows and the user lacks — a vetted-ops read form, an MCP read tool, a registry `WebFetch` host — is a permission prompt on",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/magpie-setup/skills/isolated-setup-update/SKILL.md",
+        "line": 153,
+        "excerpt": "The dogfooded default allows `*.crates.io` and `static.rust-lang.org`, the only hosts prek needs to bootstrap a rustup toolchain and `cargo install` the `lychee",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/magpie-setup/skills/isolated-setup-update/SKILL.md",
+        "line": 163,
+        "excerpt": "Earlier defaults put `~/.local/share/uv/` in `allowWrite`, where the interpreters and tool venvs that hooks, MCP servers and the excluded `uvx` / `uv run` comma",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/magpie-setup/skills/isolated-setup-update/SKILL.md",
+        "line": 190,
+        "excerpt": "A `sandbox.excludedCommands` entry spelled `uvx --from ~/.claude/plugins/cache/apache-magpie/magpie-adversarial-review/*/tools/adversarial-review adversarial-re",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/magpie-setup/skills/isolated-setup-update/SKILL.md",
+        "line": 191,
+        "excerpt": "Report it as a must-fix whenever the `magpie-adversarial-review` plugin is installed, and propose `uvx --from ~/.claude/magpie/adversarial-review adversarial-re",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/magpie-setup/skills/isolated-setup-update/SKILL.md",
+        "line": 214,
+        "excerpt": "PYTHONPATH=\"$HOME/.cache/apache-magpie/preflight\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/magpie-setup/skills/isolated-setup-update/SKILL.md",
+        "line": 231,
+        "excerpt": "- `claude-code` newer build available, or below the `min_version` floor → `npm install -g --no-save @anthropic-ai/claude-code@latest` (no manifest bump — the ru",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/magpie-setup/skills/isolated-setup-update/script-inventory.md",
+        "line": 87,
+        "excerpt": "cp tools/agent-isolation/agent-iso.sh ~/.claude/agent-isolation/agent-iso.sh",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/magpie-setup/skills/isolated-setup-update/script-inventory.md",
+        "line": 88,
+        "excerpt": "rm ~/.claude/agent-isolation/claude-iso.sh",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/magpie-setup/skills/isolated-setup-update/vetted-ops-drift.md",
+        "line": 13,
+        "excerpt": "`vetted-op-tracker` and `vetted-op` each in `ask` and in `sandbox.excludedCommands` (both the `uv run --project` and `uvx --from` forms) is the intended wiring;",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/magpie-setup/skills/isolated-setup-update/vetted-ops-drift.md",
+        "line": 40,
+        "excerpt": "- a missing `vetted-op-read` allow rule: each launcher (`uvx --from`, `uv run --project`) with the literal `~/.claude/magpie/vetted-ops` base, two rules;",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/magpie-setup/skills/isolated-setup-update/vetted-ops-drift.md",
+        "line": 43,
+        "excerpt": "- any `permissions.ask` rule that matches a `vetted-op-read` command in either launcher form, broad rules such as `Bash(uvx *)` included, since an ask rule prom",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "AGENTS.md",
+        "line": 458,
+        "excerpt": "uv tool install prek   # or: pipx install prek",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "AGENTS.md",
+        "line": 522,
+        "excerpt": "`uvx --from ~/.claude/magpie/vetted-ops …`, and `uvx --from ~/.claude/magpie/adversarial-review adversarial-review …`.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "docs/adapters/antigravity.md",
+        "line": 140,
+        "excerpt": "| `ls ~/.ssh` | Blocked. |",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "docs/adapters/antigravity.md",
+        "line": 141,
+        "excerpt": "| `curl https://example.com` | Blocked (no name resolution). |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "example.com"
+        ]
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/adapters/antigravity.md",
+        "line": 142,
+        "excerpt": "| `touch ~/probe` | Blocked. |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "docs/adapters/antigravity.md",
+        "line": 224,
+        "excerpt": "| Run exactly `ls ~/.ssh`. | Fails inside the sandbox; decline any request to run it outside. |",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/adapters/codex.md",
+        "line": 206,
+        "excerpt": "Before the rules run, the hook rewrites a command only when the whole command is one read call in that spelling — `uv run --project ~/.claude/magpie/vetted-ops ",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/adapters/codex.md",
+        "line": 211,
+        "excerpt": "Both `uv run --project <installed-path> vetted-op-read` and `uvx --from <installed-path> vetted-op-read` are `allow`.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/adapters/codex.md",
+        "line": 213,
+        "excerpt": "There is no general `uv` or `uvx` allow rule and no catalogue-wide write exemption.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/adapters/copilot.md",
+        "line": 74,
+        "excerpt": "npm install -g @github/copilot",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "docs/adapters/goose.md",
+        "line": 96,
+        "excerpt": "| `cat ~/.ssh/known_hosts` | Blocked. |",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/adapters/goose.md",
+        "line": 97,
+        "excerpt": "| `touch ~/probe` | Blocked. |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/adapters/goose.md",
+        "line": 98,
+        "excerpt": "| `echo x >> ~/.config/goose/config.yaml` | Blocked: Goose's configuration is read-only inside. |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "docs/adapters/goose.md",
+        "line": 144,
+        "excerpt": "| Run exactly `cat ~/.ssh/known_hosts`. | Fails inside the sandbox. |",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "docs/adapters/pi.md",
+        "line": 109,
+        "excerpt": "| `cat ~/.ssh/known_hosts` | Blocked. |",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/adapters/pi.md",
+        "line": 111,
+        "excerpt": "| `touch ~/probe` | Blocked. |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "docs/adapters/pi.md",
+        "line": 155,
+        "excerpt": "| Run exactly `cat ~/.ssh/known_hosts`. | Fails inside the sandbox. |",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "docs/quick-start/other-install-methods.md",
+        "line": 126,
+        "excerpt": "curl -fsSLO ${REL_BASE}/${ZIP}",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "docs/quick-start/other-install-methods.md",
+        "line": 127,
+        "excerpt": "curl -fsSLO ${REL_BASE}/${ZIP}.sha512",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "docs/quick-start/other-install-methods.md",
+        "line": 128,
+        "excerpt": "curl -fsSLO ${REL_BASE}/${ZIP}.asc",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/quick-start/other-install-methods.md",
+        "line": 146,
+        "excerpt": "mkdir -p .agents/skills .claude/skills .github/skills",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/quick-start/other-install-methods.md",
+        "line": 148,
+        "excerpt": "ln -sf ../../.agents/skills/magpie-setup .claude/skills/magpie-setup",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/quick-start/other-install-methods.md",
+        "line": 224,
+        "excerpt": "mkdir -p .agents/skills .claude/skills .github/skills",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/quick-start/other-install-methods.md",
+        "line": 226,
+        "excerpt": "ln -sf ../../.agents/skills/magpie-setup .claude/skills/magpie-setup",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/quick-start/other-install-methods.md",
+        "line": 255,
+        "excerpt": "mkdir -p .agents/skills .claude/skills .github/skills",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/quick-start/other-install-methods.md",
+        "line": 257,
+        "excerpt": "ln -sf ../../.agents/skills/magpie-setup .claude/skills/magpie-setup",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 217,
+        "excerpt": "sudo apt-get install --no-install-recommends \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 219,
+        "excerpt": "npm install -g --no-save @anthropic-ai/claude-code@latest",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 321,
+        "excerpt": "sudo apt-get install --no-install-recommends \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 342,
+        "excerpt": "sudo dnf install \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 562,
+        "excerpt": "\"~/.gnupg/\",                  // gpg keyring reads (needed for signing, not sufficient on Linux — see sandbox-troubleshooting.md)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 564,
+        "excerpt": "\"~/.ssh/id_ed25519_sk.pub\"    // ONLY with `gpg.format=ssh`: the public half git hands to `ssh-keygen -Y sign`. Use the file `git config user.signingkey` names ",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 717,
+        "excerpt": "\"WebFetch(domain:cveawg.mitre.org)\", \"WebFetch(domain:pypi.org)\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 720,
+        "excerpt": "\"Read(~/.aws/**)\", \"Read(~/.ssh/**)\", \"Read(~/.netrc)\",",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 721,
+        "excerpt": "\"Read(~/.docker/**)\", \"Read(~/.kube/**)\",",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 725,
+        "excerpt": "\"Read(~/.config/gcloud/**)\", \"Read(~/.azure/**)\",",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 972,
+        "excerpt": "mkdir -p ~/.config/apache-magpie/vetted-ops && cp .apache-magpie-overrides/tools/vetted-ops/config.toml ~/.config/apache-magpie/vetted-ops/<project>.toml",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 1639,
+        "excerpt": "mkdir -p ~/.claude/agent-isolation",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 1788,
+        "excerpt": "mkdir -p ~/.claude/scripts",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 1824,
+        "excerpt": "echo '{\"tool_name\":\"Bash\",\"tool_input\":{\"command\":\"ls ~/.aws\",\"description\":\"check aws creds\",\"dangerouslyDisableSandbox\":true}}' \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 1902,
+        "excerpt": "mkdir -p ~/.claude/scripts/guards.d",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 1909,
+        "excerpt": "cp /path/to/magpie/skills/*/guards/*.py ~/.claude/scripts/guards.d/ 2>/dev/null || true",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 2069,
+        "excerpt": "mkdir -p ~/.claude/scripts",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 2286,
+        "excerpt": "mkdir -p ~/.claude/scripts",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 2438,
+        "excerpt": "mkdir -p ~/.claude/scripts",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 2646,
+        "excerpt": "ssh-add -L > ~/.ssh/id_yubikey.pub",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 2648,
+        "excerpt": "git config --global user.signingkey ~/.ssh/id_yubikey.pub",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 3800,
+        "excerpt": "test -r ~/.aws/credentials && echo readable   # → nothing (denied or absent; see the 7a sentinel rule)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 3802,
+        "excerpt": "curl https://example.com                      # → blocked by permissions.deny",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "example.com"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 3871,
+        "excerpt": "`~/.aws/credentials`, the `~/.ssh/id_*` private keys (list the readable ones with",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 3872,
+        "excerpt": "`find -H ~/.ssh -maxdepth 1 -name 'id_*' ! -name '*.pub' -exec test -r {} \\; -print`,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 3874,
+        "excerpt": "`~/.ssh`; its error separates absent from denied except under",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 3876,
+        "excerpt": "`~/.config/gh/hosts.yml`, `~/.netrc`, `~/.docker/config.json`:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 3892,
+        "excerpt": "`claude-iso`. (c) `curl https://example.com` is denied.",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "example.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 4260,
+        "excerpt": "missing (new vetted-ops read forms, MCP read tools, WebFetch",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 4272,
+        "excerpt": "variable names only, 7c `curl https://example.com`) and confirm",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "example.com"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "docs/setup/secure-agent-setup.md",
+        "line": 4332,
+        "excerpt": "`dangerouslyDisableSandbox: true` to run `ls ~/.aws/`\"*. The",
+        "disclosed": true,
+        "automatic": false
+      },
       {
         "ruleId": "shell",
         "file": "plugins/magpie-setup/hooks/codex-hooks.json",
         "line": 10,
         "excerpt": "\"command\": \"/bin/bash -p \\\"${PLUGIN_ROOT}/hooks/check-upgrade.sh\\\"\",",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -29,18 +615,22 @@
         "file": "plugins/magpie-setup/hooks/hooks.json",
         "line": 11,
         "excerpt": "\"command\": \"/bin/bash -p \\\"${CLAUDE_PLUGIN_ROOT}/hooks/check-upgrade.sh\\\"\",",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       }
     ],
     "findingTotals": {
-      "shell": 2
+      "downloads-code": 44,
+      "network": 10,
+      "shell": 3,
+      "writes-outside": 40,
+      "reads-secrets": 21
     },
-    "score": 95,
-    "band": "low",
+    "score": 57,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 9,
-    "filesSkipped": 6
+    "filesScanned": 27,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -53,6 +643,12 @@
       "commit": "3fd660b0b1316f475044c05dae17c5b86a12165e",
       "scannedAt": "2026-11-09T10:28:36.295Z",
       "score": 95,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "8d24b52457f7a2731d7cc3329af96430a16715fd",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 57,
       "rulesVersion": "1.3.0"
     }
   ]

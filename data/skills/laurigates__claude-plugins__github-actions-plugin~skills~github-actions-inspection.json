@@ -5,15 +5,15 @@
   "path": "github-actions-plugin/skills/github-actions-inspection",
   "name": "github-actions-inspection",
   "description": "Failing step, stack trace, and test output from a completed GitHub Actions run; rerun failed jobs. Use when a CI check finished red and you need the error extracted from its log.",
-  "stars": 59,
+  "stars": 60,
   "category": "coding",
-  "commit": "16af2dca8c1e706bab01e003bf03a7d19192b346",
-  "contentHash": "d9309b1c282fac467a0b838a83f72fb3df7406d5bc1dec29d5594187af426020",
+  "commit": "b47840019d190aa9afa1fd8d6d42ddd584a45641",
+  "contentHash": "e39e5b96a0be115fdd49a99a3161546309fd6d6ef163dd142f47598277a48eaa",
   "repoCreatedAt": "2025-12-16T11:24:04Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
     "findings": [
       {
@@ -21,6 +21,47 @@
         "file": "github-actions-plugin/skills/github-actions-inspection/REFERENCE.md",
         "line": 98,
         "excerpt": "gh run view <run-id> --log | grep -i \"npm install\\|pip install\\|bundle install\" -A 20",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "github-actions-plugin/skills/github-actions-inspection/REFERENCE.md",
+        "line": 184,
+        "excerpt": "curl -s \"https://dns.google/resolve?name=archive.ubuntu.com&type=A\" | jq '{Status, n: (.Answer // [] | length), Comment}'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "dns.google"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "github-actions-plugin/skills/github-actions-inspection/REFERENCE.md",
+        "line": 188,
+        "excerpt": "curl -s -H 'accept: application/dns-json' \"https://cloudflare-dns.com/dns-query?name=archive.ubuntu.com&type=A\" | jq '{Status, n: (.Answer // [] | length)}'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "cloudflare-dns.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "github-actions-plugin/skills/github-actions-inspection/REFERENCE.md",
+        "line": 192,
+        "excerpt": "curl -s \"https://dns.google/resolve?name=github.com&type=A\" | jq '{Status, n: (.Answer // [] | length)}'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "dns.google"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "github-actions-plugin/skills/github-actions-inspection/REFERENCE.md",
+        "line": 220,
+        "excerpt": "> `apt-get install` from 14:38Z to 16:49Z, across four attempts. The mirrors",
         "disclosed": false,
         "automatic": false
       },
@@ -67,7 +108,7 @@
       {
         "ruleId": "shell",
         "file": "github-actions-plugin/skills/github-actions-inspection/SKILL.md",
-        "line": 126,
+        "line": 132,
         "excerpt": "gh run cancel <run-id>",
         "disclosed": true,
         "automatic": false
@@ -75,7 +116,7 @@
       {
         "ruleId": "shell",
         "file": "github-actions-plugin/skills/github-actions-inspection/SKILL.md",
-        "line": 135,
+        "line": 141,
         "excerpt": "gh run list --status=failure --limit 10",
         "disclosed": true,
         "automatic": false
@@ -83,7 +124,7 @@
       {
         "ruleId": "shell",
         "file": "github-actions-plugin/skills/github-actions-inspection/SKILL.md",
-        "line": 146,
+        "line": 152,
         "excerpt": "gh run list --commit=<sha>",
         "disclosed": true,
         "automatic": false
@@ -91,7 +132,7 @@
       {
         "ruleId": "shell",
         "file": "github-actions-plugin/skills/github-actions-inspection/SKILL.md",
-        "line": 157,
+        "line": 163,
         "excerpt": "gh run view <run-id> --log-failed",
         "disclosed": true,
         "automatic": false
@@ -99,7 +140,7 @@
       {
         "ruleId": "shell",
         "file": "github-actions-plugin/skills/github-actions-inspection/SKILL.md",
-        "line": 177,
+        "line": 183,
         "excerpt": "gh run view <run-id> --json jobs --jq '.jobs[] | {name, conclusion}'",
         "disclosed": true,
         "automatic": false
@@ -107,7 +148,7 @@
       {
         "ruleId": "shell",
         "file": "github-actions-plugin/skills/github-actions-inspection/SKILL.md",
-        "line": 190,
+        "line": 196,
         "excerpt": "gh run view <run-id> --json startedAt,completedAt,durationMs",
         "disclosed": true,
         "automatic": false
@@ -115,18 +156,19 @@
       {
         "ruleId": "shell",
         "file": "github-actions-plugin/skills/github-actions-inspection/SKILL.md",
-        "line": 202,
+        "line": 208,
         "excerpt": "gh run list --status=in_progress",
         "disclosed": true,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "downloads-code": 1,
+      "downloads-code": 2,
+      "network": 3,
       "shell": 12
     },
-    "score": 82,
-    "band": "low",
+    "score": 79,
+    "band": "review",
     "rulesVersion": "1.3.0",
     "filesScanned": 3,
     "filesSkipped": 0
@@ -142,6 +184,12 @@
       "commit": "16af2dca8c1e706bab01e003bf03a7d19192b346",
       "scannedAt": "2026-11-09T10:28:36.295Z",
       "score": 82,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "b47840019d190aa9afa1fd8d6d42ddd584a45641",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 79,
       "rulesVersion": "1.3.0"
     }
   ]

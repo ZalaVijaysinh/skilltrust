@@ -4,30 +4,199 @@
   "repo": "dotfiles",
   "path": "tools/agents/config/skills/review-code",
   "name": "review-code",
-  "description": "",
+  "description": "Standalone code review for any scope — PR number, branch, file paths, or current changes. Synthesizes intent, runs 13 parallel specialized agents, plus one that checks rule consistency when instruction files change, one that checks where the PR's edits land when the base branch has changed its files, and one that checks whether merging another open PR that shares its files would undo its edits, and presents actionable findings with a verdict. A dependency update (Dependabot, Renovate, any lockfile change) gets a check of each release it adopts instead. For PR scope, optionally posts the review to GitHub with inline comments.",
   "stars": 24,
   "category": "coding",
-  "commit": "05882853b1a73665b6a031cddd02cb2df89bc45b",
-  "contentHash": "99630eb54191dbe82fa09af1a237bcc22be2150c62e8d98e021e468ffad3ea5a",
+  "commit": "fde628742507827aa97bd7909486b72f7456c17e",
+  "contentHash": "452828101e5fb56d3295b2ea187f3fce436ca0cf8913397f54fab0860ab2939f",
   "repoCreatedAt": "2020-08-02T22:33:08Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "tools/agents/config/skills/review-code/SKILL.md",
+        "line": 44,
+        "excerpt": "gh pr view <n> -R <owner>/<repo> --json title,body,number,headRefName,headRefOid,baseRefOid,author,mergeable",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tools/agents/config/skills/review-code/SKILL.md",
+        "line": 58,
+        "excerpt": "gh api repos/<owner>/<repo>/compare/<baseRefOid>...<headRefOid> -q .merge_base_commit.sha",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tools/agents/config/skills/review-code/SKILL.md",
+        "line": 70,
+        "excerpt": "uv run <skill-base-dir>/scripts/base_moved.py <n> --repo <owner>/<repo>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tools/agents/config/skills/review-code/SKILL.md",
+        "line": 84,
+        "excerpt": "uv run <skill-base-dir>/../review-pr-comments-converge/scripts/fetch_pr_comments.py <n> --repo <owner>/<repo>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tools/agents/config/skills/review-code/SKILL.md",
+        "line": 101,
+        "excerpt": "uv run <skill-base-dir>/scripts/overlapping_prs.py <n> --repo <owner>/<repo>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tools/agents/config/skills/review-code/SKILL.md",
+        "line": 142,
+        "excerpt": "uv run <skill-base-dir>/scripts/review_dependency_bump.py <pr-number> --repo <owner>/<repo>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tools/agents/config/skills/review-code/SKILL.md",
+        "line": 195,
+        "excerpt": "dir=\"$(mktemp -d)\" && gh api repos/<owner>/<repo>/tarball/<head-sha> > \"$dir/src.tar.gz\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tools/agents/config/skills/review-code/SKILL.md",
+        "line": 1044,
+        "excerpt": "uv run <skill-base-dir>/scripts/compare_heads.py <pr-number> --repo <owner>/<repo> --old-base <saved baseRefOid> --old-head <saved headRefOid>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tools/agents/config/skills/review-code/SKILL.md",
+        "line": 1167,
+        "excerpt": "uv run <skill-base-dir>/scripts/post_review.py <pr-number> <review.json> --repo <owner>/<repo> --dry-run",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tools/agents/config/skills/review-code/scripts/base_moved.py",
+        "line": 56,
+        "excerpt": "result = subprocess.run([\"gh\", *args], check=False, capture_output=True, text=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tools/agents/config/skills/review-code/scripts/compare_heads.py",
+        "line": 56,
+        "excerpt": "result = subprocess.run([\"gh\", *args], check=False, capture_output=True, text=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tools/agents/config/skills/review-code/scripts/overlapping_prs.py",
+        "line": 85,
+        "excerpt": "result = subprocess.run([\"gh\", *args], check=False, capture_output=True, text=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tools/agents/config/skills/review-code/scripts/post_review.py",
+        "line": 199,
+        "excerpt": "result = subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tools/agents/config/skills/review-code/scripts/post_review.py",
+        "line": 212,
+        "excerpt": "stdin=subprocess.DEVNULL,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tools/agents/config/skills/review-code/scripts/post_review.py",
+        "line": 227,
+        "excerpt": "result = subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tools/agents/config/skills/review-code/scripts/post_review.py",
+        "line": 229,
+        "excerpt": "stdin=subprocess.DEVNULL,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tools/agents/config/skills/review-code/scripts/post_review.py",
+        "line": 305,
+        "excerpt": "result = subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tools/agents/config/skills/review-code/scripts/review_dependency_bump.py",
+        "line": 141,
+        "excerpt": "def run(cmd: Sequence[str], cwd: Path | None = None) -> subprocess.CompletedProcess[str]:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tools/agents/config/skills/review-code/scripts/review_dependency_bump.py",
+        "line": 143,
+        "excerpt": "return subprocess.run(list(cmd), cwd=cwd, check=False, capture_output=True, text=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tools/agents/config/skills/review-code/scripts/review_dependency_bump.py",
+        "line": 149,
+        "excerpt": "cmd: Sequence[str], result: subprocess.CompletedProcess[str]",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 34
+    },
+    "score": 97,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 7
+    "filesScanned": 11,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "05882853b1a73665b6a031cddd02cb2df89bc45b",
       "scannedAt": "2026-11-09T10:28:36.295Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "fde628742507827aa97bd7909486b72f7456c17e",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 97,
       "rulesVersion": "1.3.0"
     }
   ]

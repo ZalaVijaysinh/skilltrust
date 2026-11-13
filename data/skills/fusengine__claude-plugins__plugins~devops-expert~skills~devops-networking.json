@@ -1,0 +1,74 @@
+{
+  "id": "fusengine__claude-plugins__plugins~devops-expert~skills~devops-networking",
+  "owner": "Fusengine",
+  "repo": "claude-plugins",
+  "path": "plugins/devops-expert/skills/devops-networking",
+  "name": "devops-networking",
+  "description": "Use when configuring or debugging Linux server and infrastructure networking - host firewall with nftables (iptables-nft, ufw, firewalld as front-ends), bridges/bonds/VLANs with netplan, ifupdown2, systemd-networkd or NetworkManager, static and policy routing, DNS (systemd-resolved, Unbound/BIND/CoreDNS, split-horizon), TLS and ACME certificates (certbot, acme.sh, lego, HTTP-01 vs DNS-01), reverse proxies (Traefik, Nginx, Caddy, HAProxy), WireGuard (and Tailscale/Headscale as a pointer) and layer-by-layer network troubleshooting. Not for Kubernetes networking, Gateway API or CNI (devops-kubernetes, devops-k8s-cluster), Docker networks (devops-docker), Proxmox SDN (devops-proxmox), Neutron (devops-openstack), or security audit and TLS grading (fuse-security:security-headers, security-expert).",
+  "stars": 36,
+  "category": "devops",
+  "commit": "d7d63dbe5aab6107e84808ceb694fa5be6c2eb7c",
+  "contentHash": "0c31a6dbc8b5fef4568a9e35a95b208b8c26565ceed0fcb021f5d07dd535259c",
+  "repoCreatedAt": "2026-01-10T00:24:26Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": true,
+  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "plugins/devops-expert/skills/devops-networking/SKILL.md",
+        "line": 148,
+        "excerpt": "ip -br a ; ip r ; ip rule                     # state",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/devops-expert/skills/devops-networking/SKILL.md",
+        "line": 155,
+        "excerpt": "curl -sv -o /dev/null https://host/ 2>&1 | grep -E 'HTTP/|subject|expire'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "host"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/devops-expert/skills/devops-networking/references/safe-network-changes.md",
+        "line": 38,
+        "excerpt": "| ifupdown2 (`/etc/network/interfaces`) | `ifquery -a -c` is NOT a safe check; read the diff | no built-in timer: `cp interfaces interfaces.bak` then `systemd-r",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/devops-expert/skills/devops-networking/references/safe-network-changes.md",
+        "line": 58,
+        "excerpt": "| `rm -rf /etc/letsencrypt` / deleting `acme.json` | Loses the account key and issued certificates; re-issuing counts against CA rate limits | Back up first |",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 2,
+      "network": 1,
+      "writes-outside": 1
+    },
+    "score": 82,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 6,
+    "filesSkipped": 17
+  },
+  "history": [
+    {
+      "commit": "d7d63dbe5aab6107e84808ceb694fa5be6c2eb7c",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 82,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

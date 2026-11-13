@@ -4,22 +4,22 @@
   "repo": "claude-plugins",
   "path": "tools-plugin/skills/zsh-gotchas",
   "name": "zsh-gotchas",
-  "description": "Four zsh expansions that silently rewrite a command: $VAR:word modifiers, a leading =, no word splitting, `path` tied to PATH. Use when a zsh one-liner gives a wrong result or a tool seems missing.",
-  "stars": 59,
+  "description": "Zsh expansions that rewrite a command: $VAR:word, leading =, no word splitting, `path` tied to PATH, bare `local`. Use when a zsh command gives a wrong result, dumps variables or a tool seems missing.",
+  "stars": 60,
   "category": "coding",
-  "commit": "16af2dca8c1e706bab01e003bf03a7d19192b346",
-  "contentHash": "f0d9458837cda789bf60d76dfaa1a3bb81ca8a346eb8326e35c56ee11cb4d0f1",
+  "commit": "b47840019d190aa9afa1fd8d6d42ddd584a45641",
+  "contentHash": "a0f12db20563b28f55728078d128819946bc47941b9d71772adfefee00570e85",
   "repoCreatedAt": "2025-12-16T11:24:04Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
     "findings": [
       {
         "ruleId": "network",
         "file": "tools-plugin/skills/zsh-gotchas/SKILL.md",
-        "line": 51,
+        "line": 54,
         "excerpt": "curl \"https://…/v1beta/models/$MODEL:generateContent\"",
         "disclosed": false,
         "automatic": false,
@@ -30,7 +30,7 @@
       {
         "ruleId": "shell",
         "file": "tools-plugin/skills/zsh-gotchas/SKILL.md",
-        "line": 51,
+        "line": 54,
         "excerpt": "curl \"https://…/v1beta/models/$MODEL:generateContent\"",
         "disclosed": true,
         "automatic": false
@@ -38,7 +38,7 @@
       {
         "ruleId": "network",
         "file": "tools-plugin/skills/zsh-gotchas/SKILL.md",
-        "line": 65,
+        "line": 68,
         "excerpt": "curl \"https://…/v1beta/models/${MODEL}:generateContent\"",
         "disclosed": false,
         "automatic": false,
@@ -49,7 +49,7 @@
       {
         "ruleId": "shell",
         "file": "tools-plugin/skills/zsh-gotchas/SKILL.md",
-        "line": 65,
+        "line": 68,
         "excerpt": "curl \"https://…/v1beta/models/${MODEL}:generateContent\"",
         "disclosed": true,
         "automatic": false
@@ -57,7 +57,7 @@
       {
         "ruleId": "shell",
         "file": "tools-plugin/skills/zsh-gotchas/SKILL.md",
-        "line": 88,
+        "line": 91,
         "excerpt": "zsh -fc 'echo a; echo ======; echo b'",
         "disclosed": true,
         "automatic": false
@@ -65,7 +65,7 @@
       {
         "ruleId": "shell",
         "file": "tools-plugin/skills/zsh-gotchas/SKILL.md",
-        "line": 120,
+        "line": 123,
         "excerpt": "for spec in \"ForumViriumHelsinki/infrastructure 2379\" \"ForumViriumHelsinki/.github 127\"; do",
         "disclosed": true,
         "automatic": false
@@ -73,7 +73,7 @@
       {
         "ruleId": "shell",
         "file": "tools-plugin/skills/zsh-gotchas/SKILL.md",
-        "line": 137,
+        "line": 140,
         "excerpt": "for spec in \"ForumViriumHelsinki/infrastructure 2379\"; do read -r repo num <<< \"$spec\"; gh pr view \"$num\" -R \"$repo\" --json state; done",
         "disclosed": true,
         "automatic": false
@@ -81,7 +81,7 @@
       {
         "ruleId": "shell",
         "file": "tools-plugin/skills/zsh-gotchas/SKILL.md",
-        "line": 179,
+        "line": 182,
         "excerpt": "while IFS=$'\\t' read -r key title labels path; do",
         "disclosed": true,
         "automatic": false
@@ -89,7 +89,7 @@
       {
         "ruleId": "shell",
         "file": "tools-plugin/skills/zsh-gotchas/SKILL.md",
-        "line": 199,
+        "line": 202,
         "excerpt": "while IFS=$'\\t' read -r key title labels bodyfile; do gh issue create --title \"$title\" --body-file \"$bodyfile\"; done < list.tsv",
         "disclosed": true,
         "automatic": false
@@ -97,7 +97,7 @@
       {
         "ruleId": "shell",
         "file": "tools-plugin/skills/zsh-gotchas/SKILL.md",
-        "line": 213,
+        "line": 216,
         "excerpt": "gh issue list --state open --limit 30 --json number,createdAt",
         "disclosed": true,
         "automatic": false
@@ -105,7 +105,23 @@
       {
         "ruleId": "shell",
         "file": "tools-plugin/skills/zsh-gotchas/SKILL.md",
-        "line": 226,
+        "line": 231,
+        "excerpt": "status_line() { local $names; set_colours; print \"${green}ok${rst}\"; }",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tools-plugin/skills/zsh-gotchas/SKILL.md",
+        "line": 250,
+        "excerpt": "local green red yellow                  # write the names out",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tools-plugin/skills/zsh-gotchas/SKILL.md",
+        "line": 277,
         "excerpt": "zsh -fc 'M=models/x; echo \"$M:generateContent\"; echo \"${M}:generateContent\"'",
         "disclosed": true,
         "automatic": false
@@ -113,15 +129,23 @@
       {
         "ruleId": "shell",
         "file": "tools-plugin/skills/zsh-gotchas/SKILL.md",
-        "line": 230,
+        "line": 281,
         "excerpt": "zsh -fc 'v=\"a b\"; set -- $v; echo \"bare: 1=[$1] 2=[$2]\"; set -- ${=v}; echo \"split: 1=[$1] 2=[$2]\"'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tools-plugin/skills/zsh-gotchas/SKILL.md",
+        "line": 291,
+        "excerpt": "zsh -fc 'f() { local $nothing; }; f | wc -l'; bash -c 'f() { local $nothing; }; f | wc -l'",
         "disclosed": true,
         "automatic": false
       }
     ],
     "findingTotals": {
       "network": 2,
-      "shell": 10
+      "shell": 13
     },
     "score": 92,
     "band": "low",
@@ -139,6 +163,12 @@
     {
       "commit": "16af2dca8c1e706bab01e003bf03a7d19192b346",
       "scannedAt": "2026-11-09T10:28:36.295Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "b47840019d190aa9afa1fd8d6d42ddd584a45641",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
       "score": 92,
       "rulesVersion": "1.3.0"
     }

@@ -4,22 +4,22 @@
   "repo": "kube-agents",
   "path": "agents/platform/skills/fleet-audit",
   "name": "fleet-audit",
-  "description": "Publish the findings of an autonomous fleet audit as one continuously-rewritten issue per audit stream on the GitOps repository's forge, and propose fixes as narrow remediation pull requests (merge requests on GitLab).",
-  "stars": 124,
+  "description": "Publish the findings of an autonomous fleet audit as one continuously-rewritten issue per audit stream per install on the GitOps repository's forge, and propose fixes as narrow remediation pull requests (merge requests on GitLab).",
+  "stars": 126,
   "category": "security",
-  "commit": "26dabb5f82fb077919624f7051b31c76fa5e6814",
-  "contentHash": "ffa282784f5b41e60eb627c5ecbe6cb05b406a5d70abb17c024f19c5be4f172f",
+  "commit": "e9a8105f6fbd52d51780c0fa524f960463304bc0",
+  "contentHash": "22e806c138e814ecaabdda8f724dfb3802761852b619f10240381b6287f846a4",
   "repoCreatedAt": "2026-05-07T15:51:52Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "agents/platform/skills/fleet-audit/SKILL.md",
-        "line": 77,
+        "line": 92,
         "excerpt": "/opt/data/profiles/platform/skills/fleet-audit/scripts/audit_report.py start --audit <audit-id> [--repo \"<owner>/<repo>\"]",
         "disclosed": false,
         "automatic": false
@@ -27,7 +27,7 @@
       {
         "ruleId": "shell",
         "file": "agents/platform/skills/fleet-audit/SKILL.md",
-        "line": 104,
+        "line": 123,
         "excerpt": "/opt/data/profiles/platform/skills/fleet-audit/scripts/audit_report.py finish --audit <audit-id> --findings-file <findings_path> \\",
         "disclosed": false,
         "automatic": false
@@ -43,7 +43,7 @@
       {
         "ruleId": "shell",
         "file": "agents/platform/skills/fleet-audit/scripts/collect.py",
-        "line": 6101,
+        "line": 6107,
         "excerpt": "not a flag. Under `sh -c` the code string *is* a command line, so its words",
         "disclosed": false,
         "automatic": false
@@ -51,7 +51,7 @@
       {
         "ruleId": "shell",
         "file": "agents/platform/skills/fleet-audit/scripts/collect.py",
-        "line": 6103,
+        "line": 6109,
         "excerpt": "also finds the `--model` in `sh -c \"vllm serve --model foo\"` that a",
         "disclosed": false,
         "automatic": false
@@ -75,7 +75,7 @@
       {
         "ruleId": "shell",
         "file": "agents/platform/skills/fleet-audit/scripts/fleet_stockout.py",
-        "line": 82,
+        "line": 83,
         "excerpt": "import subprocess  # noqa: F401 -- the tests patch subprocess.run through this module's name",
         "disclosed": false,
         "automatic": false
@@ -83,7 +83,7 @@
       {
         "ruleId": "shell",
         "file": "agents/platform/skills/fleet-audit/scripts/fleet_waste.py",
-        "line": 70,
+        "line": 71,
         "excerpt": "import subprocess  # noqa: F401 -- the tests patch subprocess.run through this module's name",
         "disclosed": false,
         "automatic": false
@@ -91,7 +91,7 @@
       {
         "ruleId": "network",
         "file": "agents/platform/skills/fleet-audit/scripts/fleet_waste.py",
-        "line": 341,
+        "line": 342,
         "excerpt": "MONITORING_CURL_PREFIX = 'curl -sG --oauth2-bearer \"$(gcloud auth print-access-token)\"'",
         "disclosed": false,
         "automatic": false,
@@ -103,6 +103,14 @@
         "line": 84,
         "excerpt": "import subprocess  # noqa: F401 -- the tests patch subprocess.run through this module's name",
         "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "agents/platform/skills/fleet-audit/scripts/recheck.py",
+        "line": 410,
+        "excerpt": "env = {**os.environ, \"KUBECONFIG\": kubeconfig} if kubeconfig else dict(os.environ)",
+        "disclosed": true,
         "automatic": false
       },
       {
@@ -172,7 +180,7 @@
       {
         "ruleId": "shell",
         "file": "agents/platform/skills/fleet-audit/scripts/test_fleet_stockout.py",
-        "line": 3588,
+        "line": 3663,
         "excerpt": "exc = subprocess.TimeoutExpired([\"gcloud\"], 60, output=b\"partial\", stderr=b\"SERVICE_DISABLED\")",
         "disclosed": false,
         "automatic": false
@@ -180,7 +188,7 @@
       {
         "ruleId": "shell",
         "file": "agents/platform/skills/fleet-audit/scripts/test_fleet_stockout.py",
-        "line": 4139,
+        "line": 4214,
         "excerpt": "proc = subprocess.run([sys.executable, fs.__file__, \"--help\"], capture_output=True, text=True, timeout=120)",
         "disclosed": false,
         "automatic": false
@@ -359,12 +367,13 @@
     ],
     "findingTotals": {
       "shell": 26,
-      "network": 45
+      "network": 45,
+      "reads-secrets": 1
     },
-    "score": 90,
+    "score": 80,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 53,
+    "filesScanned": 59,
     "filesSkipped": 4
   },
   "history": [
@@ -378,6 +387,12 @@
       "commit": "26dabb5f82fb077919624f7051b31c76fa5e6814",
       "scannedAt": "2026-11-09T10:28:36.295Z",
       "score": 90,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "e9a8105f6fbd52d51780c0fa524f960463304bc0",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 80,
       "rulesVersion": "1.3.0"
     }
   ]

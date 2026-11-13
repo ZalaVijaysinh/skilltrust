@@ -4,30 +4,157 @@
   "repo": "dotfiles",
   "path": ".agents/skills/container",
   "name": "container",
-  "description": "",
+  "description": "Apple's native `container` CLI for running Linux containers as lightweight per-container VMs on macOS 26 Apple Silicon. Load when creating, configuring, managing, backing up, sharing, or deleting containers, images, volumes, or networks with `container`; when `container` or `container system start` fails; or when choosing between `container` and Docker/Podman/Colima on a Mac.",
   "stars": 13,
-  "category": "other",
-  "commit": "5826b953b41ff4c71e545fe23f9fc20d63364238",
+  "category": "devops",
+  "commit": "b2d15ba67526a7ed5e69bb43efd3fb9ed779a7ad",
   "contentHash": "ac014af65a51e83fd57bb96cd22e7c57b84a0bb4788cf3b6d78c80c5583b1204",
   "repoCreatedAt": "2019-08-16T15:36:50Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/container/SKILL.md",
+        "line": 51,
+        "excerpt": "container run -d --name web nginx:alpine   # note: no -p",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/container/SKILL.md",
+        "line": 53,
+        "excerpt": "curl http://192.168.64.10/                 # → 200, straight from the host",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "192.168.64.10"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/container/SKILL.md",
+        "line": 62,
+        "excerpt": "missing. `brew install container` does wire up a service, but lags the official",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/container/SKILL.md",
+        "line": 66,
+        "excerpt": "gh release download --repo apple/container --pattern '*-installer-signed.pkg' --dir /tmp",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/container/SKILL.md",
+        "line": 99,
+        "excerpt": "container run --rm alpine echo hello               # one-shot, auto-removed",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/container/SKILL.md",
+        "line": 113,
+        "excerpt": "container build -t my-app:latest .                 # BuildKit; Dockerfile, else Containerfile",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/container/SKILL.md",
+        "line": 126,
+        "excerpt": "container machine create --cpus 4 --memory 8G --set-default alpine:3.22",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/container/SKILL.md",
+        "line": 134,
+        "excerpt": "container system property list                     # all system properties (toml; --format json)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/container/SKILL.md",
+        "line": 148,
+        "excerpt": "container ls -a                                    # --all includes stopped",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/container/SKILL.md",
+        "line": 167,
+        "excerpt": "container image save -o my-app.tar my-app:latest   # image → tar",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".agents/skills/container/SKILL.md",
+        "line": 173,
+        "excerpt": "container cp ./config.json web:/etc/app/           # host → container (must be running)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/container/SKILL.md",
+        "line": 181,
+        "excerpt": "container run --rm -v mydata:/data alpine tar -cf - -C /data . > mydata-backup.tar",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/container/SKILL.md",
+        "line": 188,
+        "excerpt": "container registry login ghcr.io -u <user> --password-stdin < token.txt",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/container/SKILL.md",
+        "line": 206,
+        "excerpt": "container rm web              ; container prune            # stopped containers",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 11,
+      "network": 1,
+      "downloads-code": 1,
+      "writes-outside": 1
+    },
+    "score": 74,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 1
+    "filesScanned": 1,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "5826b953b41ff4c71e545fe23f9fc20d63364238",
       "scannedAt": "2026-11-09T10:28:36.295Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "b2d15ba67526a7ed5e69bb43efd3fb9ed779a7ad",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 74,
       "rulesVersion": "1.3.0"
     }
   ]

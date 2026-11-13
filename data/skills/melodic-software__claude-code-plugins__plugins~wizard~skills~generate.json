@@ -7,19 +7,30 @@
   "description": "Write a bash script, an interactive wizard, to guide a person through setup work only they can carry out. The agent writes the script and never executes it; the person runs it in their own terminal. Use when: 'provisioning infrastructure', 'provisioning credentials', 'set up CI secrets', 'walk me through the dashboard', 'guided setup script', 'one-off migration', 'cutover', or progress is blocked on a manual dashboard, credential, or third-party-console step. Skip it for any step the agent can do on its own.",
   "stars": 30,
   "category": "coding",
-  "commit": "677e7988f432dacb5e2d4df2b124f96da8e8f9f3",
-  "contentHash": "eb6cb442860c63978165cf571b7aad628b5073305f8337f0e8abb45a65d79780",
+  "commit": "230251cc750b562576c144d595b7cc0fabfceae9",
+  "contentHash": "c52f2abbdd48a3f917a65caeb0dd077b6a1a2592b743ed2b8e3aed11729986e7",
   "repoCreatedAt": "2026-06-22T18:28:56Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
     "findings": [
       {
+        "ruleId": "network",
+        "file": "plugins/wizard/skills/generate/template.sh",
+        "line": 778,
+        "excerpt": "curl -fsS -o /dev/null -H @- https://api.mail.example.com/v1/domains # prereq-ok: example stage the author deletes",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.mail.example.com"
+        ]
+      },
+      {
         "ruleId": "shell",
         "file": "plugins/wizard/skills/generate/template.test.sh",
-        "line": 285,
+        "line": 306,
         "excerpt": "env -i PATH=\"$PATH\" WIZARD_TEST_TTY=/dev/null bash -c '",
         "disclosed": true,
         "automatic": false
@@ -27,24 +38,66 @@
       {
         "ruleId": "shell",
         "file": "plugins/wizard/skills/generate/template.test.sh",
-        "line": 348,
+        "line": 369,
         "excerpt": "(write_env WIZ_EXPORTED injected; printf 'child=[%s]\\n' \"$(bash -c 'printf %s \"$WIZ_EXPORTED\"')\")",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/wizard/skills/generate/template.test.sh",
+        "line": 375,
+        "excerpt": "printf 'file=[%s]\\n' \"$(cat .env 2>/dev/null)\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/wizard/skills/generate/template.test.sh",
+        "line": 409,
+        "excerpt": "printf 'file=[%s]\\n' \"$(cat .env)\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/wizard/skills/generate/template.test.sh",
+        "line": 611,
+        "excerpt": "printf 'target=[%s]\\n' \"\\$(cat \"\\$outside/.env\")\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/wizard/skills/generate/template.test.sh",
+        "line": 625,
+        "excerpt": "printf 'target=[%s]\\n' \"$(cat real/.env)\"",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "plugins/wizard/skills/generate/template.test.sh",
-        "line": 732,
+        "line": 753,
         "excerpt": "sourced=\"$(bash -c 'set -a; . ./.env; printf \"%s\" \"$TRICKY\"')\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/wizard/skills/generate/template.test.sh",
+        "line": 998,
+        "excerpt": "got=\"$(env WIZARD_TEST_TTY=/dev/null OSTYPE=\"${platform%%:*}\" bash -c \\",
         "disclosed": true,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 3
+      "network": 1,
+      "shell": 4,
+      "reads-secrets": 4
     },
-    "score": 97,
+    "score": 82,
     "band": "low",
     "rulesVersion": "1.3.0",
     "filesScanned": 5,
@@ -61,6 +114,12 @@
       "commit": "677e7988f432dacb5e2d4df2b124f96da8e8f9f3",
       "scannedAt": "2026-11-09T10:28:36.295Z",
       "score": 97,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "230251cc750b562576c144d595b7cc0fabfceae9",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 82,
       "rulesVersion": "1.3.0"
     }
   ]

@@ -1,0 +1,174 @@
+{
+  "id": "panaversity__agentfactory-manufacturing__connector-native-apps~.claude~skills~live-connector",
+  "owner": "panaversity",
+  "repo": "agentfactory-manufacturing",
+  "path": "connector-native-apps/.claude/skills/live-connector",
+  "name": "live-connector",
+  "description": "Expose the local connector gateway over a free Cloudflare quick-tunnel (auth OFF) so a claude.ai or ChatGPT custom connector can reach it, and hand the human the public URL. Use this for Part 5 whenever someone wants to run their connector live, get the connector URL, (re)start or refresh the tunnel, or take it down. This is the auth-OFF demo path (AUTH_DISABLED=1); real OAuth + a real sign-in service is the AI Identity course.",
+  "stars": 17,
+  "category": "other",
+  "commit": "a82c657e3e107e96076f4966d7a56373e7a4188a",
+  "contentHash": "b0c52c11d6c042f8d3df5dee460ee9b7093e5b8222e6484258b128554d044b2e",
+  "repoCreatedAt": "2026-05-22T09:41:50Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "connector-native-apps/.claude/skills/live-connector/SKILL.md",
+        "line": 33,
+        "excerpt": "command -v cloudflared >/dev/null || {",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "connector-native-apps/.claude/skills/live-connector/SKILL.md",
+        "line": 35,
+        "excerpt": "if   command -v brew    >/dev/null; then brew install cloudflared",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "connector-native-apps/.claude/skills/live-connector/SKILL.md",
+        "line": 40,
+        "excerpt": "curl -fsSL https://pkg.cloudflare.com/cloudflare-main.gpg | sudo tee /usr/share/keyrings/cloudflare-main.gpg >/dev/null",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "connector-native-apps/.claude/skills/live-connector/SKILL.md",
+        "line": 40,
+        "excerpt": "curl -fsSL https://pkg.cloudflare.com/cloudflare-main.gpg | sudo tee /usr/share/keyrings/cloudflare-main.gpg >/dev/null",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "pkg.cloudflare.com"
+        ]
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "connector-native-apps/.claude/skills/live-connector/SKILL.md",
+        "line": 42,
+        "excerpt": "| sudo tee /etc/apt/sources.list.d/cloudflared.list >/dev/null",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "connector-native-apps/.claude/skills/live-connector/SKILL.md",
+        "line": 43,
+        "excerpt": "sudo apt-get update -qq && sudo apt-get install -y cloudflared",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "connector-native-apps/.claude/skills/live-connector/SKILL.md",
+        "line": 52,
+        "excerpt": "python3 -c \"import re;p='.env';s=open(p).read();s=re.sub(r'(?m)^AUTH_DISABLED=.*$','AUTH_DISABLED=1',s) if re.search(r'(?m)^AUTH_DISABLED=',s) else s+'\\nAUTH_DI",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "connector-native-apps/.claude/skills/live-connector/SKILL.md",
+        "line": 57,
+        "excerpt": "pkill -f \"cloudflared tunnel\"; pkill -f \"connector_app.server\"; sleep 2",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "connector-native-apps/.claude/skills/live-connector/SKILL.md",
+        "line": 62,
+        "excerpt": "uv run python -m connector_app.server > /tmp/gateway.log 2>&1     # run in the background",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "connector-native-apps/.claude/skills/live-connector/SKILL.md",
+        "line": 63,
+        "excerpt": "until curl -s -o /dev/null http://127.0.0.1:8000/health 2>/dev/null \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "connector-native-apps/.claude/skills/live-connector/SKILL.md",
+        "line": 64,
+        "excerpt": "|| curl -s -o /dev/null http://127.0.0.1:8000/mcp; do sleep 1; done",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "connector-native-apps/.claude/skills/live-connector/SKILL.md",
+        "line": 71,
+        "excerpt": "cloudflared tunnel --url http://127.0.0.1:8000 --http-host-header 127.0.0.1:8000 --no-autoupdate \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "connector-native-apps/.claude/skills/live-connector/SKILL.md",
+        "line": 77,
+        "excerpt": "until grep -qoE 'https://[a-z0-9-]+\\.trycloudflare\\.com' /tmp/cf.log; do sleep 1; done",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "connector-native-apps/.claude/skills/live-connector/SKILL.md",
+        "line": 84,
+        "excerpt": "curl -s -o /dev/null -w \"tunnel /mcp (no token) → HTTP %{http_code} (want 200)\\n\" -X POST \"$URL/mcp\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "connector-native-apps/.claude/skills/live-connector/SKILL.md",
+        "line": 84,
+        "excerpt": "curl -s -o /dev/null -w \"tunnel /mcp (no token) → HTTP %{http_code} (want 200)\\n\" -X POST \"$URL/mcp\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "connector-native-apps/.claude/skills/live-connector/SKILL.md",
+        "line": 108,
+        "excerpt": "python3 -c \"import re;p='.env';s=open(p).read();open(p,'w').write(re.sub(r'(?m)^AUTH_DISABLED=.*$','AUTH_DISABLED=0',s))\"",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 8,
+      "downloads-code": 2,
+      "writes-outside": 2,
+      "network": 4
+    },
+    "score": 67,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "a82c657e3e107e96076f4966d7a56373e7a4188a",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 67,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

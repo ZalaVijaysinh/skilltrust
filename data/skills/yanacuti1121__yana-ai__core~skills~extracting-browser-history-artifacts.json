@@ -4,30 +4,145 @@
   "repo": "Yana-AI",
   "path": "core/skills/extracting-browser-history-artifacts",
   "name": "extracting-browser-history-artifacts",
-  "description": "",
-  "stars": 11,
+  "description": "Extract and analyze browser history, cookies, cache, downloads, and bookmarks",
+  "stars": 13,
   "category": "coding",
-  "commit": "4a78f208d4b8cea9b6e4c33c40ffdb531daa0b7f",
+  "commit": "54d4aa9fa3241319f4d37212bd23826658bf6bed",
   "contentHash": "9e0fe7620414f57bc1b360b3edde2ef4796922b3b2dbebd3fa724722dc75d1b4",
   "repoCreatedAt": "2026-05-17T00:35:59Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "core/skills/extracting-browser-history-artifacts/SKILL.md",
+        "line": 57,
+        "excerpt": "mount -o ro,loop,offset=$((2048*512)) /cases/case-2024-001/images/evidence.dd /mnt/evidence",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "browser-secrets",
+        "file": "core/skills/extracting-browser-history-artifacts/SKILL.md",
+        "line": 65,
+        "excerpt": "FIREFOX_WIN=\"/mnt/evidence/Users/suspect/AppData/Roaming/Mozilla/Firefox/Profiles/*.default-release\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "browser-secrets",
+        "file": "core/skills/extracting-browser-history-artifacts/SKILL.md",
+        "line": 76,
+        "excerpt": "cp -r $FIREFOX_WIN/{places.sqlite,cookies.sqlite,formhistory.sqlite,logins.json} \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "core/skills/extracting-browser-history-artifacts/SKILL.md",
+        "line": 90,
+        "excerpt": "sqlite3 /cases/case-2024-001/browser/chrome/History << 'SQL'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "core/skills/extracting-browser-history-artifacts/SKILL.md",
+        "line": 146,
+        "excerpt": "sqlite3 /cases/case-2024-001/browser/firefox/places.sqlite << 'SQL'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "core/skills/extracting-browser-history-artifacts/SKILL.md",
+        "line": 200,
+        "excerpt": "sqlite3 /cases/case-2024-001/browser/chrome/Cookies << 'SQL'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "browser-secrets",
+        "file": "core/skills/extracting-browser-history-artifacts/SKILL.md",
+        "line": 220,
+        "excerpt": "sqlite3 /cases/case-2024-001/browser/firefox/cookies.sqlite << 'SQL'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "core/skills/extracting-browser-history-artifacts/SKILL.md",
+        "line": 261,
+        "excerpt": "pip install pyhindsight",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "core/skills/extracting-browser-history-artifacts/SKILL.md",
+        "line": 261,
+        "excerpt": "pip install pyhindsight",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "browser-secrets",
+        "file": "core/skills/extracting-browser-history-artifacts/references/api-reference.md",
+        "line": 15,
+        "excerpt": "--firefox-dir \"/mnt/evidence/Users/suspect/AppData/Roaming/Mozilla/Firefox/Profiles/abc.default\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "browser-secrets",
+        "file": "core/skills/extracting-browser-history-artifacts/references/api-reference.md",
+        "line": 41,
+        "excerpt": "Queries `moz_cookies` from Firefox `cookies.sqlite`.",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "browser-secrets",
+        "file": "core/skills/extracting-browser-history-artifacts/scripts/agent.py",
+        "line": 128,
+        "excerpt": "\"\"\"Extract cookies from Firefox cookies.sqlite.\"\"\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "browser-secrets",
+        "file": "core/skills/extracting-browser-history-artifacts/scripts/agent.py",
+        "line": 175,
+        "excerpt": "cookies = extract_firefox_cookies(os.path.join(firefox_dir, \"cookies.sqlite\"))",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 5,
+      "browser-secrets": 7,
+      "downloads-code": 1
+    },
+    "score": 67,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 1,
-    "filesSkipped": 4
+    "filesScanned": 5,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "4a78f208d4b8cea9b6e4c33c40ffdb531daa0b7f",
       "scannedAt": "2026-11-08T09:45:03.483Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "54d4aa9fa3241319f4d37212bd23826658bf6bed",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 67,
       "rulesVersion": "1.3.0"
     }
   ]

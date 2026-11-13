@@ -4,30 +4,253 @@
   "repo": "fluxo_criativo",
   "path": ".agents/skills/trafego-criar-campanha",
   "name": "trafego-criar-campanha",
-  "description": "",
+  "description": "Base de conhecimento e fluxo executável para subir campanha nova no Meta Ads (Facebook + Instagram) via conector da Meta (MCP) ou Marketing API (modo App). Cobre apenas infoprodutos com objetivos OUTCOME_SALES (perpétuo de venda direta) e OUTCOME_LEADS (lançamento de captação), inclusive Black Friday e outras campanhas com data marcada (várias campanhas, uma por vez, com anúncio piloto). Conduz coleta de insumos lendo o resumo do produto ativo, exige pixel ativo e mapeamento de evento, mostra preview antes de criar e sobe a campanha PAUSED por padrão. Consultada pelo command /trafego-criar-campanha. Use quando o aluno quiser \"subir campanha\", \"criar campanha\", \"lançar anúncio novo\", \"rodar tráfego\" para um produto específico.",
   "stars": 18,
-  "category": "other",
-  "commit": "eee577da15962dc8b78c14a148efec91c33f6f88",
-  "contentHash": "0f679c3caa095570d38a3a59adee454b1a355d479e290e5fedff623cdb731908",
+  "category": "marketing",
+  "commit": "5cf3899064c2ea4b6f14f677f86dd08e2de30862",
+  "contentHash": "0dbca1307694e13cdadc196adee893317672a2ef7957e0088b9654dd20d4ed21",
   "repoCreatedAt": "2026-05-06T18:10:38Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/trafego-criar-campanha/SKILL.md",
+        "line": 258,
+        "excerpt": "curl -s \"https://graph.facebook.com/v25.0/act_<FB_AD_ACCOUNT_ID>/adspixels?fields=id,name,last_fired_time,is_unavailable&access_token=$(grep ^FB_ACCESS_TOKEN_PE",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "graph.facebook.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/trafego-criar-campanha/SKILL.md",
+        "line": 302,
+        "excerpt": "touch .env && sed -i '/^META_PIXEL_ID=/d' .env && { [ -z \"$(tail -c1 .env)\" ] || echo >> .env; } && printf 'META_PIXEL_ID=%s\\n' \"<id_do_pixel>\" >> .env",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/trafego-criar-campanha/SKILL.md",
+        "line": 524,
+        "excerpt": "> **Host dedicado de vídeo (regra dura).** Upload de vídeo usa o host **`graph-video.facebook.com`**, NÃO `graph.facebook.com`. Vídeos grandes (testado com cerc",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "graph-video.facebook.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/trafego-criar-campanha/SKILL.md",
+        "line": 526,
+        "excerpt": "> **Vídeo de anúncio EXIGE miniatura (regra dura).** Criar o anúncio com vídeo SEM miniatura falha com erro `100` / subcode `1443226` (*\"Your ad needs a video t",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/trafego-criar-campanha/SKILL.md",
+        "line": 777,
+        "excerpt": "- **`APP`:** subir as imagens (`POST /act_<id>/adimages`, guardar o `hash` de cada uma) e os vídeos (host `graph-video`, `POST /act_<id>/advideos`, Fase 7.1). P",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/trafego-criar-campanha/SKILL.md",
+        "line": 800,
+        "excerpt": "- **Falha em criar conjunto** → parar, retornar erro e **não apagar nada automaticamente**. A campanha órfã fica PAUSED e sem conjunto não gasta. Oferecer: (1) ",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/trafego-criar-campanha/SKILL.md",
+        "line": 927,
+        "excerpt": "Antes de prosseguir, conferir `FB_PAGE_ID` e `FB_INSTAGRAM_USER_ID` no `.env` (valores não sensíveis) com `grep -q \"^FB_PAGE_ID=.\" .env` (com o ponto: linha vaz",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "CLAUDE.md",
+        "line": 68,
+        "excerpt": "curl \"https://graph.facebook.com/...?access_token=EAA...\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "graph.facebook.com"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "CLAUDE.md",
+        "line": 100,
+        "excerpt": "source .env",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "CLAUDE.md",
+        "line": 101,
+        "excerpt": "curl -s \"https://graph.facebook.com/...?access_token=${FB_ACCESS_TOKEN_PERMANENTE}\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "graph.facebook.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "CLAUDE.md",
+        "line": 150,
+        "excerpt": "curl \"https://graph.facebook.com/v25.0/me?access_token=EAA1234567890abcdef...\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "graph.facebook.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "CLAUDE.md",
+        "line": 154,
+        "excerpt": "curl \"https://graph.facebook.com/v25.0/me?access_token=***TOKEN_MASCARADO***\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "graph.facebook.com"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "CLAUDE.md",
+        "line": 184,
+        "excerpt": "**Proibido mostrar o conteúdo do `.env` na tela.** Comandos que listam linhas do `.env` (ex: `cat .env`, `grep TOKEN .env`, `grep ^FB_ACCESS_TOKEN .env`) imprim",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "CLAUDE.md",
+        "line": 200,
+        "excerpt": "curl -s \"https://graph.facebook.com/v25.0/me?access_token=$(grep ^FB_ACCESS_TOKEN_PERMANENTE= .env | cut -d= -f2-)\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "graph.facebook.com"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "CLAUDE.md",
+        "line": 212,
+        "excerpt": "- `cat .env`, `head .env`, `tail .env`, `cat .env | grep ...`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "CLAUDE.md",
+        "line": 244,
+        "excerpt": "2. Para cada chamada Graph API, disparar `Bash(curl -s \"https://graph.facebook.com/...?access_token=$(grep ^FB_ACCESS_TOKEN_PERMANENTE= .env | cut -d= -f2-)\")` ",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "graph.facebook.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "CLAUDE.md",
+        "line": 249,
+        "excerpt": "### Convenção `curl -g` quando o `fields` tem campos aninhados",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "CLAUDE.md",
+        "line": 251,
+        "excerpt": "Quando o parâmetro `fields=` usar campos aninhados (ex: `campaign{name}`, `creative{video_id,thumbnail_url}`), usar `curl -g`. Sem o `-g`, o curl trata `{` e `}",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "CLAUDE.md",
+        "line": 254,
+        "excerpt": "curl -gs \"https://graph.facebook.com/v25.0/act_<id>/ads?fields=id,creative{video_id,thumbnail_url}&access_token=...\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "graph.facebook.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "CLAUDE.md",
+        "line": 320,
+        "excerpt": "- Sem ferramenta no MCP, não rodar `curl -X DELETE` direto: oferecer a alternativa que não destrói (pausar ou arquivar) ou mostrar o comando mascarado para o al",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "CLAUDE.md",
+        "line": 332,
+        "excerpt": "| Arquivar anúncio, conjunto ou campanha (apagar, não: não há ferramenta no MCP e não se roda `curl -X DELETE` direto, regra 7; a exclusão é feita à mão no Gere",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "CLAUDE.md",
+        "line": 804,
+        "excerpt": "- **Se não estiver disponível** (ferramenta ausente ou erro de conexão): use `WebFetch` para buscar o conteúdo da URL direto.",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "network": 18,
+      "shell": 1,
+      "reads-secrets": 3
+    },
+    "score": 72,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 1
+    "filesScanned": 2,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "eee577da15962dc8b78c14a148efec91c33f6f88",
       "scannedAt": "2026-11-09T10:28:36.295Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "5cf3899064c2ea4b6f14f677f86dd08e2de30862",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 72,
       "rulesVersion": "1.3.0"
     }
   ]

@@ -4,8 +4,8 @@
   "repo": "benai-skills",
   "path": "shared-skills/agentic-os-setup",
   "name": "agentic-os-setup",
-  "description": "",
-  "stars": 80,
+  "description": "Set up an agentic OS — either inside an Obsidian vault (bundled command-center dashboard, 5 auto-installed plugins, button bar wired to Claude prompts) OR as a standalone Next.js web dashboard with live MCP integrations (Circle, Fireflies, YouTube/VidIQ, Unipile LinkedIn DMs, Apify Twitter, Reddit), Anthropic Agent SDK refreshes, and optional Railway deploy. Use when the user says \"set up agentic OS\", \"install command center\", \"bootstrap a personal AI dashboard\", \"build a vault dashboard\", \"spin up an MCP-powered dashboard\", \"deploy an AI ops dashboard\", \"give me my own version of the dashboard\", \"set up my second brain dashboard\", or asks to personalize a dashboard previously created with this skill. Skill asks one routing question first — Obsidian or standalone — then runs the matching full flow.",
+  "stars": 84,
   "category": "coding",
   "commit": "4c7a2ec92f82d467e6a66a99cb5d9491d777806f",
   "contentHash": "c879e11001974739b7a65f5c08bd3d781db560c9c0447a336696f72cbcdb351e",
@@ -13,78 +13,92 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
-        "file": "shared-skills/agentic-os-setup/references/obsidian/dashboard-template.js",
-        "line": 1400,
-        "excerpt": "try { spawn = require(\"child_process\").spawn; } catch { return; }",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "shared-skills/agentic-os-setup/references/obsidian/dashboard-template.js",
-        "line": 1403,
-        "excerpt": "const child = spawn(shellPath, [\"-l\", \"-c\", \"npx -y ccusage@latest monthly --json\"], {",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "shared-skills/agentic-os-setup/references/obsidian/dashboard-template.js",
-        "line": 1408,
-        "excerpt": "child.stderr.on(\"data\", () => {}); // npx is noisy on stderr, ignore",
-        "disclosed": false,
+        "file": "shared-skills/agentic-os-setup/SKILL.md",
+        "line": 63,
+        "excerpt": "test -d .obsidian && echo \"vault confirmed\" || (echo \"NOT A VAULT — cd into your Obsidian vault first\" && exit 1)",
+        "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "shared-skills/agentic-os-setup/references/obsidian/dashboard-template.js",
-        "line": 2996,
-        "excerpt": "spawn = require(\"child_process\").spawn;",
-        "disclosed": false,
+        "file": "shared-skills/agentic-os-setup/SKILL.md",
+        "line": 153,
+        "excerpt": "node -e \"$(cat dashboard-template.js | sed 's/__[A-Z_]*__/null/g' | python3 -c 'import sys; print(f\\\"({sys.stdin.read()})\\\");')\"",
+        "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "shared-skills/agentic-os-setup/references/obsidian/dashboard-template.js",
-        "line": 2998,
-        "excerpt": "console.error(\"[dashboard] child_process unavailable\", e);",
-        "disclosed": false,
+        "file": "shared-skills/agentic-os-setup/SKILL.md",
+        "line": 177,
+        "excerpt": "mkdir -p Dashboard/components Dashboard/lib Dashboard/snapshots",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "shared-skills/agentic-os-setup/SKILL.md",
+        "line": 211,
+        "excerpt": "node --check Dashboard/components/dashboard.js || { echo \"FATAL: dashboard.js has a syntax error\"; exit 1; }",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "shared-skills/agentic-os-setup/SKILL.md",
+        "line": 220,
+        "excerpt": "cp \"$SKILL_DIR/references/obsidian/frappe-charts.min.js\" Dashboard/lib/",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "shared-skills/agentic-os-setup/SKILL.md",
+        "line": 238,
+        "excerpt": "if [ ! -d \".obsidian/plugins/$ID\" ]; then",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "shared-skills/agentic-os-setup/SKILL.md",
+        "line": 287,
+        "excerpt": "CLAUDE_BIN=\"$(zsh -ic 'command -v claude' 2>/dev/null || bash -ic 'command -v claude' 2>/dev/null || command -v claude)\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "shared-skills/agentic-os-setup/SKILL.md",
+        "line": 526,
+        "excerpt": "railway init --name <project-slug> --workspace \"<their workspace>\"",
+        "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "network",
-        "file": "shared-skills/agentic-os-setup/references/obsidian/dashboard-template.js",
-        "line": 3066,
-        "excerpt": "case \"WebFetch\":  return `Fetching ${input.url || \"\"}`;",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "shared-skills/agentic-os-setup/references/obsidian/dashboard-template.js",
-        "line": 3067,
-        "excerpt": "case \"WebSearch\": return `Web search: ${input.query || \"\"}`;",
+        "file": "shared-skills/agentic-os-setup/SKILL.md",
+        "line": 538,
+        "excerpt": "After deploy, sanity check: `curl -sI -u user:pass <url>/profile/<Name>` should return 200.",
         "disclosed": false,
         "automatic": false,
         "hosts": []
       }
     ],
     "findingTotals": {
-      "shell": 3,
-      "downloads-code": 2,
-      "network": 2
+      "shell": 8,
+      "network": 1
     },
-    "score": 75,
-    "band": "review",
+    "score": 92,
+    "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 5,
-    "filesSkipped": 89
+    "filesScanned": 13,
+    "filesSkipped": 81
   },
   "history": [
     {

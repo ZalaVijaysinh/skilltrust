@@ -1,0 +1,128 @@
+{
+  "id": "benchflow-ai__benchflow__.agents~skills~task-review",
+  "owner": "benchflow-ai",
+  "repo": "benchflow",
+  "path": ".agents/skills/task-review",
+  "name": "task-review",
+  "description": "SkillsBench task PR review — classifies the task track (standard / research / multimodal), runs static policy checks against the track-specific rubric, benchmarks the task across oracle plus Claude and Codex (with and without skills), audits trajectories for cheating and skill invocation, and produces a `pr-N-task-timestamp-run.txt` review report alongside a `prN.zip` bundle of trajectories. Use when reviewing a SkillsBench task PR (by number, branch, or local task path), when the user asks to review a task, run benchmarks on a PR, audit a submission, classify a task as research or multimodal track, or prepare a comment to post on a SkillsBench PR.",
+  "stars": 367,
+  "category": "research",
+  "commit": "21a79b5168bdf125c45b3119252ae89149164844",
+  "contentHash": "2c92959c684ef423c452a9cd4aa2fed87f3e694bf0e183f4322d39f1c9a88216",
+  "repoCreatedAt": "2025-01-21T22:44:48Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/task-review/SKILL.md",
+        "line": 33,
+        "excerpt": "scripts/fetch_pr.sh <pr_number> <workspace>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/task-review/SKILL.md",
+        "line": 70,
+        "excerpt": "scripts/run_experiments.sh <task_dir> <jobs_root>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/task-review/SKILL.md",
+        "line": 87,
+        "excerpt": "BENCH_ENV=daytona scripts/run_experiments.sh <task_dir> <jobs_root>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/task-review/SKILL.md",
+        "line": 103,
+        "excerpt": "CLAUDE_MODEL=claude-opus-4-7 CODEX_MODEL=gpt-5.5 \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/task-review/SKILL.md",
+        "line": 127,
+        "excerpt": "scripts/parse_results.py <jobs_root> --out <out_dir>/summary.json",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/task-review/SKILL.md",
+        "line": 165,
+        "excerpt": "scripts/package_traj.sh <pr_number> <jobs_root> <report_txt>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/task-review/SKILL.md",
+        "line": 209,
+        "excerpt": "| `pip3 install pytest pytest-json-ctrf` inside `verifier/test.sh` | `pytest: error: unrecognized arguments: --ctrf` — bench's pre-verifier `harden_before_verif",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/task-review/references/audit-general.md",
+        "line": 69,
+        "excerpt": "- `pip install` of a package that *shadows* a stdlib name pytest depends on (`json`, `pluggy`, `iniconfig`).",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/task-review/references/audit-general.md",
+        "line": 278,
+        "excerpt": "- `pip install` calls outside a venv (root-level installs persist in image layers if the verifier reuses the container).",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/task-review/references/policy-rubric.md",
+        "line": 56,
+        "excerpt": "- **Verifier deps are reproducible** — use pinned `uvx --with ...` in `verifier/test.sh`, or build-time installs plus explicit `verifier.pytest_plugins` in `tas",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/task-review/scripts/fetch_pr.sh",
+        "line": 43,
+        "excerpt": "if curl -fsSL \"$raw\" -o \"$dest\"; then",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 6,
+      "downloads-code": 4,
+      "network": 1
+    },
+    "score": 79,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 13,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "21a79b5168bdf125c45b3119252ae89149164844",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 79,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

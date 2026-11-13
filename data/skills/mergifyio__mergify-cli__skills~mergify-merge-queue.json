@@ -4,16 +4,16 @@
   "repo": "mergify-cli",
   "path": "skills/mergify-merge-queue",
   "name": "mergify-merge-queue",
-  "description": "Use Mergify merge queue to queue/dequeue PRs, to monitor and inspect the queue, and to diagnose a dequeued PR — whether it is queued, why it was dequeued, where its CI failure is, and what to do next. ALWAYS use this skill when queuing or dequeuing a PR in the Mergify merge queue, checking its status, finding out why Mergify dequeued a PR, pausing/unpausing the Mergify merge queue, or debugging a merge the Mergify queue did not make. Triggers on mergify queue, @mergifyio queue, @mergifyio dequeue, Mergify merge queue, Mergify queue status, why did Mergify dequeue my PR, Mergify dequeue reason, Mergify queue pause, Mergify batch, Mergify bisecting, CHECKS_FAILED, PULL_REQUEST_UPDATED.",
+  "description": "Use Mergify merge queue to queue/dequeue PRs, to monitor and inspect the queue, to diagnose a dequeued PR — whether it is queued, why it was dequeued, where its CI failure is, and what to do next — and to decide whether a change to a PR already in the queue is worth pushing now. ALWAYS use this skill when queuing or dequeuing a PR in the Mergify merge queue, checking its status, finding out why Mergify dequeued a PR, about to push, amend or rebase a PR that is in the Mergify merge queue, pausing/unpausing the Mergify merge queue, or debugging a merge the Mergify queue did not make. Triggers on mergify queue, @mergifyio queue, @mergifyio dequeue, Mergify merge queue, Mergify queue status, why did Mergify dequeue my PR, Mergify dequeue reason, push to a PR in the Mergify merge queue, review comment on a PR in the Mergify merge queue, Mergify queue pause, Mergify batch, Mergify bisecting, CHECKS_FAILED, PULL_REQUEST_UPDATED, CONFLICT_WITH_BASE_BRANCH, CONFLICT_WITH_PULL_AHEAD, Mergify merge conflict.",
   "stars": 32,
   "category": "devops",
-  "commit": "48ecd00f5e67502717440baff3c91b75570e325b",
-  "contentHash": "7c0ef821593e8bb8d2886b87b4cdb23cad59926dffcc65991835002acac561a7",
+  "commit": "1deed87caf67033fc3dd4acc8e0a1122ed1fc41e",
+  "contentHash": "690c318e203fe5df7c37f16bc09671512826ef74cfc8feb347e97b7f2f839827",
   "repoCreatedAt": "2021-05-17T07:36:22Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
     "findings": [
       {
@@ -27,7 +27,7 @@
       {
         "ruleId": "shell",
         "file": "skills/mergify-merge-queue/SKILL.md",
-        "line": 52,
+        "line": 91,
         "excerpt": "mergify queue status                 # Show queue status (batches, waiting PRs)",
         "disclosed": true,
         "automatic": false
@@ -35,7 +35,7 @@
       {
         "ruleId": "shell",
         "file": "skills/mergify-merge-queue/SKILL.md",
-        "line": 82,
+        "line": 121,
         "excerpt": "mergify queue show 1234 --json | jq -e '.queued == false' >/dev/null && echo \"not in queue\"",
         "disclosed": true,
         "automatic": false
@@ -43,7 +43,7 @@
       {
         "ruleId": "shell",
         "file": "skills/mergify-merge-queue/SKILL.md",
-        "line": 92,
+        "line": 131,
         "excerpt": "mergify queue show 1234 --json | jq -r '.queue_leave_head_sha'   # 31b4a485b8ce…",
         "disclosed": true,
         "automatic": false
@@ -51,7 +51,7 @@
       {
         "ruleId": "shell",
         "file": "skills/mergify-merge-queue/SKILL.md",
-        "line": 146,
+        "line": 185,
         "excerpt": "REPO=owner/repo",
         "disclosed": true,
         "automatic": false
@@ -59,8 +59,8 @@
       {
         "ruleId": "network",
         "file": "skills/mergify-merge-queue/SKILL.md",
-        "line": 150,
-        "excerpt": "curl -sS -H \"Authorization: Bearer ${MERGIFY_TOKEN:?set a Mergify token}\" \\",
+        "line": 189,
+        "excerpt": "curl -sS -H @- \\",
         "disclosed": false,
         "automatic": false,
         "hosts": []
@@ -68,7 +68,7 @@
       {
         "ruleId": "shell",
         "file": "skills/mergify-merge-queue/SKILL.md",
-        "line": 193,
+        "line": 236,
         "excerpt": "SHA=$(gh pr view $PR --repo $REPO --json headRefOid -q .headRefOid)",
         "disclosed": true,
         "automatic": false
@@ -76,7 +76,7 @@
       {
         "ruleId": "shell",
         "file": "skills/mergify-merge-queue/SKILL.md",
-        "line": 214,
+        "line": 257,
         "excerpt": "gh api --paginate --slurp \"repos/$REPO/issues/$PR/comments\" \\",
         "disclosed": true,
         "automatic": false
@@ -84,7 +84,7 @@
       {
         "ruleId": "shell",
         "file": "skills/mergify-merge-queue/SKILL.md",
-        "line": 306,
+        "line": 358,
         "excerpt": "mergify queue pause --reason \"production incident — halting merges\"",
         "disclosed": true,
         "automatic": false
@@ -119,6 +119,12 @@
     {
       "commit": "48ecd00f5e67502717440baff3c91b75570e325b",
       "scannedAt": "2026-11-09T10:28:36.295Z",
+      "score": 77,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "1deed87caf67033fc3dd4acc8e0a1122ed1fc41e",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
       "score": 77,
       "rulesVersion": "1.3.0"
     }

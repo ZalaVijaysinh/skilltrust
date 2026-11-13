@@ -4,24 +4,54 @@
   "repo": "dot-skills",
   "path": "skills/.experimental/adversarial-reactor",
   "name": "adversarial-reactor",
-  "description": "",
-  "stars": 222,
-  "category": "other",
+  "description": "Use this skill to gate Elixir code built on the Reactor orchestration library (~> 1.0) with a pass/fail adversarial review — a single blind reviewer subagent judges a diff or file set against 28 decidable rules covering saga compensation and undo (side effects without undo, cleanup in the wrong callback, compensate returns that roll back vs continue, non-idempotent undo), retry discipline (uncapped retries under the max_retries infinity default, retrying business failures, missing backoff), dependency and data flow (lexical-order assumptions, context smuggling, missing return), step contracts (invalid run/3 returns, halt misused as failure, guard/where confusion, side effects in inline fns), composition (Reactor.run inside steps instead of compose, Enum loops over map steps, case over switch, unbounded recurse), concurrency (serial-by-default map, sandbox tests left async, process-context loss), and middleware contracts. Verdicts only, never fixes.",
+  "stars": 226,
+  "category": "coding",
   "commit": "cf93c57cac89d6fc3e4194686000411567f5caf3",
   "contentHash": "5c1537cd5e7e1c89462793edf556359f725828f17f7ca761f081e3b2086de69b",
   "repoCreatedAt": "2026-01-16T16:53:45Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/adversarial-reactor/references/saga-continue-to-absorb-errors.md",
+        "line": 35,
+        "excerpt": "Recommendations.fetch(user.id)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/adversarial-reactor/references/step-guard-cont-halt-contract.md",
+        "line": 33,
+        "excerpt": "case Map.fetch(context, :profile_cache) do",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/adversarial-reactor/references/step-halt-is-pause-not-failure.md",
+        "line": 38,
+        "excerpt": "{:ok, paused} = PendingApprovals.fetch(transfer_id)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "network": 3
+    },
+    "score": 95,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 2,
-    "filesSkipped": 32
+    "filesScanned": 34,
+    "filesSkipped": 0
   },
   "history": [
     {

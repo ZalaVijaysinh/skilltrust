@@ -5,15 +5,15 @@
   "path": "experts/multi-cloud-management-expert/skills/cloudq",
   "name": "CloudQ",
   "description": "用户咨询腾讯云产品资源、AWS、阿里云等多云资源时，查看智能顾问架构图、架构目录、架构详情、架构评估结果、绘制架构图、开通智能顾问时、AI智能巡检、AI容量监测、AI混沌演练、AI云诊断、主动预警、架构健康度、云运维问答、云资源查询、云成本优化、安全合规、云资源盘点、闲置资源检查、云产品最佳实践等AIOps、ChatOps、CloudOps操作时使用。",
-  "stars": 427,
+  "stars": 443,
   "category": "devops",
-  "commit": "0749999031be0d5fa14cdc08afe9cefdf857cbfd",
+  "commit": "33b6151ccee9aa0816c6f32d021be77d82772755",
   "contentHash": "51a207334855bf1a9d635f6a196563630baa7b7402a23953942bba7ac289bb83",
   "repoCreatedAt": "2026-07-21T02:46:31Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
     "findings": [
       {
@@ -103,16 +103,60 @@
         "excerpt": "python3 {baseDir}/scripts/tcloud_async_task.py query <chat_id> <session_id> > /tmp/cloudq_response.txt 2>/tmp/cloudq_response_err.txt",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "experts/multi-cloud-management-expert/skills/cloudq/scripts/check_env.py",
+        "line": 238,
+        "excerpt": "import urllib.request",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "experts/multi-cloud-management-expert/skills/cloudq/scripts/check_env.py",
+        "line": 242,
+        "excerpt": "resp = urllib.request.urlopen(api_url, timeout=VERSION_CHECK_TIMEOUT, context=ctx)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "experts/multi-cloud-management-expert/skills/cloudq/scripts/check_env.py",
+        "line": 252,
+        "excerpt": "result = subprocess.run(",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "experts/multi-cloud-management-expert/skills/cloudq/scripts/check_env.py",
+        "line": 551,
+        "excerpt": "log_info('    echo \\'export TENCENTCLOUD_SECRET_ID=\"your-secret-id\"\\' >> ~/.bashrc')",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "experts/multi-cloud-management-expert/skills/cloudq/scripts/check_env.py",
+        "line": 757,
+        "excerpt": "test_result = subprocess.run(",
+        "disclosed": false,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 11
+      "shell": 13,
+      "network": 2,
+      "writes-outside": 1
     },
-    "score": 95,
+    "score": 82,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 4,
-    "filesSkipped": 9
+    "filesScanned": 5,
+    "filesSkipped": 8
   },
   "history": [
     {
@@ -125,6 +169,12 @@
       "commit": "0749999031be0d5fa14cdc08afe9cefdf857cbfd",
       "scannedAt": "2026-11-09T10:28:36.295Z",
       "score": 95,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "33b6151ccee9aa0816c6f32d021be77d82772755",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 82,
       "rulesVersion": "1.3.0"
     }
   ]

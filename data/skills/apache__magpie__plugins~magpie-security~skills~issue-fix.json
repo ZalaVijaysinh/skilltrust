@@ -4,18 +4,74 @@
   "repo": "magpie",
   "path": "plugins/magpie-security/skills/issue-fix",
   "name": "issue-fix",
-  "description": "",
-  "stars": 139,
+  "description": "Fix a tracked security issue in a public `<upstream>` PR: sync the\ntracker, propose a plan, and on confirmation write the change, open\nthe PR from the user's fork (on Subversion: share a private patch\nand commit once the team clears it), and update the tracker. Public\ncontent never reveals the CVE or the security nature of the change.",
+  "stars": 146,
   "category": "security",
-  "commit": "3fd660b0b1316f475044c05dae17c5b86a12165e",
-  "contentHash": "f2489997dba95ac74ff751a6c857e68cde67f72a0d369592a57b6392baec3297",
+  "commit": "8d24b52457f7a2731d7cc3329af96430a16715fd",
+  "contentHash": "716f5619c0855372d6cd13bb3d365365e98681b6d35320809f212eaa9bf81703",
   "repoCreatedAt": "2026-04-28T18:59:46Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "shell",
+        "file": "plugins/magpie-security/skills/issue-fix/SKILL.md",
+        "line": 50,
+        "excerpt": "PYTHONPATH=\"$(python3 -I -c 'import hashlib,os,sys;h,d,m,i=sys.argv[1:];r=os.path.realpath(os.curdir);s=os.stat(r);p=os.path.join(h,d,hashlib.sha256(r.encode())",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/magpie-security/skills/issue-fix/SKILL.md",
+        "line": 188,
+        "excerpt": "uv run --project <framework>/tools/vcs magpie-vcs -C <working-copy> fix-flow --declared <source-control value>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/magpie-security/skills/issue-fix/SKILL.md",
+        "line": 320,
+        "excerpt": "git fetch <upstream-remote> <base-branch>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/magpie-security/skills/issue-fix/SKILL.md",
+        "line": 329,
+        "excerpt": "git push -u <fork-remote> <branch-name>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/magpie-security/skills/issue-fix/SKILL.md",
+        "line": 343,
+        "excerpt": "gh pr create --web --repo <upstream> --base <base-branch> \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/magpie-security/skills/issue-fix/SKILL.md",
+        "line": 351,
+        "excerpt": "gh pr edit <PR-NUMBER> --repo <upstream> --add-label \"<backport-label>\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/magpie-security/skills/issue-fix/pre-pr-adversarial-review.md",
+        "line": 70,
+        "excerpt": "uvx --from ~/.claude/magpie/adversarial-review adversarial-review run --project-root <adopter-repo> --repo-dir <checkout-being-pushed> --base <pr-base-ref> --ti",
+        "disclosed": false,
+        "automatic": false
+      },
       {
         "ruleId": "downloads-code",
         "file": "AGENTS.md",
@@ -31,16 +87,199 @@
         "excerpt": "`uvx --from ~/.claude/magpie/vetted-ops …`, and `uvx --from ~/.claude/magpie/adversarial-review adversarial-review …`.",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tools/adversarial-review/README.md",
+        "line": 46,
+        "excerpt": "uvx --from ~/.claude/magpie/adversarial-review adversarial-review detect",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tools/adversarial-review/README.md",
+        "line": 47,
+        "excerpt": "uvx --from ~/.claude/magpie/adversarial-review adversarial-review run --base origin/main --title \"<PR title>\" --body-file <body.md>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tools/adversarial-review/README.md",
+        "line": 48,
+        "excerpt": "uvx --from ~/.claude/magpie/adversarial-review adversarial-review run --target pr:123 --repo owner/name",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "tools/adversarial-review/README.md",
+        "line": 109,
+        "excerpt": "| `grok` | `grok --tools read_file,grep,list_dir --no-subagents --disable-web-search --deny Bash --deny Edit --deny Write --deny WebFetch --deny MCPTool --outpu",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "tools/adversarial-review/README.md",
+        "line": 110,
+        "excerpt": "| `claude` | `claude -p --output-format json --strict-mcp-config --disallowedTools Bash,Edit,Write,NotebookEdit,WebFetch,WebSearch,Task` (prompt on stdin) |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tools/adversarial-review/README.md",
+        "line": 117,
+        "excerpt": "The single-line `uvx --from ~/.claude/magpie/adversarial-review adversarial-review …` form is what the sandbox exclusion names; `setup` installs it.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "tools/vetted-ops/README.md",
+        "line": 45,
+        "excerpt": "HTTP operations do not use `gh` or `curl`; they use the `urllib.request` standard library module.",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "tools/vetted-ops/README.md",
+        "line": 83,
+        "excerpt": "with `subprocess.run(..., shell=False)`. There is no string interpolation",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "tools/vetted-ops/README.md",
+        "line": 116,
+        "excerpt": "The `urllib.request` implementation automatically obeys `HTTP_PROXY` and `HTTPS_PROXY` environment variables (egress gateway).",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "tools/vetted-ops/README.md",
+        "line": 356,
+        "excerpt": "mkdir -p ~/.config/apache-magpie/vetted-ops && cp .apache-magpie-overrides/tools/vetted-ops/config.toml ~/.config/apache-magpie/vetted-ops/<project>.toml",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tools/vetted-ops/README.md",
+        "line": 594,
+        "excerpt": "`uvx --from` the module runs from a wheel in a cache the agent can write to,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tools/vetted-ops/README.md",
+        "line": 654,
+        "excerpt": "\"Bash(uvx --from ~/.claude/magpie/vetted-ops vetted-op-read *)\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tools/vetted-ops/README.md",
+        "line": 659,
+        "excerpt": "\"Bash(uvx --from ~/.claude/magpie/vetted-ops vetted-op *)\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tools/vetted-ops/README.md",
+        "line": 661,
+        "excerpt": "\"Bash(uvx --from ~/.claude/magpie/vetted-ops vetted-op-tracker *)\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tools/vetted-ops/README.md",
+        "line": 692,
+        "excerpt": "\"uvx --from ~/.claude/magpie/vetted-ops vetted-op-read *\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tools/vetted-ops/README.md",
+        "line": 694,
+        "excerpt": "\"uvx --from ~/.claude/magpie/vetted-ops vetted-op-tracker *\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tools/vetted-ops/README.md",
+        "line": 696,
+        "excerpt": "\"uvx --from ~/.claude/magpie/vetted-ops vetted-op *\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/magpie-security/hooks/public-surface-scrub.test.ts",
+        "line": 1643,
+        "excerpt": "test('fails closed on bash -c invoking git', async () => {",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/magpie-security/hooks/public-surface-scrub.test.ts",
+        "line": 1644,
+        "excerpt": "const cmd = 'bash -c \"git commit -m \\\\\"Routine functional change\\\\\"\"';",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/magpie-security/hooks/public-surface-scrub.test.ts",
+        "line": 2417,
+        "excerpt": "test('bash -c and eval invoking git or gh get no cwd exemption', async () => {",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/magpie-security/hooks/public-surface-scrub.test.ts",
+        "line": 2419,
+        "excerpt": "`bash -c 'cd /home/dev/upstream; git commit -m \"CVE-2026-1234\"'`,",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/magpie-security/hooks/public-surface-scrub.test.ts",
+        "line": 2420,
+        "excerpt": "`sh -c 'gh issue create -t \"CVE-2026-1234\" -b d'`,",
+        "disclosed": true,
+        "automatic": true
       }
     ],
     "findingTotals": {
-      "downloads-code": 2
+      "shell": 12,
+      "downloads-code": 14,
+      "network": 4,
+      "writes-outside": 1
     },
-    "score": 85,
-    "band": "low",
+    "score": 67,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 2,
-    "filesSkipped": 15
+    "filesScanned": 30,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -53,6 +292,12 @@
       "commit": "3fd660b0b1316f475044c05dae17c5b86a12165e",
       "scannedAt": "2026-11-09T10:28:36.295Z",
       "score": 85,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "8d24b52457f7a2731d7cc3329af96430a16715fd",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 67,
       "rulesVersion": "1.3.0"
     }
   ]

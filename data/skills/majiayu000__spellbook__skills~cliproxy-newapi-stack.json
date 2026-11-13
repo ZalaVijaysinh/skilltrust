@@ -5,15 +5,15 @@
   "path": "skills/cliproxy-newapi-stack",
   "name": "cliproxy-newapi-stack",
   "description": "在已经过独立验证的 CLIProxyAPI upstream 之上部署 NewAPI 计费层，把 Codex/Claude/Gemini/Qwen 等订阅账号包装成可计费的 OpenAI 兼容 API。本 Skill 不负责新建裸 CLIProxyAPI；负责 NewAPI Docker 部署、容器到宿主桥接、模型计费倍率、参数化额度修正、多账号 OAuth 凭据热加载和双路径验证。当用户说“给现有 cliproxy 加 NewAPI”“配置 NewAPI 渠道接已运行的 cliproxy”“NewAPI 价格不对”“给现有部署加账号”“172.17.0.1 容器网络”或“408 冷却放大故障”时触发。",
-  "stars": 290,
+  "stars": 291,
   "category": "coding",
   "commit": "238e07625aeca5bcf0d6f7cb3e2d07f94c717194",
   "contentHash": "d1bfa7b19bd8976be714323532240c37aab30c569db8cc79af9e1e499eb912cb",
   "repoCreatedAt": "2025-12-09T08:17:18Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
     "findings": [
       {
@@ -25,6 +25,14 @@
         "automatic": false
       },
       {
+        "ruleId": "reads-secrets",
+        "file": "skills/cliproxy-newapi-stack/SKILL.md",
+        "line": 67,
+        "excerpt": "SSH_TARGET=root@<HOST> SSH_KEY=~/.ssh/id_ed25519 PORT=8200 \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
         "ruleId": "shell",
         "file": "skills/cliproxy-newapi-stack/SKILL.md",
         "line": 75,
@@ -33,11 +41,27 @@
         "automatic": false
       },
       {
+        "ruleId": "reads-secrets",
+        "file": "skills/cliproxy-newapi-stack/SKILL.md",
+        "line": 115,
+        "excerpt": "SSH_TARGET=root@<HOST> SSH_KEY=~/.ssh/id_ed25519 \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
         "ruleId": "shell",
         "file": "skills/cliproxy-newapi-stack/SKILL.md",
         "line": 115,
         "excerpt": "SSH_TARGET=root@<HOST> SSH_KEY=~/.ssh/id_ed25519 \\",
         "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/cliproxy-newapi-stack/SKILL.md",
+        "line": 131,
+        "excerpt": "SSH_TARGET=root@<HOST> SSH_KEY=~/.ssh/id_ed25519 \\",
+        "disclosed": false,
         "automatic": false
       },
       {
@@ -81,6 +105,22 @@
         "automatic": false
       },
       {
+        "ruleId": "reads-secrets",
+        "file": "skills/cliproxy-newapi-stack/SKILL.md",
+        "line": 172,
+        "excerpt": "SSH_TARGET=root@<HOST> SSH_KEY=~/.ssh/id_ed25519 \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/cliproxy-newapi-stack/SKILL.md",
+        "line": 191,
+        "excerpt": "SSH_TARGET=root@<HOST> SSH_KEY=~/.ssh/id_ed25519 \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
         "ruleId": "shell",
         "file": "skills/cliproxy-newapi-stack/SKILL.md",
         "line": 191,
@@ -103,17 +143,109 @@
         "excerpt": "NEWAPI_TOKEN=$(security find-generic-password -s newapi-client -a client-default -w) \\",
         "disclosed": true,
         "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/cliproxy-newapi-stack/scripts/add_codex_account.sh",
+        "line": 20,
+        "excerpt": ": \"${SSH_KEY:=$HOME/.ssh/id_ed25519}\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/cliproxy-newapi-stack/scripts/deploy_newapi.sh",
+        "line": 16,
+        "excerpt": ": \"${SSH_KEY:=$HOME/.ssh/id_ed25519}\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/cliproxy-newapi-stack/scripts/deploy_newapi.sh",
+        "line": 41,
+        "excerpt": "apt-get install -y docker.io",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/cliproxy-newapi-stack/scripts/deploy_newapi.sh",
+        "line": 57,
+        "excerpt": "if curl -fsS -o /dev/null \"http://127.0.0.1:${port}/api/setup\"; then",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/cliproxy-newapi-stack/scripts/set_pricing.py",
+        "line": 21,
+        "excerpt": "SSH_TARGET=root@host  SSH_KEY=~/.ssh/id_ed25519  ./set_pricing.py \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/cliproxy-newapi-stack/scripts/set_pricing.py",
+        "line": 37,
+        "excerpt": "result = subprocess.run(cmd, capture_output=True, text=True, check=False)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/cliproxy-newapi-stack/scripts/set_pricing.py",
+        "line": 99,
+        "excerpt": "key = os.environ.get(\"SSH_KEY\", os.path.expanduser(\"~/.ssh/id_ed25519\"))",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/cliproxy-newapi-stack/scripts/topup.sh",
+        "line": 14,
+        "excerpt": ": \"${SSH_KEY:=$HOME/.ssh/id_ed25519}\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/cliproxy-newapi-stack/scripts/topup.sh",
+        "line": 60,
+        "excerpt": "subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/cliproxy-newapi-stack/scripts/topup.sh",
+        "line": 63,
+        "excerpt": "stdout=subprocess.DEVNULL,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/cliproxy-newapi-stack/scripts/verify_stack.sh",
+        "line": 18,
+        "excerpt": ": \"${SSH_KEY:=$HOME/.ssh/id_ed25519}\"",
+        "disclosed": false,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 8,
-      "browser-secrets": 3
+      "shell": 11,
+      "reads-secrets": 11,
+      "browser-secrets": 3,
+      "downloads-code": 1,
+      "network": 1
     },
-    "score": 84,
-    "band": "low",
+    "score": 44,
+    "band": "high",
     "rulesVersion": "1.3.0",
-    "filesScanned": 1,
-    "filesSkipped": 11
+    "filesScanned": 12,
+    "filesSkipped": 0
   },
   "history": [
     {

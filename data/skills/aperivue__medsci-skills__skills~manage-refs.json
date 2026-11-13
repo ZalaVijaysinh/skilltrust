@@ -5,15 +5,15 @@
   "path": "skills/manage-refs",
   "name": "manage-refs",
   "description": "Use when references must be written, rendered or converted. Checks [@key] citation keys, renders the reference list with a journal CSL via pandoc, converts [N] markers, injects Zotero Word field codes and runs manuscript-DOCX cross-reference QC. Read-only auditing is /verify-refs.",
-  "stars": 373,
+  "stars": 379,
   "category": "research",
-  "commit": "cc462bc2069064b557c2fea12a1f83ed1fe67f66",
+  "commit": "e0ea3b0be3bf529aa0b94ee5fd8450e78848932c",
   "contentHash": "f9e5a19704f5a2d9c177273eec4449caa204b1b5b6564a9703f3cd8c87424084",
   "repoCreatedAt": "2026-04-06T07:00:46Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
     "findings": [
       {
@@ -71,22 +71,175 @@
         "excerpt": "unzip -p out.docx word/document.xml | sed 's/<[^>]*>//g' | grep -oE \"[A-Z]{2} [A-Z], [A-Z]{2} [A-Z]\"   # corruption signature in output",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/manage-refs/citation_styles/README.md",
+        "line": 67,
+        "excerpt": "curl -fsSL -o \"${s}.csl\" \"https://www.zotero.org/styles/${s}\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "www.zotero.org"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/manage-refs/references/check_xref_symptoms.md",
+        "line": 76,
+        "excerpt": "`pip install python-docx`, or omit `--docx` for a body-only audit",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/manage-refs/scripts/check_csl_render.py",
+        "line": 200,
+        "excerpt": "proc = subprocess.run([\"pandoc\", \"-f\", \"markdown\", *reader_options(pandoc_args), \"-t\", \"json\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/manage-refs/scripts/check_csl_render.py",
+        "line": 248,
+        "excerpt": "proc = subprocess.run([\"pandoc\", \"-f\", \"biblatex\", \"-t\", \"csljson\"], input=bib_text,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/manage-refs/scripts/check_csl_render.py",
+        "line": 327,
+        "excerpt": "proc = subprocess.run(",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/manage-refs/scripts/check_csl_render.py",
+        "line": 376,
+        "excerpt": "\"(pip install python-docx).\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/manage-refs/scripts/check_xref.py",
+        "line": 316,
+        "excerpt": "\"(install with: pip install python-docx)\") from exc",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/manage-refs/scripts/fill_journal_abbrev.py",
+        "line": 52,
+        "excerpt": "import urllib.request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/manage-refs/scripts/fill_journal_abbrev.py",
+        "line": 71,
+        "excerpt": "with urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=30) as r:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/manage-refs/scripts/fill_journal_abbrev.py",
+        "line": 309,
+        "excerpt": "p = subprocess.run([\"pandoc\", \"-f\", \"biblatex\", \"-t\", \"csljson\"], input=text,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/manage-refs/scripts/inject_zotero_cwyw.py",
+        "line": 43,
+        "excerpt": "import urllib.request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/manage-refs/scripts/inject_zotero_cwyw.py",
+        "line": 61,
+        "excerpt": "with urllib.request.urlopen(url, timeout=10) as r:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/manage-refs/scripts/inject_zotero_cwyw.py",
+        "line": 77,
+        "excerpt": "with urllib.request.urlopen(url, timeout=10) as r:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/manage-refs/scripts/md_marker_convert.py",
+        "line": 183,
+        "excerpt": "sys.exit(\"ERROR: python-docx is required for .docx input. `pip install python-docx`\")",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/manage-refs/tests/fixtures/pre_submission_gate/run.sh",
+        "line": 78,
+        "excerpt": "if grep -qiE \"network|connection|temporary failure|name resolution|timed out|urlopen\" \"$WORK_DIR/default.log\"; then",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/manage-refs/tests/test_journal_abbrev_parsing.sh",
+        "line": 156,
+        "excerpt": "p = subprocess.run([PANDOC, path, \"-f\", \"biblatex\", \"-t\", \"csljson\"], capture_output=True, text=True)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/manage-refs/tests/test_reference_duplication.sh",
+        "line": 42,
+        "excerpt": "check \"no claims on clean fixture\" bash -c \"",
+        "disclosed": false,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 7
+      "shell": 13,
+      "network": 7,
+      "downloads-code": 4
     },
-    "score": 95,
-    "band": "low",
+    "score": 75,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 4,
-    "filesSkipped": 69
+    "filesScanned": 73,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "cc462bc2069064b557c2fea12a1f83ed1fe67f66",
       "scannedAt": "2026-11-07T22:05:48.475Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "e0ea3b0be3bf529aa0b94ee5fd8450e78848932c",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 75,
       "rulesVersion": "1.3.0"
     }
   ]

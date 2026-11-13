@@ -4,23 +4,23 @@
   "repo": "skills",
   "path": "skills/agents/secure-ai-agent-coding",
   "name": "secure-ai-agent-coding",
-  "description": "Build, review, or harden AI agents, LLM apps, RAG, tool-calling, coding agents, and agentic workflows with secure-by-default controls. Trigger on prompt injection, tool permissions, approvals, AI data handling, RAG poisoning, observability, or safety CI. Do NOT use for non-AI appsec.",
+  "description": "Reviews and hardens AI agents, LLM apps, RAG, tool-calling and coding agents: prompt injection, tool permissions, approval gates, model-output sinks, AI data handling, safety regression tests. Use where a model's text can trigger actions or touch data. Not for non-AI appsec.",
   "stars": 57,
   "category": "coding",
-  "commit": "c95f32eca37fdd414431c43ee102e7738f341b74",
-  "contentHash": "aa9cc51b77349bb1d24fd724c5529e2285c170c80ac5269aea1c3fdb66be50e9",
+  "commit": "e1b479afa6c172f6d5a6087b6e19d7c0580b8a4e",
+  "contentHash": "1b93ba9c57fc2ebc2371e9e9d8a14c4bcf108b1a526ecae82e42f184f0bc3d79",
   "repoCreatedAt": "2026-03-25T04:15:41Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "skills/agents/secure-ai-agent-coding/SKILL.md",
-        "line": 84,
-        "excerpt": "python3 scripts/scan_patterns.py /path/to/project",
+        "line": 27,
+        "excerpt": "`scripts/scan_patterns.py <path> [--json] [--fail-on high]` greps for exec/eval or SQL on model output, `shell=True`, wildcard tools, disabled safety filters, p",
         "disclosed": true,
         "automatic": false
       },
@@ -34,34 +34,48 @@
       },
       {
         "ruleId": "shell",
-        "file": "skills/agents/secure-ai-agent-coding/scripts/test_skill.py",
-        "line": 27,
-        "excerpt": "validate = subprocess.run(",
+        "file": "skills/agents/secure-ai-agent-coding/scripts/test_scan_patterns.py",
+        "line": 11,
+        "excerpt": "def scan(root: Path, *args: str) -> subprocess.CompletedProcess[str]:",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "skills/agents/secure-ai-agent-coding/scripts/test_skill.py",
-        "line": 36,
-        "excerpt": "help_check = subprocess.run(",
+        "file": "skills/agents/secure-ai-agent-coding/scripts/test_scan_patterns.py",
+        "line": 12,
+        "excerpt": "return subprocess.run([sys.executable, str(SCANNER), str(root), \"--json\", *args], capture_output=True, text=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/agents/secure-ai-agent-coding/scripts/test_scan_patterns.py",
+        "line": 23,
+        "excerpt": "\"import subprocess\\nsubprocess.run(cmd, shell=True)\\neval(model_output)\\nsafe = 1\\n\"",
         "disclosed": true,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 4
+      "shell": 5
     },
     "score": 97,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 19,
+    "filesScanned": 7,
     "filesSkipped": 1
   },
   "history": [
     {
       "commit": "c95f32eca37fdd414431c43ee102e7738f341b74",
       "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 97,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "e1b479afa6c172f6d5a6087b6e19d7c0580b8a4e",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
       "score": 97,
       "rulesVersion": "1.3.0"
     }

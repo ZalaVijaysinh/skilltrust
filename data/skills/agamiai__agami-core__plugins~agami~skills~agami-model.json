@@ -4,22 +4,38 @@
   "repo": "agami-core",
   "path": "plugins/agami/skills/agami-model",
   "name": "agami-model",
-  "description": "The single dashboard for the active profile's semantic model — browse, curate, AND sign off the trust layer in one surface. Browse every subject area, table, field, metric, entity, and join with live search; edit descriptions/metrics/entities/joins; exclude tables/columns you don't want queried; add new metrics; edit datasource.md. Its **Review tab** is the trust-layer sign-off queue: approve / reject the AI-proposed metrics (Rule 1 — a query using an unsigned metric still answers but carries a warning until it's approved), entities, and inferred joins (Rule 2 — lazy, usable while unreviewed). Every action is queued, submitted back to Claude as one feedback block, applied via the curation engine, and gated by the validator before it touches the YAML. (This skill absorbed the former `/agami-review`.)",
+  "description": "The semantic model in the chat: what needs sign-off and the subject areas with their tables, then a card — review what needs sign-off (approve / reject the AI-proposed metrics, entities and guessed joins; Rule 1 — a query using an unsigned metric still answers but carries a warning until it's approved), hide tables or columns from queries, look up a table or metric, or show the full view (the model explorer page: browse with live search, edit descriptions/metrics/entities/joins, add metrics, edit datasource.md). Every change is applied through the curation engine and gated by the validator before it touches the YAML. (This skill absorbed the former `/agami-review`.)",
   "stars": 30,
   "category": "data",
-  "commit": "5b601c6c207908d5e405fff675594775d7ccb8eb",
-  "contentHash": "86d0c2846b7113e807a3e96103aaa6661eeb037893af68e2a7f1536fe0531cb3",
+  "commit": "b08d29ab89744bd491f9196cc5493faa6a28840b",
+  "contentHash": "19d5f527df863940c0e0816d617bae5ec92ae37b383fe2e8909e084804416f3a",
   "repoCreatedAt": "2026-05-06T04:45:23Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "plugins/agami/skills/agami-model/SKILL.md",
-        "line": 60,
+        "line": 64,
+        "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/sm\" review-items \"$ROOT\" --scope all",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agami/skills/agami-model/SKILL.md",
+        "line": 97,
+        "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/sm\" review-items \"$ROOT\" --scope all",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agami/skills/agami-model/SKILL.md",
+        "line": 207,
         "excerpt": "ts=$(date -u +%Y%m%d-%H%M%S)",
         "disclosed": true,
         "automatic": false
@@ -27,51 +43,76 @@
       {
         "ruleId": "shell",
         "file": "plugins/agami/skills/agami-model/SKILL.md",
-        "line": 100,
-        "excerpt": "bash \"$AGAMI_PLUGIN_ROOT/scripts/open_in_browser\" \"$out\"",
+        "line": 236,
+        "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/py\" parse_model_feedback.py --block-file <pasted>",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "plugins/agami/skills/agami-model/SKILL.md",
-        "line": 112,
-        "excerpt": "bash \"$AGAMI_PLUGIN_ROOT/scripts/py\" parse_model_feedback.py --block-file <pasted>",
+        "line": 291,
+        "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/sm\" curate \"$ROOT\" \\",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "plugins/agami/skills/agami-model/SKILL.md",
-        "line": 159,
-        "excerpt": "bash \"$AGAMI_PLUGIN_ROOT/scripts/sm\" curate \"$ROOT\" \\",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/agami/skills/agami-model/SKILL.md",
-        "line": 186,
-        "excerpt": "new_ts=$(date -u +%Y%m%d-%H%M%S)",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/agami/skills/agami-model/SKILL.md",
-        "line": 240,
+        "line": 346,
         "excerpt": "ROOT=\"<artifacts_dir>/<profile>\"",
         "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/agami/scripts/sm",
+        "line": 68,
+        "excerpt": "\"$PY\" -m pip install --user -q \"$@\" >&2 2>/dev/null \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/agami/scripts/sm",
+        "line": 69,
+        "excerpt": "|| \"$PY\" -m pip install -q \"$@\" >&2 2>/dev/null \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/agami/scripts/sm",
+        "line": 70,
+        "excerpt": "|| \"$PY\" -m pip install --user --break-system-packages -q \"$@\" >&2 2>/dev/null \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/agami/scripts/sm",
+        "line": 71,
+        "excerpt": "|| \"$PY\" -m pip install --break-system-packages -q \"$@\" >&2",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/agami/scripts/sm",
+        "line": 196,
+        "excerpt": "echo \"       Try:  $PY -m pip install --user --upgrade \\\"agami-core[$EXTRAS] @ ${GIT_BASE}@${GIT_REF}#subdirectory=packages/agami-core\\\"\" >&2",
+        "disclosed": false,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 6
+      "shell": 6,
+      "downloads-code": 5
     },
-    "score": 97,
+    "score": 82,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 3,
+    "filesScanned": 6,
     "filesSkipped": 0
   },
   "history": [
@@ -79,6 +120,12 @@
       "commit": "5b601c6c207908d5e405fff675594775d7ccb8eb",
       "scannedAt": "2026-11-07T22:05:48.475Z",
       "score": 97,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "b08d29ab89744bd491f9196cc5493faa6a28840b",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 82,
       "rulesVersion": "1.3.0"
     }
   ]

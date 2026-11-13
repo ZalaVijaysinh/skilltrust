@@ -4,31 +4,31 @@
   "repo": "AI-Rig",
   "path": "plugins/cc_research/skills/plan",
   "name": "plan",
-  "description": "Interactive wizard that scans the codebase, proposes a metric/guard/agent config, and writes a program.md run spec. Also runs cProfile on a file path to surface bottlenecks before prompting for optimization goal. Distinct from `/research:topic plan`, which turns prior SOTA research into an implementation roadmap, not a program.md.",
-  "stars": 32,
+  "description": "Interactive wizard that scans the codebase, proposes a metric/guard/agent config, and writes a program.md run spec. With confirmation, runs cProfile on a Python file path to surface bottlenecks before prompting for optimization goal. Distinct from `/research:topic plan`, which turns prior SOTA research into an implementation roadmap, not a program.md.",
+  "stars": 31,
   "category": "coding",
-  "commit": "1f354b2c58faa1f58debf3b25f6634b1e161db9a",
-  "contentHash": "2f82789ab42956b256e92fe0f7d550d94c0fef43ba5cb92a2897a8f0febdc65d",
+  "commit": "2af2f1f55a9eaf520f795f3557e739f9bd78d078",
+  "contentHash": "da79410ef03138d631e0ef61bc468e79126414ec7356a0a1302cc05b4f8b8371",
   "repoCreatedAt": "2026-02-22T18:44:53Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "plugins/cc_research/skills/plan/SKILL.md",
         "line": 28,
-        "excerpt": "export CSID=\"${CLAUDE_CODE_SESSION_ID:-$PPID}\"",
+        "excerpt": "PLUGIN_ROOT=$(python \"${CLAUDE_PLUGIN_ROOT}/bin/resolve_plugin_root.py\" --plugin-name research) || exit $?; export PLUGIN_ROOT",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "plugins/cc_research/skills/plan/SKILL.md",
-        "line": 55,
-        "excerpt": "export CSID=\"${CLAUDE_CODE_SESSION_ID:-$PPID}\"",
+        "line": 54,
+        "excerpt": "PLUGIN_ROOT=$(python \"${CLAUDE_PLUGIN_ROOT}/bin/resolve_plugin_root.py\" --plugin-name research) || exit $?; export PLUGIN_ROOT",
         "disclosed": true,
         "automatic": false
       },
@@ -43,15 +43,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/cc_research/skills/plan/SKILL.md",
-        "line": 172,
-        "excerpt": "PLAN_RUN_DIR=$(python \"${CLAUDE_PLUGIN_ROOT:-plugins/cc_research}/bin/make_run_dir.py\" \"plan\" \".experiments\" 2>/dev/null)  # timeout: 5000",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/cc_research/skills/plan/SKILL.md",
-        "line": 211,
+        "line": 97,
         "excerpt": "export CSID=\"${CLAUDE_CODE_SESSION_ID:-$PPID}\"",
         "disclosed": true,
         "automatic": false
@@ -59,15 +51,31 @@
       {
         "ruleId": "shell",
         "file": "plugins/cc_research/skills/plan/SKILL.md",
-        "line": 291,
-        "excerpt": "_RESEARCH_RUN_MODES=\"${CLAUDE_PLUGIN_ROOT:-plugins/cc_research}/skills/run/modes\"",
+        "line": 189,
+        "excerpt": "PLUGIN_ROOT=$(python \"${CLAUDE_PLUGIN_ROOT}/bin/resolve_plugin_root.py\" --plugin-name research) || exit $?; export PLUGIN_ROOT",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/cc_research/skills/plan/SKILL.md",
+        "line": 231,
+        "excerpt": "export CSID=\"${CLAUDE_CODE_SESSION_ID:-$PPID}\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/cc_research/skills/plan/SKILL.md",
+        "line": 310,
+        "excerpt": "PLUGIN_ROOT=$(python \"${CLAUDE_PLUGIN_ROOT}/bin/resolve_plugin_root.py\" --plugin-name research) || exit $?; export PLUGIN_ROOT",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "plugins/cc_research/CHANGELOG.md",
-        "line": 66,
+        "line": 103,
         "excerpt": "- The same hook reads each command as the shell's own words before judging it: quotes, backslash escapes, `$'…'` strings and line continuations are resolved and",
         "disclosed": true,
         "automatic": false
@@ -75,7 +83,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/cc_research/CHANGELOG.md",
-        "line": 70,
+        "line": 107,
         "excerpt": "- fortify's `bash -c \"$METRIC_CMD\"` and `\"$GUARD_CMD\"` blocks and sweep's heredoc-data block now prompt each run instead of being auto-allowed.",
         "disclosed": true,
         "automatic": false
@@ -83,15 +91,39 @@
       {
         "ruleId": "shell",
         "file": "plugins/cc_research/CHANGELOG.md",
-        "line": 146,
+        "line": 183,
         "excerpt": "- `blueprint-manifest.json` is regenerated with the allowlist gate: 685 of the 707 entries the previous gate admitted stay auto-allowed, including the `fortify`",
         "disclosed": true,
         "automatic": false
       },
       {
+        "ruleId": "shell",
+        "file": "plugins/cc_research/bin/check_output_within_root.py",
+        "line": 117,
+        "excerpt": "result = subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/cc_research/bin/check_output_within_root.py",
+        "line": 124,
+        "excerpt": "except (OSError, subprocess.SubprocessError):",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/cc_research/blueprint-manifest.json",
+        "line": 1509,
+        "excerpt": "\"template\": \"PLUGIN_ROOT=$(python \\\"${CLAUDE_PLUGIN_ROOT}/bin/resolve_plugin_root.py\\\" --plugin-name research) || exit $?; export PLUGIN_ROOT\\nexport CSID=\\\"${C",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
         "ruleId": "network",
         "file": "plugins/cc_research/hooks/agent-router.js",
-        "line": 171,
+        "line": 216,
         "excerpt": "const req = https.request(",
         "disclosed": false,
         "automatic": true,
@@ -100,7 +132,7 @@
       {
         "ruleId": "paid-api",
         "file": "plugins/cc_research/hooks/agent-router.js",
-        "line": 173,
+        "line": 218,
         "excerpt": "hostname: \"api.openai.com\",",
         "disclosed": false,
         "automatic": true
@@ -108,7 +140,7 @@
       {
         "ruleId": "paid-api",
         "file": "plugins/cc_research/hooks/agent-router.js",
-        "line": 251,
+        "line": 296,
         "excerpt": "const req = https.request({ hostname: \"api.anthropic.com\", headers, ...options }, (res) => {",
         "disclosed": false,
         "automatic": true
@@ -116,7 +148,7 @@
       {
         "ruleId": "network",
         "file": "plugins/cc_research/hooks/agent-router.js",
-        "line": 251,
+        "line": 296,
         "excerpt": "const req = https.request({ hostname: \"api.anthropic.com\", headers, ...options }, (res) => {",
         "disclosed": false,
         "automatic": true,
@@ -185,41 +217,18 @@
         "excerpt": "\"command\": \"for n in node /opt/homebrew/bin/node /usr/local/bin/node; do command -v \\\"$n\\\" >/dev/null 2>&1 && exec \\\"$n\\\" \\\"${CLAUDE_PLUGIN_ROOT}/hooks/write-gu",
         "disclosed": true,
         "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/cc_research/hooks/hooks.json",
-        "line": 85,
-        "excerpt": "\"command\": \"for n in node /opt/homebrew/bin/node /usr/local/bin/node; do command -v \\\"$n\\\" >/dev/null 2>&1 && exec \\\"$n\\\" \\\"${CLAUDE_PLUGIN_ROOT}/hooks/write-gu",
-        "disclosed": true,
-        "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/cc_research/hooks/hooks.json",
-        "line": 96,
-        "excerpt": "\"command\": \"for n in node /opt/homebrew/bin/node /usr/local/bin/node; do command -v \\\"$n\\\" >/dev/null 2>&1 && exec \\\"$n\\\" \\\"${CLAUDE_PLUGIN_ROOT}/hooks/audit-cl",
-        "disclosed": true,
-        "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/cc_research/hooks/hooks.json",
-        "line": 107,
-        "excerpt": "\"command\": \"for n in node /opt/homebrew/bin/node /usr/local/bin/node; do command -v \\\"$n\\\" >/dev/null 2>&1 && exit 0; done; echo \\\"research plugin hooks are ina",
-        "disclosed": true,
-        "automatic": true
       }
     ],
     "findingTotals": {
-      "shell": 25,
+      "shell": 28,
+      "writes-outside": 1,
       "network": 2,
       "paid-api": 2
     },
-    "score": 82,
-    "band": "low",
+    "score": 72,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 15,
+    "filesScanned": 17,
     "filesSkipped": 0
   },
   "history": [
@@ -233,6 +242,12 @@
       "commit": "1f354b2c58faa1f58debf3b25f6634b1e161db9a",
       "scannedAt": "2026-11-09T10:28:36.295Z",
       "score": 82,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "2af2f1f55a9eaf520f795f3557e739f9bd78d078",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 72,
       "rulesVersion": "1.3.0"
     }
   ]

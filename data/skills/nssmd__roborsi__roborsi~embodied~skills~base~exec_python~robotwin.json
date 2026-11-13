@@ -1,0 +1,34 @@
+{
+  "id": "nssmd__roborsi__roborsi~embodied~skills~base~exec_python~robotwin",
+  "owner": "nssmd",
+  "repo": "RoboRSI",
+  "path": "roborsi/embodied/skills/base/exec_python/robotwin",
+  "name": "exec_python",
+  "description": "CaP-X-inspired Code-as-Policy escape hatch: instead of unrolling a\nmulti-step plan into N separate tool_calls (each costing a round-trip),\nemit ONE Python snippet that calls the same tool dispatchers as\nfunctions. Every other registered base skill is callable as a Python\nfunction from inside the snippet:\nr = localize_object_top_center(object='red block')\nfor arm in ('left', 'right'):\nchk = is_reachable(arm=arm, x=r['xyz'][0], y=r['xyz'][1], z=r['xyz'][2])\nif chk.get('reachable'):\nbreak\ngrasp_then_lift_graspgen(arm=arm, object='hammer', extra_queries=[...])\n\nThe snippet runs in a sandboxed namespace with:\n- all base skills exposed as functions returning their result dict\n- numpy as np\n- the standard math module\n- a `state` dict for intermediate values (preserved across calls)\n- print() captured to stdout, returned to VLM\nReturns: { ok, stdout, stderr, returned_values_dict, last_image_path }.\n\nUse when:\n- the plan needs loops, conditions, or arithmetic on tool outputs\n- you'd otherwise need 5+ tool_use blocks in one turn\n- you want to factor reusable inline helpers (define `def my_helper(): ...`\ninside the snippet)\n\nDo NOT use for: single tool calls, anything that doesn't compose results.",
+  "stars": 179,
+  "category": "coding",
+  "commit": "90c8569705bf4004a4f79e34e650c87ab7f075d4",
+  "contentHash": "8da1546d1bdb28e4a92dfe2ae8a159f39aca8104fd0e263ed8c97f06e0188182",
+  "repoCreatedAt": "2026-08-29T08:23:35Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "scan": {
+    "findings": [],
+    "findingTotals": {},
+    "score": 100,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "90c8569705bf4004a4f79e34e650c87ab7f075d4",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 100,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

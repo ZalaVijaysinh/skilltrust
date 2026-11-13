@@ -4,30 +4,96 @@
   "repo": "skillquarium",
   "path": "skills/debug-distributed-hang",
   "name": "debug-distributed-hang",
-  "description": "",
+  "description": "Debug hanging issues in SGLang distributed inference (TP/PP/DP/EP). Covers identifying hang locations via py-spy/watchdog/cuda coredump, per-rank logging to find state divergence, binary-search methodology for locating the first diverge point, and fix patterns. Use when a multi-GPU SGLang run hangs, freezes, or times out during collective operations.",
   "stars": 12,
   "category": "coding",
-  "commit": "f748ea91aa51ce8fc42c27c809dba73a8377b1d5",
+  "commit": "ced6c96bd67acccbf0280a5071e59a523c118c66",
   "contentHash": "cfee5b466fd810adef752356ef8725884dae9d70c968ec3c1e600c8aa2f5ac46",
   "repoCreatedAt": "2026-06-09T12:36:45Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/debug-distributed-hang/SKILL.md",
+        "line": 19,
+        "excerpt": "- **py-spy**: `pip install py-spy` or system package. Requires root or `CAP_SYS_PTRACE` to attach to running processes.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/debug-distributed-hang/SKILL.md",
+        "line": 48,
+        "excerpt": "py-spy dump --pid <scheduler_pid>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/debug-distributed-hang/SKILL.md",
+        "line": 54,
+        "excerpt": "export NCCL_DEBUG=INFO",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/debug-distributed-hang/SKILL.md",
+        "line": 65,
+        "excerpt": "export CUDA_ENABLE_USER_TRIGGERED_COREDUMP=1",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/debug-distributed-hang/SKILL.md",
+        "line": 75,
+        "excerpt": "ls /proc/<pid>/fd/ -la 2>/dev/null | grep cuda_pipe",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/debug-distributed-hang/SKILL.md",
+        "line": 168,
+        "excerpt": "grep \"^VERIFY\" /tmp/debug_rank0.log > /tmp/v_r0.txt",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/debug-distributed-hang/SKILL.md",
+        "line": 176,
+        "excerpt": "grep -c \"^VERIFY\" /tmp/debug_rank*.log",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "downloads-code": 1,
+      "shell": 6
+    },
+    "score": 80,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 1,
-    "filesSkipped": 1
+    "filesScanned": 2,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "f748ea91aa51ce8fc42c27c809dba73a8377b1d5",
       "scannedAt": "2026-11-08T09:45:03.483Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "ced6c96bd67acccbf0280a5071e59a523c118c66",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 80,
       "rulesVersion": "1.3.0"
     }
   ]

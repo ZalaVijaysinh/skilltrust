@@ -4,24 +4,97 @@
   "repo": "skills",
   "path": "skills/uipath-activity-migrator",
   "name": "uipath-activity-migrator",
-  "description": "",
-  "stars": 177,
-  "category": "other",
-  "commit": "1f84c3d9d26d24fa83499517e1f3c43c091a06e4",
-  "contentHash": "2a6794179ae4c1eb44e36f81c17524cb6f026c53d7d74e89575a01d05318efd4",
+  "description": "UiPath Activity Migrator — migrate Windows-Legacy RPA projects (`targetFramework: Legacy`, classic `ui:` activities) to the Windows framework and rewrite UiPath's own classic activities into their modern UiPath counterparts with the standalone `UiPath.Upgrade.exe`. Windows only. Third-party or custom packages are not rewritten, only version-moved. Acquires the tool, resolves the target UIAutomation line, runs analyze then upgrade into a sibling folder, verifies with `uip rpa build`, triages the SARIF. Classic UI Automation→modern UIA, Outlook classic→Microsoft 365, GSuite classic→modern, Microsoft.Activities.Extensions→Invoke Code. Also the post-migration fix for migrated projects whose expression-selector targets fail or silently report not-found. Authoring or editing Legacy `.xaml`→uipath-rpa. Migration-readiness review without running the tool→uipath-review. Post-migration failures with neither marker nor annotation→uipath-troubleshoot. Maestro `instance migrate`→the Maestro skills.",
+  "stars": 180,
+  "category": "design",
+  "commit": "ffb978f85a2e7a0de5c9bbdafc4725131b632f3a",
+  "contentHash": "cfaa8f6dac72c1601811b694489d742b93ddfcd5ab9bfcd928e2576e1b5dcb12",
   "repoCreatedAt": "2026-01-21T21:13:53Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/uipath-activity-migrator/SKILL.md",
+        "line": 57,
+        "excerpt": "node \"<SKILL_DIR>/scripts/ensure-migrator.mjs\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/uipath-activity-migrator/SKILL.md",
+        "line": 74,
+        "excerpt": "\"<MIGRATOR_EXE>\" analyze --help",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/uipath-activity-migrator/SKILL.md",
+        "line": 97,
+        "excerpt": "node \"<SKILL_DIR>/scripts/resolve-package-lines.mjs\" --package UiPath.UIAutomation.Activities --min 25.10.21",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/uipath-activity-migrator/SKILL.md",
+        "line": 111,
+        "excerpt": "mkdir -p \"<PROJECT_DIR>/.upgrade\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/uipath-activity-migrator/SKILL.md",
+        "line": 144,
+        "excerpt": "\"<MIGRATOR_EXE>\" upgrade --project-path \"<PROJECT_DIR>\" --output-path \"<OUTPUT_DIR>\" --uia-package-version=<UIA_VERSION> --output-format sarif <PACKAGE_FLAGS> >",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/uipath-activity-migrator/SKILL.md",
+        "line": 155,
+        "excerpt": "env -u UIPATH_STUDIO_PID uip rpa build \"<OUTPUT_DIR>\" --output json",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/uipath-activity-migrator/scripts/ensure-migrator.mjs",
+        "line": 20,
+        "excerpt": "import { spawnSync } from 'node:child_process';",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/uipath-activity-migrator/scripts/ensure-migrator.mjs",
+        "line": 40,
+        "excerpt": "const r = spawnSync(cmd, argv, { encoding: 'utf8', windowsHide: true, maxBuffer: 16 * 1024 * 1024, ...opts });",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/uipath-activity-migrator/scripts/resolve-package-lines.mjs",
+        "line": 44,
+        "excerpt": "const res = await fetch(url, { signal: AbortSignal.timeout(30000) });",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
       {
         "ruleId": "shell",
         "file": "hooks/hooks.json",
         "line": 8,
         "excerpt": "\"command\": \"echo `# <#` >/dev/null\\ncommand -v node >/dev/null 2>&1 || exit 0\\nnode \\\"${CLAUDE_PLUGIN_ROOT}/hooks/suggest-permissions.mjs\\\"\\nexit $?\\n: <<'POLYE",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -29,7 +102,7 @@
         "file": "hooks/hooks.json",
         "line": 14,
         "excerpt": "\"command\": \"echo `# <#` >/dev/null\\ncommand -v node >/dev/null 2>&1 || exit 0\\nnode \\\"${CLAUDE_PLUGIN_ROOT}/hooks/set-session-env.mjs\\\"\\nexit $?\\n: <<'POLYEOF' ",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -37,7 +110,7 @@
         "file": "hooks/hooks.json",
         "line": 19,
         "excerpt": "\"command\": \"echo `# <#` >/dev/null\\ncommand -v uip >/dev/null 2>&1 || exit 0\\nuip track --hook >/dev/null 2>&1\\nexit 0\\n: <<'POLYEOF' #> > $null\\n$c = Get-Comma",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -45,7 +118,7 @@
         "file": "hooks/hooks.json",
         "line": 31,
         "excerpt": "\"command\": \"echo `# <#` >/dev/null\\ncommand -v uip >/dev/null 2>&1 || exit 0\\nuip track --hook >/dev/null 2>&1\\nexit 0\\n: <<'POLYEOF' #> > $null\\n$c = Get-Comma",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -53,7 +126,7 @@
         "file": "hooks/hooks.json",
         "line": 42,
         "excerpt": "\"command\": \"echo `# <#` >/dev/null\\ncommand -v uip >/dev/null 2>&1 || exit 0\\nuip track --hook >/dev/null 2>&1\\nexit 0\\n: <<'POLYEOF' #> > $null\\n$c = Get-Comma",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -61,7 +134,7 @@
         "file": "hooks/hooks.json",
         "line": 53,
         "excerpt": "\"command\": \"echo `# <#` >/dev/null\\ncommand -v uip >/dev/null 2>&1 || exit 0\\nuip track --hook >/dev/null 2>&1\\nexit 0\\n: <<'POLYEOF' #> > $null\\n$c = Get-Comma",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -69,24 +142,31 @@
         "file": "hooks/hooks.json",
         "line": 64,
         "excerpt": "\"command\": \"echo `# <#` >/dev/null\\ncommand -v uip >/dev/null 2>&1 || exit 0\\nuip track --hook >/dev/null 2>&1\\nexit 0\\n: <<'POLYEOF' #> > $null\\n$c = Get-Comma",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       }
     ],
     "findingTotals": {
-      "shell": 7
+      "shell": 15,
+      "network": 1
     },
-    "score": 95,
+    "score": 92,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 9,
-    "filesSkipped": 15
+    "filesScanned": 23,
+    "filesSkipped": 1
   },
   "history": [
     {
       "commit": "1f84c3d9d26d24fa83499517e1f3c43c091a06e4",
       "scannedAt": "2026-11-08T09:45:03.483Z",
       "score": 95,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "ffb978f85a2e7a0de5c9bbdafc4725131b632f3a",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 92,
       "rulesVersion": "1.3.0"
     }
   ]

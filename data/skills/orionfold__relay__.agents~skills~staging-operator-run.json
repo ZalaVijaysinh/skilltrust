@@ -4,24 +4,149 @@
   "repo": "relay",
   "path": ".agents/skills/staging-operator-run",
   "name": "staging-operator-run",
-  "description": "",
+  "description": "Operator drives a real customer first-run (npx orionfold-relay → license → pack → run a workflow) in their own terminal + browser while Codex WATCHES and LOGS proactively — guiding the operator on the exact commands (npx, license activation, pack install) and capturing every bug/UX finding to a session findings file as they surface. Use when the operator says they want to \"self-run the first user experience\", \"walk through as a customer\", \"I'll drive, you watch\", \"help me activate the license\", \"guide me through npx\", \"operator runs and provides feedback\", \"tear down the staging folder/server\", or any session where the HUMAN interacts with a live instance and CC's job is to narrate + log (and drive the cleanup at wrap), not to drive the clicks. This is the operator-driven complement to the CC-driven staging skills. Opens with a MODE CHOICE (Step 0.5, multi-select): Mode A = local staging mirror on :3199 (your working tree, frozen build), Mode B = the literal npx published package on :3200 (the recommended default, what customers download), Mode C = `npm run dev` on :3000 (live hot-reload, NOT customer-faithful). The operator can run one, some, or all three at once — distinct ports/data dirs never collide. Do NOT use when CC should record the run itself (staging-cli-run = GIF) or drive the browser walkthrough (staging-browser-smoke = Mode B) or groom a captured bundle (staging-evaluate = Mode D). It RIDES on the relay-staging substrate concepts but launches the REAL published npx package, not the local file:// mirror.",
   "stars": 11,
-  "category": "other",
+  "category": "design",
   "commit": "b80e0240f42f84cd950fe8361a11a10699aa7984",
   "contentHash": "c87dd3461e4de2f56561ef0b153c9eb0b53fcfcf847dde937a439bf163a689eb",
   "repoCreatedAt": "2026-04-17T17:23:46Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/staging-operator-run/SKILL.md",
+        "line": 30,
+        "excerpt": "actual `npx orionfold-relay` in their own terminal, activating a license,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/staging-operator-run/SKILL.md",
+        "line": 107,
+        "excerpt": "| **B · npx published** | `npx orionfold-relay@latest --port 3200 --data-dir ~/.relay-npx-test` | 3200 | `~/.relay-npx-test` | npm `latest` (committed + publish",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/staging-operator-run/SKILL.md",
+        "line": 153,
+        "excerpt": "npm view orionfold-relay version   # should match package.json",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".agents/skills/staging-operator-run/SKILL.md",
+        "line": 161,
+        "excerpt": "mkdir -p ~/relay-npx-test && cd ~/relay-npx-test",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/staging-operator-run/SKILL.md",
+        "line": 161,
+        "excerpt": "mkdir -p ~/relay-npx-test && cd ~/relay-npx-test",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/staging-operator-run/SKILL.md",
+        "line": 162,
+        "excerpt": "npx orionfold-relay@latest --data-dir ~/.relay-npx-test --port 3200",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/staging-operator-run/SKILL.md",
+        "line": 255,
+        "excerpt": "shasum -a 256 ~/.relay/relay.db",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/staging-operator-run/SKILL.md",
+        "line": 266,
+        "excerpt": "for p in 3199 3200 3000; do lsof -iTCP:$p -sTCP:LISTEN >/dev/null 2>&1 && echo \"$p STILL LISTENING\" || echo \"$p (free)\"; done",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/staging-operator-run/SKILL.md",
+        "line": 273,
+        "excerpt": "rm -rf ~/.relay-npx-test             # npx data dir (--data-dir)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".agents/skills/staging-operator-run/SKILL.md",
+        "line": 273,
+        "excerpt": "rm -rf ~/.relay-npx-test             # npx data dir (--data-dir)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/staging-operator-run/SKILL.md",
+        "line": 273,
+        "excerpt": "rm -rf ~/.relay-npx-test             # npx data dir (--data-dir)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/staging-operator-run/SKILL.md",
+        "line": 274,
+        "excerpt": "rm -rf ~/relay-npx-test              # npx cwd",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".agents/skills/staging-operator-run/SKILL.md",
+        "line": 274,
+        "excerpt": "rm -rf ~/relay-npx-test              # npx cwd",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".agents/skills/staging-operator-run/SKILL.md",
+        "line": 275,
+        "excerpt": "rm -f  ~/relay-npx-test-license.json # minted dev-key license",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/staging-operator-run/SKILL.md",
+        "line": 289,
+        "excerpt": "shasum -a 256 ~/.relay/relay.db   # MUST equal the step-1 baseline — IF only A/B ran",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "downloads-code": 5,
+      "shell": 6,
+      "writes-outside": 4
+    },
+    "score": 77,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 1
+    "filesScanned": 1,
+    "filesSkipped": 0
   },
   "history": [
     {

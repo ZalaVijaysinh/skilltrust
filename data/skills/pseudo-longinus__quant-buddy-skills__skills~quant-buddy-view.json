@@ -5,21 +5,21 @@
   "path": "skills/quant-buddy-view",
   "name": "quant-buddy-view",
   "description": "将量化分析或已有 JPG/PNG、HTML、PDF 发布为 Quant Buddy 可分享活页或实时看板，并支持创建、更新、复用、验收和公开链接交付。适用于个股画像、估值财务、指数异动、多因子筛选、商品日报、模板、分享壳及卡片等页面。\n用户提供 QuantBuddy 活页 URL 并要求解读时也使用。显式调用 /quant-buddy-view、/qbv、qbv 或 QBV，且请求并非纯咨询、代码维护或文档解释时，默认按可分享活页任务处理。\n输入可唯一识别的 A 股名称、简称或代码，或简单要求单股综合分析（如“贵州茅台”“600519”“分析一下贵州茅台”）均默认请求个股快页；宿主开启 page_first_fast 时，取得 task_id 后立即并行调用 new_asset_page 与有限公开搜索，页面 ready 后先展示页面和前五章数据，搜索完成后再补综合观察；其它模式先通过 QBS 验证并回复完整个股分析，再同轮 new_asset_page，无需用户补说“生成页面”。\nWebAgent 宿主要求金融问题统一交付问答与活页时，一次性行情、涨跌幅、估值、概念解释和口语近况问题也在 QBS 首答后交接本技能。无此宿主约定时一次性问题由 QBS 回答；复盘、监控、画图、回测、K线等操作仍默认有活页意图。明确不要网页或只回复文字时不建页。",
-  "stars": 203,
+  "stars": 205,
   "category": "coding",
-  "commit": "8a9b228259b451366ba5690d42b490bc4c95a562",
-  "contentHash": "0513a4627d14b045b4d1e07c51eda2f5b34ed2566eb038426410c8d825c9fce3",
+  "commit": "ee4c17be97ba26fc82cba0e34aea5fcc6f6787d9",
+  "contentHash": "7aec7618137169fe553241c5650702a29d34e50bfa36d85e7a5f63a517cb5aae",
   "repoCreatedAt": "2026-04-21T02:18:31Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "skills/quant-buddy-view/SKILL.md",
-        "line": 181,
+        "line": 191,
         "excerpt": "python scripts/static_page.py interpret '{\"url\":\"用户提供的页面 URL\"}'",
         "disclosed": true,
         "automatic": false
@@ -27,7 +27,7 @@
       {
         "ruleId": "shell",
         "file": "skills/quant-buddy-view/SKILL.md",
-        "line": 243,
+        "line": 253,
         "excerpt": "QBV_API_KEY=<本次任务的 key> python scripts/trace_context.py begin '{\"user_query\":\"那和五粮液比呢？\",\"agent_intent\":\"延续上一轮贵州茅台分析，对比五粮液的盈利能力、估值水平与主要风险。\"}'",
         "disclosed": true,
         "automatic": false
@@ -35,7 +35,7 @@
       {
         "ruleId": "shell",
         "file": "skills/quant-buddy-view/SKILL.md",
-        "line": 318,
+        "line": 328,
         "excerpt": "python scripts/static_page.py new_asset_page '{\"task_id\":\"task_xxx\",\"asset\":\"贵州茅台\",\"user_query\":\"分析贵州茅台\",\"reply_mode\":\"page_followup\"}'",
         "disclosed": true,
         "automatic": false
@@ -43,7 +43,7 @@
       {
         "ruleId": "downloads-code",
         "file": "skills/quant-buddy-view/SKILL.md",
-        "line": 395,
+        "line": 405,
         "excerpt": "npx skills list -g --json",
         "disclosed": false,
         "automatic": false
@@ -51,7 +51,7 @@
       {
         "ruleId": "shell",
         "file": "skills/quant-buddy-view/SKILL.md",
-        "line": 395,
+        "line": 405,
         "excerpt": "npx skills list -g --json",
         "disclosed": true,
         "automatic": false
@@ -59,7 +59,7 @@
       {
         "ruleId": "downloads-code",
         "file": "skills/quant-buddy-view/SKILL.md",
-        "line": 397,
+        "line": 407,
         "excerpt": "npx skills add pseudo-longinus/quant-buddy-skills -g --all",
         "disclosed": false,
         "automatic": false
@@ -67,7 +67,7 @@
       {
         "ruleId": "downloads-code",
         "file": "skills/quant-buddy-view/SKILL.md",
-        "line": 399,
+        "line": 409,
         "excerpt": "npx skills update pseudo-longinus/quant-buddy-skills -y",
         "disclosed": false,
         "automatic": false
@@ -95,6 +95,191 @@
         "file": "skills/quant-buddy-view/assets/data-kernel.js",
         "line": 554,
         "excerpt": "const resp = await fetch(apiUrl(endpoint, '/skill/queryDataGrant'), {",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/quant-buddy-view/assets/echarts-loader.js",
+        "line": 45,
+        "excerpt": "fetch(source.url, {signal:controller.signal, credentials:'omit'}).then(response => {",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/quant-buddy-view/guides/bespoke-page.md",
+        "line": 60,
+        "excerpt": "2. `upload/update` 同时传 `source_snapshot_html_file` 与 `source_snapshot_html_sha256`。纯静态来源可省略，此时来源文件本身就是快照；含 `fetch/axios/XMLHttpRequest/EventSource/WebSocket` 的来",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/quant-buddy-view/scripts/browser_dependencies.mjs",
+        "line": 4,
+        "excerpt": "import { spawnSync } from 'node:child_process';",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/quant-buddy-view/scripts/browser_dependencies.mjs",
+        "line": 58,
+        "excerpt": "const runLookup = options.runLookup || ((command, args) => spawnSync(command, args, { encoding: 'utf8' }));",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/quant-buddy-view/scripts/build_dashboard.py",
+        "line": 1280,
+        "excerpt": "resp = await fetch(apiUrl(BOOT.endpoint, '/skill/queryFormulaPackage'), {",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/quant-buddy-view/scripts/capture_file_snapshot.mjs",
+        "line": 50,
+        "excerpt": "window.XMLHttpRequest = class extends EventTarget {",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/quant-buddy-view/scripts/card_runtime_retrofit.py",
+        "line": 9,
+        "excerpt": "import urllib.request",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/quant-buddy-view/scripts/card_runtime_retrofit.py",
+        "line": 211,
+        "excerpt": "req = urllib.request.Request(",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/quant-buddy-view/scripts/common.py",
+        "line": 29,
+        "excerpt": "import urllib.request",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/quant-buddy-view/scripts/common.py",
+        "line": 36,
+        "excerpt": "_NO_PROXY_OPENER = urllib.request.build_opener(urllib.request.ProxyHandler({}))",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/quant-buddy-view/scripts/common.py",
+        "line": 804,
+        "excerpt": "req = urllib.request.Request(url, data=data, headers=hdrs, method=method)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/quant-buddy-view/scripts/common.py",
+        "line": 929,
+        "excerpt": "req = urllib.request.Request(",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/quant-buddy-view/scripts/common.py",
+        "line": 972,
+        "excerpt": "kwargs = {\"stdout\": subprocess.DEVNULL, \"stderr\": subprocess.DEVNULL, \"stdin\": subprocess.DEVNULL}",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/quant-buddy-view/scripts/common.py",
+        "line": 980,
+        "excerpt": "subprocess.Popen(cmd, **kwargs)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/quant-buddy-view/scripts/data_kernel_retrofit.py",
+        "line": 8,
+        "excerpt": "import urllib.request",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/quant-buddy-view/scripts/data_kernel_retrofit.py",
+        "line": 81,
+        "excerpt": "request = urllib.request.Request(source, headers={\"Accept\": \"text/html,application/xhtml+xml\"})",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/quant-buddy-view/scripts/data_kernel_retrofit.py",
+        "line": 82,
+        "excerpt": "with urllib.request.urlopen(request, timeout=30) as response:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/quant-buddy-view/scripts/fast_query_csv.py",
+        "line": 12,
+        "excerpt": "import urllib.request",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/quant-buddy-view/scripts/fast_query_csv.py",
+        "line": 159,
+        "excerpt": "request = urllib.request.Request(url, headers={\"Accept\": \"text/csv\", \"User-Agent\": \"quant-buddy-view/csv-runtime\"})",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/quant-buddy-view/scripts/fast_query_csv.py",
+        "line": 161,
+        "excerpt": "with urllib.request.urlopen(request, timeout=timeout) as response:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/quant-buddy-view/scripts/formula_package.py",
+        "line": 61,
+        "excerpt": "import urllib.request",
         "disclosed": true,
         "automatic": false,
         "hosts": []
@@ -130,24 +315,119 @@
         "excerpt": "except (OSError, ValueError, subprocess.TimeoutExpired):",
         "disclosed": true,
         "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/quant-buddy-view/scripts/prepare_existing_file.py",
+        "line": 201,
+        "excerpt": "proc = subprocess.run(['node', str(script), str(carrier), str(snapshot)], capture_output=True,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/quant-buddy-view/scripts/publish_workflow.py",
+        "line": 106,
+        "excerpt": "completed = subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/quant-buddy-view/scripts/publish_workflow.py",
+        "line": 109,
+        "excerpt": "env=dict(os.environ),",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/quant-buddy-view/scripts/publish_workflow.py",
+        "line": 146,
+        "excerpt": "completed = subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/quant-buddy-view/scripts/publish_workflow.py",
+        "line": 149,
+        "excerpt": "env=dict(os.environ),",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/quant-buddy-view/scripts/publish_workflow.py",
+        "line": 399,
+        "excerpt": "completed = subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/quant-buddy-view/scripts/publish_workflow.py",
+        "line": 402,
+        "excerpt": "env=dict(os.environ),",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/quant-buddy-view/scripts/publish_workflow.py",
+        "line": 409,
+        "excerpt": "except subprocess.TimeoutExpired:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/quant-buddy-view/scripts/qbs_bridge.py",
+        "line": 244,
+        "excerpt": "return subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/quant-buddy-view/scripts/qbs_bridge.py",
+        "line": 1659,
+        "excerpt": "env = dict(os.environ)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/quant-buddy-view/scripts/verify_page.mjs",
+        "line": 21,
+        "excerpt": "import { spawn } from 'node:child_process';",
+        "disclosed": true,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 8,
+      "shell": 19,
       "downloads-code": 3,
-      "network": 3
+      "network": 39,
+      "reads-secrets": 4
     },
-    "score": 79,
+    "score": 69,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 22,
-    "filesSkipped": 138
+    "filesScanned": 167,
+    "filesSkipped": 1
   },
   "history": [
     {
       "commit": "8a9b228259b451366ba5690d42b490bc4c95a562",
       "scannedAt": "2026-11-07T22:05:48.475Z",
       "score": 79,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "ee4c17be97ba26fc82cba0e34aea5fcc6f6787d9",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 69,
       "rulesVersion": "1.3.0"
     }
   ]

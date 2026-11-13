@@ -4,36 +4,229 @@
   "repo": "dot-skills",
   "path": "skills/.experimental/django-recommender-search-backend-patterns",
   "name": "django-recommender-search-backend-patterns",
-  "description": "",
-  "stars": 222,
-  "category": "other",
+  "description": "Django backend patterns for recommendation services (AWS Personalize, Databricks Model Serving, internal microservices) and OpenSearch-backed search/feed endpoints. Covers fan-out orchestration (asyncio.gather, deadline propagation, partial results, async client reuse), external service protection (timeouts, circuit breakers, jittered retry, bulkheads, rate limits), OpenSearch query patterns (search_after, _source filtering, function_score, aliases, routing, bool.filter), result blending (score normalization, MMR, dedup, cold-start), Redis caching (stampede protection, model-versioned keys, two-tier, negative), resilience (partial-response envelope, stale-on-error, graceful degradation), async (sync_to_async, async ORM, uvicorn, contextvars, disconnect cancellation), and DRF response shape (cursor pagination, ETag, throttling). Use when building, reviewing, or refactoring such a Django backend. Triggers even without explicit \"scale\" cues. Includes 5 scaffolding templates.",
+  "stars": 226,
+  "category": "devops",
   "commit": "cf93c57cac89d6fc3e4194686000411567f5caf3",
   "contentHash": "3def2f7449728dd9bfb1749808ed3858b809c9bc6c81417b89a2e87707cbb588",
   "repoCreatedAt": "2026-01-16T16:53:45Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
     "findings": [
       {
         "ruleId": "network",
-        "file": "skills/.experimental/django-recommender-search-backend-patterns/references/protect-jittered-retry-backoff.md",
-        "line": 58,
-        "excerpt": "if isinstance(err, httpx.RequestError):",
+        "file": "skills/.experimental/django-recommender-search-backend-patterns/SKILL.md",
+        "line": 41,
+        "excerpt": "- [`orch-reuse-async-clients`](references/orch-reuse-async-clients.md) — One `httpx.AsyncClient` per downstream at module scope; never per-request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/django-recommender-search-backend-patterns/assets/templates/fanout_recommender_service.py.template",
+        "line": 108,
+        "excerpt": "if isinstance(err, httpx.HTTPStatusError):",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/django-recommender-search-backend-patterns/assets/templates/fanout_recommender_service.py.template",
+        "line": 118,
+        "excerpt": "if isinstance(err, (httpx.ConnectError, httpx.ConnectTimeout, httpx.WriteError)):",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/django-recommender-search-backend-patterns/assets/templates/fanout_recommender_service.py.template",
+        "line": 121,
+        "excerpt": "if isinstance(err, (httpx.ReadTimeout, httpx.ReadError, httpx.RemoteProtocolError)):",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/django-recommender-search-backend-patterns/assets/templates/fanout_recommender_service.py.template",
+        "line": 135,
+        "excerpt": "timeout: httpx.Timeout",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/django-recommender-search-backend-patterns/assets/templates/fanout_recommender_service.py.template",
+        "line": 144,
+        "excerpt": "timeout=httpx.Timeout(connect=0.3, read=0.6, write=0.3, pool=0.2),",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/django-recommender-search-backend-patterns/assets/templates/fanout_recommender_service.py.template",
+        "line": 150,
+        "excerpt": "timeout=httpx.Timeout(connect=0.2, read=0.4, write=0.2, pool=0.2),",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/django-recommender-search-backend-patterns/assets/templates/fanout_recommender_service.py.template",
+        "line": 156,
+        "excerpt": "timeout=httpx.Timeout(connect=0.5, read=3.0, write=0.5, pool=0.5),",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/django-recommender-search-backend-patterns/assets/templates/fanout_recommender_service.py.template",
+        "line": 162,
+        "excerpt": "def _build_client(cfg: SourceConfig, base_url: str) -> httpx.AsyncClient:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/django-recommender-search-backend-patterns/assets/templates/fanout_recommender_service.py.template",
+        "line": 163,
+        "excerpt": "return httpx.AsyncClient(",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/django-recommender-search-backend-patterns/assets/templates/fanout_recommender_service.py.template",
+        "line": 166,
+        "excerpt": "limits=httpx.Limits(",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/django-recommender-search-backend-patterns/metadata.json",
+        "line": 16,
+        "excerpt": "\"https://www.python-httpx.org/async/\",",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "www.python-httpx.org"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/django-recommender-search-backend-patterns/references/_sections.md",
+        "line": 59,
+        "excerpt": "**Description:** Django-specific async patterns — async views vs. sync, `sync_to_async`/`async_to_sync` correctness, ORM async pitfalls, gunicorn worker model v",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/django-recommender-search-backend-patterns/references/api-compression-and-payload-shaping.md",
+        "line": 193,
+        "excerpt": "curl -i -H \"Accept-Encoding: gzip, deflate, br\" https://api.example.com/recommendations",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.example.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/django-recommender-search-backend-patterns/references/async-cancel-on-client-disconnect.md",
+        "line": 78,
+        "excerpt": "`httpx.AsyncClient` honors `asyncio.CancelledError` — when the parent task is cancelled, in-flight requests are aborted. The downstream server may or may not st",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/.experimental/django-recommender-search-backend-patterns/references/async-worker-model-uvicorn-vs-gunicorn.md",
+        "line": 74,
+        "excerpt": "pip install uvloop httptools",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/django-recommender-search-backend-patterns/references/orch-no-blocking-in-async-view.md",
+        "line": 10,
+        "excerpt": "A single synchronous ORM call, `time.sleep`, `requests.get`, or sync boto3 call inside an `async def` view blocks the event loop for the duration of the call. W",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/django-recommender-search-backend-patterns/references/orch-no-blocking-in-async-view.md",
+        "line": 43,
+        "excerpt": "| `requests.get(url)` | `await httpx_client.get(url)` |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/.experimental/django-recommender-search-backend-patterns/references/orch-no-blocking-in-async-view.md",
+        "line": 45,
+        "excerpt": "| `subprocess.run(...)` | `await asyncio.create_subprocess_exec(...)` |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/django-recommender-search-backend-patterns/references/orch-reuse-async-clients.md",
+        "line": 10,
+        "excerpt": "Creating a new `httpx.AsyncClient` (or `aiohttp.ClientSession`) per request means: new TCP connection, new TLS handshake (~50-200ms for HTTPS), new connection p",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/django-recommender-search-backend-patterns/references/orch-reuse-async-clients.md",
+        "line": 18,
+        "excerpt": "async with httpx.AsyncClient() as client:  # ❌ new connection pool per call",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/django-recommender-search-backend-patterns/references/orch-reuse-async-clients.md",
+        "line": 36,
+        "excerpt": "_client: httpx.AsyncClient | None = None",
         "disclosed": false,
         "automatic": false,
         "hosts": []
       }
     ],
     "findingTotals": {
-      "network": 1
+      "network": 52,
+      "downloads-code": 1,
+      "shell": 1
     },
-    "score": 95,
-    "band": "low",
+    "score": 75,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 2,
-    "filesSkipped": 56
+    "filesScanned": 58,
+    "filesSkipped": 0
   },
   "history": [
     {

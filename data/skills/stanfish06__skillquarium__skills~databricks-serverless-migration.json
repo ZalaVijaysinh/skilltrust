@@ -4,18 +4,50 @@
   "repo": "skillquarium",
   "path": "skills/databricks-serverless-migration",
   "name": "databricks-serverless-migration",
-  "description": "",
+  "description": "Make direct code and configuration changes to migrate Databricks workloads from classic compute to serverless. Use for editing notebooks, jobs, pipelines, or Scala JARs (`spark_jar_task`), analyzing serverless compatibility, or writing serverless-compatible code. Provides concrete fixes for the serverless Spark Connect architecture and guides the full migration. For automated job migrations managed through the Compute Migrations API and CLI, use databricks-serverless-migration-api. Not for classic DBR version upgrades or cluster configuration changes within classic compute.",
   "stars": 12,
-  "category": "other",
-  "commit": "f748ea91aa51ce8fc42c27c809dba73a8377b1d5",
-  "contentHash": "89a49ee86a72bdbcc3c1f017502fbbecee22135a00578ef6ee62547406fcf8f1",
+  "category": "coding",
+  "commit": "ced6c96bd67acccbf0280a5071e59a523c118c66",
+  "contentHash": "1d3947d61a9598b356a346ae7ff187a7c7a2fc614f54ad34baf1395a7364ea98",
   "repoCreatedAt": "2026-06-09T12:36:45Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/databricks-serverless-migration/SKILL.md",
+        "line": 101,
+        "excerpt": "3. Check for dependency patterns: init scripts, local wheel files, custom install functions, `%pip install` lines",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/databricks-serverless-migration/SKILL.md",
+        "line": 103,
+        "excerpt": "5. Flag OS-level installs (`apt install`, `yum install`) for conversion or escalation",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/databricks-serverless-migration/SKILL.md",
+        "line": 119,
+        "excerpt": "1. Scanning all `import` statements and `%pip install` lines to detect required packages",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/databricks-serverless-migration/SKILL.md",
+        "line": 120,
+        "excerpt": "2. Extracting init script `pip install` commands from the job configuration",
+        "disclosed": false,
+        "automatic": false
+      },
       {
         "ruleId": "downloads-code",
         "file": "skills/databricks-serverless-migration/references/analyze-checklist.md",
@@ -98,26 +130,72 @@
       },
       {
         "ruleId": "downloads-code",
-        "file": "skills/databricks-serverless-migration/references/debugging-errors.md",
-        "line": 26,
-        "excerpt": "| `ModuleNotFoundError: No module named 'databricks.automl_runtime'` | E1: SDP image missing `databricks-automl-runtime`. Emit `%pip install -q databricks-autom",
+        "file": "skills/databricks-serverless-migration/references/compatibility-checks.md",
+        "line": 101,
+        "excerpt": "| Init scripts (bash) | `#!/bin/bash` scripts with `pip install` or `apt install` | Blocker | Convert `pip install` to Environment dependencies; convert `apt in",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/databricks-serverless-migration/references/compatibility-checks.md",
+        "line": 120,
+        "excerpt": "| Unpinned pip installs | `%pip install\\s+\\w+` without `==` | Warning | Pin versions: `%pip install numpy==2.2.2 pandas==2.2.3` | [Dependencies](https://docs.da",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/databricks-serverless-migration/references/compatibility-checks.md",
+        "line": 121,
+        "excerpt": "| PySpark in pip install | `%pip install.*pyspark` | Blocker | Remove — installing PySpark breaks the serverless session | [Dependencies](https://docs.databrick",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/databricks-serverless-migration/references/compatibility-checks.md",
+        "line": 164,
+        "excerpt": "r'%pip install.*pyspark',",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/databricks-serverless-migration/references/configuration-guide.md",
+        "line": 119,
+        "excerpt": "3. **`%pip install`** — inline in notebooks (works but Environment panel is preferred for reproducibility)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/databricks-serverless-migration/references/configuration-guide.md",
+        "line": 358,
+        "excerpt": "**Init scripts to Serverless Environments**: Detect `init_scripts` in the job JSON. Extract all `pip install` commands and convert them to Environment `dependen",
         "disclosed": false,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "downloads-code": 11
+      "downloads-code": 27
     },
     "score": 85,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 3,
-    "filesSkipped": 16
+    "filesScanned": 18,
+    "filesSkipped": 1
   },
   "history": [
     {
       "commit": "f748ea91aa51ce8fc42c27c809dba73a8377b1d5",
       "scannedAt": "2026-11-08T09:45:03.483Z",
+      "score": 85,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "ced6c96bd67acccbf0280a5071e59a523c118c66",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
       "score": 85,
       "rulesVersion": "1.3.0"
     }

@@ -7,13 +7,13 @@
   "description": "Produce a periodic project update for one pjangler project and one declared audience (internal or external), from Candystore, git, the ticket board and Hindsight, rendered as plain text, markdown and a self-contained HTML artifact, and emitted as one bloodbank.project.activity.recorded event. Use for \"daily update\", \"client update\", \"internal update\", \"what did we ship\", \"periodic update\", \"activity report\", \"portal update\", the nightly 03:00 run, a catch-up for a skipped window, or re-writing an update that lint refused. Do NOT use for the Surface operations payload (apps/surface, no free text), for roadmap checkpoints, for deploys, or for Bloodbank schema work (bloodbank-integration).",
   "stars": 17,
   "category": "coding",
-  "commit": "ff2132360c4a12602f752a491f896043cb60584a",
-  "contentHash": "3fab633460964d1d96c04a0016bb112bfe2f4678d6a32b14bde46a8257059640",
+  "commit": "e863bb35bbf36ca9a3c3f7c30a8b00da9d9c32bd",
+  "contentHash": "702413e630300484de127e8157159105ef5c18dbc560e55ac3342d94443ddfef",
   "repoCreatedAt": "2025-10-22T09:12:17Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": false,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "incomplete": true,
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
     "findings": [
       {
@@ -25,34 +25,26 @@
         "automatic": false
       },
       {
+        "ruleId": "shell",
+        "file": "activity-report/scripts/ar-timeout.py",
+        "line": 64,
+        "excerpt": "child = subprocess.Popen(args[1:], start_new_session=True)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
         "ruleId": "network",
         "file": "activity-report/scripts/ar/board.py",
-        "line": 24,
+        "line": 23,
         "excerpt": "import urllib.request",
         "disclosed": false,
         "automatic": false,
         "hosts": []
       },
       {
-        "ruleId": "shell",
-        "file": "activity-report/scripts/ar/board.py",
-        "line": 62,
-        "excerpt": "proc = subprocess.run([\"op\", \"read\", ref], capture_output=True, text=True, timeout=30, check=False)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "activity-report/scripts/ar/board.py",
-        "line": 63,
-        "excerpt": "except (FileNotFoundError, subprocess.TimeoutExpired, OSError):",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "activity-report/scripts/ar/board.py",
-        "line": 137,
+        "line": 150,
         "excerpt": "req = urllib.request.Request(self._url(path, params), data=data, method=method, headers=headers)",
         "disclosed": false,
         "automatic": false,
@@ -61,7 +53,7 @@
       {
         "ruleId": "network",
         "file": "activity-report/scripts/ar/board.py",
-        "line": 139,
+        "line": 152,
         "excerpt": "with urllib.request.urlopen(req, timeout=self.timeout) as resp:",
         "disclosed": false,
         "automatic": false,
@@ -70,7 +62,7 @@
       {
         "ruleId": "network",
         "file": "activity-report/scripts/ar/board.py",
-        "line": 210,
+        "line": 223,
         "excerpt": "items = fetch()",
         "disclosed": false,
         "automatic": false,
@@ -106,7 +98,7 @@
       {
         "ruleId": "writes-outside",
         "file": "activity-report/scripts/ar/cli.py",
-        "line": 132,
+        "line": 142,
         "excerpt": "p = sub.add_parser(\"init\", help=\"install the ~/.local/bin shim and check the project's config block\")",
         "disclosed": false,
         "automatic": false
@@ -114,7 +106,7 @@
       {
         "ruleId": "shell",
         "file": "activity-report/scripts/ar/cli.py",
-        "line": 176,
+        "line": 186,
         "excerpt": "os.execvp(\"bash\", argv)",
         "disclosed": false,
         "automatic": false
@@ -208,26 +200,33 @@
         "automatic": false
       },
       {
-        "ruleId": "network",
-        "file": "activity-report/scripts/ar/portal.py",
-        "line": 21,
-        "excerpt": "import urllib.request",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
-      },
-      {
         "ruleId": "shell",
-        "file": "activity-report/scripts/ar/portal.py",
-        "line": 64,
-        "excerpt": "proc = subprocess.run([\"op\", \"read\", ref], capture_output=True, text=True, timeout=60)",
+        "file": "activity-report/scripts/ar/hostenv.py",
+        "line": 130,
+        "excerpt": "proc = subprocess.run([exe, \"read\", ref], capture_output=True, text=True, timeout=timeout, check=False)",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "activity-report/scripts/ar/portal.py",
-        "line": 67,
+        "file": "activity-report/scripts/ar/hostenv.py",
+        "line": 131,
+        "excerpt": "except subprocess.TimeoutExpired as exc:",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "activity-report/scripts/ar/hostenv.py",
+        "line": 160,
+        "excerpt": "proc = subprocess.run([exe, \"exec\", \"--env-file\", tmp, \"--\", sys.executable, \"-c\", printer],",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "activity-report/scripts/ar/hostenv.py",
+        "line": 162,
         "excerpt": "except subprocess.TimeoutExpired as exc:",
         "disclosed": false,
         "automatic": false
@@ -235,7 +234,16 @@
       {
         "ruleId": "network",
         "file": "activity-report/scripts/ar/portal.py",
-        "line": 80,
+        "line": 30,
+        "excerpt": "import urllib.request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "activity-report/scripts/ar/portal.py",
+        "line": 103,
         "excerpt": "req = urllib.request.Request(",
         "disclosed": false,
         "automatic": false,
@@ -244,7 +252,7 @@
       {
         "ruleId": "network",
         "file": "activity-report/scripts/ar/portal.py",
-        "line": 89,
+        "line": 112,
         "excerpt": "with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:",
         "disclosed": false,
         "automatic": false,
@@ -275,14 +283,6 @@
         "automatic": false
       },
       {
-        "ruleId": "shell",
-        "file": "activity-report/scripts/ar/schedule.py",
-        "line": 176,
-        "excerpt": "journal = subprocess.run([\"journalctl\", \"--user\", \"-u\", service, \"-n\", \"20\", \"--no-pager\"],",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "activity-report/scripts/ar/verify.py",
         "line": 14,
@@ -309,97 +309,25 @@
         "automatic": false
       },
       {
-        "ruleId": "network",
-        "file": "activity-report/scripts/tests/test_board.py",
-        "line": 410,
-        "excerpt": "with mock.patch.object(board.urllib.request, \"urlopen\", fake_urlopen):",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "activity-report/scripts/tests/test_board.py",
-        "line": 427,
-        "excerpt": "with mock.patch.object(board.urllib.request, \"urlopen\", fake_urlopen):",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "activity-report/scripts/tests/test_board.py",
-        "line": 435,
-        "excerpt": "with mock.patch.object(board.urllib.request, \"urlopen\", fake_urlopen):",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
-      },
-      {
         "ruleId": "reads-secrets",
         "file": "activity-report/scripts/tests/test_candystore.py",
         "line": 124,
         "excerpt": "\"cd ~/code/james-brennan && cat apps/project-room/deploy/.env\", \"gh run list --workflow 'deploy relay' --limit 8\",",
         "disclosed": false,
         "automatic": false
-      },
-      {
-        "ruleId": "network",
-        "file": "activity-report/scripts/tests/test_portal.py",
-        "line": 154,
-        "excerpt": "mock.patch(\"urllib.request.urlopen\", side_effect=fake_urlopen):",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "activity-report/scripts/tests/test_portal.py",
-        "line": 171,
-        "excerpt": "mock.patch(\"urllib.request.urlopen\", return_value=Resp(json.dumps({\"success\": False, \"errors\": [{\"code\": 7}]}).encode())):",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "paid-api",
-        "file": "activity-report/scripts/tests/test_run.py",
-        "line": 332,
-        "excerpt": "leaked = {\"ANTHROPIC_API_KEY\": \"kimi-key\", \"ANTHROPIC_BASE_URL\": \"https://api.anthropic.com\",",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "network",
-        "file": "activity-report/scripts/tests/test_verify.py",
-        "line": 64,
-        "excerpt": "with mock.patch(\"urllib.request.urlopen\") as urlopen:",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "activity-report/scripts/tests/test_verify.py",
-        "line": 65,
-        "excerpt": "urlopen.return_value.__enter__.return_value = fake",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
       }
     ],
     "findingTotals": {
       "writes-outside": 3,
-      "network": 19,
-      "shell": 31,
-      "reads-secrets": 1,
-      "paid-api": 1
+      "shell": 23,
+      "network": 12,
+      "reads-secrets": 1
     },
-    "score": 50,
+    "score": 60,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 84,
-    "filesSkipped": 0
+    "filesScanned": 67,
+    "filesSkipped": 22
   },
   "history": [
     {
@@ -412,6 +340,12 @@
       "commit": "ff2132360c4a12602f752a491f896043cb60584a",
       "scannedAt": "2026-11-09T10:28:36.295Z",
       "score": 50,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "e863bb35bbf36ca9a3c3f7c30a8b00da9d9c32bd",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 60,
       "rulesVersion": "1.3.0"
     }
   ]

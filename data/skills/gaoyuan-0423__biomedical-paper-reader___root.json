@@ -7,15 +7,24 @@
   "description": "为单篇生物医学研究论文生成中文精读报告：逐图解释实验为什么这样设计、方法与结果如何支持结论、证据边界在哪里，并提炼可借鉴的研究设计；支持速读筛选与指定图／方法专题解析，英文或中英双语按需提供。输入可为 PDF、DOI、链接或正文。Deep-read, figure-by-figure analysis, quick screening, or focused figure/method analysis of one biomedical paper (PDF, DOI, link, or full text). 全文翻译、系统综述与多篇比较不是默认任务。",
   "stars": 156,
   "category": "research",
-  "commit": "20459c51bd4813b13fa97c57b012296044ee09b7",
-  "contentHash": "6c8ae3d785ef3d57661752d38983b6600ce10417b1d8e2ac1f3da3df6ee7ced6",
+  "commit": "0f1bf69ff81a4feb675aa20886d4ec7e9809944d",
+  "contentHash": "a324033d3d753ccb55f5e321702b9953cdbfb0f217f1435882d5df0aa589a506",
   "repoCreatedAt": "2026-09-26T16:40:53Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "network",
+        "file": "CLAUDE.md",
+        "line": 24,
+        "excerpt": "- 新增后端测试沿用现有模式：unittest + `tempfile.TemporaryDirectory` + `patch.object(main, 'DATA_DIR'/'PAPERS_DIR'/'TRASH_DIR'/'SETTINGS_FILE', ...)` + TestClient；PDF 一律用 `t",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
       {
         "ruleId": "writes-outside",
         "file": "README.md",
@@ -43,7 +52,7 @@
       {
         "ruleId": "downloads-code",
         "file": "app/README.md",
-        "line": 128,
+        "line": 136,
         "excerpt": "没有 `uv` 时可采用官方列出的 `pipx install zotero-mcp-server` 或 Python 环境中的 `pip install zotero-mcp-server`，启动命令相同。保持服务运行，再回到 BioReader 测试连接。上述本地只读用法不要求 Zotero Web API Key",
         "disclosed": false,
         "automatic": false
@@ -105,7 +114,7 @@
       {
         "ruleId": "network",
         "file": "app/backend/llm.py",
-        "line": 289,
+        "line": 347,
         "excerpt": "async with httpx.AsyncClient(timeout=httpx.Timeout(timeout, connect=30.0), follow_redirects=False) as client:",
         "disclosed": true,
         "automatic": false,
@@ -114,7 +123,7 @@
       {
         "ruleId": "network",
         "file": "app/backend/main.py",
-        "line": 1335,
+        "line": 1432,
         "excerpt": "timed_out = isinstance(exc, (asyncio.TimeoutError, httpx.TimeoutException))",
         "disclosed": true,
         "automatic": false,
@@ -123,7 +132,7 @@
       {
         "ruleId": "network",
         "file": "app/backend/main.py",
-        "line": 1336,
+        "line": 1433,
         "excerpt": "transient = (timed_out or isinstance(exc, (httpx.NetworkError, httpx.RemoteProtocolError, TagFormatError))",
         "disclosed": true,
         "automatic": false,
@@ -132,7 +141,7 @@
       {
         "ruleId": "network",
         "file": "app/backend/main.py",
-        "line": 1821,
+        "line": 1978,
         "excerpt": "except httpx.TimeoutException:",
         "disclosed": true,
         "automatic": false,
@@ -141,7 +150,7 @@
       {
         "ruleId": "network",
         "file": "app/backend/main.py",
-        "line": 1823,
+        "line": 1980,
         "excerpt": "except httpx.RequestError:",
         "disclosed": true,
         "automatic": false,
@@ -150,7 +159,7 @@
       {
         "ruleId": "network",
         "file": "app/backend/main.py",
-        "line": 1856,
+        "line": 2013,
         "excerpt": "except httpx.TimeoutException as exc:",
         "disclosed": true,
         "automatic": false,
@@ -159,7 +168,7 @@
       {
         "ruleId": "network",
         "file": "app/backend/main.py",
-        "line": 1858,
+        "line": 2015,
         "excerpt": "except httpx.RequestError as exc:",
         "disclosed": true,
         "automatic": false,
@@ -252,15 +261,6 @@
         "hosts": []
       },
       {
-        "ruleId": "network",
-        "file": "app/frontend/app.js",
-        "line": 1539,
-        "excerpt": "const resp = await fetch(paperPath(paper.id, '/export.zip'), { method: 'POST',",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
         "ruleId": "downloads-code",
         "file": "app/run.sh",
         "line": 8,
@@ -270,45 +270,67 @@
       },
       {
         "ruleId": "shell",
-        "file": "app/tests/test_desktop_paths.py",
+        "file": "app/tests/test_service.py",
+        "line": 32,
+        "excerpt": "child = subprocess.Popen([sys.executable, str(APP_DIR / 'service.py')],",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "app/tests/test_service.py",
         "line": 33,
-        "excerpt": "result = subprocess.run([sys.executable, str(APP_DIR / 'desktop.py'), '--self-test', str(report)],",
+        "excerpt": "stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "evals/test_prepare_release.py",
-        "line": 92,
-        "excerpt": "completed = subprocess.run(command, capture_output=True, text=True)",
+        "file": "app/tests/test_service.py",
+        "line": 109,
+        "excerpt": "child = subprocess.Popen([sys.executable, '-c', program, str(APP_DIR)],",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "evals/test_prepare_release.py",
-        "line": 97,
-        "excerpt": "completed = subprocess.run(command, capture_output=True, text=True)",
+        "file": "app/tests/test_service.py",
+        "line": 110,
+        "excerpt": "stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "app/tests/test_service.py",
+        "line": 160,
+        "excerpt": "result = subprocess.run([sys.executable, str(APP_DIR / 'service.py')],",
         "disclosed": true,
         "automatic": false
       }
     ],
     "findingTotals": {
+      "network": 35,
       "writes-outside": 2,
       "downloads-code": 7,
-      "network": 27,
-      "shell": 3
+      "shell": 5
     },
     "score": 69,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 87,
-    "filesSkipped": 488
+    "filesScanned": 101,
+    "filesSkipped": 480
   },
   "history": [
     {
       "commit": "20459c51bd4813b13fa97c57b012296044ee09b7",
       "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 69,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "0f1bf69ff81a4feb675aa20886d4ec7e9809944d",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
       "score": 69,
       "rulesVersion": "1.3.0"
     }

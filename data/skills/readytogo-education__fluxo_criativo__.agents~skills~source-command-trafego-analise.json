@@ -4,30 +4,144 @@
   "repo": "fluxo_criativo",
   "path": ".agents/skills/source-command-trafego-analise",
   "name": "source-command-trafego-analise",
-  "description": "",
+  "description": "Análise narrada de tráfego pago Meta Ads com terminologia VTSD (Mandala 18 tipos, Urgência Oculta, Quadro na Parede, Furadeira, Decorados, 3 Identidades, HOT/COLD/SUPERCOLD, Caixa Rápido, Pico vs Evergreen). 10 outputs narrativos: Diagnóstico Rápido, Performance & Funil, Criativos & Copy, Geo & Demografia, Timing & Sazonalidade, Investigação Profunda, Lifecycle & Histórico, Problemas Ocultos, Orçamento & Projeção, Comparativo A x B. Busca os dados pelo conector MCP da Meta (padrão) ou pela Graph API (modo App). Cada output entrega diagnóstico, causa provável, interpretação VTSD e ação recomendada com handoff para skill executora.",
   "stars": 18,
-  "category": "other",
-  "commit": "eee577da15962dc8b78c14a148efec91c33f6f88",
+  "category": "coding",
+  "commit": "5cf3899064c2ea4b6f14f677f86dd08e2de30862",
   "contentHash": "5907820a32ca8469942439881d9fd3b3191073ce8af1c3a4af2c152cde8d79de",
   "repoCreatedAt": "2026-05-06T18:10:38Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "reads-secrets",
+        "file": ".agents/skills/source-command-trafego-analise/SKILL.md",
+        "line": 40,
+        "excerpt": "- **Se `APP`** (reserva): confirmar que `FB_ACCESS_TOKEN_PERMANENTE` e `FB_AD_ACCOUNT_ID` têm valor no `.env` (`grep -q \"^FB_ACCESS_TOKEN_PERMANENTE=.\" .env` e ",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/source-command-trafego-analise/SKILL.md",
+        "line": 108,
+        "excerpt": "curl -s \"https://graph.facebook.com/v25.0/me/adaccounts?fields=id,account_id,name&limit=100&access_token=$(grep ^FB_ACCESS_TOKEN_PERMANENTE= .env | cut -d= -f2-",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "graph.facebook.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/source-command-trafego-analise/SKILL.md",
+        "line": 108,
+        "excerpt": "curl -s \"https://graph.facebook.com/v25.0/me/adaccounts?fields=id,account_id,name&limit=100&access_token=$(grep ^FB_ACCESS_TOKEN_PERMANENTE= .env | cut -d= -f2-",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/source-command-trafego-analise/SKILL.md",
+        "line": 185,
+        "excerpt": "{PY} .claude/skills/trafego-analise/scripts/trafego_fetch.py --account {AD_ACCOUNT_ID_ATUAL} --filtro \"{ESCOPO_FILTRO_TEXTO}\" --periodo {PERIODO} --status \"{STA",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/source-command-trafego-analise/SKILL.md",
+        "line": 245,
+        "excerpt": "curl -s \"https://graph.facebook.com/v25.0/act_{AD_ACCOUNT_ID_ATUAL}/insights",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "graph.facebook.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/source-command-trafego-analise/SKILL.md",
+        "line": 245,
+        "excerpt": "curl -s \"https://graph.facebook.com/v25.0/act_{AD_ACCOUNT_ID_ATUAL}/insights",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/source-command-trafego-analise/SKILL.md",
+        "line": 260,
+        "excerpt": "curl -s \"https://graph.facebook.com/v25.0/act_{AD_ACCOUNT_ID_ATUAL}/adsets?fields=id,name,status,effective_status,targeting&filtering=%5B%7B%22field%22%3A%22eff",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "graph.facebook.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/source-command-trafego-analise/SKILL.md",
+        "line": 260,
+        "excerpt": "curl -s \"https://graph.facebook.com/v25.0/act_{AD_ACCOUNT_ID_ATUAL}/adsets?fields=id,name,status,effective_status,targeting&filtering=%5B%7B%22field%22%3A%22eff",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/source-command-trafego-analise/SKILL.md",
+        "line": 263,
+        "excerpt": "curl -s \"https://graph.facebook.com/v25.0/act_{AD_ACCOUNT_ID_ATUAL}/ads?fields=id,name,status,effective_status,review_feedback&filtering=%5B%7B%22field%22%3A%22",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "graph.facebook.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/source-command-trafego-analise/SKILL.md",
+        "line": 273,
+        "excerpt": "curl -s \"https://graph.facebook.com/v25.0/act_{AD_ACCOUNT_ID_ATUAL}/campaigns",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "graph.facebook.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/source-command-trafego-analise/SKILL.md",
+        "line": 273,
+        "excerpt": "curl -s \"https://graph.facebook.com/v25.0/act_{AD_ACCOUNT_ID_ATUAL}/campaigns",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "reads-secrets": 1,
+      "network": 5,
+      "shell": 5
+    },
+    "score": 72,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 1
+    "filesScanned": 1,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "eee577da15962dc8b78c14a148efec91c33f6f88",
       "scannedAt": "2026-11-09T10:28:36.295Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "5cf3899064c2ea4b6f14f677f86dd08e2de30862",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 72,
       "rulesVersion": "1.3.0"
     }
   ]

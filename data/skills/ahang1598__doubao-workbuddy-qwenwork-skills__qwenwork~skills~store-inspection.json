@@ -5,25 +5,17 @@
   "path": "qwenwork/skills/store-inspection",
   "name": "store-inspection",
   "description": "门店督导与巡检自动化——通过钉钉 AI 表格管理巡店模版/门店清单/任务派发/统计报表/AI图片审核/HTML报告。所有操作通过 `uv run python scripts/cli.py` CLI 执行。【核心行为约束——违反将导致严重业务事故】(1) 创建模板只确认一次：如果用户已明确字段名称和类型则直接执行 `template preview`（必须带 --scene）生成完整预览作为唯一确认环节，不要在 preview 前多加确认；将 CLI 输出的 user_facing_preview【原封不动】展示给用户（含完整派发消息模板），用户确认后再执行 `template create`（通过 --dispatch-message 传入消息模板）。严禁跳过 preview、严禁省略消息模板展示。(2) dispatch init（建表）与 dispatch notify（发通知）是独立命令，各自需要独立的用户授权；用户说\"创建任务\"只允许执行 init，执行后必须停下来报告结果；只有用户明确说\"派发/通知/发送\"才允许 notify。(3) form_url 为空时硬停，绝对禁止在无有效表单链接时执行 notify。(4) 禁止绕过 CLI 直接调用 dws 命令操作业务数据或发消息。(5) 禁止自写定时脚本/循环/daemon。触发词：巡店、巡检、门店督导、门店任务派发、陈列检查、AI审核、督导报告。非门店巡检场景不触发。",
-  "stars": 96,
+  "stars": 97,
   "category": "coding",
   "commit": "5e45653f59a2e4a2a65f575e8aaf7637165674d5",
   "contentHash": "b9e608679f02ba6a94b389b321f580e2f7e0c663f44bee6ce4aedfa7251256e7",
   "repoCreatedAt": "2026-07-07T07:33:58Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": false,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "incomplete": true,
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
     "findings": [
-      {
-        "ruleId": "shell",
-        "file": "qwenwork/skills/store-inspection/CONTRIBUTING.md",
-        "line": 243,
-        "excerpt": "测试全部 mock `subprocess.run`，不会真实调用 `dws`，可在无网络/无钉钉权限的环境运行。",
-        "disclosed": true,
-        "automatic": false
-      },
       {
         "ruleId": "downloads-code",
         "file": "qwenwork/skills/store-inspection/README.md",
@@ -111,107 +103,17 @@
         "excerpt": "except subprocess.CalledProcessError as exc:",
         "disclosed": true,
         "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "qwenwork/skills/store-inspection/scripts/infrastructure/dws_client.py",
-        "line": 9,
-        "excerpt": "为了便于单元测试 mock，全模块只通过 :func:`subprocess.run` 与外部交互。",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "qwenwork/skills/store-inspection/scripts/infrastructure/dws_client.py",
-        "line": 115,
-        "excerpt": "if isinstance(exc, subprocess.TimeoutExpired):",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "qwenwork/skills/store-inspection/scripts/infrastructure/dws_client.py",
-        "line": 175,
-        "excerpt": "proc = subprocess.run(",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "qwenwork/skills/store-inspection/scripts/infrastructure/dws_client.py",
-        "line": 182,
-        "excerpt": "except subprocess.TimeoutExpired as exc:",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "qwenwork/skills/store-inspection/skills/report-generator/scripts/cli.py",
-        "line": 8,
-        "excerpt": "3. 用 pip install -r dependencies.txt 同步依赖",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "qwenwork/skills/store-inspection/skills/report-generator/scripts/cli.py",
-        "line": 142,
-        "excerpt": "result = subprocess.run(",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "qwenwork/skills/store-inspection/skills/report-generator/scripts/cli.py",
-        "line": 150,
-        "excerpt": "except (subprocess.TimeoutExpired, OSError):",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "qwenwork/skills/store-inspection/skills/report-generator/scripts/cli.py",
-        "line": 164,
-        "excerpt": "subprocess.run(",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "qwenwork/skills/store-inspection/skills/report-generator/scripts/cli.py",
-        "line": 172,
-        "excerpt": "except subprocess.CalledProcessError as error:",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "qwenwork/skills/store-inspection/skills/report-generator/scripts/cli.py",
-        "line": 239,
-        "excerpt": "subprocess.run(",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "network",
-        "file": "qwenwork/skills/store-inspection/skills/report-generator/scripts/commands/embed_images.py",
-        "line": 24,
-        "excerpt": "import urllib.request",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
       }
     ],
     "findingTotals": {
-      "shell": 24,
-      "downloads-code": 2,
-      "network": 1
+      "downloads-code": 1,
+      "shell": 10
     },
-    "score": 77,
-    "band": "review",
+    "score": 82,
+    "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 141,
-    "filesSkipped": 1
+    "filesScanned": 19,
+    "filesSkipped": 123
   },
   "history": [
     {

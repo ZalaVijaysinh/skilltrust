@@ -7,15 +7,26 @@
   "description": "Publishes text, Markdown, JSON, a file, a folder or a ZIP site to brewpage.app and returns a shareable URL. Use when asked to publish or share content as a link. Triggers: publish, share link, host page, brewpage, опубликуй.",
   "stars": 39,
   "category": "coding",
-  "commit": "9ddf5c045b576a3b6493b37dc1743fa3015b5a22",
-  "contentHash": "927fd3467b15f23187414ff83f400a21f8cecde268ebe5da2c56deb4f3fa938d",
+  "commit": "5da825f1d535d9658f0de0893529c6ce06a613a5",
+  "contentHash": "f337e069f5e15c39d32fe8de0675be22261f3a2b0ed8674315859e9ff745ca5c",
   "repoCreatedAt": "2026-01-24T17:30:37Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "network",
+        "file": "brewdoc/skills/publish/README.md",
+        "line": 30,
+        "excerpt": "It returns `Published: <exact server URL>`; share that link exactly. It also returns the management link: it is private, anyone who has it can edit or delete th",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "brewpage.app"
+        ]
+      },
       {
         "ruleId": "shell",
         "file": "brewdoc/skills/publish/SKILL.md",
@@ -73,6 +84,54 @@
         "automatic": false
       },
       {
+        "ruleId": "network",
+        "file": "brewdoc/skills/publish/scripts/brewpage-lib.sh",
+        "line": 53,
+        "excerpt": "> Delete: `curl -s -A \"ClaudeCode/6.12.12 (+https://brewpage.app)\" -X DELETE \"<Owner API>\" -H \"X-Owner-Token: TOKEN\"`; rows without one: `https://brewpage.app/a",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "brewpage.app"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "brewdoc/skills/publish/scripts/brewpage-lib.sh",
+        "line": 196,
+        "excerpt": "curl -s -A \"$BP_UA\" -X POST \"$url\" -H \"@$BP_HEADER_FILE\" \"$@\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "brewdoc/skills/publish/scripts/brewpage-lib.sh",
+        "line": 198,
+        "excerpt": "curl -s -A \"$BP_UA\" -X POST \"$url\" \"$@\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "brewdoc/skills/publish/scripts/brewpage-run.sh",
+        "line": 75,
+        "excerpt": "body=$(curl -s -A \"$BP_UA\" https://brewpage.app/api/limits) || die \"limits request failed\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "brewpage.app"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "brewdoc/skills/publish/scripts/history.py",
+        "line": 55,
+        "excerpt": "result = subprocess.run(['git', '-C', root] + arguments, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env={**os.environ, 'LC_ALL': 'C'})",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
         "ruleId": "shell",
         "file": "brewdoc/skills/publish/scripts/publish.mjs",
         "line": 4,
@@ -90,51 +149,207 @@
       },
       {
         "ruleId": "shell",
-        "file": "brewdoc/skills/publish/tests/suite-zsh.mjs",
+        "file": "brewdoc/skills/publish/tests/suite-archive.mjs",
         "line": 4,
+        "excerpt": "import { spawn, spawnSync } from 'node:child_process';",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "brewdoc/skills/publish/tests/suite-archive.mjs",
+        "line": 69,
+        "excerpt": "const r = spawnSync('node', [PUBLISH, 'pack', ...args], {",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "brewdoc/skills/publish/tests/suite-archive.mjs",
+        "line": 87,
+        "excerpt": "const z = spawnSync('unzip', ['-Z1', zipPath], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "brewdoc/skills/publish/tests/suite-archive.mjs",
+        "line": 141,
+        "excerpt": "spawnSync('chmod', ['+x', stub]);",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "brewdoc/skills/publish/tests/suite-archive.mjs",
+        "line": 156,
+        "excerpt": "const r = spawnSync(process.execPath, [PUBLISH, 'pack', '--dir', SITE, '--out', join(BASE, 'out', 'notool.zip')],",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "brewdoc/skills/publish/tests/suite-archive.mjs",
+        "line": 187,
+        "excerpt": "writeFileSync(amplify, `const cp=require('node:child_process'),run=cp.spawn;",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "brewdoc/skills/publish/tests/suite-archive.mjs",
+        "line": 216,
+        "excerpt": "const zipped = spawnSync('zip', ['-q', '-X', '-@', givenZip], { cwd: big, input: `${bigNames.join('\\n')}\\n` });",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "brewdoc/skills/publish/tests/suite-archive.mjs",
+        "line": 314,
+        "excerpt": "const r = spawnSync('zip', ['-r', legacy, '.'], { cwd: SITE, encoding: 'utf8' });",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "brewdoc/skills/publish/tests/suite-archive.mjs",
+        "line": 319,
+        "excerpt": "const r2 = spawnSync('zip', ['-r', legacy, '.'], { cwd: SITE, encoding: 'utf8' });",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "brewdoc/skills/publish/tests/suite-inspect.mjs",
+        "line": 5,
         "excerpt": "import { spawnSync } from 'node:child_process';",
         "disclosed": true,
         "automatic": false
       },
       {
-        "ruleId": "shell",
-        "file": "brewdoc/skills/publish/tests/suite-zsh.mjs",
-        "line": 10,
-        "excerpt": "assert.equal(spawnSync('zsh', ['-f', '--version']).error, undefined, 'GIVEN zsh on PATH (CI plugins shard installs it)');",
-        "disclosed": true,
+        "ruleId": "writes-outside",
+        "file": "brewdoc/skills/publish/tests/suite-security.mjs",
+        "line": 28,
+        "excerpt": "writeFileSync(join(localBin, 'curl'), `#!/usr/bin/env node\\nrequire('node:fs').writeFileSync(${JSON.stringify(request)},'unexpected');\\n`, { mode: 0o700 });",
+        "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "shell",
-        "file": "brewdoc/skills/publish/tests/suite-zsh.mjs",
-        "line": 52,
-        "excerpt": "const result = spawnSync('zsh', ['-f', file], {",
-        "disclosed": true,
+        "ruleId": "writes-outside",
+        "file": "brewdoc/skills/publish/tests/suite-security.mjs",
+        "line": 29,
+        "excerpt": "writeFileSync(join(localBin, 'zip'), `#!/usr/bin/env node",
+        "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "shell",
-        "file": "brewdoc/skills/publish/tests/suite-zsh.mjs",
-        "line": 75,
-        "excerpt": "const packed = spawnSync('node', [join(skillDir, 'scripts/publish.mjs'), 'pack', '--dir', site, '--out', fixtureZip], { encoding: 'utf8' });",
+        "ruleId": "writes-outside",
+        "file": "brewdoc/skills/publish/tests/suite-security.mjs",
+        "line": 86,
+        "excerpt": "writeFileSync(join(localBin, tool), `#!/usr/bin/env node",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "brewdoc/skills/publish/tests/suite-security.mjs",
+        "line": 126,
+        "excerpt": "writeFileSync(join(localBin, 'curl'), '#!/usr/bin/env node\\nconst fs=require(\"node:fs\"),path=require(\"node:path\"); const arg=process.argv.find(a=>a.startsWith(\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "brewdoc/skills/publish/tests/suite-security.mjs",
+        "line": 163,
+        "excerpt": "writeFileSync(join(guardedBin, 'curl'), `#!/usr/bin/env node",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "brewdoc/skills/publish/tests/suite-standalone-archive.mjs",
+        "line": 189,
+        "excerpt": "spawnSync('unzip', ['-tq', archive]).status, runNames(), readFileSync(join(site, '.env'), 'utf8')],",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "brewdoc/skills/publish/tests/suite-standalone.mjs",
+        "line": 145,
+        "excerpt": "const shown = [...docs[name], 'scripts/brewpage-lib.sh'].flatMap(f => read(f).split('\\n')).filter(l => /\\bcurl -/.test(l) && !/^\\s*(curl -s -A \"\\$BP_UA\"|.*\\$\\(c",
         "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "web/docs/src/content/docs/brewdoc/skills/publish.mdx",
+        "line": 69,
+        "excerpt": "**Upload limits.** brewpage.app allows 25 MB per request, 200 files, 5 MB per file and 20 MB in total. Ask the skill to check the limits, or run `curl -s -A \"Cl",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "brewpage.app"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "web/docs/src/content/docs/brewdoc/skills/publish.mdx",
+        "line": 131,
+        "excerpt": "curl -s -A \"ClaudeCode/6.12.12 (+https://brewpage.app)\" -X DELETE \"$OWNER_API\" -H \"X-Owner-Token: $TOKEN\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "brewpage.app"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "web/docs/src/content/docs/brewdoc/skills/publish.mdx",
+        "line": 132,
+        "excerpt": "curl -s -A \"ClaudeCode/6.12.12 (+https://brewpage.app)\" -X PUT \"$OWNER_API\" -H \"X-Owner-Token: $TOKEN\" -F \"archive=@/absolute/path/to/new-bundle.zip\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "brewpage.app"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "web/docs/src/content/docs/brewdoc/skills/publish.mdx",
+        "line": 172,
+        "excerpt": "Official MCP server for the BrewPage API: `claude mcp add brewpage -- npx -y brewpage-mcp@1.19.0`",
+        "disclosed": false,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 13
+      "network": 9,
+      "shell": 84,
+      "writes-outside": 5,
+      "reads-secrets": 1,
+      "downloads-code": 1
     },
-    "score": 97,
-    "band": "low",
+    "score": 49,
+    "band": "high",
     "rulesVersion": "1.3.0",
-    "filesScanned": 4,
-    "filesSkipped": 15
+    "filesScanned": 20,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "9ddf5c045b576a3b6493b37dc1743fa3015b5a22",
       "scannedAt": "2026-11-07T22:05:48.475Z",
       "score": 92,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "5da825f1d535d9658f0de0893529c6ce06a613a5",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 49,
       "rulesVersion": "1.3.0"
     }
   ]

@@ -4,30 +4,71 @@
   "repo": "skillquarium",
   "path": "skills/suricata-offline-evejson",
   "name": "suricata-offline-evejson",
-  "description": "",
+  "description": "Running Suricata against PCAPs offline and validating results via eve.json",
   "stars": 12,
   "category": "other",
-  "commit": "f748ea91aa51ce8fc42c27c809dba73a8377b1d5",
+  "commit": "ced6c96bd67acccbf0280a5071e59a523c118c66",
   "contentHash": "c5957c827715168c656e4022373a76ea4e8b4a5d9e00e99994f8dfbbb7b3fe05",
   "repoCreatedAt": "2026-06-09T12:36:45Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/suricata-offline-evejson/SKILL.md",
+        "line": 15,
+        "excerpt": "suricata -c <suricata.yaml> -S <rules> -k none -r <pcap> -l /tmp/suri",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/suricata-offline-evejson/SKILL.md",
+        "line": 31,
+        "excerpt": "jq -r 'select(.event_type==\"alert\") | .alert.signature_id' /tmp/suri/eve.json | wc -l",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/suricata-offline-evejson/SKILL.md",
+        "line": 37,
+        "excerpt": "jq -r 'select(.event_type==\"alert\") | [.alert.signature_id,.alert.signature] | @tsv' /tmp/suri/eve.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/suricata-offline-evejson/SKILL.md",
+        "line": 50,
+        "excerpt": "suricata -T -c <suricata.yaml> -S <rules>",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 4
+    },
+    "score": 95,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 1,
-    "filesSkipped": 1
+    "filesScanned": 2,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "f748ea91aa51ce8fc42c27c809dba73a8377b1d5",
       "scannedAt": "2026-11-08T09:45:03.483Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "ced6c96bd67acccbf0280a5071e59a523c118c66",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 95,
       "rulesVersion": "1.3.0"
     }
   ]

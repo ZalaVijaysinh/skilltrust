@@ -4,8 +4,8 @@
   "repo": "ReactNative-Skills",
   "path": "skills/privacy-and-store-declarations",
   "name": "privacy-and-store-declarations",
-  "description": "",
-  "stars": 12,
+  "description": "Proves an app's privacy - network via the API port or offline-only, SDK inventory, privacy manifest, App Privacy and Data safety answers. Use when an SDK lands, a release nears or an audit fails. Not for installs (dependency-management).",
+  "stars": 13,
   "category": "coding",
   "commit": "41a0e66d4d09de5b46e6537f59a97c7192473486",
   "contentHash": "83012257d8309d3aad9f53f44cb71a9babfd15ca58fdfc71ac01af8a4290ece4",
@@ -13,15 +13,32 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-08T09:45:03.483Z",
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "network",
+        "file": "skills/privacy-and-store-declarations/SKILL.md",
+        "line": 17,
+        "excerpt": "`fetch`, `XMLHttpRequest`, `WebSocket`, `EventSource`, `sendBeacon`, expo-file-system transfers",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/privacy-and-store-declarations/SKILL.md",
+        "line": 106,
+        "excerpt": "5. After a native install or an SDK upgrade: `npx expo prebuild --platform ios --clean`, then",
+        "disclosed": false,
+        "automatic": false
+      },
       {
         "ruleId": "network",
         "file": "skills/privacy-and-store-declarations/assets/data-types.json",
         "line": 2,
         "excerpt": "\"$comment\": \"The data types and purposes contracts/privacy.json may name, each mapped to Apple's App Privacy label (category > type), the NSPrivacyCollectedData",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": [
           "developer.apple.com"
@@ -32,7 +49,7 @@
         "file": "skills/privacy-and-store-declarations/assets/privacy-facts.json",
         "line": 91,
         "excerpt": "\"pattern\": \"^(axios|ky|got|node-fetch|cross-fetch)$\",",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": []
       },
@@ -41,7 +58,7 @@
         "file": "skills/privacy-and-store-declarations/assets/privacy-facts.json",
         "line": 440,
         "excerpt": "\"xhr\": \"new XMLHttpRequest\\\\b\",",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": []
       },
@@ -50,33 +67,162 @@
         "file": "skills/privacy-and-store-declarations/assets/privacy-facts.json",
         "line": 441,
         "excerpt": "\"webSocket\": \"new WebSocket\\\\(\",",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/privacy-and-store-declarations/examples/audit-run.md",
+        "line": 13,
+        "excerpt": "SKIP ios/Podfile.lock [vendor-pod] not yet created (npx expo prebuild --platform ios creates it)",
         "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/privacy-and-store-declarations/examples/audit-run.md",
+        "line": 39,
+        "excerpt": "npx expo prebuild --platform ios --clean",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/privacy-and-store-declarations/references/network-layers.md",
+        "line": 40,
+        "excerpt": "| A. Source | first-party `fetch`, `XMLHttpRequest`, `WebSocket`, `EventSource`, `sendBeacon` (also `globalThis['fetch']()`, `new globalThis.WebSocket()`, a glo",
+        "disclosed": true,
         "automatic": false,
         "hosts": []
       },
       {
         "ruleId": "network",
-        "file": "skills/privacy-and-store-declarations/templates/scripts/audit/network-js-layer.ts",
-        "line": 18,
-        "excerpt": "xhr: /new XMLHttpRequest\\b/u,",
-        "disclosed": false,
+        "file": "skills/privacy-and-store-declarations/references/network-layers.md",
+        "line": 73,
+        "excerpt": "bundle (`fetch(`, `new WebSocket(`), so it misses every aliased form, including",
+        "disclosed": true,
         "automatic": false,
         "hosts": []
       },
       {
         "ruleId": "network",
-        "file": "skills/privacy-and-store-declarations/templates/scripts/audit/network-js-layer.ts",
-        "line": 19,
-        "excerpt": "webSocket: /new WebSocket\\(/u,",
-        "disclosed": false,
+        "file": "skills/privacy-and-store-declarations/references/network-layers.md",
+        "line": 77,
+        "excerpt": "Two shapes the patterns treat specially. Layer A skips a member call (`repo.fetch('task-1')`,",
+        "disclosed": true,
         "automatic": false,
         "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/privacy-and-store-declarations/references/network-layers.md",
+        "line": 78,
+        "excerpt": "`client?.fetch(id)`) unless the receiver is the global scope (`globalThis.fetch(url)`,",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/privacy-and-store-declarations/references/network-layers.md",
+        "line": 79,
+        "excerpt": "`window.fetch(url)` still fail), and skips a method signature with a typed parameter or an empty",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/privacy-and-store-declarations/references/network-layers.md",
+        "line": 80,
+        "excerpt": "parameter list followed by a type or a body (`fetch(id: string): Task`, `async fetch() {`). An",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/privacy-and-store-declarations/references/network-layers.md",
+        "line": 81,
+        "excerpt": "untyped JavaScript method `{ fetch(id) { … } }` still fails. Layer B reads minified code, where a",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/privacy-and-store-declarations/references/network-layers.md",
+        "line": 82,
+        "excerpt": "member call cannot be told from an aliased global (SDKs call `this.fetch(…)` on a stored",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/privacy-and-store-declarations/references/network-layers.md",
+        "line": 83,
+        "excerpt": "`globalThis.fetch`), so it keeps matching `.fetch(`: do not name a first-party method `fetch`. XML",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/privacy-and-store-declarations/references/network-layers.md",
+        "line": 134,
+        "excerpt": "(`npx expo-modules-autolinking react-native-config --platform ios|android --json` and",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/privacy-and-store-declarations/references/network-layers.md",
+        "line": 167,
+        "excerpt": "`ios/` exists only after `npx expo prebuild --platform ios` (Continuous Native Generation keeps it out",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/privacy-and-store-declarations/references/network-layers.md",
+        "line": 173,
+        "excerpt": "npx expo prebuild --platform android",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/privacy-and-store-declarations/references/network-layers.md",
+        "line": 208,
+        "excerpt": "- **Trap:** `npx expo config --type introspect` without an `ios/` folder shows a placeholder",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/privacy-and-store-declarations/references/network-layers.md",
+        "line": 242,
+        "excerpt": "replaces `fetch`, `XMLHttpRequest#open` and `WebSocket` with stubs that count and block every",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/privacy-and-store-declarations/references/privacy-manifest.md",
+        "line": 90,
+        "excerpt": "npx expo prebuild --platform ios --clean        # runs pod install (macOS)",
+        "disclosed": false,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "network": 6
+      "network": 15,
+      "downloads-code": 8
     },
-    "score": 95,
+    "score": 82,
     "band": "low",
     "rulesVersion": "1.3.0",
     "filesScanned": 10,

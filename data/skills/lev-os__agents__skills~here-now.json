@@ -5,15 +5,15 @@
   "path": "skills/here-now",
   "name": "here-now",
   "description": "Publishes static folders or files to instant shareable here.now URLs. Use when the user wants publish, host, deploy, share a link, or put HTML or assets on the web.",
-  "stars": 27,
+  "stars": 28,
   "category": "devops",
-  "commit": "201a80515e1dc58addfda3cd9978907de2c944a6",
-  "contentHash": "c2dc20ffcd0b5f619de109385646a76097cf39c612665bd56a3a3157c9ac599c",
+  "commit": "b247a6df3094b3f2c2780c0f34a9f05925627ffc",
+  "contentHash": "2203ad1209a6e3a1f34d4e229fae397de43facbe0b94759e439b7ef9cb21a76a",
   "repoCreatedAt": "2026-02-13T19:29:27Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
     "findings": [
       {
@@ -328,7 +328,7 @@
       {
         "ruleId": "downloads-code",
         "file": "skills/here-now/scripts/publish.sh",
-        "line": 52,
+        "line": 56,
         "excerpt": "die \"requires jq (run: curl -fsSL https://here.now/install.sh | bash)\"",
         "disclosed": false,
         "automatic": false
@@ -336,7 +336,7 @@
       {
         "ruleId": "network",
         "file": "skills/here-now/scripts/publish.sh",
-        "line": 52,
+        "line": 56,
         "excerpt": "die \"requires jq (run: curl -fsSL https://here.now/install.sh | bash)\"",
         "disclosed": true,
         "automatic": false,
@@ -347,7 +347,7 @@
       {
         "ruleId": "network",
         "file": "skills/here-now/scripts/publish.sh",
-        "line": 224,
+        "line": 234,
         "excerpt": "RESPONSE=$(curl -sS -X \"$METHOD\" \"$URL\" \\",
         "disclosed": true,
         "automatic": false,
@@ -356,8 +356,8 @@
       {
         "ruleId": "network",
         "file": "skills/here-now/scripts/publish.sh",
-        "line": 274,
-        "excerpt": "http_code=$(curl -sS -o /dev/null -w \"%{http_code}\" -X PUT \"$upload_url\" \\",
+        "line": 292,
+        "excerpt": "code=$(curl -sS -o /dev/null -w \"%{http_code}\" --connect-timeout 20 --max-time \"$max\" -X PUT \"$url\" \\",
         "disclosed": true,
         "automatic": false,
         "hosts": []
@@ -365,7 +365,24 @@
       {
         "ruleId": "network",
         "file": "skills/here-now/scripts/publish.sh",
-        "line": 289,
+        "line": 295,
+        "excerpt": "code=$(curl -sS -o /dev/null -w \"%{http_code}\" --connect-timeout 20 --max-time \"$max\" -X PUT \"$url\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/here-now/scripts/publish.sh",
+        "line": 317,
+        "excerpt": "tr '\\n' '\\0' < \"$UPLOAD_JOBS_FILE\" | xargs -0 -n 1 -P \"$JOBS\" bash -c 'upload_one \"$1\"' _ &  # -n 1, not -I: BSD -I caps an argument at 255 bytes",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/here-now/scripts/publish.sh",
+        "line": 337,
         "excerpt": "FIN_RESPONSE=$(curl -sS -X POST \"$FINALIZE_URL\" \\",
         "disclosed": true,
         "automatic": false,
@@ -374,7 +391,7 @@
       {
         "ruleId": "network",
         "file": "skills/here-now/scripts/publish.sh",
-        "line": 362,
+        "line": 410,
         "excerpt": "LINK_RESP=$(curl -sS \"$BASE_URL/api/v1/links/$HANDLE_PATH\" \\",
         "disclosed": true,
         "automatic": false,
@@ -383,17 +400,8 @@
       {
         "ruleId": "network",
         "file": "skills/here-now/scripts/publish.sh",
-        "line": 369,
+        "line": 417,
         "excerpt": "curl -sS -X PATCH \"$BASE_URL/api/v1/links/$HANDLE_PATH\" \\",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/here-now/scripts/publish.sh",
-        "line": 375,
-        "excerpt": "curl -sS -X POST \"$BASE_URL/api/v1/links\" \\",
         "disclosed": true,
         "automatic": false,
         "hosts": []
@@ -401,9 +409,9 @@
     ],
     "findingTotals": {
       "downloads-code": 3,
-      "shell": 16,
+      "shell": 17,
       "writes-outside": 3,
-      "network": 20
+      "network": 21
     },
     "score": 72,
     "band": "review",
@@ -415,6 +423,12 @@
     {
       "commit": "201a80515e1dc58addfda3cd9978907de2c944a6",
       "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 72,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "b247a6df3094b3f2c2780c0f34a9f05925627ffc",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
       "score": 72,
       "rulesVersion": "1.3.0"
     }

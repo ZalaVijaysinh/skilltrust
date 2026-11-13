@@ -5,15 +5,15 @@
   "path": "plugins/cc_oss/skills/setup",
   "name": "setup",
   "description": "Post-install setup for the oss plugin. Run once after installing on a new machine, or after a plugin version upgrade, to deliver this plugin's rules/*.md into ~/.claude/rules/ as namespaced symlinks and merge its own permissions.allow and permissions.deny entries into ~/.claude/settings.json. TRIGGER when: user installed or upgraded the oss plugin and its rules are not loading, or its deny rules are not blocking; phrases: 'set up oss', 'oss rules not loading', 'merge oss permissions', 'after upgrading oss'. SKIP: statusLine/TEAM_PROTOCOL/plugin-cache setup (use /foundry:setup (requires `foundry` plugin)); editing rule content (edit the plugin source).",
-  "stars": 32,
+  "stars": 31,
   "category": "coding",
-  "commit": "1f354b2c58faa1f58debf3b25f6634b1e161db9a",
-  "contentHash": "348bb2edb2a42ef74a0953d2bb6606adaae4a0a511fbda7c60acb475569cae15",
+  "commit": "2af2f1f55a9eaf520f795f3557e739f9bd78d078",
+  "contentHash": "608926783e9b7468ff7ae6444843cc70daa26320560071d3505e29e4b514cafa",
   "repoCreatedAt": "2026-02-22T18:44:53Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
     "findings": [
       {
@@ -28,7 +28,7 @@
         "ruleId": "shell",
         "file": "plugins/cc_oss/skills/setup/SKILL.md",
         "line": 59,
-        "excerpt": "PLUGIN_ROOT=\"${CLAUDE_PLUGIN_ROOT:-plugins/cc_oss}\"",
+        "excerpt": "PLUGIN_ROOT=$(python \"${CLAUDE_PLUGIN_ROOT}/bin/resolve_plugin_root.py\" --plugin-name oss) || exit $?; export PLUGIN_ROOT",
         "disclosed": true,
         "automatic": false
       },
@@ -36,14 +36,30 @@
         "ruleId": "shell",
         "file": "plugins/cc_oss/skills/setup/SKILL.md",
         "line": 70,
-        "excerpt": "PLUGIN_ROOT=\"${CLAUDE_PLUGIN_ROOT:-plugins/cc_oss}\"",
+        "excerpt": "PLUGIN_ROOT=$(python \"${CLAUDE_PLUGIN_ROOT}/bin/resolve_plugin_root.py\" --plugin-name oss) || exit $?; export PLUGIN_ROOT",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/cc_oss/skills/setup/SKILL.md",
+        "line": 77,
+        "excerpt": "PLUGIN_ROOT=$(python \"${CLAUDE_PLUGIN_ROOT}/bin/resolve_plugin_root.py\" --plugin-name oss) || exit $?; export PLUGIN_ROOT",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/cc_oss/skills/setup/SKILL.md",
+        "line": 100,
+        "excerpt": "PLUGIN_ROOT=$(python \"${CLAUDE_PLUGIN_ROOT}/bin/resolve_plugin_root.py\" --plugin-name oss) || exit $?; export PLUGIN_ROOT",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
         "file": "plugins/cc_oss/skills/setup/SKILL.md",
-        "line": 101,
+        "line": 113,
         "excerpt": "- `Bash(uv pip install:*)` — nothing replaces it. It auto-approved every `uv pip install`, including the review overlay's support check and wheel fetch, which m",
         "disclosed": false,
         "automatic": false
@@ -51,47 +67,47 @@
       {
         "ruleId": "shell",
         "file": "plugins/cc_oss/skills/setup/SKILL.md",
-        "line": 112,
-        "excerpt": "SETUP_BAK_TS=$(date -u +%Y-%m-%dT%H-%M-%SZ)",
+        "line": 124,
+        "excerpt": "PLUGIN_ROOT=$(python \"${CLAUDE_PLUGIN_ROOT}/bin/resolve_plugin_root.py\" --plugin-name oss) || exit $?; export PLUGIN_ROOT",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "writes-outside",
         "file": "plugins/cc_oss/skills/setup/SKILL.md",
-        "line": 113,
+        "line": 125,
         "excerpt": "[ -f ~/.claude/settings.json ] || printf '{}\\n' > ~/.claude/settings.json  # created in-bash — no Write-tool prompt, headless-safe",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "plugins/cc_oss/skills/setup/SKILL.md",
-        "line": 114,
-        "excerpt": "cp ~/.claude/settings.json \"$HOME/.claude/settings.json.bak-${SETUP_BAK_TS}\"  # timeout: 5000",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "plugins/cc_oss/skills/setup/SKILL.md",
-        "line": 118,
-        "excerpt": "python -m json.tool ~/.claude/settings.json > /dev/null || { cp \"$HOME/.claude/settings.json.bak-${SETUP_BAK_TS}\" ~/.claude/settings.json; printf \"! settings.js",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "plugins/cc_oss/CHANGELOG.md",
-        "line": 98,
+        "line": 180,
         "excerpt": "- The same hook reads each command as the shell's own words before judging it: quotes, backslash escapes, `$'…'` strings and line continuations are resolved and",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/cc_oss/blueprint-manifest.json",
+        "line": 4143,
+        "excerpt": "\"template\": \"PLUGIN_ROOT=$(python \\\"${CLAUDE_PLUGIN_ROOT}/bin/resolve_plugin_root.py\\\" --plugin-name oss) || exit $?; export PLUGIN_ROOT\\n[ -f ~/.claude/setting",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/cc_oss/blueprint-manifest.json",
+        "line": 5408,
+        "excerpt": "\"template\": \"PLUGIN_ROOT=$(python \\\"${CLAUDE_PLUGIN_ROOT}/bin/resolve_plugin_root.py\\\" --plugin-name oss) || exit $?; export PLUGIN_ROOT\\nexport CSID=\\\"${CLAUDE",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "network",
         "file": "plugins/cc_oss/hooks/agent-router.js",
-        "line": 171,
+        "line": 216,
         "excerpt": "const req = https.request(",
         "disclosed": false,
         "automatic": true,
@@ -100,7 +116,7 @@
       {
         "ruleId": "paid-api",
         "file": "plugins/cc_oss/hooks/agent-router.js",
-        "line": 173,
+        "line": 218,
         "excerpt": "hostname: \"api.openai.com\",",
         "disclosed": false,
         "automatic": true
@@ -108,7 +124,7 @@
       {
         "ruleId": "paid-api",
         "file": "plugins/cc_oss/hooks/agent-router.js",
-        "line": 251,
+        "line": 296,
         "excerpt": "const req = https.request({ hostname: \"api.anthropic.com\", headers, ...options }, (res) => {",
         "disclosed": false,
         "automatic": true
@@ -116,7 +132,7 @@
       {
         "ruleId": "network",
         "file": "plugins/cc_oss/hooks/agent-router.js",
-        "line": 251,
+        "line": 296,
         "excerpt": "const req = https.request({ hostname: \"api.anthropic.com\", headers, ...options }, (res) => {",
         "disclosed": false,
         "automatic": true,
@@ -217,43 +233,19 @@
         "excerpt": "\"command\": \"for n in node /opt/homebrew/bin/node /usr/local/bin/node; do command -v \\\"$n\\\" >/dev/null 2>&1 && exec \\\"$n\\\" \\\"${CLAUDE_PLUGIN_ROOT}/hooks/write-gu",
         "disclosed": true,
         "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/cc_oss/hooks/hooks.json",
-        "line": 123,
-        "excerpt": "\"command\": \"for n in node /opt/homebrew/bin/node /usr/local/bin/node; do command -v \\\"$n\\\" >/dev/null 2>&1 && exec \\\"$n\\\" \\\"${CLAUDE_PLUGIN_ROOT}/hooks/audit-cl",
-        "disclosed": true,
-        "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/cc_oss/hooks/hooks.json",
-        "line": 134,
-        "excerpt": "\"command\": \"for n in node /opt/homebrew/bin/node /usr/local/bin/node; do command -v \\\"$n\\\" >/dev/null 2>&1 && exit 0; done; echo \\\"oss plugin hooks are inactive",
-        "disclosed": true,
-        "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/cc_oss/hooks/hooks.json",
-        "line": 142,
-        "excerpt": "\"command\": \"for n in node /opt/homebrew/bin/node /usr/local/bin/node; do command -v \\\"$n\\\" >/dev/null 2>&1 && exec \\\"$n\\\" \\\"${CLAUDE_PLUGIN_ROOT}/hooks/audit-cl",
-        "disclosed": true,
-        "automatic": true
       }
     ],
     "findingTotals": {
-      "shell": 25,
+      "shell": 28,
       "downloads-code": 1,
-      "writes-outside": 3,
+      "writes-outside": 2,
       "network": 2,
       "paid-api": 2
     },
     "score": 57,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 17,
+    "filesScanned": 18,
     "filesSkipped": 0
   },
   "history": [
@@ -266,6 +258,12 @@
     {
       "commit": "1f354b2c58faa1f58debf3b25f6634b1e161db9a",
       "scannedAt": "2026-11-09T10:28:36.295Z",
+      "score": 57,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "2af2f1f55a9eaf520f795f3557e739f9bd78d078",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
       "score": 57,
       "rulesVersion": "1.3.0"
     }

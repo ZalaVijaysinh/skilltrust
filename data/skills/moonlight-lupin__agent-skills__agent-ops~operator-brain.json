@@ -4,23 +4,107 @@
   "repo": "agent-skills",
   "path": "agent-ops/operator-brain",
   "name": "operator-brain",
-  "description": "Use when communicating, deciding, or reporting as a senior operator — 8 behavioral modules from Anthropic's Fable prompting guide. Not capability — pure behavior. Load for user-facing text quality.",
-  "stars": 120,
+  "description": "Use when communicating, deciding, or reporting as a senior operator — 10 behavioral modules from Anthropic's Fable 5 and Fable 5.1 prompting guides. Not capability — pure behavior. Load for user-facing text quality, narrating long work, and keeping edits in scope.",
+  "stars": 123,
   "category": "coding",
-  "commit": "ceacc13d2bbc98d9dea5cbabcb4f44e4c7fd14a9",
-  "contentHash": "9ec4625ec03116c182bbe97ad641c6fd75f0fd5c60df72c98c77d9935d4f51a8",
+  "commit": "e943e3285cd03c44b2c762a9a52328e3d16444b1",
+  "contentHash": "0c764c1c770c67db62220b26fa122560f6ab5719d1d5a8e2a8923c440e88a8f3",
   "repoCreatedAt": "2026-07-08T16:58:27Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "agent-ops/operator-brain/evals/harness.py",
+        "line": 18,
+        "excerpt": "import json, os, subprocess, sys, time, urllib.request, urllib.error, html.parser, re",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "agent-ops/operator-brain/evals/harness.py",
+        "line": 21,
+        "excerpt": "API = \"https://openrouter.ai/api/v1/chat/completions\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "agent-ops/operator-brain/evals/harness.py",
+        "line": 40,
+        "excerpt": "out = json.loads(urllib.request.urlopen(urllib.request.Request(u, headers={\"User-Agent\": \"harness\"}), timeout=20).read())[\"query\"][\"search\"]",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "agent-ops/operator-brain/evals/harness.py",
+        "line": 45,
+        "excerpt": "out = json.loads(urllib.request.urlopen(urllib.request.Request(u, headers={\"User-Agent\": \"harness\"}), timeout=20).read())[\"hits\"]",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "agent-ops/operator-brain/evals/harness.py",
+        "line": 74,
+        "excerpt": "req = urllib.request.Request(url, headers={\"User-Agent\": \"Mozilla/5.0\"})",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "agent-ops/operator-brain/evals/harness.py",
+        "line": 75,
+        "excerpt": "body = urllib.request.urlopen(req, timeout=20).read().decode(\"utf-8\", \"ignore\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "agent-ops/operator-brain/evals/harness.py",
+        "line": 105,
+        "excerpt": "r = subprocess.run([\"sh\", \"-c\", command], capture_output=True, text=True, timeout=10, cwd=ws,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "agent-ops/operator-brain/evals/harness.py",
+        "line": 121,
+        "excerpt": "req = urllib.request.Request(API, data=json.dumps(payload).encode(),",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "agent-ops/operator-brain/evals/harness.py",
+        "line": 124,
+        "excerpt": "r = json.loads(urllib.request.urlopen(req, timeout=90).read())",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "network": 7,
+      "paid-api": 1,
+      "shell": 1
+    },
+    "score": 80,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 1,
+    "filesScanned": 8,
     "filesSkipped": 0
   },
   "history": [
@@ -28,6 +112,12 @@
       "commit": "ceacc13d2bbc98d9dea5cbabcb4f44e4c7fd14a9",
       "scannedAt": "2026-11-07T22:05:48.475Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "e943e3285cd03c44b2c762a9a52328e3d16444b1",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 80,
       "rulesVersion": "1.3.0"
     }
   ]

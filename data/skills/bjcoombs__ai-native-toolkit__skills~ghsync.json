@@ -4,22 +4,22 @@
   "repo": "ai-native-toolkit",
   "path": "skills/ghsync",
   "name": "ghsync",
-  "description": "Bulk clone and keep in sync every GitHub repo you can access across an org or personal account. For an org it unions the repos reachable through the teams you belong to with the org's repo list (so direct-collaborator and public repos count even with no team membership); for a personal account it uses the account's repo list. Deduplicates them, then clones new ones and fast-forward syncs existing ones (and their worktrees) into a consistent <repo>/<repo>-main + <repo>/worktree layout. The org defaults to the directory you run from, so dropping into ~/dev/github.com/<org> mirrors that org. TRIGGER when the user types /ghsync, wants to clone or sync all org repos or their own personal repos, asks to mirror everything they have access to, is onboarding into a new enterprise/org, or wants to refresh their local checkouts to latest.",
+  "description": "Bulk clone and keep in sync every repo you can access on GitHub or GitLab. GitHub: an org's repos via your teams plus the org repo list, or a personal account's repos. GitLab (--provider gitlab --host <host>): every project in every group you belong to, with nested subgroups and projects shared into those groups, laid out under its path_with_namespace; --group narrows to one subtree, and --porcelain / --from-list split discovery from cloning for hosts reachable only from another network. Deduplicates, then clones new repos and fast-forward syncs existing ones (and their worktrees) into a <path>/<repo>-main + <path>/worktree layout. TRIGGER when the user types /ghsync, wants to clone or sync all org repos, their personal repos or all GitLab group projects, asks to mirror everything they have access to on GitHub or a GitLab host, is onboarding into a new enterprise, org or GitLab group, or wants to refresh their local checkouts to latest.",
   "stars": 32,
   "category": "coding",
-  "commit": "82a6017d2079ff660452106e2f48e3030801feb5",
-  "contentHash": "bc12c21a84beb502c0a3a8a4208b724e99e9f9c7819a793d616e6ef8e0a1740f",
+  "commit": "f31582e1c9fe75950a9e522649565b93e3072fe0",
+  "contentHash": "d90cbbbfe63005986cc7dcbee163025a74eb4a3142694b1fba35e328a3031fa9",
   "repoCreatedAt": "2026-01-13T14:50:25Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "skills/ghsync/SKILL.md",
-        "line": 34,
+        "line": 35,
         "excerpt": "cd ~/dev/github.com/meridianhub",
         "disclosed": false,
         "automatic": false
@@ -27,15 +27,31 @@
       {
         "ruleId": "shell",
         "file": "skills/ghsync/SKILL.md",
-        "line": 44,
+        "line": 45,
         "excerpt": "bash \"${CLAUDE_SKILL_DIR}/scripts/ghsync.sh\" --org meridianhub --root ~/dev/github.com/meridianhub",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/ghsync/SKILL.md",
+        "line": 85,
+        "excerpt": "bash \"${CLAUDE_SKILL_DIR}/scripts/ghsync.sh\" --provider gitlab --list-repos",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/ghsync/SKILL.md",
+        "line": 137,
+        "excerpt": "bash \"${CLAUDE_SKILL_DIR}/scripts/ghsync.sh\" --provider gitlab --host gitlab.example.com --porcelain > projects.txt",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
         "file": "skills/ghsync/SKILL.md",
-        "line": 115,
+        "line": 192,
         "excerpt": "- **`timeout`:** optional but recommended (`brew install coreutils`) — caps each",
         "disclosed": false,
         "automatic": false
@@ -43,7 +59,7 @@
       {
         "ruleId": "downloads-code",
         "file": "skills/ghsync/scripts/ghsync.sh",
-        "line": 150,
+        "line": 273,
         "excerpt": "echo \"$cmd command not found. Install it using: brew install $cmd\"",
         "disclosed": false,
         "automatic": false
@@ -51,7 +67,23 @@
       {
         "ruleId": "downloads-code",
         "file": "skills/ghsync/scripts/ghsync.sh",
-        "line": 168,
+        "line": 410,
+        "excerpt": "command -v jq &> /dev/null || gitlab_fail \"jq installed\" \"jq not found. Install it using: brew install jq\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/ghsync/scripts/ghsync.sh",
+        "line": 412,
+        "excerpt": "command -v glab &> /dev/null || gitlab_fail \"glab installed\" \"glab not found. Install it using: brew install glab\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/ghsync/scripts/ghsync.sh",
+        "line": 734,
         "excerpt": "echo \"Note: timeout command not found. Install coreutils for timeout protection: brew install coreutils\"",
         "disclosed": false,
         "automatic": false
@@ -59,15 +91,15 @@
       {
         "ruleId": "shell",
         "file": "skills/ghsync/scripts/ghsync.sh",
-        "line": 655,
+        "line": 1149,
         "excerpt": "timeout 300 bash -c \"",
         "disclosed": false,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 3,
-      "downloads-code": 3
+      "shell": 5,
+      "downloads-code": 5
     },
     "score": 80,
     "band": "low",
@@ -79,6 +111,12 @@
     {
       "commit": "82a6017d2079ff660452106e2f48e3030801feb5",
       "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 80,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "f31582e1c9fe75950a9e522649565b93e3072fe0",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
       "score": 80,
       "rulesVersion": "1.3.0"
     }

@@ -4,24 +4,118 @@
   "repo": "skills",
   "path": "web-search",
   "name": "web-search",
-  "description": "",
+  "description": "Web search and page reading on this machine: Tavily and Brave through a hardened wrapper around the pinned cli-web-search binary (web-search search|fetch|doctor). Use for searching the public web: current events, library and API docs, error-message lookups, finding URLs, and reading a public web page as markdown. Claude Code's built-in WebSearch and WebFetch return HTTP 400 on this host as of 2026-10-02 (see references/builtin-web-tools-400.md), so use this instead. Keys come from 1Password at call time. Do NOT use for GitHub content (use gh), searching local files or code (use rg or codegraph), JavaScript-rendered or logged-in pages (use kapture), or localhost, LAN and tailnet URLs (use curl).",
   "stars": 17,
-  "category": "other",
-  "commit": "ff2132360c4a12602f752a491f896043cb60584a",
+  "category": "coding",
+  "commit": "e863bb35bbf36ca9a3c3f7c30a8b00da9d9c32bd",
   "contentHash": "5b0cd17b3b81d202fc653f23b4b390b1510e7febc8260ca536057b2facea9a5d",
   "repoCreatedAt": "2025-10-22T09:12:17Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "web-search/SKILL.md",
+        "line": 13,
+        "excerpt": "WS=~/.agents/skills/web-search/scripts/web-search       # also on PATH as `web-search`",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "web-search/SKILL.md",
+        "line": 74,
+        "excerpt": "- Some exotic pages abort the CLI (exit 5): fall back to `curl -sL URL`. Pages over roughly 70 MB hit the 2 GiB memory cap.",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "web-search/SKILL.md",
+        "line": 102,
+        "excerpt": "S=~/.agents/skills/web-search/scripts",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "web-search/scripts/install.sh",
+        "line": 35,
+        "excerpt": "cargo install --path \"$work/src\" --locked --root \"$PREFIX\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "web-search/scripts/test_web_search.py",
+        "line": 131,
+        "excerpt": "return subprocess.run([sys.executable, WS_PATH, *args], env=self.env(ambient, extra_env), capture_output=True,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "web-search/scripts/test_web_search.py",
+        "line": 200,
+        "excerpt": "proc = subprocess.Popen([sys.executable, WS_PATH, \"search\", f\"SLEEP {pidfile}\", \"-p\", \"brave\"], env=self.env(),",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "web-search/scripts/test_web_search.py",
+        "line": 201,
+        "excerpt": "stdout=subprocess.PIPE, stderr=subprocess.PIPE)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "web-search/scripts/test_web_search.py",
+        "line": 220,
+        "excerpt": "r = subprocess.run([\"bash\", \"-c\", f\"ulimit -Hd 1500000; exec {sys.executable} {WS_PATH} search hello -p tavily\"],",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "web-search/scripts/test_web_search.py",
+        "line": 225,
+        "excerpt": "r = subprocess.run(f\"{sys.executable} {WS_PATH} search LONGSNIP -p tavily -n 20 --snippet-chars 0 | head -c1\",",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "web-search/scripts/test_web_search.py",
+        "line": 226,
+        "excerpt": "shell=True, env=self.env(), capture_output=True, text=True, timeout=60)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "web-search/scripts/test_web_search.py",
+        "line": 473,
+        "excerpt": "r = subprocess.run([sys.executable, WS_PATH, \"fetch\", \"http://a..b.com/\"], capture_output=True, text=True,",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 9,
+      "network": 1,
+      "downloads-code": 1
+    },
+    "score": 79,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 3,
-    "filesSkipped": 11
+    "filesScanned": 7,
+    "filesSkipped": 7
   },
   "history": [
     {
@@ -34,6 +128,12 @@
       "commit": "ff2132360c4a12602f752a491f896043cb60584a",
       "scannedAt": "2026-11-09T10:28:36.295Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "e863bb35bbf36ca9a3c3f7c30a8b00da9d9c32bd",
+      "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 79,
       "rulesVersion": "1.3.0"
     }
   ]

