@@ -1,0 +1,164 @@
+{
+  "id": "kortix-ai__companyos__packages~starter~templates~software-factory~.kortix~software-factory~skills~software-factory",
+  "owner": "kortix-ai",
+  "repo": "CompanyOS",
+  "path": "packages/starter/templates/software-factory/.kortix/software-factory/skills/software-factory",
+  "name": "software-factory",
+  "description": "The Software Factory contract. Sources file tickets into one ticket store (GitHub Issues, Linear, Jira, Asana or a JSON file); intake hands each ready ticket to one worker session; workers verify on the dev environment and open a pull request with evidence; feedback, the merge gate, groom and eval keep it moving. The factory acts on GitHub as its own account (FACTORY_GITHUB_TOKEN, scripts/github-identity.sh). Defines the GitHub identity, the store operations, labels, dedup keys, upsert, states, markers, caps, ticket body, worker brief, models, pull request evidence, follow-ups and the hard rules. Load it in every factory run (every trigger of the `factory` agent, every worker and reviewer session) and in any session that files or changes factory tickets.",
+  "stars": 20708,
+  "category": "coding",
+  "commit": "be1a87d15c955ff2663f81d6a512bba5ee7caf33",
+  "contentHash": "36c40045bf505e6ebf80b3e99c538e37ef7dc9970c6fe25726a514fed7820be3",
+  "repoCreatedAt": "2024-10-05T17:01:01Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-14T09:34:23.329Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "packages/starter/templates/software-factory/.kortix/software-factory/skills/software-factory/SKILL.md",
+        "line": 54,
+        "excerpt": ". /workspace/.kortix/software-factory/scripts/github-identity.sh || exit 1",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/starter/templates/software-factory/.kortix/software-factory/skills/software-factory/SKILL.md",
+        "line": 353,
+        "excerpt": "kortix sessions new --agent factory --model \"$MODEL\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/starter/templates/software-factory/.kortix/software-factory/skills/software-factory/SKILL.md",
+        "line": 472,
+        "excerpt": "kortix loop \"followup:<ticket id> · PR <url> · until <ISO, handoff + 3 d>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/starter/templates/software-factory/.kortix/software-factory/skills/software-factory/references/sources/db-observer.md",
+        "line": 46,
+        "excerpt": "| supabase, SQL | `curl -sf -X POST \"https://api.supabase.com/v1/projects/$SUPABASE_PROJECT_REF/database/query/read-only\" -H \"Authorization: Bearer $SUPABASE_AC",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.supabase.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/starter/templates/software-factory/.kortix/software-factory/skills/software-factory/references/sources/errors-betterstack.md",
+        "line": 22,
+        "excerpt": "curl -sf -H \"$H\" \"https://uptime.betterstack.com/api/v3/incidents?resolved=false&per_page=50\" > /tmp/factory/errors/incidents.json",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "uptime.betterstack.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/starter/templates/software-factory/.kortix/software-factory/skills/software-factory/references/sources/errors-betterstack.md",
+        "line": 23,
+        "excerpt": "curl -sf -H \"$H\" \"https://uptime.betterstack.com/api/v2/monitors?per_page=100\" > /tmp/factory/errors/monitors.json",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "uptime.betterstack.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/starter/templates/software-factory/.kortix/software-factory/skills/software-factory/references/sources/errors-sentry.md",
+        "line": 19,
+        "excerpt": "curl -sf -H \"$H\" \"$S/issues/?query=is:unresolved%20firstSeen:-2h&statsPeriod=24h&limit=100\" > /tmp/factory/errors/new.json",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/starter/templates/software-factory/.kortix/software-factory/skills/software-factory/references/sources/errors-sentry.md",
+        "line": 20,
+        "excerpt": "curl -sf -H \"$H\" \"$S/issues/?query=is:unresolved%20is:regressed%20lastSeen:-2h&statsPeriod=24h&limit=100\" > /tmp/factory/errors/regressed.json",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/starter/templates/software-factory/.kortix/software-factory/skills/software-factory/references/sources/errors-sentry.md",
+        "line": 50,
+        "excerpt": "`curl -s -H \"Authorization: Bearer $SENTRY_AUTH_TOKEN\" https://sentry.io/api/0/organizations/$SENTRY_ORG/issues/<id>/events/latest/`",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "sentry.io"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/starter/templates/software-factory/.kortix/software-factory/skills/software-factory/references/sources/logs-anomaly.md",
+        "line": 33,
+        "excerpt": "| ClickHouse, Better Stack Telemetry (ClickHouse over HTTP) | `curl -sf --config - \"$CLICKHOUSE_URL\" --data-binary @q.sql` with the user and password in a curl ",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/starter/templates/software-factory/.kortix/software-factory/skills/software-factory/references/stores/asana.md",
+        "line": 12,
+        "excerpt": "user): `curl -s https://app.asana.com/api/1.0/… -H \"Authorization: Bearer $ASANA_ACCESS_TOKEN\"`.",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "app.asana.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/starter/templates/software-factory/.kortix/software-factory/skills/software-factory/references/stores/jira.md",
+        "line": 13,
+        "excerpt": "`printf 'user = \"%s:%s\"\\n' \"$JIRA_EMAIL\" \"$JIRA_API_TOKEN\" | curl -s -K - -H 'Content-Type: application/json' \"$JIRA_BASE_URL/rest/api/3/…\"`.",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/starter/templates/software-factory/.kortix/software-factory/skills/software-factory/references/stores/linear.md",
+        "line": 14,
+        "excerpt": "`curl -s https://api.linear.app/graphql -H \"Authorization: $LINEAR_API_KEY\" -H 'Content-Type: application/json' -d @<query.json>`.",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.linear.app"
+        ]
+      }
+    ],
+    "findingTotals": {
+      "shell": 3,
+      "network": 10
+    },
+    "score": 94,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 27,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "be1a87d15c955ff2663f81d6a512bba5ee7caf33",
+      "scannedAt": "2026-11-14T09:34:23.329Z",
+      "score": 94,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

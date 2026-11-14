@@ -5,15 +5,15 @@
   "path": "skills/jarvis",
   "name": "jarvis",
   "description": "Load when acting for the user on their computer, browser, accounts, messages or records, or when starting, handing off or ending a long session.",
-  "stars": 92,
+  "stars": 93,
   "category": "coding",
-  "commit": "5615b6afe0454f13d643398bd01fdf2299fad07d",
-  "contentHash": "9ab5b236cdbcbcc48472d1b130afcbcdab038bfa594e39d69111b2d33b475af9",
+  "commit": "6ec1f065c720383f4f0ae7b2ecc4b58c554ddbdd",
+  "contentHash": "01b66418b1655365d96ee69a6b63be19caf719099379624c5c74d47300ced09f",
   "repoCreatedAt": "2026-03-24T17:37:39Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-10T10:33:07.758Z",
+  "scannedAt": "2026-11-14T09:34:23.329Z",
   "scan": {
     "findings": [
       {
@@ -100,7 +100,7 @@
       {
         "ruleId": "network",
         "file": "skills/jarvis/scripts/jarvis-browser",
-        "line": 29,
+        "line": 38,
         "excerpt": "with closing(http.client.HTTPConnection(\"127.0.0.1\", int(port), timeout=0.5)) as connection:",
         "disclosed": false,
         "automatic": false,
@@ -109,7 +109,7 @@
       {
         "ruleId": "network",
         "file": "skills/jarvis/scripts/jarvis-browser",
-        "line": 36,
+        "line": 48,
         "excerpt": "except (OSError, ValueError, KeyError, TypeError, http.client.HTTPException) as failure:",
         "disclosed": false,
         "automatic": false,
@@ -118,7 +118,23 @@
       {
         "ruleId": "shell",
         "file": "skills/jarvis/scripts/jarvis-browser",
-        "line": 144,
+        "line": 97,
+        "excerpt": "listed = subprocess.run([\"ps\", \"-A\", \"-ww\", \"-o\", \"pid=\", \"-o\", \"args=\"], stdin=subprocess.DEVNULL,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/jarvis/scripts/jarvis-browser",
+        "line": 99,
+        "excerpt": "except subprocess.TimeoutExpired as failure:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/jarvis/scripts/jarvis-browser",
+        "line": 233,
         "excerpt": "child = subprocess.Popen(argv, stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,",
         "disclosed": true,
         "automatic": false
@@ -126,7 +142,7 @@
       {
         "ruleId": "shell",
         "file": "skills/jarvis/scripts/jarvis-browser",
-        "line": 145,
+        "line": 234,
         "excerpt": "stderr=subprocess.DEVNULL, start_new_session=True)",
         "disclosed": true,
         "automatic": false
@@ -134,7 +150,7 @@
       {
         "ruleId": "shell",
         "file": "skills/jarvis/scripts/jarvis-browser",
-        "line": 154,
+        "line": 246,
         "excerpt": "except subprocess.TimeoutExpired:",
         "disclosed": true,
         "automatic": false
@@ -142,7 +158,7 @@
       {
         "ruleId": "shell",
         "file": "skills/jarvis/scripts/jarvis-browser",
-        "line": 159,
+        "line": 256,
         "excerpt": "os.execv(browser, argv)",
         "disclosed": true,
         "automatic": false
@@ -150,7 +166,7 @@
       {
         "ruleId": "shell",
         "file": "skills/jarvis/scripts/lib/forward.py",
-        "line": 239,
+        "line": 304,
         "excerpt": "\"bash -c \" + shlex.quote(script) + \" forward \" + \" \".join(map(shlex.quote, [self.role.home, *args]))]",
         "disclosed": true,
         "automatic": false
@@ -196,25 +212,9 @@
         "automatic": false
       },
       {
-        "ruleId": "shell",
-        "file": "skills/jarvis/scripts/lib/op_fifo.py",
-        "line": 196,
-        "excerpt": "return subprocess.CompletedProcess(argv, process.returncode, stdout)",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/jarvis/scripts/lib/op_fifo.py",
-        "line": 202,
-        "excerpt": "except subprocess.TimeoutExpired:",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "reads-secrets",
         "file": "skills/jarvis/scripts/lib/session.py",
-        "line": 462,
+        "line": 497,
         "excerpt": "\"import os, runpy, sys; runtime = runpy.run_path(sys.argv[1], run_name='jarvis_worker'); session = runtime['Session'](sys.argv[3], dict(os.environ)); session.lo",
         "disclosed": true,
         "automatic": false
@@ -222,7 +222,7 @@
       {
         "ruleId": "reads-secrets",
         "file": "skills/jarvis/scripts/lib/session.py",
-        "line": 626,
+        "line": 661,
         "excerpt": "args.account = self.backend(\"account\", args.harness, env=dict(os.environ)).stdout.strip()",
         "disclosed": true,
         "automatic": false
@@ -230,7 +230,7 @@
       {
         "ruleId": "reads-secrets",
         "file": "skills/jarvis/scripts/lib/session.py",
-        "line": 1171,
+        "line": 1276,
         "excerpt": "runner = [sys.executable, \"-B\", \"-c\", \"import os,runpy,sys; sys.exit(runpy.run_path(sys.argv[1],run_name='jarvis_runner')['Session'](sys.argv[2], dict(os.enviro",
         "disclosed": true,
         "automatic": false
@@ -238,7 +238,7 @@
       {
         "ruleId": "network",
         "file": "skills/jarvis/tests/browser_test.py",
-        "line": 2,
+        "line": 3,
         "excerpt": "import http.client",
         "disclosed": false,
         "automatic": false,
@@ -247,7 +247,7 @@
       {
         "ruleId": "network",
         "file": "skills/jarvis/tests/browser_test.py",
-        "line": 229,
+        "line": 242,
         "excerpt": "connection = http.client.HTTPConnection(\"127.0.0.1\", port, timeout=1)",
         "disclosed": false,
         "automatic": false,
@@ -272,7 +272,7 @@
       {
         "ruleId": "reads-secrets",
         "file": "skills/jarvis/tests/session_test.py",
-        "line": 171,
+        "line": 173,
         "excerpt": "\"runtime['Session'](sys.argv[2], dict(os.environ)).successor(1)\")",
         "disclosed": true,
         "automatic": false
@@ -280,7 +280,7 @@
       {
         "ruleId": "writes-outside",
         "file": "skills/jarvis/tests/session_test.py",
-        "line": 541,
+        "line": 536,
         "excerpt": "(home / \".claude/settings.json\").write_text('{\\n  \"hooks\": {\\n    \"Stop\": []\\n  }\\n}\\n')",
         "disclosed": false,
         "automatic": false
@@ -288,7 +288,7 @@
       {
         "ruleId": "writes-outside",
         "file": "skills/jarvis/tests/session_test.py",
-        "line": 710,
+        "line": 705,
         "excerpt": "(home / \".claude/settings.json\").write_text('{\"autoMemoryEnabled\": true}')",
         "disclosed": false,
         "automatic": false
@@ -296,7 +296,7 @@
       {
         "ruleId": "writes-outside",
         "file": "skills/jarvis/tests/session_test.py",
-        "line": 877,
+        "line": 886,
         "excerpt": "target.write_text(\"#!/usr/bin/env python3\\nimport json, subprocess, sys\\nfrom pathlib import Path\\n\"",
         "disclosed": false,
         "automatic": false
@@ -304,7 +304,7 @@
       {
         "ruleId": "writes-outside",
         "file": "skills/jarvis/tests/session_test.py",
-        "line": 959,
+        "line": 968,
         "excerpt": "kendex.write_text('#!/usr/bin/env python3\\nimport json, sys\\nprint(json.dumps({\"protocol\":\"model-resolution-v1\",\"request\":{\"tag\":\"class\",\"class\":\"standard\"},'",
         "disclosed": false,
         "automatic": false
@@ -312,7 +312,7 @@
       {
         "ruleId": "reads-secrets",
         "file": "skills/jarvis/tests/session_test.py",
-        "line": 2174,
+        "line": 2365,
         "excerpt": "environment = dict(os.environ)",
         "disclosed": true,
         "automatic": false
@@ -320,7 +320,7 @@
       {
         "ruleId": "reads-secrets",
         "file": "skills/jarvis/tests/session_test.py",
-        "line": 2224,
+        "line": 2415,
         "excerpt": "environment = dict(os.environ)",
         "disclosed": true,
         "automatic": false
@@ -328,7 +328,7 @@
       {
         "ruleId": "reads-secrets",
         "file": "skills/jarvis/tests/session_test.py",
-        "line": 2268,
+        "line": 2459,
         "excerpt": "environment = dict(os.environ)",
         "disclosed": true,
         "automatic": false
@@ -336,7 +336,7 @@
       {
         "ruleId": "writes-outside",
         "file": "skills/jarvis/tests/session_test.py",
-        "line": 2298,
+        "line": 2489,
         "excerpt": "wrapper.write_text(\"#!/usr/bin/env python3\\nimport sys, subprocess\\nfrom pathlib import Path\\n\"",
         "disclosed": false,
         "automatic": false
@@ -344,7 +344,7 @@
       {
         "ruleId": "writes-outside",
         "file": "skills/jarvis/tests/succession_test.py",
-        "line": 28,
+        "line": 30,
         "excerpt": "lanes.write_text('''#!/usr/bin/env python3",
         "disclosed": false,
         "automatic": false
@@ -352,7 +352,7 @@
       {
         "ruleId": "writes-outside",
         "file": "skills/jarvis/tests/succession_test.py",
-        "line": 563,
+        "line": 748,
         "excerpt": "task_cli.write_text(\"#!/usr/bin/env python3\\nimport signal\\nprint('\\\\u276f\\\\u00a0', flush=True)\\nwhile True: signal.pause()\\n\")",
         "disclosed": false,
         "automatic": false
@@ -360,20 +360,26 @@
     ],
     "findingTotals": {
       "writes-outside": 9,
-      "shell": 295,
+      "shell": 334,
       "network": 5,
       "reads-secrets": 8
     },
     "score": 72,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 102,
+    "filesScanned": 104,
     "filesSkipped": 0
   },
   "history": [
     {
       "commit": "5615b6afe0454f13d643398bd01fdf2299fad07d",
       "scannedAt": "2026-11-10T10:33:07.758Z",
+      "score": 72,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "6ec1f065c720383f4f0ae7b2ecc4b58c554ddbdd",
+      "scannedAt": "2026-11-14T09:34:23.329Z",
       "score": 72,
       "rulesVersion": "1.3.0"
     }

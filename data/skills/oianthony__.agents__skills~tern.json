@@ -4,38 +4,30 @@
   "repo": ".agents",
   "path": "skills/tern",
   "name": "tern",
-  "description": "Use the Tern CLI to inspect and control sessions, tabs, and blocks, launch coding agents, submit tasks, read results, and run ordinary commands. Use only when the user explicitly mentions Tern or asks to use Tern to control terminals, splits, or another agent. Do not use merely because a task could benefit from background execution or parallel work. Requires the local tern CLI, a reachable session daemon, and a confirmed target.",
+  "description": "Use the Tern CLI to inspect and control sessions, tabs, and blocks, launch coding agents, submit tasks, read results, run ordinary commands, and orchestrate multi-agent workflows. Use whenever the user explicitly mentions Tern, or asks to use Tern to control terminals, splits, coding agents, background work, or multi-agent coordination — even if they don't use the word 'Tern'. Requires a reachable Tern daemon and a confirmed target block. Needs TERN_PANE in the calling environment for caller-relative operations.",
   "stars": 10,
   "category": "coding",
-  "commit": "9914f319c9c01adcd00e6a3edefb8198afacf37d",
-  "contentHash": "048de7de366d6194ace0bef6f564e027bb61bfb253acf5dace5e728b5bfd1b9e",
+  "commit": "2da969c747f400c2315cd05ea8e911d40ff7e673",
+  "contentHash": "d2106c4d18302a485a10512de70b32b05c901c48e038462641ea5a41094e0c49",
   "repoCreatedAt": "2026-01-19T12:42:11Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-10T10:33:07.758Z",
+  "scannedAt": "2026-11-14T09:34:23.329Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "skills/tern/SKILL.md",
-        "line": 15,
-        "excerpt": "tern --version",
+        "line": 13,
+        "excerpt": "tern --version          # must be ≥ 0.9.x",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/tern/SKILL.md",
-        "line": 24,
-        "excerpt": "tern inspect --json",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/tern/SKILL.md",
-        "line": 37,
+        "line": 26,
         "excerpt": "tern split --help",
         "disclosed": true,
         "automatic": false
@@ -43,86 +35,150 @@
       {
         "ruleId": "shell",
         "file": "skills/tern/SKILL.md",
-        "line": 59,
-        "excerpt": "tern process WORKER_BLOCK --json",
+        "line": 44,
+        "excerpt": "tern ls --json   # .sessions[].tabs[].blocks[]: id, cols, rows, title, program",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/tern/SKILL.md",
-        "line": 70,
-        "excerpt": "tern split CALLER_BLOCK right --cwd PROJECT_DIR --keep-open --json -- codex",
+        "line": 50,
+        "excerpt": "tern split CALLER right --cwd \"$PWD\" --keep-open --json",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/tern/SKILL.md",
-        "line": 78,
-        "excerpt": "tern focus CALLER_BLOCK",
+        "line": 56,
+        "excerpt": "WORKER=$(tern split CALLER right --cwd \"$PWD\" --keep-open --json | jq -r '.block')",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/tern/SKILL.md",
-        "line": 86,
-        "excerpt": "tern new tab SESSION_ID --cwd PROJECT_DIR --keep-open --json -- codex",
+        "line": 62,
+        "excerpt": "tern focus CALLER",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/tern/SKILL.md",
-        "line": 99,
-        "excerpt": "tern send WORKER_BLOCK paste 'Task review-current-change: review the current diff read-only. Do not modify files or commit. Report evidence-backed findings with",
+        "line": 72,
+        "excerpt": "tern process WORKER --json",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/tern/SKILL.md",
-        "line": 113,
-        "excerpt": "tern wait WORKER_BLOCK --until idle=2000 --timeout 120",
+        "line": 83,
+        "excerpt": "tern split CALLER right --cwd \"$PWD\" --keep-open --json -- codex",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/tern/SKILL.md",
-        "line": 137,
-        "excerpt": "tern split CALLER_BLOCK down --cwd PROJECT_DIR --keep-open --json -- just test",
+        "line": 92,
+        "excerpt": "tern process WORKER --json",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/tern/SKILL.md",
-        "line": 144,
-        "excerpt": "tern wait WORKER_BLOCK --until exit --timeout 120",
+        "line": 103,
+        "excerpt": "tern send WORKER paste 'Task review-auth-change: review the diff in the current worktree read-only.",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/tern/SKILL.md",
-        "line": 153,
-        "excerpt": "tern run WORKER_BLOCK 'just test'",
+        "line": 121,
+        "excerpt": "tern wait WORKER --until idle=3000 --timeout 120",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/tern/SKILL.md",
-        "line": 166,
-        "excerpt": "tern close WORKER_BLOCK",
+        "line": 130,
+        "excerpt": "tern events --filter output,exit   # JSON lines; consult `tern events --help` for kinds",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tern/SKILL.md",
+        "line": 149,
+        "excerpt": "RUNNER=$(tern split CALLER down --cwd \"$PWD\" --keep-open --json -- just test | jq -r '.block')",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tern/SKILL.md",
+        "line": 158,
+        "excerpt": "tern run SHELL_BLOCK 'just test'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tern/SKILL.md",
+        "line": 173,
+        "excerpt": "A=$(tern split CALLER right --cwd \"$PWD\" --keep-open --json -- codex | jq -r '.block')",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tern/SKILL.md",
+        "line": 186,
+        "excerpt": "tern wait \"$A\" --until idle=3000 --timeout 180 && tern capture \"$A\" --scrollback --surfaces",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tern/SKILL.md",
+        "line": 204,
+        "excerpt": "tern browser '{\"op\":\"open\",\"owner\":\"CALLER\",\"url\":\"https://example.com\"}' --json",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tern/SKILL.md",
+        "line": 226,
+        "excerpt": "tern move BLOCK right-of OTHER_BLOCK",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tern/SKILL.md",
+        "line": 233,
+        "excerpt": "tern pip BLOCK                           # float over the block that takes its place",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tern/SKILL.md",
+        "line": 241,
+        "excerpt": "tern rename SESSION new-name",
         "disclosed": true,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 13
+      "shell": 23
     },
     "score": 97,
     "band": "low",
@@ -134,6 +190,12 @@
     {
       "commit": "9914f319c9c01adcd00e6a3edefb8198afacf37d",
       "scannedAt": "2026-11-10T10:33:07.758Z",
+      "score": 97,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "2da969c747f400c2315cd05ea8e911d40ff7e673",
+      "scannedAt": "2026-11-14T09:34:23.329Z",
       "score": 97,
       "rulesVersion": "1.3.0"
     }

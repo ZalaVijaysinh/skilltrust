@@ -4,24 +4,109 @@
   "repo": "skillmd",
   "path": "plugins/frontend-ui/skills/storage-analyzer",
   "name": "storage-analyzer",
-  "description": "",
-  "stars": 143,
+  "description": "macOS / Windows 只读存储分析助手（自动识别系统）。扫描整机磁盘占用，找出 占空间大户，把每一项分成 🟢可自动清理 / 🟡需人工判断 / 🔴谨慎清理 三级并给出 可执行处置方案，生成排版精美、可折叠、命令可一键复制的交互式 HTML 报告，并可 起本地服务在网页上一键删除（移废纸篓/直接删）。扫描全程只读。务必在以下场景 使用：用户说\"存储分析\"\"磁盘满了\"\"C盘/硬盘满了\"\"空间不够\"\"清理空间\" \"清理磁盘\"\"占空间\"\"哪些东西占地方\"\"帮我看看存储\"\"看一下电脑存储/空间\" \"存储空间\"\"电脑空间不够\"\"内存满了/不够/不足\"\"看下内存/存储\"（中文口语里 \"内存\"常指存储空间）\"storage analysis\"\"disk cleanup\"\"清缓存\"\"磁盘清理\"； 或用户抱怨电脑没空间、想知道什么东西吃硬盘、想要清理建议时。注意：若用户明确 指运行内存/RAM（如\"哪个进程吃内存\"\"内存占用高\"想看活动监视器），那是 RAM 不是存储，不属于本 skill。",
+  "stars": 144,
   "category": "coding",
-  "commit": "4467dd0debe8f189ba78142ee57ec42aea84e623",
+  "commit": "4ec4f96a640ed8ad42fa234ca119405376ef7b60",
   "contentHash": "de7fb0a19ae57c0f38d8461de6785fcd3bbfe1b92b553442e298c9a3caf98961",
   "repoCreatedAt": "2026-08-25T17:41:24Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-14T09:34:23.329Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "plugins/frontend-ui/skills/storage-analyzer/SKILL.md",
+        "line": 34,
+        "excerpt": "python3 scripts/scan.py > /tmp/storage_scan.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/frontend-ui/skills/storage-analyzer/SKILL.md",
+        "line": 66,
+        "excerpt": "python3 scripts/server.py /tmp/storage_analysis.json   # 自动开浏览器，Ctrl+C 停",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/frontend-ui/skills/storage-analyzer/SKILL.md",
+        "line": 72,
+        "excerpt": "python3 scripts/build_report.py /tmp/storage_analysis.json ~/Desktop/storage-report.html && open ~/Desktop/storage-report.html",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/frontend-ui/skills/storage-analyzer/assets/report_template.html",
+        "line": 342,
+        "excerpt": "return fetch(DELETE.endpoint, {method:'POST', headers:{'Content-Type':'application/json'},",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/frontend-ui/skills/storage-analyzer/scripts/scan.py",
+        "line": 47,
+        "excerpt": "return subprocess.run(cmd, capture_output=True, text=True, timeout=timeout).stdout",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/frontend-ui/skills/storage-analyzer/scripts/server.py",
+        "line": 91,
+        "excerpt": "r = subprocess.run([\"osascript\", \"-e\", script], capture_output=True, text=True)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/frontend-ui/skills/storage-analyzer/scripts/server.py",
+        "line": 142,
+        "excerpt": "r = subprocess.run([\"open\", \"-R\", target], capture_output=True, text=True)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/frontend-ui/skills/storage-analyzer/scripts/server.py",
+        "line": 148,
+        "excerpt": "r = subprocess.run([\"open\", target], capture_output=True, text=True)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/frontend-ui/skills/storage-analyzer/scripts/server.py",
+        "line": 150,
+        "excerpt": "r2 = subprocess.run([\"open\", \"-R\", target], capture_output=True, text=True)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/frontend-ui/skills/storage-analyzer/scripts/server.py",
+        "line": 154,
+        "excerpt": "subprocess.run([\"explorer\", target])  # explorer 退出码不可靠，不据此判成败",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 9,
+      "network": 1
+    },
+    "score": 90,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 1,
-    "filesSkipped": 7
+    "filesScanned": 8,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -34,6 +119,12 @@
       "commit": "4467dd0debe8f189ba78142ee57ec42aea84e623",
       "scannedAt": "2026-11-09T10:28:36.295Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "4ec4f96a640ed8ad42fa234ca119405376ef7b60",
+      "scannedAt": "2026-11-14T09:34:23.329Z",
+      "score": 90,
       "rulesVersion": "1.3.0"
     }
   ]

@@ -1,0 +1,256 @@
+{
+  "id": "jikig-ai__soleur__plugins~soleur~skills~launch-check",
+  "owner": "jikig-ai",
+  "repo": "soleur",
+  "path": "plugins/soleur/skills/launch-check",
+  "name": "launch-check",
+  "description": "This skill should be used when assessing launch readiness and missing Soleur engineering practices in an existing repository.",
+  "stars": 21,
+  "category": "coding",
+  "commit": "8a2e5107395358fce44c9e504aa8d4c9162f0736",
+  "contentHash": "1e48cc7c04e9e9fc1edbb0b8fb4341e2467f387e685ff895267c875f9969f772",
+  "repoCreatedAt": "2026-01-27T18:01:22Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-14T09:34:23.329Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "plugins/soleur/skills/launch-check/SKILL.md",
+        "line": 40,
+        "excerpt": "LC=\"${CLAUDE_PLUGIN_ROOT}/skills/launch-check/scripts/launch-check.sh\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/soleur/skills/launch-check/SKILL.md",
+        "line": 57,
+        "excerpt": "bash \"$LC\" render --target . --facts \"$W/facts.tsv\" --judged \"$W/judged.tsv\" --dry-run",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/soleur/skills/launch-check/SKILL.md",
+        "line": 74,
+        "excerpt": "bash \"$LC\" issues --preview --target . --facts \"$W/facts.tsv\" --judged \"$W/judged.tsv\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/soleur/skills/launch-check/SKILL.md",
+        "line": 82,
+        "excerpt": "bash \"$LC\" issues --create --target . --facts \"$W/facts.tsv\" --judged \"$W/judged.tsv\" --plan <dir> --confirm-repo <owner/name> --confirm-count <N>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/soleur/skills/launch-check/SKILL.md",
+        "line": 92,
+        "excerpt": "case \"<plan= path>\" in */lc-issues-plan.??????) [ -d \"<plan= path>\" ] && [ ! -L \"<plan= path>\" ] && rm -r -- \"<plan= path>\" ;; esac",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/soleur/skills/launch-check/SKILL.md",
+        "line": 107,
+        "excerpt": "| `scanner-missing` | `gitleaks` is not installed | Install it (macOS: `brew install gitleaks`), then re-run |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/soleur/skills/launch-check/scripts/lib/redact-gate.sh",
+        "line": 16,
+        "excerpt": "command -v \"$gl\" >/dev/null 2>&1 || lc_abort scanner-missing 2 \"install gitleaks $LC_GITLEAKS_PIN (macOS: brew install gitleaks; Linux: your package manager, or",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/soleur/skills/launch-check/test/baseline.test.sh",
+        "line": 13,
+        "excerpt": "check \"a v2 guard is not emitted as a gap\" bash -c '! grep -q \"BASE-block-rm-rf\" \"$1\"' _ \"$SCRATCH/h.tsv\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/soleur/skills/launch-check/test/baseline.test.sh",
+        "line": 24,
+        "excerpt": "check \"empty manifest: exit 2 reason=baseline-source-empty (not 0 baseline checks)\" bash -c '[ \"$1\" = 2 ] && grep -q \"reason=baseline-source-empty\" \"$2\"' _ \"$rc",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/soleur/skills/launch-check/test/baseline.test.sh",
+        "line": 27,
+        "excerpt": "check \"a second v1 row appended after a compliant first is emitted too\" bash -c 'grep -q \"^BASE-guard-x\" \"$1\" && grep -q \"^BASE-secret-scan\" \"$1\"' _ \"$SCRATCH/p",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/soleur/skills/launch-check/test/baseline.test.sh",
+        "line": 28,
+        "excerpt": "check \"no checks.tsv row duplicates a derived guard (double count)\" bash -c '! grep -q \"^BASE-\" \"$1\"' _ \"$SKILL/references/checks.tsv\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/soleur/skills/launch-check/test/baseline.test.sh",
+        "line": 29,
+        "excerpt": "check \"baseline.sh does not hard-code a guard name\" bash -c '! grep -nE \"secret-scan|commit-on-main|block-stash|orphan-test\" \"$1\" | grep -v \"^[0-9]*:[[:space:]]",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/soleur/skills/launch-check/test/baseline.test.sh",
+        "line": 32,
+        "excerpt": "check \"baseline-domains.tsv uses only known domains and severities\" bash -c 'x=$(awk -F\"\\t\" \"!/^#/ && \\$1 != \\\"name\\\" && \\$1 != \\\"\\\" && (\\$2 !~ /^(security|test",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/soleur/skills/launch-check/test/baseline.test.sh",
+        "line": 33,
+        "excerpt": "check \"no catalog id appears in retired-checks.tsv (a retired id cannot come back with a stale acceptance)\" bash -c 'ids=$(awk -F\"\\t\" \"!/^#/ && \\$1 != \\\"id\\\" &&",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/soleur/skills/launch-check/test/baseline.test.sh",
+        "line": 37,
+        "excerpt": "check \"a one-guard manifest derives exactly one BASE- check\" bash -c '[ \"$1\" = 0 ] && grep -q \"^BASE-x-guard\" \"$2\"' _ \"$rc\" \"$SCRATCH/gl.tsv\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/soleur/skills/launch-check/test/baseline.test.sh",
+        "line": 40,
+        "excerpt": "check \"a manifest header that lost the emits column is malformed (not merely empty)\" bash -c '[ \"$1\" = 2 ] && grep -q \"reason=baseline-source-malformed\" \"$2\"' _",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/soleur/skills/launch-check/test/baseline.test.sh",
+        "line": 43,
+        "excerpt": "check \"a guard name outside [A-Za-z0-9-] is refused (its BASE- id would fail verify-report)\" bash -c '[ \"$1\" = 2 ] && grep -q \"reason=baseline-source-malformed\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/soleur/skills/launch-check/test/issues-common.sh",
+        "line": 104,
+        "excerpt": "export ST; export -f kv cj   # used inside `bash -c` check bodies",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/soleur/skills/launch-check/test/issues-guards.test.sh",
+        "line": 20,
+        "excerpt": "check \"stub contract: an unknown flag exits 64 and is refused (not recorded as a call)\" bash -c '[ \"$1\" = 64 ] && [ \"$2\" = 0 ] && [ -s \"$3\" ]' _ \"$rc\" \"$(n_call",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/soleur/skills/launch-check/test/issues-guards.test.sh",
+        "line": 32,
+        "excerpt": "check \"stub contract: a string-typed sub_issue_id (-f) is a 422 and logged as a violation\" bash -c '[ \"$1\" = 1 ] && [ -s \"$2\" ]' _ \"$rc\" \"$ST/violations.log\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/soleur/skills/launch-check/test/issues-guards.test.sh",
+        "line": 34,
+        "excerpt": "check \"stub contract: the integer form links the child to its parent\" bash -c '[ \"$1\" = 0 ] && [ \"$(jq \"[.[]|select(.parent==101)]|length\" \"$2\")\" = 1 ]' _ \"$rc\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/soleur/skills/launch-check/test/issues-guards.test.sh",
+        "line": 38,
+        "excerpt": "check \"stub contract: --paginate with a forced page size serves every row across 4 pages\" bash -c '[ \"$1\" = 7 ] && [ \"$(cut -f2 \"$2\")\" = 4 ]' _ \"$cnt\" \"$ST/page",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/soleur/skills/launch-check/test/issues-guards.test.sh",
+        "line": 147,
+        "excerpt": "m_symlink() { rm -f \"$1/issues/CI-01.md\"; ln -s /etc/hostname \"$1/issues/CI-01.md\"; }",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/soleur/skills/launch-check/test/issues-guards.test.sh",
+        "line": 605,
+        "excerpt": "p_link() { local f; f=\"$1/issues/$(firstid).md\"; rm -f \"$f\"; ln -s /etc/hostname \"$f\"; }",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/soleur/skills/launch-check/test/lib.sh",
+        "line": 64,
+        "excerpt": "fx_symlink() { local d; d=$(fx_minimal \"$1\"); ln -s /etc/hostname \"$d/src/link.js\"; put \"$d/docs/environment.md\" 'doc'; put \"$d/key.pem\" 'x'; put \"$d/data.sql\" ",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/soleur/scripts/lib/session-state.sh",
+        "line": 61,
+        "excerpt": "echo \"  macOS: brew install util-linux && add \\$(brew --prefix util-linux)/sbin to PATH\" >&2",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "plugins/soleur/hooks/ext-filter-detect.sh",
+        "line": 139,
+        "excerpt": "\"\"|https://api.anthropic.com|https://api.anthropic.com/) : ;;",
+        "disclosed": false,
+        "automatic": true
+      }
+    ],
+    "findingTotals": {
+      "shell": 340,
+      "downloads-code": 3,
+      "writes-outside": 3,
+      "paid-api": 1
+    },
+    "score": 62,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 64,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "8a2e5107395358fce44c9e504aa8d4c9162f0736",
+      "scannedAt": "2026-11-14T09:34:23.329Z",
+      "score": 62,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

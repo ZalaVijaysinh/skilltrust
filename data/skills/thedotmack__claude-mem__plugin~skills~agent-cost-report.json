@@ -5,15 +5,15 @@
   "path": "plugin/skills/agent-cost-report",
   "name": "Agent Cost Report",
   "description": "Believable agent cost report for any period, default the last 7 full days PT, not counting today. Measured tokens from Claude Code transcripts priced at OpenRouter list prices (ESTIMATED), measured provider spend when a sanctioned source exists, note-taker cost separate, Timing-style HTML/PDF plus report.json, line-items.csv, evidence.json.",
-  "stars": 116045,
+  "stars": 116950,
   "category": "coding",
-  "commit": "22d148ea6f34b86ea9a6e0911c7a7a0c71431b31",
-  "contentHash": "9ed2d727cae4e9f3809499a66cbe27320ae1a1961cc79ea2b495c0309036d221",
+  "commit": "0c488b54e761d7f6f4091b3a6e1958712f13b19d",
+  "contentHash": "e4c23063f4cae243c8f9a7840466be77f39a7661147676ec36b43f1348249b69",
   "repoCreatedAt": "2025-08-31T20:50:03Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-11T09:56:52.235Z",
+  "scannedAt": "2026-11-14T09:34:23.329Z",
   "scan": {
     "findings": [
       {
@@ -121,6 +121,30 @@
         "hosts": []
       },
       {
+        "ruleId": "shell",
+        "file": "plugin/skills/agent-cost-report/scripts/acr/owner.py",
+        "line": 26,
+        "excerpt": "r = subprocess.run([\"git\", \"config\", \"--get\", \"user.name\"], capture_output=True, text=True, encoding=\"utf-8\", errors=\"replace\", timeout=5)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugin/skills/agent-cost-report/scripts/acr/owner.py",
+        "line": 27,
+        "excerpt": "except (OSError, subprocess.SubprocessError):",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugin/skills/agent-cost-report/scripts/acr/owner.py",
+        "line": 51,
+        "excerpt": "except (OSError, subprocess.SubprocessError):",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
         "ruleId": "network",
         "file": "plugin/skills/agent-cost-report/scripts/acr/prices.py",
         "line": 3,
@@ -222,6 +246,30 @@
         "automatic": false
       },
       {
+        "ruleId": "shell",
+        "file": "plugin/skills/agent-cost-report/scripts/tests/test_behavior.py",
+        "line": 338,
+        "excerpt": "with patch(\"acr.owner.subprocess.run\", return_value=subprocess.CompletedProcess([\"git\"], 0, \"Sam Lee\\n\", \"\")) as run:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugin/skills/agent-cost-report/scripts/tests/test_behavior.py",
+        "line": 341,
+        "excerpt": "with patch(\"acr.owner.subprocess.run\", return_value=subprocess.CompletedProcess([\"git\"], 1, \"\", \"\")):",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugin/skills/agent-cost-report/scripts/tests/test_behavior.py",
+        "line": 343,
+        "excerpt": "with patch(\"acr.owner.subprocess.run\", side_effect=OSError(\"no git\")):",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
         "ruleId": "network",
         "file": "plugin/skills/agent-cost-report/scripts/tests/test_measure.py",
         "line": 1,
@@ -297,7 +345,7 @@
       {
         "ruleId": "shell",
         "file": "plugin/skills/agent-cost-report/scripts/tests/test_rollup.py",
-        "line": 240,
+        "line": 244,
         "excerpt": "r = subprocess.run([sys.executable, _paths.ACR_PY, \"rollup\", \"--start\", \"2026-09-18\", \"--end\", \"2026-09-21\", \"--out\", out, \"--prices\", pf,",
         "disclosed": true,
         "automatic": false
@@ -305,32 +353,16 @@
       {
         "ruleId": "shell",
         "file": "plugin/skills/agent-cost-report/scripts/tests/test_rollup.py",
-        "line": 250,
-        "excerpt": "r = subprocess.run([sys.executable, _paths.ACR_PY, \"review\", \"--apply\", rf, \"--out\", out], capture_output=True, text=True)",
+        "line": 254,
+        "excerpt": "r = subprocess.run([sys.executable, _paths.ACR_PY, \"review\", \"--apply\", rf, \"--out\", out, \"--owner-name\", \"Alex\"],",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "plugin/skills/agent-cost-report/scripts/tests/test_rollup.py",
-        "line": 255,
-        "excerpt": "r = subprocess.run([sys.executable, _paths.ACR_PY, \"review\", \"--apply\", rf, \"--out\", out], capture_output=True, text=True)",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugin/skills/agent-cost-report/scripts/tests/test_rollup.py",
-        "line": 259,
-        "excerpt": "r = subprocess.run([sys.executable, _paths.ACR_PY, \"rollup\", \"--session\", \"x\", \"--start\", \"2026-09-18\", \"--out\", self.tmp], capture_output=True, text=True)",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugin/skills/agent-cost-report/scripts/tests/test_sync.py",
-        "line": 27,
-        "excerpt": "r = subprocess.run([\"sha256sum\", \"-c\", sync.CHECKSUMS], cwd=self.src, capture_output=True, text=True)",
+        "line": 260,
+        "excerpt": "r = subprocess.run([sys.executable, _paths.ACR_PY, \"review\", \"--apply\", rf, \"--out\", out, \"--owner-name\", \"Alex\"], capture_output=True, text=True)",
         "disclosed": true,
         "automatic": false
       },
@@ -340,14 +372,6 @@
         "line": 5,
         "excerpt": "`,He=/^[a-z0-9]+(?:-[a-z0-9]+)*$/;function me(e){if(e===void 0)return new Set;let t=typeof e==\"string\"?e.split(\",\"):e;if(!Array.isArray(t)||t.some(r=>typeof r!=",
         "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugin/scripts/ensure-launcher.cjs",
-        "line": 5,
-        "excerpt": "`,He=/^[a-z0-9]+(?:-[a-z0-9]+)*$/;function me(e){if(e===void 0)return new Set;let t=typeof e==\"string\"?e.split(\",\"):e;if(!Array.isArray(t)||t.some(r=>typeof r!=",
-        "disclosed": true,
         "automatic": false
       },
       {
@@ -373,42 +397,18 @@
         "excerpt": "`).pop()??\"\"}`;let X=ye(r.platform,d);if(u.kind===\"launcher\")throw new Error(`${U}; kept the existing launcher at ${s} (protocol ${u.protocol})${X}`);t.warn(`${",
         "disclosed": false,
         "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugin/scripts/ensure-launcher.cjs",
-        "line": 13,
-        "excerpt": "`).pop()??\"\"}`;let X=ye(r.platform,d);if(u.kind===\"launcher\")throw new Error(`${U}; kept the existing launcher at ${s} (protocol ${u.protocol})${X}`);t.warn(`${",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugin/.mcp.json",
-        "line": 5,
-        "excerpt": "\"command\": \"node\",",
-        "disclosed": true,
-        "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugin/hooks/codex-hooks.json",
-        "line": 9,
-        "excerpt": "\"command\": \"/bin/sh -c '_HP=$(printenv PATH 2>/dev/null || true); if [ -z \\\"$_HP\\\" ] && [ -n \\\"${SHELL:-}\\\" ]; then _HP=$(\\\"$SHELL\\\" -lc '\\\\''printf %s \\\"$PATH\\",
-        "disclosed": true,
-        "automatic": true
       }
     ],
     "findingTotals": {
       "downloads-code": 8,
       "network": 14,
       "paid-api": 4,
-      "shell": 54
+      "shell": 60
     },
     "score": 72,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 62,
+    "filesScanned": 64,
     "filesSkipped": 0
   },
   "history": [
@@ -427,6 +427,12 @@
     {
       "commit": "22d148ea6f34b86ea9a6e0911c7a7a0c71431b31",
       "scannedAt": "2026-11-11T09:56:52.235Z",
+      "score": 72,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "0c488b54e761d7f6f4091b3a6e1958712f13b19d",
+      "scannedAt": "2026-11-14T09:34:23.329Z",
       "score": 72,
       "rulesVersion": "1.3.0"
     }

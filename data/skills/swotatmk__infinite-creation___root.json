@@ -5,15 +5,15 @@
   "path": "",
   "name": "infinite-creation",
   "description": "本地全链路「小说/剧本 → 漫剧/短视频」创作 Agent 解决方案。三种用法：①启动本项目一键跑；②不启动本项目，Agent 按本规范 + skills/ 技能库复刻全流程（剧本→人物圣经/风格→资产生图→分镜→逐镜视频→合并成片）；③接入用户自定义的文生图/图生图/视频/语音 ComfyUI 工作流。当用户要克隆/安装/启动本项目、或用本项目方案生成漫剧/短视频、或接入自定义工作流时使用。",
-  "stars": 292,
+  "stars": 334,
   "category": "other",
-  "commit": "52b805ef3e40f655dc592fcd1deb67ed5e9f8271",
-  "contentHash": "a869c4e68675f928e4c2c4b529e9708a2fe8b717dcd233798b7a25589d69c2a1",
+  "commit": "836566ef2e022f24bd50c3221d83e4965c06f7ef",
+  "contentHash": "269f9f9b6d73dfed28966ed12b71806fd9ca84b1b8b75b7e624b5ae090c0a538",
   "repoCreatedAt": "2026-09-09T09:50:49Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-14T09:34:23.329Z",
   "scan": {
     "findings": [
       {
@@ -126,7 +126,7 @@
       {
         "ruleId": "network",
         "file": "app/pages/ShotMaterialPicker.jsx",
-        "line": 46,
+        "line": 53,
         "excerpt": "const res = await fetch('/api/projects/' + projectId + '/assets/' + a.id + '/upload', {",
         "disclosed": false,
         "automatic": false,
@@ -160,6 +160,48 @@
         "hosts": []
       },
       {
+        "ruleId": "network",
+        "file": "docker-compose.yml",
+        "line": 73,
+        "excerpt": "test: [\"CMD\", \"node\", \"-e\", \"fetch('http://127.0.0.1:4610/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))\"]",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "docs/agent-architecture.md",
+        "line": 28,
+        "excerpt": "├─ 禁用 openclaude 自带 Bash/Read/Write/Task/WebFetch 等文件系统/子代理/联网工具",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "docs/agent-architecture.md",
+        "line": 121,
+        "excerpt": "1. 运行期没有 `spawn`/`child_process`/HTTP 去调 openclaude——SDK 是 `import` 进来的模块。",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/technical.md",
+        "line": 57,
+        "excerpt": "- pnpm ≥ 9（`npm i -g pnpm`）",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/technical.md",
+        "line": 267,
+        "excerpt": "pnpm run install:ic-writer     # 默认装到 ~/.agents/skills/ic-writer/",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
         "ruleId": "downloads-code",
         "file": "docs/technical_EN.md",
         "line": 57,
@@ -172,6 +214,209 @@
         "file": "docs/technical_EN.md",
         "line": 267,
         "excerpt": "pnpm run install:ic-writer     # installs to ~/.agents/skills/ic-writer/ by default",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "docs/writer-api-plan.md",
+        "line": 357,
+        "excerpt": "| 高 | `openclaude-agent.js` 的 `providerEnv` 把 `cfg.llm.baseUrl` 原样给 `OPENAI_BASE_URL`，不走 `/v1` 归一化；而 openclaude 的 OpenAI SDK 只在 base 后面拼 `/chat/completions`（`ve",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "harness-skills/ic-writer/README.md",
+        "line": 13,
+        "excerpt": "pnpm run install:ic-writer        # → ~/.agents/skills/ic-writer/",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "harness-skills/ic-writer/SKILL.md",
+        "line": 61,
+        "excerpt": "node -e \"fetch(process.env.IC_BASE_URL||'http://127.0.0.1:4600'+'/api/health').then(r=>r.json()).then(o=>console.log(o))\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "harness-skills/ic-writer/SKILL.md",
+        "line": 61,
+        "excerpt": "node -e \"fetch(process.env.IC_BASE_URL||'http://127.0.0.1:4600'+'/api/health').then(r=>r.json()).then(o=>console.log(o))\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "harness-skills/ic-writer/SKILL.md",
+        "line": 68,
+        "excerpt": "node -e \"fetch('http://127.0.0.1:4600/api/projects').then(r=>r.json()).then(o=>console.log(JSON.stringify(o,null,2)))\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "harness-skills/ic-writer/SKILL.md",
+        "line": 68,
+        "excerpt": "node -e \"fetch('http://127.0.0.1:4600/api/projects').then(r=>r.json()).then(o=>console.log(JSON.stringify(o,null,2)))\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "harness-skills/ic-writer/SKILL.md",
+        "line": 71,
+        "excerpt": "node -e \"const fs=require('fs');fetch('http://127.0.0.1:4600/api/projects/PID/chapters',{method:'POST',headers:{'content-type':'application/json'},body:fs.readF",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "harness-skills/ic-writer/SKILL.md",
+        "line": 136,
+        "excerpt": "BASE=http://127.0.0.1:4600",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "harness-skills/ic-writer/SKILL.md",
+        "line": 164,
+        "excerpt": "node -e \"fetch('$BASE/api/projects/PID/logs?limit=20').then(r=>r.json()).then(o=>{for(const l of o.items)console.log(l.ts,l.source,l.entity,l.action,l.entity_id",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "lib/agent/agent-loop.js",
+        "line": 66,
+        "excerpt": "parts.push('【安全铁律】你没有任何删除/破坏类能力，也不得尝试越权：\\n1. 禁止删除项目、清空素材库、批量删除分镜/资产/章节（没有对应工具，也不要试图用其他工具绕）。\\n2. 禁止任何 shell/脚本/命令执行（rm、dd、mkfs、chmod、sudo、curl|sh、git force 等一律不做",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "lib/agent/agent-loop.js",
+        "line": 123,
+        "excerpt": "parts.push('安全铁律：opuscar_shell 的 cwd 只能是 lib（库根，默认）或 film（影片工作区）；命令里的绝对路径必须落在 opuscar_init 返回的 lib_root / film_dir 之内；命令里禁止 \"..\" 路径段与 rm -rf / sudo / curl|sh 等危",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "lib/agent/external/detect.js",
+        "line": 2,
+        "excerpt": "import { execFile } from 'node:child_process';",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "lib/agent/external/runner.js",
+        "line": 5,
+        "excerpt": "import { spawn } from 'node:child_process';",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "lib/agent/guard.js",
+        "line": 21,
+        "excerpt": "{ id: 'pipe-sh', name: '网络下载直输 shell（curl|sh）', severity: 'high', pattern: '(?:curl|wget)\\\\b[^;|&\\\\n]{0,120}\\\\|\\\\s*(?:ba)?sh\\\\b' },",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "lib/agent/openclaude-agent.js",
+        "line": 101,
+        "excerpt": "OPENAI_BASE_URL: openaiCompatBaseUrl(cfg.llm?.baseUrl || 'https://api.openai.com/v1'),",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "lib/agent/search.js",
+        "line": 9,
+        "excerpt": "import { execFile } from 'node:child_process';",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "lib/agent/tools.js",
+        "line": 3,
+        "excerpt": "import { spawn } from 'node:child_process';",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "lib/agent/tools.js",
+        "line": 64,
+        "excerpt": "{ type: 'function', function: { name: 'opuscar_shell', description: '在 lemo-opuscar 库根或影片工作区执行一条受控 shell 命令（渲染/合成/TTS 等）。cwd 只能 lib（库根，默认）或 film（影片工作区）。命令里的绝对路径",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "lib/core/ensure-git-bash.js",
+        "line": 6,
+        "excerpt": "import { execFileSync } from 'node:child_process';",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "lib/core/ensure-git-bash.js",
+        "line": 26,
+        "excerpt": "const out = execFileSync('where', ['git'], { encoding: 'utf8', windowsHide: true, timeout: 3000 });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "lib/core/ffmpeg.js",
+        "line": 4,
+        "excerpt": "import { spawn } from 'node:child_process';",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "lib/core/subtitle.js",
+        "line": 14,
+        "excerpt": "import { spawn, spawnSync } from 'node:child_process';",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "lib/core/subtitle.js",
+        "line": 124,
+        "excerpt": "const r = spawnSync(process.platform === 'win32' ? 'where' : 'which', [cmd], { encoding: 'utf8', timeout: 5000 });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "lib/core/subtitle.js",
+        "line": 135,
+        "excerpt": "const r = spawnSync(cmd, [...prefixArgs, '-c', 'import sys; print(\"%d.%d\" % sys.version_info[:2])'], { encoding: 'utf8', timeout: 8000 });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/dev.mjs",
+        "line": 5,
+        "excerpt": "import { spawn } from 'node:child_process';",
         "disclosed": false,
         "automatic": false
       },
@@ -193,30 +438,35 @@
       },
       {
         "ruleId": "shell",
-        "file": "skills/lemo-opuscar/styleboard/build.py",
-        "line": 26,
-        "excerpt": "d = float(subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', mp4], capture_output=True, text=True).stdout)",
+        "file": "scripts/ensure-agent.mjs",
+        "line": 7,
+        "excerpt": "import { spawnSync } from 'node:child_process';",
         "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "shell",
-        "file": "skills/lemo-opuscar/styleboard/build.py",
-        "line": 69,
-        "excerpt": "subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', str(s['frame_sec']), '-i', mp4, '-frames:v', '1', '-vf', 'scale=800:450', '-q:v', '3',",
+        "ruleId": "downloads-code",
+        "file": "skills/lemo-opuscar/core/audio/sampler.py",
+        "line": 333,
+        "excerpt": "except ImportError: raise ImportError('building the sample index needs librosa (maintainers): pip install -r requirements-dev.txt') from None",
         "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "network",
-        "file": "skills/lemo-opuscar/styles/hd-2d/DEMO.md",
-        "line": 106,
-        "excerpt": "curl -L -o $D/music/src/sb_precipice.mp3 https://www.scottbuckley.com.au/library/wp-content/uploads/2021/01/sb_precipice.mp3",
+        "ruleId": "downloads-code",
+        "file": "skills/lemo-opuscar/plugin/skills/lemo-opuscar/scripts/setup.sh",
+        "line": 80,
+        "excerpt": "if command -v uv >/dev/null; then uv pip install --quiet --python .venv/bin/python -r \"$(req \"$t\")\"",
         "disclosed": false,
-        "automatic": false,
-        "hosts": [
-          "www.scottbuckley.com.au"
-        ]
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/lemo-opuscar/plugin/skills/lemo-opuscar/scripts/setup.sh",
+        "line": 81,
+        "excerpt": "else .venv/bin/python -m pip install --quiet --disable-pip-version-check -r \"$(req \"$t\")\"; fi",
+        "disclosed": false,
+        "automatic": false
       },
       {
         "ruleId": "downloads-code",
@@ -227,10 +477,98 @@
         "automatic": false
       },
       {
-        "ruleId": "shell",
-        "file": "skills/sd-asset-engine/SKILL.md",
-        "line": 103,
-        "excerpt": "python short-drama-director/scripts/check_asset_blocks.py <资产段.md 或 交付稿.md>",
+        "ruleId": "downloads-code",
+        "file": "skills/lemo-opuscar/styles/paper-lantern/DEMO.md",
+        "line": 129,
+        "excerpt": "All commands from the repo root (`lemo-opuscar/`). Python = `.venv/bin/python`; `edge-tts` must be on `PATH` (user-level `pip install edge-tts`; it is not in `.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/lemo-opuscar/styles/telestrator/DEMO.md",
+        "line": 76,
+        "excerpt": "tools/fetch_sources.sh  downloads raw/ (~55 MB: Commons clip and photos, the broadcaster's CC BY video via uvx yt-dlp)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/lemo-opuscar/styles/telestrator/STYLE.md",
+        "line": 106,
+        "excerpt": "3. **Before downloading, tell the user** what you will fetch, from where and under which licence. The finder copied into this style, `demo/tools/footage.py` (`s",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/lemo-opuscar/tools/directory/library-setup.sh",
+        "line": 46,
+        "excerpt": "if command -v uv >/dev/null; then uv pip install --quiet --python .venv/bin/python -r \"$(req \"$t\")\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/lemo-opuscar/tools/directory/library-setup.sh",
+        "line": 47,
+        "excerpt": "else .venv/bin/python -m pip install --quiet --disable-pip-version-check -r \"$(req \"$t\")\"; fi",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/manga-drama-generator/README.md",
+        "line": 86,
+        "excerpt": "pip install pandas openpyxl",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/music-caption-rewriter/README.md",
+        "line": 18,
+        "excerpt": "npx skills add MiniMax-AI/MiniMax-Music3 --skill music-caption-rewriter",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/music-caption-rewriter/README.md",
+        "line": 29,
+        "excerpt": "cp -r skills/music-caption-rewriter ~/.claude/skills/",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/music-caption-rewriter/README.md",
+        "line": 35,
+        "excerpt": "cp -r skills/music-caption-rewriter ~/.codex/skills/",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/short-drama-director/scripts/generate_emotion_curve.py",
+        "line": 23,
+        "excerpt": "print(\"[-] 缺少依赖：本脚本需要 matplotlib 才能出图。安装：pip install matplotlib\")",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "start-infinite-creation.bat",
+        "line": 33,
+        "excerpt": "echo [错误] 未找到 pnpm，请先执行：npm i -g pnpm",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "start-infinite-creation.sh",
+        "line": 41,
+        "excerpt": "echo \"[错误] 未找到 pnpm，请先执行：npm i -g pnpm\"",
         "disclosed": false,
         "automatic": false
       },
@@ -243,70 +581,74 @@
         "automatic": false
       },
       {
-        "ruleId": "downloads-code",
-        "file": "vendor/openclaude/README.md",
-        "line": 133,
-        "excerpt": "npm install -g @gitlawb/openclaude@latest",
+        "ruleId": "writes-outside",
+        "file": "vendor/openclaude/ANDROID_INSTALL.md",
+        "line": 85,
+        "excerpt": "echo 'export CLAUDE_CODE_USE_OPENAI=1' >> ~/.bashrc",
         "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "downloads-code",
-        "file": "vendor/openclaude/README.md",
-        "line": 148,
-        "excerpt": "npm install -g @gitlawb/openclaude@latest",
+        "ruleId": "writes-outside",
+        "file": "vendor/openclaude/ANDROID_INSTALL.md",
+        "line": 86,
+        "excerpt": "echo 'export OPENAI_API_KEY=your_openrouter_key_here' >> ~/.bashrc",
         "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "network",
-        "file": "vendor/openclaude/README.md",
-        "line": 401,
-        "excerpt": "By default, `WebSearch` works on non-Anthropic models using DuckDuckGo. This gives GPT-4o, DeepSeek, Gemini, Ollama, and other OpenAI-compatible providers a fre",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "vendor/openclaude/README.md",
-        "line": 407,
-        "excerpt": "`WebFetch` works, but its basic HTTP plus HTML-to-markdown path can still fail on JavaScript-rendered sites or sites that block plain HTTP requests.",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "vendor/openclaude/README.md",
-        "line": 417,
-        "excerpt": "- `WebSearch` can use Firecrawl's search API while DuckDuckGo remains the default free path for non-Claude models",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "vendor/openclaude/README.md",
-        "line": 418,
-        "excerpt": "- `WebFetch` uses Firecrawl's scrape endpoint instead of raw HTTP, handling JS-rendered pages correctly",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "shell",
-        "file": "vendor/openclaude/bin/openclaude",
-        "line": 13,
-        "excerpt": "import { spawnSync } from 'child_process'",
+        "ruleId": "writes-outside",
+        "file": "vendor/openclaude/ANDROID_INSTALL.md",
+        "line": 87,
+        "excerpt": "echo 'export OPENAI_BASE_URL=https://openrouter.ai/api/v1' >> ~/.bashrc",
         "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "shell",
-        "file": "vendor/openclaude/bin/openclaude",
-        "line": 89,
-        "excerpt": "const result = spawnSync(process.execPath, [",
+        "ruleId": "paid-api",
+        "file": "vendor/openclaude/ANDROID_INSTALL.md",
+        "line": 87,
+        "excerpt": "echo 'export OPENAI_BASE_URL=https://openrouter.ai/api/v1' >> ~/.bashrc",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "vendor/openclaude/ANDROID_INSTALL.md",
+        "line": 88,
+        "excerpt": "echo 'export OPENAI_MODEL=qwen/qwen3.6-plus-preview:free' >> ~/.bashrc",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "vendor/openclaude/docs/advanced-setup.md",
+        "line": 139,
+        "excerpt": "export OPENAI_BASE_URL=https://openrouter.ai/api/v1",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "vendor/openclaude/docs/advanced-setup.md",
+        "line": 437,
+        "excerpt": "Pointing `ANTHROPIC_BASE_URL` at any host other than `api.anthropic.com`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "vendor/openclaude/docs/advanced-setup.md",
+        "line": 463,
+        "excerpt": "| `OPENAI_BASE_URL` | No | API endpoint, defaulting to `https://api.openai.com/v1` |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "vendor/openclaude/docs/agent-routing.md",
+        "line": 49,
+        "excerpt": "\"base_url\": \"https://api.openai.com/v1\",",
         "disclosed": false,
         "automatic": false
       },
@@ -319,138 +661,114 @@
         "automatic": false
       },
       {
-        "ruleId": "shell",
-        "file": "vendor/openclaude/scripts/provider-launch.ts",
-        "line": 2,
-        "excerpt": "import { spawn } from 'node:child_process'",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "vendor/openclaude/src/commands/lsp/lsp.test.ts",
-        "line": 284,
-        "excerpt": "'npm install -g typescript typescript-language-server',",
+        "ruleId": "paid-api",
+        "file": "vendor/openclaude/scripts/system-check.test.ts",
+        "line": 147,
+        "excerpt": "'https://api.openai.com/v1/models',",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "paid-api",
-        "file": "vendor/openclaude/src/components/Message.tsx",
-        "line": 3,
-        "excerpt": "import type { BetaContentBlock } from '@anthropic-ai/sdk/resources/beta/messages/messages.mjs';",
+        "file": "vendor/openclaude/scripts/system-check.test.ts",
+        "line": 158,
+        "excerpt": "'Unexpected status 429 from https://api.openai.com/v1/models. Body: {\"error\":\"rate_limit\"}',",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "paid-api",
-        "file": "vendor/openclaude/src/components/Message.tsx",
-        "line": 4,
-        "excerpt": "import type { ImageBlockParam, TextBlockParam, ThinkingBlockParam, ToolResultBlockParam, ToolUseBlockParam } from '@anthropic-ai/sdk/resources/index.mjs';",
+        "file": "vendor/openclaude/scripts/system-check.test.ts",
+        "line": 182,
+        "excerpt": "'https://api.openai.com/v1/models',",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "paid-api",
-        "file": "vendor/openclaude/src/components/agents/generateAgent.ts",
-        "line": 1,
-        "excerpt": "import type { ContentBlock } from '@anthropic-ai/sdk/resources/index.mjs'",
+        "file": "vendor/openclaude/scripts/system-check.test.ts",
+        "line": 193,
+        "excerpt": "'Unexpected status 401 from https://api.openai.com/v1/models. Body: {\"error\":\"Invalid API key: sk-...def\"}',",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "paid-api",
-        "file": "vendor/openclaude/src/components/agents/new-agent-creation/wizard-steps/GenerateStep.tsx",
-        "line": 1,
-        "excerpt": "import { APIUserAbortError } from '@anthropic-ai/sdk';",
+        "file": "vendor/openclaude/scripts/system-check.test.ts",
+        "line": 270,
+        "excerpt": "process.env.OPENAI_BASE_URL = 'https://api.openai.com/v1'",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "paid-api",
-        "file": "vendor/openclaude/src/entrypoints/sdk/query.ts",
-        "line": 8,
-        "excerpt": "import type { ContentBlockParam } from '@anthropic-ai/sdk/resources/index.mjs'",
+        "file": "vendor/openclaude/scripts/system-check.test.ts",
+        "line": 291,
+        "excerpt": "process.env.OPENAI_BASE_URL = 'https://api.openai.com/v1'",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "paid-api",
-        "file": "vendor/openclaude/src/services/api/claude.abortClassification.test.ts",
-        "line": 2,
-        "excerpt": "import { APIUserAbortError } from '@anthropic-ai/sdk'",
+        "file": "vendor/openclaude/scripts/system-check.test.ts",
+        "line": 312,
+        "excerpt": "process.env.OPENAI_BASE_URL = 'https://api.openai.com/v1'",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "paid-api",
-        "file": "vendor/openclaude/src/services/api/client.ts",
-        "line": 1,
-        "excerpt": "import Anthropic, { type ClientOptions } from '@anthropic-ai/sdk'",
+        "file": "vendor/openclaude/scripts/system-check.test.ts",
+        "line": 333,
+        "excerpt": "process.env.OPENAI_BASE_URL = 'https://api.openai.com/v1'",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "paid-api",
-        "file": "vendor/openclaude/src/services/api/openaiShim/streamConversion.ts",
-        "line": 1,
-        "excerpt": "import { APIError } from '@anthropic-ai/sdk'",
+        "file": "vendor/openclaude/scripts/system-check.test.ts",
+        "line": 374,
+        "excerpt": "process.env.OPENAI_BASE_URL = 'https://api.openai.com/v1'",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "paid-api",
-        "file": "vendor/openclaude/src/services/api/withRetry.ts",
-        "line": 2,
-        "excerpt": "import type Anthropic from '@anthropic-ai/sdk'",
+        "file": "vendor/openclaude/scripts/system-check.test.ts",
+        "line": 379,
+        "excerpt": "process.env.OPENAI_BASE_URL = 'https://api.openai.com/v1'",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "paid-api",
-        "file": "vendor/openclaude/src/services/api/withRetry.ts",
-        "line": 7,
-        "excerpt": "} from '@anthropic-ai/sdk'",
+        "file": "vendor/openclaude/scripts/system-check.ts",
+        "line": 791,
+        "excerpt": "const GEMINI_DEFAULT_BASE_URL = 'https://generativelanguage.googleapis.com/v1beta/openai'",
         "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "downloads-code",
-        "file": "vendor/openclaude/src/services/mcp/doctor.test.ts",
-        "line": 161,
-        "excerpt": "test('findingsFromValidationErrors maps Windows npx warnings into doctor findings', () => {",
+        "ruleId": "reads-secrets",
+        "file": "vendor/openclaude/src/tools/BashTool/prompt.ts",
+        "line": 232,
+        "excerpt": "'Do not suggest adding sensitive paths like ~/.bashrc, ~/.zshrc, ~/.ssh/*, or credential files to the sandbox allowlist.',",
         "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "paid-api",
-        "file": "vendor/openclaude/src/services/mcp/officialRegistry.ts",
-        "line": 50,
-        "excerpt": "'https://api.anthropic.com/mcp-registry/v0/servers?version=latest&visibility=commercial',",
+        "ruleId": "reads-secrets",
+        "file": "vendor/openclaude/src/utils/QueryGuard.test.ts",
+        "line": 795,
+        "excerpt": "command: 'cat /home/user/project/.env',",
         "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "shell",
-        "file": "vendor/openclaude/src/services/settingsSync/settings.transaction.test.ts",
-        "line": 1,
-        "excerpt": "import { spawn, type ChildProcessByStdio } from 'node:child_process'",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "vendor/openclaude/src/tools/PowerShellTool/commandSemantics.ts",
-        "line": 101,
-        "excerpt": "'uvx',",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "paid-api",
-        "file": "vendor/openclaude/src/tools/RepoMapTool/UI.tsx",
-        "line": 1,
-        "excerpt": "import type { ToolResultBlockParam } from '@anthropic-ai/sdk/resources/index.mjs'",
+        "ruleId": "browser-secrets",
+        "file": "vendor/openclaude/src/utils/auth.ts",
+        "line": 1095,
+        "excerpt": "`security find-generic-password -a $USER -w -s \"${storageServiceName}\"`,",
         "disclosed": false,
         "automatic": false
       },
@@ -463,66 +781,18 @@
         "automatic": false
       },
       {
-        "ruleId": "shell",
-        "file": "vendor/openclaude/src/utils/bash/shellPrefix.test.ts",
-        "line": 10,
-        "excerpt": "expect(formatShellPrefixCommand('/usr/bin/bash -c', 'echo hi')).toBe(",
+        "ruleId": "writes-outside",
+        "file": "vendor/openclaude/src/utils/doctorDiagnostic.ts",
+        "line": 85,
+        "excerpt": "return `Use the local install at ~/.openclaude/local/${getCliBinaryName()}, remove it, or update the global npm package with: ${getNpmUpdateCommand()}`",
         "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "shell",
-        "file": "vendor/openclaude/src/utils/bash/shellPrefix.test.ts",
-        "line": 11,
-        "excerpt": "\"/usr/bin/bash -c 'echo hi'\",",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "paid-api",
-        "file": "vendor/openclaude/src/utils/context.test.ts",
-        "line": 355,
-        "excerpt": "process.env.OPENAI_BASE_URL = 'https://openrouter.ai/api/v1'",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "paid-api",
-        "file": "vendor/openclaude/src/utils/context.test.ts",
-        "line": 954,
-        "excerpt": "process.env.OPENAI_BASE_URL = 'https://openrouter.ai/api/v1'",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "vendor/openclaude/src/utils/deepLink/terminalLauncher.ts",
-        "line": 14,
-        "excerpt": "import { spawn } from 'child_process'",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "vendor/openclaude/src/utils/doctorDiagnostic.test.ts",
-        "line": 15,
-        "excerpt": "expect(fix).toContain('npm install -g @gitlawb/openclaude@latest')",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "paid-api",
-        "file": "vendor/openclaude/src/utils/model/openaiContextWindows.test.ts",
-        "line": 114,
-        "excerpt": "process.env.OPENAI_BASE_URL = 'https://openrouter.ai/api/v1'",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "paid-api",
-        "file": "vendor/openclaude/src/utils/model/openaiContextWindows.test.ts",
-        "line": 132,
-        "excerpt": "process.env.OPENAI_BASE_URL = 'https://openrouter.ai/api/v1'",
+        "ruleId": "reads-secrets",
+        "file": "vendor/openclaude/src/utils/ide.ts",
+        "line": 1433,
+        "excerpt": "throw new Error('No artifactory auth token found in ~/.npmrc')",
         "disclosed": false,
         "automatic": false
       },
@@ -535,35 +805,44 @@
         "automatic": false
       },
       {
-        "ruleId": "paid-api",
-        "file": "vendor/openclaude/src/utils/sideQuery.ts",
-        "line": 1,
-        "excerpt": "import type Anthropic from '@anthropic-ai/sdk'",
+        "ruleId": "reads-secrets",
+        "file": "vendor/openclaude/src/utils/processUserInput/processSlashCommand.test.ts",
+        "line": 15,
+        "excerpt": "attachmentScanInputForCommand({ loadedFrom: 'mcp' }, 'read @~/.ssh/config now'),",
         "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "paid-api",
-        "file": "vendor/openclaude/src/utils/sideQuery.ts",
-        "line": 2,
-        "excerpt": "import type { BetaToolUnion } from '@anthropic-ai/sdk/resources/beta/messages.js'",
+        "ruleId": "browser-secrets",
+        "file": "vendor/openclaude/src/utils/secureStorage/macOsKeychainStorage.ts",
+        "line": 40,
+        "excerpt": "`security find-generic-password -a \"${username}\" -w -s \"${storageServiceName}\"`,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "vendor/openclaude/src/utils/settings/types.ts",
+        "line": 1350,
+        "excerpt": "'SSH host in format \"user@hostname\" or \"hostname\", or a host alias from ~/.ssh/config',",
         "disclosed": false,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "network": 56,
-      "shell": 13,
-      "downloads-code": 8,
-      "writes-outside": 2,
-      "paid-api": 20,
-      "reads-secrets": 1
+      "network": 619,
+      "shell": 205,
+      "downloads-code": 195,
+      "writes-outside": 11,
+      "paid-api": 720,
+      "reads-secrets": 6,
+      "browser-secrets": 2
     },
-    "score": 35,
+    "score": 10,
     "band": "high",
     "rulesVersion": "1.3.0",
-    "filesScanned": 466,
-    "filesSkipped": 5329
+    "filesScanned": 5426,
+    "filesSkipped": 379
   },
   "history": [
     {
@@ -576,6 +855,12 @@
       "commit": "52b805ef3e40f655dc592fcd1deb67ed5e9f8271",
       "scannedAt": "2026-11-09T10:28:36.295Z",
       "score": 35,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "836566ef2e022f24bd50c3221d83e4965c06f7ef",
+      "scannedAt": "2026-11-14T09:34:23.329Z",
+      "score": 10,
       "rulesVersion": "1.3.0"
     }
   ]

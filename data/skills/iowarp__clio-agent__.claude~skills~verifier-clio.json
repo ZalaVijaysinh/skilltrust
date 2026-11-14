@@ -1,0 +1,141 @@
+{
+  "id": "iowarp__clio-agent__.claude~skills~verifier-clio",
+  "owner": "iowarp",
+  "repo": "clio-agent",
+  "path": ".claude/skills/verifier-clio",
+  "name": "verifier-clio",
+  "description": "Verify a CLIO change at its real surfaces — the running agent (GACT REST API), the clio-agent CLI, the gact-tui web UI in headless Chromium, and the native Tauri desktop app under Xvfb — on one fresh stack, with captured evidence for each step. Use for /verify, release qualification, or any \"does X actually work\" question in clio-agent, external/gact-tui or external/clio-agent-marketplace.",
+  "stars": 13,
+  "category": "design",
+  "commit": "88452e0fbe0dd21a0adc7c55f29311ee645bbaad",
+  "contentHash": "ad621acf88cb7bb17c2f16ecf8082e27cbf56aa5da450731e0d2fd1677f8a5ed",
+  "repoCreatedAt": "2025-10-18T12:45:29Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-14T09:34:23.329Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/verifier-clio/SKILL.md",
+        "line": 16,
+        "excerpt": "git log --oneline <base>..HEAD | wc -l; git diff <base>...HEAD --stat | tail -1",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/verifier-clio/SKILL.md",
+        "line": 28,
+        "excerpt": "bash .claude/skills/verifier-clio/scripts/up.sh          # fresh restart, new run dir",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/verifier-clio/SKILL.md",
+        "line": 51,
+        "excerpt": "A=\"uv run --no-sync python .claude/skills/verifier-clio/scripts/agent.py\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/verifier-clio/SKILL.md",
+        "line": 112,
+        "excerpt": "bash .claude/skills/verifier-clio/scripts/down.sh            # deletes recorded sessions/workspaces, stops the stack",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/verifier-clio/scripts/agent.py",
+        "line": 31,
+        "excerpt": "S = requests.Session()",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/verifier-clio/scripts/down.sh",
+        "line": 14,
+        "excerpt": "printf 'session %s: %s\\n' \"$sid\" \"$(curl -s -m 300 -o /dev/null -w '%{http_code}' -X DELETE \"http://127.0.0.1:8787/v1/sessions/$sid\")\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/verifier-clio/scripts/down.sh",
+        "line": 17,
+        "excerpt": "printf 'workspace %s: %s\\n' \"$ws\" \"$(curl -s -m 300 -o /dev/null -w '%{http_code}' -X DELETE \"http://127.0.0.1:8787/v1/workspaces/$ws\")\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/verifier-clio/scripts/native-drive.mjs",
+        "line": 35,
+        "excerpt": "const res = await fetch(`${DRIVER}${p}`, {",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/verifier-clio/scripts/native.sh",
+        "line": 25,
+        "excerpt": "DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/verifier-clio/scripts/native.sh",
+        "line": 29,
+        "excerpt": "command -v tauri-driver >/dev/null || cargo install tauri-driver --locked",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/verifier-clio/scripts/native.sh",
+        "line": 58,
+        "excerpt": "for _ in $(seq 1 30); do curl -sf \"http://127.0.0.1:$PORT/status\" >/dev/null && break; sleep 0.5; done",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/verifier-clio/scripts/up.sh",
+        "line": 32,
+        "excerpt": "[ \"$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:5173/)\" = 200 ] && break",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 4,
+      "network": 6,
+      "downloads-code": 2
+    },
+    "score": 77,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 8,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "88452e0fbe0dd21a0adc7c55f29311ee645bbaad",
+      "scannedAt": "2026-11-14T09:34:23.329Z",
+      "score": 77,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

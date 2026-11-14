@@ -5,21 +5,21 @@
   "path": "skills/commit-guards",
   "name": "commit-guards",
   "description": "Load to add, tune, or debug a commit guard lane, its git hooks, or COMMIT_GUARDS_* settings.",
-  "stars": 92,
+  "stars": 93,
   "category": "coding",
-  "commit": "5615b6afe0454f13d643398bd01fdf2299fad07d",
-  "contentHash": "d415340c205a26364b633a7e01deb2ab129780d764bd4092c61993d01e3848d3",
+  "commit": "6ec1f065c720383f4f0ae7b2ecc4b58c554ddbdd",
+  "contentHash": "e85bae28d7c89b204c9ee3e5b6e07a4543a95ee2d7171ee0ed20950efba6e420",
   "repoCreatedAt": "2026-03-24T17:37:39Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-10T10:33:07.758Z",
+  "scannedAt": "2026-11-14T09:34:23.329Z",
   "scan": {
     "findings": [
       {
         "ruleId": "writes-outside",
         "file": "skills/commit-guards/CHECKS.md",
-        "line": 227,
+        "line": 202,
         "excerpt": "- A consumer's lane setup runs `.agents/skills/commit-guards/scripts/install-gitleaks \"$HOME/.local/bin\"` and puts that directory on `PATH`. The installer check",
         "disclosed": false,
         "automatic": false
@@ -35,8 +35,8 @@
       {
         "ruleId": "network",
         "file": "skills/commit-guards/scripts/install-gitleaks",
-        "line": 93,
-        "excerpt": "code=\"$(curl -fsSL --retry \"$RETRY_SECS\" --retry-delay \"$RETRY_DELAY_SECS\" --retry-max-time \"$RETRY_SECS\" \\",
+        "line": 96,
+        "excerpt": "code=\"$(curl -fsSL --connect-timeout \"$CONNECT_SECS\" --max-time \"$ATTEMPT_SECS\" \\",
         "disclosed": false,
         "automatic": false,
         "hosts": []
@@ -68,7 +68,7 @@
       {
         "ruleId": "reads-secrets",
         "file": "skills/commit-guards/tests/commit-msg-settings.test.sh",
-        "line": 124,
+        "line": 130,
         "excerpt": "\"the /dev/null sentinel selects no source at all, .env.local included|fx_dotenv_local dotenv-local-2||COMMIT_GUARDS_SETTINGS_FILE=/dev/null|feat: base type|rc=0",
         "disclosed": true,
         "automatic": false
@@ -196,7 +196,7 @@
       {
         "ruleId": "writes-outside",
         "file": "skills/commit-guards/tests/install-git-hooks.test.sh",
-        "line": 152,
+        "line": 153,
         "excerpt": "fx_baked_first() { baked_elsewhere baked-first; mkdir -p \"$R/.claude/skills\"; mv \"$R/.agents/skills/commit-guards\" \"$R/.claude/skills/commit-guards\"; }",
         "disclosed": false,
         "automatic": false
@@ -204,7 +204,7 @@
       {
         "ruleId": "writes-outside",
         "file": "skills/commit-guards/tests/install-git-hooks.test.sh",
-        "line": 274,
+        "line": 275,
         "excerpt": "\"a non-shell hook is not appended to|fx_python||install||rc=1 $WARN hook-shell=<repo>/.git/hooks/pre-commit;$INCOMPLETE|helper=$OURS pre-commit=$X:#!/usr/bin/en",
         "disclosed": false,
         "automatic": false
@@ -212,7 +212,7 @@
       {
         "ruleId": "writes-outside",
         "file": "skills/commit-guards/tests/install-git-hooks.test.sh",
-        "line": 275,
+        "line": 276,
         "excerpt": "\"a fish hook is not a shell hook, whatever its name ends in|fx_fish||install||rc=1 $WARN hook-shell=<repo>/.git/hooks/pre-commit;$INCOMPLETE|helper=$OURS pre-co",
         "disclosed": false,
         "automatic": false
@@ -220,10 +220,19 @@
       {
         "ruleId": "writes-outside",
         "file": "skills/commit-guards/tests/install-git-hooks.test.sh",
-        "line": 276,
+        "line": 277,
         "excerpt": "\"our line under an interpreter that cannot run it is not armed|fx_swapped||install||rc=1 $WARN hook-shell=<repo>/.git/hooks/pre-commit;$INCOMPLETE|helper=$OURS ",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/commit-guards/tests/install-gitleaks.test.sh",
+        "line": 304,
+        "excerpt": "'curl -fsSL' 'curl -fsSL --retry \"$RETRY_SECS\" --retry-delay \"$RETRY_DELAY_SECS\" --retry-max-time \"$RETRY_SECS\"' \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
       },
       {
         "ruleId": "writes-outside",
@@ -243,14 +252,6 @@
       },
       {
         "ruleId": "shell",
-        "file": "skills/commit-guards/tests/prose.test.sh",
-        "line": 227,
-        "excerpt": "out=\"$(cd \"$R\" && GG_CHECK=probe bash -c 'set -euo pipefail; set '\"$1\"'f; . \"$1\"; gg_load_path_globs \"*.md\" probe PROBE_KEY; printf %s \"$GG_PATH_GLOBS\"' _ \"$COM",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
         "file": "skills/commit-guards/tests/settings-precedence.test.sh",
         "line": 43,
         "excerpt": "out=\"$(cd \"$R\" && { unset \"$K\" COMMIT_GUARDS_SETTINGS_FILE 2>/dev/null; env ${envs[@]+\"${envs[@]}\"} bash -c '",
@@ -260,7 +261,7 @@
       {
         "ruleId": "downloads-code",
         "file": "CHANGELOG.md",
-        "line": 2019,
+        "line": 2111,
         "excerpt": "- Install only the `kendex` command with `install.sh --cli-only` (`curl -fsSL https://kendex.ai/install.sh | sh -s -- --cli-only`), on Linux as well as macOS.",
         "disclosed": false,
         "automatic": false
@@ -268,7 +269,7 @@
       {
         "ruleId": "network",
         "file": "CHANGELOG.md",
-        "line": 2019,
+        "line": 2111,
         "excerpt": "- Install only the `kendex` command with `install.sh --cli-only` (`curl -fsSL https://kendex.ai/install.sh | sh -s -- --cli-only`), on Linux as well as macOS.",
         "disclosed": false,
         "automatic": false,
@@ -279,7 +280,7 @@
       {
         "ruleId": "downloads-code",
         "file": "CHANGELOG.md",
-        "line": 2108,
+        "line": 2200,
         "excerpt": "- New install channels: `curl -fsSL https://kendex.ai/install.sh | sh`,",
         "disclosed": false,
         "automatic": false
@@ -287,7 +288,7 @@
       {
         "ruleId": "network",
         "file": "CHANGELOG.md",
-        "line": 2108,
+        "line": 2200,
         "excerpt": "- New install channels: `curl -fsSL https://kendex.ai/install.sh | sh`,",
         "disclosed": false,
         "automatic": false,
@@ -298,21 +299,27 @@
     ],
     "findingTotals": {
       "writes-outside": 18,
-      "shell": 9,
-      "network": 3,
+      "shell": 8,
+      "network": 4,
       "downloads-code": 3,
       "reads-secrets": 1
     },
     "score": 55,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 95,
+    "filesScanned": 89,
     "filesSkipped": 0
   },
   "history": [
     {
       "commit": "5615b6afe0454f13d643398bd01fdf2299fad07d",
       "scannedAt": "2026-11-10T10:33:07.758Z",
+      "score": 55,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "6ec1f065c720383f4f0ae7b2ecc4b58c554ddbdd",
+      "scannedAt": "2026-11-14T09:34:23.329Z",
       "score": 55,
       "rulesVersion": "1.3.0"
     }

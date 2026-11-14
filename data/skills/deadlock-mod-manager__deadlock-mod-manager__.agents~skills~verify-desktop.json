@@ -1,0 +1,72 @@
+{
+  "id": "deadlock-mod-manager__deadlock-mod-manager__.agents~skills~verify-desktop",
+  "owner": "deadlock-mod-manager",
+  "repo": "deadlock-mod-manager",
+  "path": ".agents/skills/verify-desktop",
+  "name": "verify-desktop",
+  "description": "Drive the running Deadlock Mod Manager desktop app (Tauri dev build) through tauri-mcp-server and capture proof that a UI, IPC, or mod-file change works the way a user sees it. Use when verifying a desktop change before a PR, reproducing a desktop bug in the real app, or when asked to \"verify in the app\" or \"prove it works\".",
+  "stars": 611,
+  "category": "design",
+  "commit": "7c7c90cc256f1599701f4a3e8fa5e911003f1c75",
+  "contentHash": "7293b609a4b96b2cea23a3babdb39b1da9c2fa7f829261b26e2f233ebc41c9ea",
+  "repoCreatedAt": "2024-12-12T21:17:38Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-14T09:34:23.329Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/verify-desktop/SKILL.md",
+        "line": 28,
+        "excerpt": "pnpm --filter @deadlock-mods/desktop e2e:build   # once per code change; a separate debug binary, no bridge",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/verify-desktop/SKILL.md",
+        "line": 39,
+        "excerpt": "node .agents/skills/verify-desktop/scripts/doctor.mjs",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/verify-desktop/scripts/doctor.mjs",
+        "line": 20,
+        "excerpt": "fetch(url, { signal: AbortSignal.timeout(TIMEOUT_MS) }).then(",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": ".agents/skills/verify-desktop/scripts/doctor.mjs",
+        "line": 54,
+        "excerpt": "const env = await readFile(join(root, \".env\"), \"utf8\").catch(() => \"\");",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 2,
+      "network": 1,
+      "reads-secrets": 1
+    },
+    "score": 70,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 8,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "7c7c90cc256f1599701f4a3e8fa5e911003f1c75",
+      "scannedAt": "2026-11-14T09:34:23.329Z",
+      "score": 70,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

@@ -5,15 +5,15 @@
   "path": ".agents/skills/jarvis",
   "name": "jarvis",
   "description": "Load when acting for the user on their computer, browser, accounts, messages or records, or when starting, handing off or ending a long session.",
-  "stars": 92,
+  "stars": 93,
   "category": "coding",
-  "commit": "5615b6afe0454f13d643398bd01fdf2299fad07d",
-  "contentHash": "ddc14accec12771cfee5978e96b747e4169b31b277eec617c1b62606e0bf748f",
+  "commit": "6ec1f065c720383f4f0ae7b2ecc4b58c554ddbdd",
+  "contentHash": "5c7d9f635848f728bc1c1725ea0b7ee94ff84f11efd1375fb78c071f52e95390",
   "repoCreatedAt": "2026-03-24T17:37:39Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-10T10:33:07.758Z",
+  "scannedAt": "2026-11-14T09:34:23.329Z",
   "scan": {
     "findings": [
       {
@@ -100,7 +100,7 @@
       {
         "ruleId": "network",
         "file": ".agents/skills/jarvis/scripts/jarvis-browser",
-        "line": 29,
+        "line": 38,
         "excerpt": "with closing(http.client.HTTPConnection(\"127.0.0.1\", int(port), timeout=0.5)) as connection:",
         "disclosed": false,
         "automatic": false,
@@ -109,7 +109,7 @@
       {
         "ruleId": "network",
         "file": ".agents/skills/jarvis/scripts/jarvis-browser",
-        "line": 36,
+        "line": 48,
         "excerpt": "except (OSError, ValueError, KeyError, TypeError, http.client.HTTPException) as failure:",
         "disclosed": false,
         "automatic": false,
@@ -118,7 +118,23 @@
       {
         "ruleId": "shell",
         "file": ".agents/skills/jarvis/scripts/jarvis-browser",
-        "line": 144,
+        "line": 97,
+        "excerpt": "listed = subprocess.run([\"ps\", \"-A\", \"-ww\", \"-o\", \"pid=\", \"-o\", \"args=\"], stdin=subprocess.DEVNULL,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/jarvis/scripts/jarvis-browser",
+        "line": 99,
+        "excerpt": "except subprocess.TimeoutExpired as failure:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/jarvis/scripts/jarvis-browser",
+        "line": 233,
         "excerpt": "child = subprocess.Popen(argv, stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,",
         "disclosed": true,
         "automatic": false
@@ -126,7 +142,7 @@
       {
         "ruleId": "shell",
         "file": ".agents/skills/jarvis/scripts/jarvis-browser",
-        "line": 145,
+        "line": 234,
         "excerpt": "stderr=subprocess.DEVNULL, start_new_session=True)",
         "disclosed": true,
         "automatic": false
@@ -134,7 +150,7 @@
       {
         "ruleId": "shell",
         "file": ".agents/skills/jarvis/scripts/jarvis-browser",
-        "line": 154,
+        "line": 246,
         "excerpt": "except subprocess.TimeoutExpired:",
         "disclosed": true,
         "automatic": false
@@ -142,7 +158,7 @@
       {
         "ruleId": "shell",
         "file": ".agents/skills/jarvis/scripts/jarvis-browser",
-        "line": 159,
+        "line": 256,
         "excerpt": "os.execv(browser, argv)",
         "disclosed": true,
         "automatic": false
@@ -150,7 +166,7 @@
       {
         "ruleId": "shell",
         "file": ".agents/skills/jarvis/scripts/lib/forward.py",
-        "line": 239,
+        "line": 304,
         "excerpt": "\"bash -c \" + shlex.quote(script) + \" forward \" + \" \".join(map(shlex.quote, [self.role.home, *args]))]",
         "disclosed": true,
         "automatic": false
@@ -196,25 +212,9 @@
         "automatic": false
       },
       {
-        "ruleId": "shell",
-        "file": ".agents/skills/jarvis/scripts/lib/op_fifo.py",
-        "line": 196,
-        "excerpt": "return subprocess.CompletedProcess(argv, process.returncode, stdout)",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": ".agents/skills/jarvis/scripts/lib/op_fifo.py",
-        "line": 202,
-        "excerpt": "except subprocess.TimeoutExpired:",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "reads-secrets",
         "file": ".agents/skills/jarvis/scripts/lib/session.py",
-        "line": 462,
+        "line": 497,
         "excerpt": "\"import os, runpy, sys; runtime = runpy.run_path(sys.argv[1], run_name='jarvis_worker'); session = runtime['Session'](sys.argv[3], dict(os.environ)); session.lo",
         "disclosed": true,
         "automatic": false
@@ -222,7 +222,7 @@
       {
         "ruleId": "reads-secrets",
         "file": ".agents/skills/jarvis/scripts/lib/session.py",
-        "line": 626,
+        "line": 661,
         "excerpt": "args.account = self.backend(\"account\", args.harness, env=dict(os.environ)).stdout.strip()",
         "disclosed": true,
         "automatic": false
@@ -230,7 +230,7 @@
       {
         "ruleId": "reads-secrets",
         "file": ".agents/skills/jarvis/scripts/lib/session.py",
-        "line": 1171,
+        "line": 1276,
         "excerpt": "runner = [sys.executable, \"-B\", \"-c\", \"import os,runpy,sys; sys.exit(runpy.run_path(sys.argv[1],run_name='jarvis_runner')['Session'](sys.argv[2], dict(os.enviro",
         "disclosed": true,
         "automatic": false
@@ -238,20 +238,26 @@
     ],
     "findingTotals": {
       "writes-outside": 1,
-      "shell": 96,
+      "shell": 99,
       "network": 3,
       "reads-secrets": 3
     },
     "score": 72,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 62,
+    "filesScanned": 63,
     "filesSkipped": 0
   },
   "history": [
     {
       "commit": "5615b6afe0454f13d643398bd01fdf2299fad07d",
       "scannedAt": "2026-11-10T10:33:07.758Z",
+      "score": 72,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "6ec1f065c720383f4f0ae7b2ecc4b58c554ddbdd",
+      "scannedAt": "2026-11-14T09:34:23.329Z",
       "score": 72,
       "rulesVersion": "1.3.0"
     }

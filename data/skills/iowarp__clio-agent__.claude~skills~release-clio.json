@@ -1,0 +1,122 @@
+{
+  "id": "iowarp__clio-agent__.claude~skills~release-clio",
+  "owner": "iowarp",
+  "repo": "clio-agent",
+  "path": ".claude/skills/release-clio",
+  "name": "release-clio",
+  "description": "Release dependencies from main and clean completed work, record verified release pins in CLIO, qualify and integrate CLIO into main, then tag and verify PyPI, bundles and ghcr publication. Use when asked to \"do a release\", \"cut vX.Y.Z\", \"publish\", or \"ship\".",
+  "stars": 13,
+  "category": "other",
+  "commit": "88452e0fbe0dd21a0adc7c55f29311ee645bbaad",
+  "contentHash": "3952730123bdaacee406f1dc21286b51060c497a7e69ae959083548b997c0b6b",
+  "repoCreatedAt": "2025-10-18T12:45:29Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-14T09:34:23.329Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/release-clio/SKILL.md",
+        "line": 43,
+        "excerpt": "- PyPI publishes it as a pre-release (plain `pip install clio-agent` does not pick it up);",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release-clio/SKILL.md",
+        "line": 101,
+        "excerpt": "git -C external/gact-tui fetch origin --tags",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release-clio/SKILL.md",
+        "line": 138,
+        "excerpt": "uv version --short                     # == X.Y.Z",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release-clio/SKILL.md",
+        "line": 150,
+        "excerpt": "uv run python scripts/mcp_mem_attribution.py \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release-clio/SKILL.md",
+        "line": 193,
+        "excerpt": "git fetch origin main --tags",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release-clio/SKILL.md",
+        "line": 216,
+        "excerpt": "gh release edit vX.Y.Z --title \"vX.Y.Z\" --notes-file notes.md   # edits the draft; gh finds it by tag",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release-clio/SKILL.md",
+        "line": 254,
+        "excerpt": "gh run watch $(gh run list --workflow=release.yml --limit 1 --json databaseId -q '.[0].databaseId') --exit-status",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/release-clio/SKILL.md",
+        "line": 255,
+        "excerpt": "curl -s https://pypi.org/pypi/clio-agent/json | python3 -c \"import sys,json;d=json.load(sys.stdin);print('X.Y.Z' in d['releases'])\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "pypi.org"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release-clio/SKILL.md",
+        "line": 283,
+        "excerpt": "gh workflow run clio-bundles.yml -f tag=vX.Y.Z",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release-clio/SKILL.md",
+        "line": 289,
+        "excerpt": "gh release view vX.Y.Z --json assets -q '.assets[].name' | python3 scripts/check_release_completeness.py",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "downloads-code": 1,
+      "shell": 8,
+      "network": 1
+    },
+    "score": 77,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "88452e0fbe0dd21a0adc7c55f29311ee645bbaad",
+      "scannedAt": "2026-11-14T09:34:23.329Z",
+      "score": 77,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

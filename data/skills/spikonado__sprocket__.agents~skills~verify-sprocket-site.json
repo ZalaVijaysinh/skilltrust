@@ -4,30 +4,136 @@
   "repo": "sprocket",
   "path": ".agents/skills/verify-sprocket-site",
   "name": "verify-sprocket-site",
-  "description": "",
-  "stars": 22,
-  "category": "other",
-  "commit": "4b8c4a61ff1625c0e7fab17f38e1c7494ec5da4c",
-  "contentHash": "0b9f927b8f22f1a9c79182352e025e25fe9470d812f63817c750290f0be05c0d",
+  "description": "Verify changes to Sprocket's marketing site, `apps/site` (home, pricing, share images), in its Astro dev server against the dev Convex deployment with analytics off, driven with agent-browser. Use to prove a site change works, or when the user asks for site screenshots or a tailnet URL for the site.",
+  "stars": 23,
+  "category": "marketing",
+  "commit": "7f71ea75bacbc5a0f51537f3688fd947bf85850d",
+  "contentHash": "3bebdfe742ae41bfc0da5f5fd91926a3bb09d616cb7adc7642f235c0dbb53a8a",
   "repoCreatedAt": "2026-04-13T14:39:39Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-14T09:34:23.329Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/verify-sprocket-site/SKILL.md",
+        "line": 15,
+        "excerpt": "S=$(git rev-parse --show-toplevel)/.agents/skills/verify-sprocket-site/scripts",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/verify-sprocket-site/SKILL.md",
+        "line": 50,
+        "excerpt": "agent-browser network har start --content none",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/verify-sprocket-site/features/home.md",
+        "line": 3,
+        "excerpt": "The home page at `/` pitches Sprocket, links the latest desktop release for the visitor's OS, copies the `npx usesprocket` command, and opens the product screen",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/verify-sprocket-site/features/home.md",
+        "line": 9,
+        "excerpt": "- `home-copy` copies `npx usesprocket` and flips the button to `Copied`.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/verify-sprocket-site/features/pricing.md",
+        "line": 23,
+        "excerpt": "- The dev catalog has paid plans without prices and one `$5` credit pack. Read it with `curl -s -X POST <dev Convex URL>/api/query -H 'content-type: application",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/verify-sprocket-site/features/pricing.md",
+        "line": 26,
+        "excerpt": "- **Catalog.** Plain `snapshot` shows `heading \"Free\"` with `$0`, then a heading per paid plan in the catalog, each reading `Unavailable` with a disabled `Unava",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/verify-sprocket-site/features/share-images.md",
+        "line": 22,
+        "excerpt": "- **Fetch.** Run `curl -s -D $OUT/og.headers -o $OUT/og.png http://localhost:4335/og.png` and the same for `apple-touch-icon.png`. Each header file has `HTTP/1.",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/verify-sprocket-site/features/share-images.md",
+        "line": 25,
+        "excerpt": "- **Meta.** Run `curl -s http://localhost:4335/ | grep -oE '<meta (property|name)=\"(og|twitter):image[^>]*>|<link rel=\"(icon|apple-touch-icon)\"[^>]*>'` and the ",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/verify-sprocket-site/scripts/doctor.sh",
+        "line": 6,
+        "excerpt": "code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 \"$site_origin/\")",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/verify-sprocket-site/scripts/doctor.sh",
+        "line": 10,
+        "excerpt": "env_module=$(curl -s --max-time 10 \"$site_origin/@id/__x00__astro:env/client\" | head -1)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/verify-sprocket-site/scripts/net-log.cjs",
+        "line": 14,
+        "excerpt": "subscribe('http.client.request.start', ({ request }) =>",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 2,
+      "downloads-code": 2,
+      "network": 7
+    },
+    "score": 79,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 14
+    "filesScanned": 14,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "4b8c4a61ff1625c0e7fab17f38e1c7494ec5da4c",
       "scannedAt": "2026-11-09T10:28:36.295Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "7f71ea75bacbc5a0f51537f3688fd947bf85850d",
+      "scannedAt": "2026-11-14T09:34:23.329Z",
+      "score": 79,
       "rulesVersion": "1.3.0"
     }
   ]

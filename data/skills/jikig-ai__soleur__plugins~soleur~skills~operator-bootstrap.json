@@ -1,0 +1,290 @@
+{
+  "id": "jikig-ai__soleur__plugins~soleur~skills~operator-bootstrap",
+  "owner": "jikig-ai",
+  "repo": "soleur",
+  "path": "plugins/soleur/skills/operator-bootstrap",
+  "name": "operator-bootstrap",
+  "description": "This skill should be used when a merge leaves two or more operator steps blocked on one credential: generate a runnable staged bootstrap.sh an agent runs, not a prose checklist.",
+  "stars": 21,
+  "category": "coding",
+  "commit": "8a2e5107395358fce44c9e504aa8d4c9162f0736",
+  "contentHash": "669da3abe1176f9ba4fe57c87b3a25b1c0973eba60fc1156b3133c31efad8a3b",
+  "repoCreatedAt": "2026-01-27T18:01:22Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-14T09:34:23.329Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "plugins/soleur/skills/operator-bootstrap/SKILL.md",
+        "line": 158,
+        "excerpt": "LIB=\"$(realpath \"${CLAUDE_PLUGIN_ROOT}/scripts/lib/operator-script.sh\")\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/soleur/scripts/lib/session-state.sh",
+        "line": 61,
+        "excerpt": "echo \"  macOS: brew install util-linux && add \\$(brew --prefix util-linux)/sbin to PATH\" >&2",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/soleur/test/lib/operator-stub-world.sh",
+        "line": 224,
+        "excerpt": "stub_log curl \"$class\" \"$@\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/soleur/test/operator-agent-runnable.test.sh",
+        "line": 499,
+        "excerpt": "for m in \"13|gh api -X DELETE repos/jikig-ai/soleur/environments/x|gh api -X DELETE\" \"14|gh variable set X --body 1 -R jikig-ai/soleur|gh variable set\" \"15|curl",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.github.com"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/soleur/test/operator-script.test.sh",
+        "line": 807,
+        "excerpt": "gctl_sourced_consumers() { # <file>...: lines that source an env-file variable or a literal .env",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/soleur/test/operator-script.test.sh",
+        "line": 817,
+        "excerpt": "printf 'source \"$ENV_FILE\"\\n  . \"${SCRIPT_DIR}/.env\"\\n# source \"$ENV_FILE\"\\n' > \"$SB/consumer-ctl.sh\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/soleur/test/operator-script.test.sh",
+        "line": 819,
+        "excerpt": "pass \"gctl consumers: the consumer grep sees a synthetic 'source \\$ENV_FILE' and '. .env' and ignores a comment (it is not vacuous)\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/soleur/test/operator-script.test.sh",
+        "line": 845,
+        "excerpt": "SOLEUR_BOOTSTRAP_LEDGER=\"$lj\" bash -c '",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/soleur/test/operator-script.test.sh",
+        "line": 1588,
+        "excerpt": "ACQUIRES_RE='read -[a-z]*s( |$)|read -s( |$)|curl -u|doppler secrets get|gh auth token|Authorization: *Bearer'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/soleur/test/operator-script.test.sh",
+        "line": 1652,
+        "excerpt": "curl -u \"user:$1\" https://example.invalid/",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "example.invalid"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/soleur/test/operator-script.test.sh",
+        "line": 1654,
+        "excerpt": "assert_red g5_check \"g5-r3 consumer acquiring via curl -u, no refusal, sourced with '.'\" \"$PRISTINE\" \"$SB/run/curlu\" \"${PLUGIN_ROOT}/skills/operator-bootstrap/t",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/soleur/test/operator-script.test.sh",
+        "line": 1678,
+        "excerpt": "api_got=\"$(bash -c 'set -uo pipefail; source \"$1\"; printf \"%s\" \"${SOLEUR_OP_LIB_API:-unset}\"' _ \"$LIB\" 2>/dev/null)\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/soleur/test/operator-script.test.sh",
+        "line": 1690,
+        "excerpt": "if bash -c 'set -uo pipefail; source \"$1\"; declare -F \"$2\" >/dev/null' _ \"$LIB\" \"$api_fn\" 2>/dev/null; then",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/soleur/test/operator-script.test.sh",
+        "line": 1700,
+        "excerpt": "api_exported=\"$(bash -c 'set -uo pipefail; source \"$1\"; printf \"%s\" \"${SOLEUR_OP_LIB_API:-0}\"' _ \"$LIB\" 2>/dev/null)\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/soleur/test/operator-script.test.sh",
+        "line": 1752,
+        "excerpt": "ou_out=\"$(printf 'the-next-answer\\n' | env -u WSL_DISTRO_NAME -u WSL_INTEROP timeout 5 bash -c '",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/soleur/test/operator-script.test.sh",
+        "line": 2110,
+        "excerpt": "SOLEUR_BOOTSTRAP_LEDGER=\"$ledger_probe\" bash -c '",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/soleur/test/operator-script.test.sh",
+        "line": 2134,
+        "excerpt": "f7_out=\"$(SOLEUR_BOOTSTRAP_LEDGER=\"$unwritable_ledger\" bash -c '",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/soleur/test/operator-script.test.sh",
+        "line": 2328,
+        "excerpt": "bash -c 'source \"$1\"; shift; real=\"$(soleur_approval_realpath \"$G11_SCRIPT\")\"; soleur_approval_binding_digest \"$real\" demo \"$@\"' _ \"$PRISTINE\" \"$@\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/soleur/test/operator-script.test.sh",
+        "line": 2332,
+        "excerpt": "g11_mint() { bash -c 'source \"$1\"; soleur_approval_mint \"$2\" g11-session' _ \"$PRISTINE\" \"$1\"; }",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/soleur/test/operator-script.test.sh",
+        "line": 2372,
+        "excerpt": "computed=\"$(bash -c 'source \"$1\"; real=\"$(soleur_approval_realpath \"$G11_SCRIPT\")\"; soleur_op_plan_begin; soleur_op_plan_op op1 target1; soleur_op_plan_digest \"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/soleur/test/operator-script.test.sh",
+        "line": 2398,
+        "excerpt": "nonce=\"$(bash -c 'source \"$1\"; SOLEUR_APPROVAL_TTL_SECONDS=-60; soleur_approval_mint \"$2\" s' _ \"$PRISTINE\" \"$binding\")\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/soleur/test/operator-script.test.sh",
+        "line": 2470,
+        "excerpt": "kb=\"$(bash -c 'source \"$1\"; shift; real=\"$(soleur_approval_realpath \"$G11_SCRIPT\")\"; soleur_approval_binding_digest \"$real\" demo \"$@\"' _ \"$lib\" \"${argv[@]}\")\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/soleur/test/operator-script.test.sh",
+        "line": 2471,
+        "excerpt": "kn=\"$(bash -c 'source \"$1\"; soleur_approval_mint \"$2\" g11-k' _ \"$lib\" \"$kb\")\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/soleur/test/operator-script.test.sh",
+        "line": 2480,
+        "excerpt": "l1=\"$(bash -c 'source \"$1\"; soleur_approval_mint \"$2\" g11-l' _ \"$lib\" \"$binding\")\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/soleur/test/operator-script.test.sh",
+        "line": 2481,
+        "excerpt": "l2=\"$(bash -c 'source \"$1\"; soleur_approval_mint \"$2\" g11-l' _ \"$lib\" \"$binding\")\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/soleur/test/operator-script.test.sh",
+        "line": 2529,
+        "excerpt": "got=\"$(bash -c 'source \"$1\"; shift; soleur_approval_binding_digest \"$@\"' _ \"$lib\" \"$real\" demo --stage demo --apply --plan-digest d1)\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/soleur/test/operator-script.test.sh",
+        "line": 2543,
+        "excerpt": "got=\"$(bash -c 'source \"$1\"; shift; a=\"$(soleur_approval_binding_digest \"$@\" \"a b\")\"; b=\"$(soleur_approval_binding_digest \"$@\" a b)\"; c=\"$(soleur_approval_bindi",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/soleur/test/operator-script.test.sh",
+        "line": 2550,
+        "excerpt": "got=\"$(bash -c 'source \"$1\"; soleur_approval_realpath \"$2\"' _ \"$lib\" \"$G11_DIR/linked-script.sh\")\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/soleur/test/operator-script.test.sh",
+        "line": 2562,
+        "excerpt": "got=\"$(bash -c 'source \"$1\"; soleur_op_plan_begin; soleur_op_plan_op op1 target1; soleur_op_plan_digest \"$2\" demo \"\" impact rollback' _ \"$lib\" \"$real\")\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "plugins/soleur/hooks/ext-filter-detect.sh",
+        "line": 139,
+        "excerpt": "\"\"|https://api.anthropic.com|https://api.anthropic.com/) : ;;",
+        "disclosed": false,
+        "automatic": true
+      }
+    ],
+    "findingTotals": {
+      "shell": 47,
+      "downloads-code": 1,
+      "network": 5,
+      "reads-secrets": 3,
+      "paid-api": 1
+    },
+    "score": 57,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 37,
+    "filesSkipped": 1
+  },
+  "history": [
+    {
+      "commit": "8a2e5107395358fce44c9e504aa8d4c9162f0736",
+      "scannedAt": "2026-11-14T09:34:23.329Z",
+      "score": 57,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}
