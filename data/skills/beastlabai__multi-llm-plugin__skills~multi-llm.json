@@ -4,16 +4,16 @@
   "repo": "multi-llm-plugin",
   "path": "skills/multi-llm",
   "name": "multi-llm",
-  "description": "Orchestrate code plan reviews, task generation, implementation, code reviews and commit reviews using multiple LLM providers in parallel, or ask each model a free-text question about a plan. Use this skill whenever the user wants to review a plan with multiple models, generate implementation tasks, implement tasks with subagent delegation, review code changes against a plan, review or fix the commits they made, ask the models a question about a plan, or run any multi-model workflow. Triggers on: 'review my plan', 'multi-llm', 'run code review', 'generate tasks from plan', 'implement this plan', 'use multiple models to review', 'ask the models about my plan', 'ask a question about this plan', '--ask', 'improve my plan', 'review and apply the suggestions', 'improve the code', 'review and fix the code', 'review my last commit', 'review the last N commits', 'review this branch's commits', 'fix the issues in my last commit'.",
+  "description": "Orchestrate code plan reviews, task generation, implementation, code reviews and commit reviews using multiple LLM providers in parallel, or ask each model a question about a plan. Use this skill whenever the user wants to review a plan with multiple models, generate implementation tasks, implement tasks with subagents, review code changes against a plan, review or fix the commits they made, ask the models a question about a plan, or run any multi-model workflow. Triggers on: 'review my plan', 'multi-llm', 'run code review', 'generate tasks from plan', 'implement this plan', 'use multiple models to review', 'ask the models about my plan', 'ask a question about this plan', '--ask', 'improve my plan', 'review and apply the suggestions', 'improve the code', 'review and fix the code', 'review my last commit', 'review the last N commits', 'review this branch's commits', 'fix the issues in my last commit', 'review the tasks', 'apply the suggestions', 'apply the task suggestions', 'apply the code fixes'.",
   "stars": 12,
   "category": "coding",
-  "commit": "acfac7eb737c8a36f9c06d8c545aee47757b328a",
-  "contentHash": "1ae44f60faf5b8f07a6d4b92ea242d09560d9d0afa0ed38afddf977c4a4b8570",
+  "commit": "51139971c8c998fe74e17a7a7e37490f07b7f62e",
+  "contentHash": "e01c2cfe65908486178264edf2e65c08d04efda7761580c1c0c1d3d1b7df8255",
   "repoCreatedAt": "2026-06-23T16:31:24Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-11T09:56:52.235Z",
+  "scannedAt": "2026-11-15T10:00:32.478Z",
   "scan": {
     "findings": [
       {
@@ -27,15 +27,15 @@
       {
         "ruleId": "shell",
         "file": "skills/multi-llm/SKILL.md",
-        "line": 65,
-        "excerpt": "uv run --frozen --no-dev --project \"${CLAUDE_SKILL_DIR}\" -- python \"${CLAUDE_SKILL_DIR}/multi_llm.py\" util instructions <mode>",
+        "line": 67,
+        "excerpt": "uv run --frozen --no-dev --project \"${CLAUDE_SKILL_DIR}\" -- python \"${CLAUDE_SKILL_DIR}/multi_llm.py\" util instructions <mode> --to-file",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/multi-llm/SKILL.md",
-        "line": 89,
+        "line": 90,
         "excerpt": "uv run --frozen --no-dev --project \"${CLAUDE_SKILL_DIR}\" -- python \"${CLAUDE_SKILL_DIR}/multi_llm.py\" <mode> \"<plan-path>\" --host claude-code [flags…]",
         "disclosed": true,
         "automatic": false
@@ -43,497 +43,207 @@
       {
         "ruleId": "shell",
         "file": "skills/multi-llm/SKILL.md",
-        "line": 108,
+        "line": 109,
         "excerpt": "/multi-llm:multi-llm plans/my-feature.md                 # review-plan (the default)",
         "disclosed": true,
         "automatic": false
       },
       {
-        "ruleId": "downloads-code",
-        "file": "skills/multi-llm/hosts/uv-missing.txt",
-        "line": 7,
-        "excerpt": "curl -LsSf https://astral.sh/uv/install.sh | sh",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/multi-llm/hosts/uv-missing.txt",
-        "line": 7,
-        "excerpt": "curl -LsSf https://astral.sh/uv/install.sh | sh",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": [
-          "astral.sh"
-        ]
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/multi-llm/hosts/uv-missing.txt",
-        "line": 14,
-        "excerpt": "brew install uv | pipx install uv | pip install --user uv",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "shell",
-        "file": "skills/multi-llm/tests/conftest.py",
-        "line": 171,
-        "excerpt": "_STDLIB_SUBPROCESS_RUN = subprocess.run",
+        "file": "skills/multi-llm/tests/container/docker_probe.py",
+        "line": 39,
+        "excerpt": "completed = subprocess.run(",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "skills/multi-llm/tests/conftest.py",
-        "line": 212,
-        "excerpt": "\"\"\"Keep ``subprocess.run`` the suite's fake for the Lane A process boundary.",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/multi-llm/tests/conftest.py",
-        "line": 214,
-        "excerpt": "The Lane A spawn used to BE ``subprocess.run``, so dozens of tests across the",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/multi-llm/tests/conftest.py",
-        "line": 215,
-        "excerpt": "suite fake the provider process by patching ``utils.llm_client.subprocess.run``",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/multi-llm/tests/conftest.py",
-        "line": 217,
-        "excerpt": "is now ``llm_client._run_provider_cli`` — ``subprocess.run``'s own contract",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/multi-llm/tests/conftest.py",
-        "line": 220,
-        "excerpt": "test has replaced ``subprocess.run``, the spawn is routed to that",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/multi-llm/tests/conftest.py",
-        "line": 223,
-        "excerpt": "With ``subprocess.run`` untouched — every test that runs a real fake CLI —",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/multi-llm/tests/conftest.py",
-        "line": 234,
-        "excerpt": "if subprocess.run is not _STDLIB_SUBPROCESS_RUN:",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/multi-llm/tests/conftest.py",
-        "line": 235,
-        "excerpt": "return subprocess.run(cmd, **kwargs)",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/multi-llm/tests/conftest.py",
-        "line": 296,
-        "excerpt": "``known=None`` default with a real subprocess. Any registry or executor",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/multi-llm/tests/conftest.py",
-        "line": 499,
-        "excerpt": "return subprocess.CompletedProcess(",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/multi-llm/tests/conftest.py",
-        "line": 513,
-        "excerpt": "return subprocess.CompletedProcess(",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/multi-llm/tests/conftest.py",
-        "line": 666,
-        "excerpt": "\"\"\"Mock subprocess.run with configurable responses.\"\"\"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/multi-llm/tests/conftest.py",
-        "line": 672,
-        "excerpt": "self._default_response = subprocess.CompletedProcess(",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/multi-llm/tests/conftest.py",
-        "line": 678,
-        "excerpt": "self._responses[cmd_pattern] = subprocess.CompletedProcess(",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/multi-llm/tests/conftest.py",
-        "line": 687,
-        "excerpt": "\"\"\"Mock subprocess.run call.\"\"\"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/multi-llm/tests/container/Dockerfile",
-        "line": 195,
-        "excerpt": "&& apt-get install -y --no-install-recommends \\",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/multi-llm/tests/container/Dockerfile",
-        "line": 219,
-        "excerpt": "&& install -m 0755 /tmp/uv-x86_64-unknown-linux-gnu/uvx /opt/mllm/real/uvx \\",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/multi-llm/tests/container/Dockerfile",
-        "line": 240,
-        "excerpt": "RUN /opt/mllm/real/uv pip install \\",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/multi-llm/tests/container/Dockerfile",
-        "line": 328,
-        "excerpt": "/opt/mllm/real/uv pip install --python /opt/mllm/venvs/aider/bin/python aider-chat; \\",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/multi-llm/tests/container/Dockerfile",
-        "line": 330,
-        "excerpt": "/opt/mllm/real/uv pip install --python /opt/mllm/venvs/aider/bin/python \\",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/multi-llm/tests/container/Dockerfile",
-        "line": 368,
-        "excerpt": "/opt/mllm/real/uv pip install --python /opt/mllm/venvs/vibe/bin/python mistral-vibe; \\",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/multi-llm/tests/container/Dockerfile",
-        "line": 370,
-        "excerpt": "/opt/mllm/real/uv pip install --python /opt/mllm/venvs/vibe/bin/python \\",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "skills/multi-llm/tests/container/Dockerfile",
-        "line": 730,
-        "excerpt": "> /etc/profile.d/00-mllm-path.sh \\",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/multi-llm/tests/container/claude_package.py",
-        "line": 110,
-        "excerpt": "env = dict(os.environ)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/multi-llm/tests/container/claude_package.py",
-        "line": 180,
-        "excerpt": "env = dict(os.environ)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/multi-llm/tests/container/claude_package.py",
-        "line": 566,
-        "excerpt": "env = dict(os.environ)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/multi-llm/tests/container/creds.yaml",
-        "line": 78,
-        "excerpt": "- path: ~/.git-credentials",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/multi-llm/tests/container/creds.yaml",
-        "line": 82,
-        "excerpt": "- path: ~/.ssh",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/multi-llm/tests/container/creds.yaml",
-        "line": 84,
-        "excerpt": "- path: ~/.netrc",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/multi-llm/tests/container/creds.yaml",
-        "line": 86,
-        "excerpt": "- path: ~/.aws",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/multi-llm/tests/container/entrypoint.py",
+        "file": "skills/multi-llm/tests/container/docker_probe.py",
         "line": 47,
-        "excerpt": "import urllib.request",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
+        "excerpt": "except (OSError, subprocess.SubprocessError) as exc:",
+        "disclosed": true,
+        "automatic": false
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/multi-llm/tests/container/entrypoint.py",
-        "line": 96,
-        "excerpt": "\"~/.gitconfig\", \"~/.git-credentials\", \"~/.config/gh/hosts.yml\",",
-        "disclosed": false,
+        "ruleId": "shell",
+        "file": "skills/multi-llm/tests/container/harness.py",
+        "line": 1381,
+        "excerpt": "completed = subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/multi-llm/tests/container/harness.py",
+        "line": 2014,
+        "excerpt": "created = subprocess.run([\"docker\", \"create\", \"--name\", name, image],",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/multi-llm/tests/container/harness.py",
+        "line": 2023,
+        "excerpt": "copied = subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/multi-llm/tests/container/harness.py",
+        "line": 2033,
+        "excerpt": "subprocess.run([\"docker\", \"rm\", \"-f\", name], capture_output=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/multi-llm/tests/container/harness.py",
+        "line": 2132,
+        "excerpt": "completed = subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/multi-llm/tests/container/harness.py",
+        "line": 2157,
+        "excerpt": "except (OSError, subprocess.TimeoutExpired) as exc:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/multi-llm/tests/container/harness.py",
+        "line": 2197,
+        "excerpt": "completed = subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/multi-llm/tests/container/harness.py",
+        "line": 3465,
+        "excerpt": "proc = subprocess.run(argv, capture_output=True, text=True,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/multi-llm/tests/container/harness.py",
+        "line": 3468,
+        "excerpt": "except subprocess.TimeoutExpired as exc:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/multi-llm/tests/container/harness.py",
+        "line": 3619,
+        "excerpt": "subprocess.run([\"docker\", \"stop\", \"--time\", \"10\", name],",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/multi-llm/tests/container/harness.py",
+        "line": 3621,
+        "excerpt": "except subprocess.TimeoutExpired:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/multi-llm/tests/container/harness.py",
+        "line": 3623,
+        "excerpt": "alive = subprocess.run([\"docker\", \"inspect\", \"-f\", \"{{.State.Running}}\", name],",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/multi-llm/tests/container/harness.py",
+        "line": 3626,
+        "excerpt": "subprocess.run([\"docker\", \"kill\", name], capture_output=True, timeout=30)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/multi-llm/tests/fixtures/codex/0.160.1/quoting_render.jsonl",
+        "line": 9,
+        "excerpt": "{\"type\":\"item.started\",\"item\":{\"id\":\"item_3\",\"type\":\"command_execution\",\"command\":\"/bin/bash -c 'grep -c line AGENTS.md'\",\"aggregated_output\":\"\",\"exit_code\":nul",
+        "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "reads-secrets",
-        "file": "skills/multi-llm/tests/container/entrypoint.py",
-        "line": 97,
-        "excerpt": "\"~/.ssh\", \"~/.netrc\", \"~/.aws\",",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/multi-llm/tests/container/entrypoint.py",
-        "line": 220,
-        "excerpt": "question than the rule asks: a bind of `~/.ssh` at a path nobody expected, or",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/multi-llm/tests/container/entrypoint.py",
-        "line": 544,
-        "excerpt": "with urllib.request.urlopen(url, timeout=1) as response:",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/multi-llm/tests/container/entrypoint.py",
-        "line": 1453,
+        "file": "skills/multi-llm/tests/test_codex_trust.py",
+        "line": 290,
         "excerpt": "env = dict(os.environ)",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "paid-api",
-        "file": "skills/multi-llm/tests/container/entrypoint.py",
-        "line": 1627,
-        "excerpt": "OPENROUTER_API = \"https://openrouter.ai/api/v1\"",
+        "file": "skills/multi-llm/tests/test_failure_classifier.py",
+        "line": 73,
+        "excerpt": "\"https://openrouter.ai/api/v1/chat/completions. Status: 401 Unauthorized. \"",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "paid-api",
-        "file": "skills/multi-llm/tests/container/entrypoint.py",
-        "line": 1630,
-        "excerpt": "OPENROUTER_ANTHROPIC_BASE = \"https://openrouter.ai/api\"",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/multi-llm/tests/container/entrypoint.py",
-        "line": 1634,
-        "excerpt": "request = urllib.request.Request(",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/multi-llm/tests/container/entrypoint.py",
-        "line": 1636,
-        "excerpt": "with urllib.request.urlopen(request, timeout=timeout) as response:",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/multi-llm/tests/container/entrypoint.py",
-        "line": 2166,
-        "excerpt": "env = dict(os.environ)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/multi-llm/tests/container/entrypoint.py",
-        "line": 2492,
-        "excerpt": "env = dict(os.environ)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/multi-llm/tests/container/entrypoint.py",
-        "line": 2774,
-        "excerpt": "`dict(os.environ)`), and without that no tool call is ever emitted. This one",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/multi-llm/tests/container/entrypoint.py",
-        "line": 3339,
-        "excerpt": "client = McpStdioClient(root, env or dict(os.environ), roots=roots,",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/multi-llm/tests/container/entrypoint.py",
-        "line": 5560,
-        "excerpt": "env = dict(os.environ)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/multi-llm/tests/container/entrypoint.py",
-        "line": 5798,
-        "excerpt": "env = dict(os.environ)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/multi-llm/tests/container/expected_argv.yaml",
-        "line": 134,
-        "excerpt": "\"--disallowed-tools\": \"Edit,MultiEdit,Write,NotebookEdit,Bash,Task,WebFetch,WebSearch\"",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/multi-llm/tests/container/expected_argv.yaml",
-        "line": 157,
-        "excerpt": "\"--disallowed-tools\": \"Edit,MultiEdit,Write,NotebookEdit,Bash,Task,WebFetch,WebSearch\"",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/multi-llm/tests/container/expected_argv.yaml",
-        "line": 172,
-        "excerpt": "\"--allowed-tools\": \"Read,Grep,Glob,Edit,MultiEdit,Write,NotebookEdit,Bash,TodoWrite,WebFetch,WebSearch\"",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/multi-llm/tests/container/fx_smoke.py",
-        "line": 65,
-        "excerpt": "env = dict(os.environ)",
+        "file": "skills/multi-llm/tests/test_failure_classifier.py",
+        "line": 119,
+        "excerpt": "'https://api.openai.com/v1/responses\"}\\n'",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "paid-api",
-        "file": "skills/multi-llm/tests/container/home_seed/README.md",
-        "line": 23,
-        "excerpt": "| `codex` | `.codex/config.toml` | selects the stub provider; **`$CODEX_HOME` must also point here and the directory must exist** — codex exits 1 with \"CODEX_HO",
+        "file": "skills/multi-llm/tests/test_failure_classifier.py",
+        "line": 122,
+        "excerpt": "'https://api.openai.com/v1/responses\"}}\\n'",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "paid-api",
-        "file": "skills/multi-llm/tests/container/host_matrix.yaml",
-        "line": 661,
-        "excerpt": "https://openrouter.ai/api (the bare `/api` origin — Claude Code appends",
+        "file": "skills/multi-llm/tests/test_failure_classifier.py",
+        "line": 1116,
+        "excerpt": "assert _lane_a_dispatches(\"Error: connection refused by api.openai.com\") == 2",
         "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "paid-api",
-        "file": "skills/multi-llm/tests/container/host_matrix.yaml",
-        "line": 3559,
-        "excerpt": "\"https://openrouter.ai/api/v1\", plus COMMAND-BASED auth as its own",
+        "ruleId": "downloads-code",
+        "file": "skills/multi-llm/tests/test_failure_classifier.py",
+        "line": 1236,
+        "excerpt": "capture = _capture(_CODEX_PROGRESS, \"bash: line 1: uvx: command not found\\n\")",
         "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "paid-api",
-        "file": "skills/multi-llm/tests/container/host_matrix.yaml",
-        "line": 4823,
-        "excerpt": "IN ONE LINE: grok CONNECTs to `api.x.ai:443` at startup, before its",
+        "ruleId": "downloads-code",
+        "file": "skills/multi-llm/tests/test_failure_classifier.py",
+        "line": 1240,
+        "excerpt": "assert category is None and read == \"bash: line 1: uvx: \" + \" \" * 17 + \"\\n\"",
         "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "paid-api",
-        "file": "skills/multi-llm/tests/container/host_spend.py",
-        "line": 70,
-        "excerpt": "USAGE_URL = \"https://openrouter.ai/api/v1/key\"",
+        "ruleId": "downloads-code",
+        "file": "skills/multi-llm/tests/test_failure_classifier.py",
+        "line": 1289,
+        "excerpt": "capture = _capture(_CODEX_PROGRESS, \"bash: line 1: uvx: command not found\\n\", 127)",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "network",
-        "file": "skills/multi-llm/tests/container/host_spend.py",
-        "line": 142,
+        "file": "skills/multi-llm/tests/test_scenario_matcher_parity.py",
+        "line": 560,
         "excerpt": "import urllib.request",
         "disclosed": false,
         "automatic": false,
@@ -541,68 +251,26 @@
       },
       {
         "ruleId": "network",
-        "file": "skills/multi-llm/tests/container/host_spend.py",
-        "line": 144,
-        "excerpt": "request = urllib.request.Request(",
+        "file": "skills/multi-llm/tests/test_scenario_matcher_parity.py",
+        "line": 608,
+        "excerpt": "with urllib.request.urlopen(f\"{base}/__health\", timeout=1) as answer:",
         "disclosed": false,
         "automatic": false,
         "hosts": []
       },
       {
         "ruleId": "network",
-        "file": "skills/multi-llm/tests/container/host_spend.py",
-        "line": 146,
-        "excerpt": "with urllib.request.urlopen(request, timeout=30) as response:",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "paid-api",
-        "file": "skills/multi-llm/tests/container/live_provider.py",
-        "line": 59,
-        "excerpt": "LIVE_BASE_URL = \"https://openrouter.ai/api/v1\"",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/multi-llm/tests/container/live_provider.py",
-        "line": 738,
-        "excerpt": "child = dict(os.environ)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/multi-llm/tests/container/lock_update.py",
-        "line": 498,
-        "excerpt": "f\"curl -sSL '{url}' | sha256sum   \"",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/multi-llm/tests/container/opencode_package_gate.py",
-        "line": 75,
+        "file": "skills/multi-llm/tests/test_scenario_matcher_parity.py",
+        "line": 631,
         "excerpt": "import urllib.request",
         "disclosed": false,
         "automatic": false,
         "hosts": []
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/multi-llm/tests/container/opencode_package_gate.py",
-        "line": 586,
-        "excerpt": "env = dict(os.environ)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
-        "file": "skills/multi-llm/tests/container/opencode_package_gate.py",
-        "line": 889,
+        "file": "skills/multi-llm/tests/test_scenario_matcher_parity.py",
+        "line": 633,
         "excerpt": "request = urllib.request.Request(",
         "disclosed": false,
         "automatic": false,
@@ -610,344 +278,42 @@
       },
       {
         "ruleId": "network",
-        "file": "skills/multi-llm/tests/container/opencode_package_gate.py",
-        "line": 894,
-        "excerpt": "with urllib.request.urlopen(request, timeout=timeout) as response:",
+        "file": "skills/multi-llm/tests/test_scenario_matcher_parity.py",
+        "line": 639,
+        "excerpt": "with urllib.request.urlopen(request, timeout=30) as answer:",
         "disclosed": false,
         "automatic": false,
         "hosts": []
       },
       {
-        "ruleId": "network",
-        "file": "skills/multi-llm/tests/container/package-lock.json",
-        "line": 130,
-        "excerpt": "\"node-fetch\": \"^3.3.2\"",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/multi-llm/tests/container/package-lock.json",
-        "line": 3661,
-        "excerpt": "\"axios\": \"^1.15.0\",",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/multi-llm/tests/container/package-lock.json",
-        "line": 3676,
-        "excerpt": "\"axios\": \"^1.15.0\"",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/multi-llm/tests/container/package-lock.json",
-        "line": 3689,
-        "excerpt": "\"axios\": \"^1.15.0\"",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/multi-llm/tests/container/package-lock.json",
-        "line": 3700,
-        "excerpt": "\"axios\": \"^1.15.0\",",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "skills/multi-llm/tests/container/records/20261023T132656Z-codex-release-network-check.json",
-        "line": 10,
-        "excerpt": "\"machine_kind\": \"fresh container from the stock image docker.io/library/node:22-bookworm-slim@sha256:de170b39439eb0e5a3444ad7d60b015614a381e10fecae2e30ec9e73512",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "skills/multi-llm/tests/container/records/20261030T181607Z-codex-release-network-check.json",
-        "line": 10,
-        "excerpt": "\"machine_kind\": \"fresh container from the stock image node@sha256:d649c27dae7ba0137b3cef5dd75baa422c08dc3d9e3fc0c23dfb172dc3cc6436: codex installed from npm, uv",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "skills/multi-llm/tests/container/records/20261101T031024Z-codex-release-network-check.json",
-        "line": 10,
-        "excerpt": "\"machine_kind\": \"fresh container from the stock image node@sha256:d649c27dae7ba0137b3cef5dd75baa422c08dc3d9e3fc0c23dfb172dc3cc6436: codex installed from npm, uv",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "paid-api",
-        "file": "skills/multi-llm/tests/container/redirect.yaml",
-        "line": 165,
-        "excerpt": "api.openai.com — which looks exactly like \"redirection does not work\". (2) On",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "paid-api",
-        "file": "skills/multi-llm/tests/container/redirect.yaml",
-        "line": 167,
-        "excerpt": "(wss://api.openai.com/v1/responses) and only falls back to HTTPS after five",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "paid-api",
-        "file": "skills/multi-llm/tests/container/redirect.yaml",
-        "line": 897,
-        "excerpt": "POSTURE RATHER THAN ANYTHING IN THIS ROW: grok CONNECTs to `api.x.ai:443`",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "paid-api",
-        "file": "skills/multi-llm/tests/container/redirect.yaml",
-        "line": 911,
-        "excerpt": "proxy log records the two `CONNECT api.x.ai:443` attempts. A `xai-`-prefixed",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "paid-api",
-        "file": "skills/multi-llm/tests/container/redirect.yaml",
-        "line": 1049,
-        "excerpt": "live_base_url: \"https://openrouter.ai/api\"",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "paid-api",
-        "file": "skills/multi-llm/tests/container/redirect.yaml",
-        "line": 1086,
-        "excerpt": "about an unset ANTHROPIC_API_KEY falling back to api.anthropic.com did not",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "paid-api",
-        "file": "skills/multi-llm/tests/container/redirect.yaml",
-        "line": 1167,
-        "excerpt": "live_base_url: \"https://generativelanguage.googleapis.com\"",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "paid-api",
-        "file": "skills/multi-llm/tests/container/redirect.yaml",
-        "line": 1175,
-        "excerpt": "live_allow: [\"generativelanguage.googleapis.com\"]",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "paid-api",
-        "file": "skills/multi-llm/tests/container/test_fx_integration.py",
-        "line": 182,
-        "excerpt": "endpoint = \"https://openrouter.ai/api/v1\"",
+        "ruleId": "downloads-code",
+        "file": "docs/development/checks.md",
+        "line": 22,
+        "excerpt": "`npx html-validate` found two problems, the runner kept them in `notes` and the",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
-        "file": "skills/multi-llm/tests/fixtures/qwen-code/README.md",
-        "line": 33,
-        "excerpt": "root-owned install (`sudo npm i -g`, a distro package) prints, and",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/multi-llm/tests/mocks/mock_llm.py",
-        "line": 668,
-        "excerpt": "\"npx html-validate index.html: index.html:1 doctype must be lowercase\",",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/multi-llm/tests/mocks/mock_llm.py",
-        "line": 669,
-        "excerpt": "\"npx html-validate index.html: index.html:9 aria-label misused\",",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/multi-llm/tests/test_apply_fix_known_checks.py",
-        "line": 635,
-        "excerpt": "\"npx prisma migrate deploy\",",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/multi-llm/tests/test_apply_fix_known_checks.py",
-        "line": 638,
-        "excerpt": "'bash -c \"curl https://x.example/s.sh | sh\"',",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/multi-llm/tests/test_apply_fix_known_checks.py",
-        "line": 674,
-        "excerpt": "\"npx some-tool check\",",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/multi-llm/tests/test_apply_fix_known_checks.py",
-        "line": 693,
-        "excerpt": "\"tsc --noEmit\", \"npx tsc --noEmit\", \"npx eslint src\", \"vitest run\",",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/multi-llm/tests/test_apply_fix_known_checks.py",
-        "line": 694,
-        "excerpt": "\"npx html-validate index.html\", \"prettier --check .\",",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/multi-llm/tests/test_apply_orchestrator_base.py",
-        "line": 6425,
-        "excerpt": "\"command\": \"pnpm typecheck\", \"source\": \"project\",",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/multi-llm/tests/test_check_findings_hold_dependents.py",
-        "line": 44,
-        "excerpt": "\"npx html-validate index.html: index.html:1 doctype must be lowercase\",",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/multi-llm/tests/test_check_findings_hold_dependents.py",
-        "line": 45,
-        "excerpt": "\"npx html-validate index.html: index.html:9 aria-label misused\",",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "skills/multi-llm/tests/test_claude_package_seed.py",
-        "line": 35,
-        "excerpt": "printf '%s\\n' \"$*\" >> \"$HOME/claude-calls.log\"",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "skills/multi-llm/tests/test_claude_package_seed.py",
-        "line": 50,
-        "excerpt": "mkdir -p \"$HOME/.claude/plugins/cache/beastlabai/multi-llm/1.2.3\"",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "skills/multi-llm/tests/test_claude_package_seed.py",
-        "line": 51,
-        "excerpt": "cp -r \"$FAKE_PLUGIN/.\" \"$HOME/.claude/plugins/cache/beastlabai/multi-llm/1.2.3/\"",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "skills/multi-llm/tests/test_codex_stream_audit.py",
-        "line": 700,
-        "excerpt": "assert \"ran: cat <<EOF > ~/x\\\\nhi\\\\nEOF\" in verdict.reason, verdict.reason",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "skills/multi-llm/tests/test_container_documented_invocation.py",
-        "line": 33,
-        "excerpt": "1. install the shim (`install-host <host> --global`) into the row's tmpfs `$HOME`;",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "paid-api",
-        "file": "skills/multi-llm/tests/test_container_live_provider.py",
-        "line": 120,
-        "excerpt": "\"api.anthropic.com resolves; OpenRouter's Anthropic skin takes \"",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "paid-api",
-        "file": "skills/multi-llm/tests/test_container_live_provider.py",
-        "line": 160,
-        "excerpt": "\"`api: https://openrouter.ai/api/v1`. That is the whole \"",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "paid-api",
-        "file": "skills/multi-llm/tests/test_container_live_provider.py",
-        "line": 218,
-        "excerpt": "\"live_base_url\": \"https://api.anthropic.com\",",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "skills/multi-llm/tests/test_landlock_repo_wide.py",
-        "line": 562,
-        "excerpt": "(\"home\", 'echo x > \"$HOME/mllm-3b-$$\"'),",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "skills/multi-llm/tests/test_llm_client.py",
-        "line": 4062,
-        "excerpt": "script.write_text(\"#!/usr/bin/env node\\n\", encoding=\"utf-8\")",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "skills/multi-llm/tests/test_plugin_landlock_executor.py",
-        "line": 204,
-        "excerpt": "\"type\": \"command_execution\", \"command\": \"sh -c 'echo x > /etc/stray'\",",
+        "file": "docs/development/providers.md",
+        "line": 1020,
+        "excerpt": "`PATH`, so `uv pip install` in an empty repository still targeted the skill's",
         "disclosed": false,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 1239,
-      "downloads-code": 51,
-      "network": 68,
-      "writes-outside": 12,
-      "reads-secrets": 65,
-      "paid-api": 46
+      "shell": 134,
+      "reads-secrets": 1,
+      "paid-api": 4,
+      "downloads-code": 5,
+      "network": 5
     },
-    "score": 37,
+    "score": 47,
     "band": "high",
     "rulesVersion": "1.3.0",
-    "filesScanned": 1812,
-    "filesSkipped": 23
+    "filesScanned": 147,
+    "filesSkipped": 2137
   },
   "history": [
     {
@@ -960,6 +326,12 @@
       "commit": "acfac7eb737c8a36f9c06d8c545aee47757b328a",
       "scannedAt": "2026-11-08T09:45:03.483Z",
       "score": 37,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "51139971c8c998fe74e17a7a7e37490f07b7f62e",
+      "scannedAt": "2026-11-15T10:00:32.478Z",
+      "score": 47,
       "rulesVersion": "1.3.0"
     }
   ]

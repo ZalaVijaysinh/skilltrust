@@ -7,13 +7,13 @@
   "description": "Adversarial review and fix loop for code, specs, plans, and migration manifests.",
   "stars": 864,
   "category": "coding",
-  "commit": "1ca8a66158bc9ca26c288c6d5e7ebcf2ffb8491a",
-  "contentHash": "741aa59f8f4316e17fb665592b6f70683b30c145041e303ba332a6057b6c7a34",
+  "commit": "4790c55e651141d2e3db018982aad40b49fbc58b",
+  "contentHash": "5cd6e685456b5a10ed6aeea2beaaf1b8deab894ab256fe7c8109882550b9e83f",
   "repoCreatedAt": "2026-10-01T04:18:51Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-08T05:42:07.685Z",
+  "scannedAt": "2026-11-15T10:00:32.478Z",
   "scan": {
     "findings": [
       {
@@ -43,7 +43,7 @@
       {
         "ruleId": "writes-outside",
         "file": "skills/J-peer-review-and-audit/peer-review/skill/scripts/run-adversarial-review.sh",
-        "line": 857,
+        "line": 866,
         "excerpt": "ln -s \"$HOME/.local/share\" \"$cursor_tmp/home/.local/share\"",
         "disclosed": false,
         "automatic": false
@@ -51,7 +51,7 @@
       {
         "ruleId": "browser-secrets",
         "file": "skills/J-peer-review-and-audit/peer-review/skill/scripts/run-adversarial-review.sh",
-        "line": 860,
+        "line": 869,
         "excerpt": "mkdir -p \"$cursor_library\"; ln -s \"$HOME/Library/Keychains\" \"$cursor_library/Keychains\"",
         "disclosed": true,
         "automatic": false
@@ -59,7 +59,7 @@
       {
         "ruleId": "writes-outside",
         "file": "skills/J-peer-review-and-audit/peer-review/skill/scripts/run-adversarial-review.sh",
-        "line": 860,
+        "line": 869,
         "excerpt": "mkdir -p \"$cursor_library\"; ln -s \"$HOME/Library/Keychains\" \"$cursor_library/Keychains\"",
         "disclosed": false,
         "automatic": false
@@ -67,7 +67,7 @@
       {
         "ruleId": "writes-outside",
         "file": "skills/J-peer-review-and-audit/peer-review/skill/scripts/run-adversarial-review.sh",
-        "line": 863,
+        "line": 872,
         "excerpt": "cp -- \"$HOME/.config/cursor/auth.json\" \"$cursor_tmp/home/.config/cursor/\" 2>/dev/null ||",
         "disclosed": false,
         "automatic": false
@@ -89,10 +89,26 @@
         "automatic": false
       },
       {
+        "ruleId": "browser-secrets",
+        "file": "skills/J-peer-review-and-audit/peer-review/skill/scripts/selftest/run-selftest.sh",
+        "line": 269,
+        "excerpt": "printf '%s|%s|%s|%s|%s\\n' \"$HOME\" \"$PWD\" \"$(readlink \"$HOME/.local/share\")\" \"$(cat \"$HOME/.config/cursor/auth.json\" 2>/dev/null)\" \"$(readlink \"$HOME/Library/Key",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
         "ruleId": "shell",
         "file": "skills/J-peer-review-and-audit/peer-review/skill/scripts/selftest/run-selftest.sh",
         "line": 299,
         "excerpt": "bash -c \"$(declare -f cursor_run); ROOT='$ROOT' REVIEW='$REVIEW' TARGET='$TARGET' OBSERVE_LOG='$OBSERVE_LOG' cursor_run '$ROOT/cursor-detect.md'\" || return 1",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "browser-secrets",
+        "file": "skills/J-peer-review-and-audit/peer-review/skill/scripts/selftest/run-selftest.sh",
+        "line": 320,
+        "excerpt": "[[ -z \"$login\" && \"$keychains\" == \"$home/Library/Keychains\" ]] || return 1",
         "disclosed": true,
         "automatic": false
       }
@@ -100,7 +116,7 @@
     "findingTotals": {
       "shell": 6,
       "writes-outside": 3,
-      "browser-secrets": 1
+      "browser-secrets": 3
     },
     "score": 74,
     "band": "review",
@@ -118,6 +134,12 @@
     {
       "commit": "1ca8a66158bc9ca26c288c6d5e7ebcf2ffb8491a",
       "scannedAt": "2026-11-08T05:42:07.685Z",
+      "score": 74,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "4790c55e651141d2e3db018982aad40b49fbc58b",
+      "scannedAt": "2026-11-15T10:00:32.478Z",
       "score": 74,
       "rulesVersion": "1.3.0"
     }

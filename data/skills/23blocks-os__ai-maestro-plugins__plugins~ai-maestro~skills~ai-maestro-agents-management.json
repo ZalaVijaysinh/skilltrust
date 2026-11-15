@@ -4,16 +4,16 @@
   "repo": "ai-maestro-plugins",
   "path": "plugins/ai-maestro/skills/ai-maestro-agents-management",
   "name": "ai-maestro-agents-management",
-  "description": "Creates, manages, and orchestrates AI agents using the AI Maestro CLI. Use when the user asks to \"create agent\", \"list agents\", \"delete agent\", \"rename agent\", \"hibernate agent\", \"wake agent\", \"install plugin\", \"show agent\", \"export agent\", \"restart agent\", \"install marketplace\", \"run doctor\" or \"check agent health\", or any agent lifecycle management task.",
+  "description": "Creates, manages, and orchestrates AI agents using the AI Maestro CLI, including which account, subscription token or API key each agent runs on. Use when the user asks to \"create agent\", \"list agents\", \"delete agent\", \"rename agent\", \"hibernate agent\", \"wake agent\", \"install plugin\", \"show agent\", \"export agent\", \"restart agent\", \"install marketplace\", \"run doctor\" or \"check agent health\", to move agents to another account or key, or for any agent lifecycle management task.",
   "stars": 11,
   "category": "coding",
-  "commit": "181fd719f12c0c2068d57329c6cbb34202e37ff9",
-  "contentHash": "a5e48d6dda16debd4d42cfaa89c0ee83be2806150738c5d0ecdb49df82e3cc30",
+  "commit": "c949d89c6249d0b148d4281ff47a067e145d4948",
+  "contentHash": "98802134144614efbf15807d3062f1ab66f033a5a3f222cd47d08a18a121393c",
   "repoCreatedAt": "2026-02-09T20:57:33Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-11T09:56:52.235Z",
+  "scannedAt": "2026-11-15T10:00:32.478Z",
   "scan": {
     "findings": [
       {
@@ -27,7 +27,32 @@
       {
         "ruleId": "shell",
         "file": "plugins/ai-maestro/skills/ai-maestro-agents-management/SKILL.md",
-        "line": 44,
+        "line": 56,
+        "excerpt": "aimaestro-agent.sh create ops-1 --dir ~/Code/ops --credential oauth-token --secret ACME_MAX_TOKEN --account \"Acme Max plan\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/ai-maestro/skills/ai-maestro-agents-management/SKILL.md",
+        "line": 67,
+        "excerpt": "curl -s \"http://localhost:23000/api/agents/<agent-id>/credential\" | jq '{description, warnings, check}'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/ai-maestro/skills/ai-maestro-agents-management/SKILL.md",
+        "line": 67,
+        "excerpt": "curl -s \"http://localhost:23000/api/agents/<agent-id>/credential\" | jq '{description, warnings, check}'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/ai-maestro/skills/ai-maestro-agents-management/SKILL.md",
+        "line": 75,
         "excerpt": "aimaestro-agent.sh plugin install|uninstall|update|reinstall|enable|disable <agent> <plugin> [-s user|project|local]",
         "disclosed": true,
         "automatic": false
@@ -35,7 +60,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/ai-maestro/skills/ai-maestro-agents-management/SKILL.md",
-        "line": 60,
+        "line": 91,
         "excerpt": "aimaestro-agent.sh skill install <agent> <.skill|.zip|folder> [-s user|project|local] [--name <name>]",
         "disclosed": true,
         "automatic": false
@@ -43,7 +68,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/ai-maestro/skills/ai-maestro-agents-management/SKILL.md",
-        "line": 72,
+        "line": 103,
         "excerpt": "aimaestro-agent.sh export <agent> [-o <file>]             # default <agent>.agent.json, configuration only",
         "disclosed": true,
         "automatic": false
@@ -51,7 +76,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/ai-maestro/skills/ai-maestro-agents-management/SKILL.md",
-        "line": 79,
+        "line": 110,
         "excerpt": "aimaestro-agent.sh doctor [--all] [--json]   # this host's checks (agents, install, peers); --all: every enabled host",
         "disclosed": true,
         "automatic": false
@@ -59,7 +84,16 @@
       {
         "ruleId": "network",
         "file": "plugins/ai-maestro/skills/ai-maestro-agents-management/references/REFERENCE.md",
-        "line": 333,
+        "line": 288,
+        "excerpt": "curl -s \"http://localhost:23000/api/agents/<agent-id>/credential\" | jq '.check'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/ai-maestro/skills/ai-maestro-agents-management/references/REFERENCE.md",
+        "line": 350,
         "excerpt": "curl http://localhost:23000/api/agents",
         "disclosed": false,
         "automatic": false,
@@ -68,7 +102,7 @@
       {
         "ruleId": "network",
         "file": "plugins/ai-maestro/skills/ai-maestro-agents-management/references/REFERENCE.md",
-        "line": 341,
+        "line": 358,
         "excerpt": "curl http://localhost:23000/api/hosts/identity",
         "disclosed": false,
         "automatic": false,
@@ -77,7 +111,7 @@
       {
         "ruleId": "network",
         "file": "plugins/ai-maestro/skills/ai-maestro-agents-management/references/REFERENCE.md",
-        "line": 349,
+        "line": 366,
         "excerpt": "curl http://localhost:23000/api/agents | jq '.agents[].name'",
         "disclosed": false,
         "automatic": false,
@@ -86,7 +120,7 @@
       {
         "ruleId": "downloads-code",
         "file": "plugins/ai-maestro/skills/ai-maestro-agents-management/references/REFERENCE.md",
-        "line": 374,
+        "line": 391,
         "excerpt": "| \"Claude CLI is required\" | claude not installed | Install: `npm i -g @anthropic-ai/claude-code` |",
         "disclosed": false,
         "automatic": false
@@ -117,8 +151,8 @@
       }
     ],
     "findingTotals": {
-      "shell": 8,
-      "network": 3,
+      "shell": 10,
+      "network": 5,
       "downloads-code": 1
     },
     "score": 77,
@@ -143,6 +177,12 @@
     {
       "commit": "181fd719f12c0c2068d57329c6cbb34202e37ff9",
       "scannedAt": "2026-11-11T09:56:52.235Z",
+      "score": 77,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "c949d89c6249d0b148d4281ff47a067e145d4948",
+      "scannedAt": "2026-11-15T10:00:32.478Z",
       "score": 77,
       "rulesVersion": "1.3.0"
     }

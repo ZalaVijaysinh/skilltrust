@@ -5,21 +5,21 @@
   "path": "skills/quality-gates",
   "name": "quality-gates",
   "description": "Use this skill when referencing canonical quality check commands for typecheck, test, and lint. Defines 4 variants (Baseline, Incremental, Full Gate, Per-File) used by session-start, wave-executor, session-end, and session-reviewer. Reference skill — not invoked directly.",
-  "stars": 53,
+  "stars": 54,
   "category": "coding",
-  "commit": "c34cd2ab0ce1081485aaf4a45b421e42440626ca",
-  "contentHash": "ad7b8546a20a798372ee916c01245ee0bd353abcf53329226b3e4ef1835d2f4f",
+  "commit": "e1fb7cb768ae4d926b6b50e96e65b0672188934e",
+  "contentHash": "ee59cea543fe5c4ad7fd980b8084442d5cc70f58a41b2a9993941f59d7dc9eec",
   "repoCreatedAt": "2026-04-02T18:34:17Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-12T10:25:14.233Z",
+  "scannedAt": "2026-11-15T10:00:32.478Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "skills/quality-gates/SKILL.md",
-        "line": 173,
+        "line": 175,
         "excerpt": "node \"${CLAUDE_PLUGIN_ROOT:-${CODEX_PLUGIN_ROOT:-$PLUGIN_ROOT}}/scripts/run-quality-gate.mjs\" --variant baseline --config \"$CONFIG\"",
         "disclosed": false,
         "automatic": false
@@ -27,7 +27,7 @@
       {
         "ruleId": "shell",
         "file": "skills/quality-gates/SKILL.md",
-        "line": 214,
+        "line": 216,
         "excerpt": "**Implementation:** `scripts/lib/quality-gates-cache.mjs` exports `computeDependencyHash`, `saveBaselineResult`, `loadLatestBaselineResult`, `isCacheValid`, `sh",
         "disclosed": false,
         "automatic": false
@@ -137,6 +137,14 @@
         "automatic": false
       },
       {
+        "ruleId": "shell",
+        "file": "scripts/lib/backlog-refine/fetch.mjs",
+        "line": 41,
+        "excerpt": "return spawnSync(bin, args, {",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
         "ruleId": "downloads-code",
         "file": "scripts/lib/common.mjs",
         "line": 187,
@@ -163,7 +171,7 @@
       {
         "ruleId": "downloads-code",
         "file": "scripts/lib/gates/gate-full.mjs",
-        "line": 391,
+        "line": 412,
         "excerpt": "`  reproduce: npx vitest run ${failedTestFiles.join(' ')}\\n`,",
         "disclosed": false,
         "automatic": false
@@ -171,8 +179,16 @@
       {
         "ruleId": "shell",
         "file": "scripts/lib/gates/gate-helpers.mjs",
-        "line": 545,
-        "excerpt": "const output = execSync(`git diff --name-only ${ref} HEAD`, {",
+        "line": 585,
+        "excerpt": "execFileSync('git', ['rev-parse', '--verify', '--quiet', '--end-of-options', `${commit}^{commit}`], {",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/lib/gates/gate-helpers.mjs",
+        "line": 589,
+        "excerpt": "const output = execFileSync('git', ['diff', '--name-only', '-z', commit, 'HEAD', '--'], {",
         "disclosed": false,
         "automatic": false
       },
@@ -185,25 +201,9 @@
         "automatic": false
       },
       {
-        "ruleId": "shell",
-        "file": "scripts/lib/ledger-path.mjs",
-        "line": 67,
-        "excerpt": "const r = spawnSync('git', ['-C', root, 'check-ignore', '-q', '--', relPath], {",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "scripts/lib/named-vault-resolver.mjs",
-        "line": 273,
-        "excerpt": "const res = spawnSync('git', ['-C', vaultDir, 'remote', 'get-url', 'origin'], { encoding: 'utf8' });",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "downloads-code",
         "file": "scripts/lib/project-hygiene.mjs",
-        "line": 638,
+        "line": 680,
         "excerpt": "const RUNNER_SUBCOMMANDS = { uvx: [], pipx: ['run'], uv: ['tool', 'run'] };",
         "disclosed": false,
         "automatic": false
@@ -211,10 +211,18 @@
       {
         "ruleId": "downloads-code",
         "file": "scripts/lib/project-hygiene.mjs",
-        "line": 768,
+        "line": 810,
         "excerpt": "if (verb === 'uvx' || verb === 'pipx' || verb === 'uv') {",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".mcp.json",
+        "line": 7,
+        "excerpt": "\"# Plugin-root lookup. Order: PLUGIN_ROOT; then CLAUDE_PLUGIN_ROOT, CODEX_PLUGIN_ROOT, CURSOR_RULES_DIR, PI_PLUGIN_ROOT with the one matching SO_PLATFORM moved ",
+        "disclosed": false,
+        "automatic": true
       },
       {
         "ruleId": "obfuscated",
@@ -234,10 +242,10 @@
       }
     ],
     "findingTotals": {
-      "shell": 184,
+      "shell": 185,
       "downloads-code": 5,
-      "obfuscated": 1,
-      "writes-outside": 1
+      "writes-outside": 2,
+      "obfuscated": 1
     },
     "score": 45,
     "band": "high",
@@ -249,6 +257,12 @@
     {
       "commit": "c34cd2ab0ce1081485aaf4a45b421e42440626ca",
       "scannedAt": "2026-11-12T10:25:14.233Z",
+      "score": 45,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "e1fb7cb768ae4d926b6b50e96e65b0672188934e",
+      "scannedAt": "2026-11-15T10:00:32.478Z",
       "score": 45,
       "rulesVersion": "1.3.0"
     }

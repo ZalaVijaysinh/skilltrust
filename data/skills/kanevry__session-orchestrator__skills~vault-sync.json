@@ -5,15 +5,15 @@
   "path": "skills/vault-sync",
   "name": "vault-sync",
   "description": "Use when you need to validate the Meta-Vault's Markdown frontmatter and wiki-link integrity before closing a session or after vault edits. Runs as a hard gate at session-end Phase 1 — blocks close if any `.md` file fails the Zod frontmatter schema or has dangling `[[wiki-links]]`. Supports three modes: `hard` (blocks on errors), `warn` (reports without blocking), `off` (skip). Reads `vault-sync.*` from Session Config; respects per-vault exclude globs from `CLAUDE.md`. Triggers: \"vault validation failed at session close\", \"fix vault frontmatter errors\", \"check vault wiki-links\", \"why is session-end blocked by vault-sync\". <example>Context: session-end Phase 1 quality gate, vault-sync.enabled=true, vault-sync.mode=\"hard\". user: \"/close\" assistant: \"vault-sync found 2 frontmatter errors in vault/40-learnings/ml-notes.md — missing required `id` field. Fixing before close.\"</example>",
-  "stars": 53,
+  "stars": 54,
   "category": "coding",
-  "commit": "c34cd2ab0ce1081485aaf4a45b421e42440626ca",
-  "contentHash": "f27936de043dff4ba9a0a219eaaa47892c109702ec746c9966c257f310cc9ab0",
+  "commit": "e1fb7cb768ae4d926b6b50e96e65b0672188934e",
+  "contentHash": "69148591632662214e2cde807337e1a984553ad44059279a77eb3213b6515a64",
   "repoCreatedAt": "2026-04-02T18:34:17Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-12T10:25:14.233Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-15T10:00:32.478Z",
   "scan": {
     "findings": [
       {
@@ -153,6 +153,14 @@
         "automatic": false
       },
       {
+        "ruleId": "shell",
+        "file": "scripts/lib/backlog-refine/fetch.mjs",
+        "line": 41,
+        "excerpt": "return spawnSync(bin, args, {",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
         "ruleId": "downloads-code",
         "file": "scripts/lib/common.mjs",
         "line": 187,
@@ -179,7 +187,7 @@
       {
         "ruleId": "downloads-code",
         "file": "scripts/lib/gates/gate-full.mjs",
-        "line": 391,
+        "line": 412,
         "excerpt": "`  reproduce: npx vitest run ${failedTestFiles.join(' ')}\\n`,",
         "disclosed": false,
         "automatic": false
@@ -187,23 +195,15 @@
       {
         "ruleId": "shell",
         "file": "scripts/lib/gates/gate-helpers.mjs",
-        "line": 545,
-        "excerpt": "const output = execSync(`git diff --name-only ${ref} HEAD`, {",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "scripts/lib/harness-audit/categories/category6.mjs",
-        "line": 165,
-        "excerpt": "return execFileSync('git', args, { cwd: root, encoding: 'utf8', env: { ...process.env, GIT_NO_REPLACE_OBJECTS: '1' } }).trim();",
+        "line": 585,
+        "excerpt": "execFileSync('git', ['rev-parse', '--verify', '--quiet', '--end-of-options', `${commit}^{commit}`], {",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
         "file": "scripts/lib/project-hygiene.mjs",
-        "line": 638,
+        "line": 680,
         "excerpt": "const RUNNER_SUBCOMMANDS = { uvx: [], pipx: ['run'], uv: ['tool', 'run'] };",
         "disclosed": false,
         "automatic": false
@@ -211,10 +211,18 @@
       {
         "ruleId": "downloads-code",
         "file": "scripts/lib/project-hygiene.mjs",
-        "line": 768,
+        "line": 810,
         "excerpt": "if (verb === 'uvx' || verb === 'pipx' || verb === 'uv') {",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".mcp.json",
+        "line": 7,
+        "excerpt": "\"# Plugin-root lookup. Order: PLUGIN_ROOT; then CLAUDE_PLUGIN_ROOT, CODEX_PLUGIN_ROOT, CURSOR_RULES_DIR, PI_PLUGIN_ROOT with the one matching SO_PLATFORM moved ",
+        "disclosed": true,
+        "automatic": true
       },
       {
         "ruleId": "obfuscated",
@@ -234,21 +242,27 @@
       }
     ],
     "findingTotals": {
-      "shell": 184,
+      "shell": 186,
       "downloads-code": 5,
-      "obfuscated": 1,
-      "writes-outside": 1
+      "writes-outside": 2,
+      "obfuscated": 1
     },
     "score": 50,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 387,
-    "filesSkipped": 2
+    "filesScanned": 388,
+    "filesSkipped": 1
   },
   "history": [
     {
       "commit": "c34cd2ab0ce1081485aaf4a45b421e42440626ca",
       "scannedAt": "2026-11-12T10:25:14.233Z",
+      "score": 50,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "e1fb7cb768ae4d926b6b50e96e65b0672188934e",
+      "scannedAt": "2026-11-15T10:00:32.478Z",
       "score": 50,
       "rulesVersion": "1.3.0"
     }

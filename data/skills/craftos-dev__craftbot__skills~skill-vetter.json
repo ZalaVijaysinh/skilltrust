@@ -1,0 +1,88 @@
+{
+  "id": "craftos-dev__craftbot__skills~skill-vetter",
+  "owner": "CraftOS-dev",
+  "repo": "CraftBot",
+  "path": "skills/skill-vetter",
+  "name": "skill-vetter",
+  "description": "Security-first skill vetting for AI agents. Use before installing any skill from ClawdHub, GitHub, or other sources. Checks for red flags, permission scope, and suspicious patterns.",
+  "stars": 426,
+  "category": "security",
+  "commit": "1a9416856840c89f0f4b779311558bddca056600",
+  "contentHash": "c893719bdd045c5058a480d10769076e051fc46be291a48d28900f67e800c191",
+  "repoCreatedAt": "2025-12-02T04:11:26Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-15T10:00:32.478Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/skill-vetter/SKILL.md",
+        "line": 41,
+        "excerpt": "• Reads ~/.ssh, ~/.aws, ~/.config without clear reason",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/skill-vetter/SKILL.md",
+        "line": 112,
+        "excerpt": "curl -s \"https://api.github.com/repos/OWNER/REPO\" | jq '{stars: .stargazers_count, forks: .forks_count, updated: .updated_at}'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.github.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/skill-vetter/SKILL.md",
+        "line": 112,
+        "excerpt": "curl -s \"https://api.github.com/repos/OWNER/REPO\" | jq '{stars: .stargazers_count, forks: .forks_count, updated: .updated_at}'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/skill-vetter/SKILL.md",
+        "line": 115,
+        "excerpt": "curl -s \"https://api.github.com/repos/OWNER/REPO/contents/skills/SKILL_NAME\" | jq '.[].name'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.github.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/skill-vetter/SKILL.md",
+        "line": 118,
+        "excerpt": "curl -s \"https://raw.githubusercontent.com/OWNER/REPO/main/skills/SKILL_NAME/SKILL.md\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "raw.githubusercontent.com"
+        ]
+      }
+    ],
+    "findingTotals": {
+      "reads-secrets": 1,
+      "network": 3,
+      "shell": 1
+    },
+    "score": 80,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 3,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "1a9416856840c89f0f4b779311558bddca056600",
+      "scannedAt": "2026-11-15T10:00:32.478Z",
+      "score": 80,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

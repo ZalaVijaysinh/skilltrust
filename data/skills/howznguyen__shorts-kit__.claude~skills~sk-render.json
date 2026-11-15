@@ -1,0 +1,93 @@
+{
+  "id": "howznguyen__shorts-kit__.claude~skills~sk-render",
+  "owner": "howznguyen",
+  "repo": "shorts-kit",
+  "path": ".claude/skills/sk-render",
+  "name": "sk-render",
+  "description": "Renders a short to mp4 with Remotion, normalises loudness, and re-encodes it to the platform upload spec (yuv420p limited range, BT.709 tags, 48 kHz audio, faststart), then verifies each file with ffprobe and by looking at frames. Use when the user says \"render the video\", \"export it\", \"make the final mp4\", \"fix the loudness\", \"it's too quiet\", \"colours look washed out after upload\", \"the file won't play\", or reports a truncated or broken output. Steps 10, 12 and 13 of sk-pipeline.",
+  "stars": 165,
+  "category": "media",
+  "commit": "828e12000cdedf2eb3518e4328a0dacaaa3a3099",
+  "contentHash": "2cce5695563bd7ca51a1e7f5e86a93dbd2193c741c8bd320d97f47b28510063c",
+  "repoCreatedAt": "2026-11-04T19:41:42Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-15T10:00:32.478Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/sk-render/SKILL.md",
+        "line": 22,
+        "excerpt": "bun run render <id>        # → out/<id>/<id>.mp4",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/sk-render/SKILL.md",
+        "line": 30,
+        "excerpt": "ffprobe -v error -show_entries format=duration -of default=nw=1 out/<id>/<id>.mp4",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/sk-render/SKILL.md",
+        "line": 35,
+        "excerpt": "ffmpeg -v error -ss <seconds> -i out/<id>/<id>.mp4 -frames:v 1 out/<id>/check-<seconds>.png",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/sk-render/SKILL.md",
+        "line": 40,
+        "excerpt": "bun run normalize <id>     # → out/<id>/<id>-loud.mp4, target loudnessLUFS (default -13)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/sk-render/SKILL.md",
+        "line": 46,
+        "excerpt": "bun run encode <id>        # → out/<id>/<id>-upload.mp4",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/sk-render/SKILL.md",
+        "line": 53,
+        "excerpt": "ffprobe -v error -select_streams v:0 \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/sk-render/SKILL.md",
+        "line": 62,
+        "excerpt": "ffmpeg -i out/<id>/<id>-upload.mp4 -af ebur128 -f null - 2>&1 | grep -A3 Summary",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 7
+    },
+    "score": 95,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "828e12000cdedf2eb3518e4328a0dacaaa3a3099",
+      "scannedAt": "2026-11-15T10:00:32.478Z",
+      "score": 95,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

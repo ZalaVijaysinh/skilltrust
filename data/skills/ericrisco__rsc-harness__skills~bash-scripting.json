@@ -4,18 +4,124 @@
   "repo": "rsc-harness",
   "path": "skills/bash-scripting",
   "name": "bash-scripting",
-  "description": "",
-  "stars": 591,
+  "description": "Use when writing or hardening a shell script that must survive another machine — a CI step, install script, cron job, git hook, devcontainer entrypoint: strict-mode leaks, quoting/word-splitting, arrays, trap cleanup, bash-vs-POSIX portability, ShellCheck findings. NOT CI workflow structure, runners, caching or matrix (that is `github-actions`).",
+  "stars": 610,
   "category": "coding",
-  "commit": "f3765d35e91690c0c7e511447da6cd0176ab38e0",
+  "commit": "d11cd71fdd117669c8e8806295392470c0907d09",
   "contentHash": "38912526cb440fc2e74476915be47c9e5d613b5e3d276ac8c6fa92286834a875",
   "repoCreatedAt": "2026-05-31T08:00:19Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-12T10:25:14.233Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-15T10:00:32.478Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/bash-scripting/SKILL.md",
+        "line": 24,
+        "excerpt": "set -euo pipefail        # see \"Strict mode, honestly\" — this is a baseline, not a force field",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/bash-scripting/SKILL.md",
+        "line": 70,
+        "excerpt": "local x=$(curl -fsS \"$url\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bash-scripting/SKILL.md",
+        "line": 70,
+        "excerpt": "local x=$(curl -fsS \"$url\")",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/bash-scripting/SKILL.md",
+        "line": 74,
+        "excerpt": "x=$(curl -fsS \"$url\") || { echo \"fetch failed\" >&2; return 1; }",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bash-scripting/SKILL.md",
+        "line": 99,
+        "excerpt": ": \"${DIR:?DIR must be set}\"   # abort with a message if unset or empty",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bash-scripting/SKILL.md",
+        "line": 113,
+        "excerpt": "flags=\"--name my project --force\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bash-scripting/SKILL.md",
+        "line": 126,
+        "excerpt": "for f in ./*.txt; do",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bash-scripting/SKILL.md",
+        "line": 147,
+        "excerpt": "tmp=$(mktemp -d)                          # never a fixed /tmp/foo path (race + collision)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bash-scripting/SKILL.md",
+        "line": 157,
+        "excerpt": "server & srv_pid=$!",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bash-scripting/SKILL.md",
+        "line": 173,
+        "excerpt": "verbose=0; out=\"\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bash-scripting/SKILL.md",
+        "line": 193,
+        "excerpt": "shellcheck script.sh             # bash target",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bash-scripting/SKILL.md",
+        "line": 206,
+        "excerpt": "some_cmd $flags",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/bash-scripting/references/portability.md",
+        "line": 90,
+        "excerpt": "dash ./script.sh                 # actually run under dash (apt install dash)",
+        "disclosed": false,
+        "automatic": false
+      },
       {
         "ruleId": "downloads-code",
         "file": "skills/bash-scripting/scripts/verify.sh",
@@ -26,13 +132,15 @@
       }
     ],
     "findingTotals": {
-      "downloads-code": 1
+      "shell": 10,
+      "network": 2,
+      "downloads-code": 2
     },
-    "score": 85,
-    "band": "low",
+    "score": 77,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 1,
-    "filesSkipped": 4
+    "filesScanned": 5,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -51,6 +159,12 @@
       "commit": "f3765d35e91690c0c7e511447da6cd0176ab38e0",
       "scannedAt": "2026-11-12T10:25:14.233Z",
       "score": 85,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "d11cd71fdd117669c8e8806295392470c0907d09",
+      "scannedAt": "2026-11-15T10:00:32.478Z",
+      "score": 77,
       "rulesVersion": "1.3.0"
     }
   ]

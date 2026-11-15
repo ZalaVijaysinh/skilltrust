@@ -1,0 +1,101 @@
+{
+  "id": "thunderbird__thunderbolt__.agents~skills~thunder-fix",
+  "owner": "thunderbird",
+  "repo": "thunderbolt",
+  "path": ".agents/skills/thunder-fix",
+  "name": "thunder-fix",
+  "description": "Fix everything outstanding on the current branch's PR - unresolved review threads, actionable PR comments and failing CI - in one batch, then reply, resolve and verify the PR is clean. Use when a PR has review feedback or red checks, or when asked to address comments or fix CI.",
+  "stars": 4826,
+  "category": "devops",
+  "commit": "2f81a4d9897cc92839632137fc7d38fee75ba240",
+  "contentHash": "60e4ca2c0c8a650df35a5a4dbe180944670c0de6ea4c95777f91f730f410d394",
+  "repoCreatedAt": "2025-07-23T18:54:20Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-15T10:00:32.478Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/thunder-fix/SKILL.md",
+        "line": 20,
+        "excerpt": "PR_NUMBER=$(gh pr list --head \"$(git branch --show-current)\" --json number --jq '.[0].number')",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/thunder-fix/SKILL.md",
+        "line": 35,
+        "excerpt": "UNRESOLVED_THREADS=$(bun run scripts/thunderbot/cli.ts pr-threads --pr $PR_NUMBER --unresolved --json)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/thunder-fix/SKILL.md",
+        "line": 66,
+        "excerpt": "gh pr checks \"$PR_NUMBER\" --watch --fail-fast",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/thunder-fix/SKILL.md",
+        "line": 76,
+        "excerpt": "bun run scripts/thunderbot/cli.ts ci-logs --branch \"$(git branch --show-current)\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/thunder-fix/SKILL.md",
+        "line": 93,
+        "excerpt": "bun run scripts/thunderbot/cli.ts pr-reply --pr $PR_NUMBER --comment-id {COMMENT_ID} --body \"⚡ <your reply>\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/thunder-fix/SKILL.md",
+        "line": 105,
+        "excerpt": "bun run scripts/thunderbot/cli.ts pr-threads --pr $PR_NUMBER --resolve-all",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/thunder-fix/SKILL.md",
+        "line": 114,
+        "excerpt": "ISSUE_COMMENT_DATA=$(bun run scripts/thunderbot/cli.ts pr-comments --pr $PR_NUMBER --actionable --json)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/thunder-fix/SKILL.md",
+        "line": 128,
+        "excerpt": "PREV_ISSUE_COUNT=$(bun run scripts/thunderbot/cli.ts pr-comments --pr $PR_NUMBER --actionable --json | jq 'length')",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 8
+    },
+    "score": 95,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "2f81a4d9897cc92839632137fc7d38fee75ba240",
+      "scannedAt": "2026-11-15T10:00:32.478Z",
+      "score": 95,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

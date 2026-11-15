@@ -4,23 +4,58 @@
   "repo": "crewrig",
   "path": "artifacts/library/skills/user-validate",
   "name": "user-validate",
-  "description": "Realise a user-gate validation of an artifact (spec, plan, any document) through the configured backend: `plannotator` (browser review, opt-in) or `internal` (AskUserQuestion, default). The canonical gate implementation; invoke it instead of reimplementing a gate inline.",
+  "description": "Puts an artifact (a spec, a plan or any document) to the user for a validation decision and returns exactly one outcome: approved, changes-requested or rejected. Runs on the configured backend, `plannotator` (browser review, opt-in) or `internal` (structured prompt, the default). Use when a workflow stage needs the user's approval, sign-off or go/no-go before it proceeds, or when the user must arbitrate between options. Also use to work out the effective gate configuration (validation.conf) or the outcome a gate run returns. Trigger terms: user gate, validation gate, gate configuration, gate outcome, approval, sign-off, approve this plan, plannotator review. Not for reviewing a pull request (pr-reviewer), writing a spec (spec-author) or annotating a file on the user's own initiative (plannotator).",
   "stars": 24,
-  "category": "other",
-  "commit": "474ed88729e0827c032303488f303e9c8aec0d3c",
-  "contentHash": "2ca813deac677f26200ec4e8afd0eb4ca77798d114a7e48b2a598d8d922a2181",
+  "category": "writing",
+  "commit": "adcb463811acf9b7c9c8f68dbea75f23dc74faf1",
+  "contentHash": "9c1326aad9e006556e37e3b94910331f30caa34102dd37ce7023d3894effe332",
   "repoCreatedAt": "2026-05-14T19:26:05Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-12T10:25:14.233Z",
+  "scannedAt": "2026-11-15T10:00:32.478Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "artifacts/library/skills/user-validate/SKILL.md",
+        "line": 39,
+        "excerpt": "node scripts/gate-config.ts --json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "artifacts/library/skills/user-validate/scripts/plannotator-gate.ts",
+        "line": 15,
+        "excerpt": "const cp = process.getBuiltinModule(\"node:child_process\");",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "artifacts/library/skills/user-validate/scripts/plannotator-gate.ts",
+        "line": 108,
+        "excerpt": "const r = cp.spawnSync(\"plannotator\", [\"--version\"], {",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "artifacts/library/skills/user-validate/scripts/plannotator-gate.ts",
+        "line": 217,
+        "excerpt": "const r = cp.spawnSync(\"plannotator\", [\"annotate\", file, \"--gate\", \"--json\"], {",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 4
+    },
+    "score": 95,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 2,
+    "filesScanned": 10,
     "filesSkipped": 0
   },
   "history": [
@@ -40,6 +75,12 @@
       "commit": "474ed88729e0827c032303488f303e9c8aec0d3c",
       "scannedAt": "2026-11-12T10:25:14.233Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "adcb463811acf9b7c9c8f68dbea75f23dc74faf1",
+      "scannedAt": "2026-11-15T10:00:32.478Z",
+      "score": 95,
       "rulesVersion": "1.3.0"
     }
   ]

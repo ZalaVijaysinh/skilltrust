@@ -1,0 +1,96 @@
+{
+  "id": "openai__openai-agents-js__.agents~skills~pnpm-upgrade",
+  "owner": "openai",
+  "repo": "openai-agents-js",
+  "path": ".agents/skills/pnpm-upgrade",
+  "name": "pnpm-upgrade",
+  "description": "Keep pnpm current: preflight the published package and pnpm/action-setup self-installer, update pnpm locally, align packageManager in package.json, and refresh CI pins. Use this when refreshing the pnpm toolchain manually or in automation.",
+  "stars": 4018,
+  "category": "coding",
+  "commit": "8aeac0eb255dbdff9adcdc65a0eae638cbcea74f",
+  "contentHash": "eab9225ad6093be37b6b93bbe4dc4826972d79bab3aa2ca50b76c95f6ed3216b",
+  "repoCreatedAt": "2025-05-31T00:08:49Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-15T10:00:32.478Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/pnpm-upgrade/SKILL.md",
+        "line": 13,
+        "excerpt": "- Query the npm registry before changing the local toolchain: `PNPM_VERSION=$(curl -fsSL https://registry.npmjs.org/pnpm/latest | jq -r .version)`.",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "registry.npmjs.org"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/pnpm-upgrade/SKILL.md",
+        "line": 15,
+        "excerpt": "- Resolve the exact package integrity: `curl -fsSL \"https://registry.npmjs.org/pnpm/${PNPM_VERSION}\" | jq -r .dist.integrity`.",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "registry.npmjs.org"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/pnpm-upgrade/SKILL.md",
+        "line": 20,
+        "excerpt": "printf '%s' \"${PNPM_INTEGRITY#sha512-}\" | base64 -d | xxd -p -c 256",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/pnpm-upgrade/SKILL.md",
+        "line": 25,
+        "excerpt": "- Query GitHub API: `curl -fsSL https://api.github.com/repos/pnpm/action-setup/releases/latest | jq -r .tag_name`.",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.github.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/pnpm-upgrade/scripts/preflight.mjs",
+        "line": 3,
+        "excerpt": "import { spawn } from 'node:child_process';",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/pnpm-upgrade/scripts/preflight.mjs",
+        "line": 19,
+        "excerpt": "const response = await fetch(url, {",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "network": 4,
+      "shell": 2
+    },
+    "score": 90,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 3,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "8aeac0eb255dbdff9adcdc65a0eae638cbcea74f",
+      "scannedAt": "2026-11-15T10:00:32.478Z",
+      "score": 90,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

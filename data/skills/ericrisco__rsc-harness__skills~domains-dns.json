@@ -4,24 +4,89 @@
   "repo": "rsc-harness",
   "path": "skills/domains-dns",
   "name": "domains-dns",
-  "description": "",
-  "stars": 591,
+  "description": "Use when pointing a domain at a host or fixing broken HTTPS — delegating nameservers, writing A/AAAA/CNAME/ALIAS/MX/TXT/CAA rows, apex vs www, standing up auto-renewing TLS, and cutting nameservers over without downtime. NOT inbox placement or warmup (that is `email-deliverability`), NOT what runs behind the name (that is `deployment`).",
+  "stars": 610,
   "category": "coding",
-  "commit": "f3765d35e91690c0c7e511447da6cd0176ab38e0",
+  "commit": "d11cd71fdd117669c8e8806295392470c0907d09",
   "contentHash": "f862e63e1b846a5e2d6d211cd37607212ad6189e977086140bd2b9bdc562bc46",
   "repoCreatedAt": "2026-05-31T08:00:19Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-12T10:25:14.233Z",
+  "scannedAt": "2026-11-15T10:00:32.478Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/domains-dns/SKILL.md",
+        "line": 96,
+        "excerpt": "dig +short app.example.com                      # the resolved record, your resolver's view",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/domains-dns/SKILL.md",
+        "line": 102,
+        "excerpt": "curl -vI https://example.com 2>&1 | grep -Ei 'HTTP/|location|SSL certificate'  # status + redirect + cert verdict",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "example.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/domains-dns/evals/cases.yaml",
+        "line": 46,
+        "excerpt": "- Gives verification commands — `dig +short`/`dig +trace`, `openssl s_client -servername`, `curl -vI`.",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/domains-dns/references/verify-and-debug.md",
+        "line": 34,
+        "excerpt": "curl -vI https://example.com 2>&1 | grep -Ei 'HTTP/|location|SSL certificate'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "example.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/domains-dns/references/verify-and-debug.md",
+        "line": 35,
+        "excerpt": "curl -sI https://www.example.com -o /dev/null -w '%{http_code} %{redirect_url}\\n'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "www.example.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/domains-dns/scripts/verify.sh",
+        "line": 140,
+        "excerpt": "CODE=$(curl -s -o /dev/null -w '%{http_code}' -m 12 \"https://$DOMAIN\" 2>/dev/null || echo \"000\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$domain"
+        ]
+      }
+    ],
+    "findingTotals": {
+      "shell": 1,
+      "network": 5
+    },
+    "score": 90,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 1,
-    "filesSkipped": 6
+    "filesScanned": 4,
+    "filesSkipped": 3
   },
   "history": [
     {
@@ -40,6 +105,12 @@
       "commit": "f3765d35e91690c0c7e511447da6cd0176ab38e0",
       "scannedAt": "2026-11-12T10:25:14.233Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "d11cd71fdd117669c8e8806295392470c0907d09",
+      "scannedAt": "2026-11-15T10:00:32.478Z",
+      "score": 90,
       "rulesVersion": "1.3.0"
     }
   ]

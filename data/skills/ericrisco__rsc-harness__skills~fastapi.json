@@ -5,15 +5,15 @@
   "path": "skills/fastapi",
   "name": "fastapi",
   "description": "Use when building, reviewing, testing, securing or shipping a FastAPI / async Python service — routers, Pydantic v2 schemas, dependency injection, async SQLAlchemy 2.0, OAuth2/JWT, ASGITransport tests, production wiring. NOT language-level Python or packaging (that is `python`), NOT engine-level SQL (that is `postgresdb`), NOT framework-agnostic REST contracts (that is `api-design`).",
-  "stars": 591,
+  "stars": 610,
   "category": "coding",
-  "commit": "f3765d35e91690c0c7e511447da6cd0176ab38e0",
+  "commit": "d11cd71fdd117669c8e8806295392470c0907d09",
   "contentHash": "bbbab6f32342d035bca5ee3cbe5b3980a0bcbf40dde3c99a223c56ebeccadeaf",
   "repoCreatedAt": "2026-05-31T08:00:19Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-12T10:25:14.233Z",
+  "scannedAt": "2026-11-15T10:00:32.478Z",
   "scan": {
     "findings": [
       {
@@ -33,16 +33,61 @@
         "disclosed": false,
         "automatic": false,
         "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/fastapi/evals/cases.yaml",
+        "line": 6,
+        "excerpt": "- prompt: \"My async route calls an external API with requests.get() and the whole server hangs under load. How should I fix it?\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/fastapi/evals/cases.yaml",
+        "line": 7,
+        "excerpt": "why: \"Blocking-call-on-the-event-loop anti-pattern; skill's decision rule #1 (httpx.AsyncClient / anyio.to_thread). User never names FastAPI but it's an async P",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/fastapi/evals/cases.yaml",
+        "line": 50,
+        "excerpt": "- \"httpx.AsyncClient with transport=ASGITransport(app=create_app()) — in-process, not a real network/uvicorn server\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/fastapi/references/production.md",
+        "line": 25,
+        "excerpt": "(`pip install uvicorn-worker`) — the old `uvicorn.workers.UvicornWorker` was deprecated in",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/fastapi/references/production.md",
+        "line": 325,
+        "excerpt": "HEALTHCHECK --interval=30s --timeout=3s CMD python -c \"import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/health').status==2",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
       }
     ],
     "findingTotals": {
-      "network": 2
+      "network": 6,
+      "downloads-code": 1
     },
-    "score": 95,
+    "score": 80,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 1,
-    "filesSkipped": 7
+    "filesScanned": 6,
+    "filesSkipped": 2
   },
   "history": [
     {
@@ -61,6 +106,12 @@
       "commit": "f3765d35e91690c0c7e511447da6cd0176ab38e0",
       "scannedAt": "2026-11-12T10:25:14.233Z",
       "score": 95,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "d11cd71fdd117669c8e8806295392470c0907d09",
+      "scannedAt": "2026-11-15T10:00:32.478Z",
+      "score": 80,
       "rulesVersion": "1.3.0"
     }
   ]
