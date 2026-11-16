@@ -4,24 +4,161 @@
   "repo": "tools-for-devops-agent",
   "path": "skills/eks-upgrade-readiness",
   "name": "eks-upgrade-readiness",
-  "description": "",
+  "description": "Use this skill when a user asks to assess, plan, or validate an",
   "stars": 141,
   "category": "devops",
-  "commit": "fc3eb3c86bed92fb1b2334d1eccdc6748d1e309b",
+  "commit": "68be008275781d94f3da69d3b283b1dbe5cf4d60",
   "contentHash": "84bdab7138355b23683b6c908498d1e37a2ee7c88082c5ccf80a71626313ef17",
   "repoCreatedAt": "2026-05-26T15:11:57Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-16T10:15:16.941Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/eks-upgrade-readiness/SKILL.md",
+        "line": 175,
+        "excerpt": "aws eks describe-cluster --name <cluster-name> --region <region>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/eks-upgrade-readiness/SKILL.md",
+        "line": 199,
+        "excerpt": "kubectl get ds aws-node -n kube-system -o json | jq '",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/eks-upgrade-readiness/SKILL.md",
+        "line": 223,
+        "excerpt": "kubectl get eniconfig -o json | jq '.items[] | {name: .metadata.name, subnet: .spec.subnet, securityGroups: .spec.securityGroups}'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/eks-upgrade-readiness/SKILL.md",
+        "line": 237,
+        "excerpt": "kubectl version --client -o json   # client minor version",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/eks-upgrade-readiness/SKILL.md",
+        "line": 258,
+        "excerpt": "aws eks list-insights --cluster-name <cluster> \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/eks-upgrade-readiness/SKILL.md",
+        "line": 295,
+        "excerpt": "kubectl get secrets -A -l owner=helm,status=deployed",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/eks-upgrade-readiness/SKILL.md",
+        "line": 309,
+        "excerpt": "aws eks list-addons --cluster-name <cluster>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/eks-upgrade-readiness/SKILL.md",
+        "line": 321,
+        "excerpt": "kubectl -n kube-system get daemonset aws-node kube-proxy -o json | \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/eks-upgrade-readiness/SKILL.md",
+        "line": 395,
+        "excerpt": "kubectl get validatingwebhookconfigurations -o json | jq '.items[] | select(.webhooks[].failurePolicy == \"Fail\")'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/eks-upgrade-readiness/SKILL.md",
+        "line": 403,
+        "excerpt": "kubectl get pdb -A -o json | jq '.items[] | select(.status.disruptionsAllowed == 0)'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/eks-upgrade-readiness/references/al2-al2023-migration.md",
+        "line": 65,
+        "excerpt": "- `yum install` → must change to `dnf install`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/eks-upgrade-readiness/references/al2-al2023-migration.md",
+        "line": 127,
+        "excerpt": "- Custom scripts using `curl http://169.254.169.254/latest/meta-data/`",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "169.254.169.254"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/eks-upgrade-readiness/references/al2-al2023-migration.md",
+        "line": 146,
+        "excerpt": "- Replace `curl http://169.254.169.254/...` with token-based access:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "169.254.169.254"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/eks-upgrade-readiness/references/al2-al2023-migration.md",
+        "line": 148,
+        "excerpt": "TOKEN=$(curl -X PUT \"http://169.254.169.254/latest/api/token\" -H \"X-aws-ec2-metadata-token-ttl-seconds: 21600\")",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "169.254.169.254"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/eks-upgrade-readiness/references/al2-al2023-migration.md",
+        "line": 149,
+        "excerpt": "curl -H \"X-aws-ec2-metadata-token: $TOKEN\" http://169.254.169.254/latest/meta-data/",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "169.254.169.254"
+        ]
+      }
+    ],
+    "findingTotals": {
+      "shell": 10,
+      "downloads-code": 1,
+      "network": 4
+    },
+    "score": 77,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 3,
-    "filesSkipped": 15
+    "filesScanned": 17,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -34,6 +171,12 @@
       "commit": "fc3eb3c86bed92fb1b2334d1eccdc6748d1e309b",
       "scannedAt": "2026-11-13T10:10:34.466Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "68be008275781d94f3da69d3b283b1dbe5cf4d60",
+      "scannedAt": "2026-11-16T10:15:16.941Z",
+      "score": 77,
       "rulesVersion": "1.3.0"
     }
   ]

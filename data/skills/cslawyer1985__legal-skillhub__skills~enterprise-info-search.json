@@ -4,24 +4,280 @@
   "repo": "legal-skillhub",
   "path": "skills/enterprise-info-search",
   "name": "enterprise-info-search",
-  "description": "",
-  "stars": 34,
+  "description": "【设计思路】以统一社会信用代码（Unified Social Credit Code, USCC）为市场主体唯一法定标识符，构建「代码准入→数据获取→交叉验证→金标准裁决」四级企业信息可信度模型。设计铁律：无 USCC 不可信（拒绝进入报告生成管线）、单源 USCC 不可靠、双源交叉为置信基线、国家企业信用信息公示系统（gsxt.gov.cn）为终局裁判源。此架构从源头阻断虚假主体与数据操纵，实现对市场主体信息的\"法源级\"可信保障。【系统架构与流程】六维二十源企业信息交叉验证架构。输入 USCC 后，系统并行向三大数据通道发起查询：商业数据库集群（企查查/爱企查/启信宝/天眼查）、行政公示系统（gsxt.gov.cn/zxgk.court.gov.cn，通过stealth-browser穿透JS渲染与反爬）、多维监管数据源（税务/证监会/招投标/知识产权/环保/地方市监局）。对名称、类型、法定代表人、注册资本、成立日期、经营状态、经营范围、注册地址、登记机关9项核心字段强制执行双源交叉验证——字段一致标记绿色通过；字段冲突提交 gsxt 金标准裁决模块进行终局性冲突消解；字段仅单源获取则呈橙黄色警告标记，禁止独立引用。最终输出含三色置信度标注的结构化企业尽调报告。【数据完整与准确性保障】USCC 格式多层校验（18位数字/字母格式校验 + ISO 7064 Mod 31,37 校验位算法验证 + gsxt 反向查询确认主体存续状态）；商业 API 与 stealth-browser 双通道并行采集互为冗余，单通道故障自动切换；9项核心字段变更实施版本化追踪（记录每次更新时间戳、变更前值、变更后值、数据来源）；季度全量回归测试逐渠道验证可用率与数据时效性，不可用渠道自动降级或剔出路由表。触发条件：查企业工商信息、查公司背景、企业风险分析、查企业司法风险、被执行人查询、企业经营异常、企业信用报告、公司尽调",
+  "stars": 36,
   "category": "productivity",
   "commit": "0228abc54e52e52e41fc56bc5f2fd761938b3d8c",
   "contentHash": "bf6143df55647a79bbd8867cee417b654991cf41ea3d3df6e3a070dad408de07",
   "repoCreatedAt": "2026-08-04T07:11:18Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-16T10:15:16.941Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "skills/enterprise-info-search/SKILL.md",
+        "line": 163,
+        "excerpt": "| **工商基础信息** | 企查查/爱企查/启信宝 | WebSearch | `WebSearch` | ⭐⭐⭐⭐⭐ | T1 |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/enterprise-info-search/SKILL.md",
+        "line": 164,
+        "excerpt": "| **工商基础信息** | 地方信用网 (szcredit等) | WebSearch | `WebSearch` | ⭐⭐⭐⭐ | T2 |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/enterprise-info-search/SKILL.md",
+        "line": 165,
+        "excerpt": "| **工商基础信息** | 1688企业信用 | WebSearch | `WebSearch` | ⭐⭐⭐ | T2 |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/enterprise-info-search/SKILL.md",
+        "line": 167,
+        "excerpt": "| **司法风险** | 企查查/爱企查 司法板块 | WebSearch | `WebSearch` | ⭐⭐⭐⭐⭐ | T1 |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/enterprise-info-search/SKILL.md",
+        "line": 170,
+        "excerpt": "| **经营风险** | 企查查/爱企查 风险板块 | WebSearch | `WebSearch` | ⭐⭐⭐⭐⭐ | T1 |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/enterprise-info-search/SKILL.md",
+        "line": 171,
+        "excerpt": "| **经营风险** | 信用中国地方站 | WebSearch | `WebSearch` | ⭐⭐⭐⭐ | T2 |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/enterprise-info-search/SKILL.md",
+        "line": 172,
+        "excerpt": "| **信用评估** | 行政处罚公开 | WebSearch | `WebSearch` | ⭐⭐⭐⭐ | T2 |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/enterprise-info-search/SKILL.md",
+        "line": 174,
+        "excerpt": "| **知识产权** | cnipa.gov.cn | WebSearch | `WebSearch` | ⭐⭐⭐⭐ | T2 |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/enterprise-info-search/SKILL.md",
+        "line": 175,
+        "excerpt": "| **法院公告** | rmfygg.court.gov.cn | WebSearch | `WebSearch` | ⭐⭐⭐⭐ | T2 |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/enterprise-info-search/SKILL.md",
+        "line": 176,
+        "excerpt": "| **税务信用** | chinatax.gov.cn 及地方税务局 | WebSearch | `WebSearch` | ⭐⭐⭐⭐⭐ | T1 |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/enterprise-info-search/SKILL.md",
+        "line": 177,
+        "excerpt": "| **证监会处罚** | csrc.gov.cn | WebSearch | `WebSearch` | ⭐⭐⭐⭐⭐ | T1 |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/enterprise-info-search/SKILL.md",
+        "line": 178,
+        "excerpt": "| **招投标追踪** | 新闻引用 ccgp.gov.cn 中标信息 | WebSearch | `WebSearch` | ⭐⭐⭐⭐ | T2 |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/enterprise-info-search/SKILL.md",
+        "line": 179,
+        "excerpt": "| **上市公司公告** | SSE/SZSE/HKEx + cninfo | WebSearch | `WebSearch` | ⭐⭐⭐⭐ | T1/T2 |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/enterprise-info-search/SKILL.md",
+        "line": 180,
+        "excerpt": "| **环保处罚** | mee.gov.cn 及地方环保局 | WebSearch | `WebSearch` | ⭐⭐⭐ | T3 |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/enterprise-info-search/SKILL.md",
+        "line": 181,
+        "excerpt": "| **地方市监局** | amr.*.gov.cn | WebSearch | `WebSearch` | ⭐⭐⭐ | T3 |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/enterprise-info-search/SKILL.md",
+        "line": 182,
+        "excerpt": "| **天眼查引用** | 新闻/文章引用天眼查数据 | WebSearch | `WebSearch` | ⭐⭐⭐ | T3 |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/enterprise-info-search/SKILL.md",
+        "line": 189,
+        "excerpt": "\"企业名称\" 欠税 site:chinatax.gov.cn",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/enterprise-info-search/SKILL.md",
+        "line": 198,
+        "excerpt": "\"企业名称\" 行政处罚 site:csrc.gov.cn",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/enterprise-info-search/SKILL.md",
+        "line": 205,
+        "excerpt": "\"企业名称\" 中标 OR 投标 政府采购 2025 2026",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/enterprise-info-search/SKILL.md",
+        "line": 212,
+        "excerpt": "\"企业全称\" 公告 site:sse.com.cn",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/enterprise-info-search/SKILL.md",
+        "line": 219,
+        "excerpt": "\"企业名称\" 环保处罚 site:mee.gov.cn",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/enterprise-info-search/SKILL.md",
+        "line": 225,
+        "excerpt": "\"企业名称\" 行政处罚 site:amr.sz.gov.cn",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/enterprise-info-search/SKILL.md",
+        "line": 232,
+        "excerpt": "\"{案号}\" 判决书",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/enterprise-info-search/SKILL.md",
+        "line": 243,
+        "excerpt": "python ~/.workbuddy/skills/skill_2053082740118388736/scripts/stealth_session.py \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/enterprise-info-search/SKILL.md",
+        "line": 256,
+        "excerpt": "python ~/.workbuddy/skills/skill_2053082740118388736/scripts/stealth_session.py \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/enterprise-info-search/SKILL.md",
+        "line": 551,
+        "excerpt": "| 企查查(qcc.com) | WebSearch | {日期} | 工商+司法+经营风险 |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/enterprise-info-search/SKILL.md",
+        "line": 552,
+        "excerpt": "| 爱企查(aiqicha.baidu.com) | WebSearch | {日期} | 工商+司法+风险 |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/enterprise-info-search/SKILL.md",
+        "line": 553,
+        "excerpt": "| 启信宝(qixin.com) | WebSearch | {日期} | 工商+风险信息 |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/enterprise-info-search/SKILL.md",
+        "line": 555,
+        "excerpt": "| 中国执行信息公开网 | WebSearch+交叉验证 | {日期} | 被执行/失信 |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "network": 20,
+      "shell": 9
+    },
+    "score": 90,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 1
+    "filesScanned": 1,
+    "filesSkipped": 0
   },
   "history": [
     {

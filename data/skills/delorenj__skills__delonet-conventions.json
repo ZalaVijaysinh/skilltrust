@@ -4,22 +4,30 @@
   "repo": "skills",
   "path": "delonet-conventions",
   "name": "delonet-conventions",
-  "description": "",
+  "description": "System conventions for the machines that run 33GOD: where code lives, how shells, secrets, containers, CI, git ignores and tooling are handled. Host-agnostic rules are here; per-network facts (addresses, tailnet, domains, container runtime, service ports) live in references/networks/<network>.md and you pick the file by hostname/tailnet. Use when interacting with or configuring the filesystem, containers or services on a DeLoNET host or on a peer machine such as Damian's Mac Studio.",
   "stars": 17,
-  "category": "other",
-  "commit": "e863bb35bbf36ca9a3c3f7c30a8b00da9d9c32bd",
-  "contentHash": "f3207acf8d2818e364a7c4f43cad5514ce8234ead07de13900efb3dd4e01460f",
+  "category": "coding",
+  "commit": "0a891e870f29f9fd7423fbf07230927599f0ff18",
+  "contentHash": "e1708a3432d527caaa176ad1672f40dbfe343618faf76dcec2bb1a9a2dbe8846",
   "repoCreatedAt": "2025-10-22T09:12:17Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-16T10:15:16.941Z",
   "scan": {
     "findings": [
       {
+        "ruleId": "shell",
+        "file": "delonet-conventions/SKILL.md",
+        "line": 15,
+        "excerpt": "tailscale status --self --json 2>/dev/null | python3 -c 'import sys,json;print(json.load(sys.stdin)[\"MagicDNSSuffix\"])'   # tailnet",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
         "ruleId": "downloads-code",
         "file": "delonet-conventions/references/ci-runners.md",
-        "line": 52,
+        "line": 56,
         "excerpt": "- `delorenj/codex-desktop-linux`: hourly/daily cron workflows that `sudo apt-get install` and install Nix on the runner, plus `container:` matrix jobs. Not safe",
         "disclosed": false,
         "automatic": false
@@ -27,24 +35,130 @@
       {
         "ruleId": "network",
         "file": "delonet-conventions/references/ci-runners.md",
-        "line": 67,
+        "line": 71,
         "excerpt": "curl -fsSL -o r.tgz \"https://github.com/actions/runner/releases/download/v$V/actions-runner-linux-x64-$V.tar.gz\" && tar xzf r.tgz && rm r.tgz",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": [
           "github.com"
         ]
+      },
+      {
+        "ruleId": "network",
+        "file": "delonet-conventions/references/networks/delonet/docker_patterns.md",
+        "line": 51,
+        "excerpt": "import urllib.request, json",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "delonet-conventions/references/networks/delonet/docker_patterns.md",
+        "line": 54,
+        "excerpt": "req = urllib.request.Request(",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "delonet-conventions/references/networks/delonet/docker_patterns.md",
+        "line": 58,
+        "excerpt": "resp = json.loads(urllib.request.urlopen(req).read())",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "delonet-conventions/references/networks/delonet/docker_patterns.md",
+        "line": 73,
+        "excerpt": "req = urllib.request.Request(",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "delonet-conventions/references/networks/delonet/docker_patterns.md",
+        "line": 83,
+        "excerpt": "req = urllib.request.Request(",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "delonet-conventions/references/networks/delonet/docker_patterns.md",
+        "line": 93,
+        "excerpt": "req = urllib.request.Request(",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "delonet-conventions/references/networks/delonet/tailscale_audio_forwarding.md",
+        "line": 37,
+        "excerpt": "brew install pulseaudio",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "delonet-conventions/references/networks/delonet/zshyzsh_patterns.md",
+        "line": 112,
+        "excerpt": "alias install='sudo apt install'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "delonet-conventions/references/networks/delonet/zshyzsh_patterns.md",
+        "line": 246,
+        "excerpt": "pip install --upgrade pip",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "delonet-conventions/references/networks/delonet/zshyzsh_patterns.md",
+        "line": 335,
+        "excerpt": "- [ ] Install mise (`curl https://mise.run | sh`)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "delonet-conventions/references/networks/delonet/zshyzsh_patterns.md",
+        "line": 335,
+        "excerpt": "- [ ] Install mise (`curl https://mise.run | sh`)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "mise.run"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "delonet-conventions/references/shell-context-independence.md",
+        "line": 243,
+        "excerpt": "bash -c \"deploy-app myapp\"",
+        "disclosed": true,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "downloads-code": 1,
-      "network": 1
+      "shell": 2,
+      "downloads-code": 5,
+      "network": 8
     },
-    "score": 80,
-    "band": "low",
+    "score": 79,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 3,
-    "filesSkipped": 7
+    "filesScanned": 12,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -63,6 +177,12 @@
       "commit": "e863bb35bbf36ca9a3c3f7c30a8b00da9d9c32bd",
       "scannedAt": "2026-11-13T10:10:34.466Z",
       "score": 80,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "0a891e870f29f9fd7423fbf07230927599f0ff18",
+      "scannedAt": "2026-11-16T10:15:16.941Z",
+      "score": 79,
       "rulesVersion": "1.3.0"
     }
   ]

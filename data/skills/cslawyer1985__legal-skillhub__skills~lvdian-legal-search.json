@@ -4,24 +4,132 @@
   "repo": "legal-skillhub",
   "path": "skills/lvdian-legal-search",
   "name": "lvdian-legal-search",
-  "description": "",
-  "stars": 34,
+  "description": "法律法规与司法解释的精准检索、现行有效性核验与深度解读。当用户要求查法条、检索某部法规、找法律依据、确认某条规定、核实法规是否现行有效/施行日期/废止情况、解读法条构成要件/适用范围/例外情形，或需要带来源链接的可引用法条原文时触发。角色定位为资深法律研究员：先精准定位法条，再核验现行有效性（每条必附国家法律法规数据库 flk.npc.gov.cn 跳转链接 + 对应权威原文链接），再按需提炼核心要点（构成要件/适用范围/例外），结构化输出。检索遵循官方权威库优先，按法规类型路由到对应权威源（法律→国家法律法规库、行政法规→国家行政法规库、部门规章→国家规章库/部委公报、地方政府规章→该地方政府公报、地方性法规→人大公报）；已接入的法律检索 MCP（如北大法宝）仅作补充、兜底与交叉验证。配置区 `jurisdiction` 默认留空、由安装者自填（如 \"zhejiang-hangzhou\"）；配置后默认以所在地为地方层检索范围；未配置但用户提问涉地方时，主动询问或按用户说明检索。不适用于合同审查（请用「律审·合同审查」）、纯案例深度研究、法律意见书撰写。",
+  "stars": 36,
   "category": "productivity",
   "commit": "0228abc54e52e52e41fc56bc5f2fd761938b3d8c",
   "contentHash": "bbf7331a12963bb93b1763cceb031d4ce5cb13e8bb9a82c00adae6c11e6b72b1",
   "repoCreatedAt": "2026-08-04T07:11:18Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-16T10:15:16.941Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "skills/lvdian-legal-search/scripts/flk_search.py",
+        "line": 38,
+        "excerpt": "import urllib.request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/lvdian-legal-search/scripts/flk_search.py",
+        "line": 122,
+        "excerpt": "req = urllib.request.Request(",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/lvdian-legal-search/scripts/flk_search.py",
+        "line": 129,
+        "excerpt": "data = json.load(urllib.request.urlopen(req, timeout=TIMEOUT))",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/lvdian-legal-search/scripts/preflight_check.py",
+        "line": 24,
+        "excerpt": "import urllib.request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/lvdian-legal-search/scripts/preflight_check.py",
+        "line": 40,
+        "excerpt": "req = urllib.request.Request(",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/lvdian-legal-search/scripts/preflight_check.py",
+        "line": 46,
+        "excerpt": "data = json.load(urllib.request.urlopen(req, timeout=TIMEOUT))",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/lvdian-legal-search/scripts/preflight_check.py",
+        "line": 60,
+        "excerpt": "req = urllib.request.Request(GOV_ADMIN_URL, headers={\"User-Agent\": \"Mozilla/5.0\"})",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/lvdian-legal-search/scripts/preflight_check.py",
+        "line": 62,
+        "excerpt": "with urllib.request.urlopen(req, timeout=8) as resp:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/lvdian-legal-search/tests/run_tests.py",
+        "line": 42,
+        "excerpt": "r = subprocess.run(cmd, capture_output=True, text=True, timeout=90)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/lvdian-legal-search/tests/run_tests.py",
+        "line": 46,
+        "excerpt": "except subprocess.TimeoutExpired:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/lvdian-legal-search/tests/run_tests.py",
+        "line": 54,
+        "excerpt": "r = subprocess.run(cmd, capture_output=True, text=True, timeout=90)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/lvdian-legal-search/tests/run_tests.py",
+        "line": 60,
+        "excerpt": "except subprocess.TimeoutExpired:",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "network": 8,
+      "shell": 4
+    },
+    "score": 92,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 19
+    "filesScanned": 19,
+    "filesSkipped": 0
   },
   "history": [
     {

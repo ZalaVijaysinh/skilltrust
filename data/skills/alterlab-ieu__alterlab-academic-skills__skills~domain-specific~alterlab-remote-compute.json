@@ -4,7 +4,7 @@
   "repo": "AlterLab-Academic-Skills",
   "path": "skills/domain-specific/alterlab-remote-compute",
   "name": "alterlab-remote-compute",
-  "description": "",
+  "description": "Dispatch long-running GPU/CPU jobs to remote compute with a provider-agnostic submit → poll → harvest pattern across SLURM/HPC (sbatch, squeue, sacct) and managed APIs (Modal, RunPod, GCP Batch / Vertex AI). Use when submitting a batch job to a cluster, polling job status, retrieving result artifacts from a scheduler or cloud GPU provider, or writing a portable job-submission wrapper; the foundation-model skills (alterlab-alphafold, alterlab-boltz, alterlab-rfdiffusion, and siblings) dispatch their GPU work through this pattern. For Modal-specific serverless container deployment and autoscaling prefer alterlab-modal instead. Part of the AlterLab Academic Skills suite.",
   "stars": 87,
   "category": "research",
   "commit": "3ab6d034385ec4fedc3f6f4099292d4e91f60300",
@@ -12,10 +12,42 @@
   "repoCreatedAt": "2026-03-16T15:24:02Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-16T10:15:16.941Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/domain-specific/alterlab-remote-compute/SKILL.md",
+        "line": 58,
+        "excerpt": "cat > run_local.sh <<'SH'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/domain-specific/alterlab-remote-compute/SKILL.md",
+        "line": 102,
+        "excerpt": "JOBID=$(sbatch --parsable run.slurm)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/domain-specific/alterlab-remote-compute/SKILL.md",
+        "line": 116,
+        "excerpt": "srun uv run python run_model.py --in input.fasta --out \"$SCRATCH/out\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/domain-specific/alterlab-remote-compute/SKILL.md",
+        "line": 151,
+        "excerpt": "python scripts/dispatch.py submit --backend local --script run_local.sh",
+        "disclosed": true,
+        "automatic": false
+      },
       {
         "ruleId": "network",
         "file": "skills/domain-specific/alterlab-remote-compute/references/providers.md",
@@ -33,16 +65,60 @@
         "disclosed": false,
         "automatic": false,
         "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/domain-specific/alterlab-remote-compute/scripts/dispatch.py",
+        "line": 32,
+        "excerpt": "import urllib.request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/domain-specific/alterlab-remote-compute/scripts/dispatch.py",
+        "line": 73,
+        "excerpt": "proc = subprocess.run([\"bash\", script], stdout=out, stderr=err, check=False)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/domain-specific/alterlab-remote-compute/scripts/dispatch.py",
+        "line": 90,
+        "excerpt": "proc = subprocess.run(cmd, capture_output=True, text=True, check=False)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/domain-specific/alterlab-remote-compute/scripts/dispatch.py",
+        "line": 129,
+        "excerpt": "req = urllib.request.Request(url, data=data, method=\"POST\" if data else \"GET\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/domain-specific/alterlab-remote-compute/scripts/dispatch.py",
+        "line": 135,
+        "excerpt": "with urllib.request.urlopen(req, timeout=60) as resp:  # noqa: S310 (trusted endpoint)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
       }
     ],
     "findingTotals": {
-      "network": 2
+      "shell": 6,
+      "network": 5
     },
-    "score": 95,
+    "score": 92,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 1,
-    "filesSkipped": 3
+    "filesScanned": 4,
+    "filesSkipped": 0
   },
   "history": [
     {

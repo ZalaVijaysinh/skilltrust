@@ -4,7 +4,7 @@
   "repo": "AlterLab-Academic-Skills",
   "path": "skills/research-tools/alterlab-perplexity",
   "name": "alterlab-perplexity",
-  "description": "",
+  "description": "Run Perplexity-style grounded searches (answers where every claim cites a current source) for current information and recent literature. Keyless by default: Claude's WebSearch and WebFetch plus keyless scholarly APIs (Europe PMC, Crossref, arXiv) find and open the sources; Perplexity Sonar models (sonar, sonar-pro, sonar-pro-search agentic search, sonar-reasoning-pro) via LiteLLM and OpenRouter are an optional backend when the user asks for Perplexity and sets OPENROUTER_API_KEY. Use when searching for current information or recent scientific literature, getting answers grounded in cited sources, verifying a claim against current evidence, or reaching information beyond the model's training cutoff. This is the direct single-backend search: for automatic routing with results saved to sources/ use alterlab-research-lookup, and for structured per-paper experimental-data extraction (sample sizes, effect sizes, quality scores) use alterlab-bgpt-search. Part of the AlterLab Academic Skills suite.",
   "stars": 87,
   "category": "research",
   "commit": "3ab6d034385ec4fedc3f6f4099292d4e91f60300",
@@ -12,10 +12,165 @@
   "repoCreatedAt": "2026-03-16T15:24:02Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-16T10:15:16.941Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/research-tools/alterlab-perplexity/SKILL.md",
+        "line": 60,
+        "excerpt": "export OPENROUTER_API_KEY='sk-or-v1-your-key-here'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/research-tools/alterlab-perplexity/SKILL.md",
+        "line": 72,
+        "excerpt": "uv run --python \">=3.11\" --with litellm python scripts/perplexity_search.py \"What are the latest developments in CRISPR gene editing?\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/research-tools/alterlab-perplexity/evals/evals.json",
+        "line": 47,
+        "excerpt": "\"expected_output\": \"Invokes alterlab-perplexity on its keyless path (no API key): searches with WebSearch and/or the keyless scholarly APIs, opens the primary r",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/research-tools/alterlab-perplexity/evals/evals.json",
+        "line": 58,
+        "excerpt": "\"expected_output\": \"Invokes alterlab-perplexity on its keyless path: WebSearch finds and WebFetch opens WHO's own page (the 29 October 2024 release or the repor",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/research-tools/alterlab-perplexity/evals/evals.json",
+        "line": 69,
+        "excerpt": "\"expected_output\": \"Invokes alterlab-perplexity on its keyless path: finds the paper through a keyless scholarly API or WebSearch and opens it (Europe PMC full ",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/research-tools/alterlab-perplexity/references/model_comparison.md",
+        "line": 11,
+        "excerpt": "(`https://openrouter.ai/api/v1/models`) on 2026-09-23. Each request pays token prices plus a",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/research-tools/alterlab-perplexity/references/openrouter_setup.md",
+        "line": 71,
+        "excerpt": "echo 'export OPENROUTER_API_KEY=\"sk-or-v1-your-key-here\"' >> ~/.bashrc",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/research-tools/alterlab-perplexity/references/openrouter_setup.md",
+        "line": 75,
+        "excerpt": "echo 'export OPENROUTER_API_KEY=\"sk-or-v1-your-key-here\"' >> ~/.zshrc",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/research-tools/alterlab-perplexity/references/openrouter_setup.md",
+        "line": 95,
+        "excerpt": "cat > .env << EOF",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/research-tools/alterlab-perplexity/references/openrouter_setup.md",
+        "line": 108,
+        "excerpt": "source .env",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/research-tools/alterlab-perplexity/references/openrouter_setup.md",
+        "line": 111,
+        "excerpt": "pip install python-dotenv",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/research-tools/alterlab-perplexity/references/openrouter_setup.md",
+        "line": 117,
+        "excerpt": "load_dotenv()  # Loads .env file automatically",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/research-tools/alterlab-perplexity/references/openrouter_setup.md",
+        "line": 128,
+        "excerpt": "uv pip install litellm",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/research-tools/alterlab-perplexity/references/openrouter_setup.md",
+        "line": 133,
+        "excerpt": "pip install litellm",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/research-tools/alterlab-perplexity/references/openrouter_setup.md",
+        "line": 139,
+        "excerpt": "uv pip install python-dotenv",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/research-tools/alterlab-perplexity/references/openrouter_setup.md",
+        "line": 142,
+        "excerpt": "uv pip install litellm[proxy]  # If using LiteLLM proxy server",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/research-tools/alterlab-perplexity/references/openrouter_setup.md",
+        "line": 285,
+        "excerpt": "uv pip install litellm",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/research-tools/alterlab-perplexity/references/openrouter_setup.md",
+        "line": 294,
+        "excerpt": "2. Reinstall: `uv pip install --force-reinstall litellm`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/research-tools/alterlab-perplexity/references/openrouter_setup.md",
+        "line": 450,
+        "excerpt": "5. Install LiteLLM: `uv pip install litellm`",
+        "disclosed": false,
+        "automatic": false
+      },
       {
         "ruleId": "network",
         "file": "skills/research-tools/alterlab-perplexity/scripts/perplexity_search.py",
@@ -66,17 +221,29 @@
         "excerpt": "\"error\": \"LiteLLM not installed. Run: uv pip install litellm\"",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/research-tools/alterlab-perplexity/scripts/setup_env.py",
+        "line": 97,
+        "excerpt": "print(\"   uv pip install litellm\")",
+        "disclosed": false,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "network": 3,
-      "downloads-code": 3
+      "shell": 2,
+      "network": 6,
+      "paid-api": 1,
+      "writes-outside": 2,
+      "reads-secrets": 3,
+      "downloads-code": 12
     },
-    "score": 80,
-    "band": "low",
+    "score": 50,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 3,
-    "filesSkipped": 5
+    "filesScanned": 8,
+    "filesSkipped": 0
   },
   "history": [
     {

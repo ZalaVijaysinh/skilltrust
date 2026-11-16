@@ -12,8 +12,8 @@
   "repoCreatedAt": "2025-11-05T04:30:02Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-16T10:15:16.941Z",
   "scan": {
     "findings": [
       {
@@ -78,6 +78,14 @@
         "line": 60,
         "excerpt": "mkdir -p ~/.clawdbot/skills/veil",
         "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "lib/bankr-skills/veil/SKILL.md",
+        "line": 61,
+        "excerpt": "cat > ~/.clawdbot/skills/veil/.env << 'EOF'",
+        "disclosed": true,
         "automatic": false
       },
       {
@@ -185,24 +193,78 @@
         "automatic": false
       },
       {
+        "ruleId": "writes-outside",
+        "file": "lib/bankr-skills/veil/references/troubleshooting.md",
+        "line": 14,
+        "excerpt": "mkdir -p ~/.clawdbot/skills/veil",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "lib/bankr-skills/veil/references/troubleshooting.md",
+        "line": 15,
+        "excerpt": "echo \"RPC_URL=https://base-mainnet.g.alchemy.com/v2/YOUR_KEY\" > ~/.clawdbot/skills/veil/.env",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "lib/bankr-skills/veil/references/troubleshooting.md",
+        "line": 113,
+        "excerpt": "5. **Verify RPC connectivity** — `curl -s YOUR_RPC_URL -X POST -H \"Content-Type: application/json\" -d '{\"jsonrpc\":\"2.0\",\"method\":\"eth_blockNumber\",\"params\":[],\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
         "ruleId": "downloads-code",
         "file": "lib/bankr-skills/veil/scripts/_common.sh",
         "line": 32,
         "excerpt": "echo \"  npm install -g @veil-cash/sdk\" >&2",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "lib/bankr-skills/veil/scripts/veil-bankr-prompt.sh",
+        "line": 32,
+        "excerpt": "SUBMIT=$(curl -sf -X POST \"$API_URL/agent/prompt\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "lib/bankr-skills/veil/scripts/veil-bankr-prompt.sh",
+        "line": 50,
+        "excerpt": "STATUS=$(curl -sf -X GET \"$API_URL/agent/job/$JOB_ID\" -H \"X-API-Key: $API_KEY\") || {",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "lib/bankr-skills/veil/scripts/veil-init.sh",
+        "line": 43,
+        "excerpt": "sign_resp=$(curl -sf -X POST \"$api_url/agent/sign\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
       }
     ],
     "findingTotals": {
       "downloads-code": 6,
-      "writes-outside": 4,
-      "shell": 12
+      "writes-outside": 6,
+      "shell": 12,
+      "reads-secrets": 1,
+      "network": 4
     },
-    "score": 70,
+    "score": 55,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 8,
-    "filesSkipped": 13
+    "filesScanned": 21,
+    "filesSkipped": 0
   },
   "history": [
     {

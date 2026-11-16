@@ -4,22 +4,22 @@
   "repo": "skills",
   "path": "delonet-dotenv",
   "name": "delonet-dotenv",
-  "description": "Fill .env and .env.op for Docker Compose stacks on DeLoNET hosts. Separates nonsecret literals from 1Password references resolved with `op run`; covers Postgres addressing, Traefik and delo.sh routing, port collisions, MinIO, Cloudflare, and SMTP. Use when populating stack environment variables, deciding whether a value belongs in 1Password, wiring a delo.sh subdomain, or authoring .env.op references. Do NOT use for cloud-only deploys, CI secrets, Kubernetes, or non-DeLoNET hosts.",
+  "description": "Fill .env and .env.op for Docker Compose stacks on DeLoNET hosts. Separates nonsecret literals from 1Password references resolved with `op run`; covers Postgres addressing, Traefik and delo.sh routing, port collisions, MinIO, Cloudflare, and SMTP. Use when populating stack environment variables, deciding whether a value belongs in 1Password, wiring a delo.sh subdomain, or authoring .env.op references. Do NOT use for cloud-only deploys, CI secrets, Kubernetes, or non-DeLoNET hosts, with one exception: on a peer host with no 1Password service account (such as Damian's Mac Studio) only the interim-store half applies (`references/interim-store.md`, `scripts/env-op-resolve.py`).",
   "stars": 17,
   "category": "devops",
-  "commit": "e863bb35bbf36ca9a3c3f7c30a8b00da9d9c32bd",
-  "contentHash": "c25830773742cd6d349c008fbef3427f4a7de5dbf0931d6cf2ae65e970cd032b",
+  "commit": "0a891e870f29f9fd7423fbf07230927599f0ff18",
+  "contentHash": "ce434aa460ded1ecb7f23de0841c2b10d91f8600619d525c9e658f058f6d9d68",
   "repoCreatedAt": "2025-10-22T09:12:17Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-16T10:15:16.941Z",
   "scan": {
     "findings": [
       {
         "ruleId": "network",
         "file": "delonet-dotenv/SKILL.md",
-        "line": 110,
+        "line": 112,
         "excerpt": "7. Curl the public URL: `curl -I https://<service>.delo.sh`. Expect 200 or a framework-appropriate redirect.",
         "disclosed": true,
         "automatic": false,
@@ -28,7 +28,7 @@
       {
         "ruleId": "network",
         "file": "delonet-dotenv/references/gotchas.md",
-        "line": 140,
+        "line": 142,
         "excerpt": "**Symptom.** `curl https://<new>.delo.sh` returns Cloudflare 1003 (\"Direct IP access not allowed\") or NXDOMAIN.",
         "disclosed": true,
         "automatic": false,
@@ -37,21 +37,83 @@
       {
         "ruleId": "reads-secrets",
         "file": "delonet-dotenv/references/gotchas.md",
-        "line": 216,
+        "line": 218,
         "excerpt": "set -a && source .env && set +a && op run --env-file .env.op -- docker compose up -d",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "delonet-dotenv/references/traefik-routing.md",
+        "line": 111,
+        "excerpt": "If a new subdomain doesn't resolve (`curl https://<new>.delo.sh` returns 1003 / no route), check:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "delonet-dotenv/references/traefik-routing.md",
+        "line": 123,
+        "excerpt": "curl -s http://192.168.1.12:8080/api/http/routers | jq '.[] | select(.name | contains(\"<myapp>\")) | .name + \" \" + .status'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "192.168.1.12"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "delonet-dotenv/references/traefik-routing.md",
+        "line": 126,
+        "excerpt": "curl -I https://<myservice>.delo.sh",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "delonet-dotenv/scripts/env-op-resolve.py",
+        "line": 291,
+        "excerpt": "env = dict(os.environ)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "delonet-dotenv/scripts/env-op-resolve.py",
+        "line": 296,
+        "excerpt": "os.execvpe(args.command[0], args.command, env)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "delonet-dotenv/tests/test_env_op_resolve.py",
+        "line": 46,
+        "excerpt": "return subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "delonet-dotenv/tests/test_env_op_resolve.py",
+        "line": 126,
+        "excerpt": "r = subprocess.run(",
         "disclosed": true,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "network": 2,
-      "reads-secrets": 1
+      "network": 5,
+      "reads-secrets": 2,
+      "shell": 3
     },
-    "score": 87,
+    "score": 84,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 5,
-    "filesSkipped": 7
+    "filesScanned": 12,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -70,6 +132,12 @@
       "commit": "e863bb35bbf36ca9a3c3f7c30a8b00da9d9c32bd",
       "scannedAt": "2026-11-13T10:10:34.466Z",
       "score": 87,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "0a891e870f29f9fd7423fbf07230927599f0ff18",
+      "scannedAt": "2026-11-16T10:15:16.941Z",
+      "score": 84,
       "rulesVersion": "1.3.0"
     }
   ]

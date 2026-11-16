@@ -5,23 +5,367 @@
   "path": "skills/security-review-openai",
   "name": "security-review-openai",
   "description": "执行语言和框架特定的安全最佳实践审查并提出改进建议。仅在用户明确请求安全最佳实践指导、安全审查/报告或默认安全编码帮助时触发。仅对受支持的语言（python、javascript/typescript、go）触发。不要为一般代码审查、调试或非安全任务触发。",
-  "stars": 34,
+  "stars": 36,
   "category": "productivity",
   "commit": "0228abc54e52e52e41fc56bc5f2fd761938b3d8c",
   "contentHash": "7ad8f92a74e4ff2bbdd1850a8b1f285738706cdf537a9171c76aab47afc05618",
   "repoCreatedAt": "2026-08-04T07:11:18Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-16T10:15:16.941Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/security-review-openai/references/golang-general-backend-security.md",
+        "line": 536,
+        "excerpt": "- 必须使用带参数列表的 `exec.CommandContext`（而非 `sh -c`）。",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/security-review-openai/references/golang-general-backend-security.md",
+        "line": 537,
+        "excerpt": "- 不得将不可信输入传给 shell（`bash -c`、`sh -c`、PowerShell）。",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/security-review-openai/references/golang-general-backend-security.md",
+        "line": 556,
+        "excerpt": "- Go 的 `os/exec` 包有意不调用 shell；引入 `sh -c` 会重新引入 shell 注入风险。",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/security-review-openai/references/javascript-express-web-server-security.md",
+        "line": 143,
+        "excerpt": "* 识别“不受信任到汇点”的数据流：请求 → 汇点（`res.redirect`、SQL 执行、`sendFile`、`child_process`、模板渲染、出站抓取）。",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/security-review-openai/references/javascript-express-web-server-security.md",
+        "line": 780,
+        "excerpt": "* 必须避免对受攻击者影响的字符串使用 `exec()` / `execSync()`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/security-review-openai/references/javascript-express-web-server-security.md",
+        "line": 794,
+        "excerpt": "* 搜索 `child_process`、`exec(`、`execSync(`、`spawn(`、`fork(`。",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/security-review-openai/references/javascript-express-web-server-security.md",
+        "line": 827,
+        "excerpt": "* `fetch(req.query.url)`",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/security-review-openai/references/javascript-express-web-server-security.md",
+        "line": 832,
+        "excerpt": "* 搜索 URL 源自用户/数据库的 `fetch(`、`axios(`、`got(`、`request(`、`node-fetch` 使用。",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/security-review-openai/references/javascript-express-web-server-security.md",
+        "line": 1082,
+        "excerpt": "* `child_process.exec` / `execSync` / `shell: true`（[OWASP Cheat Sheet Series][14]）",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/security-review-openai/references/javascript-express-web-server-security.md",
+        "line": 1085,
+        "excerpt": "* 向用户提供的 URL 发起出站 `fetch/axios/got`（[OWASP Cheat Sheet Series][7]）",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/security-review-openai/references/javascript-jquery-web-frontend-security.md",
+        "line": 329,
+        "excerpt": "* 应当优先使用 `fetch()`/XHR 检索数据，然后用安全的 DOM 创建渲染，或显式净化。",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/security-review-openai/references/javascript-jquery-web-frontend-security.md",
+        "line": 346,
+        "excerpt": "* 用 `fetch()` 检索 JSON，然后通过 `.text()` / 节点构建渲染，或",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/security-review-openai/references/javascript-jquery-web-frontend-security.md",
+        "line": 347,
+        "excerpt": "* 用 `fetch()` 检索 HTML，净化后再注入。",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/security-review-openai/references/javascript-typescript-nextjs-web-server-security.md",
+        "line": 714,
+        "excerpt": "* 必须（MUST）将任何对用户提供 URL 的服务端 `fetch()` 视为高风险。",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/security-review-openai/references/javascript-typescript-nextjs-web-server-security.md",
+        "line": 725,
+        "excerpt": "* `await fetch(req.query.url)` 或 `await fetch((await request.json()).url)`",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/security-review-openai/references/javascript-typescript-nextjs-web-server-security.md",
+        "line": 730,
+        "excerpt": "* 搜索服务端代码中的 `fetch(` 并追踪 URL 来源。",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/security-review-openai/references/javascript-typescript-nextjs-web-server-security.md",
+        "line": 871,
+        "excerpt": "* 搜索 `child_process`、`exec`、`spawn`、`shell: true`。",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/security-review-openai/references/javascript-typescript-nextjs-web-server-security.md",
+        "line": 976,
+        "excerpt": "* 盲目地将所有请求头克隆到出站 `fetch()` 调用。",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/security-review-openai/references/javascript-typescript-nextjs-web-server-security.md",
+        "line": 1082,
+        "excerpt": "* 从路由处理器/服务端操作发起 `fetch(userProvidedUrl)`",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/security-review-openai/references/javascript-typescript-react-web-frontend-security.md",
+        "line": 83,
+        "excerpt": "* 状态变更通常由 `fetch/axios` 调用或表单提交触发。如果认证基于 Cookie，这些调用可能与 CSRF 相关（§4 REACT-CSRF-001）。（[OWASP Cheat Sheet Series][6]）",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/security-review-openai/references/javascript-typescript-react-web-frontend-security.md",
+        "line": 564,
+        "excerpt": "* `fetch('/api/transfer', { method: 'POST', credentials: 'include' })` 且无 CSRF 令牌/头，仅依赖 Cookie。",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/security-review-openai/references/javascript-typescript-react-web-frontend-security.md",
+        "line": 635,
+        "excerpt": "* `fetch(userProvidedUrl, { credentials: 'include' })`",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/security-review-openai/references/javascript-typescript-react-web-frontend-security.md",
+        "line": 636,
+        "excerpt": "* `axios.create({ baseURL: userProvidedBase })`",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/security-review-openai/references/javascript-typescript-react-web-frontend-security.md",
+        "line": 641,
+        "excerpt": "* 搜索 `fetch(` / `axios(`，其中第一个参数或 `baseURL` 源自：",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/security-review-openai/references/javascript-typescript-vue-web-frontend-security.md",
+        "line": 66,
+        "excerpt": "* 来自 API 的任何内容：`fetch`、`axios`、GraphQL 响应、webhook、第三方 SDK。",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/security-review-openai/references/javascript-typescript-vue-web-frontend-security.md",
+        "line": 506,
+        "excerpt": "* 任何地方都不使用 CSRF 令牌/响应头的 `fetch(url, { credentials: 'include', method: 'POST', body: ... })`。",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/security-review-openai/references/python-django-web-server-security.md",
+        "line": 499,
+        "excerpt": "* 必须（MUST NOT）对受攻击者影响的内容使用 `shell=True`。",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/security-review-openai/references/python-django-web-server-security.md",
+        "line": 505,
+        "excerpt": "* `os.system(request.GET[\"cmd\"])`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/security-review-openai/references/python-django-web-server-security.md",
+        "line": 506,
+        "excerpt": "* 当 `path` 为用户控制时使用 `subprocess.run(f\"convert {path}\", shell=True)`。",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/security-review-openai/references/python-django-web-server-security.md",
+        "line": 510,
+        "excerpt": "* 搜索 `os.system`、`subprocess`、`Popen`、`shell=True`。",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/security-review-openai/references/python-fastapi-web-server-security.md",
+        "line": 780,
+        "excerpt": "- 不得对攻击者影响的字符串使用 `shell=True`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/security-review-openai/references/python-fastapi-web-server-security.md",
+        "line": 785,
+        "excerpt": "- `os.system(user_input)`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/security-review-openai/references/python-fastapi-web-server-security.md",
+        "line": 786,
+        "excerpt": "- `subprocess.run(f\"cmd {user}\", shell=True)`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/security-review-openai/references/python-fastapi-web-server-security.md",
+        "line": 787,
+        "excerpt": "- 将用户字符串传入 `bash -c`、`sh -c`、PowerShell 等。",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/security-review-openai/references/python-fastapi-web-server-security.md",
+        "line": 791,
+        "excerpt": "- 搜索 `os.system`、`subprocess`、`Popen`、`shell=True`。",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/security-review-openai/references/python-fastapi-web-server-security.md",
+        "line": 817,
+        "excerpt": "- `httpx.get(request.query_params[\"url\"])`",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/security-review-openai/references/python-fastapi-web-server-security.md",
+        "line": 944,
+        "excerpt": "- `subprocess.*`、`shell=True`、`os.system`（[OWASP Cheat Sheet Series][22]）",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/security-review-openai/references/python-fastapi-web-server-security.md",
+        "line": 947,
+        "excerpt": "- `httpx.get/post` 或 `requests.*` 的 URL 来自请求／数据库，无白名单／超时（[OWASP Cheat Sheet Series][23]）",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/security-review-openai/references/python-flask-web-server-security.md",
+        "line": 500,
+        "excerpt": "- 不得对受攻击者影响的字符串使用 `shell=True`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/security-review-openai/references/python-flask-web-server-security.md",
+        "line": 506,
+        "excerpt": "- `os.system(user_input)`",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 24,
+      "network": 23
+    },
+    "score": 90,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 2,
-    "filesSkipped": 12
+    "filesScanned": 13,
+    "filesSkipped": 0
   },
   "history": [
     {

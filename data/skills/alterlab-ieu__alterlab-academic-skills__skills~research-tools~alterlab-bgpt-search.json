@@ -4,7 +4,7 @@
   "repo": "AlterLab-Academic-Skills",
   "path": "skills/research-tools/alterlab-bgpt-search",
   "name": "alterlab-bgpt-search",
-  "description": "",
+  "description": "Search scientific papers and retrieve structured experimental evidence from their full text — methods, results, sample sizes, effect sizes, risk-of-bias / quality assessment, limitations and conclusions, 25+ fields per paper, each value traced to the section it came from. Keyless by default — finds open-access studies in Europe PMC / PubMed Central, pulls their full text with the bundled script, and Claude extracts the fields; the BGPT MCP server (search_papers, lookup_paper by DOI) is an optional backend for its pre-extracted records (first 50 results free, then BGPT_API_KEY). Use when running a literature review or evidence synthesis, or when needing experimental details (sample sizes, effect sizes, methods, quality scores) that abstracts alone do not provide. Part of the AlterLab Academic Skills suite.",
   "stars": 87,
   "category": "research",
   "commit": "3ab6d034385ec4fedc3f6f4099292d4e91f60300",
@@ -12,16 +12,90 @@
   "repoCreatedAt": "2026-03-16T15:24:02Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-16T10:15:16.941Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/research-tools/alterlab-bgpt-search/SKILL.md",
+        "line": 46,
+        "excerpt": "S=scripts/fulltext_evidence.py   # relative to this skill's directory; stdlib only",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/research-tools/alterlab-bgpt-search/SKILL.md",
+        "line": 89,
+        "excerpt": "claude mcp add --transport sse bgpt https://bgpt.pro/mcp/sse",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/research-tools/alterlab-bgpt-search/SKILL.md",
+        "line": 94,
+        "excerpt": "Clients that accept a remote server URL (Cursor, Cline, Windsurf, and similar) use `{\"mcpServers\": {\"bgpt\": {\"url\": \"https://bgpt.pro/mcp/sse\"}}}`; clients that",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/research-tools/alterlab-bgpt-search/scripts/fulltext_evidence.py",
+        "line": 29,
+        "excerpt": "import urllib.request",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/research-tools/alterlab-bgpt-search/scripts/fulltext_evidence.py",
+        "line": 55,
+        "excerpt": "req = urllib.request.Request(url, headers={\"User-Agent\": USER_AGENT})",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/research-tools/alterlab-bgpt-search/scripts/fulltext_evidence.py",
+        "line": 56,
+        "excerpt": "with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/research-tools/alterlab-bgpt-search/scripts/fulltext_evidence.py",
+        "line": 182,
+        "excerpt": "def fetch(identifiers: List[str], out_dir: Path) -> List[Dict]:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/research-tools/alterlab-bgpt-search/scripts/fulltext_evidence.py",
+        "line": 254,
+        "excerpt": "report = fetch(ids, args.out)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 2,
+      "downloads-code": 1,
+      "network": 5
+    },
+    "score": 77,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 3
+    "filesScanned": 3,
+    "filesSkipped": 0
   },
   "history": [
     {

@@ -4,24 +4,256 @@
   "repo": "legal-skillhub",
   "path": "skills/legal-database-search",
   "name": "legal-database-search",
-  "description": "",
-  "stars": 34,
+  "description": "【设计思路】基于对抗性验证方法论，以案号（Case Reference Number）为不可变法定标识符构建裁判文书真伪核验体系——凡无法析出完整案号的司法文书一律归入虚假判决样本空间予以排除。借鉴司法实务中\"双源印证\"原则，任何检索结论须经两个独立渠道交叉确认方可输出。通过渠道置信度分层架构（T0-T4 五级），按官方数据源可验证性递减规则分配检索优先级，实现从单一信任模型到分布式验证模型的方法论跃迁。【系统架构与流程】四引擎二十八渠道联邦检索架构。用户输入经关键词语义解析与意图分类后，并行分发至裁判文书检索引擎（16渠道）、法律法规检索引擎（国家法律法规库+地方法规库）、典型案例检索引擎（最高法公报/指导性案例+最高检典型案例）、综合交叉验证引擎四路同步检索。结果进入双源交叉验证仲裁模块——双源一致则直接输出并标注溯源链路；双源冲突则依据 T0-T4 渠道优先级裁决矩阵进行冲突消解，优先采信 T0 级官方渠道（如中国裁判文书网）；仅单源可获取则标记为「单源未验证」并降权展示，严禁作为独立结论引用。全程执行原始 URL SHA-256 指纹存档，实现全链路可审计。【数据完整与准确性保障】渠道存活性季度自动扫描，失效源即时剔除检索路由表；案号格式正则校验器（支持(年份)最高法/最高检/行政区划+法院层级+案件类型+序号多种格式）杜绝半截号、错号进入检索管线；检索结果实施结构化归档（案由、法院、裁判日期、法条引用、裁判要点），关键数据同步至本地 SQLite 缓存保障离线校验能力。触发条件：查裁判文书、搜法律法规、查法条、搜案例、检索判决书、查司法解释、查典型案例、搜最高法案例、搜最高检案例、生成法律分析报告",
+  "stars": 36,
   "category": "productivity",
   "commit": "0228abc54e52e52e41fc56bc5f2fd761938b3d8c",
   "contentHash": "111688ca307b10df8e426d5243830879e665c1e20e8134b37fec8fb63f835cc0",
   "repoCreatedAt": "2026-08-04T07:11:18Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-16T10:15:16.941Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "skills/legal-database-search/SKILL.md",
+        "line": 212,
+        "excerpt": "| **P0** | 案号精确检索 | `WebSearch` `\"{案号}\"` | ⭐⭐⭐⭐⭐ | **~100%** | T0（案号100%） |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/legal-database-search/SKILL.md",
+        "line": 214,
+        "excerpt": "| **P1** | filetype:pdf 判决书搜索 | `WebSearch` `{关键词} 判决书 filetype:pdf` | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | T1（案号90%） |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/legal-database-search/SKILL.md",
+        "line": 215,
+        "excerpt": "| **P1** | 055110.com 律师平台 | `WebSearch` `site:055110.com {案由} {年份} 刑事判决书` | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | T1（案号95%） |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/legal-database-search/SKILL.md",
+        "line": 216,
+        "excerpt": "| **P1** | 人民法院案例库 | `WebSearch` `\"rmfyalk.court.gov.cn\" {关键词}` | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | T1（案号95%） |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/legal-database-search/SKILL.md",
+        "line": 217,
+        "excerpt": "| **P2** | wblaw.com.cn 湾区律师网 | `WebSearch` `site:wblaw.com.cn {案由}` | ⭐⭐⭐ | ⭐⭐⭐⭐ | T2（案号80%） |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/legal-database-search/SKILL.md",
+        "line": 218,
+        "excerpt": "| **P2** | 地方高院PDF | `WebSearch` `site:sdcourt.gov.cn {案号} filetype:pdf` | ⭐⭐⭐⭐ | ⭐⭐⭐ | T2（案号75%） |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/legal-database-search/SKILL.md",
+        "line": 219,
+        "excerpt": "| **P2** | 法信平台 | `WebSearch` `\"rmfyalk.faxin.cn\" {关键词}` | ⭐⭐⭐⭐ | ⭐⭐⭐ | T2（案号85%） |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/legal-database-search/SKILL.md",
+        "line": 220,
+        "excerpt": "| **P2** | 中国法院网法律文库 | `WebSearch` `\"lawdb.cncourt.org\" {关键词}` | ⭐⭐⭐ | ⭐⭐⭐ | T2（案号80%） |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/legal-database-search/SKILL.md",
+        "line": 221,
+        "excerpt": "| **P3** | 新闻引用追踪 | `WebSearch` `\"{案号}\" 判决` (腾讯新闻/红星新闻引用wenshu) | ⭐⭐⭐ | ⭐⭐⭐ | T3（案号50%） |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/legal-database-search/SKILL.md",
+        "line": 222,
+        "excerpt": "| **P3** | 第三方/微信/知乎 | `WebSearch` `{关键词} 律师 裁判观点` | ⭐⭐⭐ | ⭐⭐⭐ | T3（案号30%） |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/legal-database-search/SKILL.md",
+        "line": 223,
+        "excerpt": "| **P2** | 腾讯新闻/头条法律报道 | `WebSearch` `\"{案号}\" news.qq.com` 或 `{案由} 判决 toutiao.com` | ⭐⭐⭐ | ⭐⭐⭐⭐ | T2（案号65%） |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/legal-database-search/SKILL.md",
+        "line": 224,
+        "excerpt": "| **P2** | 红星新闻/成都商报 | `WebSearch` `\"{案号}\" cdsb.com.cn` 或 `{案由} 判决 红星新闻` | ⭐⭐⭐ | ⭐⭐⭐⭐ | T2（案号65%） |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/legal-database-search/SKILL.md",
+        "line": 225,
+        "excerpt": "| **P2** | 百度法行宝AI问答 | `WebSearch` `site:ailegal.baidu.com {罪名} {关键词}` | ⭐⭐⭐ | ⭐⭐⭐ | T3（案号40%） |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/legal-database-search/SKILL.md",
+        "line": 226,
+        "excerpt": "| **P3** | 华律网法律分析 | `WebSearch` `site:66law.cn {罪名} 量刑` | ⭐⭐ | ⭐⭐⭐ | T4（案号20%⚠️自动废弃） |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/legal-database-search/SKILL.md",
+        "line": 227,
+        "excerpt": "| **P3** | 网易/搜狐真实案例 | `WebSearch` `site:163.com/dy {罪名} 真实案例 法院认为` | ⭐⭐ | ⭐⭐⭐ | T4（案号15%⚠️自动废弃） |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/legal-database-search/SKILL.md",
+        "line": 235,
+        "excerpt": "WebSearch: \"{案号}\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/legal-database-search/SKILL.md",
+        "line": 235,
+        "excerpt": "WebSearch: \"{案号}\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/legal-database-search/SKILL.md",
+        "line": 247,
+        "excerpt": "WebSearch: {案由} 判决书 filetype:pdf {年份}",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/legal-database-search/SKILL.md",
+        "line": 247,
+        "excerpt": "WebSearch: {案由} 判决书 filetype:pdf {年份}",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/legal-database-search/SKILL.md",
+        "line": 257,
+        "excerpt": "WebSearch: site:055110.com {案由} {年份} 刑事判决书",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/legal-database-search/SKILL.md",
+        "line": 257,
+        "excerpt": "WebSearch: site:055110.com {案由} {年份} 刑事判决书",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/legal-database-search/SKILL.md",
+        "line": 265,
+        "excerpt": "WebSearch: site:wblaw.com.cn {案由} {关键词}",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/legal-database-search/SKILL.md",
+        "line": 265,
+        "excerpt": "WebSearch: site:wblaw.com.cn {案由} {关键词}",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/legal-database-search/SKILL.md",
+        "line": 272,
+        "excerpt": "python ~/.workbuddy/skills/skill_2053082740118388736/scripts/stealth_session.py \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/legal-database-search/SKILL.md",
+        "line": 334,
+        "excerpt": "| **P1** | 最高法公报 court.gov.cn | `WebSearch` `site:court.gov.cn {法规} {关键词}` | ⭐⭐⭐⭐⭐ | T1 |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/legal-database-search/SKILL.md",
+        "line": 344,
+        "excerpt": "python ~/.workbuddy/skills/skill_2053082740118388736/scripts/stealth_session.py \\",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "network": 34,
+      "shell": 6
+    },
+    "score": 90,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 1
+    "filesScanned": 1,
+    "filesSkipped": 0
   },
   "history": [
     {

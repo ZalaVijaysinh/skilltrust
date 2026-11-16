@@ -1,0 +1,116 @@
+{
+  "id": "undermybelt__hermes-skills__skills~apple~chr-cdp-clean-launch",
+  "owner": "Undermybelt",
+  "repo": "hermes-skills",
+  "path": "skills/apple/chr-cdp-clean-launch",
+  "name": "chr-cdp-clean-launch",
+  "description": "在 macOS 上从 Hermes/terminal 干净启动 Chrome CDP，避免被 benign ERROR 日志与重复实例误导。",
+  "stars": 11,
+  "category": "other",
+  "commit": "d2296d2cbe142a98b3e7994e538c3430e7a513e0",
+  "contentHash": "bf085935e571e7e0dd4538a9ceb7b7343a7a19b7b643c7245e3777363cb42319",
+  "repoCreatedAt": "2026-04-24T07:53:49Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-16T10:15:16.941Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "skills/apple/chr-cdp-clean-launch/SKILL.md",
+        "line": 21,
+        "excerpt": "4. 若日志已出现 `DevTools listening on ws://...`，则 CDP 基本已活；即使 `curl http://127.0.0.1:PORT/json/version` 一时为空，也别先被后台 `ERROR` 误导。优先检查是否绑在 IPv6 `::1`。",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/apple/chr-cdp-clean-launch/SKILL.md",
+        "line": 28,
+        "excerpt": "pkill -f '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome --remote-debugging-port=19825' || true",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/apple/chr-cdp-clean-launch/SKILL.md",
+        "line": 39,
+        "excerpt": "'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/apple/chr-cdp-clean-launch/SKILL.md",
+        "line": 68,
+        "excerpt": "- `curl -s http://127.0.0.1:19825/json/version`",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/apple/chr-cdp-clean-launch/SKILL.md",
+        "line": 69,
+        "excerpt": "- 若空，再试 IPv6：`curl -g -s 'http://[::1]:19825/json/version'`",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "["
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/apple/chr-cdp-clean-launch/SKILL.md",
+        "line": 73,
+        "excerpt": "ps -ef | grep -i '[G]oogle Chrome.*19825'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "browser-secrets",
+        "file": "skills/apple/chr-cdp-clean-launch/SKILL.md",
+        "line": 112,
+        "excerpt": "1. 查 `~/Library/Application Support/Google/Chrome/Default/Preferences`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "browser-secrets",
+        "file": "skills/apple/chr-cdp-clean-launch/SKILL.md",
+        "line": 115,
+        "excerpt": "2. 查 `~/Library/Application Support/Google/Chrome/Local State`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "browser-secrets",
+        "file": "skills/apple/chr-cdp-clean-launch/SKILL.md",
+        "line": 123,
+        "excerpt": "- 用户说“我只有一个 Chrome，登录了某账号”时，默认目标是 `~/Library/Application Support/Google/Chrome/Default`",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "network": 3,
+      "shell": 3,
+      "browser-secrets": 3
+    },
+    "score": 67,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "d2296d2cbe142a98b3e7994e538c3430e7a513e0",
+      "scannedAt": "2026-11-16T10:15:16.941Z",
+      "score": 67,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}
