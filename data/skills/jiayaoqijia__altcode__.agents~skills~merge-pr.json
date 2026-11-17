@@ -4,24 +4,99 @@
   "repo": "altcode",
   "path": ".agents/skills/merge-pr",
   "name": "merge-pr",
-  "description": "",
+  "description": "Merge a GitHub PR via squash after /prepare-pr. Use when asked to merge a ready PR. Do not push to main or modify code. Ensure the PR ends in MERGED state and clean up worktrees after success.",
   "stars": 28,
-  "category": "other",
+  "category": "coding",
   "commit": "eade21260a6f6aa9dd47666b6b5b8ee5f9b401b0",
   "contentHash": "37dfe53bf86d803bb1ee5d55591677b3ec468dba19bd65aa06bd08ed6ebeb89d",
   "repoCreatedAt": "2026-03-31T15:09:27Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-17T11:16:37.484Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/merge-pr/SKILL.md",
+        "line": 42,
+        "excerpt": "git rev-parse --show-toplevel",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/merge-pr/SKILL.md",
+        "line": 56,
+        "excerpt": "ls -la .local || true",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/merge-pr/SKILL.md",
+        "line": 80,
+        "excerpt": "gh pr view <PR> --json number,title,state,isDraft,author,headRefName,baseRefName,headRepository,body --jq '{number,title,state,isDraft,author:.author.login,head",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/merge-pr/SKILL.md",
+        "line": 90,
+        "excerpt": "gh pr checks <PR>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/merge-pr/SKILL.md",
+        "line": 100,
+        "excerpt": "check_status=$(gh pr checks <PR> 2>&1)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/merge-pr/SKILL.md",
+        "line": 115,
+        "excerpt": "merge_sha=$(gh pr view <PR> --json mergeCommit --jq '.mergeCommit.oid')",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/merge-pr/SKILL.md",
+        "line": 122,
+        "excerpt": "gh pr comment <PR> -F - <<'EOF'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/merge-pr/SKILL.md",
+        "line": 134,
+        "excerpt": "gh pr view <PR> --json state --jq .state",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/merge-pr/SKILL.md",
+        "line": 142,
+        "excerpt": "git worktree remove \".worktrees/pr-<PR>\" --force",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 9
+    },
+    "score": 97,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 1
+    "filesScanned": 1,
+    "filesSkipped": 0
   },
   "history": [
     {

@@ -1,0 +1,100 @@
+{
+  "id": "huggingface__paperswithcode__.agents~skills~pwc-cron-health",
+  "owner": "huggingface",
+  "repo": "paperswithcode",
+  "path": ".agents/skills/pwc-cron-health",
+  "name": "pwc-cron-health",
+  "description": "Thoroughly audit the health of every Papers With Code production CRON job shown on the admin dashboard, including scheduler execution, logs, locks, durable data freshness, backlog completeness, semantic correctness, and bounded comparisons with upstream sources. Use this whenever a user asks whether PwC CRONs, scheduled imports, citations, GitHub stars, trending scores, leaderboard syncs, embeddings, thumbnails, daily paper enrichment, taxonomy linkers, or the admin CRON dashboard are healthy—even if they only mention one suspicious stale dataset. Do not use a green dashboard status or fresh timestamp as sufficient proof.",
+  "stars": 327,
+  "category": "research",
+  "commit": "fd801191b53c10d93112413164843520ffcd9430",
+  "contentHash": "509e5f43a7b82d71ecaa30f8c5c95ec1d2c24a7a9617c1c82f2c66657b041b5b",
+  "repoCreatedAt": "2025-09-12T20:59:15Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-17T11:16:37.484Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/pwc-cron-health/SKILL.md",
+        "line": 50,
+        "excerpt": "pwc-status",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/pwc-cron-health/SKILL.md",
+        "line": 66,
+        "excerpt": "PWC_CRON_LOG_DIR=/var/lib/paperswithcode/production/cron-logs \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/pwc-cron-health/SKILL.md",
+        "line": 101,
+        "excerpt": "sudo pwc-cron status > /tmp/pwc-cron-launcher.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/pwc-cron-health/SKILL.md",
+        "line": 112,
+        "excerpt": "rg -n \"schedule:|cron:\" /srv/paperswithcode/environments/production/current/.github/workflows/*.yml",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/pwc-cron-health/SKILL.md",
+        "line": 146,
+        "excerpt": "gh run list --workflow WORKFLOW.yml --event schedule --limit 10 \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/pwc-cron-health/references/job-probes.md",
+        "line": 288,
+        "excerpt": "- **Independent proof:** `curl https://paperswithcode.co/api/v1/papers/<id>` for a paper imported in the last hour has `abstract_mentions` (spans whose `surface",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "paperswithcode.co"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/pwc-cron-health/references/job-probes.md",
+        "line": 302,
+        "excerpt": "- **Independent proof:** `curl https://paperswithcode.co/api/v1/papers/<id>/suggested-questions` for a top home-feed paper returns three questions within ~0.2 s",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "paperswithcode.co"
+        ]
+      }
+    ],
+    "findingTotals": {
+      "shell": 5,
+      "network": 2
+    },
+    "score": 92,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 4,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "fd801191b53c10d93112413164843520ffcd9430",
+      "scannedAt": "2026-11-17T11:16:37.484Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

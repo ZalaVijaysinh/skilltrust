@@ -7,13 +7,13 @@
   "description": "Use when building, upgrading, repairing or choosing the Kubernetes cluster itself - kubeadm, k3s or Talos (RKE2 and Cluster API as pointers), HA control plane and API endpoint, etcd health/backup/restore, version skew and upgrade order, node join/drain/replace/remove, certificate expiry, Cilium as CNI (kube-proxy replacement, Gateway API support), bare-metal LoadBalancer IPs (Cilium LB IPAM and L2 announcements, MetalLB, kube-vip) and cluster-level troubleshooting (NotReady nodes, etcd quorum loss, API server down, CNI broken). Not for workloads, Services, Gateway resources, RBAC or day-to-day kubectl (devops-kubernetes), Helm/Kustomize/Argo CD/Flux (devops-gitops-packaging), CSI backend internals (devops-storage-backup) or VM provisioning (devops-proxmox, devops-virtualization).",
   "stars": 36,
   "category": "coding",
-  "commit": "d7d63dbe5aab6107e84808ceb694fa5be6c2eb7c",
+  "commit": "5b405795b3951350fe486f8f607af031d96bf36b",
   "contentHash": "5a6e9f22a0e259ee230918da356203c6f269f06dd12af823ed749f29df39c95c",
   "repoCreatedAt": "2026-01-10T00:24:26Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-17T11:16:37.484Z",
   "scan": {
     "findings": [
       {
@@ -25,6 +25,76 @@
         "automatic": false
       },
       {
+        "ruleId": "writes-outside",
+        "file": "plugins/devops-expert/skills/devops-k8s-cluster/references/baremetal-loadbalancing.md",
+        "line": 31,
+        "excerpt": "kube-vip manifest pod --interface $INTERFACE --address $VIP --controlplane --services --arp --leaderElection | sudo tee /etc/kubernetes/manifests/kube-vip.yaml",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/devops-expert/skills/devops-k8s-cluster/references/cluster-troubleshooting.md",
+        "line": 23,
+        "excerpt": "Cannot reach the API at all? Distinguish: endpoint/VIP/LB down (`nc -zv <endpoint> 6443`; test each control-plane IP directly), kubeconfig certificate expired, ",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/devops-expert/skills/devops-k8s-cluster/references/cluster-troubleshooting.md",
+        "line": 106,
+        "excerpt": "- `curl -k https://<cp-ip>:6443/livez?verbose` works without credentials only when anonymous access to health endpoints is enabled (default RBAC); otherwise use",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/devops-expert/skills/devops-k8s-cluster/references/k3s-cluster.md",
+        "line": 21,
+        "excerpt": "curl -sfL https://get.k3s.io | K3S_TOKEN=<secret> sh -s - server --cluster-init --tls-san=<FIXED_IP>",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "get.k3s.io"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/devops-expert/skills/devops-k8s-cluster/references/k3s-cluster.md",
+        "line": 23,
+        "excerpt": "curl -sfL https://get.k3s.io | K3S_TOKEN=<secret> sh -s - server --server https://<server1>:6443 --tls-san=<FIXED_IP>",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "get.k3s.io"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/devops-expert/skills/devops-k8s-cluster/references/k3s-cluster.md",
+        "line": 25,
+        "excerpt": "curl -sfL https://get.k3s.io | K3S_TOKEN=<secret> sh -s - agent --server https://<server>:6443",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "get.k3s.io"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/devops-expert/skills/devops-k8s-cluster/references/k3s-cluster.md",
+        "line": 44,
+        "excerpt": "curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v1.37.2+k3s1 <EXISTING_K3S_ENV> sh -s - <EXISTING_K3S_ARGS>",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "get.k3s.io"
+        ]
+      },
+      {
         "ruleId": "network",
         "file": "plugins/devops-expert/skills/devops-k8s-cluster/references/node-lifecycle.md",
         "line": 18,
@@ -34,23 +104,47 @@
         "hosts": [
           "get.k3s.io"
         ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/devops-expert/skills/devops-k8s-cluster/references/version-skew-upgrades.md",
+        "line": 36,
+        "excerpt": "sudo apt-mark unhold kubeadm && sudo apt-get update && sudo apt-get install -y kubeadm='1.37.x-*' && sudo apt-mark hold kubeadm",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/devops-expert/skills/devops-k8s-cluster/references/version-skew-upgrades.md",
+        "line": 41,
+        "excerpt": "sudo apt-mark unhold kubelet kubectl && sudo apt-get install -y kubelet='1.37.x-*' kubectl='1.37.x-*' && sudo apt-mark hold kubelet kubectl",
+        "disclosed": false,
+        "automatic": false
       }
     ],
     "findingTotals": {
       "shell": 1,
-      "network": 1
+      "writes-outside": 1,
+      "network": 7,
+      "downloads-code": 2
     },
-    "score": 92,
-    "band": "low",
+    "score": 72,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 5,
-    "filesSkipped": 15
+    "filesScanned": 20,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "d7d63dbe5aab6107e84808ceb694fa5be6c2eb7c",
       "scannedAt": "2026-11-13T10:10:34.466Z",
       "score": 92,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "5b405795b3951350fe486f8f607af031d96bf36b",
+      "scannedAt": "2026-11-17T11:16:37.484Z",
+      "score": 72,
       "rulesVersion": "1.3.0"
     }
   ]

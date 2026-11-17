@@ -1,0 +1,387 @@
+{
+  "id": "tbvjvsladla__easy_vllm_simulator__.claude~skills~vllm-recipe-explorer",
+  "owner": "tbvjvsladla",
+  "repo": "easy_vllm_simulator",
+  "path": ".claude/skills/vllm-recipe-explorer",
+  "name": "vllm-recipe-explorer",
+  "description": "모델획득 격리 환경(외부접속 전반 차단 아님)에서 고정된 한 모델의 config.json을 결정론적으로 파싱하고, (quantization × max-model-len × gpu-memory-utilization) 3축 레시피 후보를 결정론 VRAM 추정 → 예산×안전마진 하드게이트 → headroom→context 랭킹으로 제시하고, 사람이 고른 레시피를 DGX Spark 서빙용 3종 세트(.yaml+.sh+.env)로 생성한다(Phase 1, 추정). Phase 2는 멀티턴 인터뷰로 lock/soft/free 변수를 정하고 실서빙 trial-loop로 절대 KV 클램프(--kv-cache-memory-bytes)를 수렴시켜 검증된 레시피를 낸다. \"레시피 추천\", \"서빙 레시피\", \"VRAM 예산에 맞춰\", \"이 모델 어떤 설정으로 띄울까\", \"RTX4090 예산 레시피\", \"gpu memory 예산\", \"recipe\", \"실제로 띄워서 검증\", \"KV 캐시 튜닝\", \"batch/동시요청\", \"tool/reasoning 파서\", \"attention backend\" 같은 지시에 발동. tp는 manifest(len(nodes)×gpus_per_node) 자동결정(git 브랜치 ✗). 테라포밍-완수 Flag 없으면 info-only.",
+  "stars": 22,
+  "category": "coding",
+  "commit": "544600a8506276b1b0ccba5ac310b544682a5705",
+  "contentHash": "c9826d27ca4d31b87c5dc8c36b23a92a6501067230e5cdeeeb04932817149b5e",
+  "repoCreatedAt": "2026-06-21T23:08:09Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-17T11:16:37.484Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/vllm-recipe-explorer/rust/runtime/PORTING.md",
+        "line": 218,
+        "excerpt": "parameter of one call (`context.hf_api_base`), never global state. `http.client`'s path checks are reproduced (control characters: uncaught `InvalidURL`;",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/vllm-recipe-explorer/rust/runtime/PORTING.md",
+        "line": 536,
+        "excerpt": "The earlier R27 text called the null device as the helper's standard input in the session a deviation, and `evaluate-jsonl` left the helper a spent standard inp",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/vllm-recipe-explorer/rust/runtime/PORTING.md",
+        "line": 717,
+        "excerpt": "**The exchange (`_post_chat`).** Order: `base_url.rstrip(\"/\")` (`AttributeError` for a non-str), `json.dumps(payload)` (default separators, ASCII, `NaN` allowed",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/vllm-recipe-explorer/rust/runtime/PORTING.md",
+        "line": 727,
+        "excerpt": "**Limits (concrete).** `https://` and the other `urllib` schemes `file:`, `ftp:`, `data:` answer a `NotImplementedError` as an `_error` text (the native client ",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/vllm-recipe-explorer/rust/runtime/PORTING.md",
+        "line": 733,
+        "excerpt": "**N1: `_read_chunked`.** v1 read the chunk-size line and answered an invalid non-empty size with a `ValueError`, and counted the partial bytes of a short curren",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/vllm-recipe-explorer/rust/runtime/PORTING.md",
+        "line": 747,
+        "excerpt": "**Files.** New owner modules (`P/src/`): `cleanup_process` (the `subprocess.run` port), `cleanup_docker` (the four functions, the typed values, the observed fil",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/vllm-recipe-explorer/rust/runtime/PORTING.md",
+        "line": 749,
+        "excerpt": "**`_run`.** A port of CPython 3.12 `subprocess.run(cmd, stdout=PIPE, stderr=PIPE, timeout=timeout)` in the order the interpreter does things: the pipes, `list(c",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": ".claude/skills/vllm-recipe-explorer/rust/runtime/checks/data/cleanup_stdio_reference/bundle.json",
+        "line": 1,
+        "excerpt": "{\"trees\":[[{\"path\":\"node\",\"mode\":509,\"kind\":\"dir\"},{\"path\":\"node/.claude\",\"mode\":509,\"kind\":\"dir\"},{\"path\":\"node/.claude/skills\",\"mode\":509,\"kind\":\"dir\"},{\"path",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/vllm-recipe-explorer/rust/runtime/checks/data/functional_reference/repair_bundle.json",
+        "line": 1,
+        "excerpt": "{\"sources\":{\"functional_smoke.py\":\"23212f7573722f62696e2f656e7620707974686f6e330a22222266756e6374696f6e616c5f736d6f6b652e707920e2809420eab8b0eb8aa520ec8aa4ebaaa",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/vllm-recipe-explorer/rust/runtime/checks/data/generation_reference/api/api-051/original.json",
+        "line": 8,
+        "excerpt": "\"#!/usr/bin/env python3\\n\\\"\\\"\\\"run_trial.py \\u2014 \\ub2e8\\uc77c \\ud2b8\\ub77c\\uc774\\uc5bc \\uc2e4\\ud589\\uae30 (vllm-recipe-explorer \\uc2a4\\ud0ac Phase 2).\\n\\nCONT",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/vllm-recipe-explorer/rust/runtime/checks/data/generation_reference/api/api-051/original.json",
+        "line": 8,
+        "excerpt": "\"#!/usr/bin/env python3\\n\\\"\\\"\\\"run_trial.py \\u2014 \\ub2e8\\uc77c \\ud2b8\\ub77c\\uc774\\uc5bc \\uc2e4\\ud589\\uae30 (vllm-recipe-explorer \\uc2a4\\ud0ac Phase 2).\\n\\nCONT",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/vllm-recipe-explorer/rust/runtime/checks/data/generation_reference/api/api-052/original.json",
+        "line": 8,
+        "excerpt": "\"#!/usr/bin/env python3\\n\\\"\\\"\\\"run_trial.py \\u2014 \\ub2e8\\uc77c \\ud2b8\\ub77c\\uc774\\uc5bc \\uc2e4\\ud589\\uae30 (vllm-recipe-explorer \\uc2a4\\ud0ac Phase 2).\\n\\nCONT",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/vllm-recipe-explorer/rust/runtime/checks/data/generation_reference/api/api-052/original.json",
+        "line": 8,
+        "excerpt": "\"#!/usr/bin/env python3\\n\\\"\\\"\\\"run_trial.py \\u2014 \\ub2e8\\uc77c \\ud2b8\\ub77c\\uc774\\uc5bc \\uc2e4\\ud589\\uae30 (vllm-recipe-explorer \\uc2a4\\ud0ac Phase 2).\\n\\nCONT",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/vllm-recipe-explorer/rust/runtime/checks/data/generation_reference/cases.json",
+        "line": 672,
+        "excerpt": "\"#!/usr/bin/env python3\\n\\\"\\\"\\\"run_trial.py \\u2014 \\ub2e8\\uc77c \\ud2b8\\ub77c\\uc774\\uc5bc \\uc2e4\\ud589\\uae30 (vllm-recipe-explorer \\uc2a4\\ud0ac Phase 2).\\n\\nCONT",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/vllm-recipe-explorer/rust/runtime/checks/data/generation_reference/cases.json",
+        "line": 672,
+        "excerpt": "\"#!/usr/bin/env python3\\n\\\"\\\"\\\"run_trial.py \\u2014 \\ub2e8\\uc77c \\ud2b8\\ub77c\\uc774\\uc5bc \\uc2e4\\ud589\\uae30 (vllm-recipe-explorer \\uc2a4\\ud0ac Phase 2).\\n\\nCONT",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/vllm-recipe-explorer/rust/runtime/checks/data/generation_reference/cases.json",
+        "line": 682,
+        "excerpt": "\"#!/usr/bin/env python3\\n\\\"\\\"\\\"run_trial.py \\u2014 \\ub2e8\\uc77c \\ud2b8\\ub77c\\uc774\\uc5bc \\uc2e4\\ud589\\uae30 (vllm-recipe-explorer \\uc2a4\\ud0ac Phase 2).\\n\\nCONT",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/vllm-recipe-explorer/rust/runtime/checks/data/generation_reference/cases.json",
+        "line": 682,
+        "excerpt": "\"#!/usr/bin/env python3\\n\\\"\\\"\\\"run_trial.py \\u2014 \\ub2e8\\uc77c \\ud2b8\\ub77c\\uc774\\uc5bc \\uc2e4\\ud589\\uae30 (vllm-recipe-explorer \\uc2a4\\ud0ac Phase 2).\\n\\nCONT",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/vllm-recipe-explorer/rust/runtime/checks/data/generation_reference/run_trial-source.txt",
+        "line": 37,
+        "excerpt": "import urllib.request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/vllm-recipe-explorer/rust/runtime/checks/data/generation_reference/run_trial-source.txt",
+        "line": 204,
+        "excerpt": "out = subprocess.run([sys.executable, os.path.normpath(BUDGET_SESSION_PY),",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/vllm-recipe-explorer/rust/runtime/checks/data/generation_reference/run_trial-source.txt",
+        "line": 539,
+        "excerpt": "proc = subprocess.run(",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/vllm-recipe-explorer/rust/runtime/checks/data/generation_reference/run_trial-source.txt",
+        "line": 542,
+        "excerpt": "stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=20,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/vllm-recipe-explorer/rust/runtime/checks/data/generation_reference/run_trial-source.txt",
+        "line": 622,
+        "excerpt": "with urllib.request.urlopen(url, timeout=5.0) as resp:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/vllm-recipe-explorer/rust/runtime/checks/data/generation_reference/run_trial-source.txt",
+        "line": 660,
+        "excerpt": "proc = subprocess.run(",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/vllm-recipe-explorer/rust/runtime/checks/data/generation_reference/run_trial-source.txt",
+        "line": 662,
+        "excerpt": "stdout=subprocess.PIPE,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/vllm-recipe-explorer/rust/runtime/checks/data/generation_reference/run_trial-source.txt",
+        "line": 663,
+        "excerpt": "stderr=subprocess.STDOUT,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/vllm-recipe-explorer/rust/runtime/checks/data/generation_reference/run_trial-source.txt",
+        "line": 674,
+        "excerpt": "subprocess.run(",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/vllm-recipe-explorer/rust/runtime/checks/data/generation_reference/run_trial-source.txt",
+        "line": 676,
+        "excerpt": "stdout=subprocess.DEVNULL,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/vllm-recipe-explorer/rust/runtime/checks/data/generation_reference/run_trial-source.txt",
+        "line": 677,
+        "excerpt": "stderr=subprocess.DEVNULL,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/vllm-recipe-explorer/rust/runtime/checks/data/generation_reference/run_trial-source.txt",
+        "line": 794,
+        "excerpt": "proc = subprocess.Popen(",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/vllm-recipe-explorer/rust/runtime/checks/data/generation_reference/run_trial-source.txt",
+        "line": 796,
+        "excerpt": "stdout=fh, stderr=subprocess.STDOUT,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/vllm-recipe-explorer/rust/runtime/checks/data/generation_reference/run_trial-source.txt",
+        "line": 837,
+        "excerpt": "proc = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=60)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/vllm-recipe-explorer/rust/runtime/checks/data/generation_reference/run_trial-source.txt",
+        "line": 838,
+        "excerpt": "except (OSError, subprocess.TimeoutExpired) as exc:",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/vllm-recipe-explorer/rust/runtime/checks/data/model_extra/api/CA-unhashed-directory/original.stdout",
+        "line": 1,
+        "excerpt": "{\"id\": \"CA-unhashed-directory\", \"kind\": \"value\", \"value\": {\"ok\": false, \"reason\": \"\\ub124\\ud2b8\\uc6cc\\ud06c \\uc624\\ub958: <urlopen error [SSL: CERTIFICATE_VERIF",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/vllm-recipe-explorer/rust/runtime/checks/data/model_extra/api/CA-untrusted/original.stdout",
+        "line": 1,
+        "excerpt": "{\"id\": \"CA-untrusted\", \"kind\": \"value\", \"value\": {\"ok\": false, \"reason\": \"\\ub124\\ud2b8\\uc6cc\\ud06c \\uc624\\ub958: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED]",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/vllm-recipe-explorer/rust/runtime/checks/data/model_extra/api/CA-wrong-hash-directory/original.stdout",
+        "line": 1,
+        "excerpt": "{\"id\": \"CA-wrong-hash-directory\", \"kind\": \"value\", \"value\": {\"ok\": false, \"reason\": \"\\ub124\\ud2b8\\uc6cc\\ud06c \\uc624\\ub958: <urlopen error [SSL: CERTIFICATE_VER",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/vllm-recipe-explorer/rust/runtime/checks/data/model_extra/api/zero-timeout/original.stdout",
+        "line": 1,
+        "excerpt": "{\"id\": \"zero-timeout\", \"kind\": \"value\", \"value\": {\"ok\": false, \"reason\": \"\\ub124\\ud2b8\\uc6cc\\ud06c \\uc624\\ub958: <urlopen error [Errno 115] Operation now in pro",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/vllm-recipe-explorer/rust/runtime/checks/data/model_extra/tls_intermediate.json",
+        "line": 19,
+        "excerpt": "\"message\": \"<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get issuer certificate (_ssl.c:1000)>\",",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/vllm-recipe-explorer/rust/runtime/checks/data/model_extra/tls_intermediate.json",
+        "line": 40,
+        "excerpt": "\"message\": \"<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get issuer certificate (_ssl.c:1000)>\",",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/vllm-recipe-explorer/rust/runtime/checks/functional_checks.rs",
+        "line": 508,
+        "excerpt": "let answers = items(http.get(\"responses\").expect(\"responses\"))",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/vllm-recipe-explorer/rust/runtime/checks/model_cases.rs",
+        "line": 366,
+        "excerpt": "format!(\"네트워크 오류: <urlopen error [Errno 111] Connection refused>({closed}/x)\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/vllm-recipe-explorer/rust/runtime/checks/model_cases.rs",
+        "line": 372,
+        "excerpt": "\"네트워크 오류: <urlopen error timed out>({}/stall)\",",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "network": 64,
+      "shell": 28,
+      "reads-secrets": 1
+    },
+    "score": 70,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 871,
+    "filesSkipped": 35
+  },
+  "history": [
+    {
+      "commit": "544600a8506276b1b0ccba5ac310b544682a5705",
+      "scannedAt": "2026-11-17T11:16:37.484Z",
+      "score": 70,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

@@ -1,0 +1,121 @@
+{
+  "id": "huggingface__paperswithcode__.agents~skills~complete-task-based-on-hf",
+  "owner": "huggingface",
+  "repo": "paperswithcode",
+  "path": ".agents/skills/complete-task-based-on-hf",
+  "name": "complete-task-based-on-hf",
+  "description": "Complete or audit a Papers With Code task using Hugging Face model popularity as the discovery signal. Use this whenever a user asks to scan the most downloaded or trending Hugging Face models for a pipeline/task, resolve their canonical technical reports, and add missing paper-native evaluations to existing Papers With Code benchmarks. Trigger for requests like \"complete this task from HF\", \"check popular Hub models for missing evals\", or a Hugging Face models URL with `pipeline_tag` and `sort`; use `add-evals` instead for one already-known model or paper, and `complete-task-v2` for a holistic field survey beyond Hugging Face.",
+  "stars": 327,
+  "category": "research",
+  "commit": "fd801191b53c10d93112413164843520ffcd9430",
+  "contentHash": "db0bb17a892789c74aab3a479ec1ddba460f017017993bb60f365230fe42cbe6",
+  "repoCreatedAt": "2025-09-12T20:59:15Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-17T11:16:37.484Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/complete-task-based-on-hf/SKILL.md",
+        "line": 53,
+        "excerpt": "uv run --env-file backend/keys.env python .agents/skills/complete-task-based-on-hf/scripts/discover_hf_models.py \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/complete-task-based-on-hf/SKILL.md",
+        "line": 60,
+        "excerpt": "uv run --env-file backend/keys.env hf models list --pipeline-tag <pipeline-tag> --sort trending_score --limit 30 \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/complete-task-based-on-hf/SKILL.md",
+        "line": 80,
+        "excerpt": "uv run --env-file backend/keys.env hf models info <repo_id> --format json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/complete-task-based-on-hf/SKILL.md",
+        "line": 89,
+        "excerpt": "uv run --env-file backend/keys.env hf papers search \"<release family> technical report\" --limit 10",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/complete-task-based-on-hf/SKILL.md",
+        "line": 101,
+        "excerpt": "uv run --env-file backend/keys.env hf papers info <arxiv_id> --format json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/complete-task-based-on-hf/SKILL.md",
+        "line": 168,
+        "excerpt": "uv run --env-file backend/keys.env python backend/database/validate_evaluation_metrics.py",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/complete-task-based-on-hf/scripts/discover_hf_models.py",
+        "line": 21,
+        "excerpt": "def fetch(pipeline_tag: str, sort: str, limit: int) -> list[dict]:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/complete-task-based-on-hf/scripts/discover_hf_models.py",
+        "line": 39,
+        "excerpt": "completed = subprocess.run(",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/complete-task-based-on-hf/scripts/discover_hf_models.py",
+        "line": 71,
+        "excerpt": "trending = fetch(args.pipeline_tag, \"trending_score\", args.limit)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/complete-task-based-on-hf/scripts/discover_hf_models.py",
+        "line": 72,
+        "excerpt": "downloads = fetch(args.pipeline_tag, \"downloads\", args.limit)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 7,
+      "network": 3
+    },
+    "score": 90,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 3,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "fd801191b53c10d93112413164843520ffcd9430",
+      "scannedAt": "2026-11-17T11:16:37.484Z",
+      "score": 90,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

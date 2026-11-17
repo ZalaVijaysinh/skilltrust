@@ -7,13 +7,13 @@
   "description": "Bring everything from another (older, broken, or replaced) workspace of the user's into this one -- their apps, skills, documents, data, scheduled automations, and every past chat. Use when the user says anything like 'move my stuff over from my old workspace', 'I made a new agent, bring everything across', 'my old workspace is broken, start me fresh', 'import my other agent', or -- asked from the OLD side -- 'I'd like to move to a new workspace'. Requires the other workspace to be startable, since the transfer runs over a live connection to it.",
   "stars": 16,
   "category": "data",
-  "commit": "2ef923bb31bd25f45a65563212fcad3daded5a7c",
+  "commit": "a392af28fafa58c6c192429cdc13c671baf018ad",
   "contentHash": "eb7a7be8462b74559d550c98488ac9f8a93846640f2da8ec9172d62b530fca50",
   "repoCreatedAt": "2026-04-05T23:37:11Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-17T11:16:37.484Z",
   "scan": {
     "findings": [
       {
@@ -192,23 +192,98 @@
         "excerpt": "mkdir -p data/documents && $EDITOR data/documents/migration-summary.md   # or just write the file",
         "disclosed": true,
         "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/migrate-workspace/python/migrate_workspace_skill/migrate_workspace.py",
+        "line": 1146,
+        "excerpt": "result = subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/migrate-workspace/python/migrate_workspace_skill/migrate_workspace.py",
+        "line": 1841,
+        "excerpt": "create = subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/migrate-workspace/python/migrate_workspace_skill/migrate_workspace_test.py",
+        "line": 783,
+        "excerpt": "\"latchkey curl https://slack.com/api/conversations.list\\n\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "slack.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/migrate-workspace/python/migrate_workspace_skill/migrate_workspace_test.py",
+        "line": 806,
+        "excerpt": "{\"a.sh\": \"latchkey curl http://latchkey-self.invalid/permission-requests\\n\"},",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "latchkey-self.invalid"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/migrate-workspace/python/migrate_workspace_skill/migrate_workspace_test.py",
+        "line": 839,
+        "excerpt": "\"fetch.sh\": \"latchkey curl https://slack.com/api/conversations.list\\n\",",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "slack.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/migrate-workspace/python/migrate_workspace_skill/migrate_workspace_test.py",
+        "line": 849,
+        "excerpt": "\"a.sh\": \"latchkey --account alice@example.com curl https://api.github.com/user\\n\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.github.com"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/migrate-workspace/references/pre-declutter-layout.md",
+        "line": 141,
+        "excerpt": "apt repo or runs a bare `apt-get install` will not behave as it did -- move the",
+        "disclosed": false,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "network": 3,
-      "shell": 18
+      "network": 7,
+      "shell": 31,
+      "downloads-code": 1
     },
-    "score": 92,
-    "band": "low",
+    "score": 77,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 2,
-    "filesSkipped": 5
+    "filesScanned": 7,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "2ef923bb31bd25f45a65563212fcad3daded5a7c",
       "scannedAt": "2026-11-13T10:10:34.466Z",
       "score": 92,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "a392af28fafa58c6c192429cdc13c671baf018ad",
+      "scannedAt": "2026-11-17T11:16:37.484Z",
+      "score": 77,
       "rulesVersion": "1.3.0"
     }
   ]

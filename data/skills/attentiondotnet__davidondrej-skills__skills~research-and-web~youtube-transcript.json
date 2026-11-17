@@ -1,0 +1,96 @@
+{
+  "id": "attentiondotnet__davidondrej-skills__skills~research-and-web~youtube-transcript",
+  "owner": "attentiondotnet",
+  "repo": "davidondrej-skills",
+  "path": "skills/research-and-web/youtube-transcript",
+  "name": "youtube-transcript",
+  "description": "Use whenever the user needs the transcript of a YouTube video — fetching, extracting, downloading, or pulling captions/subtitles/transcript text from a YouTube URL. Triggers on \"get the transcript\", \"transcript of this video\", \"pull the captions\", \"download subtitles\", \"what does this YouTube video say\". Primary path is DeepAPI (go to deepapi.co to get an API key); yt-dlp is the local fallback.",
+  "stars": 11,
+  "category": "media",
+  "commit": "84eb745fa0ac78b897d7359a9ae3cc9f29a9bc72",
+  "contentHash": "ff4fc2e77671a2be53fed6501cca209bde73b65bb9141aa27755e29ccb5dc90d",
+  "repoCreatedAt": "2026-07-07T19:36:52Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-17T11:16:37.484Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/research-and-web/youtube-transcript/SKILL.md",
+        "line": 20,
+        "excerpt": "KEY=${DEEPAPI_API_KEY:-$(rg -o 'DEEPAPI_API_KEY=\\S+' ~/.zshrc | head -1 | cut -d= -f2)}",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/research-and-web/youtube-transcript/SKILL.md",
+        "line": 27,
+        "excerpt": "IDK=$(uuidgen)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/research-and-web/youtube-transcript/SKILL.md",
+        "line": 28,
+        "excerpt": "curl -s --max-time 120 \"$BASE/v1/scrape/youtube/transcript\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/research-and-web/youtube-transcript/SKILL.md",
+        "line": 37,
+        "excerpt": "- `status: running` → wait `next.afterSecs`, then `curl \"$BASE$(jq -r '.next.path' /tmp/yt_transcript.json)\" -H \"Authorization: Bearer $KEY\"` until `succeeded` ",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/research-and-web/youtube-transcript/SKILL.md",
+        "line": 42,
+        "excerpt": "jq -r '.status' /tmp/yt_transcript.json                # succeeded | running | failed",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/research-and-web/youtube-transcript/SKILL.md",
+        "line": 62,
+        "excerpt": "OUT=\"$(pwd)\"            # or ~/Downloads if cwd makes no sense",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/research-and-web/youtube-transcript/SKILL.md",
+        "line": 77,
+        "excerpt": "python3 - \"$OUT\" <<'PY'",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 5,
+      "network": 2
+    },
+    "score": 92,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "84eb745fa0ac78b897d7359a9ae3cc9f29a9bc72",
+      "scannedAt": "2026-11-17T11:16:37.484Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

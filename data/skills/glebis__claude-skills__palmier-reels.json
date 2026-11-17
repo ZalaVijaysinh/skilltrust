@@ -4,24 +4,206 @@
   "repo": "claude-skills",
   "path": "palmier-reels",
   "name": "palmier-reels",
-  "description": "",
-  "stars": 413,
-  "category": "other",
+  "description": "This skill should be used when creating a vertical narrative reel (Instagram/Telegram, 1080×1920) from scratch in Palmier Pro through its local MCP — turning a script, quotes or lesson notes into a beat-cut timeline with editable typography, word-by-word text, generated art, card transitions, film jitter and ElevenLabs sound — in any visual style (bundled presets or a project's design tokens). Triggers on \"make a reel in Palmier\", \"reel from these quotes\", \"Godard-style text animation\", \"apply our design tokens to the reel\", \"export the reel for Telegram\".",
+  "stars": 414,
+  "category": "design",
   "commit": "4d37d3b0af1f98cb4ac820d9abbce95e38e909fb",
   "contentHash": "c2540bd13b5a6d8d35a6dec44dfd06599557759aac619e25d1ffbffb185ad375",
   "repoCreatedAt": "2025-10-25T14:58:50Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-17T11:16:37.484Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "palmier-reels/scripts/export.py",
+        "line": 22,
+        "excerpt": "print(subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'stream=codec_name,width,height,nb_frames:format=duration,size', '-of', 'compact', mp4], captur",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "palmier-reels/scripts/export.py",
+        "line": 23,
+        "excerpt": "subprocess.run(['ffmpeg', '-v', 'error', '-i', mp4, '-f', 'null', '-'], check=True); print('decode ok')",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "palmier-reels/scripts/export.py",
+        "line": 24,
+        "excerpt": "r = subprocess.run(['ffmpeg', '-hide_banner', '-nostats', '-i', mp4, '-af', 'ebur128=peak=true', '-f', 'null', '-'], capture_output=True, text=True).stderr",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "palmier-reels/scripts/export.py",
+        "line": 27,
+        "excerpt": "dur = float(json.loads(subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'json', mp4], capture_output=True, text=True).stdout",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "palmier-reels/scripts/export.py",
+        "line": 30,
+        "excerpt": "subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', mp4, *common, '-pass', '1', '-an', '-f', 'mp4', os.devnull], check=True)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "palmier-reels/scripts/export.py",
+        "line": 31,
+        "excerpt": "subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', mp4, *common, '-pass', '2', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '128k', '-movflags', '+faststart'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "palmier-reels/scripts/fonts.py",
+        "line": 1,
+        "excerpt": "\"\"\"Check a style's fonts (installed + Cyrillic) or install fonts from a folder into ~/Library/Fonts.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "palmier-reels/scripts/inspect_frames.py",
+        "line": 14,
+        "excerpt": "subprocess.run(['magick', *files, '+append', a.out], check=True); print(a.out)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "palmier-reels/scripts/mixcheck.py",
+        "line": 22,
+        "excerpt": "subprocess.run(['ffmpeg', '-v', 'error', '-y', *ins, '-filter_complex', ';'.join(flt), '-map', '[o]', '-c:a', 'pcm_s24le', out], check=True)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "palmier-reels/scripts/mixcheck.py",
+        "line": 23,
+        "excerpt": "r = subprocess.run(['ffmpeg', '-hide_banner', '-nostats', '-i', out, '-af', 'ebur128=peak=sample+true', '-f', 'null', '-'], capture_output=True, text=True).stde",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "palmier-reels/scripts/palmier.py",
+        "line": 5,
+        "excerpt": "import json, os, re, subprocess, sys, urllib.request, base64",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "palmier-reels/scripts/palmier.py",
+        "line": 21,
+        "excerpt": "req = urllib.request.Request(self.url, data=json.dumps(body).encode(), method='POST', headers={",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "palmier-reels/scripts/palmier.py",
+        "line": 24,
+        "excerpt": "with urllib.request.urlopen(req, timeout=900) as r:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "palmier-reels/scripts/sfx.py",
+        "line": 7,
+        "excerpt": "import json, os, subprocess, sys, urllib.request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "palmier-reels/scripts/sfx.py",
+        "line": 22,
+        "excerpt": "k = subprocess.run(['sops', '-d', '--extract', '[\"ELEVENLABS_API_KEY\"]', os.path.expanduser('~/.claude/skills/secrets.enc.yaml')],",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "palmier-reels/scripts/sfx.py",
+        "line": 27,
+        "excerpt": "raw = subprocess.run(['ffmpeg', '-v', 'error', '-i', wav, '-f', 'f32le', '-ac', '1', '-ar', '48000', '-'], capture_output=True).stdout",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "palmier-reels/scripts/sfx.py",
+        "line": 46,
+        "excerpt": "req = urllib.request.Request('https://api.elevenlabs.io/v1/sound-generation', method='POST',",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "palmier-reels/scripts/sfx.py",
+        "line": 46,
+        "excerpt": "req = urllib.request.Request('https://api.elevenlabs.io/v1/sound-generation', method='POST',",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.elevenlabs.io"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "palmier-reels/scripts/sfx.py",
+        "line": 49,
+        "excerpt": "open(raw, 'wb').write(urllib.request.urlopen(req, timeout=180).read())",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "palmier-reels/scripts/sfx.py",
+        "line": 50,
+        "excerpt": "mx = float([l for l in subprocess.run(['ffmpeg', '-hide_banner', '-i', raw, '-af', 'volumedetect', '-f', 'null', '-'],",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "palmier-reels/scripts/sfx.py",
+        "line": 52,
+        "excerpt": "subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', raw, '-af', f'volume={-3 - mx}dB', '-ar', '48000', '-ac', '2', wav], check=True)",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 13,
+      "writes-outside": 1,
+      "network": 6,
+      "paid-api": 1
+    },
+    "score": 70,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 5,
-    "filesSkipped": 15
+    "filesScanned": 20,
+    "filesSkipped": 0
   },
   "history": [
     {
