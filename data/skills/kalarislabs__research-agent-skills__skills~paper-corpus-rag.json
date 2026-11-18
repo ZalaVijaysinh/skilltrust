@@ -4,43 +4,107 @@
   "repo": "research-agent-skills",
   "path": "skills/paper-corpus-rag",
   "name": "paper-corpus-rag",
-  "description": "Build grounded question answering and retrieval-augmented generation (RAG) over your own collection of research papers, with answers that cite the exact paper and passage. Use when a user wants to \"chat with\" or search a folder of PDFs, synthesize evidence across a literature corpus, find which paper says X, or build a vector/hybrid index with SQLite FTS5, pgvector (Postgres), Chroma, Qdrant or FAISS. Includes a zero-dependency local full-text index with citable hits.",
-  "stars": 126,
+  "description": "Build grounded question answering over your own collection of research papers, with answers that cite the exact paper, page and passage. Use when a user wants to chat with or search a folder of PDFs, summarize what a set of papers says, synthesize evidence across a literature corpus, find which paper says X, convert PDFs to citable Markdown with a quality grade, handle scanned PDFs or damaged tables, decide whether a vector database is needed, evaluate whether a paper-QA pipeline is any good, or build a hybrid index (SQLite FTS5 BM25 plus embeddings fused by reciprocal rank). Search locates papers; the agent then reads the full converted file before synthesizing.",
+  "stars": 158,
   "category": "research",
-  "commit": "802bbea44e551abac24d6856f83fc55149bbdba3",
-  "contentHash": "04eb316a582d9d4abe24f192801a7e877d8c353768cb970d2e6b6fa8a3b9f4d2",
+  "commit": "a74b0dbe5fa865d73b9f250ba5b0c9f107bd1baa",
+  "contentHash": "24144de404b6c51cd98508cf528cc091e99b88c3ba91c8f144ee3353e56dd1a1",
   "repoCreatedAt": "2026-07-07T11:55:58Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "scannedAt": "2026-11-18T10:48:40.347Z",
   "scan": {
     "findings": [
       {
-        "ruleId": "downloads-code",
+        "ruleId": "shell",
         "file": "skills/paper-corpus-rag/SKILL.md",
-        "line": 28,
-        "excerpt": "`markitdown` or `liteparse` skill, or `pip install pypdf` for the built-in fallback.",
+        "line": 32,
+        "excerpt": "python scripts/paper_convert.py papers/ -o papers_md/                    # every PDF and .txt in a folder",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/paper-corpus-rag/SKILL.md",
-        "line": 32,
-        "excerpt": "python scripts/paper_index.py index papers_md/ --db corpus.sqlite      # incremental: re-run after adding papers",
+        "line": 56,
+        "excerpt": "python scripts/paper_index.py index papers_md/ --db corpus.sqlite        # incremental; --rebuild after an upgrade",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/paper-corpus-rag/SKILL.md",
+        "line": 68,
+        "excerpt": "python scripts/paper_index.py query \"effect of batch size on calibration\" --db corpus.sqlite -k 8",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/paper-corpus-rag/SKILL.md",
+        "line": 79,
+        "excerpt": "pip install numpy sentence-transformers",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/paper-corpus-rag/SKILL.md",
+        "line": 79,
+        "excerpt": "pip install numpy sentence-transformers",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/paper-corpus-rag/SKILL.md",
+        "line": 95,
+        "excerpt": "python scripts/paper_index.py read paper.md --db corpus.sqlite               # the whole converted paper",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/paper-corpus-rag/SKILL.md",
+        "line": 121,
+        "excerpt": "python scripts/paper_index.py eval questions.jsonl --db corpus.sqlite -k 8 --mode bm25 --min-recall 0.8",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/paper-corpus-rag/scripts/paper_convert.py",
+        "line": 122,
+        "excerpt": "raise RuntimeError(\"pymupdf4llm is not installed: pip install pymupdf4llm\") from None",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/paper-corpus-rag/scripts/paper_convert.py",
+        "line": 127,
+        "excerpt": "raise RuntimeError(\"no PDF engine installed: pip install pymupdf4llm (or pypdf), or run `pdftotext` and \"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/paper-corpus-rag/scripts/paper_index.py",
+        "line": 282,
+        "excerpt": "raise RuntimeError(\"embeddings need `pip install numpy sentence-transformers`\") from exc",
         "disclosed": false,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "downloads-code": 1,
-      "shell": 1
+      "shell": 6,
+      "downloads-code": 4
     },
     "score": 80,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 5,
+    "filesScanned": 6,
     "filesSkipped": 0
   },
   "history": [
@@ -53,6 +117,12 @@
     {
       "commit": "802bbea44e551abac24d6856f83fc55149bbdba3",
       "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 80,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "a74b0dbe5fa865d73b9f250ba5b0c9f107bd1baa",
+      "scannedAt": "2026-11-18T10:48:40.347Z",
       "score": 80,
       "rulesVersion": "1.3.0"
     }

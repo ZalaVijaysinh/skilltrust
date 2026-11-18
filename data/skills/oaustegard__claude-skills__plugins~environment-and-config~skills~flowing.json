@@ -4,24 +4,45 @@
   "repo": "claude-skills",
   "path": "plugins/environment-and-config/skills/flowing",
   "name": "flowing",
-  "description": "Runs a multi-step procedure as a Python DAG, so ordering, branching and retries are enforced by the runner rather than described in prose a model can generate past. Use for \"run these steps in order and retry the flaky one until the check passes\", \"build a pipeline that fetches, validates, then skips the upload when nothing changed\", \"make sure these steps cannot be skipped\", \"resume from where it broke instead of redoing the expensive early stages\", \"run these independent calls at once and merge the results\", or any procedure of 3+ steps with branches, input contracts, or side effects that must not block the critical path. Primitives are depends_on, when=, validate=, retry_until=, detached= and journal_path=. Not for a single sequential call, for steps needing reasoning between them that no predicate captures, or for async and distributed work. To audit whether one verification check can actually go red, use gating. To fan work out across many subagents, use a dynamic workflow.",
-  "stars": 382,
+  "description": "Runs a multi-step procedure as a Python DAG, so ordering, branching, retries and rollback are enforced by the runner rather than described in prose a model can generate past, and the whole procedure costs one tool call instead of a model turn per step. Use for \"edit these files, run the tests, and restore everything if they fail\", \"retry the flaky step until the check passes\", \"fetch, validate, then skip the upload when nothing changed\", \"make sure these steps cannot be skipped\", \"resume from where it broke instead of redoing the expensive stages\", \"run these independent calls at once and merge the results\", or any procedure of 3+ steps with branches, input contracts, or side effects. Primitives are depends_on, when=, validate=, retry_until=, undo=, detached= and journal_path=. Not for a single call, for steps needing reasoning between them that no predicate captures, or for async and distributed work. To audit whether one check can go red, use gating. To fan work out across subagents, use a dynamic workflow.",
+  "stars": 406,
   "category": "coding",
-  "commit": "e88a16dc565f83121d2ee0794d63846b18be6052",
-  "contentHash": "afb9d65f588030f01c766cdd2a0eda17f18b236101fc944d64488d0e6c2001ea",
+  "commit": "cf29075086f8f00dbcf90aabc592cdc82424c179",
+  "contentHash": "2e3ce04da4f6f408cc4f85895a17f5c974ecc566fd837801c97a0b51f672abe8",
   "repoCreatedAt": "2025-10-17T02:32:23Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-18T10:48:40.347Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "plugins/environment-and-config/skills/flowing/SKILL.md",
+        "line": 110,
+        "excerpt": "r = subprocess.run([\"pytest\", \"-q\"], capture_output=True, text=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/environment-and-config/skills/flowing/tests/test_flowing.py",
+        "line": 796,
+        "excerpt": "def fetch():",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 1,
+      "network": 1
+    },
+    "score": 94,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 5,
-    "filesSkipped": 2
+    "filesScanned": 7,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -40,6 +61,12 @@
       "commit": "e88a16dc565f83121d2ee0794d63846b18be6052",
       "scannedAt": "2026-11-13T10:10:34.466Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "cf29075086f8f00dbcf90aabc592cdc82424c179",
+      "scannedAt": "2026-11-18T10:48:40.347Z",
+      "score": 94,
       "rulesVersion": "1.3.0"
     }
   ]

@@ -3,25 +3,84 @@
   "owner": "MarceloClaro",
   "repo": "OpenCode_Ecosystem",
   "path": ".evolve/ecosystem_backup/skills/science/pubmed_database",
-  "name": "pubmed_database",
-  "description": "",
+  "name": "pubmed-database",
+  "description": "Search PubMed for scientific literature, including published clinical trials. Fetch abstracts and full text. Link published research to biological databases (gene, protein, nucleotide, PubChem) to discover associations between papers and specific compounds or genes. Verify medical spelling, match raw citations, and cache result sets for bulk processing. Interfaces NCBI E-utilities and PMC BioC APIs.",
   "stars": 12,
-  "category": "data",
+  "category": "research",
   "commit": "5f83911ebb203d7070e973cff3de065170ea9cea",
   "contentHash": "34f766c14a237e737ef466dfa97a164990f2380492dc3c7ea82611b16a980867",
   "repoCreatedAt": "2026-05-16T22:08:41Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-18T10:48:40.347Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".evolve/ecosystem_backup/skills/science/pubmed_database/SKILL.md",
+        "line": 43,
+        "excerpt": "printf \"Enter NCBI API key (typing hidden): \" && read -s key && echo && echo \"NCBI_API_KEY=$key\" >> \"ENV_FILE\" && echo \"Saved.\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".evolve/ecosystem_backup/skills/science/pubmed_database/SKILL.md",
+        "line": 47,
+        "excerpt": "printf \"Enter contact email: \" && read email && echo \"USER_EMAIL=$email\" >> \"ENV_FILE\" && echo \"Saved.\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".evolve/ecosystem_backup/skills/science/pubmed_database/SKILL.md",
+        "line": 94,
+        "excerpt": "uv run scripts/pubmed_api.py <output_file> <function_name> <required_args> [--flag value ...]",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".evolve/ecosystem_backup/skills/science/pubmed_database/SKILL.md",
+        "line": 108,
+        "excerpt": "uv run scripts/pubmed_api.py ./search_results.json search_pubmed \"BRCA1\" --max_results 5",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".evolve/ecosystem_backup/skills/science/pubmed_database/SKILL.md",
+        "line": 119,
+        "excerpt": "cat ./search_results.json | jq -r 'join(\",\")'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".evolve/ecosystem_backup/skills/science/pubmed_database/SKILL.md",
+        "line": 125,
+        "excerpt": "cat ./abstracts.json | jq '[.[] | {pmid, title, snippet: (.abstract // \"\")[:500]}]'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".evolve/ecosystem_backup/skills/science/pubmed_database/SKILL.md",
+        "line": 131,
+        "excerpt": "cat ./abstracts.json | jq '[.[] | select((.title // \"\") | contains(\"Review\"))]'",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 7
+    },
+    "score": 97,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 1
+    "filesScanned": 1,
+    "filesSkipped": 0
   },
   "history": [
     {

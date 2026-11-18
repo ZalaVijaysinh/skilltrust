@@ -4,18 +4,53 @@
   "repo": "agent-skills",
   "path": "notion",
   "name": "notion",
-  "description": "",
-  "stars": 176,
-  "category": "other",
-  "commit": "6e472b033750c23e3139fd83744e089a6ee66ad1",
-  "contentHash": "5434953e295e9a56a1c25ba600324d9f45717c88f6dfbaf593eba73155e87ac3",
+  "description": "Operate Notion from a terminal or agent: retrieve pages, query databases, search pages and databases, and update page properties — with a bundled notion-cli script that is read-only by default and gates every create or update behind a --dry-run/--yes confirmation. Use when an agent needs to read Notion content, answer questions from a team wiki or database, or make a confirmed edit. Do not use for building Notion integrations or block-level page composition beyond property updates (that is Notion API application development), or for other knowledge bases (that is their own tooling).",
+  "stars": 181,
+  "category": "coding",
+  "commit": "3d56c09c5218b066a735925fbfce8d97851bb992",
+  "contentHash": "bc37282c64c4a930ceb7692aacf5d746fe4458bb560797328d2910d240708d61",
   "repoCreatedAt": "2026-07-11T21:36:47Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-18T10:48:40.347Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "shell",
+        "file": "notion/SKILL.md",
+        "line": 42,
+        "excerpt": "notion/scripts/notion-cli --help                           # no token or network needed",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "notion/scripts/notion-cli",
+        "line": 30,
+        "excerpt": "import urllib.request",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "notion/scripts/notion-cli",
+        "line": 63,
+        "excerpt": "request = urllib.request.Request(",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "notion/scripts/notion-cli",
+        "line": 70,
+        "excerpt": "with urllib.request.urlopen(request, timeout=REQUEST_TIMEOUT) as response:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
       {
         "ruleId": "shell",
         "file": "notion/tests/test_notion_cli.py",
@@ -23,16 +58,50 @@
         "excerpt": "return subprocess.run(",
         "disclosed": true,
         "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "notion/tests/test_notion_cli.py",
+        "line": 180,
+        "excerpt": "env = dict(os.environ)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "notion/tests/test_notion_cli.py",
+        "line": 192,
+        "excerpt": "proc = run_script(dict(os.environ), \"--help\")",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "notion/tests/test_notion_cli.py",
+        "line": 198,
+        "excerpt": "env = dict(os.environ)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "notion/tests/test_notion_cli.py",
+        "line": 399,
+        "excerpt": "env = dict(os.environ)",
+        "disclosed": true,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 1
+      "shell": 2,
+      "network": 3,
+      "reads-secrets": 4
     },
-    "score": 97,
+    "score": 84,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 4,
-    "filesSkipped": 4
+    "filesScanned": 8,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -51,6 +120,12 @@
       "commit": "6e472b033750c23e3139fd83744e089a6ee66ad1",
       "scannedAt": "2026-11-13T10:10:34.466Z",
       "score": 97,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "3d56c09c5218b066a735925fbfce8d97851bb992",
+      "scannedAt": "2026-11-18T10:48:40.347Z",
+      "score": 84,
       "rulesVersion": "1.3.0"
     }
   ]

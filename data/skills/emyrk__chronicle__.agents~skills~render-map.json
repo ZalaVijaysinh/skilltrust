@@ -1,0 +1,90 @@
+{
+  "id": "emyrk__chronicle__.agents~skills~render-map",
+  "owner": "Emyrk",
+  "repo": "chronicle",
+  "path": ".agents/skills/render-map",
+  "name": "render-map",
+  "description": "Produce deterministic, versioned top-down TEXTURED renders of a WoW dungeon map (albedo, water mask, shaded) and, with --glb, a usable cutaway 3D model (GLB with elevations + 16-bit height map) straight from the Blizzard CDN (or a 1.12 MPQ client) — for chronicle's Replay Map 3D/2D layers, overlays, 3D viewers, or any \"give me the real floor of <dungeon> with colours\" ask — and publish them through the Map Foundry when the operator says go. Use for \"render <dungeon> map\", \"textured top-down of <instance>\", \"re-render at 4x\", \"3D model / GLB of <dungeon>\", \"add <dungeon> to the replay map\", \"publish <dungeon> mesh\".",
+  "stars": 14,
+  "category": "other",
+  "commit": "47aec8a0c5c1663f57c88fbbaf7cba2563ee8d9d",
+  "contentHash": "e0851878fdf5111108f111c14abbd2fec2d8bfe7a581e78de023984133a07eb7",
+  "repoCreatedAt": "2025-11-11T00:36:32Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-18T10:48:40.347Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/render-map/SKILL.md",
+        "line": 35,
+        "excerpt": "(`curl -s http://us.patch.battle.net:1119/wow_classic_beta/versions`), then",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "us.patch.battle.net"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/render-map/SKILL.md",
+        "line": 36,
+        "excerpt": "`curl -sL 'https://wago.tools/db2/Map/csv?build=<x.y.z.build>' | grep -i '<name>'`",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "wago.tools"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/render-map/SKILL.md",
+        "line": 159,
+        "excerpt": ".venv/bin/python -I tools/foundry_bundle.py $W/maps/<slug>/<slug>-foundry-stage.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/render-map/SKILL.md",
+        "line": 188,
+        "excerpt": "`cloudflared access curl https://$HOST/internal/api/v1/maps/$NS... <curl args>`. Do NOT send an",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$host"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/render-map/SKILL.md",
+        "line": 194,
+        "excerpt": "`curl -s \"https://icons.chronicleclassic.com/$NS/maps/manifest.json?b=$(date +%s)\" > $PUB/$NS-manifest.before-<date>-<slug>.json`.",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "icons.chronicleclassic.com"
+        ]
+      }
+    ],
+    "findingTotals": {
+      "network": 4,
+      "shell": 1
+    },
+    "score": 92,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "47aec8a0c5c1663f57c88fbbaf7cba2563ee8d9d",
+      "scannedAt": "2026-11-18T10:48:40.347Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

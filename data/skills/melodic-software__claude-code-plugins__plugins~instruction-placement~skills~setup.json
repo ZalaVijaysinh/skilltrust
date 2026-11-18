@@ -4,22 +4,22 @@
   "repo": "claude-code-plugins",
   "path": "plugins/instruction-placement/skills/setup",
   "name": "setup",
-  "description": "Verify instruction-placement's prerequisites, resolve its effective configuration for this repository, and register its rules-index git pre-commit entry. Confirm that the index target exists AND that nothing in the repository stops Claude Code loading it (a root CLAUDE.md is read instead of the AGENTS.md beside it, so an unimported AGENTS.md index is inert while every other gate reports green), that `git` backs tracked-file discovery, and that the Claude Code CLI plus `jq` are present for the optional empirical load probe. Reports the resolved index target, breadth ceiling, and index row cap, naming which came from configuration and which from a default. Use when: 'set up instruction-placement', 'configure instruction-placement', 'where will the index go', 'why is my index not loading', 'is instruction-placement working', or before a first audit on a new repository. Actions: check (read-only, default) | apply (point at each remediation) | apply install-git-hooks [scope=local|shared]. Re-runnable.",
-  "stars": 30,
+  "description": "Verify instruction-placement's prerequisites, resolve its effective configuration for this repository, and register its rules-index git pre-commit entry. Confirm that the index target exists AND that nothing in the repository stops Claude Code loading it (a root CLAUDE.md is read instead of the AGENTS.md beside it, so an unimported AGENTS.md index is inert while every other gate reports green), that `git` backs tracked-file discovery, and that the Claude Code CLI plus `jq` are present for the optional empirical load probe. Reports the resolved index target, breadth ceiling, and index row cap, naming which came from configuration and which from a default. Use when: 'set up instruction-placement', 'configure instruction-placement', 'where will the index go', 'why is my index not loading', 'is instruction-placement working', or before a first audit on a new repository. Actions: check (read-only, default) | check inspect (read-only) | apply | apply install-git-hooks [scope=local|shared]. Re-runnable.",
+  "stars": 32,
   "category": "coding",
-  "commit": "230251cc750b562576c144d595b7cc0fabfceae9",
-  "contentHash": "e64d26fb988638d69bea4487f1532c1059f7e4ec4f0deb1873f9aeeff6c1a2b7",
+  "commit": "832899e8af7e4004eb7dae449fb1872f1872a0d8",
+  "contentHash": "a6087c1940962baed682191582eae27695cef91ea22780ef4908842e2ef17910",
   "repoCreatedAt": "2026-06-22T18:28:56Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "scannedAt": "2026-11-18T10:48:40.347Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "plugins/instruction-placement/skills/setup/SKILL.md",
-        "line": 53,
+        "line": 56,
         "excerpt": "\"${CLAUDE_PLUGIN_ROOT}/scripts/render-index.sh\" reachable --file <resolved target>",
         "disclosed": true,
         "automatic": false
@@ -27,7 +27,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/instruction-placement/lib/git-hooks/install.mjs",
-        "line": 44,
+        "line": 46,
         "excerpt": "import { spawnSync } from \"node:child_process\";",
         "disclosed": true,
         "automatic": false
@@ -35,14 +35,38 @@
       {
         "ruleId": "shell",
         "file": "plugins/instruction-placement/lib/git-hooks/install.mjs",
-        "line": 194,
+        "line": 198,
         "excerpt": "const r = spawnSync(\"git\", args, { cwd, encoding: \"utf8\", stdio: [\"ignore\", \"pipe\", \"pipe\"] });",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/instruction-placement/lib/git-hooks/install.mjs",
+        "line": 676,
+        "excerpt": "const r = spawnSync(\"sh\", [path.join(plugin.root, \"git-hooks\", entry.script), \"--resolve\"], {",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/instruction-placement/lib/git-hooks/install.mjs",
+        "line": 1692,
+        "excerpt": "const r = spawnSync(\"sh\", [found.file, ...input.args], {",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/instruction-placement/lib/git-hooks/install.mjs",
+        "line": 1754,
+        "excerpt": "const r = spawnSync(\"lefthook\", [\"dump\", \"--format\", \"json\"], {",
         "disclosed": true,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 3
+      "shell": 6
     },
     "score": 97,
     "band": "low",
@@ -66,6 +90,12 @@
     {
       "commit": "230251cc750b562576c144d595b7cc0fabfceae9",
       "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 97,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "832899e8af7e4004eb7dae449fb1872f1872a0d8",
+      "scannedAt": "2026-11-18T10:48:40.347Z",
       "score": 97,
       "rulesVersion": "1.3.0"
     }

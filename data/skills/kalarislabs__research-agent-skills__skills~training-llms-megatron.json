@@ -4,24 +4,156 @@
   "repo": "research-agent-skills",
   "path": "skills/training-llms-megatron",
   "name": "training-llms-megatron",
-  "description": "",
-  "stars": 126,
+  "description": "Trains large language models (2B-462B parameters) with NVIDIA Megatron-Core using tensor, pipeline, sequence, context, and expert parallelism, plus FP8 on H100 and MoE configuration for Mixtral-style models. Covers choosing TP/PP/DP/CP sizes, launching distributed training, tuning micro-batch size, and fixing low MFU, out-of-memory errors, and diverging loss. Use when training models above 10B parameters on NVIDIA A100/H100 GPUs, when setting up 3D parallelism for a LLaMA-style model, when configuring expert parallelism for MoE training, or when trying to raise MFU toward 40-47%. Use PyTorch FSDP, DeepSpeed, or HuggingFace Accelerate instead for models under 70B or simpler setups.",
+  "stars": 158,
   "category": "research",
-  "commit": "802bbea44e551abac24d6856f83fc55149bbdba3",
-  "contentHash": "58ffd4863d33cf3a4de893b8d586cded603d8286ce58c749cca7531171d5fb5c",
+  "commit": "a74b0dbe5fa865d73b9f250ba5b0c9f107bd1baa",
+  "contentHash": "2e6099b1c240dc3bd1100e4e593492f024a96e82a96b04dd025f8145572f80c7",
   "repoCreatedAt": "2026-07-07T11:55:58Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-18T10:48:40.347Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/training-llms-megatron/SKILL.md",
+        "line": 22,
+        "excerpt": "docker run --gpus all -it --rm nvcr.io/nvidia/pytorch:25.04-py3",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/training-llms-megatron/SKILL.md",
+        "line": 25,
+        "excerpt": "pip install megatron-core",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/training-llms-megatron/SKILL.md",
+        "line": 31,
+        "excerpt": "torchrun --nproc_per_node=2 examples/run_simple_mcore_train_loop.py",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/training-llms-megatron/SKILL.md",
+        "line": 68,
+        "excerpt": "GPUS_PER_NODE=8",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/training-llms-megatron/SKILL.md",
+        "line": 119,
+        "excerpt": "bash train_llama_70b.sh",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/training-llms-megatron/SKILL.md",
+        "line": 150,
+        "excerpt": "TENSOR_PARALLEL=2",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/training-llms-megatron/SKILL.md",
+        "line": 162,
+        "excerpt": "torchrun \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/training-llms-megatron/SKILL.md",
+        "line": 210,
+        "excerpt": "--use-mcore-models  # Use Megatron Core models",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/training-llms-megatron/SKILL.md",
+        "line": 218,
+        "excerpt": "--fp8-hybrid  # FP8 mixed precision training",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/training-llms-megatron/SKILL.md",
+        "line": 230,
+        "excerpt": "for MBS in 1 2 4 8; do",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/training-llms-megatron/SKILL.md",
+        "line": 287,
+        "excerpt": "--micro-batch-size 4  # Was 1",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/training-llms-megatron/SKILL.md",
+        "line": 301,
+        "excerpt": "--tensor-model-parallel-size 2  # Split model across GPUs",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/training-llms-megatron/SKILL.md",
+        "line": 309,
+        "excerpt": "--cpu-optimizer  # Offload optimizer to CPU",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/training-llms-megatron/SKILL.md",
+        "line": 319,
+        "excerpt": "--num-layers-per-virtual-pipeline-stage 2",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/training-llms-megatron/SKILL.md",
+        "line": 323,
+        "excerpt": "--dataloader-type cyclic",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/training-llms-megatron/SKILL.md",
+        "line": 330,
+        "excerpt": "--lr-warmup-iters 2000  # Longer warmup",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 15,
+      "downloads-code": 1
+    },
+    "score": 80,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 4,
-    "filesSkipped": 4
+    "filesScanned": 8,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -34,6 +166,12 @@
       "commit": "802bbea44e551abac24d6856f83fc55149bbdba3",
       "scannedAt": "2026-11-13T10:10:34.466Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "a74b0dbe5fa865d73b9f250ba5b0c9f107bd1baa",
+      "scannedAt": "2026-11-18T10:48:40.347Z",
+      "score": 80,
       "rulesVersion": "1.3.0"
     }
   ]

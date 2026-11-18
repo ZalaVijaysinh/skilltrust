@@ -4,16 +4,16 @@
   "repo": "ai-maxxing-skills",
   "path": "skills/initialize",
   "name": "initialize",
-  "description": "Install the base skills every agent should have, globally and in one command - /initialize itself (so it can be rerun), skill-manager, /show-me, /grill-me, /wait-what, /connect-tool, /use-style and /better, all from this kit - plus the settings that stop Claude Code and Codex from asking before each action, the cc / cx shortcuts, the usage band above the prompt in the Claude desktop app and the terminal status bar (context, cost, 5-hour and weekly limits), then asks the user which visual style they like and makes it the default for every file the agent creates. Use when the user types /initialize, sets up a new computer, says \"installe les skills de base\" or before setup-brain.",
-  "stars": 42,
+  "description": "Install the base skills every agent should have, globally and in one command - /initialize itself (so it can be rerun), skill-manager, /show-me, /grill-me, /wait-what, /connect-tool, /use-style and /better (these two from the public AI Design PRO repo, the rest from this kit) - plus the settings that stop Claude Code and Codex from asking before each action, the cc / cx shortcuts, the usage band above the prompt in the Claude desktop app and the terminal status bar (context, cost, 5-hour and weekly limits), then asks the user which visual style they like and makes it the default for every file the agent creates. Use when the user types /initialize, sets up a new computer, says \"installe les skills de base\" or before setup-brain.",
+  "stars": 49,
   "category": "coding",
-  "commit": "86f06848774ae5804176c25ff7fb01195252ae4e",
-  "contentHash": "495d1c281025709f19b79c25a087056ce4b5a70bb51a695af21f8602903031de",
+  "commit": "488a9ffe65836a476eac28465b7924a18de9e641",
+  "contentHash": "6dcfba88e914e4c6c899be54b537e427c4d0b933d2c9c8dad2dcdb64471232dc",
   "repoCreatedAt": "2026-10-17T10:31:46Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-18T10:48:40.347Z",
   "scan": {
     "findings": [
       {
@@ -47,14 +47,14 @@
         "ruleId": "downloads-code",
         "file": "skills/initialize/SKILL.md",
         "line": 28,
-        "excerpt": "On Windows without bash, run the `npx skills add` line of [scripts/initialize.sh](scripts/initialize.sh) in PowerShell, add the same keys to `~/.claude/settings",
+        "excerpt": "On Windows without bash, run the two `npx skills add` lines of [scripts/initialize.sh](scripts/initialize.sh) in PowerShell, add the same keys to `~/.claude/set",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
         "file": "skills/initialize/scripts/initialize.sh",
-        "line": 14,
+        "line": 17,
         "excerpt": "echo \"npx not found: install Node.js first (setup-node skill), then run this again.\" >&2",
         "disclosed": false,
         "automatic": false
@@ -62,15 +62,23 @@
       {
         "ruleId": "downloads-code",
         "file": "skills/initialize/scripts/initialize.sh",
-        "line": 33,
+        "line": 36,
         "excerpt": "step \"skills\" npx -y skills add Melvynx/ai-maxxing-skills -g -a claude-code -a codex \"${args[@]}\" -y",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/initialize/scripts/initialize.sh",
+        "line": 39,
+        "excerpt": "step \"design skills\" npx -y skills add Melvynx/ai-design-pro -g -a claude-code -a codex \"${args[@]}\" -y",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "writes-outside",
         "file": "skills/initialize/scripts/initialize.sh",
-        "line": 38,
+        "line": 44,
         "excerpt": "mkdir -p \"$HOME/.claude\"",
         "disclosed": false,
         "automatic": false
@@ -78,7 +86,7 @@
       {
         "ruleId": "downloads-code",
         "file": "skills/initialize/scripts/initialize.sh",
-        "line": 46,
+        "line": 52,
         "excerpt": "for (const r of [\"Bash(rm -rf *)\", \"Bash(sudo *)\", \"Bash(curl * | bash)\", \"Bash(wget * | bash)\", \"Read(./.env)\", \"Read(./.env.*)\"])",
         "disclosed": false,
         "automatic": false
@@ -86,7 +94,7 @@
       {
         "ruleId": "writes-outside",
         "file": "skills/initialize/scripts/initialize.sh",
-        "line": 56,
+        "line": 62,
         "excerpt": "mkdir -p \"$HOME/.codex\" && touch \"$f\"",
         "disclosed": false,
         "automatic": false
@@ -94,7 +102,7 @@
       {
         "ruleId": "network",
         "file": "skills/initialize/scripts/initialize.sh",
-        "line": 94,
+        "line": 100,
         "excerpt": "curl -fsSL https://codeload.github.com/Melvynx/ai-maxxing-skills/tar.gz/main \\",
         "disclosed": false,
         "automatic": false,
@@ -105,7 +113,7 @@
       {
         "ruleId": "downloads-code",
         "file": "skills/initialize/scripts/initialize.sh",
-        "line": 105,
+        "line": 111,
         "excerpt": "curl -fsSL https://bun.sh/install | bash >/dev/null 2>&1 || npm install -g bun >/dev/null 2>&1 || return 1",
         "disclosed": false,
         "automatic": false
@@ -113,26 +121,54 @@
       {
         "ruleId": "network",
         "file": "skills/initialize/scripts/initialize.sh",
-        "line": 105,
+        "line": 111,
         "excerpt": "curl -fsSL https://bun.sh/install | bash >/dev/null 2>&1 || npm install -g bun >/dev/null 2>&1 || return 1",
         "disclosed": false,
         "automatic": false,
         "hosts": [
           "bun.sh"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/initialize/statusline/src/lib/features/limits/index.ts",
+        "line": 1,
+        "excerpt": "import { execFile } from \"node:child_process\";",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/initialize/statusline/src/lib/features/limits/index.ts",
+        "line": 75,
+        "excerpt": "const response = await fetch(\"https://api.anthropic.com/api/oauth/usage\", {",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/initialize/statusline/src/lib/features/limits/index.ts",
+        "line": 75,
+        "excerpt": "const response = await fetch(\"https://api.anthropic.com/api/oauth/usage\", {",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.anthropic.com"
+        ]
       }
     ],
     "findingTotals": {
-      "downloads-code": 6,
-      "network": 3,
-      "shell": 1,
-      "writes-outside": 2
+      "downloads-code": 7,
+      "network": 4,
+      "shell": 2,
+      "writes-outside": 2,
+      "paid-api": 1
     },
-    "score": 67,
+    "score": 57,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 11,
-    "filesSkipped": 14
+    "filesScanned": 25,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -151,6 +187,12 @@
       "commit": "86f06848774ae5804176c25ff7fb01195252ae4e",
       "scannedAt": "2026-11-13T10:10:34.466Z",
       "score": 67,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "488a9ffe65836a476eac28465b7924a18de9e641",
+      "scannedAt": "2026-11-18T10:48:40.347Z",
+      "score": 57,
       "rulesVersion": "1.3.0"
     }
   ]

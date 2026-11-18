@@ -3,19 +3,174 @@
   "owner": "jiayaoqijia",
   "repo": "cryptoskill",
   "path": "skills/exchanges/senpi-ai-senpi-improve-trades",
-  "name": "senpi-ai-senpi-improve-trades",
-  "description": "",
+  "name": "senpi-improve-trades",
+  "description": "Retrospective trade review + improvement coaching for the user's Senpi trading. Answers \"did I sell too early or late\", \"what did I miss this week\", \"master my week\", \"compare my trades to the market / to the best whales\", \"how could I make more gains\", \"suggest improvements\", \"review my trades\", \"am I getting shaken out too early / how are my exits firing\", \"what did my own limits block / what couldn't I take\", \"where am I leaking\" (on Senpi strategies — \"where am I leaking\" or \"what did I miss\" about a SAVED wallet the user trades by hand — \"my MetaMask\", \"my own Hyperliquid wallet\", \"my saved wallet\" — go to quant-desk), \"walk me through / explain my [asset] trade\", \"what am I paying in fees / maker vs taker\", \"why is [strategy] losing\". Saved wallets are reviewed here too, read-only, as manual trades — \"review my trades\" and \"master my week\" on a saved wallet stay in this skill. When the user has NOTHING to review yet, `meta.book_state` routes it: nothing deployed -> read the market (senpi-market-pulse) then build one (senpi-strategy-author); deployed-but-idle -> diagnose THAT strategy, never pitch another. A hidden engine (scripts/review.py) reconstructs every CLOSED trade from discovery, enriches each exit reason + blocked signals from the runtime telemetry event log, computes the honest \"if I'd held to now\" counterfactual, and crosses the book against what the market did — you narrate it under strict guardrails: process over outcome (lead with the aggregate, not the one reversal), it's the STRATEGY not the user (on Senpi strategy trades), NO fabricated \"+$X/week\", no performance-chasing, honest sourcing (onchain facts = discovery, exit reason / blocked / leaks = telemetry), and the user chooses how deep the fix goes. Composes senpi-market-pulse (movers), senpi-smart-money (whales), and senpi-portfolio (live state). Requires a USER-scoped Senpi token.",
   "stars": 81,
   "category": "other",
-  "commit": "0dc9f60ab1f3fcae24da49c4cef09c46c589f903",
-  "contentHash": "42c2018e6d50428ee508ef4e68fb6c1cc7f643d729705f85c5890675fefe6fe6",
+  "commit": "100f6db5bc51b89029ed74229448a89f49ae7176",
+  "contentHash": "f180d2dd8de05d13685be1eb1dd36a4b65963d36ed6bef8657121084da54079e",
   "repoCreatedAt": "2026-03-19T14:52:16Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-18T10:48:40.347Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/exchanges/senpi-ai-senpi-improve-trades/SKILL.md",
+        "line": 290,
+        "excerpt": "openclaw senpi explain <ASSET> --runtime <id> --json      # e.g. openclaw senpi explain BTC --runtime kodiak-main --json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/exchanges/senpi-ai-senpi-improve-trades/SKILL.md",
+        "line": 343,
+        "excerpt": "python3 scripts/review.py timing       # 1. fetch closed trades + prices → trades[] + timing_summary (FAST slice, narrate first)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/exchanges/senpi-ai-senpi-improve-trades/SKILL.md",
+        "line": 387,
+        "excerpt": "python3 scripts/review.py                 # `all` (default): last ~7d composed review — the one-shot fallback",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/exchanges/senpi-ai-senpi-improve-trades/TRUST.auto.yaml",
+        "line": 29,
+        "excerpt": "- 'pattern: subprocess.Popen'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/exchanges/senpi-ai-senpi-improve-trades/TRUST.auto.yaml",
+        "line": 47,
+        "excerpt": "- 'pattern: http.client.'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/exchanges/senpi-ai-senpi-improve-trades/TRUST.auto.yaml",
+        "line": 77,
+        "excerpt": "- 'scan: no curl|sh / wget|sh pattern matched'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/exchanges/senpi-ai-senpi-improve-trades/scripts/mcp_client.py",
+        "line": 14,
+        "excerpt": "import http.client",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/exchanges/senpi-ai-senpi-improve-trades/scripts/mcp_client.py",
+        "line": 44,
+        "excerpt": "cls = http.client.HTTPSConnection if scheme == \"https\" else http.client.HTTPConnection",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/exchanges/senpi-ai-senpi-improve-trades/scripts/review.py",
+        "line": 837,
+        "excerpt": "except subprocess.TimeoutExpired:",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/exchanges/senpi-ai-senpi-improve-trades/scripts/review.py",
+        "line": 845,
+        "excerpt": "except subprocess.TimeoutExpired:",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/exchanges/senpi-ai-senpi-improve-trades/scripts/review.py",
+        "line": 850,
+        "excerpt": "\"\"\"`subprocess.run` for an `openclaw` call, with what a timeout needs on OpenClaw 10.x: the child",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/exchanges/senpi-ai-senpi-improve-trades/scripts/review.py",
+        "line": 854,
+        "excerpt": "senpi-strategy-ops `_cli._spawn`. Raises what `subprocess.run` raises (OSError, TimeoutExpired).\"\"\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/exchanges/senpi-ai-senpi-improve-trades/scripts/review.py",
+        "line": 856,
+        "excerpt": "p = subprocess.Popen(cmd, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/exchanges/senpi-ai-senpi-improve-trades/scripts/review.py",
+        "line": 860,
+        "excerpt": "except subprocess.TimeoutExpired:",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/exchanges/senpi-ai-senpi-improve-trades/scripts/review.py",
+        "line": 864,
+        "excerpt": "except (subprocess.TimeoutExpired, ValueError, OSError):",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/exchanges/senpi-ai-senpi-improve-trades/scripts/review.py",
+        "line": 866,
+        "excerpt": "raise subprocess.TimeoutExpired(cmd, timeout)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/exchanges/senpi-ai-senpi-improve-trades/scripts/review.py",
+        "line": 867,
+        "excerpt": "return subprocess.CompletedProcess(cmd, p.returncode, out or \"\", err or \"\")",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/exchanges/senpi-ai-senpi-improve-trades/scripts/review.py",
+        "line": 904,
+        "excerpt": "except subprocess.TimeoutExpired:        # this fetch was slow (double CLI boot + read under host load).",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/exchanges/senpi-ai-senpi-improve-trades/scripts/review.py",
+        "line": 1156,
+        "excerpt": "p = subprocess.run(",
+        "disclosed": false,
+        "automatic": false
+      },
       {
         "ruleId": "shell",
         "file": "skills/exchanges/senpi-ai-senpi-improve-trades/tests/test_book_state.py",
@@ -39,16 +194,34 @@
         "excerpt": "return subprocess.CompletedProcess(argv, rc, stdout=out, stderr=\"\")",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/exchanges/senpi-ai-senpi-improve-trades/tests/test_review.py",
+        "line": 1008,
+        "excerpt": "script = (f\"import subprocess,time;p=subprocess.Popen(['sleep','60']);\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/exchanges/senpi-ai-senpi-improve-trades/tests/test_review.py",
+        "line": 1035,
+        "excerpt": "\"m=subprocess.Popen([sys.executable,'-c',\"",
+        "disclosed": false,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 3
+      "shell": 20,
+      "network": 3,
+      "downloads-code": 1
     },
-    "score": 95,
-    "band": "low",
+    "score": 75,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 5,
-    "filesSkipped": 21
+    "filesScanned": 26,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -67,6 +240,12 @@
       "commit": "0dc9f60ab1f3fcae24da49c4cef09c46c589f903",
       "scannedAt": "2026-11-13T10:10:34.466Z",
       "score": 95,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "100f6db5bc51b89029ed74229448a89f49ae7176",
+      "scannedAt": "2026-11-18T10:48:40.347Z",
+      "score": 75,
       "rulesVersion": "1.3.0"
     }
   ]

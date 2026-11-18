@@ -4,22 +4,30 @@
   "repo": "claude-code-plugins",
   "path": "plugins/powershell-format/skills/setup",
   "name": "setup",
-  "description": "Verify powershell-format's prerequisites and configuration here, and register its git pre-commit entry. Use when: 'set up powershell-format', 'configure powershell-format', 'is powershell-format working', PowerShell formatting or linting silently isn't happening, or a hook reported a missing prerequisite or drifted git hook. Actions: check (read-only, default) | apply | apply install-git-hooks [scope=local|shared]. Re-runnable.",
-  "stars": 30,
+  "description": "Verify powershell-format's prerequisites and which formatter and linter its hooks run here, and register its git pre-commit entries. Use when: 'set up powershell-format', 'configure powershell-format', 'is powershell-format working', 'which formatter does powershell-format run', PowerShell formatting or linting silently isn't happening, or a hook reported a missing prerequisite or drifted git hook. Actions: check (read-only, default) | check inspect (read-only) | apply | apply install-git-hooks [scope=local|shared]. Re-runnable.",
+  "stars": 32,
   "category": "coding",
-  "commit": "230251cc750b562576c144d595b7cc0fabfceae9",
-  "contentHash": "e5aaca5595b86b0cb285e81f521085f324cdcce462b854f65f7b84e1d76e4e69",
+  "commit": "832899e8af7e4004eb7dae449fb1872f1872a0d8",
+  "contentHash": "7864d366c873bd09e3de7f0de1a438e6ad68110cfd269323026cf1f45b0ca92c",
   "repoCreatedAt": "2026-06-22T18:28:56Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "scannedAt": "2026-11-18T10:48:40.347Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
+        "file": "lib/git-hooks/resolve-tool.sh",
+        "line": 132,
+        "excerpt": "(cd \"$RT_DIR\" && RT_BIN=\"$RT_BIN\" sh -c \"$RT_SCRIPT\" sh \"${chunk[@]}\")",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
         "file": "plugins/powershell-format/lib/git-hooks/install.mjs",
-        "line": 44,
+        "line": 46,
         "excerpt": "import { spawnSync } from \"node:child_process\";",
         "disclosed": true,
         "automatic": false
@@ -27,8 +35,32 @@
       {
         "ruleId": "shell",
         "file": "plugins/powershell-format/lib/git-hooks/install.mjs",
-        "line": 194,
+        "line": 198,
         "excerpt": "const r = spawnSync(\"git\", args, { cwd, encoding: \"utf8\", stdio: [\"ignore\", \"pipe\", \"pipe\"] });",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/powershell-format/lib/git-hooks/install.mjs",
+        "line": 676,
+        "excerpt": "const r = spawnSync(\"sh\", [path.join(plugin.root, \"git-hooks\", entry.script), \"--resolve\"], {",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/powershell-format/lib/git-hooks/install.mjs",
+        "line": 1692,
+        "excerpt": "const r = spawnSync(\"sh\", [found.file, ...input.args], {",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/powershell-format/lib/git-hooks/install.mjs",
+        "line": 1754,
+        "excerpt": "const r = spawnSync(\"lefthook\", [\"dump\", \"--format\", \"json\"], {",
         "disclosed": true,
         "automatic": false
       },
@@ -50,12 +82,12 @@
       }
     ],
     "findingTotals": {
-      "shell": 4
+      "shell": 8
     },
     "score": 97,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 14,
+    "filesScanned": 18,
     "filesSkipped": 0
   },
   "history": [
@@ -74,6 +106,12 @@
     {
       "commit": "230251cc750b562576c144d595b7cc0fabfceae9",
       "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 97,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "832899e8af7e4004eb7dae449fb1872f1872a0d8",
+      "scannedAt": "2026-11-18T10:48:40.347Z",
       "score": 97,
       "rulesVersion": "1.3.0"
     }

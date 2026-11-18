@@ -4,18 +4,142 @@
   "repo": "ai-maxxing-skills",
   "path": "skills/setup-my-hermes-dashboard",
   "name": "setup-my-hermes-dashboard",
-  "description": "",
-  "stars": 42,
+  "description": "Give the user their own personal dashboard on their VPS, in the same look and stack as the Hermes dashboard (TanStack Start, Tailwind, SQLite), at dashboard.their-domain with its own sign-in (email + 6-digit code, Better Auth on Convex, codes sent by Lumail). It starts with no module but a built-in System monitoring group (latest conversations, Infra with server health, daily audit and one-click fixes, and a Models page to pick the AI model); the user asks Hermes for the modules they want and Hermes builds and ships them. Use after setup-vps.",
+  "stars": 49,
   "category": "coding",
-  "commit": "86f06848774ae5804176c25ff7fb01195252ae4e",
+  "commit": "488a9ffe65836a476eac28465b7924a18de9e641",
   "contentHash": "237fe5954cc0e1c82cae4eb08c93e8f1be5bc0d2b0a27a7b52b5682d2452d0e9",
   "repoCreatedAt": "2026-10-17T10:31:46Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-18T10:48:40.347Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/setup-my-hermes-dashboard/SKILL.md",
+        "line": 13,
+        "excerpt": "2. Get the files on the server: `ssh hermes 'S=~/.cache/ai-maxxing-skills; if [ -d $S/.git ]; then git -C $S pull -q --ff-only; else mkdir -p ~/.cache && git cl",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/setup-my-hermes-dashboard/SKILL.md",
+        "line": 14,
+        "excerpt": "3. Create the code, only if `ssh hermes 'test -d ~/projects/dashboard'` fails: `ssh hermes 'mkdir -p ~/projects && cp -R ~/.cache/ai-maxxing-skills/skills/setup",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/setup-my-hermes-dashboard/SKILL.md",
+        "line": 20,
+        "excerpt": "9. Prove it from the Mac, after a minute for the address to spread: `curl -s -o /dev/null -w '%{http_code} %{redirect_url}' https://dashboard.<domain>` answers ",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "dashboard."
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/setup-my-hermes-dashboard/scripts/dashboard-cli",
+        "line": 16,
+        "excerpt": "import urllib.request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/setup-my-hermes-dashboard/scripts/dashboard-cli",
+        "line": 51,
+        "excerpt": "request = urllib.request.Request(base + path, data=body, method=method)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/setup-my-hermes-dashboard/scripts/dashboard-cli",
+        "line": 57,
+        "excerpt": "with urllib.request.urlopen(request, timeout=30) as response:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/setup-my-hermes-dashboard/scripts/dashboard.sh",
+        "line": 40,
+        "excerpt": "health() { curl -fsS --max-time 5 \"http://127.0.0.1:$PORT/api/v1/health\" 2>/dev/null; }",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/setup-my-hermes-dashboard/scripts/dashboard.sh",
+        "line": 68,
+        "excerpt": "command -v xz >/dev/null 2>&1 || { $SUDO apt-get update -qq && DEBIAN_FRONTEND=noninteractive $SUDO apt-get install -y -qq xz-utils >/dev/null; }",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/setup-my-hermes-dashboard/scripts/dashboard.sh",
+        "line": 71,
+        "excerpt": "curl -fsSL \"$base/SHASUMS256.txt\" -o \"$tmp/SHASUMS256.txt\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/setup-my-hermes-dashboard/scripts/dashboard.sh",
+        "line": 74,
+        "excerpt": "curl -fsSL \"$base/$file\" -o \"$tmp/$file\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/setup-my-hermes-dashboard/scripts/dashboard.sh",
+        "line": 79,
+        "excerpt": "[ \"$(pnpm --version 2>/dev/null)\" = \"$PNPM_VERSION\" ] || $SUDO npm install -g --silent \"pnpm@$PNPM_VERSION\" >/dev/null",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/setup-my-hermes-dashboard/scripts/dashboard.sh",
+        "line": 237,
+        "excerpt": "if curl -fsS --max-time 3 -H @<(printf 'Authorization: Bearer %s\\n' \"$akey\") \"http://127.0.0.1:$aport/v1/models\" >/dev/null 2>&1; then ok=1; break; fi",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/setup-my-hermes-dashboard/scripts/dashboard.sh",
+        "line": 249,
+        "excerpt": "token=\"$(curl -fsS --max-time 5 http://127.0.0.1:9119/ | sed -n 's/.*__HERMES_SESSION_TOKEN__ *= *\"\\([^\"]*\\)\".*/\\1/p' | head -1)\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/setup-my-hermes-dashboard/scripts/dashboard.sh",
+        "line": 252,
+        "excerpt": "curl -fsS --max-time 15 -H @<(printf 'X-Hermes-Session-Token: %s\\n' \"$token\") \"http://127.0.0.1:9119$path\" | jq .",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
       {
         "ruleId": "shell",
         "file": "skills/setup-my-hermes-dashboard/template/AGENTS.md",
@@ -23,16 +147,131 @@
         "excerpt": "- Add a check: a function in `src/server/infra/checks.ts` that returns a `Check` (tone `good`, `warn`, `bad`, or `idle` when it could not check), listed in `run",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/setup-my-hermes-dashboard/template/BRANDING.md",
+        "line": 9,
+        "excerpt": "From a website (open it in a browser, or `curl -sL <url>` and read the HTML and CSS):",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/setup-my-hermes-dashboard/template/BRANDING.md",
+        "line": 47,
+        "excerpt": "Icons: from an SVG logo, `npx -y sharp-cli -i public/logo.svg -o public/icon-512.png resize 512 512` and the same for each size; `favicon.svg` can be the logo i",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/setup-my-hermes-dashboard/template/src/components/chat/composer.tsx",
+        "line": 27,
+        "excerpt": "const response = await fetch(\"/api/hermes-chat/files\", { method: \"POST\", headers: { \"content-type\": \"application/json\" }, body: JSON.stringify({ name: file.name",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/setup-my-hermes-dashboard/template/src/components/chat/use-run.ts",
+        "line": 44,
+        "excerpt": "const response = await fetch(`/api/hermes-chat/runs/${encodeURIComponent(runId)}/events?after=${current.lastSeq}`, { signal: abort.signal, headers: { Accept: \"t",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/setup-my-hermes-dashboard/template/src/components/chat/use-run.ts",
+        "line": 86,
+        "excerpt": "const response = await fetch(url, { method: \"POST\", headers: { \"Content-Type\": \"application/json\" }, body: JSON.stringify(body) });",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/setup-my-hermes-dashboard/template/src/server/chat/hermes-api.ts",
+        "line": 77,
+        "excerpt": "private async fetch(path: string, init: RequestInit): Promise<Response> {",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/setup-my-hermes-dashboard/template/src/server/chat/hermes-api.ts",
+        "line": 88,
+        "excerpt": "const response = await this.fetch(path, {",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/setup-my-hermes-dashboard/template/src/server/chat/hermes-api.ts",
+        "line": 102,
+        "excerpt": "const response = await this.fetch(`/v1/runs/${encodeURIComponent(runId)}/events`, { method: \"GET\", headers, signal });",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/setup-my-hermes-dashboard/template/src/server/chat/titler.ts",
+        "line": 1,
+        "excerpt": "import { spawn } from \"node:child_process\";",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/setup-my-hermes-dashboard/template/src/server/db/db.test.ts",
+        "line": 1,
+        "excerpt": "import { execFileSync } from \"node:child_process\";",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/setup-my-hermes-dashboard/template/src/server/db/db.test.ts",
+        "line": 48,
+        "excerpt": "execFileSync(\"node\", [\"scripts/new-key.mjs\", envFile, \"hermes\"], { env: { ...process.env, DATA_DIR: dir, DASHBOARD_KEY_PEPPER: \"\" } });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/setup-my-hermes-dashboard/template/src/server/infra/checks.ts",
+        "line": 379,
+        "excerpt": "\"Check that the owner's SSH key is in ~/.ssh/authorized_keys of the user they log in with. If there is none, stop: ask the owner to add their key first.\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/setup-my-hermes-dashboard/template/src/server/infra/system.ts",
+        "line": 1,
+        "excerpt": "import { execFile } from \"node:child_process\";",
+        "disclosed": false,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 1
+      "writes-outside": 2,
+      "network": 17,
+      "downloads-code": 3,
+      "shell": 5,
+      "reads-secrets": 1
     },
-    "score": 95,
-    "band": "low",
+    "score": 45,
+    "band": "high",
     "rulesVersion": "1.3.0",
-    "filesScanned": 15,
-    "filesSkipped": 142
+    "filesScanned": 152,
+    "filesSkipped": 5
   },
   "history": [
     {
@@ -51,6 +290,12 @@
       "commit": "86f06848774ae5804176c25ff7fb01195252ae4e",
       "scannedAt": "2026-11-13T10:10:34.466Z",
       "score": 95,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "488a9ffe65836a476eac28465b7924a18de9e641",
+      "scannedAt": "2026-11-18T10:48:40.347Z",
+      "score": 45,
       "rulesVersion": "1.3.0"
     }
   ]

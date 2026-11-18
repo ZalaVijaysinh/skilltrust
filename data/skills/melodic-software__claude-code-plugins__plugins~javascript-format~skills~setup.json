@@ -4,22 +4,30 @@
   "repo": "claude-code-plugins",
   "path": "plugins/javascript-format/skills/setup",
   "name": "setup",
-  "description": "Verify javascript-format's prerequisites and configuration here, and register its git pre-commit entry. Use when: 'set up javascript-format', 'configure javascript-format', 'is javascript-format working', formatting silently isn't happening, or a hook reported a missing prerequisite or drifted git hook. Actions: check (read-only, default) | apply [install-biome] | apply install-git-hooks [scope=local|shared]. Re-runnable.",
-  "stars": 30,
+  "description": "Verify javascript-format's prerequisites and which formatter and linter its hooks run here, and register its git pre-commit entries. Use when: 'set up javascript-format', 'configure javascript-format', 'is javascript-format working', 'which formatter does javascript-format run', formatting silently isn't happening, or a hook reported a missing prerequisite or drifted git hook. Actions: check (read-only, default) | check inspect (read-only) | apply [install-biome] | apply install-git-hooks [scope=local|shared]. Re-runnable.",
+  "stars": 32,
   "category": "coding",
-  "commit": "230251cc750b562576c144d595b7cc0fabfceae9",
-  "contentHash": "8280682661878475d2cb2edb1e1cb89c303312f34fd72b1fdf8f8c3c9c30177c",
+  "commit": "832899e8af7e4004eb7dae449fb1872f1872a0d8",
+  "contentHash": "d63a339543e247600644f7b81950a9aa9ba120526fc1a26a641264090bdc348e",
   "repoCreatedAt": "2026-06-22T18:28:56Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "scannedAt": "2026-11-18T10:48:40.347Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
+        "file": "lib/git-hooks/resolve-tool.sh",
+        "line": 132,
+        "excerpt": "(cd \"$RT_DIR\" && RT_BIN=\"$RT_BIN\" sh -c \"$RT_SCRIPT\" sh \"${chunk[@]}\")",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
         "file": "plugins/javascript-format/lib/git-hooks/install.mjs",
-        "line": 44,
+        "line": 46,
         "excerpt": "import { spawnSync } from \"node:child_process\";",
         "disclosed": true,
         "automatic": false
@@ -27,8 +35,40 @@
       {
         "ruleId": "shell",
         "file": "plugins/javascript-format/lib/git-hooks/install.mjs",
-        "line": 194,
+        "line": 198,
         "excerpt": "const r = spawnSync(\"git\", args, { cwd, encoding: \"utf8\", stdio: [\"ignore\", \"pipe\", \"pipe\"] });",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/javascript-format/lib/git-hooks/install.mjs",
+        "line": 676,
+        "excerpt": "const r = spawnSync(\"sh\", [path.join(plugin.root, \"git-hooks\", entry.script), \"--resolve\"], {",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/javascript-format/lib/git-hooks/install.mjs",
+        "line": 1692,
+        "excerpt": "const r = spawnSync(\"sh\", [found.file, ...input.args], {",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/javascript-format/lib/git-hooks/install.mjs",
+        "line": 1754,
+        "excerpt": "const r = spawnSync(\"lefthook\", [\"dump\", \"--format\", \"json\"], {",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/javascript-format/lib/git-hooks/resolve-tool.sh",
+        "line": 134,
+        "excerpt": "(cd \"$RT_DIR\" && RT_BIN=\"$RT_BIN\" sh -c \"$RT_SCRIPT\" sh \"${chunk[@]}\")",
         "disclosed": true,
         "automatic": false
       },
@@ -43,7 +83,15 @@
       {
         "ruleId": "shell",
         "file": "plugins/javascript-format/lib/prerequisites.mjs",
-        "line": 341,
+        "line": 267,
+        "excerpt": "const r = spawnSync(path.resolve(git), [\"-C\", top, \"ls-files\", \"-z\", \"--\", ...specs], {",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/javascript-format/lib/prerequisites.mjs",
+        "line": 443,
         "excerpt": "const r = spawnSync(path.resolve(file), args, {",
         "disclosed": true,
         "automatic": false
@@ -51,7 +99,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/javascript-format/lib/prerequisites.mjs",
-        "line": 688,
+        "line": 800,
         "excerpt": "const r = spawnSync(process.execPath, [installer, \"verify\", \"--quiet\", \"--repo\", repo, \"--plugin-root\", root], {",
         "disclosed": true,
         "automatic": false
@@ -82,18 +130,24 @@
       }
     ],
     "findingTotals": {
-      "shell": 8
+      "shell": 14
     },
     "score": 97,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 13,
+    "filesScanned": 20,
     "filesSkipped": 0
   },
   "history": [
     {
       "commit": "230251cc750b562576c144d595b7cc0fabfceae9",
       "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 97,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "832899e8af7e4004eb7dae449fb1872f1872a0d8",
+      "scannedAt": "2026-11-18T10:48:40.347Z",
       "score": 97,
       "rulesVersion": "1.3.0"
     }

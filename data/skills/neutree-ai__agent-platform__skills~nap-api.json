@@ -4,30 +4,128 @@
   "repo": "agent-platform",
   "path": "skills/nap-api",
   "name": "nap-api",
-  "description": "",
-  "stars": 88,
-  "category": "coding",
-  "commit": "9d1285b4e6d2251fe495b218216812a228292fc4",
+  "description": "Manage NAP workspaces, prompts, templates, credentials, service tokens, agent files, providers, tags, shares, schedules via REST, and build applications whose users each get NAP agents (the App Spec). Trigger when the user wants to script or automate NAP outside the UI — e.g. \"create a workspace\", \"rotate a token\", \"bulk-upload prompts\", \"list agent files in workspace X\", CI integration with NAP — or to give an application's users their own agents: \"write the app spec\", \"declare our agents\", \"apply the spec on deploy\".",
+  "stars": 90,
+  "category": "devops",
+  "commit": "6d54222a18303feb67609f0ce533549b2310d536",
   "contentHash": "1db9fff2ee2d6dea090c94e92d451639e55011ba10e63db707e6999839e2c9bb",
   "repoCreatedAt": "2026-06-06T05:52:26Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-18T10:48:40.347Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/nap-api/SKILL.md",
+        "line": 62,
+        "excerpt": "BASE=\"${NAP_BASE_URL:-https://nap.example.com}\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/nap-api/SKILL.md",
+        "line": 66,
+        "excerpt": "SID=$(curl -s -X POST \"$BASE/api/workspaces/$NAP_WS/chat\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/nap-api/SKILL.md",
+        "line": 75,
+        "excerpt": "S=$(curl -s \"$BASE/api/workspaces/$NAP_WS/sessions/$SID\" -H \"Authorization: Bearer $NAP_TOKEN\")",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/nap-api/SKILL.md",
+        "line": 82,
+        "excerpt": "curl -s \"$BASE/api/workspaces/$NAP_WS/messages?session_id=$SID\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/nap-api/SKILL.md",
+        "line": 122,
+        "excerpt": "export NAP_TOKEN=<service-token> NAP_WS=<workspace-id>   # NAP_BASE_URL defaults to https://nap.example.com",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/nap-api/references/app-spec.md",
+        "line": 71,
+        "excerpt": "settings: { permissions: { deny: [WebFetch] } }",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/nap-api/references/operations/post-api-skills-id-exports.md",
+        "line": 7,
+        "excerpt": "Returns a capability URL installable with `npx skills add <url>`. Defaults to a 90-day lifetime; pass `ttl_days: null` for a permanent share. Shares cannot be e",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/nap-api/scripts/handoff.sh",
+        "line": 38,
+        "excerpt": "SID=$(curl -s -X POST \"$BASE/api/workspaces/$WS/chat\" \"${auth[@]}\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/nap-api/scripts/handoff.sh",
+        "line": 55,
+        "excerpt": "sess=$(curl -s \"$BASE/api/workspaces/$WS/sessions/$SID\" \"${auth[@]}\")",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/nap-api/scripts/handoff.sh",
+        "line": 58,
+        "excerpt": "msgs=$(curl -s \"$BASE/api/workspaces/$WS/messages?session_id=$SID\" \"${auth[@]}\")",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 2,
+      "network": 7,
+      "downloads-code": 1
+    },
+    "score": 79,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 279
+    "filesScanned": 279,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "9d1285b4e6d2251fe495b218216812a228292fc4",
       "scannedAt": "2026-11-13T10:10:34.466Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "6d54222a18303feb67609f0ce533549b2310d536",
+      "scannedAt": "2026-11-18T10:48:40.347Z",
+      "score": 79,
       "rulesVersion": "1.3.0"
     }
   ]

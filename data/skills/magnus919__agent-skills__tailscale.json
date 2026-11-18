@@ -5,17 +5,39 @@
   "path": "tailscale",
   "name": "tailscale",
   "description": "Deploy and manage the self-hosted Tailscale/Headscale ecosystem: a Headscale control server, tailscale clients, ACL policies, node lifecycle, subnet routing, DERP relays, backup/migration, and Tailworm security exposure triage. Use when the user mentions Tailscale, Headscale, tailnet, mesh VPN, WireGuard mesh, or self-hosted VPN infrastructure. Do not use this skill for unrelated requests; route to the nearest named specialist.",
-  "stars": 176,
+  "stars": 181,
   "category": "devops",
-  "commit": "6e472b033750c23e3139fd83744e089a6ee66ad1",
-  "contentHash": "84b9fc06640d7ccb5b5ff247e3cbb46cf798ee7c3e6bcecbac3da60d17b17e0d",
+  "commit": "3d56c09c5218b066a735925fbfce8d97851bb992",
+  "contentHash": "745e3b6f7185d71feb641156b3cee2867c919b3bf8a51dd6c2d16e13d4cc3b96",
   "repoCreatedAt": "2026-07-11T21:36:47Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-18T10:48:40.347Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "network",
+        "file": "tailscale/references/troubleshooting-guide.md",
+        "line": 16,
+        "excerpt": "curl -sI https://headscale.example.com    # Check reachability",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "headscale.example.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "tailscale/references/troubleshooting-guide.md",
+        "line": 161,
+        "excerpt": "curl -s https://headscale.example.com/version",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "headscale.example.com"
+        ]
+      },
       {
         "ruleId": "network",
         "file": "tailscale/scripts/headscale-health-check.sh",
@@ -35,40 +57,358 @@
         "hosts": []
       },
       {
+        "ruleId": "shell",
+        "file": "tailscale/skills/headscale-backup/SKILL.md",
+        "line": 83,
+        "excerpt": "0 2 * * * /path/to/hs-backup.sh --auto --output-dir /backups/headscale/",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tailscale/skills/headscale-backup/scripts/hs-archive.py",
+        "line": 177,
+        "excerpt": "proc = subprocess.run([db_cli, str(source), f\".backup '{sql_path}'\"], capture_output=True, text=True)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tailscale/skills/headscale-backup/scripts/hs-archive.py",
+        "line": 182,
+        "excerpt": "check = subprocess.run([db_cli, str(archived_file), \"PRAGMA quick_check;\"], capture_output=True, text=True)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tailscale/skills/headscale-backup/scripts/hs-archive.py",
+        "line": 365,
+        "excerpt": "status = subprocess.run(sudo + [systemctl, \"is-active\", \"--quiet\", service], check=False)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tailscale/skills/headscale-backup/scripts/hs-archive.py",
+        "line": 415,
+        "excerpt": "subprocess.run(stop_cmd, check=True)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tailscale/skills/headscale-backup/scripts/hs-archive.py",
+        "line": 450,
+        "excerpt": "subprocess.run(start_cmd, check=True)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tailscale/skills/headscale-backup/scripts/hs-archive.py",
+        "line": 487,
+        "excerpt": "except (OSError, json.JSONDecodeError, RuntimeError, subprocess.CalledProcessError) as error:",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tailscale/skills/headscale-backup/scripts/test_hs_archive.py",
+        "line": 78,
+        "excerpt": "def run_script(self, script: Path, *args: str, env: dict[str, str] | None = None) -> subprocess.CompletedProcess[str]:",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tailscale/skills/headscale-backup/scripts/test_hs_archive.py",
+        "line": 79,
+        "excerpt": "return subprocess.run([str(script), *args], text=True, capture_output=True, env=env or self.env())",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tailscale/skills/headscale-backup/scripts/test_hs_archive.py",
+        "line": 92,
+        "excerpt": "def restore(self, script: Path, path: Path, *, env: dict[str, str] | None = None, extra: tuple[str, ...] = ()) -> subprocess.CompletedProcess[str]:",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "tailscale/skills/headscale-backup/scripts/test_hs_archive.py",
+        "line": 226,
+        "excerpt": "fake_sudo.write_text(\"#!/usr/bin/env bash\\nexec \\\"$@\\\"\\n\", encoding=\"utf-8\")",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
         "ruleId": "network",
-        "file": "tailscale/skills/headscale-node-lifecycle/scripts/hs-tag-node.sh",
-        "line": 174,
-        "excerpt": "RESOLVED=$(curl -s -X GET \"${API}/node\" \\",
+        "file": "tailscale/skills/headscale-deploy/SKILL.md",
+        "line": 87,
+        "excerpt": "curl -s https://headscale.example.com/health",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "headscale.example.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "tailscale/skills/headscale-deploy/SKILL.md",
+        "line": 87,
+        "excerpt": "curl -s https://headscale.example.com/health",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "tailscale/skills/headscale-deploy/evals/evals.json",
+        "line": 8,
+        "excerpt": "\"expected_output\": \"Scenario: Docker Compose deployment. The agent loads headscale-deploy and provisions Headscale via Docker Compose, either by generating a co",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "tailscale/skills/headscale-deploy/evals/evals.json",
+        "line": 20,
+        "excerpt": "\"expected_output\": \"Scenario: bare-metal binary install. The agent uses install-headscale.sh to detect the platform, download the release tarball, install the b",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "tailscale/skills/headscale-deploy/scripts/configure-derp.sh",
+        "line": 145,
+        "excerpt": "health_result=\"$(curl -sSf --connect-timeout 5 \"$server_url/health\" 2>&1 || true)\"",
         "disclosed": true,
         "automatic": false,
         "hosts": []
       },
       {
         "ruleId": "network",
-        "file": "tailscale/skills/headscale-node-lifecycle/scripts/hs-tag-node.sh",
-        "line": 186,
-        "excerpt": "CURRENT_NODE=$(curl -s -X GET \"${API}/node/${NODE_ID}\" \\",
+        "file": "tailscale/skills/headscale-deploy/scripts/configure-derp.sh",
+        "line": 146,
+        "excerpt": "derp_result=\"$(curl -sSf --connect-timeout 5 \"$server_url/derp\" 2>&1 || true)\"",
         "disclosed": true,
         "automatic": false,
         "hosts": []
       },
       {
         "ruleId": "network",
-        "file": "tailscale/skills/headscale-node-lifecycle/scripts/hs-tag-node.sh",
-        "line": 210,
-        "excerpt": "CURRENT_NODE=$(curl -s -X GET \"${API}/node/${NODE_ID}\" \\",
+        "file": "tailscale/skills/headscale-deploy/scripts/headscale-health-check.sh",
+        "line": 102,
+        "excerpt": "result=\"$(curl -sSf --connect-timeout 5 --max-time 10 \"$url\" 2>&1 || true)\"",
         "disclosed": true,
         "automatic": false,
         "hosts": []
       },
       {
         "ruleId": "network",
-        "file": "tailscale/skills/headscale-node-lifecycle/scripts/hs-tag-node.sh",
-        "line": 236,
-        "excerpt": "RESPONSE=$(curl -s -X PUT \"${API}/node/${NODE_ID}/tags\" \\",
+        "file": "tailscale/skills/headscale-deploy/scripts/headscale-health-check.sh",
+        "line": 113,
+        "excerpt": "result=\"$(curl -sSf --connect-timeout 5 --max-time 10 \"$url\" 2>&1 || true)\"",
         "disclosed": true,
         "automatic": false,
         "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "tailscale/skills/headscale-deploy/scripts/headscale-health-check.sh",
+        "line": 129,
+        "excerpt": "result=\"$(curl -sSf --connect-timeout 5 --max-time 10 \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "tailscale/skills/headscale-deploy/scripts/headscale-health-check.sh",
+        "line": 150,
+        "excerpt": "result=\"$(curl -sSf --connect-timeout 5 --max-time 10 \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "tailscale/skills/headscale-deploy/scripts/headscale-health-check.sh",
+        "line": 183,
+        "excerpt": "result=\"$(curl -sSf --connect-timeout 5 --max-time 10 \"$url\" 2>&1 || true)\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "tailscale/skills/headscale-deploy/scripts/install-headscale.sh",
+        "line": 86,
+        "excerpt": "tag=\"$(curl -sSfL \"$RELEASE_API/latest\" 2>/dev/null | grep '\"tag_name\"' | cut -d'\"' -f4 || true)\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "tailscale/skills/headscale-deploy/scripts/install-headscale.sh",
+        "line": 89,
+        "excerpt": "tag=\"$(curl -sSfL \"$RELEASE_API?per_page=10\" 2>/dev/null \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "tailscale/skills/headscale-deploy/scripts/install-headscale.sh",
+        "line": 191,
+        "excerpt": "log \"[DRY-RUN] Would install to: /usr/local/bin/headscale\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "tailscale/skills/headscale-deploy/scripts/install-headscale.sh",
+        "line": 203,
+        "excerpt": "curl -sSfL \"$url\" -o \"$tmpdir/$tarball\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "tailscale/skills/headscale-deploy/scripts/install-headscale.sh",
+        "line": 207,
+        "excerpt": "install -o root -g root -m 0755 \"$tmpdir/headscale\" /usr/local/bin/headscale",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tailscale/skills/headscale-derp/SKILL.md",
+        "line": 106,
+        "excerpt": "docker run -d \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "tailscale/skills/headscale-derp/scripts/derp-health-check.py",
+        "line": 31,
+        "excerpt": "import urllib.request",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tailscale/skills/headscale-derp/scripts/derp-health-check.py",
+        "line": 35,
+        "excerpt": "import websocket  # optional: pip install websocket-client",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tailscale/skills/headscale-derp/scripts/derp-health-check.py",
+        "line": 182,
+        "excerpt": "\"websocket-client not installed. Install with: pip install websocket-client\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "tailscale/skills/headscale-node-lifecycle/scripts/hs-approve-nodes.sh",
+        "line": 104,
+        "excerpt": "RESPONSE=$(curl -s -X GET \"${API}/node\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "tailscale/skills/headscale-node-lifecycle/scripts/hs-approve-nodes.sh",
+        "line": 121,
+        "excerpt": "RESPONSE=$(curl -s -X POST \"${API}/node/${AUTH_ID}/approve\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "tailscale/skills/headscale-node-lifecycle/scripts/hs-approve-nodes.sh",
+        "line": 133,
+        "excerpt": "RESPONSE=$(curl -s -X GET \"${API}/node\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "tailscale/skills/headscale-node-lifecycle/scripts/hs-approve-nodes.sh",
+        "line": 140,
+        "excerpt": "curl -s -X POST \"${API}/node/${NODE_ID}/approve\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "tailscale/skills/headscale-routing/SKILL.md",
+        "line": 26,
+        "excerpt": "tailscale up --advertise-routes=192.168.1.0/24",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tailscale/skills/headscale-routing/SKILL.md",
+        "line": 30,
+        "excerpt": "headscale routes approve -r <route-id>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tailscale/skills/headscale-routing/SKILL.md",
+        "line": 34,
+        "excerpt": "tailscale up --accept-routes",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tailscale/skills/headscale-routing/SKILL.md",
+        "line": 41,
+        "excerpt": "tailscale up --advertise-exit-node",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tailscale/skills/headscale-routing/SKILL.md",
+        "line": 46,
+        "excerpt": "tailscale set --exit-node=<node-name>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tailscale/skills/headscale-routing/SKILL.md",
+        "line": 95,
+        "excerpt": "tailscale up --advertise-routes=192.168.1.0/24 --snat-subnet-routes=false",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tailscale/skills/headscale-routing/SKILL.md",
+        "line": 105,
+        "excerpt": "headscale routes list",
+        "disclosed": false,
+        "automatic": false
       },
       {
         "ruleId": "shell",
@@ -79,23 +419,161 @@
         "automatic": false
       },
       {
-        "ruleId": "shell",
-        "file": "tailscale/skills/tailnet-policy/SKILL.md",
-        "line": 275,
-        "excerpt": "./skills/tailnet-policy/validate-policy.py --policy policy.hujson",
+        "ruleId": "downloads-code",
+        "file": "tailscale/skills/tailscale-client/SKILL.md",
+        "line": 53,
+        "excerpt": "| **Debian/Ubuntu** | `curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/jammy.noarmor.gpg | sudo tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "tailscale/skills/tailscale-client/SKILL.md",
+        "line": 53,
+        "excerpt": "| **Debian/Ubuntu** | `curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/jammy.noarmor.gpg | sudo tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tailscale/skills/tailscale-client/SKILL.md",
+        "line": 54,
+        "excerpt": "| **macOS** | `brew install tailscale` |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tailscale/skills/tailscale-client/SKILL.md",
+        "line": 56,
+        "excerpt": "| **Fedora/RHEL** | `sudo dnf install dnf-plugins-core && sudo dnf config-manager --add-repo https://pkgs.tailscale.com/stable/fedora/tailscale.repo && sudo dnf",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tailscale/skills/tailscale-client/scripts/ts-install.sh",
+        "line": 148,
+        "excerpt": "debian)  INSTALL_CMD=\"curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/jammy.noarmor.gpg | sudo tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/n",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "tailscale/skills/tailscale-client/scripts/ts-install.sh",
+        "line": 148,
+        "excerpt": "debian)  INSTALL_CMD=\"curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/jammy.noarmor.gpg | sudo tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/n",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tailscale/skills/tailscale-client/scripts/ts-install.sh",
+        "line": 149,
+        "excerpt": "macos)   INSTALL_CMD=\"brew install tailscale\" ;;",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tailscale/skills/tailscale-client/scripts/ts-install.sh",
+        "line": 151,
+        "excerpt": "fedora)  INSTALL_CMD=\"sudo dnf install -y tailscale\" ;;",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tailscale/skills/tailscale-client/scripts/ts-install.sh",
+        "line": 152,
+        "excerpt": "rhel)    INSTALL_CMD=\"sudo yum install -y tailscale\" ;;",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "tailscale/skills/tailscale-client/scripts/ts-install.sh",
+        "line": 188,
+        "excerpt": "curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/jammy.noarmor.gpg | sudo tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "tailscale/skills/tailscale-client/scripts/ts-install.sh",
+        "line": 189,
+        "excerpt": "curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/jammy.tailscale-keyring.list | sudo tee /etc/apt/sources.list.d/tailscale.list >/dev/null",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tailscale/skills/tailscale-client/scripts/ts-install.sh",
+        "line": 191,
+        "excerpt": "sudo apt-get install -y tailscale",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tailscale/skills/tailscale-client/scripts/ts-install.sh",
+        "line": 195,
+        "excerpt": "brew install tailscale",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tailscale/skills/tailscale-client/scripts/ts-install.sh",
+        "line": 203,
+        "excerpt": "sudo dnf install -y dnf-plugins-core",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tailscale/skills/tailscale-client/scripts/ts-install.sh",
+        "line": 205,
+        "excerpt": "sudo dnf install -y tailscale",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tailscale/skills/tailscale-client/scripts/ts-install.sh",
+        "line": 209,
+        "excerpt": "sudo yum install -y yum-utils",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tailscale/skills/tailscale-client/scripts/ts-install.sh",
+        "line": 211,
+        "excerpt": "sudo yum install -y tailscale",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "tailscale/skills/tailscale-client/scripts/ts-install.sh",
+        "line": 219,
+        "excerpt": "brew install tailscale",
         "disclosed": false,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "network": 6,
-      "shell": 2
+      "network": 32,
+      "shell": 26,
+      "writes-outside": 9,
+      "downloads-code": 16
     },
-    "score": 92,
-    "band": "low",
+    "score": 67,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 14,
-    "filesSkipped": 59
+    "filesScanned": 75,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -114,6 +592,12 @@
       "commit": "6e472b033750c23e3139fd83744e089a6ee66ad1",
       "scannedAt": "2026-11-13T10:10:34.466Z",
       "score": 92,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "3d56c09c5218b066a735925fbfce8d97851bb992",
+      "scannedAt": "2026-11-18T10:48:40.347Z",
+      "score": 67,
       "rulesVersion": "1.3.0"
     }
   ]

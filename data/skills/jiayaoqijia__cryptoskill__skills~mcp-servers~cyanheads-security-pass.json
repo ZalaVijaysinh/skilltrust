@@ -3,19 +3,84 @@
   "owner": "jiayaoqijia",
   "repo": "cryptoskill",
   "path": "skills/mcp-servers/cyanheads-security-pass",
-  "name": "cyanheads-security-pass",
-  "description": "",
+  "name": "security-pass",
+  "description": "Review an MCP server for common security gaps: LLM-facing surfaces as injection vector (tools, resources, prompts, descriptions), scope blast radius, destructive ops without consent, upstream auth shape, input sinks (URL / path / roots / shell / schema strictness / ReDoS), tenant isolation, leakage through errors and telemetry, unbounded resources, and HTTP-mode deployment surface. Use before a release, after a batch of handler changes, or when the user asks for a security review, audit, or hardening pass. Produces grouped findings and a numbered options list.",
   "stars": 81,
   "category": "security",
-  "commit": "0dc9f60ab1f3fcae24da49c4cef09c46c589f903",
+  "commit": "100f6db5bc51b89029ed74229448a89f49ae7176",
   "contentHash": "27c3c955abcc194c5bb3843a9f0e1e1f6bb87685ccb53768323311b98730965d",
   "repoCreatedAt": "2026-03-19T14:52:16Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-18T10:48:40.347Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/mcp-servers/cyanheads-security-pass/SKILL.md",
+        "line": 41,
+        "excerpt": "find src/mcp-server/tools/definitions -name \"*.tool.ts\" | sort",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/mcp-servers/cyanheads-security-pass/SKILL.md",
+        "line": 90,
+        "excerpt": "**Smell:** `return { body: await fetch(url).then(r => r.text()) }` rendered directly in `format()`. Or: `description: \\`Look up ${tenant.customLabel}\\`` where `",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/mcp-servers/cyanheads-security-pass/SKILL.md",
+        "line": 99,
+        "excerpt": "grep -rn \"auth: \\[\" src/mcp-server/tools/definitions/",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/mcp-servers/cyanheads-security-pass/SKILL.md",
+        "line": 118,
+        "excerpt": "grep -rn \"destructiveHint\" src/mcp-server/tools/definitions/",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/mcp-servers/cyanheads-security-pass/SKILL.md",
+        "line": 158,
+        "excerpt": "grep -rn \"z.string().url()\" src/",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/mcp-servers/cyanheads-security-pass/SKILL.md",
+        "line": 202,
+        "excerpt": "grep -rnE \"^(const|let) .* = new (Map|Set|WeakMap|Array)\" src/services/",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/mcp-servers/cyanheads-security-pass/SKILL.md",
+        "line": 222,
+        "excerpt": "grep -rnE \"new McpError|ctx\\.fail\\(|httpErrorFromResponse\\(\" src/",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/mcp-servers/cyanheads-security-pass/SKILL.md",
+        "line": 248,
+        "excerpt": "grep -rnE \"while\\s*\\(|for\\s*\\(.*of\" src/mcp-server/tools/definitions/",
+        "disclosed": true,
+        "automatic": false
+      },
       {
         "ruleId": "downloads-code",
         "file": "skills/mcp-servers/cyanheads-security-pass/TRUST.auto.yaml",
@@ -26,13 +91,15 @@
       }
     ],
     "findingTotals": {
+      "shell": 7,
+      "network": 1,
       "downloads-code": 1
     },
-    "score": 85,
-    "band": "low",
+    "score": 79,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 3,
-    "filesSkipped": 1
+    "filesScanned": 4,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -51,6 +118,12 @@
       "commit": "0dc9f60ab1f3fcae24da49c4cef09c46c589f903",
       "scannedAt": "2026-11-13T10:10:34.466Z",
       "score": 85,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "100f6db5bc51b89029ed74229448a89f49ae7176",
+      "scannedAt": "2026-11-18T10:48:40.347Z",
+      "score": 79,
       "rulesVersion": "1.3.0"
     }
   ]

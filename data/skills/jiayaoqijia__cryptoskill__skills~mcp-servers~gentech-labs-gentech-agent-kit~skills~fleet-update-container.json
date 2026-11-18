@@ -4,24 +4,83 @@
   "repo": "cryptoskill",
   "path": "skills/mcp-servers/gentech-labs-gentech-agent-kit/skills/fleet-update-container",
   "name": "fleet-update-container",
-  "description": "",
+  "description": "Update a Hermes agent running as a Docker container (s6 init, published image, host bind mount). The container-correct companion to safe-update-restart: why `hermes update` refuses in-container, how to read the real version from the image's install stamp, the boot trap that false-flags lost ports, and the four-phase prep→watch→swap→settle-audit sequence. Use when the agent runs from an image, not a git checkout.",
   "stars": 81,
-  "category": "other",
-  "commit": "0dc9f60ab1f3fcae24da49c4cef09c46c589f903",
+  "category": "media",
+  "commit": "100f6db5bc51b89029ed74229448a89f49ae7176",
   "contentHash": "a2b8f8ac6a20057d1a791bc147fbb60f06ac2641de1bc8b5df257b1f73344d9f",
   "repoCreatedAt": "2026-03-19T14:52:16Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-18T10:48:40.347Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/mcp-servers/gentech-labs-gentech-agent-kit/skills/fleet-update-container/SKILL.md",
+        "line": 84,
+        "excerpt": "docker run --rm --entrypoint /bin/cat <YOUR_IMAGE> /opt/hermes/install-stamp.json",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/mcp-servers/gentech-labs-gentech-agent-kit/skills/fleet-update-container/SKILL.md",
+        "line": 99,
+        "excerpt": "docker inspect <CONTAINER> --format 'image={{.Config.Image}}'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/mcp-servers/gentech-labs-gentech-agent-kit/skills/fleet-update-container/SKILL.md",
+        "line": 107,
+        "excerpt": "docker exec <CONTAINER> /opt/hermes/.venv/bin/hermes backup -q -l pre-v<new>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/mcp-servers/gentech-labs-gentech-agent-kit/skills/fleet-update-container/SKILL.md",
+        "line": 112,
+        "excerpt": "docker pull <YOUR_IMAGE>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/mcp-servers/gentech-labs-gentech-agent-kit/skills/fleet-update-container/SKILL.md",
+        "line": 120,
+        "excerpt": "docker inspect <CONTAINER> --format '{{.Config.Cmd}}'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/mcp-servers/gentech-labs-gentech-agent-kit/skills/fleet-update-container/SKILL.md",
+        "line": 128,
+        "excerpt": "docker compose -f <compose-file> up -d --force-recreate",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/mcp-servers/gentech-labs-gentech-agent-kit/skills/fleet-update-container/SKILL.md",
+        "line": 146,
+        "excerpt": "docker exec <CONTAINER> python3 <audit-script> --diff",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 7
+    },
+    "score": 97,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 1
+    "filesScanned": 1,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -40,6 +99,12 @@
       "commit": "0dc9f60ab1f3fcae24da49c4cef09c46c589f903",
       "scannedAt": "2026-11-13T10:10:34.466Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "100f6db5bc51b89029ed74229448a89f49ae7176",
+      "scannedAt": "2026-11-18T10:48:40.347Z",
+      "score": 97,
       "rulesVersion": "1.3.0"
     }
   ]

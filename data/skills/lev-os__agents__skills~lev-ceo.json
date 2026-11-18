@@ -7,20 +7,20 @@
   "description": "Lev's CEO node for one top-level chat. Type /lev-ceo to start it. It asks one setup card on a fresh start, sweeps the chats in its scope, briefs workers and reruns their checks, and settles its own finished workers.",
   "stars": 28,
   "category": "other",
-  "commit": "b247a6df3094b3f2c2780c0f34a9f05925627ffc",
-  "contentHash": "fcbd179a949dbeee724dcbd8e8f930569b9a5bf21d507504fd380f9cccba35d5",
+  "commit": "746207f78829405d680d4d218c2c2dff558df6a7",
+  "contentHash": "cd123658f2962d165b0adc1dd6a3528900c8d9e4ee7358771d970d06ca3acf0a",
   "repoCreatedAt": "2026-02-13T19:29:27Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "scannedAt": "2026-11-18T10:48:40.347Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "skills/lev-ceo/SKILL.md",
-        "line": 171,
-        "excerpt": "node --test ~/.agents/skills/lev-ceo/tests/*.test.mjs                    # settle, citations, audit, board, queue",
+        "line": 182,
+        "excerpt": "node --test ~/.agents/skills/lev-ceo/tests/*.test.mjs                    # settle, citations, audit, board, queue, sweep",
         "disclosed": false,
         "automatic": false
       },
@@ -35,7 +35,7 @@
       {
         "ruleId": "writes-outside",
         "file": "skills/lev-ceo/references/workers.md",
-        "line": 33,
+        "line": 34,
         "excerpt": "Shell: delete with `mv <full path> ~/.Trash/`; commit a list with `--pathspec-from-file`; write loops as a node script",
         "disclosed": false,
         "automatic": false
@@ -93,6 +93,47 @@
         "file": "skills/lev-ceo/tests/board.test.mjs",
         "line": 124,
         "excerpt": "const { spawn } = await import(\"node:child_process\");",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/lev-ceo/tests/cards.test.mjs",
+        "line": 3,
+        "excerpt": "import { spawnSync } from \"node:child_process\";",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/lev-ceo/tests/cards.test.mjs",
+        "line": 16,
+        "excerpt": "const run = (script, args) => spawnSync(process.execPath, [script, ...args], { encoding: \"utf8\" });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/lev-ceo/tests/cards.test.mjs",
+        "line": 972,
+        "excerpt": "for (const name of [\"child_process\", \"worker_threads\", \"node:net\", \"node:http\", \"node:https\", \"node:dgram\", \"node:cluster\", \"getBuiltinModule\", \"fetch(\"]) {",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/lev-ceo/tests/cards.test.mjs",
+        "line": 972,
+        "excerpt": "for (const name of [\"child_process\", \"worker_threads\", \"node:net\", \"node:http\", \"node:https\", \"node:dgram\", \"node:cluster\", \"getBuiltinModule\", \"fetch(\"]) {",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/lev-ceo/tests/cards.test.mjs",
+        "line": 977,
+        "excerpt": "const guarded = (args) => spawnSync(process.execPath, [",
         "disclosed": false,
         "automatic": false
       },
@@ -159,49 +200,18 @@
         "excerpt": "import { spawnSync } from \"node:child_process\";",
         "disclosed": false,
         "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/lev-ceo/tests/queue.test.mjs",
-        "line": 25,
-        "excerpt": "const run = spawnSync(process.execPath, [SCRIPT, ...args, \"--thread\", thread, \"--now\", now, \"--root\", root], { encoding: \"utf8\" });",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/lev-ceo/tests/settle.test.mjs",
-        "line": 5,
-        "excerpt": "import { spawnSync } from \"node:child_process\";",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/lev-ceo/tests/settle.test.mjs",
-        "line": 24,
-        "excerpt": "const run = spawnSync(\"git\", [\"-C\", repo, \"-c\", \"user.name=test\", \"-c\", \"user.email=test@example.com\", \"-c\", \"commit.gpgsign=false\", ...args], { encoding: \"utf8",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/lev-ceo/tests/settle.test.mjs",
-        "line": 32,
-        "excerpt": "assert.equal(spawnSync(\"git\", [\"init\", \"-q\", \"-b\", \"main\", repo]).status, 0);",
-        "disclosed": false,
-        "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 23,
+      "shell": 35,
       "downloads-code": 1,
-      "writes-outside": 1
+      "writes-outside": 1,
+      "network": 1
     },
-    "score": 70,
+    "score": 65,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 18,
+    "filesScanned": 25,
     "filesSkipped": 0
   },
   "history": [
@@ -215,6 +225,12 @@
       "commit": "b247a6df3094b3f2c2780c0f34a9f05925627ffc",
       "scannedAt": "2026-11-13T10:10:34.466Z",
       "score": 70,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "746207f78829405d680d4d218c2c2dff558df6a7",
+      "scannedAt": "2026-11-18T10:48:40.347Z",
+      "score": 65,
       "rulesVersion": "1.3.0"
     }
   ]

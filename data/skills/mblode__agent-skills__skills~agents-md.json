@@ -5,15 +5,15 @@
   "path": "skills/agents-md",
   "name": "agents-md",
   "description": "Audits and edits agent instruction files, verifies repository commands, and migrates repositories to AGENTS.md as the single shared source. Use when asked to \"improve my AGENTS.md\", \"migrate CLAUDE.md to AGENTS.md\", or make instructions work across agents.",
-  "stars": 201,
+  "stars": 210,
   "category": "coding",
-  "commit": "402a666823ddf9b8cd9be76c3314b1119078ff01",
+  "commit": "7df4b7edff1dc1c991331061373d4ba42ecacdbe",
   "contentHash": "7cffb69cf3f5c20a9da12e70422f3461d26606b5848aedac15ba99fb946fae87",
   "repoCreatedAt": "2026-01-12T10:17:59Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-18T10:48:40.347Z",
   "scan": {
     "findings": [
       {
@@ -31,16 +31,89 @@
         "excerpt": "find . \\( -name \"AGENTS.md\" -o -name \"AGENTS.override.md\" -o -name \"CLAUDE.md\" -o -name \"CLAUDE.local.md\" \\) -not -path \"*/node_modules/*\" 2>/dev/null | sort",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/agents-md/evals/fixtures/missing-deploy-script/base/scripts/publish.mjs",
+        "line": 1,
+        "excerpt": "import { execFileSync } from \"node:child_process\";",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/agents-md/evals/fixtures/missing-deploy-script/base/scripts/publish.mjs",
+        "line": 11,
+        "excerpt": "const revision = execFileSync(\"git\", [\"rev-parse\", \"--short\", \"HEAD\"], { encoding: \"utf8\" }).trim();",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/agents-md/evals/fixtures/missing-deploy-script/base/scripts/publish.mjs",
+        "line": 14,
+        "excerpt": "execFileSync(\"tar\", [\"-czf\", archive, \"src\", \"db\", \"package.json\"], { stdio: \"inherit\" });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/agents-md/evals/fixtures/missing-deploy-script/base/scripts/publish.mjs",
+        "line": 15,
+        "excerpt": "execFileSync(\"scp\", [archive, `deploy@notes-${target}.internal:/srv/harbor-notes/releases/`], { stdio: \"inherit\" });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/agents-md/evals/fixtures/missing-deploy-script/base/scripts/publish.mjs",
+        "line": 16,
+        "excerpt": "execFileSync(\"ssh\", [`deploy@notes-${target}.internal`, \"/srv/harbor-notes/bin/activate\", archive], { stdio: \"inherit\" });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/agents-md/evals/fixtures/shared-triage-skill/base/scripts/changelog.mjs",
+        "line": 1,
+        "excerpt": "import { execFileSync } from \"node:child_process\";",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/agents-md/evals/fixtures/shared-triage-skill/base/scripts/changelog.mjs",
+        "line": 3,
+        "excerpt": "const git = (...args) => execFileSync(\"git\", args, { encoding: \"utf8\" }).trim();",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/agents-md/references/project-setup.md",
+        "line": 80,
+        "excerpt": "npx skills add <owner>/<repo>        # project scope is the default; -g would install to the home directory",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/agents-md/references/root-content-guidance.md",
+        "line": 7,
+        "excerpt": "- Copy-paste commands (`dev`, `test`, `build`, `lint`/`typecheck`, deploy/migrate when relevant), with the targeted quiet form of the ones you run all day (`npx",
+        "disclosed": false,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 2
+      "shell": 9,
+      "downloads-code": 2
     },
-    "score": 95,
+    "score": 80,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 8,
-    "filesSkipped": 54
+    "filesScanned": 62,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -53,6 +126,12 @@
       "commit": "402a666823ddf9b8cd9be76c3314b1119078ff01",
       "scannedAt": "2026-11-13T10:10:34.466Z",
       "score": 95,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "7df4b7edff1dc1c991331061373d4ba42ecacdbe",
+      "scannedAt": "2026-11-18T10:48:40.347Z",
+      "score": 80,
       "rulesVersion": "1.3.0"
     }
   ]

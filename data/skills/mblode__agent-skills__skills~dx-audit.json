@@ -5,15 +5,15 @@
   "path": "skills/dx-audit",
   "name": "dx-audit",
   "description": "Audits libraries, CLIs, and SDKs using 38 rules for public contracts, package exports, piped output, errors, and configuration. Use when asked to \"audit my CLI\", \"review my SDK\", or diagnose package type resolution.",
-  "stars": 201,
+  "stars": 210,
   "category": "coding",
-  "commit": "402a666823ddf9b8cd9be76c3314b1119078ff01",
+  "commit": "7df4b7edff1dc1c991331061373d4ba42ecacdbe",
   "contentHash": "2e6497a519f6721be4923fb312bdb335e9ee1a6cd8791eaae1fa4b6b063296c3",
   "repoCreatedAt": "2026-01-12T10:17:59Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-18T10:48:40.347Z",
   "scan": {
     "findings": [
       {
@@ -31,16 +31,127 @@
         "excerpt": "- **`pnpm dlx <pkg>` (or `npx`) and a global install probe the registry copy, not the working tree.** `--help`, exit codes, and error strings then describe a re",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/dx-audit/evals/evals.json",
+        "line": 11,
+        "excerpt": "\"Reports output observed from running the locally built dist/cli.js rather than an npx or registry copy\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/dx-audit/evals/fixtures/piped-failure-output/base/scripts/build.mjs",
+        "line": 7,
+        "excerpt": "writeFileSync(entry, `#!/usr/bin/env node\\n${readFileSync(entry, \"utf8\")}`);",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/dx-audit/evals/fixtures/prepack-upload-types/base/scripts/publish-bundle.mjs",
+        "line": 12,
+        "excerpt": "const response = await fetch(target, {",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/dx-audit/evals/fixtures/prepack-upload-types/base/scripts/publish-bundle.mjs",
+        "line": 26,
+        "excerpt": "await fetch(`${BUCKET}/latest`, {",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/dx-audit/rules/api-async-consistency.md",
+        "line": 18,
+        "excerpt": "return fetch(`/x/${id}`).then((r) => r.json()); // async return",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/dx-audit/rules/api-async-consistency.md",
+        "line": 29,
+        "excerpt": "const r = await fetch(`/x/${id}`);",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/dx-audit/rules/cli-agent-input-hardening.md",
+        "line": 15,
+        "excerpt": "const id = argv.id; // \"../../.ssh/id_rsa\", or \"42?admin=true\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/dx-audit/rules/cli-agent-input-hardening.md",
+        "line": 17,
+        "excerpt": "const res = await fetch(`https://api.example.com/items/${id}`); // splices raw input",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.example.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/dx-audit/rules/cli-agent-input-hardening.md",
+        "line": 30,
+        "excerpt": "const res = await fetch(`https://api.example.com/items/${encodeURIComponent(id)}`);",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.example.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/dx-audit/rules/cli-responsive-and-progress.md",
+        "line": 15,
+        "excerpt": "const res = await fetch(url); // no output for 30s, and no timeout: a stall hangs forever",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/dx-audit/rules/cli-responsive-and-progress.md",
+        "line": 24,
+        "excerpt": "const res = await fetch(url, { signal: AbortSignal.timeout(timeoutMs ?? 30_000) });",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/dx-audit/rules/onboard-exports-resolve-typed.md",
+        "line": 10,
+        "excerpt": "`pnpm add` succeeding is not onboarding; the first `import` resolving with types is. Every `exports` entry needs a `types` condition first in its block (TypeScr",
+        "disclosed": false,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "downloads-code": 2
+      "downloads-code": 4,
+      "writes-outside": 1,
+      "network": 8,
+      "reads-secrets": 1
     },
-    "score": 85,
-    "band": "low",
+    "score": 50,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 8,
-    "filesSkipped": 94
+    "filesScanned": 102,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -53,6 +164,12 @@
       "commit": "402a666823ddf9b8cd9be76c3314b1119078ff01",
       "scannedAt": "2026-11-13T10:10:34.466Z",
       "score": 85,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "7df4b7edff1dc1c991331061373d4ba42ecacdbe",
+      "scannedAt": "2026-11-18T10:48:40.347Z",
+      "score": 50,
       "rulesVersion": "1.3.0"
     }
   ]

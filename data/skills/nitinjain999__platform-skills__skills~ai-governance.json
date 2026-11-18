@@ -4,7 +4,7 @@
   "repo": "platform-skills",
   "path": "skills/ai-governance",
   "name": "ai-governance",
-  "description": "",
+  "description": "Generate and enforce policy gates for AI coding agents (Copilot, Claude Code) — real-time session hooks that deny protected-path edits and dangerous commands, plus a merge-time backstop for anything that bypasses them. Use when asked to \"govern AI agents\", \"block AI from touching secrets\", \"add an AI policy gate\", or \"why did the AI agent hook not fire\".",
   "stars": 72,
   "category": "devops",
   "commit": "c995e1d20daf0d16d629a248ca1923762c3b2ed8",
@@ -12,16 +12,77 @@
   "repoCreatedAt": "2026-04-02T06:18:16Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-18T10:48:40.347Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/ai-governance/SKILL.md",
+        "line": 78,
+        "excerpt": "4. Check for `yq` v4 (`command -v yq && yq --version`). If it is missing, stop and ask the user to install it: Homebrew (`brew install yq`) on macOS, their dist",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/ai-governance/SKILL.md",
+        "line": 124,
+        "excerpt": "PRE_CMD='.ai-governance/evaluate.sh --mode=hook --platform=claude --event=PreToolUse'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/ai-governance/SKILL.md",
+        "line": 138,
+        "excerpt": "&& mv .claude/settings.json.tmp .claude/settings.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/ai-governance/SKILL.md",
+        "line": 151,
+        "excerpt": "grep -qxF '.ai-governance/audit.log' .gitignore 2>/dev/null || echo '.ai-governance/audit.log' >> .gitignore",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/ai-governance/SKILL.md",
+        "line": 166,
+        "excerpt": "printf '%s\\0' \".github/workflows/release.yml\" | .ai-governance/evaluate.sh --mode=ci --policy=.ai-governance.yaml",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/ai-governance/SKILL.md",
+        "line": 185,
+        "excerpt": "echo '{\"toolName\":\"edit\",\"toolArgs\":{\"path\":\".github/workflows/release.yml\",\"content\":\"x\"}}' \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/ai-governance/SKILL.md",
+        "line": 219,
+        "excerpt": "gh api \"orgs/<org>/repos\" --paginate --jq '.[].full_name' | while read -r repo; do",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "downloads-code": 1,
+      "shell": 5,
+      "writes-outside": 1
+    },
+    "score": 77,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 1,
-    "filesSkipped": 1
+    "filesScanned": 2,
+    "filesSkipped": 0
   },
   "history": [
     {

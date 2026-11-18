@@ -4,18 +4,80 @@
   "repo": "ai-maxxing-skills",
   "path": "skills/setup-vps",
   "name": "setup-vps",
-  "description": "",
-  "stars": 42,
+  "description": "Turn the user's VPS into their 24/7 agent. Copies their GitHub and Cloudflare access, installs Hermes on Claude Code, to chat with on Telegram or Discord, and puts its dashboard on hermes.their-domain behind a sign-in page - email + one-time code sent by Lumail, several users with roles (admin, member), brute-force locks and saved IPs. `/setup-vps discord` connects Hermes to Discord almost on its own - bot, private channel, access role. Use after connect-vps.",
+  "stars": 49,
   "category": "coding",
-  "commit": "86f06848774ae5804176c25ff7fb01195252ae4e",
-  "contentHash": "4eb28d07269f6663a01f215db0aac25fa2d3e027c7e0a9ec138694be6cd1a010",
+  "commit": "488a9ffe65836a476eac28465b7924a18de9e641",
+  "contentHash": "927faf7c7455996fe452983452390449c7dcbe22d5246eeca4326edef6c5656a",
   "repoCreatedAt": "2026-10-17T10:31:46Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-18T10:48:40.347Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "network",
+        "file": "skills/setup-vps/SKILL.md",
+        "line": 10,
+        "excerpt": "If you got this skill from a link instead of a local folder, install nothing else from the repo: download a file it links only when a step needs it, with `curl ",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "raw.githubusercontent.com"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/setup-vps/SKILL.md",
+        "line": 14,
+        "excerpt": "1. Check what is ready: `ssh -o BatchMode=yes hermes true` (otherwise run the `connect-vps` skill), `gh auth status` (otherwise `setup-github`), `cf auth whoami",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/setup-vps/SKILL.md",
+        "line": 15,
+        "excerpt": "2. Put the server scripts in place: `scp scripts/hermes.sh scripts/expose.sh scripts/gate.py scripts/geist.woff2 scripts/discord.sh scripts/claude-accounts.py h",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/setup-vps/SKILL.md",
+        "line": 26,
+        "excerpt": "- Lumail must work on the Mac: `npx -y lumail@latest auth test`, otherwise run the `setup-lumail` skill first.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/setup-vps/SKILL.md",
+        "line": 27,
+        "excerpt": "- The domain must be able to send: `npx -y lumail@latest --json domain setup <domain>` lists `data.status` and `data.dnsRecords`. Unless the status is `VERIFIED",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/setup-vps/SKILL.md",
+        "line": 28,
+        "excerpt": "- Give the gate its own key, through a pipe, never printed: `npx -y lumail@latest --json tokens create --name \"Sign-in <alias>\" --permissions emails --no-reuse ",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/setup-vps/SKILL.md",
+        "line": 32,
+        "excerpt": "15. Prove it from the Mac, after a minute for the address to spread: `curl -s -o /dev/null -w '%{http_code} %{redirect_url}' https://hermes.<domain>` answers `3",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "hermes."
+        ]
+      },
       {
         "ruleId": "writes-outside",
         "file": "skills/setup-vps/references/discord.md",
@@ -33,11 +95,27 @@
         "automatic": false
       },
       {
+        "ruleId": "writes-outside",
+        "file": "skills/setup-vps/references/hermes.md",
+        "line": 5,
+        "excerpt": "If the test answers with an error about \"extra usage\" or a 400 from Anthropic, Claude counts Hermes as extra usage on the subscription. Tell the user, in plain ",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/setup-vps/references/hermes.md",
+        "line": 29,
+        "excerpt": "Skills. Every skill of the server lives in `~/.agents/skills/<name>/SKILL.md`. Hermes reads that folder through `skills.external_dirs`, next to its own `~/.herm",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
         "ruleId": "network",
         "file": "skills/setup-vps/scripts/claude-accounts.py",
         "line": 25,
         "excerpt": "import urllib.request",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": []
       },
@@ -46,7 +124,7 @@
         "file": "skills/setup-vps/scripts/claude-accounts.py",
         "line": 63,
         "excerpt": "req = urllib.request.Request(",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": []
       },
@@ -63,7 +141,7 @@
         "file": "skills/setup-vps/scripts/claude-accounts.py",
         "line": 71,
         "excerpt": "return json.load(urllib.request.urlopen(req, timeout=20))",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": []
       },
@@ -72,7 +150,7 @@
         "file": "skills/setup-vps/scripts/claude-accounts.py",
         "line": 75,
         "excerpt": "return subprocess.run([HERMES, \"auth\", *args], capture_output=True, text=True, timeout=90)",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false
       },
       {
@@ -80,7 +158,7 @@
         "file": "skills/setup-vps/scripts/claude-accounts.py",
         "line": 78,
         "excerpt": "def fetch(entry):",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": []
       },
@@ -89,7 +167,16 @@
         "file": "skills/setup-vps/scripts/claude-accounts.py",
         "line": 161,
         "excerpt": "stats[entry[\"id\"]] = score(fetch(entry), now)",
-        "disclosed": false,
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/setup-vps/scripts/discord.sh",
+        "line": 69,
+        "excerpt": "out=\"$(curl -sS -X \"$1\" -H @\"$HDR\" -H 'Content-Type: application/json' \\",
+        "disclosed": true,
         "automatic": false,
         "hosts": []
       },
@@ -98,7 +185,7 @@
         "file": "skills/setup-vps/scripts/expose.sh",
         "line": 53,
         "excerpt": "out=\"$(curl -sS -X \"$1\" \"$API$2\" -H \"Authorization: Bearer $CLOUDFLARE_API_TOKEN\" -H \"Content-Type: application/json\" ${3:+--data \"$3\"})\"",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": []
       },
@@ -115,7 +202,7 @@
         "file": "skills/setup-vps/scripts/expose.sh",
         "line": 181,
         "excerpt": "curl -s -o /dev/null \"http://127.0.0.1:$GATE_AUTH_PORT/\" && return",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": []
       },
@@ -132,7 +219,7 @@
         "file": "skills/setup-vps/scripts/expose.sh",
         "line": 253,
         "excerpt": "curl -fsSL https://pkg.cloudflare.com/cloudflare-main.gpg -o /usr/share/keyrings/cloudflare-main.gpg",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": [
           "pkg.cloudflare.com"
@@ -151,7 +238,7 @@
         "file": "skills/setup-vps/scripts/expose.sh",
         "line": 260,
         "excerpt": "curl -fsSL https://dl.cloudsmith.io/public/caddy/stable/gpg.key | gpg --dearmor --yes -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": [
           "dl.cloudsmith.io"
@@ -162,7 +249,7 @@
         "file": "skills/setup-vps/scripts/expose.sh",
         "line": 261,
         "excerpt": "curl -fsSL https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt -o /etc/apt/sources.list.d/caddy-stable.list",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": [
           "dl.cloudsmith.io"
@@ -177,11 +264,262 @@
         "automatic": false
       },
       {
+        "ruleId": "network",
+        "file": "skills/setup-vps/scripts/gate.py",
+        "line": 40,
+        "excerpt": "import urllib.request",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/setup-vps/scripts/gate.py",
+        "line": 291,
+        "excerpt": "req = urllib.request.Request(LUMAIL_API, body, {\"Authorization\": f\"Bearer {key}\", \"Content-Type\": \"application/json\"})",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/setup-vps/scripts/gate.py",
+        "line": 293,
+        "excerpt": "with urllib.request.urlopen(req, timeout=15) as r:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/setup-vps/scripts/gate.py",
+        "line": 323,
+        "excerpt": "with urllib.request.urlopen(LOOKUP.format(ip=urllib.parse.quote(ip)), timeout=5) as r:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/setup-vps/scripts/hermes.sh",
+        "line": 47,
+        "excerpt": "mkdir -p \"$SKILLS\" \"$HOME/.claude/skills\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/setup-vps/scripts/hermes.sh",
+        "line": 94,
+        "excerpt": "|| { $SUDO apt-get update -qq && DEBIAN_FRONTEND=noninteractive $SUDO apt-get install -y -qq git curl jq ca-certificates >/dev/null; }",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/setup-vps/scripts/hermes.sh",
+        "line": 95,
+        "excerpt": "command -v claude >/dev/null 2>&1 || curl -fsSL https://claude.ai/install.sh | bash >/dev/null",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/setup-vps/scripts/hermes.sh",
+        "line": 95,
+        "excerpt": "command -v claude >/dev/null 2>&1 || curl -fsSL https://claude.ai/install.sh | bash >/dev/null",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "claude.ai"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/setup-vps/scripts/hermes.sh",
+        "line": 96,
+        "excerpt": "command -v hermes >/dev/null 2>&1 || curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash -s -- --non-interacti",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/setup-vps/scripts/hermes.sh",
+        "line": 96,
+        "excerpt": "command -v hermes >/dev/null 2>&1 || curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash -s -- --non-interacti",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "raw.githubusercontent.com"
+        ]
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/setup-vps/scripts/hermes.sh",
+        "line": 97,
+        "excerpt": "grep -q '.local/bin' \"$HOME/.bashrc\" 2>/dev/null || echo 'export PATH=\"$HOME/.local/bin:$PATH\"' >> \"$HOME/.bashrc\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/setup-vps/scripts/hermes.sh",
+        "line": 168,
+        "excerpt": "code=\"$(curl -s -o /dev/null -w '%{http_code}' \"http://127.0.0.1:$port/\" || true)\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/setup-vps/scripts/hermes.sh",
+        "line": 212,
+        "excerpt": "|| { $SUDO apt-get update -qq && DEBIAN_FRONTEND=noninteractive $SUDO apt-get install -y -qq cron >/dev/null; }",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/setup-vps/scripts/hermes.sh",
+        "line": 230,
+        "excerpt": "command -v xz >/dev/null 2>&1 || { $SUDO apt-get update -qq && DEBIAN_FRONTEND=noninteractive $SUDO apt-get install -y -qq xz-utils >/dev/null; }",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/setup-vps/scripts/hermes.sh",
+        "line": 240,
+        "excerpt": "command -v cf >/dev/null 2>&1 || $SUDO npm install -g --silent cf >/dev/null",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/setup-vps/scripts/hermes.sh",
+        "line": 305,
+        "excerpt": "mkdir -p \"$HOME/.cache/removed-skills\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/setup-vps/scripts/hermes.sh",
+        "line": 310,
+        "excerpt": "mv \"$dest\" \"$HOME/.cache/removed-skills/$name-$(date +%Y%m%d-%H%M%S)\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/setup-vps/scripts/hermes.sh",
+        "line": 311,
+        "excerpt": "[ -L \"$HOME/.claude/skills/$name\" ] && rm \"$HOME/.claude/skills/$name\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/setup-vps/scripts/import-keys.sh",
+        "line": 44,
+        "excerpt": "$SUDO apt-get install -y -qq curl git ca-certificates >/dev/null",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/setup-vps/scripts/import-keys.sh",
+        "line": 45,
+        "excerpt": "$SUDO mkdir -p -m 755 /etc/apt/keyrings",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/setup-vps/scripts/import-keys.sh",
+        "line": 46,
+        "excerpt": "curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | $SUDO tee /etc/apt/keyrings/githubcli-archive-keyring.gpg >/dev/null",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/setup-vps/scripts/import-keys.sh",
+        "line": 48,
+        "excerpt": "echo \"deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main\" | $SUDO tee",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/setup-vps/scripts/import-keys.sh",
+        "line": 50,
+        "excerpt": "$SUDO apt-get install -y -qq gh >/dev/null",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/setup-vps/scripts/import-keys.sh",
+        "line": 52,
+        "excerpt": "command -v git >/dev/null 2>&1 || $SUDO apt-get install -y -qq git >/dev/null",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/setup-vps/scripts/import-keys.sh",
+        "line": 70,
+        "excerpt": "need jq \"brew install jq\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/setup-vps/scripts/import-keys.sh",
+        "line": 113,
+        "excerpt": "| remote \"sh -c '$REMOTE_UPSERT' sh $cf_env\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/setup-vps/scripts/import-keys.sh",
+        "line": 115,
+        "excerpt": "remote \"for rc in ~/.bashrc ~/.profile; do touch \\$rc; grep -q 'config/cloudflare/env' \\$rc || { printf '%s\\n' '[ -f ~/.config/cloudflare/env ] && . ~/.config/c",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/setup-vps/scripts/import-keys.sh",
+        "line": 130,
+        "excerpt": "remote \". $cf_env && printf 'CLOUDFLARE_API_TOKEN=%s\\nCLOUDFLARE_ACCOUNT_ID=%s\\n' \\\"\\$CLOUDFLARE_API_TOKEN\\\" \\\"\\$CLOUDFLARE_ACCOUNT_ID\\\" | sh -c '$REMOTE_UPSERT",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/setup-vps/server-skills/create-dashboard/SKILL.md",
+        "line": 11,
+        "excerpt": "2. Commands: `P=~/.cache/ai-maxxing-skills/skills/setup-my-hermes-dashboard; git -C ~/.cache/ai-maxxing-skills pull -q --ff-only; install -m 755 $P/scripts/dash",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/setup-vps/server-skills/create-dashboard/SKILL.md",
+        "line": 12,
+        "excerpt": "3. Code, only if `~/projects/dashboard` does not exist: `mkdir -p ~/projects && cp -R ~/.cache/ai-maxxing-skills/skills/setup-my-hermes-dashboard/template ~/pro",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
         "ruleId": "shell",
         "file": "skills/setup-vps/server-skills/github-cli/SKILL.md",
         "line": 9,
         "excerpt": "gh auth status                                   # who is signed in",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false
       },
       {
@@ -189,21 +527,22 @@
         "file": "skills/setup-vps/server-skills/github-cli/SKILL.md",
         "line": 16,
         "excerpt": "gh pr create --fill          # from the current branch",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "writes-outside": 6,
-      "network": 10,
+      "network": 29,
+      "downloads-code": 14,
+      "writes-outside": 20,
       "paid-api": 1,
-      "shell": 3
+      "shell": 5
     },
-    "score": 70,
+    "score": 59,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 4,
-    "filesSkipped": 11
+    "filesScanned": 14,
+    "filesSkipped": 1
   },
   "history": [
     {
@@ -222,6 +561,12 @@
       "commit": "86f06848774ae5804176c25ff7fb01195252ae4e",
       "scannedAt": "2026-11-13T10:10:34.466Z",
       "score": 70,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "488a9ffe65836a476eac28465b7924a18de9e641",
+      "scannedAt": "2026-11-18T10:48:40.347Z",
+      "score": 59,
       "rulesVersion": "1.3.0"
     }
   ]

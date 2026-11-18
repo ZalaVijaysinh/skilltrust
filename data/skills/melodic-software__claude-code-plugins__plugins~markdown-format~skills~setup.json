@@ -4,22 +4,30 @@
   "repo": "claude-code-plugins",
   "path": "plugins/markdown-format/skills/setup",
   "name": "setup",
-  "description": "Verify markdown-format's prerequisites and configuration here, and register its git pre-commit entry. Use when: 'set up markdown-format', 'configure markdown-format', 'is markdown-format working', formatting silently isn't happening, or a hook reported a missing prerequisite or drifted git hook. Actions: check (read-only, default) | apply [install-lint] | apply install-git-hooks [scope=local|shared]. Re-runnable.",
-  "stars": 30,
+  "description": "Verify markdown-format's prerequisites and which formatter and linter its hooks run here, and register its git pre-commit entries. Use when: 'set up markdown-format', 'configure markdown-format', 'is markdown-format working', 'which linter does markdown-format run', formatting silently isn't happening, or a hook reported a missing prerequisite or drifted git hook. Actions: check (read-only, default) | check inspect (read-only) | apply [install-lint] | apply install-git-hooks [scope=local|shared]. Re-runnable.",
+  "stars": 32,
   "category": "coding",
-  "commit": "230251cc750b562576c144d595b7cc0fabfceae9",
-  "contentHash": "574857f2a02d5f7d6b0b56785d900c41ba18ce3d84838dc7e7cebe443aa568b7",
+  "commit": "832899e8af7e4004eb7dae449fb1872f1872a0d8",
+  "contentHash": "e8f7d5f4aa0ade226ed1b24c89cfaffc231d705a25b647f1bd3f61775544bbe5",
   "repoCreatedAt": "2026-06-22T18:28:56Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "scannedAt": "2026-11-18T10:48:40.347Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
+        "file": "lib/git-hooks/resolve-tool.sh",
+        "line": 132,
+        "excerpt": "(cd \"$RT_DIR\" && RT_BIN=\"$RT_BIN\" sh -c \"$RT_SCRIPT\" sh \"${chunk[@]}\")",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
         "file": "plugins/markdown-format/lib/git-hooks/install.mjs",
-        "line": 44,
+        "line": 46,
         "excerpt": "import { spawnSync } from \"node:child_process\";",
         "disclosed": true,
         "automatic": false
@@ -27,8 +35,40 @@
       {
         "ruleId": "shell",
         "file": "plugins/markdown-format/lib/git-hooks/install.mjs",
-        "line": 194,
+        "line": 198,
         "excerpt": "const r = spawnSync(\"git\", args, { cwd, encoding: \"utf8\", stdio: [\"ignore\", \"pipe\", \"pipe\"] });",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/markdown-format/lib/git-hooks/install.mjs",
+        "line": 676,
+        "excerpt": "const r = spawnSync(\"sh\", [path.join(plugin.root, \"git-hooks\", entry.script), \"--resolve\"], {",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/markdown-format/lib/git-hooks/install.mjs",
+        "line": 1692,
+        "excerpt": "const r = spawnSync(\"sh\", [found.file, ...input.args], {",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/markdown-format/lib/git-hooks/install.mjs",
+        "line": 1754,
+        "excerpt": "const r = spawnSync(\"lefthook\", [\"dump\", \"--format\", \"json\"], {",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/markdown-format/lib/git-hooks/resolve-tool.sh",
+        "line": 134,
+        "excerpt": "(cd \"$RT_DIR\" && RT_BIN=\"$RT_BIN\" sh -c \"$RT_SCRIPT\" sh \"${chunk[@]}\")",
         "disclosed": true,
         "automatic": false
       },
@@ -58,12 +98,12 @@
       }
     ],
     "findingTotals": {
-      "shell": 5
+      "shell": 10
     },
     "score": 97,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 13,
+    "filesScanned": 20,
     "filesSkipped": 0
   },
   "history": [
@@ -82,6 +122,12 @@
     {
       "commit": "230251cc750b562576c144d595b7cc0fabfceae9",
       "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 97,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "832899e8af7e4004eb7dae449fb1872f1872a0d8",
+      "scannedAt": "2026-11-18T10:48:40.347Z",
       "score": 97,
       "rulesVersion": "1.3.0"
     }

@@ -1,0 +1,85 @@
+{
+  "id": "maroffo__claude-forge__skills~freeze",
+  "owner": "maroffo",
+  "repo": "claude-forge",
+  "path": "skills/freeze",
+  "name": "freeze",
+  "description": "Restrict edits to one directory of the current repo for the rest of the session, so focused debugging cannot spill into unrelated files. Use when user says /freeze, freeze the boundary, freeze this dir, keep edits inside <dir>, unfreeze, or /freeze off. Writes a repo-local boundary file that the freeze-guard PreToolUse hook reads. Not a security boundary and not a scope mechanism for parallel subagents.",
+  "stars": 15,
+  "category": "security",
+  "commit": "1328442f4830ea3aaff66ce1e562adcb58a3c9b7",
+  "contentHash": "3f90f65b690a780835f12d8bd8bc8e305cf421a40a1ba89d6e848e19ae6f1ccb",
+  "repoCreatedAt": "2025-11-09T13:29:54Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-18T10:48:40.347Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/freeze/SKILL.md",
+        "line": 34,
+        "excerpt": "root=$(git rev-parse --show-toplevel) && root=$(cd \"$root\" && pwd -P)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/freeze/SKILL.md",
+        "line": 45,
+        "excerpt": "case \"$dir/\" in \"$root\"/*) ;; *) echo \"refusing: $dir is outside $root\"; exit 1 ;; esac",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/freeze/SKILL.md",
+        "line": 51,
+        "excerpt": "printf '%s/\\n' \"${dir%/}\" > \"$root/.freeze-boundary\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/freeze/SKILL.md",
+        "line": 58,
+        "excerpt": "gi=\"$root/.gitignore\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/freeze/SKILL.md",
+        "line": 76,
+        "excerpt": "root=$(git rev-parse --show-toplevel 2>/dev/null) && cat \"$root/.freeze-boundary\" 2>/dev/null",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/freeze/SKILL.md",
+        "line": 84,
+        "excerpt": "root=$(git rev-parse --show-toplevel) && rm -f \"$root/.freeze-boundary\"",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 6
+    },
+    "score": 97,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "1328442f4830ea3aaff66ce1e562adcb58a3c9b7",
+      "scannedAt": "2026-11-18T10:48:40.347Z",
+      "score": 97,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

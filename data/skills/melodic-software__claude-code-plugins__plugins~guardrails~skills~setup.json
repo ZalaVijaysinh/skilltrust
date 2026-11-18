@@ -4,22 +4,22 @@
   "repo": "claude-code-plugins",
   "path": "plugins/guardrails/skills/setup",
   "name": "setup",
-  "description": "Verify the guardrails hooks' runtime prerequisites, per-guard toggle state and git-hook entries for this machine, and register those entries. Use when: 'set up guardrails', 'configure guardrails', 'is guardrails working', 'which guards are on', a guard failed open with a jq notice, after tuning guard toggles, a hook reported a drifted git hook, or 'install the guardrails git hooks' / 'enforce the commit convention for every committer' / 'check secrets and hardcoded paths on every commit'. Actions: check (read-only verification, default) | apply (resolve what check found) | apply install-git-hooks [scope=local|shared|user] (register the commit-msg convention, pre-commit and pre-push content and reference-verify entries with the repository's hook manager; user: the commit-msg entry as a git config hook under an includeIf) | apply read-deny (opt-in: print Read() deny rules for .env, with user also ~/.ssh and ~/.aws, and add or remove them in the chosen settings file). Re-runnable and safe.",
-  "stars": 30,
+  "description": "Verify the guardrails hooks' runtime prerequisites, per-guard toggle state and git-hook entries for this machine, and register those entries. Use when: 'set up guardrails', 'configure guardrails', 'is guardrails working', 'which guards are on', a guard failed open with a jq notice, after tuning guard toggles, a hook reported a drifted git hook, or 'install the guardrails git hooks' / 'enforce the commit convention for every committer' / 'check secrets and hardcoded paths on every commit'. Actions: check (read-only, default) | check inspect (read-only) | apply (resolve what check found) | apply install-git-hooks [scope=local|shared|user] (register the commit-msg convention, pre-commit and pre-push content and reference-verify entries with the repository's hook manager; user: the commit-msg entry as a git config hook under an includeIf) | apply read-deny (opt-in: print Read() deny rules for .env, with user also ~/.ssh and ~/.aws, and add or remove them in the chosen settings file). Re-runnable.",
+  "stars": 32,
   "category": "coding",
-  "commit": "230251cc750b562576c144d595b7cc0fabfceae9",
-  "contentHash": "7bec8d9089d53754094d11a946231069ea52460e68d711dd605ab9fc7ff132b2",
+  "commit": "832899e8af7e4004eb7dae449fb1872f1872a0d8",
+  "contentHash": "79077ae2efa7bfd5df71dc53f42487f39f3e8ac005940f68c9fa6f85ecb7cb57",
   "repoCreatedAt": "2026-06-22T18:28:56Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "scannedAt": "2026-11-18T10:48:40.347Z",
   "scan": {
     "findings": [
       {
         "ruleId": "reads-secrets",
         "file": "plugins/guardrails/skills/setup/SKILL.md",
-        "line": 227,
+        "line": 246,
         "excerpt": "interpreter that opens the file itself (`python3 -c \"open('.env')\"`). Pointer:",
         "disclosed": true,
         "automatic": false
@@ -27,7 +27,7 @@
       {
         "ruleId": "network",
         "file": "plugins/guardrails/README.md",
-        "line": 90,
+        "line": 93,
         "excerpt": "| **block-windows-drive-tmp** | PreToolUse · Bash \\| PowerShell **and** Write \\| Edit \\| NotebookEdit | **Blocks** (exit 2) | Windows-only: write targets that a",
         "disclosed": false,
         "automatic": false,
@@ -36,15 +36,23 @@
       {
         "ruleId": "shell",
         "file": "plugins/guardrails/README.md",
-        "line": 91,
+        "line": 94,
         "excerpt": "| **block-exported-msys-pathconv** | PreToolUse · Bash \\| PowerShell | **Blocks** (exit 2) | Windows-only: an **exported** `MSYS_NO_PATHCONV` / `MSYS2_ARG_CONV_",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/guardrails/README.md",
+        "line": 97,
+        "excerpt": "| **block-foreground-wait** | PreToolUse · Bash | **Blocks** (exit 2) | A foreground call that waits: an `until` keyword where a command starts, or an unquoted ",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "obfuscated",
         "file": "plugins/guardrails/README.md",
-        "line": 93,
+        "line": 98,
         "excerpt": "| **block-root-delete-target** | PreToolUse · Bash \\| PowerShell | **Blocks** (exit 2); **asks** instead when `CLAUDE_CODE_SESSION_ATTENDED` is `1`, `GUARDRAILS",
         "disclosed": false,
         "automatic": false
@@ -52,7 +60,7 @@
       {
         "ruleId": "writes-outside",
         "file": "plugins/guardrails/README.md",
-        "line": 93,
+        "line": 98,
         "excerpt": "| **block-root-delete-target** | PreToolUse · Bash \\| PowerShell | **Blocks** (exit 2); **asks** instead when `CLAUDE_CODE_SESSION_ATTENDED` is `1`, `GUARDRAILS",
         "disclosed": true,
         "automatic": false
@@ -60,7 +68,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/guardrails/README.md",
-        "line": 93,
+        "line": 98,
         "excerpt": "| **block-root-delete-target** | PreToolUse · Bash \\| PowerShell | **Blocks** (exit 2); **asks** instead when `CLAUDE_CODE_SESSION_ATTENDED` is `1`, `GUARDRAILS",
         "disclosed": true,
         "automatic": false
@@ -68,7 +76,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/guardrails/README.md",
-        "line": 95,
+        "line": 100,
         "excerpt": "| **block-cross-domain** | PreToolUse · Bash \\| PowerShell | **Blocks** (a `deny` decision on stdout, exit 0); a malformed map is reported to the user once per ",
         "disclosed": true,
         "automatic": false
@@ -76,7 +84,7 @@
       {
         "ruleId": "network",
         "file": "plugins/guardrails/README.md",
-        "line": 96,
+        "line": 101,
         "excerpt": "| **block-unresolved-pr-merge** | PreToolUse · Bash \\| PowerShell **and** `mcp__<server>__merge_pull_request` \\| `mcp__<server>__enable_pr_auto_merge` | **Block",
         "disclosed": false,
         "automatic": false,
@@ -85,7 +93,15 @@
       {
         "ruleId": "shell",
         "file": "plugins/guardrails/README.md",
-        "line": 98,
+        "line": 102,
+        "excerpt": "| **block-lane-pr-disable-auto** | PreToolUse · Bash | **Blocks** (exit 2) | Turning off auto-merge on a pull request the lanes App (`melodic-automation-lanes[b",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/guardrails/README.md",
+        "line": 104,
         "excerpt": "| **block-github-post-content** | PreToolUse · Bash \\| PowerShell | **Blocks** (exit 2) | A command that posts a secret or a hardcoded machine-specific path to ",
         "disclosed": true,
         "automatic": false
@@ -93,7 +109,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/guardrails/README.md",
-        "line": 204,
+        "line": 317,
         "excerpt": "- **`wsl` / `wsl.exe` is read like `bash -c`** (since **0.38.11**). It runs its",
         "disclosed": true,
         "automatic": false
@@ -101,7 +117,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/guardrails/README.md",
-        "line": 206,
+        "line": 319,
         "excerpt": "`sh -c` operand (`block-no-verify`, `block-dangerous-git`,",
         "disclosed": true,
         "automatic": false
@@ -109,7 +125,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/guardrails/README.md",
-        "line": 214,
+        "line": 327,
         "excerpt": "double-quoted, so `wsl bash -c 'git reset --hard'` blocks while",
         "disclosed": true,
         "automatic": false
@@ -117,7 +133,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/guardrails/README.md",
-        "line": 247,
+        "line": 360,
         "excerpt": "and Node's `child_process` **refuses** a NUL-bearing string outright.",
         "disclosed": true,
         "automatic": false
@@ -125,7 +141,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/guardrails/README.md",
-        "line": 517,
+        "line": 636,
         "excerpt": "parsed in-process as a `bash -c` operand is, and an `echo`'s escapes and a `printf`'s output are",
         "disclosed": true,
         "automatic": false
@@ -133,7 +149,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/guardrails/README.md",
-        "line": 526,
+        "line": 645,
         "excerpt": "was 19 to 66 ms (median 33) and hyperfine's `bash -c :` floor 128 ms. Fan-out harness, 15 interleaved",
         "disclosed": true,
         "automatic": false
@@ -141,7 +157,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/guardrails/README.md",
-        "line": 558,
+        "line": 677,
         "excerpt": "was 24 to 26 ms and hyperfine's `bash -c :` floor 93 ms. Fan-out harness, 15 interleaved rounds of `--runs 7`, S = 20 ms",
         "disclosed": true,
         "automatic": false
@@ -149,7 +165,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/guardrails/README.md",
-        "line": 585,
+        "line": 704,
         "excerpt": "`eval`, a `-c` operand or a here-string hands a shell is parsed in-process as a `bash -c` operand is.",
         "disclosed": true,
         "automatic": false
@@ -157,7 +173,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/guardrails/README.md",
-        "line": 600,
+        "line": 719,
         "excerpt": "code runs is parsed in-process as a `bash -c` operand is. So a call with no interpreter delete keeps",
         "disclosed": true,
         "automatic": false
@@ -165,7 +181,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/guardrails/README.md",
-        "line": 657,
+        "line": 776,
         "excerpt": "alternating blocks; its own `bash -c :` floor is 62 ms, a cold start where the harness times a fork",
         "disclosed": true,
         "automatic": false
@@ -173,7 +189,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/guardrails/README.md",
-        "line": 764,
+        "line": 883,
         "excerpt": "`EPOCHREALTIME` beside a `bash -c :` floor (S median 1.0 ms), arm order rotated, five runs",
         "disclosed": true,
         "automatic": false
@@ -181,7 +197,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/guardrails/README.md",
-        "line": 814,
+        "line": 933,
         "excerpt": "(`bash -c \"<hooks.json command>\"`, PreToolUse payload on stdin), which counts",
         "disclosed": true,
         "automatic": false
@@ -189,7 +205,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/guardrails/README.md",
-        "line": 818,
+        "line": 937,
         "excerpt": "**880 ms -> 297 ms** (n=5). The three that remain are the harness's `bash -c`,",
         "disclosed": true,
         "automatic": false
@@ -197,31 +213,15 @@
       {
         "ruleId": "shell",
         "file": "plugins/guardrails/README.md",
-        "line": 908,
+        "line": 1027,
         "excerpt": "whose `bash -c :` floor is about 1 ms; the milliseconds are context, the",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/guardrails/README.md",
-        "line": 1153,
-        "excerpt": "`HOOK_TELEMETRY_SINK` unset, `bash -c :` spawn floor S = 3.2 ms interleaved, real file",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/guardrails/README.md",
-        "line": 1241,
-        "excerpt": "preceded by its own `bash -c :`. The host is shared, and its spawn floor moved from",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "network",
         "file": "plugins/guardrails/README.md",
-        "line": 1629,
+        "line": 1796,
         "excerpt": "drive-root `\\tmp`, PowerShell `/tmp`, and the file-path lane still are. `curl -o`/`--output` and",
         "disclosed": false,
         "automatic": false,
@@ -230,7 +230,7 @@
       {
         "ruleId": "network",
         "file": "plugins/guardrails/README.md",
-        "line": 1630,
+        "line": 1797,
         "excerpt": "`wget -O`/`--output-document` destinations are judged the same way as cp/mv.",
         "disclosed": false,
         "automatic": false,
@@ -239,7 +239,7 @@
       {
         "ruleId": "writes-outside",
         "file": "plugins/guardrails/README.md",
-        "line": 1649,
+        "line": 1822,
         "excerpt": "`block_root_delete_target_allowed_roots` (`rm -rf ../../..`, `rm -rf ~/Documents/x`,",
         "disclosed": true,
         "automatic": false
@@ -247,7 +247,7 @@
       {
         "ruleId": "network",
         "file": "plugins/guardrails/lib/github-post/github-post-body.sh",
-        "line": 378,
+        "line": 392,
         "excerpt": "curl) ghpost::curl \"$@\" && form=\"curl\" ;;",
         "disclosed": false,
         "automatic": false,
@@ -256,7 +256,7 @@
       {
         "ruleId": "reads-secrets",
         "file": "plugins/guardrails/.claude-plugin/plugin.json",
-        "line": 76,
+        "line": 82,
         "excerpt": "\"description\": \"Blocks a command whose output is a credential: git credential fill, gh auth token, a token-shaped variable echoed, and an interpreter (python -c",
         "disclosed": true,
         "automatic": true
@@ -264,7 +264,7 @@
       {
         "ruleId": "writes-outside",
         "file": "plugins/guardrails/.claude-plugin/plugin.json",
-        "line": 136,
+        "line": 166,
         "excerpt": "\"description\": \"Blocks a recursive delete (rm, Remove-Item, rd /s) of a filesystem, home, drive or UNC root, an empty or bare-variable operand, a protected tree",
         "disclosed": true,
         "automatic": true
@@ -563,7 +563,7 @@
       {
         "ruleId": "downloads-code",
         "file": "plugins/guardrails/hooks/block-dangerous-git.test.sh",
-        "line": 1820,
+        "line": 1895,
         "excerpt": "run_pwsh \"PS cmp: npx of the compared value (blocked)\" \\",
         "disclosed": false,
         "automatic": true
@@ -680,6 +680,23 @@
       },
       {
         "ruleId": "network",
+        "file": "plugins/guardrails/hooks/block-foreground-wait.test.sh",
+        "line": 54,
+        "excerpt": "deny_until \"until after &&\" 'cd /srv && until curl -sf localhost:8080; do sleep 1; done'",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/guardrails/hooks/block-foreground-wait.test.sh",
+        "line": 63,
+        "excerpt": "deny_watch \"--watch with an env prefix\" 'NODE_ENV=test npx jest --watch'",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "network",
         "file": "plugins/guardrails/hooks/block-github-post-content.test.sh",
         "line": 85,
         "excerpt": "deny \"curl with short flags written together\" \"curl -sSd '{\\\"body\\\":\\\"$TOK\\\"}' https://api.github.com/repos/o/r/issues/1/comments\" secret",
@@ -705,17 +722,6 @@
         "file": "plugins/guardrails/hooks/block-github-post-content.test.sh",
         "line": 119,
         "excerpt": "quiet \"home-dir body file joined to curl -d@\" \"curl -d@/ho\"\"me/alice/r/body.json https://api.github.com/repos/o/r/issues/1/comments\"",
-        "disclosed": false,
-        "automatic": true,
-        "hosts": [
-          "api.github.com"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": "plugins/guardrails/hooks/block-github-post-content.test.sh",
-        "line": 120,
-        "excerpt": "quiet \"token in an Authorization header, clean body\" \"curl -X POST -H 'Authorization: Bearer $TOK' -d '{\\\"body\\\":\\\"Looks good\\\"}' https://api.github.com/repos/o",
         "disclosed": false,
         "automatic": true,
         "hosts": [
@@ -893,16 +899,16 @@
     ],
     "findingTotals": {
       "reads-secrets": 37,
-      "network": 58,
-      "shell": 181,
+      "network": 59,
+      "shell": 206,
       "obfuscated": 21,
-      "writes-outside": 102,
-      "downloads-code": 3
+      "writes-outside": 105,
+      "downloads-code": 4
     },
     "score": 37,
     "band": "high",
     "rulesVersion": "1.3.0",
-    "filesScanned": 90,
+    "filesScanned": 102,
     "filesSkipped": 0
   },
   "history": [
@@ -921,6 +927,12 @@
     {
       "commit": "230251cc750b562576c144d595b7cc0fabfceae9",
       "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 37,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "832899e8af7e4004eb7dae449fb1872f1872a0d8",
+      "scannedAt": "2026-11-18T10:48:40.347Z",
       "score": 37,
       "rulesVersion": "1.3.0"
     }

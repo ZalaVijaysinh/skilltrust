@@ -5,15 +5,15 @@
   "path": "plugins/harness-ops/skills/audit-mod-posture",
   "name": "audit-mod-posture",
   "description": "Read-only audit of the mods this Claude Code can run: installed and built-in mods, their hooks and calls, and whether the built-in guard is seated. Use when: 'which mods run on my machine', 'mod posture', 'is the sec-default guard on', 'can a mod bypass my deny rules', 'audit my mods'. Never loads a mod or prints settings. Not for: writing a mod, or settings correctness (/harness-config:audit).",
-  "stars": 30,
+  "stars": 32,
   "category": "coding",
-  "commit": "230251cc750b562576c144d595b7cc0fabfceae9",
-  "contentHash": "304d0e321dea63d1a88e88e56ff5c2cd074a022575153efd11f58f2c989862cc",
+  "commit": "832899e8af7e4004eb7dae449fb1872f1872a0d8",
+  "contentHash": "c19971ef924e1de72668f36bf19f0a274b8bc928ba1e92c45377fcb642631d4e",
   "repoCreatedAt": "2026-06-22T18:28:56Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "scannedAt": "2026-11-18T10:48:40.347Z",
   "scan": {
     "findings": [
       {
@@ -33,403 +33,30 @@
         "automatic": false
       },
       {
-        "ruleId": "shell",
-        "file": "plugins/harness-ops/lib/prerequisites.mjs",
-        "line": 30,
-        "excerpt": "import { spawnSync } from \"node:child_process\";",
-        "disclosed": true,
+        "ruleId": "writes-outside",
+        "file": "plugins/harness-ops/skills/audit-mod-posture/scripts/mod-posture.test.sh",
+        "line": 331,
+        "excerpt": "printf '{}\\n' >\"$HOME/.claude/remote-settings.json\"",
+        "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "shell",
-        "file": "plugins/harness-ops/lib/prerequisites.mjs",
+        "ruleId": "writes-outside",
+        "file": "plugins/harness-ops/skills/audit-mod-posture/scripts/mod-posture.test.sh",
         "line": 341,
-        "excerpt": "const r = spawnSync(path.resolve(file), args, {",
-        "disclosed": true,
+        "excerpt": "rm -f -- \"$HOME/.claude/remote-settings.json\" \"$MCP\"",
+        "disclosed": false,
         "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/harness-ops/lib/prerequisites.mjs",
-        "line": 688,
-        "excerpt": "const r = spawnSync(process.execPath, [installer, \"verify\", \"--quiet\", \"--repo\", repo, \"--plugin-root\", root], {",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/harness-ops/.claude-plugin/plugin.json",
-        "line": 187,
-        "excerpt": "\"description\": \"Command run detached at SessionEnd with one argument: a directory holding the session files about to be pruned, deleted on the next retention ru",
-        "disclosed": true,
-        "automatic": true
-      },
-      {
-        "ruleId": "network",
-        "file": "plugins/harness-ops/hooks/audit-event-emitter.test.sh",
-        "line": 108,
-        "excerpt": "\"{\\\"hook_event_name\\\":\\\"$pev\\\",\\\"tool_name\\\":\\\"Bash\\\",\\\"tool_input\\\":{\\\"command\\\":\\\"TOKEN=\\\\\\\"secret value\\\\\\\" curl https://x\\\"}}\" \\",
-        "disclosed": false,
-        "automatic": true,
-        "hosts": [
-          "x"
-        ]
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "plugins/harness-ops/hooks/audit-event-emitter.test.sh",
-        "line": 271,
-        "excerpt": "mkdir -p \"$PROJU\" \"$HOMEU\"",
-        "disclosed": false,
-        "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/harness-ops/hooks/exec-bash.mjs",
-        "line": 111,
-        "excerpt": "import { spawn, spawnSync } from \"node:child_process\";",
-        "disclosed": true,
-        "automatic": true
-      },
-      {
-        "ruleId": "network",
-        "file": "plugins/harness-ops/hooks/hook-events.registry.json",
-        "line": 8,
-        "excerpt": "\"basis\": \"https://code.claude.com/docs/en/hooks#hook-lifecycle (raw markdown of hooks.md, fetched with curl -sS -L)\",",
-        "disclosed": false,
-        "automatic": true,
-        "hosts": [
-          "code.claude.com"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": "plugins/harness-ops/hooks/hook-events.registry.json",
-        "line": 18,
-        "excerpt": "\"basis\": \"https://code.claude.com/docs/en/hooks#hook-lifecycle (raw markdown of hooks.md, fetched with curl -sS -L)\",",
-        "disclosed": false,
-        "automatic": true,
-        "hosts": [
-          "code.claude.com"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": "plugins/harness-ops/hooks/hook-events.registry.json",
-        "line": 28,
-        "excerpt": "\"basis\": \"https://code.claude.com/docs/en/hooks#hook-lifecycle (raw markdown of hooks.md, fetched with curl -sS -L)\",",
-        "disclosed": false,
-        "automatic": true,
-        "hosts": [
-          "code.claude.com"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": "plugins/harness-ops/hooks/hook-events.registry.json",
-        "line": 38,
-        "excerpt": "\"basis\": \"https://code.claude.com/docs/en/hooks#hook-lifecycle (raw markdown of hooks.md, fetched with curl -sS -L)\",",
-        "disclosed": false,
-        "automatic": true,
-        "hosts": [
-          "code.claude.com"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": "plugins/harness-ops/hooks/hook-events.registry.json",
-        "line": 48,
-        "excerpt": "\"basis\": \"https://code.claude.com/docs/en/hooks#hook-lifecycle (raw markdown of hooks.md, fetched with curl -sS -L)\",",
-        "disclosed": false,
-        "automatic": true,
-        "hosts": [
-          "code.claude.com"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": "plugins/harness-ops/hooks/hook-events.registry.json",
-        "line": 58,
-        "excerpt": "\"basis\": \"https://code.claude.com/docs/en/hooks#hook-lifecycle (raw markdown of hooks.md, fetched with curl -sS -L)\",",
-        "disclosed": false,
-        "automatic": true,
-        "hosts": [
-          "code.claude.com"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": "plugins/harness-ops/hooks/hook-events.registry.json",
-        "line": 68,
-        "excerpt": "\"basis\": \"https://code.claude.com/docs/en/hooks#hook-lifecycle (raw markdown of hooks.md, fetched with curl -sS -L)\",",
-        "disclosed": false,
-        "automatic": true,
-        "hosts": [
-          "code.claude.com"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": "plugins/harness-ops/hooks/hook-events.registry.json",
-        "line": 78,
-        "excerpt": "\"basis\": \"https://code.claude.com/docs/en/hooks#hook-lifecycle (raw markdown of hooks.md, fetched with curl -sS -L)\",",
-        "disclosed": false,
-        "automatic": true,
-        "hosts": [
-          "code.claude.com"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": "plugins/harness-ops/hooks/hook-events.registry.json",
-        "line": 88,
-        "excerpt": "\"basis\": \"https://code.claude.com/docs/en/hooks#hook-lifecycle (raw markdown of hooks.md, fetched with curl -sS -L)\",",
-        "disclosed": false,
-        "automatic": true,
-        "hosts": [
-          "code.claude.com"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": "plugins/harness-ops/hooks/hook-events.registry.json",
-        "line": 98,
-        "excerpt": "\"basis\": \"https://code.claude.com/docs/en/hooks#hook-lifecycle (raw markdown of hooks.md, fetched with curl -sS -L)\",",
-        "disclosed": false,
-        "automatic": true,
-        "hosts": [
-          "code.claude.com"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": "plugins/harness-ops/hooks/hook-events.registry.json",
-        "line": 108,
-        "excerpt": "\"basis\": \"https://code.claude.com/docs/en/hooks#hook-lifecycle (raw markdown of hooks.md, fetched with curl -sS -L)\",",
-        "disclosed": false,
-        "automatic": true,
-        "hosts": [
-          "code.claude.com"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": "plugins/harness-ops/hooks/hook-events.registry.json",
-        "line": 118,
-        "excerpt": "\"basis\": \"https://code.claude.com/docs/en/hooks#hook-lifecycle (raw markdown of hooks.md, fetched with curl -sS -L)\",",
-        "disclosed": false,
-        "automatic": true,
-        "hosts": [
-          "code.claude.com"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": "plugins/harness-ops/hooks/hook-events.registry.json",
-        "line": 128,
-        "excerpt": "\"basis\": \"https://code.claude.com/docs/en/hooks#hook-lifecycle (raw markdown of hooks.md, fetched with curl -sS -L)\",",
-        "disclosed": false,
-        "automatic": true,
-        "hosts": [
-          "code.claude.com"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": "plugins/harness-ops/hooks/hook-events.registry.json",
-        "line": 138,
-        "excerpt": "\"basis\": \"https://code.claude.com/docs/en/hooks#hook-lifecycle (raw markdown of hooks.md, fetched with curl -sS -L)\",",
-        "disclosed": false,
-        "automatic": true,
-        "hosts": [
-          "code.claude.com"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": "plugins/harness-ops/hooks/hook-events.registry.json",
-        "line": 148,
-        "excerpt": "\"basis\": \"https://code.claude.com/docs/en/hooks#hook-lifecycle (raw markdown of hooks.md, fetched with curl -sS -L)\",",
-        "disclosed": false,
-        "automatic": true,
-        "hosts": [
-          "code.claude.com"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": "plugins/harness-ops/hooks/hook-events.registry.json",
-        "line": 158,
-        "excerpt": "\"basis\": \"https://code.claude.com/docs/en/hooks#hook-lifecycle (raw markdown of hooks.md, fetched with curl -sS -L)\",",
-        "disclosed": false,
-        "automatic": true,
-        "hosts": [
-          "code.claude.com"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": "plugins/harness-ops/hooks/hook-events.registry.json",
-        "line": 168,
-        "excerpt": "\"basis\": \"https://code.claude.com/docs/en/hooks#hook-lifecycle (raw markdown of hooks.md, fetched with curl -sS -L)\",",
-        "disclosed": false,
-        "automatic": true,
-        "hosts": [
-          "code.claude.com"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": "plugins/harness-ops/hooks/hook-events.registry.json",
-        "line": 178,
-        "excerpt": "\"basis\": \"https://code.claude.com/docs/en/hooks#hook-lifecycle (raw markdown of hooks.md, fetched with curl -sS -L)\",",
-        "disclosed": false,
-        "automatic": true,
-        "hosts": [
-          "code.claude.com"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": "plugins/harness-ops/hooks/hook-events.registry.json",
-        "line": 188,
-        "excerpt": "\"basis\": \"https://code.claude.com/docs/en/hooks#hook-lifecycle (raw markdown of hooks.md, fetched with curl -sS -L)\",",
-        "disclosed": false,
-        "automatic": true,
-        "hosts": [
-          "code.claude.com"
-        ]
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/harness-ops/hooks/hook-failure-audit.test.sh",
-        "line": 280,
-        "excerpt": "assert_absent \"bash -c line-numbered error is not stale config\" \"$OUT_S\" \"$STALE_LABEL\"",
-        "disclosed": true,
-        "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/harness-ops/hooks/hook-failure-audit.test.sh",
-        "line": 807,
-        "excerpt": "bash -c \"$row_cmd\" >/dev/null 2>&1 || row_rc=$?",
-        "disclosed": true,
-        "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/harness-ops/hooks/hooks.json",
-        "line": 12,
-        "excerpt": "\"command\": \"node\",",
-        "disclosed": true,
-        "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/harness-ops/hooks/hooks.json",
-        "line": 29,
-        "excerpt": "\"command\": \"node\",",
-        "disclosed": true,
-        "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/harness-ops/hooks/hooks.json",
-        "line": 45,
-        "excerpt": "\"command\": \"node\",",
-        "disclosed": true,
-        "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/harness-ops/hooks/hooks.json",
-        "line": 61,
-        "excerpt": "\"command\": \"node\",",
-        "disclosed": true,
-        "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/harness-ops/hooks/hooks.json",
-        "line": 77,
-        "excerpt": "\"command\": \"node\",",
-        "disclosed": true,
-        "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/harness-ops/hooks/hooks.json",
-        "line": 94,
-        "excerpt": "\"command\": \"node\",",
-        "disclosed": true,
-        "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/harness-ops/hooks/hooks.json",
-        "line": 110,
-        "excerpt": "\"command\": \"node\",",
-        "disclosed": true,
-        "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/harness-ops/hooks/hooks.json",
-        "line": 127,
-        "excerpt": "\"command\": \"node\",",
-        "disclosed": true,
-        "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/harness-ops/hooks/hooks.json",
-        "line": 144,
-        "excerpt": "\"command\": \"bash \\\"${CLAUDE_PLUGIN_ROOT}/hooks/hook-failure-audit.sh\\\"\",",
-        "disclosed": true,
-        "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/harness-ops/hooks/hooks.json",
-        "line": 158,
-        "excerpt": "\"command\": \"sh \\\"${CLAUDE_PLUGIN_ROOT}/lib/prerequisites.sh\\\" node-notice /harness-ops:prerequisites; ${PPID:+exit}; powershell -NoProfile -ExecutionPolicy Bypa",
-        "disclosed": true,
-        "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/harness-ops/hooks/hooks.json",
-        "line": 169,
-        "excerpt": "\"command\": \"sh \\\"${CLAUDE_PLUGIN_ROOT}/lib/node-or-skip.sh\\\" \\\"${CLAUDE_PLUGIN_ROOT}/hooks/prerequisites-fleet.mjs\\\"; ${PPID:+exit}; powershell -NoProfile -Exec",
-        "disclosed": true,
-        "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/harness-ops/hooks/hooks.json",
-        "line": 181,
-        "excerpt": "\"command\": \"bash \\\"${CLAUDE_PLUGIN_ROOT}/hooks/refresh-sink-launcher.sh\\\"\",",
-        "disclosed": true,
-        "automatic": true
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "plugins/harness-ops/hooks/skill-usage-audit.test.sh",
-        "line": 124,
-        "excerpt": "mkdir -p \"$HOMEU\"",
-        "disclosed": false,
-        "automatic": true
       }
     ],
     "findingTotals": {
-      "shell": 27,
-      "writes-outside": 3,
-      "network": 34
+      "shell": 1,
+      "writes-outside": 3
     },
-    "score": 82,
+    "score": 87,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 42,
+    "filesScanned": 12,
     "filesSkipped": 0
   },
   "history": [
@@ -449,6 +76,12 @@
       "commit": "230251cc750b562576c144d595b7cc0fabfceae9",
       "scannedAt": "2026-11-13T10:10:34.466Z",
       "score": 82,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "832899e8af7e4004eb7dae449fb1872f1872a0d8",
+      "scannedAt": "2026-11-18T10:48:40.347Z",
+      "score": 87,
       "rulesVersion": "1.3.0"
     }
   ]

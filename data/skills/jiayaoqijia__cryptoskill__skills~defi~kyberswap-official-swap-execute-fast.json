@@ -7,13 +7,13 @@
   "description": "This skill should ONLY be used when the user explicitly asks for immediate, no-confirmation execution using phrases like \"fast swap\", \"execute immediately\", \"swap with no confirmation\", \"quick swap now\", \"instant execute\", or \"skip confirmation and swap\". The user must clearly indicate they want to bypass the review/confirmation step. Do NOT use this skill if the user mentions wanting to review, confirm, check, or verify before executing — use swap-build + swap-execute instead. Do NOT use this skill for general swap requests like \"swap ETH to USDC\" or \"trade tokens\" — those should go to swap-build. This skill runs a shell script that builds the swap via fast-swap.sh then immediately broadcasts the transaction. DANGEROUS - no confirmation before sending real transactions.",
   "stars": 81,
   "category": "other",
-  "commit": "0dc9f60ab1f3fcae24da49c4cef09c46c589f903",
+  "commit": "100f6db5bc51b89029ed74229448a89f49ae7176",
   "contentHash": "42003ec033bbfd6a8c1de651a796e3d9b23c2fa5b06b9d13f1d8d4a68ccfb995",
   "repoCreatedAt": "2026-03-19T14:52:16Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-18T10:48:40.347Z",
   "scan": {
     "findings": [
       {
@@ -69,6 +69,53 @@
       },
       {
         "ruleId": "downloads-code",
+        "file": "skills/defi/kyberswap-official-swap-execute-fast/TRUST.auto.yaml",
+        "line": 35,
+        "excerpt": "- 'pattern: remote install script -> implies install (curl -L https://foundry.paradigm.xyz \\| bash)'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/defi/kyberswap-official-swap-execute-fast/TRUST.auto.yaml",
+        "line": 35,
+        "excerpt": "- 'pattern: remote install script -> implies install (curl -L https://foundry.paradigm.xyz \\| bash)'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "foundry.paradigm.xyz"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/defi/kyberswap-official-swap-execute-fast/TRUST.auto.yaml",
+        "line": 47,
+        "excerpt": "- 'pattern: WebFetch'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/defi/kyberswap-official-swap-execute-fast/TRUST.auto.yaml",
+        "line": 78,
+        "excerpt": "- 'pattern: curl -L https://foundry.paradigm.xyz \\| bash'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/defi/kyberswap-official-swap-execute-fast/TRUST.auto.yaml",
+        "line": 78,
+        "excerpt": "- 'pattern: curl -L https://foundry.paradigm.xyz \\| bash'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "foundry.paradigm.xyz"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
         "file": "skills/defi/kyberswap-official-swap-execute-fast/scripts/execute-swap.sh",
         "line": 214,
         "excerpt": "json_output false \"Swap failed (pre-flight): cast not found. Install Foundry: curl -L https://foundry.paradigm.xyz | bash && foundryup. No transaction was submi",
@@ -101,19 +148,82 @@
         "excerpt": "json_output false \"Swap failed (pre-flight): curl not found. Install: brew install curl (mac) or apt install curl (linux). No transaction was submitted.\"",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/defi/kyberswap-official-swap-execute-fast/scripts/fast-swap.sh",
+        "line": 223,
+        "excerpt": "resp=$(curl -s --connect-timeout 10 --max-time 30 \"${TOKEN_API}?chainIds=${chain_id}&symbol=${encoded_symbol}&isWhitelisted=true\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/defi/kyberswap-official-swap-execute-fast/scripts/fast-swap.sh",
+        "line": 237,
+        "excerpt": "resp=$(curl -s --connect-timeout 10 --max-time 30 \"${TOKEN_API}?chainIds=${chain_id}&symbol=${encoded_symbol}\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/defi/kyberswap-official-swap-execute-fast/scripts/fast-swap.sh",
+        "line": 251,
+        "excerpt": "resp=$(curl -s --connect-timeout 10 --max-time 30 \"${TOKEN_API}?chainIds=${chain_id}&name=${encoded_symbol}&isWhitelisted=true\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/defi/kyberswap-official-swap-execute-fast/scripts/fast-swap.sh",
+        "line": 267,
+        "excerpt": "resp=$(curl -s --connect-timeout 10 --max-time 30 \"${TOKEN_API}?chainIds=${chain_id}&page=${page}&pageSize=100\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/defi/kyberswap-official-swap-execute-fast/scripts/fast-swap.sh",
+        "line": 444,
+        "excerpt": "resp=$(curl -s --connect-timeout 10 --max-time 30 \"${TOKEN_API}/honeypot-fot-info?chainId=${chain_id}&address=${addr}\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/defi/kyberswap-official-swap-execute-fast/scripts/fast-swap.sh",
+        "line": 479,
+        "excerpt": "resp=$(curl -s --connect-timeout 10 --max-time 30 \"$url\" -H \"X-Client-Id: ${CLIENT_ID}\" 2>/dev/null) || \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/defi/kyberswap-official-swap-execute-fast/scripts/fast-swap.sh",
+        "line": 578,
+        "excerpt": "resp=$(curl -s --connect-timeout 10 --max-time 30 -X POST \"${BASE_URL}/${chain}/api/v1/route/build\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
       }
     ],
     "findingTotals": {
       "shell": 3,
       "writes-outside": 1,
-      "downloads-code": 4,
-      "network": 2
+      "downloads-code": 6,
+      "network": 12
     },
     "score": 69,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 2,
-    "filesSkipped": 3
+    "filesScanned": 5,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -131,6 +241,12 @@
     {
       "commit": "0dc9f60ab1f3fcae24da49c4cef09c46c589f903",
       "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 69,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "100f6db5bc51b89029ed74229448a89f49ae7176",
+      "scannedAt": "2026-11-18T10:48:40.347Z",
       "score": 69,
       "rulesVersion": "1.3.0"
     }

@@ -4,7 +4,7 @@
   "repo": "robotframework-agentskills",
   "path": "plugins/rf-agentskills/skills/rf-setup",
   "name": "rf-setup",
-  "description": "",
+  "description": "Use first, before reading pyproject.toml, to install or fix Robot Framework and libraries (uv, pip, venv).",
   "stars": 40,
   "category": "other",
   "commit": "b1d5f82f8ade01419f3e76d33c4abadf867cbfc0",
@@ -12,57 +12,207 @@
   "repoCreatedAt": "2026-01-13T09:44:19Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-18T10:48:40.347Z",
   "scan": {
     "findings": [
       {
-        "ruleId": "downloads-code",
-        "file": "plugins/rf-agentskills/skills/rf-setup/references/venv-pip.md",
-        "line": 12,
-        "excerpt": "On Debian/Ubuntu this fails with \"ensurepip is not available\" until the OS package is installed: `sudo apt install python3.12-venv`. If you can't install OS pac",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "plugins/rf-agentskills/skills/rf-setup/references/venv-pip.md",
-        "line": 27,
-        "excerpt": ".venv/bin/python -m pip install -r requirements.txt     # Windows: .venv\\Scripts\\python -m pip …",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "plugins/rf-agentskills/skills/rf-setup/references/venv-pip.md",
-        "line": 45,
-        "excerpt": ".venv/bin/python -m pip install --upgrade pip",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "plugins/rf-agentskills/skills/rf-setup/references/venv-pip.md",
-        "line": 46,
-        "excerpt": ".venv/bin/python -m pip install -r requirements.txt",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "plugins/rf-agentskills/skills/rf-setup/references/venv-pip.md",
+        "ruleId": "shell",
+        "file": "plugins/rf-agentskills/skills/rf-setup/SKILL.md",
         "line": 59,
-        "excerpt": "python3.12 -m venv .venv && .venv/bin/python -m pip install -r requirements.lock.txt",
+        "excerpt": "uv init --bare --python 3.12          # pyproject.toml only; --python avoids requires-python >= newest",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
-        "file": "plugins/rf-agentskills/skills/rf-setup/references/venv-pip.md",
-        "line": 67,
-        "excerpt": ".venv/bin/python -m pip install --upgrade robotframework-browser",
+        "file": "plugins/rf-agentskills/skills/rf-setup/SKILL.md",
+        "line": 79,
+        "excerpt": "| venv + pip | `pip install \"robotcode[all]>=2.8\"` (venv active; also add it to `requirements-dev.txt`) |",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/rf-agentskills/skills/rf-setup/SKILL.md",
+        "line": 94,
+        "excerpt": "| AppiumLibrary | `uv add robotframework-appiumlibrary` | `npm i -g appium` + `appium driver install uiautomator2` / `xcuitest` | `rf-appium` |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/rf-agentskills/skills/rf-setup/SKILL.md",
+        "line": 103,
+        "excerpt": "- No `sudo pip install`, no `pip install --break-system-packages`, no `pip install --user` for project dependencies.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/rf-agentskills/skills/rf-setup/SKILL.md",
+        "line": 104,
+        "excerpt": "- **Don't use `pipx`, `uvx` or `uv tool` for test libraries or robotcode.** Those create isolated environments that `robot` in the project can't import from. Th",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/rf-agentskills/skills/rf-setup/SKILL.md",
+        "line": 110,
+        "excerpt": "uv run robot --version                           # right interpreter? (poetry run … / .venv/bin/python -m robot …)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/rf-agentskills/skills/rf-setup/SKILL.md",
+        "line": 137,
+        "excerpt": "| Standalone CLIs with `uv tool` / `uvx` / `pipx` | `references/cli-tools.md` |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/rf-agentskills/skills/rf-setup/references/ci.md",
+        "line": 50,
+        "excerpt": "- run: pipx install poetry && poetry install",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/rf-agentskills/skills/rf-setup/references/ci.md",
+        "line": 53,
+        "excerpt": "- run: python -m pip install -r requirements.lock.txt",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/rf-agentskills/skills/rf-setup/references/ci.md",
+        "line": 57,
+        "excerpt": "On CI runners the job's fresh Python is already isolated, so plain `python -m pip install` is fine there. Still pin via the lock file.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/rf-agentskills/skills/rf-setup/references/ci.md",
+        "line": 61,
+        "excerpt": "The steps are the same everywhere: install uv (`curl -LsSf https://astral.sh/uv/install.sh | sh`), `uv sync --locked`, library post-install, `uv run robot …`, a",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/rf-agentskills/skills/rf-setup/references/ci.md",
+        "line": 61,
+        "excerpt": "The steps are the same everywhere: install uv (`curl -LsSf https://astral.sh/uv/install.sh | sh`), `uv sync --locked`, library post-install, `uv run robot …`, a",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "astral.sh"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/rf-agentskills/skills/rf-setup/references/cli-tools.md",
+        "line": 1,
+        "excerpt": "# Standalone CLI Tools: `uv tool`, `uvx`, `pipx`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/rf-agentskills/skills/rf-setup/references/cli-tools.md",
+        "line": 3,
+        "excerpt": "`uv tool install`, `uvx` and `pipx` put a command-line tool into **its own isolated environment** and link the command onto PATH. That is right for tools that d",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/rf-agentskills/skills/rf-setup/references/cli-tools.md",
+        "line": 8,
+        "excerpt": "| `uv` itself (`pipx install uv`) | Every test library (Browser, SeleniumLibrary, RequestsLibrary, …) |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/rf-agentskills/skills/rf-setup/references/cli-tools.md",
+        "line": 9,
+        "excerpt": "| `platynui-cli`, `platynui-inspector` (optional PlatynUI tools) | `robotcode[all]` (it imports your libraries for `doc`, `discover`, `analyze`; never `uvx robo",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/rf-agentskills/skills/rf-setup/references/cli-tools.md",
+        "line": 10,
+        "excerpt": "| One-off commands: `uvx rf-agentskills install` | `robocop` (comes with `robotcode[all]`; uses the project's RF version) |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/rf-agentskills/skills/rf-setup/references/cli-tools.md",
+        "line": 12,
+        "excerpt": "Why: a library installed with `pipx install robotframework-browser` lives in `~/.local/pipx/venvs/robotframework-browser/`. Your project's `robot` can't import ",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/rf-agentskills/skills/rf-setup/references/cli-tools.md",
+        "line": 19,
+        "excerpt": "uvx rf-agentskills install              # run once without installing",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/rf-agentskills/skills/rf-setup/references/cli-tools.md",
+        "line": 24,
+        "excerpt": "pipx install rf-agentskills",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/rf-agentskills/skills/rf-setup/references/cli-tools.md",
+        "line": 25,
+        "excerpt": "pipx run rf-agentskills install",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/rf-agentskills/skills/rf-setup/references/cli-tools.md",
+        "line": 29,
+        "excerpt": "Pre-release tools need an opt-in: `uv tool install --prerelease allow platynui-cli`, `pipx install --pip-args=--pre <tool>`.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/rf-agentskills/skills/rf-setup/references/libraries.md",
+        "line": 7,
+        "excerpt": "| `uv add <pkg>` | `poetry add <pkg>` | `.venv/bin/python -m pip install <pkg>` (+ add it to `requirements.txt`) |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/rf-agentskills/skills/rf-setup/references/uv.md",
+        "line": 5,
+        "excerpt": "Install uv (once per machine): `curl -LsSf https://astral.sh/uv/install.sh | sh` (macOS/Linux) or `powershell -c \"irm https://astral.sh/uv/install.ps1 | iex\"` (",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "astral.sh"
+        ]
       },
       {
         "ruleId": "shell",
@@ -193,14 +343,6 @@
         "automatic": false
       },
       {
-        "ruleId": "downloads-code",
-        "file": "plugins/rf-agentskills/hooks/README.md",
-        "line": 325,
-        "excerpt": "recommends `pip install` or `rfbrowser init`. A missing, empty or malformed",
-        "disclosed": false,
-        "automatic": true
-      },
-      {
         "ruleId": "shell",
         "file": "plugins/rf-agentskills/hooks/hooks.json",
         "line": 9,
@@ -215,33 +357,18 @@
         "excerpt": "\"command\": \"node \\\"${CLAUDE_PLUGIN_ROOT}/scripts/rf_error_hints.mjs\\\"\",",
         "disclosed": false,
         "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/rf-agentskills/hooks/hooks.json",
-        "line": 31,
-        "excerpt": "\"command\": \"node \\\"${CLAUDE_PLUGIN_ROOT}/scripts/maybe_inject_rf_context.mjs\\\"\",",
-        "disclosed": false,
-        "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/rf-agentskills/hooks/hooks.json",
-        "line": 43,
-        "excerpt": "\"command\": \"node \\\"${CLAUDE_PLUGIN_ROOT}/scripts/check_rf_environment.mjs\\\"\",",
-        "disclosed": false,
-        "automatic": true
       }
     ],
     "findingTotals": {
-      "downloads-code": 7,
-      "shell": 23
+      "shell": 25,
+      "downloads-code": 37,
+      "network": 2
     },
-    "score": 80,
-    "band": "low",
+    "score": 77,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 15,
-    "filesSkipped": 14
+    "filesScanned": 29,
+    "filesSkipped": 0
   },
   "history": [
     {
