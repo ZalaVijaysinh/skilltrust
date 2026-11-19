@@ -5,15 +5,15 @@
   "path": "skills/hunt-saml",
   "name": "hunt-saml",
   "description": "Hunt SAML / SSO attacks. Patterns: XML Signature Wrapping (XSW) — modify Assertion while keeping Signature valid by relocating signed element, comment injection in NameID (admin@target.com<!--evil-->@attacker.com → some parsers see admin@target.com), signature stripping (remove Signature element entirely, server should reject but doesn't), key confusion (signed by attacker's IdP, accepted by SP), audience-restriction not validated, replay attack (same Assertion accepted twice within validity window). Tools: SAML Raider Burp extension, samlmagic, manual XML manipulation. Detection: any /saml endpoint, /Shibboleth.sso, /sso/saml/, Microsoft ADFS endpoints. Validate: account takeover via altered NameID, admin role injection via altered AttributeStatement. Use when hunting SSO flows, when SAML AssertionConsumerService is reachable, when chaining IdP-trust to SP-impersonation.",
-  "stars": 8222,
+  "stars": 11730,
   "category": "security",
-  "commit": "64410edb7f445e1837665e2fd713d47958a51094",
-  "contentHash": "673688c25e92439bb26366cd30879442849d612fb8375e1aaa070994967f293a",
+  "commit": "9bdb0a81658bc25f09c0b52d31fcde923d126e4f",
+  "contentHash": "513ac60d9db419540e890877a975b3558f1233f9f37956dd3733fbc3281b2568",
   "repoCreatedAt": "2026-05-05T11:22:32Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-17T11:16:37.484Z",
+  "scannedAt": "2026-11-19T10:50:00.942Z",
   "scan": {
     "findings": [
       {
@@ -31,15 +31,69 @@
         "excerpt": "echo \"BASE64_SAML\" | base64 -d > saml.xml",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "mcp/hackerone/server.py",
+        "line": 31,
+        "excerpt": "import urllib.request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "mcp/hackerone/server.py",
+        "line": 65,
+        "excerpt": "req = urllib.request.Request(GRAPHQL_URL, data=json.dumps({\"query\": query}).encode(),",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "mcp/hackerone/server.py",
+        "line": 68,
+        "excerpt": "with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "mcp/hackerone/server.py",
+        "line": 92,
+        "excerpt": "req = urllib.request.Request(url, headers={\"Authorization\": \"Basic \" + auth,",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "mcp/hackerone/server.py",
+        "line": 95,
+        "excerpt": "with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude-plugin/plugin.json",
+        "line": 29,
+        "excerpt": "\"command\": \"python3\",",
+        "disclosed": false,
+        "automatic": true
       }
     ],
     "findingTotals": {
-      "shell": 2
+      "shell": 3,
+      "network": 5
     },
-    "score": 95,
+    "score": 90,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 2,
+    "filesScanned": 3,
     "filesSkipped": 0
   },
   "history": [
@@ -77,6 +131,12 @@
       "commit": "64410edb7f445e1837665e2fd713d47958a51094",
       "scannedAt": "2026-11-17T11:16:37.484Z",
       "score": 95,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "9bdb0a81658bc25f09c0b52d31fcde923d126e4f",
+      "scannedAt": "2026-11-19T10:50:00.942Z",
+      "score": 90,
       "rulesVersion": "1.3.0"
     }
   ]

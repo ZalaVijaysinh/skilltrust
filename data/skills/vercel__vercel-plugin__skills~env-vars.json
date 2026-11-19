@@ -5,15 +5,15 @@
   "path": "skills/env-vars",
   "name": "env-vars",
   "description": "Vercel environment variable expert guidance. Use when working with .env files, vercel env commands, Secret or Config variable types, OIDC tokens, or managing environment-specific configuration.",
-  "stars": 336,
+  "stars": 340,
   "category": "other",
-  "commit": "b004b4098274bb1b3a0290623260e23432437b4b",
-  "contentHash": "867e315ac3bb1e5efd1071912419586b1074fa1428ba121588433cdc3f3134d2",
+  "commit": "b37cbacaaf866e5c6de89e170ad25c816f616798",
+  "contentHash": "d1f8ff3ef663939e7f0eecef76e459a5b8b421a90f0fee0ea77c50ce5a289f4c",
   "repoCreatedAt": "2026-03-04T16:46:22Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-14T09:34:23.329Z",
+  "scannedAt": "2026-11-19T10:50:00.942Z",
   "scan": {
     "findings": [
       {
@@ -127,6 +127,17 @@
         "excerpt": "source <(grep -v '^#' .env.local | sed 's/^/export /') && node scripts/migrate.js",
         "disclosed": true,
         "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "agents/ai-architect.md",
+        "line": 51,
+        "excerpt": "│  ├─ From code or scripts → `curl -fsSL https://ai-gateway.vercel.sh/v1/models`",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "ai-gateway.vercel.sh"
+        ]
       },
       {
         "ruleId": "downloads-code",
@@ -259,40 +270,56 @@
       },
       {
         "ruleId": "shell",
+        "file": "hooks/compat.test.ts",
+        "line": 2,
+        "excerpt": "import { spawnSync } from \"node:child_process\"",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/compat.test.ts",
+        "line": 221,
+        "excerpt": "const result = spawnSync(\"bash\", [\"-c\", '. \"$1\" && printf \"%s\" \"$SPECIAL\"', \"bash\", envFile], {",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
         "file": "hooks/hooks.json",
         "line": 9,
-        "excerpt": "\"command\": \"node \\\"${CLAUDE_PLUGIN_ROOT}/hooks/session-start-seen-skills.mjs\\\"\"",
+        "excerpt": "\"command\": \"node \\\"${CLAUDE_PLUGIN_ROOT}/hooks/session-start-seen-skills.mjs\\\"\",",
         "disclosed": false,
         "automatic": true
       },
       {
         "ruleId": "shell",
         "file": "hooks/hooks.json",
-        "line": 13,
-        "excerpt": "\"command\": \"node \\\"${CLAUDE_PLUGIN_ROOT}/hooks/session-start-profiler.mjs\\\"\"",
+        "line": 14,
+        "excerpt": "\"command\": \"node \\\"${CLAUDE_PLUGIN_ROOT}/hooks/session-start-profiler.mjs\\\"\",",
         "disclosed": false,
         "automatic": true
       },
       {
         "ruleId": "shell",
         "file": "hooks/hooks.json",
-        "line": 17,
-        "excerpt": "\"command\": \"node \\\"${CLAUDE_PLUGIN_ROOT}/hooks/inject-claude-md.mjs\\\" --part 1/2\"",
+        "line": 19,
+        "excerpt": "\"command\": \"node \\\"${CLAUDE_PLUGIN_ROOT}/hooks/inject-claude-md.mjs\\\" --part 1/2\",",
         "disclosed": false,
         "automatic": true
       },
       {
         "ruleId": "shell",
         "file": "hooks/hooks.json",
-        "line": 21,
-        "excerpt": "\"command\": \"node \\\"${CLAUDE_PLUGIN_ROOT}/hooks/inject-claude-md.mjs\\\" --part 2/2\"",
+        "line": 24,
+        "excerpt": "\"command\": \"node \\\"${CLAUDE_PLUGIN_ROOT}/hooks/inject-claude-md.mjs\\\" --part 2/2\",",
         "disclosed": false,
         "automatic": true
       },
       {
         "ruleId": "shell",
         "file": "hooks/hooks.json",
-        "line": 32,
+        "line": 36,
         "excerpt": "\"command\": \"node \\\"${CLAUDE_PLUGIN_ROOT}/hooks/posttooluse-skill-telemetry.mjs\\\"\",",
         "disclosed": false,
         "automatic": true
@@ -300,7 +327,7 @@
       {
         "ruleId": "shell",
         "file": "hooks/hooks.json",
-        "line": 43,
+        "line": 47,
         "excerpt": "\"command\": \"node \\\"${CLAUDE_PLUGIN_ROOT}/hooks/session-end-cleanup.mjs\\\"\",",
         "disclosed": false,
         "automatic": true
@@ -345,22 +372,6 @@
         "file": "hooks/session-start-profiler-binary-resolution.test.ts",
         "line": 2,
         "excerpt": "import { execSync } from \"node:child_process\";",
-        "disclosed": false,
-        "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": "hooks/session-start-profiler-binary-resolution.test.ts",
-        "line": 89,
-        "excerpt": "const output = execSync(buildShellCommand(binary, [\"--version\"]), {",
-        "disclosed": false,
-        "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": "hooks/session-start-profiler.mjs",
-        "line": 368,
-        "excerpt": "import { execFileSync, execSync } from \"child_process\";",
         "disclosed": false,
         "automatic": true
       },
@@ -416,15 +427,15 @@
       }
     ],
     "findingTotals": {
-      "shell": 28,
+      "shell": 30,
       "reads-secrets": 4,
       "downloads-code": 19,
-      "network": 6
+      "network": 7
     },
     "score": 65,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 76,
+    "filesScanned": 78,
     "filesSkipped": 0
   },
   "history": [
@@ -443,6 +454,12 @@
     {
       "commit": "b004b4098274bb1b3a0290623260e23432437b4b",
       "scannedAt": "2026-11-14T09:34:23.329Z",
+      "score": 65,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "b37cbacaaf866e5c6de89e170ad25c816f616798",
+      "scannedAt": "2026-11-19T10:50:00.942Z",
       "score": 65,
       "rulesVersion": "1.3.0"
     }

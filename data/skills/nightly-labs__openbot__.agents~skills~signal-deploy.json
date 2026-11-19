@@ -5,15 +5,15 @@
   "path": ".agents/skills/signal-deploy",
   "name": "signal-deploy",
   "description": "Check and deploy Signal (the `remote-api` service in `remote/`) to production from a release tag. Use when asked to deploy, redeploy, update or roll back Signal, to check that a Signal deployment has all its secrets and no regressions, or when a release tag changes `remote/` or `packages/contracts/src/signal-protocol`.",
-  "stars": 8434,
+  "stars": 9104,
   "category": "coding",
-  "commit": "78fff5d8253f035217e51d931f0445b57798e8f9",
-  "contentHash": "7d9b5d6ce611ea9c62546eb360e613e330c12e2b148cc2e887852efd03781b69",
+  "commit": "559d5acd0ae0c47dd5805c9031e980f4440a4ca3",
+  "contentHash": "b7e0d3a210b5e4ffcd479179757ee129ac8904752b2c1fe455fab65c77c3515b",
   "repoCreatedAt": "2026-08-12T21:32:03Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-17T11:16:37.484Z",
+  "scannedAt": "2026-11-19T10:50:00.942Z",
   "scan": {
     "findings": [
       {
@@ -69,9 +69,20 @@
         ]
       },
       {
+        "ruleId": "network",
+        "file": ".agents/skills/signal-deploy/SKILL.md",
+        "line": 48,
+        "excerpt": "curl -fsS https://signal-sg.openbot.run/health/live",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "signal-sg.openbot.run"
+        ]
+      },
+      {
         "ruleId": "shell",
         "file": ".agents/skills/signal-deploy/SKILL.md",
-        "line": 54,
+        "line": 55,
         "excerpt": "ssh sui-alexandria 'docker inspect openbot-remote-remote-api-1 --format \"{{.Image}} {{.Created}} {{.State.Health.Status}}\"'",
         "disclosed": false,
         "automatic": false
@@ -79,7 +90,7 @@
       {
         "ruleId": "shell",
         "file": ".agents/skills/signal-deploy/SKILL.md",
-        "line": 55,
+        "line": 56,
         "excerpt": "ssh sui-alexandria 'docker exec openbot-remote-remote-api-1 sh -c \"cd /app/remote/api/src && sha256sum *.ts\"'",
         "disclosed": false,
         "automatic": false
@@ -87,7 +98,7 @@
       {
         "ruleId": "shell",
         "file": ".agents/skills/signal-deploy/SKILL.md",
-        "line": 68,
+        "line": 69,
         "excerpt": "git diff --stat <running> <tag> -- remote packages/contracts/src/signal-protocol",
         "disclosed": false,
         "automatic": false
@@ -95,7 +106,7 @@
       {
         "ruleId": "shell",
         "file": ".agents/skills/signal-deploy/SKILL.md",
-        "line": 97,
+        "line": 98,
         "excerpt": "git show <tag>:remote/.env.production | grep -vE '^#|^$' | cut -d= -f1 | sort",
         "disclosed": false,
         "automatic": false
@@ -111,7 +122,7 @@
       {
         "ruleId": "network",
         "file": "docs/RELEASING.md",
-        "line": 904,
+        "line": 943,
         "excerpt": "16. read the running Signal commit of both machines from `curl -fsS https://signal1.openbot.run/health/live`",
         "disclosed": false,
         "automatic": false,
@@ -122,7 +133,7 @@
       {
         "ruleId": "network",
         "file": "docs/RELEASING.md",
-        "line": 905,
+        "line": 944,
         "excerpt": "and `curl -fsS https://signal2.openbot.run/health/live`, not from `signal.openbot.run`, which reaches only",
         "disclosed": false,
         "automatic": false,
@@ -149,7 +160,7 @@
       {
         "ruleId": "network",
         "file": "docs/remote-session-deployment.md",
-        "line": 133,
+        "line": 135,
         "excerpt": "curl -s 127.0.0.1:9641/metrics | grep '^turn_total_allocations'",
         "disclosed": false,
         "automatic": false,
@@ -157,7 +168,7 @@
       }
     ],
     "findingTotals": {
-      "network": 7,
+      "network": 8,
       "shell": 5,
       "downloads-code": 3
     },
@@ -189,6 +200,12 @@
     {
       "commit": "78fff5d8253f035217e51d931f0445b57798e8f9",
       "scannedAt": "2026-11-17T11:16:37.484Z",
+      "score": 75,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "559d5acd0ae0c47dd5805c9031e980f4440a4ca3",
+      "scannedAt": "2026-11-19T10:50:00.942Z",
       "score": 75,
       "rulesVersion": "1.3.0"
     }

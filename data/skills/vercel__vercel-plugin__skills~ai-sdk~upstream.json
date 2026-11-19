@@ -5,15 +5,15 @@
   "path": "skills/ai-sdk/upstream",
   "name": "ai-sdk",
   "description": "Answer questions about the AI SDK and help build AI-powered features. Use when developers: (1) Ask about AI SDK functions like generateText, streamText, ToolLoopAgent, embed, or tools, (2) Want to build AI agents, chatbots, RAG systems, or text generation features, (3) Have questions about AI providers (OpenAI, Anthropic, Google, etc.), streaming, tool calling, structured output, or embeddings, (4) Use React hooks like useChat or useCompletion. Triggers on: \"AI SDK\", \"Vercel AI SDK\", \"generateText\", \"streamText\", \"add AI to my app\", \"build an agent\", \"tool calling\", \"structured output\", \"useChat\".",
-  "stars": 336,
+  "stars": 340,
   "category": "other",
-  "commit": "b004b4098274bb1b3a0290623260e23432437b4b",
-  "contentHash": "a8cc1760e8fd9e9f694e9663514da8f2dac8b5ac1e534594fcf6a99a695e8467",
+  "commit": "b37cbacaaf866e5c6de89e170ad25c816f616798",
+  "contentHash": "3265ebf306cf58cf92d26c84c8909d22e6f5a1f7216f55bdbbb18096926c1a40",
   "repoCreatedAt": "2026-03-04T16:46:22Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-14T09:34:23.329Z",
+  "scannedAt": "2026-11-19T10:50:00.942Z",
   "scan": {
     "findings": [
       {
@@ -40,6 +40,17 @@
         "file": "skills/ai-sdk/upstream/SKILL.md",
         "line": 50,
         "excerpt": "curl -s https://ai-gateway.vercel.sh/v1/models | jq -r '[.data[] | select(.id | startswith(\"anthropic/\")) | .id] | reverse | .[]'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "ai-gateway.vercel.sh"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "agents/ai-architect.md",
+        "line": 51,
+        "excerpt": "│  ├─ From code or scripts → `curl -fsSL https://ai-gateway.vercel.sh/v1/models`",
         "disclosed": false,
         "automatic": false,
         "hosts": [
@@ -177,40 +188,56 @@
       },
       {
         "ruleId": "shell",
+        "file": "hooks/compat.test.ts",
+        "line": 2,
+        "excerpt": "import { spawnSync } from \"node:child_process\"",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/compat.test.ts",
+        "line": 221,
+        "excerpt": "const result = spawnSync(\"bash\", [\"-c\", '. \"$1\" && printf \"%s\" \"$SPECIAL\"', \"bash\", envFile], {",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
         "file": "hooks/hooks.json",
         "line": 9,
-        "excerpt": "\"command\": \"node \\\"${CLAUDE_PLUGIN_ROOT}/hooks/session-start-seen-skills.mjs\\\"\"",
+        "excerpt": "\"command\": \"node \\\"${CLAUDE_PLUGIN_ROOT}/hooks/session-start-seen-skills.mjs\\\"\",",
         "disclosed": false,
         "automatic": true
       },
       {
         "ruleId": "shell",
         "file": "hooks/hooks.json",
-        "line": 13,
-        "excerpt": "\"command\": \"node \\\"${CLAUDE_PLUGIN_ROOT}/hooks/session-start-profiler.mjs\\\"\"",
+        "line": 14,
+        "excerpt": "\"command\": \"node \\\"${CLAUDE_PLUGIN_ROOT}/hooks/session-start-profiler.mjs\\\"\",",
         "disclosed": false,
         "automatic": true
       },
       {
         "ruleId": "shell",
         "file": "hooks/hooks.json",
-        "line": 17,
-        "excerpt": "\"command\": \"node \\\"${CLAUDE_PLUGIN_ROOT}/hooks/inject-claude-md.mjs\\\" --part 1/2\"",
+        "line": 19,
+        "excerpt": "\"command\": \"node \\\"${CLAUDE_PLUGIN_ROOT}/hooks/inject-claude-md.mjs\\\" --part 1/2\",",
         "disclosed": false,
         "automatic": true
       },
       {
         "ruleId": "shell",
         "file": "hooks/hooks.json",
-        "line": 21,
-        "excerpt": "\"command\": \"node \\\"${CLAUDE_PLUGIN_ROOT}/hooks/inject-claude-md.mjs\\\" --part 2/2\"",
+        "line": 24,
+        "excerpt": "\"command\": \"node \\\"${CLAUDE_PLUGIN_ROOT}/hooks/inject-claude-md.mjs\\\" --part 2/2\",",
         "disclosed": false,
         "automatic": true
       },
       {
         "ruleId": "shell",
         "file": "hooks/hooks.json",
-        "line": 32,
+        "line": 36,
         "excerpt": "\"command\": \"node \\\"${CLAUDE_PLUGIN_ROOT}/hooks/posttooluse-skill-telemetry.mjs\\\"\",",
         "disclosed": false,
         "automatic": true
@@ -218,7 +245,7 @@
       {
         "ruleId": "shell",
         "file": "hooks/hooks.json",
-        "line": 43,
+        "line": 47,
         "excerpt": "\"command\": \"node \\\"${CLAUDE_PLUGIN_ROOT}/hooks/session-end-cleanup.mjs\\\"\",",
         "disclosed": false,
         "automatic": true
@@ -371,14 +398,6 @@
         "automatic": true
       },
       {
-        "ruleId": "shell",
-        "file": "hooks/src/skill-telemetry.mts",
-        "line": 10,
-        "excerpt": "import { spawn } from \"node:child_process\";",
-        "disclosed": false,
-        "automatic": true
-      },
-      {
         "ruleId": "network",
         "file": "hooks/src/telemetry.mts",
         "line": 107,
@@ -398,15 +417,15 @@
       }
     ],
     "findingTotals": {
-      "network": 8,
-      "shell": 19,
+      "network": 9,
+      "shell": 21,
       "downloads-code": 17,
       "reads-secrets": 2
     },
     "score": 55,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 75,
+    "filesScanned": 77,
     "filesSkipped": 0
   },
   "history": [
@@ -425,6 +444,12 @@
     {
       "commit": "b004b4098274bb1b3a0290623260e23432437b4b",
       "scannedAt": "2026-11-14T09:34:23.329Z",
+      "score": 55,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "b37cbacaaf866e5c6de89e170ad25c816f616798",
+      "scannedAt": "2026-11-19T10:50:00.942Z",
       "score": 55,
       "rulesVersion": "1.3.0"
     }

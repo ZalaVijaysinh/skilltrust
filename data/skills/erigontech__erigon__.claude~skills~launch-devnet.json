@@ -4,206 +4,36 @@
   "repo": "erigon",
   "path": ".claude/skills/launch-devnet",
   "name": "launch-devnet",
-  "description": "Launch erigon (EL) + a CL client on any ethpandaops devnet. Takes a devnet landing-page URL (e.g. https://bal-devnet-3.ethpandaops.io) and discovers everything else (chain id, fork schedule, EL/CL bootnodes, client images, ports) from the network's config service. Generates start/stop/clean scripts, monitors EL/CL progress, and investigates failures by comparing against the rest of the network rather than assuming the bug is in erigon.",
-  "stars": 3626,
-  "category": "media",
-  "commit": "230274b83eadf03ad2c6948b5701f009ab6e9b5d",
+  "description": "",
+  "stars": 3647,
+  "category": "other",
+  "commit": "8de86f310df92881e9d2c99dd2d2731bfc6b4893",
   "contentHash": "595cd69fd890337ace2998c417229520d6cf83d9fbf81331cb7885dacf09e795",
   "repoCreatedAt": "2019-05-27T12:12:40Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": false,
-  "scannedAt": "2026-11-14T09:34:23.329Z",
+  "incomplete": true,
+  "scannedAt": "2026-11-19T10:50:00.942Z",
   "scan": {
-    "findings": [
-      {
-        "ruleId": "network",
-        "file": ".claude/skills/launch-devnet/SKILL.md",
-        "line": 40,
-        "excerpt": "Optionally use `WebFetch` on the landing page to confirm the network exists and to grab the spec-notes link. Then download config artefacts:",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "shell",
-        "file": ".claude/skills/launch-devnet/SKILL.md",
-        "line": 43,
-        "excerpt": "mkdir -p \"$WORKDIR/testnet-config\"",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "network",
-        "file": ".claude/skills/launch-devnet/SKILL.md",
-        "line": 45,
-        "excerpt": "curl -fsSL \"${CFG}/el/genesis.json\"        -o \"$WORKDIR/genesis.json\"",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": ".claude/skills/launch-devnet/SKILL.md",
-        "line": 46,
-        "excerpt": "curl -fsSL \"${CFG}/cl/config.yaml\"         -o \"$WORKDIR/testnet-config/config.yaml\"",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": ".claude/skills/launch-devnet/SKILL.md",
-        "line": 47,
-        "excerpt": "curl -fsSL \"${CFG}/cl/genesis.ssz\"         -o \"$WORKDIR/testnet-config/genesis.ssz\"",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": ".claude/skills/launch-devnet/SKILL.md",
-        "line": 48,
-        "excerpt": "curl -fsSL \"${CFG}/api/v1/nodes/inventory\" -o \"$WORKDIR/inventory.json\"",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "shell",
-        "file": ".claude/skills/launch-devnet/SKILL.md",
-        "line": 102,
-        "excerpt": "for p in <each chosen TCP port>; do",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": ".claude/skills/launch-devnet/SKILL.md",
-        "line": 116,
-        "excerpt": "./build/bin/erigon init --datadir=\"$WORKDIR/erigon-data\" \"$WORKDIR/genesis.json\"",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": ".claude/skills/launch-devnet/SKILL.md",
-        "line": 150,
-        "excerpt": "CHECKPOINT_URL=\"https://checkpoint-sync.${DEVNET}.ethpandaops.io\"",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "network",
-        "file": ".claude/skills/launch-devnet/SKILL.md",
-        "line": 151,
-        "excerpt": "if curl -fsI --max-time 5 \"$CHECKPOINT_URL\" >/dev/null 2>&1; then",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "shell",
-        "file": ".claude/skills/launch-devnet/SKILL.md",
-        "line": 161,
-        "excerpt": "JWT=\"$WORKDIR/erigon-data/jwt.hex\"",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": ".claude/skills/launch-devnet/SKILL.md",
-        "line": 210,
-        "excerpt": "cd \"$WORKDIR\" && nohup bash start-erigon.sh > erigon-console.log 2>&1 &",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": ".claude/skills/launch-devnet/SKILL.md",
-        "line": 237,
-        "excerpt": "HTTP=<erigon http port>; CL=<cl http port>",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "network",
-        "file": ".claude/skills/launch-devnet/SKILL.md",
-        "line": 240,
-        "excerpt": "EH=$(curl -s http://localhost:$HTTP -X POST -H 'Content-Type: application/json' \\",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": ".claude/skills/launch-devnet/SKILL.md",
-        "line": 244,
-        "excerpt": "NH=$(curl -s \"https://rpc.${DEVNET}.ethpandaops.io\" -X POST -H 'Content-Type: application/json' \\",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": [
-          "rpc.${devnet}.ethpandaops.io"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": ".claude/skills/launch-devnet/SKILL.md",
-        "line": 248,
-        "excerpt": "EP=$(curl -s http://localhost:$HTTP -X POST -H 'Content-Type: application/json' \\",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": ".claude/skills/launch-devnet/SKILL.md",
-        "line": 252,
-        "excerpt": "CS=$(curl -s http://localhost:$CL/eth/v1/node/syncing | jq -c '.data')",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "shell",
-        "file": ".claude/skills/launch-devnet/SKILL.md",
-        "line": 267,
-        "excerpt": "docker stop \"${DEVNET}-cl\" 2>/dev/null || true",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": ".claude/skills/launch-devnet/SKILL.md",
-        "line": 280,
-        "excerpt": "bash \"$WORKDIR/stop.sh\"",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": ".claude/skills/launch-devnet/SKILL.md",
-        "line": 296,
-        "excerpt": "jq -r '.ethereum_pairs | to_entries[] | select(.value.execution.client != \"erigon\") | \"\\(.value.execution.client) \\(.value.execution.rpc_uri)\"' $WORKDIR/invento",
-        "disclosed": false,
-        "automatic": false
-      }
-    ],
-    "findingTotals": {
-      "network": 10,
-      "shell": 10
-    },
-    "score": 92,
+    "findings": [],
+    "findingTotals": {},
+    "score": 100,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 1,
-    "filesSkipped": 0
+    "filesScanned": 0,
+    "filesSkipped": 1
   },
   "history": [
     {
       "commit": "230274b83eadf03ad2c6948b5701f009ab6e9b5d",
       "scannedAt": "2026-11-14T09:34:23.329Z",
       "score": 92,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "8de86f310df92881e9d2c99dd2d2731bfc6b4893",
+      "scannedAt": "2026-11-19T10:50:00.942Z",
+      "score": 100,
       "rulesVersion": "1.3.0"
     }
   ]

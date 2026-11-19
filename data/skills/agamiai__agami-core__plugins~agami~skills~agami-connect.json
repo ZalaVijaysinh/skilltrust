@@ -7,83 +7,67 @@
   "description": "End-to-end database connection for agami: sets up credentials on first run (DB-type picker → writes <artifacts_dir>/local/credentials.example for the user to fill in), then introspects the live DB directly into the agami semantic model (subject areas, tables, columns, relationships with join cardinality, deep-table column groups, sensitive-column flags) under <artifacts_dir>/<profile>/. The structural model is built deterministically by the agami-core semantic_model package (catalog mode, or a probe-mode fallback when the catalog is locked down); the skill then layers LLM enrichment (descriptions, entities, metrics) and seeds EXPLAIN-validated NL→SQL examples. Every model write is gated by the semantic-model validator — no breaking model is ever persisted.",
   "stars": 30,
   "category": "data",
-  "commit": "b08d29ab89744bd491f9196cc5493faa6a28840b",
-  "contentHash": "3bf6ab04ea887c5dd967a869e9f7f77936d504027f797dceb2a2457957156ecc",
+  "commit": "8d5b8fa7329052e5766bade4dba7d4d5e583d429",
+  "contentHash": "fe9646c07cb1046270bd50b77a03ee57c5df93ef0dd93cbaee86e7cf630d72da",
   "repoCreatedAt": "2026-05-06T04:45:23Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "scannedAt": "2026-11-19T10:50:00.942Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "plugins/agami/skills/agami-connect/SKILL.md",
-        "line": 124,
-        "excerpt": "mkdir -p \"<artifacts_dir>/local\" && chmod 700 \"<artifacts_dir>/local\"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "plugins/agami/skills/agami-connect/SKILL.md",
-        "line": 128,
-        "excerpt": "mkdir -p ~/.config/agami && printf '%s\\n' \"<artifacts_dir>\" > ~/.config/agami/path",
+        "line": 163,
+        "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/sm\" init-local \"<artifacts_dir>\"",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "plugins/agami/skills/agami-connect/SKILL.md",
-        "line": 128,
-        "excerpt": "mkdir -p ~/.config/agami && printf '%s\\n' \"<artifacts_dir>\" > ~/.config/agami/path",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/agami/skills/agami-connect/SKILL.md",
-        "line": 206,
-        "excerpt": "echo \"agami-helper-pid $$\" >&2; exec bash \"${CLAUDE_PLUGIN_ROOT}/scripts/py\" connect_helper.py --spec \"<artifacts_dir>/local/tmp/agami-connect-spec.json\"",
+        "line": 241,
+        "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/py\" connect_helper.py --spec \"<artifacts_dir>/local/tmp/agami-connect-spec.json\"",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
         "file": "plugins/agami/skills/agami-connect/SKILL.md",
-        "line": 240,
+        "line": 273,
         "excerpt": "| `missing_driver` | `detail`, which names `package`. | Card `Driver`: `Install <package>` (with the real package names) / `Not now`. On the press, install into",
         "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "downloads-code",
-        "file": "plugins/agami/skills/agami-connect/SKILL.md",
-        "line": 340,
-        "excerpt": "**If `data.interpreter.has_driver` is `false`** the `$DB_TYPE` driver isn't in `$PY` yet — confirm via AskUserQuestion, then `\"$PY\" -m pip install --user <packa",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "plugins/agami/skills/agami-connect/SKILL.md",
-        "line": 357,
-        "excerpt": "If the driver is missing, **confirm via AskUserQuestion**, then `\"$PY\" -m pip install --user <package>` (plain `pip install` fallback). Same \"never install sile",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "shell",
         "file": "plugins/agami/skills/agami-connect/SKILL.md",
-        "line": 364,
-        "excerpt": "\"$PY\" -c 'import pydantic, sqlglot, yaml' 2>/dev/null && echo \"model deps OK\"",
+        "line": 289,
+        "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/sm\" steps \"<root>\" --mark connect=done",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
         "file": "plugins/agami/skills/agami-connect/SKILL.md",
-        "line": 368,
+        "line": 378,
+        "excerpt": "**If `data.interpreter.has_driver` is `false`** the `$DB_TYPE` driver isn't in `<python3>` yet — confirm via AskUserQuestion, then `\"<python3>\" -m pip install -",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/agami/skills/agami-connect/SKILL.md",
+        "line": 395,
+        "excerpt": "If the driver is missing, **confirm via AskUserQuestion**, then `\"<python3>\" -m pip install --user <package>` (plain `pip install` fallback). Same \"never instal",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/agami/skills/agami-connect/SKILL.md",
+        "line": 402,
         "excerpt": "> agami needs the **agami-core** package (which pulls `pydantic`, `sqlglot`, `pyyaml`) to build and read the semantic model. Install it now? (one-time, user-sit",
         "disclosed": false,
         "automatic": false
@@ -91,8 +75,24 @@
       {
         "ruleId": "shell",
         "file": "plugins/agami/skills/agami-connect/SKILL.md",
-        "line": 445,
-        "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/py\" promote_credentials.py",
+        "line": 424,
+        "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/sm\" choose-folder \"<artifacts_dir>\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agami/skills/agami-connect/SKILL.md",
+        "line": 431,
+        "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/sm\" set-config \"<artifacts_dir>\" --tier <tier> --active-profile <profile> --python3 \"<python3>\" --tool <tool>=\"<tool_path>\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agami/skills/agami-connect/SKILL.md",
+        "line": 437,
+        "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/sm\" steps \"<root>\" --mark connect=in_progress",
         "disclosed": true,
         "automatic": false
       },
@@ -100,14 +100,6 @@
         "ruleId": "shell",
         "file": "plugins/agami/skills/agami-connect/SKILL.md",
         "line": 481,
-        "excerpt": "\"$PY\" \"${CLAUDE_PLUGIN_ROOT}/samples/store/build_sample.py\" --out \"<artifacts_dir>/local/samples/store.db\"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/agami/skills/agami-connect/SKILL.md",
-        "line": 491,
         "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/py\" promote_credentials.py",
         "disclosed": true,
         "automatic": false
@@ -115,31 +107,95 @@
       {
         "ruleId": "shell",
         "file": "plugins/agami/skills/agami-connect/SKILL.md",
-        "line": 508,
-        "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/sm\" approve-queue \"<artifacts_dir>/agami-example\" --signer system --role system",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "plugins/agami/skills/agami-connect/SKILL.md",
-        "line": 569,
-        "excerpt": "mkdir -p \"<new_artifacts_dir>\" && mkdir -p ~/.config/agami && printf '%s\\n' \"<new_artifacts_dir>\" > ~/.config/agami/path",
+        "line": 497,
+        "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/sm\" steps \"<root>\" --mark connect=done",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "plugins/agami/skills/agami-connect/SKILL.md",
-        "line": 569,
-        "excerpt": "mkdir -p \"<new_artifacts_dir>\" && mkdir -p ~/.config/agami && printf '%s\\n' \"<new_artifacts_dir>\" > ~/.config/agami/path",
+        "line": 518,
+        "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/sm\" steps \"<root>\" --mark connect=in_progress",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agami/skills/agami-connect/SKILL.md",
+        "line": 523,
+        "excerpt": "AGAMI_SCRATCH_ONLY=1 bash \"${CLAUDE_PLUGIN_ROOT}/scripts/py\" \"${CLAUDE_PLUGIN_ROOT}/samples/store/build_sample.py\" --out \"<artifacts_dir>/local/samples/store.db",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agami/skills/agami-connect/SKILL.md",
+        "line": 528,
+        "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/sm\" init-local \"<artifacts_dir>\" --sample",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agami/skills/agami-connect/SKILL.md",
+        "line": 534,
+        "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/sm\" set-config \"<artifacts_dir>\" --tier <tier> --active-profile agami-example --python3 \"<python3>\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agami/skills/agami-connect/SKILL.md",
+        "line": 539,
+        "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/sm\" steps \"<root>\" --mark connect=done",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agami/skills/agami-connect/SKILL.md",
+        "line": 553,
+        "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/sm\" progress \"<root>\" --wait 20",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agami/skills/agami-connect/SKILL.md",
+        "line": 559,
+        "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/sm\" approve-queue \"<artifacts_dir>/agami-example\" --signer system --role system",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agami/skills/agami-connect/SKILL.md",
+        "line": 567,
+        "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/sm\" steps \"<root>\" --mark first_question=in_progress",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agami/skills/agami-connect/SKILL.md",
+        "line": 590,
+        "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/sm\" steps \"<root>\" --mark context=in_progress",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agami/skills/agami-connect/SKILL.md",
+        "line": 616,
+        "excerpt": "AGAMI_SCRATCH_ONLY=1 bash \"${CLAUDE_PLUGIN_ROOT}/scripts/py\" progress_page.py \"<root>/.introspect/progress.log\" --minutes 240",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "network",
         "file": "plugins/agami/skills/agami-connect/SKILL.md",
-        "line": 667,
+        "line": 757,
         "excerpt": "2. **Web reference as fallback / supplement.** When there's no in-DB dictionary, **`WebSearch`/`WebFetch`** the official developer/data-dictionary docs for the ",
         "disclosed": true,
         "automatic": false,
@@ -148,95 +204,23 @@
       {
         "ruleId": "shell",
         "file": "plugins/agami/skills/agami-connect/SKILL.md",
-        "line": 688,
-        "excerpt": "ts=$(date -u +%Y%m%d-%H%M%S)",
+        "line": 773,
+        "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/sm\" steps \"<root>\" --mark reports=skipped",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "plugins/agami/skills/agami-connect/SKILL.md",
-        "line": 706,
-        "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/py\" inventory_summary.py --inventory \"<inventory_path>\"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/agami/skills/agami-connect/SKILL.md",
-        "line": 740,
-        "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/py\" inventory_summary.py --inventory \"<inventory_path>\" --show \"<schema | schema.table | table>\"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/agami/skills/agami-connect/SKILL.md",
-        "line": 748,
-        "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/py\" inventory_summary.py --inventory \"<inventory_path>\" --check-columns \"<artifacts_dir>/local/tmp/agami-drop-columns.txt\"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/agami/skills/agami-connect/SKILL.md",
-        "line": 758,
-        "excerpt": "\"$PY\" \"${CLAUDE_PLUGIN_ROOT}/scripts/model_spec_workbook.py\" parse --file \"<workbook.xlsx>\" \\",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/agami/skills/agami-connect/SKILL.md",
-        "line": 771,
-        "excerpt": "printf '%s\\n' incident problem change_request sys_user ... > \"<artifacts_dir>/local/tmp/agami-keep.txt\"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/agami/skills/agami-connect/SKILL.md",
-        "line": 787,
-        "excerpt": "split -l 12 \"<artifacts_dir>/local/tmp/agami-keep.txt\" \"<artifacts_dir>/local/tmp/agami-batch-\"      # batch files",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/agami/skills/agami-connect/SKILL.md",
-        "line": 818,
-        "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/sm\" curate \"<artifacts_dir>/<profile>\" \\",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/agami/skills/agami-connect/SKILL.md",
-        "line": 842,
-        "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/sm\" apply-spec \"<artifacts_dir>/<profile>\" \\",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/agami/skills/agami-connect/SKILL.md",
-        "line": 881,
-        "excerpt": "AGAMI_SQL_MAX_ROWS=200000 bash \"${CLAUDE_PLUGIN_ROOT}/scripts/sm\" enrich-metadata \"$ROOT\" \\",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/agami/skills/agami-connect/SKILL.md",
-        "line": 897,
-        "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/sm\" describe-file \"$ROOT\" --source metadata --file \"$DICTIONARY_FILE\"",
+        "line": 779,
+        "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/sm\" steps \"<root>\" --mark context=done",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
         "file": "plugins/agami/scripts/sm",
-        "line": 68,
+        "line": 89,
         "excerpt": "\"$PY\" -m pip install --user -q \"$@\" >&2 2>/dev/null \\",
         "disclosed": false,
         "automatic": false
@@ -244,7 +228,7 @@
       {
         "ruleId": "downloads-code",
         "file": "plugins/agami/scripts/sm",
-        "line": 69,
+        "line": 90,
         "excerpt": "|| \"$PY\" -m pip install -q \"$@\" >&2 2>/dev/null \\",
         "disclosed": false,
         "automatic": false
@@ -252,7 +236,7 @@
       {
         "ruleId": "downloads-code",
         "file": "plugins/agami/scripts/sm",
-        "line": 70,
+        "line": 91,
         "excerpt": "|| \"$PY\" -m pip install --user --break-system-packages -q \"$@\" >&2 2>/dev/null \\",
         "disclosed": false,
         "automatic": false
@@ -260,7 +244,7 @@
       {
         "ruleId": "downloads-code",
         "file": "plugins/agami/scripts/sm",
-        "line": 71,
+        "line": 92,
         "excerpt": "|| \"$PY\" -m pip install --break-system-packages -q \"$@\" >&2",
         "disclosed": false,
         "automatic": false
@@ -268,7 +252,15 @@
       {
         "ruleId": "downloads-code",
         "file": "plugins/agami/scripts/sm",
-        "line": 196,
+        "line": 179,
+        "excerpt": "MODEL_EXTRA_LINE=\"\\\"$PY\\\" -m pip install \\\"agami-core[model]${PLUGIN_VER:+==$PLUGIN_VER}\\\"\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/agami/scripts/sm",
+        "line": 232,
         "excerpt": "echo \"       Try:  $PY -m pip install --user --upgrade \\\"agami-core[$EXTRAS] @ ${GIT_BASE}@${GIT_REF}#subdirectory=packages/agami-core\\\"\" >&2",
         "disclosed": false,
         "automatic": false
@@ -276,7 +268,7 @@
       {
         "ruleId": "downloads-code",
         "file": "plugins/agami/shared/connection-reference.md",
-        "line": 141,
+        "line": 142,
         "excerpt": "a) psql       — `brew install postgresql`       (simplest — most common)",
         "disclosed": false,
         "automatic": false
@@ -284,7 +276,7 @@
       {
         "ruleId": "downloads-code",
         "file": "plugins/agami/shared/connection-reference.md",
-        "line": 142,
+        "line": 143,
         "excerpt": "b) DuckDB     — `brew install duckdb`           (single universal binary)",
         "disclosed": false,
         "automatic": false
@@ -292,7 +284,7 @@
       {
         "ruleId": "downloads-code",
         "file": "plugins/agami/shared/connection-reference.md",
-        "line": 143,
+        "line": 144,
         "excerpt": "c) psycopg2   — `pip install psycopg2-binary`   (Python driver path)",
         "disclosed": false,
         "automatic": false
@@ -300,7 +292,7 @@
       {
         "ruleId": "downloads-code",
         "file": "plugins/agami/shared/connection-reference.md",
-        "line": 158,
+        "line": 159,
         "excerpt": "DuckDB ships as a single binary (`brew install duckdb` / `apt install duckdb` / download from duckdb.org). It natively reads from:",
         "disclosed": false,
         "automatic": false
@@ -308,7 +300,7 @@
       {
         "ruleId": "downloads-code",
         "file": "plugins/agami/shared/connection-reference.md",
-        "line": 227,
+        "line": 224,
         "excerpt": "| PostgreSQL | 5432 | `psql` | `psycopg2` (`pip install psycopg2-binary`) | `prefer` (default) |",
         "disclosed": false,
         "automatic": false
@@ -316,7 +308,7 @@
       {
         "ruleId": "downloads-code",
         "file": "plugins/agami/shared/connection-reference.md",
-        "line": 229,
+        "line": 226,
         "excerpt": "| MySQL / MariaDB | 3306 | `mysql` | `pymysql` (`pip install pymysql`) | optional |",
         "disclosed": false,
         "automatic": false
@@ -324,7 +316,7 @@
       {
         "ruleId": "downloads-code",
         "file": "plugins/agami/shared/connection-reference.md",
-        "line": 230,
+        "line": 227,
         "excerpt": "| **Snowflake** | 443 (HTTPS) | `snowsql` | `snowflake-connector-python` (`pip install snowflake-connector-python`) | TLS always (managed by client) |",
         "disclosed": false,
         "automatic": false
@@ -332,7 +324,7 @@
       {
         "ruleId": "downloads-code",
         "file": "plugins/agami/shared/connection-reference.md",
-        "line": 232,
+        "line": 229,
         "excerpt": "| DuckDB | N/A (file) | `duckdb` | built-in or `pip install duckdb pytz` | n/a |",
         "disclosed": false,
         "automatic": false
@@ -340,7 +332,7 @@
       {
         "ruleId": "downloads-code",
         "file": "plugins/agami/shared/connection-reference.md",
-        "line": 308,
+        "line": 306,
         "excerpt": "pip install snowflake-connector-python",
         "disclosed": false,
         "automatic": false
@@ -348,16 +340,8 @@
       {
         "ruleId": "downloads-code",
         "file": "plugins/agami/shared/connection-reference.md",
-        "line": 332,
+        "line": 330,
         "excerpt": "pip install google-cloud-bigquery",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "plugins/agami/shared/db_error_classifier.md",
-        "line": 31,
-        "excerpt": "| `driver_missing` | `ModuleNotFoundError` / `ImportError` for `psycopg2`, `pymysql`, `pyodbc`, `snowflake.connector`, `google.cloud.bigquery`, `redshift_connec",
         "disclosed": false,
         "automatic": false
       },
@@ -372,15 +356,14 @@
       }
     ],
     "findingTotals": {
-      "shell": 38,
-      "writes-outside": 2,
-      "downloads-code": 20,
+      "shell": 79,
+      "downloads-code": 21,
       "network": 2
     },
-    "score": 74,
+    "score": 79,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 18,
+    "filesScanned": 24,
     "filesSkipped": 0
   },
   "history": [
@@ -394,6 +377,12 @@
       "commit": "b08d29ab89744bd491f9196cc5493faa6a28840b",
       "scannedAt": "2026-11-13T10:10:34.466Z",
       "score": 74,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "8d5b8fa7329052e5766bade4dba7d4d5e583d429",
+      "scannedAt": "2026-11-19T10:50:00.942Z",
+      "score": 79,
       "rulesVersion": "1.3.0"
     }
   ]

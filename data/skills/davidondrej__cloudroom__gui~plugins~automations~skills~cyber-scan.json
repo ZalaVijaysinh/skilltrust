@@ -1,0 +1,159 @@
+{
+  "id": "davidondrej__cloudroom__gui~plugins~automations~skills~cyber-scan",
+  "owner": "davidondrej",
+  "repo": "cloudroom",
+  "path": "gui/plugins/automations/skills/cyber-scan",
+  "name": "cyber-scan",
+  "description": "Scan the user's computer and active repos for security problems, show the findings, and suggest 2 loops that prevent them. Use when the Scans tab starts a Cyber scan or the user asks for one.",
+  "stars": 1785,
+  "category": "coding",
+  "commit": "21b5c6dfa86276581bd00401f40ddcfd01d09435",
+  "contentHash": "f30ad880740afc44496e284193cca6717155a6b90aca93c02665fc2d1b1832c9",
+  "repoCreatedAt": "2026-09-17T18:56:56Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-19T10:50:00.942Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "gui/plugins/automations/skills/cyber-scan/collect.py",
+        "line": 14,
+        "excerpt": "import urllib.request",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "gui/plugins/automations/skills/cyber-scan/collect.py",
+        "line": 25,
+        "excerpt": "p = subprocess.run(args, capture_output=True, text=True, timeout=timeout, errors=\"replace\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "gui/plugins/automations/skills/cyber-scan/collect.py",
+        "line": 28,
+        "excerpt": "except (OSError, subprocess.SubprocessError):",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "gui/plugins/automations/skills/cyber-scan/collect.py",
+        "line": 32,
+        "excerpt": "def fetch(url, data=None, timeout=30):",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "gui/plugins/automations/skills/cyber-scan/collect.py",
+        "line": 34,
+        "excerpt": "req = urllib.request.Request(url, data=body, headers={**UA, **({\"Content-Type\": \"application/json\"} if body else {})})",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "gui/plugins/automations/skills/cyber-scan/collect.py",
+        "line": 35,
+        "excerpt": "with urllib.request.urlopen(req, timeout=timeout) as r:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "gui/plugins/automations/skills/cyber-scan/collect.py",
+        "line": 139,
+        "excerpt": "for rel in (\".aws/credentials\", \".netrc\", \".git-credentials\", \".npmrc\", \".pypirc\", \".docker/config.json\", \".kube/config\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "gui/plugins/automations/skills/cyber-scan/collect.py",
+        "line": 148,
+        "excerpt": "if rel in (\".npmrc\", \".git-credentials\", \".netrc\", \".pypirc\"):",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "gui/plugins/automations/skills/cyber-scan/collect.py",
+        "line": 165,
+        "excerpt": "out.append(f\"~/.ssh/{name}\" + (\": \" + \", \".join(notes) if notes else \": ok\"))",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "gui/plugins/automations/skills/cyber-scan/collect.py",
+        "line": 388,
+        "excerpt": "v = retry(lambda: fetch(f\"https://api.osv.dev/v1/vulns/{vid}\"))",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.osv.dev"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "gui/plugins/automations/skills/cyber-scan/collect.py",
+        "line": 455,
+        "excerpt": "res = retry(lambda: fetch(\"https://api.osv.dev/v1/querybatch\", {\"queries\": [",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.osv.dev"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "gui/plugins/automations/skills/cyber-scan/collect.py",
+        "line": 518,
+        "excerpt": "kev = fetch(\"https://raw.githubusercontent.com/cisagov/kev-data/develop/known_exploited_vulnerabilities.json\", timeout=60)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "raw.githubusercontent.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "gui/plugins/automations/skills/cyber-scan/collect.py",
+        "line": 525,
+        "excerpt": "adv = json.loads(raw) if raw.startswith(\"[\") else fetch(\"https://api.github.com/advisories?type=reviewed&severity=critical&per_page=30&sort=published\")",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.github.com"
+        ]
+      }
+    ],
+    "findingTotals": {
+      "network": 8,
+      "shell": 2,
+      "reads-secrets": 3
+    },
+    "score": 72,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 4,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "21b5c6dfa86276581bd00401f40ddcfd01d09435",
+      "scannedAt": "2026-11-19T10:50:00.942Z",
+      "score": 72,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

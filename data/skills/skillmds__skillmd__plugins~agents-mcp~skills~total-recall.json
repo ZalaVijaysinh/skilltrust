@@ -5,15 +5,15 @@
   "path": "plugins/agents-mcp/skills/total-recall",
   "name": "total-recall",
   "description": "The only memory skill that watches on its own. No database. No vectors. No manual saves. Just an LLM observer that compresses your conversations into prioritised notes, consolidates when they grow, and recovers anything missed. Five layers of redundancy, zero maintenance. ~$0.00/month (using free-tier models). While other memory skills ask you to remember to remember, this one just pays attention.",
-  "stars": 144,
+  "stars": 97,
   "category": "coding",
-  "commit": "4ec4f96a640ed8ad42fa234ca119405376ef7b60",
-  "contentHash": "c5ca5a3f9c7ca364b29d7c8a2270352b7fe24ee7ef9af4bf2fc6d3ba16c067f3",
+  "commit": "01857d87e9087384b79353a67940485ee9851359",
+  "contentHash": "5f84721778812e69dbd0397e839524f88996594864eb958694e27ea437a84af8",
   "repoCreatedAt": "2026-08-25T17:41:24Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-14T09:34:23.329Z",
+  "scannedAt": "2026-11-19T10:50:00.942Z",
   "scan": {
     "findings": [
       {
@@ -87,17 +87,354 @@
         "excerpt": "sudo apt install inotify-tools",
         "disclosed": true,
         "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/agents-mcp/skills/total-recall/scripts/aie-config.sh",
+        "line": 29,
+        "excerpt": "\"Missing Python dependency: PyYAML. Install it with: pip install pyyaml\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agents-mcp/skills/total-recall/scripts/aie-tools.sh",
+        "line": 137,
+        "excerpt": "http_resp=$(curl -s -w \"\\n__STATUS__:%{http_code}\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "plugins/agents-mcp/skills/total-recall/scripts/aie-tools.sh",
+        "line": 138,
+        "excerpt": "\"https://openrouter.ai/api/v1/chat/completions\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agents-mcp/skills/total-recall/scripts/aie-tools.sh",
+        "line": 282,
+        "excerpt": "run_timed_capture \"$effective_timeout\" 2000 bash -c 'himalaya envelope list --account \"$1\" --page-size 5 -- $2 order by date desc 2>&1 | sed \"s/\\x1b\\[[0-9;]*m//",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agents-mcp/skills/total-recall/scripts/aie-tools.sh",
+        "line": 290,
+        "excerpt": "run_timed_capture \"$effective_timeout\" 1000 bash -lc 'curl -s \"$0/$1?format=j1\" | jq \".current_condition[0]\"' \"$WEATHER_URL\" \"$query\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "plugins/agents-mcp/skills/total-recall/scripts/aie-tools.sh",
+        "line": 365,
+        "excerpt": "run_timed_capture \"$effective_timeout\" 200 bash -lc 'curl -s \"https://openrouter.ai/api/v1/credits\" -H \"Authorization: Bearer $OPENROUTER_API_KEY\" | jq \".data |",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agents-mcp/skills/total-recall/scripts/aie-tools.sh",
+        "line": 365,
+        "excerpt": "run_timed_capture \"$effective_timeout\" 200 bash -lc 'curl -s \"https://openrouter.ai/api/v1/credits\" -H \"Authorization: Bearer $OPENROUTER_API_KEY\" | jq \".data |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "openrouter.ai"
+        ]
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "plugins/agents-mcp/skills/total-recall/scripts/backfill-importance.sh",
+        "line": 107,
+        "excerpt": "RESPONSE=$(curl -s --max-time 120 \"https://api.anthropic.com/v1/messages\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agents-mcp/skills/total-recall/scripts/backfill-importance.sh",
+        "line": 107,
+        "excerpt": "RESPONSE=$(curl -s --max-time 120 \"https://api.anthropic.com/v1/messages\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.anthropic.com"
+        ]
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "plugins/agents-mcp/skills/total-recall/scripts/connectors/gmail-connector.sh",
+        "line": 396,
+        "excerpt": "response=$(run_timeout \"$CURL_TIMEOUT_SEC\" curl -sS --max-time \"$CURL_TIMEOUT_SEC\" https://openrouter.ai/api/v1/chat/completions \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agents-mcp/skills/total-recall/scripts/connectors/gmail-connector.sh",
+        "line": 396,
+        "excerpt": "response=$(run_timeout \"$CURL_TIMEOUT_SEC\" curl -sS --max-time \"$CURL_TIMEOUT_SEC\" https://openrouter.ai/api/v1/chat/completions \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "openrouter.ai"
+        ]
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "plugins/agents-mcp/skills/total-recall/scripts/connectors/ionos-connector.sh",
+        "line": 404,
+        "excerpt": "response=$(run_timeout \"$CURL_TIMEOUT_SEC\" curl -sS --max-time \"$CURL_TIMEOUT_SEC\" https://openrouter.ai/api/v1/chat/completions \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agents-mcp/skills/total-recall/scripts/connectors/ionos-connector.sh",
+        "line": 404,
+        "excerpt": "response=$(run_timeout \"$CURL_TIMEOUT_SEC\" curl -sS --max-time \"$CURL_TIMEOUT_SEC\" https://openrouter.ai/api/v1/chat/completions \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "openrouter.ai"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/agents-mcp/skills/total-recall/scripts/dream-cycle.sh",
+        "line": 14,
+        "excerpt": "source \"$OPENCLAW_WORKSPACE/.env\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agents-mcp/skills/total-recall/scripts/emergency-surface.sh",
+        "line": 175,
+        "excerpt": "curl -sS --max-time 20 \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agents-mcp/skills/total-recall/scripts/emergency-surface.sh",
+        "line": 186,
+        "excerpt": "curl -sS --max-time 20 -X POST \"$webhook_url\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agents-mcp/skills/total-recall/scripts/emergency-surface.sh",
+        "line": 199,
+        "excerpt": "import urllib.request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agents-mcp/skills/total-recall/scripts/emergency-surface.sh",
+        "line": 205,
+        "excerpt": "request = urllib.request.Request(url, data=data, headers={\"Content-Type\": \"application/json\", **headers}, method=\"POST\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agents-mcp/skills/total-recall/scripts/emergency-surface.sh",
+        "line": 206,
+        "excerpt": "with urllib.request.urlopen(request, timeout=20) as response:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "plugins/agents-mcp/skills/total-recall/scripts/observer-agent.sh",
+        "line": 17,
+        "excerpt": "LLM_BASE_URL=\"${LLM_BASE_URL:-https://openrouter.ai/api/v1}\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "plugins/agents-mcp/skills/total-recall/scripts/observer-agent.sh",
+        "line": 43,
+        "excerpt": "LLM_BASE_URL=\"${LLM_BASE_URL:-https://openrouter.ai/api/v1}\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agents-mcp/skills/total-recall/scripts/observer-agent.sh",
+        "line": 247,
+        "excerpt": "RESPONSE=$(curl -s --max-time 60 \"$LLM_BASE_URL/chat/completions\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "plugins/agents-mcp/skills/total-recall/scripts/reflector-agent.sh",
+        "line": 15,
+        "excerpt": "LLM_BASE_URL=\"${LLM_BASE_URL:-https://openrouter.ai/api/v1}\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "plugins/agents-mcp/skills/total-recall/scripts/reflector-agent.sh",
+        "line": 38,
+        "excerpt": "LLM_BASE_URL=\"${LLM_BASE_URL:-https://openrouter.ai/api/v1}\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agents-mcp/skills/total-recall/scripts/reflector-agent.sh",
+        "line": 123,
+        "excerpt": "RESPONSE=$(curl -s --max-time 120 \"$LLM_BASE_URL/chat/completions\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "plugins/agents-mcp/skills/total-recall/scripts/rumination-engine.sh",
+        "line": 18,
+        "excerpt": "LLM_BASE_URL=\"${LLM_BASE_URL:-https://openrouter.ai/api/v1}\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "plugins/agents-mcp/skills/total-recall/scripts/rumination-engine.sh",
+        "line": 290,
+        "excerpt": "API_URL=\"https://api.anthropic.com/v1/messages\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "plugins/agents-mcp/skills/total-recall/scripts/rumination-engine.sh",
+        "line": 294,
+        "excerpt": "API_URL=\"https://api.anthropic.com/v1/messages\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agents-mcp/skills/total-recall/scripts/rumination-engine.sh",
+        "line": 324,
+        "excerpt": "HTTP_RESP=$(curl -s -w \"\\n__STATUS__:%{http_code}\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agents-mcp/skills/total-recall/scripts/rumination-engine.sh",
+        "line": 350,
+        "excerpt": "HTTP_RESP=$(curl -s -w \"\\n__STATUS__:%{http_code}\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/agents-mcp/skills/total-recall/scripts/setup.sh",
+        "line": 36,
+        "excerpt": "echo \"   Install with: sudo apt install python3-yaml  (Debian/Ubuntu)\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/agents-mcp/skills/total-recall/scripts/setup.sh",
+        "line": 37,
+        "excerpt": "echo \"   Or:           python3 -m pip install PyYAML\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/agents-mcp/skills/total-recall/scripts/setup.sh",
+        "line": 56,
+        "excerpt": "echo \"   Install: sudo apt install inotify-tools (Debian/Ubuntu)\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/agents-mcp/skills/total-recall/scripts/setup.sh",
+        "line": 57,
+        "excerpt": "echo \"   Or: sudo dnf install inotify-tools (Fedora/RHEL)\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/agents-mcp/skills/total-recall/scripts/setup.sh",
+        "line": 64,
+        "excerpt": "if ! source \"$WORKSPACE/.env\" 2>/dev/null; then",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/agents-mcp/skills/total-recall/scripts/setup.sh",
+        "line": 65,
+        "excerpt": "echo \"⚠️  Failed to source $WORKSPACE/.env — check for shell syntax errors\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "plugins/agents-mcp/skills/total-recall/scripts/setup.sh",
+        "line": 71,
+        "excerpt": "LLM_BASE_URL=\"${LLM_BASE_URL:-https://openrouter.ai/api/v1}\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "plugins/agents-mcp/skills/total-recall/scripts/setup.sh",
+        "line": 81,
+        "excerpt": "elif [[ \"$LLM_BASE_URL\" == \"https://openrouter.ai/api/v1\" && \"$LLM_API_KEY\" != sk-or-v1-* ]]; then",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agents-mcp/skills/total-recall/scripts/setup.sh",
+        "line": 184,
+        "excerpt": "echo \"   # 0 3 * * * bash -c 'source ~/.openclaw/shared/secrets/openclaw-secrets.env \\\\\"",
+        "disclosed": true,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "downloads-code": 3,
-      "shell": 5,
-      "paid-api": 1
+      "downloads-code": 8,
+      "shell": 7,
+      "paid-api": 15,
+      "network": 15,
+      "reads-secrets": 3
     },
-    "score": 77,
+    "score": 62,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 9,
+    "filesScanned": 38,
     "filesSkipped": 0
   },
   "history": [
@@ -117,6 +454,12 @@
       "commit": "4ec4f96a640ed8ad42fa234ca119405376ef7b60",
       "scannedAt": "2026-11-14T09:34:23.329Z",
       "score": 77,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "01857d87e9087384b79353a67940485ee9851359",
+      "scannedAt": "2026-11-19T10:50:00.942Z",
+      "score": 62,
       "rulesVersion": "1.3.0"
     }
   ]

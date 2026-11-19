@@ -5,15 +5,15 @@
   "path": "packages/llm-mcp/skills/ask-llm-multi-review",
   "name": "ask-llm-multi-review",
   "description": "This skill should be used when the user asks to \"review my code with multiple providers\", \"get reviews from Antigravity and Codex\", \"multi-provider review\", \"review changes\", or wants independent code reviews from both Antigravity and Codex in parallel.",
-  "stars": 20,
+  "stars": 21,
   "category": "coding",
-  "commit": "66b26a1993992066b6303e26b8da49236243efe8",
-  "contentHash": "e9d83b1e704499d449e0d0a130154566c67a08a096fd587eba762bc6e2af5360",
+  "commit": "708915a46b0524725aa10f4d266d9b2974c71b6b",
+  "contentHash": "5737acb4036829a96812ba9d26b262d75f96c9e71ac3caff9f69bb2a0798821a",
   "repoCreatedAt": "2026-02-19T17:23:57Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": false,
-  "scannedAt": "2026-11-14T09:34:23.329Z",
+  "incomplete": true,
+  "scannedAt": "2026-11-19T10:50:00.942Z",
   "scan": {
     "findings": [
       {
@@ -21,38 +21,6 @@
         "file": "packages/llm-mcp/skills/ask-llm-multi-review/SKILL.md",
         "line": 118,
         "excerpt": "GMCPT_TIMEOUT_MS=1500000 node ${CLAUDE_PLUGIN_ROOT}/dist/antigravity-run.js \"$REVIEW_PROMPT\" < diff.patch > /tmp/mr-antigravity.out 2> /tmp/mr-antigravity.err &",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "packages/llm-mcp/scripts/codex-pair-stop-gate.mjs",
-        "line": 4,
-        "excerpt": "import { execFileSync } from \"node:child_process\";",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "packages/llm-mcp/scripts/codex-pair-stop-gate.mjs",
-        "line": 57,
-        "excerpt": "const repoRoot = execFileSync(\"git\", [\"-C\", markerDir, \"rev-parse\", \"--show-toplevel\"], opts).trim();",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "packages/llm-mcp/scripts/codex-pair-stop-gate.mjs",
-        "line": 59,
-        "excerpt": "const porcelain = execFileSync(\"git\", [\"-C\", markerDir, \"status\", \"--porcelain=v1\", \"-z\", \"--untracked-files=all\"], opts);",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "packages/llm-mcp/scripts/codex-pair-stop-gate.mjs",
-        "line": 76,
-        "excerpt": "ignored = execFileSync(\"git\", [\"-C\", repoDir, \"check-ignore\", \"-z\", \"--stdin\"], {",
         "disclosed": false,
         "automatic": false
       },
@@ -113,18 +81,58 @@
         "automatic": false
       },
       {
-        "ruleId": "downloads-code",
-        "file": "packages/llm-mcp/.mcp.json",
-        "line": 4,
-        "excerpt": "\"command\": \"npx\",",
+        "ruleId": "shell",
+        "file": "packages/llm-mcp/scripts/lib/stop-gate-io.mjs",
+        "line": 2,
+        "excerpt": "import { execFileSync } from \"node:child_process\";",
         "disclosed": false,
-        "automatic": true
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/llm-mcp/scripts/lib/stop-gate-io.mjs",
+        "line": 23,
+        "excerpt": "const repoRoot = execFileSync(\"git\", [\"-C\", markerDir, \"rev-parse\", \"--show-toplevel\"], opts).trim();",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/llm-mcp/scripts/lib/stop-gate-io.mjs",
+        "line": 25,
+        "excerpt": "const porcelain = execFileSync(\"git\", [\"-C\", markerDir, \"status\", \"--porcelain=v1\", \"-z\", \"--untracked-files=all\"], opts);",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/llm-mcp/scripts/lib/stop-gate-io.mjs",
+        "line": 42,
+        "excerpt": "ignored = execFileSync(\"git\", [\"-C\", repoDir, \"check-ignore\", \"-z\", \"--stdin\"], {",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/llm-mcp/scripts/plugin-mcp-server.mjs",
+        "line": 16,
+        "excerpt": "import { spawnSync } from \"node:child_process\";",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/llm-mcp/scripts/plugin-mcp-server.mjs",
+        "line": 101,
+        "excerpt": "const result = spawnSync(npmCommand(env), [",
+        "disclosed": false,
+        "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "packages/llm-mcp/.mcp.json",
         "line": 4,
-        "excerpt": "\"command\": \"npx\",",
+        "excerpt": "\"command\": \"node\",",
         "disclosed": false,
         "automatic": true
       },
@@ -167,33 +175,16 @@
         "excerpt": "\"command\": \"node ${CLAUDE_PLUGIN_ROOT}/scripts/codex-pair-prompt-drain.mjs\"",
         "disclosed": false,
         "automatic": true
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "packages/llm-mcp/mcp.json",
-        "line": 4,
-        "excerpt": "\"command\": \"npx\",",
-        "disclosed": false,
-        "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": "packages/llm-mcp/mcp.json",
-        "line": 4,
-        "excerpt": "\"command\": \"npx\",",
-        "disclosed": false,
-        "automatic": true
       }
     ],
     "findingTotals": {
-      "shell": 19,
-      "downloads-code": 2
+      "shell": 21
     },
-    "score": 80,
+    "score": 95,
     "band": "low",
     "rulesVersion": "1.3.0",
     "filesScanned": 26,
-    "filesSkipped": 0
+    "filesSkipped": 2
   },
   "history": [
     {
@@ -206,6 +197,12 @@
       "commit": "66b26a1993992066b6303e26b8da49236243efe8",
       "scannedAt": "2026-11-14T09:34:23.329Z",
       "score": 80,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "708915a46b0524725aa10f4d266d9b2974c71b6b",
+      "scannedAt": "2026-11-19T10:50:00.942Z",
+      "score": 95,
       "rulesVersion": "1.3.0"
     }
   ]

@@ -4,24 +4,95 @@
   "repo": "dot-skills",
   "path": "skills/.experimental/threat-model",
   "name": "threat-model",
-  "description": "",
-  "stars": 226,
+  "description": "Security threat modeling, attack surface mapping, and trust boundary analysis on a codebase. Triggers on 'threat model', 'security review', 'attack surface', 'trust boundaries', or when assessing a project's security posture. Also trigger when the user is about to build security-sensitive features (auth, crypto, file I/O, network services, native bridges) and needs to understand the threat landscape first — even if they don't explicitly say \"threat model.\" Also triggers on 'what changed' or 'diff analysis' for incremental security review of recent commits.",
+  "stars": 228,
   "category": "security",
   "commit": "cf93c57cac89d6fc3e4194686000411567f5caf3",
   "contentHash": "6fb3e523498355e200ccdcc1d04489ed080efd64c297e46638a35a01ef80e160",
   "repoCreatedAt": "2026-01-16T16:53:45Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-19T10:50:00.942Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/.experimental/threat-model/gotchas.md",
+        "line": 16,
+        "excerpt": "Both `scan-patterns.sh` and `trace-data-flows.sh` depend on `rg` (ripgrep) for pattern matching. If `rg` is not installed, the scripts will exit with an error. ",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/threat-model/references/attack-patterns.md",
+        "line": 48,
+        "excerpt": "- Config values like `NGINX_URL` or `SERVICE_URL` used in `Net::HTTP`, `fetch()`, or `curl`",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/.experimental/threat-model/references/attack-patterns.md",
+        "line": 127,
+        "excerpt": "- `curl | bash` installation without checksum verification",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/.experimental/threat-model/references/techniques/data-flow-tracing.md",
+        "line": 62,
+        "excerpt": "| Network | `URLSession.data(from:)`, `fetch()`, `Net::HTTP.get` | SSRF |",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/.experimental/threat-model/scripts/scan-patterns.sh",
+        "line": 14,
+        "excerpt": "echo \"Install via: brew install ripgrep (macOS), apt install ripgrep (Debian/Ubuntu)\" >&2",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/.experimental/threat-model/scripts/scan-patterns.sh",
+        "line": 70,
+        "excerpt": "scan \"Process/exec calls\" '(Process\\(|NSTask|system\\(|popen\\(|exec\\(|child_process)' --glob='!*.md'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/.experimental/threat-model/scripts/trace-data-flows.sh",
+        "line": 12,
+        "excerpt": "echo \"Error: ripgrep (rg) is required. Install: brew install ripgrep\" >&2",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/.experimental/threat-model/scripts/trace-data-flows.sh",
+        "line": 105,
+        "excerpt": "scan_entries \"Command Execution\" '(Process\\(|NSTask|system\\(|popen\\(|exec\\(|child_process|spawn\\()'",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "downloads-code": 4,
+      "network": 2,
+      "shell": 2
+    },
+    "score": 79,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 15
+    "filesScanned": 15,
+    "filesSkipped": 0
   },
   "history": [
     {

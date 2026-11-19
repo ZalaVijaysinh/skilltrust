@@ -5,15 +5,15 @@
   "path": "skills/semgrep-skill",
   "name": "semgrep-skill",
   "description": "Runs the installed local Semgrep CLI through a bounded JSON wrapper with two bundled non-secret rules. Requires an explicit authorized workspaceRoot and target. No remote rules, uploads, installs, source excerpts or automatic fixes.",
-  "stars": 187,
+  "stars": 194,
   "category": "other",
-  "commit": "853945a296f991a39535359e44e0f6d9d93ee94f",
+  "commit": "56fee037166f47d575385fcb8253eb7b2a6db1f2",
   "contentHash": "0521e4d33b1cd68067a1f7053ea0fc9e21e8f3a53b67124b854d0f6108498c49",
   "repoCreatedAt": "2026-02-14T07:35:17Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": false,
-  "scannedAt": "2026-11-14T09:34:23.329Z",
+  "incomplete": true,
+  "scannedAt": "2026-11-19T10:50:00.942Z",
   "scan": {
     "findings": [
       {
@@ -29,30 +29,6 @@
         "file": "skills/semgrep-skill/capability.json",
         "line": 12,
         "excerpt": "\"An explicitly authorized directory needs a read-only baseline for Python shell=True or JavaScript/TypeScript eval patterns.\",",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/semgrep-skill/evals/professional-cases.json",
-        "line": 12,
-        "excerpt": "\"scenario\": \"两条规则扫描发现shell=True；另一个候选结果漏掉一选中文件。\",",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/semgrep-skill/evals/professional-cases.json",
-        "line": 36,
-        "excerpt": "\"message\": \"Avoid shell=True when invoking subprocesses.\"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/semgrep-skill/evals/professional-cases.json",
-        "line": 73,
-        "excerpt": "\"scenario\": \"两条规则扫描发现shell=True；另一个候选结果漏掉一选中文件。\",",
         "disclosed": true,
         "automatic": false
       },
@@ -138,14 +114,6 @@
       },
       {
         "ruleId": "shell",
-        "file": "skills/semgrep-skill/tests/fixtures/safe.py",
-        "line": 3,
-        "excerpt": "subprocess.run([\"echo\", \"safe\"], shell=False, check=True)",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
         "file": "skills/semgrep-skill/tests/fixtures/vulnerable.py",
         "line": 4,
         "excerpt": "subprocess.run(\"echo unsafe\", shell=True)",
@@ -185,28 +153,50 @@
         "automatic": false
       },
       {
+        "ruleId": "shell",
+        "file": "skills/semgrep-skill/tests/test_installer.py",
+        "line": 93,
+        "excerpt": "completed = subprocess.run([sys.executable, str(self.target / \"scripts\" / \"scan.py\"), \"--input-json\", \"-\"], input=\"{}\", capture_output=True, text=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
         "ruleId": "downloads-code",
         "file": "skills/semgrep-skill/tests/test_installer.py",
         "line": 212,
         "excerpt": "self.assertNotIn(\"pip install\", sources)",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/semgrep-skill/tests/test_scan.py",
+        "line": 154,
+        "excerpt": "with patch.object(scan, \"os\", os_adapter), patch.object(scan.subprocess, \"run\", side_effect=subprocess.TimeoutExpired(\"taskkill\", 10)):",
+        "disclosed": true,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 22,
+      "shell": 18,
       "downloads-code": 2
     },
     "score": 82,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 23,
-    "filesSkipped": 3
+    "filesScanned": 20,
+    "filesSkipped": 6
   },
   "history": [
     {
       "commit": "853945a296f991a39535359e44e0f6d9d93ee94f",
       "scannedAt": "2026-11-14T09:34:23.329Z",
+      "score": 82,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "56fee037166f47d575385fcb8253eb7b2a6db1f2",
+      "scannedAt": "2026-11-19T10:50:00.942Z",
       "score": 82,
       "rulesVersion": "1.3.0"
     }

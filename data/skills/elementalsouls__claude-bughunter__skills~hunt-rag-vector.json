@@ -5,15 +5,15 @@
   "path": "skills/hunt-rag-vector",
   "name": "hunt-rag-vector",
   "description": "Hunt vector-store / embedding-layer weaknesses in RAG pipelines (OWASP LLM08 Vector and Embedding Weaknesses) — persistent corpus poisoning that survives across sessions and users (distinct from one-shot indirect prompt injection, which is owned by hunt-llm-ai), cross-tenant vector-database IDOR (unauthenticated or unscoped queries against Pinecone/Weaviate/Chroma/Milvus/Qdrant/pgvector), source-text/metadata leakage in similarity-search results, and retrieval-hijack via adversarial embedding proximity ('SEO poisoning' for RAG). Targets: any app with a shared knowledge base, document upload feeding a chatbot, or a directly reachable vector-DB port. Validate: a second, clean session/account must inherit a poisoned result, or a cross-tenant artifact must be independently verifiable — confabulation is not a finding, same bar as hunt-llm-ai. Use when target is RAG-backed, exposes a vector-DB port, or lets users upload documents that other users' queries later retrieve.",
-  "stars": 8222,
+  "stars": 11730,
   "category": "security",
-  "commit": "64410edb7f445e1837665e2fd713d47958a51094",
-  "contentHash": "27c0de63f4f2649e0c8dc21d9cd3f58ad79c0fa5f82f65bce41eabd4c4799652",
+  "commit": "9bdb0a81658bc25f09c0b52d31fcde923d126e4f",
+  "contentHash": "6580fd8f5503577614b583fdd7395c2706b2b9dd2f43dac682f22c536dfc16b5",
   "repoCreatedAt": "2026-05-05T11:22:32Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-17T11:16:37.484Z",
+  "scannedAt": "2026-11-19T10:50:00.942Z",
   "scan": {
     "findings": [
       {
@@ -56,16 +56,69 @@
         "hosts": [
           "$target"
         ]
+      },
+      {
+        "ruleId": "network",
+        "file": "mcp/hackerone/server.py",
+        "line": 31,
+        "excerpt": "import urllib.request",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "mcp/hackerone/server.py",
+        "line": 65,
+        "excerpt": "req = urllib.request.Request(GRAPHQL_URL, data=json.dumps({\"query\": query}).encode(),",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "mcp/hackerone/server.py",
+        "line": 68,
+        "excerpt": "with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "mcp/hackerone/server.py",
+        "line": 92,
+        "excerpt": "req = urllib.request.Request(url, headers={\"Authorization\": \"Basic \" + auth,",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "mcp/hackerone/server.py",
+        "line": 95,
+        "excerpt": "with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude-plugin/plugin.json",
+        "line": 29,
+        "excerpt": "\"command\": \"python3\",",
+        "disclosed": false,
+        "automatic": true
       }
     ],
     "findingTotals": {
-      "network": 3,
-      "shell": 1
+      "network": 8,
+      "shell": 2
     },
     "score": 92,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 2,
+    "filesScanned": 3,
     "filesSkipped": 0
   },
   "history": [
@@ -102,6 +155,12 @@
     {
       "commit": "64410edb7f445e1837665e2fd713d47958a51094",
       "scannedAt": "2026-11-17T11:16:37.484Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "9bdb0a81658bc25f09c0b52d31fcde923d126e4f",
+      "scannedAt": "2026-11-19T10:50:00.942Z",
       "score": 92,
       "rulesVersion": "1.3.0"
     }

@@ -4,208 +4,129 @@
   "repo": "skill-anthropic-grade-optimizer",
   "path": "",
   "name": "anthropic-grade-optimizer",
-  "description": "Audits and optimizes Claude-directing artifacts (CLAUDE.md, SKILL.md, subagent, hook, MCP config, system or user prompt, workflow, api_config) against 189 cited Anthropic rules across 11 dimensions, calibrated per model (Opus 4.7, Sonnet 4.6, Opus 4.6, Haiku 4.5). Every finding ships with verbatim quote and source URL; authorial voice is preserved.",
+  "description": "Reviews a Claude Code setup as a system, or one skill, subagent, hook or instruction file in depth. Measures what loads, what it costs and what gets used, then finds what is misplaced, colliding, unused, on the wrong model, or poorly made for its job, with cited sources. Use to audit, tune or cut the cost of a setup, to find why Claude ignores an instruction or picks the wrong skill or agent, or to fit a setup to a new model. Not for line-by-line cleanup of dated prompt text, which /doctor prompt-audit does.",
   "stars": 20,
   "category": "coding",
-  "commit": "63188abc441e3da9c6541a6d21f548a0d446a3ec",
-  "contentHash": "d34f5f3bb90ea6d58d03ec565588dcb7f73db3bc05b8b5483e50ae923071d9d8",
+  "commit": "f4c51db49defad8dea55d0e38f816e24b3c1b896",
+  "contentHash": "483a8a003ebf7f2539debeb132241c4a0a7a06608f6284d9520700fe8e253ad2",
   "repoCreatedAt": "2026-05-03T02:20:50Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-10T10:33:07.758Z",
+  "scannedAt": "2026-11-19T10:50:00.942Z",
   "scan": {
     "findings": [
       {
-        "ruleId": "downloads-code",
-        "file": "CONTRIBUTING.md",
-        "line": 25,
-        "excerpt": "pip install pyyaml pytest",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "CONTRIBUTING.md",
-        "line": 31,
-        "excerpt": "pip install anthropic",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "README.md",
-        "line": 44,
-        "excerpt": "pip install pyyaml                 # required",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "README.md",
-        "line": 45,
-        "excerpt": "pip install anthropic              # optional, only for --pass2",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "README.md",
-        "line": 57,
-        "excerpt": "pip install pyyaml",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "SKILL.md",
-        "line": 104,
-        "excerpt": "Step 3 — Pass 1 fires: AR-CC-S20 (lib mentioned without `pip install`), AR-CC-S22",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "evals/fixtures/good-mcp.json",
-        "line": 5,
-        "excerpt": "\"command\": \"npx\",",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "references/rules-anthropic.yaml",
-        "line": 1970,
-        "excerpt": "verbatim_quote: \"Don't assume packages are available. Bad: 'Use the pdf library to process the file.' Good: 'Install required package: pip install pypdf. Then u",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "scripts/check_model_currency.py",
-        "line": 27,
-        "excerpt": "print(\"ERROR: PyYAML required. pip install pyyaml\", file=sys.stderr)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "scripts/lib_ux.py",
-        "line": 249,
-        "excerpt": "\"what\": \"Add `pip install <package>` near the first import or in a setup section.\",",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "scripts/pass1_mechanical.py",
-        "line": 409,
-        "excerpt": "\"Don't assume packages are available. Bad: 'Use the pdf library to process the file.' Good: 'Install required package: pip install pypdf. Then use it...'\",",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "scripts/pass2_executor.py",
-        "line": 17,
-        "excerpt": "pip install anthropic pyyaml",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "paid-api",
-        "file": "scripts/pass2_executor.py",
-        "line": 135,
-        "excerpt": "import anthropic",
+        "ruleId": "shell",
+        "file": "evals/build_fixtures.py",
+        "line": 210,
+        "excerpt": "subprocess.run([\"ruff\", \"format\", \"--quiet\", path], check=False)",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "network",
-        "file": "scripts/pass2_executor.py",
-        "line": 135,
-        "excerpt": "import anthropic",
-        "disclosed": false,
+        "file": "kb/claims/harness-evals.jsonl",
+        "line": 30,
+        "excerpt": "{\"id\": \"harness-030\", \"topic\": \"harness\", \"kind\": \"fact\", \"applies_to\": [\"claude-code\"], \"claim\": \"A WebFetch domain deny rule does not stop curl to that domain",
+        "disclosed": true,
         "automatic": false,
-        "hosts": [
-          "api.anthropic.com"
-        ]
+        "hosts": []
       },
       {
-        "ruleId": "downloads-code",
-        "file": "scripts/pass2_executor.py",
-        "line": 137,
-        "excerpt": "return emit_stub(\"anthropic SDK not installed (pip install anthropic)\", artifact_type)",
+        "ruleId": "shell",
+        "file": "kb/claims/hooks-settings-mcp.jsonl",
+        "line": 53,
+        "excerpt": "{\"id\": \"settings-019\", \"topic\": \"settings\", \"kind\": \"fact\", \"applies_to\": [\"claude-code\"], \"claim\": \"A Bash deny or ask rule matches the command as written, so ",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "kb/claims/hooks-settings-mcp.jsonl",
+        "line": 61,
+        "excerpt": "{\"id\": \"settings-027\", \"topic\": \"settings\", \"kind\": \"fact\", \"applies_to\": [\"claude-code\"], \"claim\": \"The sandbox is off by default and covers shell commands onl",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "kb/claims/prompting.jsonl",
+        "line": 9,
+        "excerpt": "{\"id\": \"prompting-009\", \"topic\": \"prompting\", \"kind\": \"practice\", \"applies_to\": [\"claude-code\"], \"claim\": \"User-level agent configuration such as ~/.claude/ and",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "scripts/kb_fetch.py",
+        "line": 26,
+        "excerpt": "import urllib.request",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "scripts/kb_fetch.py",
+        "line": 36,
+        "excerpt": "req = urllib.request.Request(url, headers={\"User-Agent\": UA, \"Accept\": \"text/markdown, text/plain, */*\"})",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "scripts/kb_fetch.py",
+        "line": 37,
+        "excerpt": "with urllib.request.urlopen(req, timeout=timeout) as resp:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "tests/test_instrument.py",
+        "line": 388,
+        "excerpt": "out = subprocess.run(script + ids, capture_output=True, text=True, encoding=\"utf-8\")",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "scripts/run.py",
-        "line": 84,
-        "excerpt": "result = subprocess.run(",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "scripts/run.py",
-        "line": 390,
-        "excerpt": "print(f\"  (Set ANTHROPIC_API_KEY and `pip install anthropic` to enable.)\")",
+        "file": "tests/test_instrument.py",
+        "line": 391,
+        "excerpt": "miss = subprocess.run([sys.executable, str(ROOT / \"scripts\" / \"kb.py\"), \"show\", \"nonsense\"], capture_output=True, text=True)",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "scripts/run_eval_suite.py",
-        "line": 68,
-        "excerpt": "proc = subprocess.run(cmd, capture_output=True)",
+        "file": "tests/test_instrument.py",
+        "line": 505,
+        "excerpt": "out = subprocess.run([sys.executable, str(ROOT / \"scripts\" / \"kb.py\"), \"show\", \"model\", \"--model\", \"claude-opus-5-5\"],",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "tests/calibration.py",
-        "line": 63,
-        "excerpt": "result = subprocess.run(cmd, capture_output=True)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "tests/test_orchestrator.py",
-        "line": 33,
-        "excerpt": "result = subprocess.run(cmd, capture_output=True)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "tests/test_pass1_detectors.py",
-        "line": 39,
-        "excerpt": "result = subprocess.run(cmd, capture_output=True)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "tests/test_pass1_detectors.py",
-        "line": 51,
-        "excerpt": "result = subprocess.run(cmd, capture_output=True)",
+        "file": "tests/test_instrument.py",
+        "line": 509,
+        "excerpt": "miss = subprocess.run([sys.executable, str(ROOT / \"scripts\" / \"kb.py\"), \"cite\", \"nope-1\"], capture_output=True, text=True)",
         "disclosed": false,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "downloads-code": 14,
-      "paid-api": 1,
-      "network": 1,
-      "shell": 6
+      "shell": 6,
+      "network": 5,
+      "writes-outside": 1
     },
-    "score": 65,
-    "band": "review",
+    "score": 82,
+    "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 71,
+    "filesScanned": 36,
     "filesSkipped": 0
   },
   "history": [
@@ -213,6 +134,12 @@
       "commit": "63188abc441e3da9c6541a6d21f548a0d446a3ec",
       "scannedAt": "2026-11-10T10:33:07.758Z",
       "score": 65,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "f4c51db49defad8dea55d0e38f816e24b3c1b896",
+      "scannedAt": "2026-11-19T10:50:00.942Z",
+      "score": 82,
       "rulesVersion": "1.3.0"
     }
   ]

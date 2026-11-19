@@ -5,15 +5,15 @@
   "path": "skills/motion-video-production",
   "name": "motion-video-production",
   "description": "Plan, build and verify 15–90 second motion graphics, promo and character videos. Take a reference video apart with OpenCV into measured targets, then produce through gated stages (story, character, keyframes, clips, voice and music, assembly) on a bundled engine, Remotion (carry oracle, one-word cut template) or HyperFrames, and judge the rendered mp4 against the targets. Voice via ElevenLabs or Fish Audio through the composio CLI, a procedural score, mix and verify. Use for video production, reference matching, keyframes, character consistency and motion graphics assembly. 모션 그래픽·홍보 영상·캐릭터 영상 제작과 레퍼런스 영상 분석에 사용한다.",
-  "stars": 140,
+  "stars": 142,
   "category": "media",
-  "commit": "5fe3cca881eb1d5e397d415c7862cee73ee473c7",
-  "contentHash": "aab52d31d3c48311489dfbc961c26a5ddb299c60870fc783f2f8ec98fce9da0b",
+  "commit": "e26b9d48248786170656bf6e6c54e37a9dd23657",
+  "contentHash": "29309d70c4fac8a7b401c1f3276fa9beaae2198e4ad20f35cd287c0969e4bceb",
   "repoCreatedAt": "2026-10-02T07:52:47Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-10T10:33:07.758Z",
+  "scannedAt": "2026-11-19T10:50:00.942Z",
   "scan": {
     "findings": [
       {
@@ -37,6 +37,46 @@
         "file": "skills/motion-video-production/engines/remotion/pipeline/render.mjs",
         "line": 51,
         "excerpt": "execFileSync('ffmpeg', ['-loglevel', 'error', '-y', ...files.flatMap((f) => ['-i', f]), '-filter_complex', `${tiles};${stack}`, '-frames:v', '1', join(outDir, '",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/motion-video-production/engines/remotion/pipeline/verify.mjs",
+        "line": 2,
+        "excerpt": "import { execFileSync, spawnSync } from 'node:child_process';",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/motion-video-production/engines/remotion/pipeline/verify.mjs",
+        "line": 19,
+        "excerpt": "const sh = (cmd, args) => execFileSync(cmd, args, { encoding: 'utf8', maxBuffer: 1 << 26, timeout: 120000, stdio: ['ignore', 'pipe', 'pipe'] });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/motion-video-production/engines/remotion/pipeline/verify.mjs",
+        "line": 36,
+        "excerpt": "const r = spawnSync('python3', [join(skill, 'harness/gate.py'), 'media', video, stage], {",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/motion-video-production/engines/remotion/pipeline/verify.mjs",
+        "line": 61,
+        "excerpt": "const r = spawnSync('npm', ['test', '--silent'], { cwd: root, encoding: 'utf8', timeout: 120000 });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/motion-video-production/engines/remotion/pipeline/verify.mjs",
+        "line": 145,
+        "excerpt": "const git = (...args) => spawnSync('git', args, { cwd: root, encoding: 'utf8' }).stdout.trim();",
         "disclosed": false,
         "automatic": false
       },
@@ -145,46 +185,6 @@
         "automatic": false
       },
       {
-        "ruleId": "shell",
-        "file": "skills/motion-video-production/engines/remotion/productions/wordcut/focus.mjs",
-        "line": 42,
-        "excerpt": "execFileSync('ffmpeg', ['-loglevel', 'error', '-y', '-i', src, '-vf', `select='${sel}',scale=${portrait ? '270:480' : '480:270'},tile=${portrait ? '9x2' : '6x3'",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/motion-video-production/engines/remotion/productions/wordcut/frame0.mjs",
-        "line": 14,
-        "excerpt": "import { execFileSync } from 'node:child_process';",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/motion-video-production/engines/remotion/productions/wordcut/frame0.mjs",
-        "line": 22,
-        "excerpt": "const [w0, h0] = execFileSync('ffprobe', ['-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=width,height', '-of', 'csv=p=0', src]).toString().tr",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/motion-video-production/engines/remotion/productions/wordcut/frame0.mjs",
-        "line": 24,
-        "excerpt": "const rgb = execFileSync('ffmpeg', ['-loglevel', 'error', ...(t ? ['-ss', t] : []), '-i', src, '-frames:v', '1', '-vf', `scale=${W}:${H}:flags=area`, '-f', 'raw",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/motion-video-production/engines/remotion/productions/wordcut/look-fit.mjs",
-        "line": 8,
-        "excerpt": "import { execFileSync } from 'node:child_process';",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
         "ruleId": "downloads-code",
         "file": "skills/motion-video-production/engines/remotion/productions/wordcut/render.mjs",
         "line": 32,
@@ -245,14 +245,6 @@
         "file": "skills/motion-video-production/references/reference-analysis.md",
         "line": 11,
         "excerpt": ".venv-ref/bin/pip install -r \"$SKILL_ROOT/scripts/requirements-ref.txt\"",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/motion-video-production/scripts/verify.sh",
-        "line": 46,
-        "excerpt": "echo \"== whisper 미설치: 받아쓰기 생략 (pip install openai-whisper)\"",
         "disclosed": false,
         "automatic": false
       },
@@ -319,14 +311,14 @@
       }
     ],
     "findingTotals": {
-      "downloads-code": 12,
-      "shell": 35,
+      "downloads-code": 11,
+      "shell": 43,
       "network": 5
     },
     "score": 75,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 88,
+    "filesScanned": 95,
     "filesSkipped": 1
   },
   "history": [
@@ -334,6 +326,12 @@
       "commit": "5fe3cca881eb1d5e397d415c7862cee73ee473c7",
       "scannedAt": "2026-11-07T22:05:48.475Z",
       "score": 80,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "e26b9d48248786170656bf6e6c54e37a9dd23657",
+      "scannedAt": "2026-11-19T10:50:00.942Z",
+      "score": 75,
       "rulesVersion": "1.3.0"
     }
   ]

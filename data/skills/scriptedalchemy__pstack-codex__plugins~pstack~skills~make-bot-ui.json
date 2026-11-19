@@ -4,24 +4,108 @@
   "repo": "pstack-codex",
   "path": "plugins/pstack/skills/make-bot-ui",
   "name": "make-bot-ui",
-  "description": "",
-  "stars": 81,
+  "description": "Build a small local page or dashboard that submits structured work to a Codex-backed HTTP endpoint without exposing credentials in the browser. Use when a user wants buttons or a UI in front of an existing Codex service or automation endpoint.",
+  "stars": 83,
   "category": "design",
   "commit": "7f3b75256df824ca84a9b76b6bc202b967a221c2",
-  "contentHash": "9ede09fa8915ce0f6a0cda848e2c77ec03c55595b02c217047b6dd5a97b784dd",
+  "contentHash": "9c2ec131983d57c9091e394efb4f8889f0554ed9fc778a1d8cec631dbab296ac",
   "repoCreatedAt": "2026-09-17T23:42:00Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-19T10:50:00.942Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "plugins/pstack/skills/make-bot-ui/SKILL.md",
+        "line": 29,
+        "excerpt": "node \"<plugin-root>/skills/make-bot-ui/scripts/bridge.mjs\" /absolute/reviewed/workspace",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/pstack/skills/make-bot-ui/SKILL.md",
+        "line": 37,
+        "excerpt": "node --test \"<plugin-root>/skills/make-bot-ui/scripts/bridge.test.mjs\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/pstack/skills/make-bot-ui/scripts/bridge.mjs",
+        "line": 4,
+        "excerpt": "import { spawn } from 'node:child_process';",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/pstack/skills/make-bot-ui/scripts/bridge.mjs",
+        "line": 75,
+        "excerpt": "'document.getElementById(\"submit\").onclick=async()=>{const b=document.getElementById(\"submit\");b.disabled=true;try{const s=await fetch(\"/session\");const {token}",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/pstack/skills/make-bot-ui/scripts/bridge.test.mjs",
+        "line": 11,
+        "excerpt": "const { token } = await (await fetch(bridge.origin + '/session')).json();",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/pstack/skills/make-bot-ui/scripts/bridge.test.mjs",
+        "line": 12,
+        "excerpt": "const post = (input, headers = {}) => fetch(bridge.origin + '/run', { method: 'POST',",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/pstack/skills/make-bot-ui/scripts/bridge.test.mjs",
+        "line": 20,
+        "excerpt": "assert.equal((await fetch(b.origin + '/health')).status, 200);",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/pstack/skills/make-bot-ui/scripts/bridge.test.mjs",
+        "line": 37,
+        "excerpt": "assert.equal((await fetch(b.origin + '/session', { headers: { Origin: 'https://evil.test' } })).status, 403);",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "evil.test"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/pstack/skills/make-bot-ui/scripts/bridge.test.mjs",
+        "line": 38,
+        "excerpt": "const badHost = await new Promise(resolve => http.get(b.origin + '/health', { headers: { Host: 'evil.test' } }, r => { r.resume(); resolve(r.statusCode); }));",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 3,
+      "network": 6
+    },
+    "score": 94,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 5
+    "filesScanned": 6,
+    "filesSkipped": 1
   },
   "history": [
     {

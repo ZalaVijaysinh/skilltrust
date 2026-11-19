@@ -7,19 +7,19 @@
   "description": "Saves a user correction so future queries learn from it. Always appends a (question, corrected_sql) pair to the subject area's example library under <artifacts_dir>/<profile>/prompt_examples/<area>/. Additionally, classifies the correction and — when applicable — applies a surgical edit to the semantic model itself (relationship fix, column metadata, or new metric) via the curation engine. Every model edit is validated before write; the validator is the binding gate, and a failed validation reverts. Shows the user a model diff for approval before any model mutation.",
   "stars": 30,
   "category": "data",
-  "commit": "b08d29ab89744bd491f9196cc5493faa6a28840b",
-  "contentHash": "cf8fd915402ee99ade5122ba7e41ae99ad0e23b49b5240aaaa7a120e4f00efc4",
+  "commit": "8d5b8fa7329052e5766bade4dba7d4d5e583d429",
+  "contentHash": "b78d12f1f29845e41208dfd927b4d181cee4ad3c07f1e6d9c6b050b92426f98f",
   "repoCreatedAt": "2026-05-06T04:45:23Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "scannedAt": "2026-11-19T10:50:00.942Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "plugins/agami/skills/agami-save-correction/SKILL.md",
-        "line": 87,
+        "line": 89,
         "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/sm\" add-example \"$ROOT\" --area <area> --file \"<artifacts_dir>/local/tmp/agami-correction-example.json\"",
         "disclosed": true,
         "automatic": false
@@ -27,7 +27,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/agami/skills/agami-save-correction/SKILL.md",
-        "line": 324,
+        "line": 326,
         "excerpt": "printf '{\"gold tier\": \"lifetime spend > $10k\"}' > \"<artifacts_dir>/local/tmp/agami-term.json\"",
         "disclosed": true,
         "automatic": false
@@ -35,7 +35,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/agami/skills/agami-save-correction/SKILL.md",
-        "line": 363,
+        "line": 365,
         "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/sm\" curate \"$ROOT\" --ops-file \"<artifacts_dir>/local/tmp/agami-correction-ops.json\"",
         "disclosed": true,
         "automatic": false
@@ -43,7 +43,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/agami/skills/agami-save-correction/SKILL.md",
-        "line": 373,
+        "line": 375,
         "excerpt": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/sm\" add \"$ROOT\" --kind metric --area <area> --file \"<artifacts_dir>/local/tmp/agami-new-metric.json\"",
         "disclosed": true,
         "automatic": false
@@ -51,7 +51,7 @@
       {
         "ruleId": "downloads-code",
         "file": "plugins/agami/scripts/sm",
-        "line": 68,
+        "line": 89,
         "excerpt": "\"$PY\" -m pip install --user -q \"$@\" >&2 2>/dev/null \\",
         "disclosed": false,
         "automatic": false
@@ -59,7 +59,7 @@
       {
         "ruleId": "downloads-code",
         "file": "plugins/agami/scripts/sm",
-        "line": 69,
+        "line": 90,
         "excerpt": "|| \"$PY\" -m pip install -q \"$@\" >&2 2>/dev/null \\",
         "disclosed": false,
         "automatic": false
@@ -67,7 +67,7 @@
       {
         "ruleId": "downloads-code",
         "file": "plugins/agami/scripts/sm",
-        "line": 70,
+        "line": 91,
         "excerpt": "|| \"$PY\" -m pip install --user --break-system-packages -q \"$@\" >&2 2>/dev/null \\",
         "disclosed": false,
         "automatic": false
@@ -75,7 +75,7 @@
       {
         "ruleId": "downloads-code",
         "file": "plugins/agami/scripts/sm",
-        "line": 71,
+        "line": 92,
         "excerpt": "|| \"$PY\" -m pip install --break-system-packages -q \"$@\" >&2",
         "disclosed": false,
         "automatic": false
@@ -83,7 +83,15 @@
       {
         "ruleId": "downloads-code",
         "file": "plugins/agami/scripts/sm",
-        "line": 196,
+        "line": 179,
+        "excerpt": "MODEL_EXTRA_LINE=\"\\\"$PY\\\" -m pip install \\\"agami-core[model]${PLUGIN_VER:+==$PLUGIN_VER}\\\"\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/agami/scripts/sm",
+        "line": 232,
         "excerpt": "echo \"       Try:  $PY -m pip install --user --upgrade \\\"agami-core[$EXTRAS] @ ${GIT_BASE}@${GIT_REF}#subdirectory=packages/agami-core\\\"\" >&2",
         "disclosed": false,
         "automatic": false
@@ -95,16 +103,24 @@
         "excerpt": "| `driver_missing` | `ModuleNotFoundError` / `ImportError` for `psycopg2`, `pymysql`, `pyodbc`, `snowflake.connector`, `google.cloud.bigquery`, `redshift_connec",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agami/hooks/hooks.json",
+        "line": 10,
+        "excerpt": "\"command\": \"in=$(cat); for p in python3 python; do [ \\\"$(\\\"$p\\\" -I -c 'print(end=\\\"agami-ok\\\")' </dev/null 2>/dev/null)\\\" = agami-ok ] && out=$(printf '%s' \\\"$i",
+        "disclosed": true,
+        "automatic": true
       }
     ],
     "findingTotals": {
-      "shell": 4,
-      "downloads-code": 6
+      "shell": 5,
+      "downloads-code": 7
     },
     "score": 82,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 14,
+    "filesScanned": 15,
     "filesSkipped": 0
   },
   "history": [
@@ -117,6 +133,12 @@
     {
       "commit": "b08d29ab89744bd491f9196cc5493faa6a28840b",
       "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 82,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "8d5b8fa7329052e5766bade4dba7d4d5e583d429",
+      "scannedAt": "2026-11-19T10:50:00.942Z",
       "score": 82,
       "rulesVersion": "1.3.0"
     }

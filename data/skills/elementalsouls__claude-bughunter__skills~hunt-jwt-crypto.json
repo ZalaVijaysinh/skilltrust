@@ -5,15 +5,15 @@
   "path": "skills/hunt-jwt-crypto",
   "name": "hunt-jwt-crypto",
   "description": "Hunt JWT cryptographic failures — alg:none signature-stripping and RS256→HS256 key-confusion that let an attacker forge a token for any identity (e.g. an admin) without knowing a secret. Use when the app authenticates with a JSON Web Token (an `eyJ...` Bearer token in the Authorization header, a cookie, or a login response). This skill OWNS JWT signature/crypto forgery (alg:none, key confusion, kid/jku header injection); hunt-ato covers JWT as one ATO path, hunt-auth-bypass covers SSO/SAML token trust, hunt-api-misconfig covers non-crypto JWT handling. Critical when a forged token grants access to another user's data or an admin-only endpoint.",
-  "stars": 8222,
+  "stars": 11730,
   "category": "security",
-  "commit": "64410edb7f445e1837665e2fd713d47958a51094",
-  "contentHash": "2d36ebf2de63e8f6ee2be3fa9746e03286572ff23284c34e298266b0bd1a5473",
+  "commit": "9bdb0a81658bc25f09c0b52d31fcde923d126e4f",
+  "contentHash": "253c21e6f24d1b175bb9dc1a9f3646d13e8510cc20c969b51c712ca42d5740b0",
   "repoCreatedAt": "2026-05-05T11:22:32Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-17T11:16:37.484Z",
+  "scannedAt": "2026-11-19T10:50:00.942Z",
   "scan": {
     "findings": [
       {
@@ -31,15 +31,69 @@
         "excerpt": "jwt_tool <token> -X a",
         "disclosed": true,
         "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "mcp/hackerone/server.py",
+        "line": 31,
+        "excerpt": "import urllib.request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "mcp/hackerone/server.py",
+        "line": 65,
+        "excerpt": "req = urllib.request.Request(GRAPHQL_URL, data=json.dumps({\"query\": query}).encode(),",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "mcp/hackerone/server.py",
+        "line": 68,
+        "excerpt": "with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "mcp/hackerone/server.py",
+        "line": 92,
+        "excerpt": "req = urllib.request.Request(url, headers={\"Authorization\": \"Basic \" + auth,",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "mcp/hackerone/server.py",
+        "line": 95,
+        "excerpt": "with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude-plugin/plugin.json",
+        "line": 29,
+        "excerpt": "\"command\": \"python3\",",
+        "disclosed": true,
+        "automatic": true
       }
     ],
     "findingTotals": {
-      "shell": 2
+      "shell": 3,
+      "network": 5
     },
-    "score": 97,
+    "score": 92,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 2,
+    "filesScanned": 3,
     "filesSkipped": 0
   },
   "history": [
@@ -77,6 +131,12 @@
       "commit": "64410edb7f445e1837665e2fd713d47958a51094",
       "scannedAt": "2026-11-17T11:16:37.484Z",
       "score": 97,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "9bdb0a81658bc25f09c0b52d31fcde923d126e4f",
+      "scannedAt": "2026-11-19T10:50:00.942Z",
+      "score": 92,
       "rulesVersion": "1.3.0"
     }
   ]

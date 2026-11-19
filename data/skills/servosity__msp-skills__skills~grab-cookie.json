@@ -5,15 +5,15 @@
   "path": "skills/grab-cookie",
   "name": "grab-cookie",
   "description": "Capture, store, wire, and verify a browser-session credential for any site that has no API key and no OAuth path: an httpOnly session cookie, an opaque localStorage bearer token, or a custom auth header. The human step is one DevTools \"Copy as cURL\" paste, and everything around it is automated: parse the request, extract the secret per a per-site JSON profile, store it in the Windows Credential Manager or the macOS Keychain without the value entering the agent's context, regenerate whatever config file consumes it, and prove the result with a real authenticated call. A daily doctor re-probes every stored credential and warns before a known expiry instead of after. Use when the user says a tool stopped working after about a month, my session expired, re-auth this site, the cookie died again, refresh my token, this vendor has no API key, or set up auth for a site that only works when logged in. This Skill does NOT drive a browser. It reads a cURL command the user pastes. For vendors that DO expose OAuth or an API key, use connect-tool instead.",
-  "stars": 80,
+  "stars": 83,
   "category": "coding",
-  "commit": "630517c15ca69547eb88298a8406e192244d55c4",
+  "commit": "8e50a59ba0167138de67f8b7fe5e4f578555ad73",
   "contentHash": "6c006694ac962d0f9a696e7673d72ee8887b792e4637e39dda77f490064879bc",
   "repoCreatedAt": "2026-05-26T14:14:21Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": false,
-  "scannedAt": "2026-11-14T09:34:23.329Z",
+  "incomplete": true,
+  "scannedAt": "2026-11-19T10:50:00.942Z",
   "scan": {
     "findings": [
       {
@@ -72,117 +72,6 @@
         "excerpt": "- no `shell=True` anywhere, so a header value or a path is never parsed by `cmd.exe`",
         "disclosed": false,
         "automatic": false
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/grab-cookie/scripts/credgrab.py",
-        "line": 336,
-        "excerpt": "v = credstore.fetch(store_as, prof[\"name\"])",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/grab-cookie/scripts/credgrab.py",
-        "line": 450,
-        "excerpt": "r = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, timeout=VERIFY_TIMEOUT)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/grab-cookie/scripts/credgrab.py",
-        "line": 453,
-        "excerpt": "except subprocess.TimeoutExpired:",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/grab-cookie/scripts/credgrab.py",
-        "line": 551,
-        "excerpt": "store_as: credstore.fetch(store_as, prof[\"name\"]) for store_as in values",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/grab-cookie/scripts/credstore.py",
-        "line": 96,
-        "excerpt": "r = subprocess.run([\"/usr/bin/security\", \"add-generic-password\", \"-U\",",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/grab-cookie/scripts/credstore.py",
-        "line": 116,
-        "excerpt": "g = subprocess.run([\"/usr/bin/security\", \"find-generic-password\",",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/grab-cookie/scripts/credstore.py",
-        "line": 126,
-        "excerpt": "r = subprocess.run([\"/usr/bin/security\", \"find-generic-password\",",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/grab-cookie/scripts/credstore.py",
-        "line": 138,
-        "excerpt": "r = subprocess.run([\"/usr/bin/security\", \"delete-generic-password\",",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/grab-cookie/scripts/credstore.py",
-        "line": 266,
-        "excerpt": "def fetch(service: str, account: str) -> str | None:",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/grab-cookie/scripts/credstore.py",
-        "line": 330,
-        "excerpt": "assert fetch(svc, acct) == secret, \"round-trip mismatch\"",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/grab-cookie/scripts/credstore.py",
-        "line": 334,
-        "excerpt": "assert fetch(svc, acct) == tricky, f\"round-trip mangled {tricky!r}\"",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/grab-cookie/scripts/credstore.py",
-        "line": 336,
-        "excerpt": "assert fetch(svc, \"no-such-account\") is None, \"fetch invented a credential\"",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/grab-cookie/scripts/credstore.py",
-        "line": 337,
-        "excerpt": "assert delete(svc, acct) and fetch(svc, acct) is None, \"delete did not remove it\"",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
       },
       {
         "ruleId": "network",
@@ -311,17 +200,94 @@
         "hosts": [
           "x"
         ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/grab-cookie/scripts/curlparse.py",
+        "line": 379,
+        "excerpt": "benign = r\"\"\"curl 'https://x' --data-raw $'{\"note\":\"it\\'s done\"}' -H 'x-realm: after'\"\"\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "x"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/grab-cookie/scripts/curlparse.py",
+        "line": 387,
+        "excerpt": "attack = (r\"\"\"curl 'https://x' -H 'authorization: Bearer REAL' \"\"\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "x"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/grab-cookie/scripts/curlparse.py",
+        "line": 394,
+        "excerpt": "for benign in (r\"\"\"curl 'https://x' --data-raw 'it'\\''s' -H 'x-realm: after'\"\"\",",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "x"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/grab-cookie/scripts/curlparse.py",
+        "line": 395,
+        "excerpt": "r\"\"\"curl 'https://x' --data-raw 'it'\"'\"'s' -H 'x-realm: after'\"\"\"):",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "x"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/grab-cookie/scripts/curlparse.py",
+        "line": 403,
+        "excerpt": "h = parse_headers(\"curl 'https://x' -H 'authorization: Bearer REAL' -H x:\\\"abc -H 'authorization: Bearer ATTACKER'\\\"\")",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "x"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/grab-cookie/scripts/curlparse.py",
+        "line": 406,
+        "excerpt": "h = parse_headers(\"\"\"curl 'https://x' -H x:\"abc def\" -H 'authorization: Bearer REAL'\"\"\")",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "x"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/grab-cookie/scripts/curlparse.py",
+        "line": 411,
+        "excerpt": "h = parse_headers(\"\"\"curl 'https://x' -H 'authorization: Bearer REAL' --data-raw prefix-H'authorization: Bearer ATTACKER'\"\"\")",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "x"
+        ]
       }
     ],
     "findingTotals": {
-      "shell": 12,
-      "network": 38
+      "shell": 6,
+      "network": 31
     },
     "score": 92,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 13,
-    "filesSkipped": 0
+    "filesScanned": 8,
+    "filesSkipped": 5
   },
   "history": [
     {
@@ -339,6 +305,12 @@
     {
       "commit": "630517c15ca69547eb88298a8406e192244d55c4",
       "scannedAt": "2026-11-14T09:34:23.329Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "8e50a59ba0167138de67f8b7fe5e4f578555ad73",
+      "scannedAt": "2026-11-19T10:50:00.942Z",
       "score": 92,
       "rulesVersion": "1.3.0"
     }

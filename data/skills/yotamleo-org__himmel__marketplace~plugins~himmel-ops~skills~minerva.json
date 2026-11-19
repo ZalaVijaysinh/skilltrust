@@ -7,13 +7,13 @@
   "description": "Idea to reviewed spec and plan.",
   "stars": 15,
   "category": "other",
-  "commit": "f37ae7b91a48ba4652e487b7f4469737ffab8408",
-  "contentHash": "d0a46f25d73764628aaca76c25866e687c8530dfbb915e62dcbcf4118da4505b",
+  "commit": "0b2223564622efce5a4bd8fbedc4c3bbef745ca9",
+  "contentHash": "a7040dcdade9ded5779b8d3725ffc73efdcf0f42fea1bce20b2de598a5117d92",
   "repoCreatedAt": "2026-06-16T13:17:11Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "scannedAt": "2026-11-19T10:50:00.942Z",
   "scan": {
     "findings": [
       {
@@ -79,6 +79,30 @@
         "excerpt": "S=\"${CLAUDE_PLUGIN_ROOT:+$CLAUDE_PLUGIN_ROOT/scripts}\"",
         "disclosed": true,
         "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "marketplace/plugins/himmel-ops/hooks/guard-judge-writes.sh",
+        "line": 167,
+        "excerpt": "has_word bunx npx uvx && deny \"package-fetch\" \"bunx, npx or uvx: $hint\"",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "marketplace/plugins/himmel-ops/hooks/guard-judge-writes.sh",
+        "line": 178,
+        "excerpt": "has_word pip pip3 && has_word install download && deny \"package-fetch\" \"pip install or pip download: $hint\"",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "marketplace/plugins/himmel-ops/hooks/guard-judge-writes.sh",
+        "line": 179,
+        "excerpt": "has_word cargo && has_word install && deny \"package-fetch\" \"cargo install: $hint\"",
+        "disclosed": false,
+        "automatic": true
       },
       {
         "ruleId": "shell",
@@ -188,7 +212,16 @@
       {
         "ruleId": "network",
         "file": "marketplace/plugins/himmel-ops/hooks/redirect-webfetch-walled-hosts.sh",
-        "line": 59,
+        "line": 54,
+        "excerpt": "&& jq -e '[(.hooks.PreToolUse // [])[]? | select(((.matcher // \"\") | strings | split(\"|\") | index(\"WebFetch\")) != null)",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "marketplace/plugins/himmel-ops/hooks/redirect-webfetch-walled-hosts.sh",
+        "line": 72,
         "excerpt": "[ \"$tool\" = \"WebFetch\" ] || exit 0",
         "disclosed": false,
         "automatic": true,
@@ -197,7 +230,7 @@
       {
         "ruleId": "network",
         "file": "marketplace/plugins/himmel-ops/hooks/redirect-webfetch-walled-hosts.sh",
-        "line": 100,
+        "line": 113,
         "excerpt": "deny_msg=\"WebFetch is walled on this host (HTTP 402/login wall). Fetch it with the stealth fetcher instead, then work from its output: bash $qfetcher $quoted (b",
         "disclosed": false,
         "automatic": true,
@@ -206,7 +239,7 @@
       {
         "ruleId": "network",
         "file": "marketplace/plugins/himmel-ops/hooks/redirect-webfetch-walled-hosts.sh",
-        "line": 102,
+        "line": 115,
         "excerpt": "deny_msg=\"WebFetch is walled on $host (HTTP 402/login wall) and will not return the page. Use a browser-capable tool if one is configured, or ask the operator t",
         "disclosed": false,
         "automatic": true,
@@ -319,11 +352,12 @@
     ],
     "findingTotals": {
       "shell": 47,
-      "network": 4,
+      "downloads-code": 3,
+      "network": 5,
       "writes-outside": 13
     },
-    "score": 82,
-    "band": "low",
+    "score": 67,
+    "band": "review",
     "rulesVersion": "1.3.0",
     "filesScanned": 25,
     "filesSkipped": 0
@@ -339,6 +373,12 @@
       "commit": "f37ae7b91a48ba4652e487b7f4469737ffab8408",
       "scannedAt": "2026-11-13T10:10:34.466Z",
       "score": 82,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "0b2223564622efce5a4bd8fbedc4c3bbef745ca9",
+      "scannedAt": "2026-11-19T10:50:00.942Z",
+      "score": 67,
       "rulesVersion": "1.3.0"
     }
   ]
