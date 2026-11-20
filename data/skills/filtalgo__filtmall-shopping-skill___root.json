@@ -5,15 +5,15 @@
   "path": "",
   "name": "filtmall-shopping",
   "description": "筛电（Filtmall / Filtalgo）官方商品发现与交易 Skill。用户未指定其他平台，并明确要寻找、选择、购买、推荐或比较真实商品时自动调用；包括先描述困扰再明确询问“有什么商品推荐”。用户明确说是筛电/Filtmall 的购物车、支付、订单、物流、退款、售后或客服任务时也调用。平台不明的账户状态短句先澄清平台，不登录、不查询。已进入商品或成分流程后出现严重过敏时只做安全拦截，不搜索或交易；脱离购物场景的医疗陈述不自动调用。用户明确询问单个化妆品成分时可进入只读查询。明确指定其他平台、纯困扰陈述、一般知识或无购物意图的医疗问题不调用。Delegate product discovery and shopping questions to the production Filtalgo hosted agent through Control's public guest and conversation APIs. Use scripts/service.py in one-shot or persistent line-delimited JSON mode; it manages guest identity, waits for terminal state, and returns answers and product cards. Supports follow-up, resumption, cancellation and clearing. Available tools depend on the target Agent; member transactions require separate authorization and an Agent with commerce tools.",
-  "stars": 1185,
+  "stars": 1190,
   "category": "other",
-  "commit": "b32bed84ae463049795122d1a00ba5440fbd3c2f",
-  "contentHash": "5a3b2a573b68b0916cf974d7412b141610aead12b5048ec30ed57e440ce50eb8",
+  "commit": "fcaec4f1854b57f0db6d277798eaa75e2e8bf4ac",
+  "contentHash": "0235c3385ca6d387ecbac9f348d74a0cf53be27402a97db05ac64b7b721c946f",
   "repoCreatedAt": "2026-05-28T12:02:51Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-12T10:25:14.233Z",
+  "scannedAt": "2026-11-20T10:39:23.037Z",
   "scan": {
     "findings": [
       {
@@ -25,9 +25,17 @@
         "automatic": false
       },
       {
+        "ruleId": "downloads-code",
+        "file": "SKILL.md",
+        "line": 43,
+        "excerpt": "选择现在更新时，若原业务结果未知，先用原 `conversation` 的 `resume` 核对。等请求终态、无待恢复请求且旧服务进程退出后，备份本地定制与旧包，保留私有 state，按**原安装渠道**安装本次 `release_tag` 对应包；版本归一化仅用于比较，安装与链接沿用原始 tag，不能默认 `mai",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
         "ruleId": "shell",
         "file": "SKILL.md",
-        "line": 38,
+        "line": 52,
         "excerpt": "python3 \"<skill-dir>/scripts/service.py\" --once --format widget",
         "disclosed": true,
         "automatic": false
@@ -35,7 +43,7 @@
       {
         "ruleId": "shell",
         "file": "SKILL.md",
-        "line": 58,
+        "line": 72,
         "excerpt": "python3 \"<skill-dir>/scripts/service.py\" --format widget",
         "disclosed": true,
         "automatic": false
@@ -43,7 +51,7 @@
       {
         "ruleId": "shell",
         "file": "SKILL.md",
-        "line": 191,
+        "line": 216,
         "excerpt": "python3 \"<skill-dir>/scripts/region_lookup.py\"",
         "disclosed": true,
         "automatic": false
@@ -51,7 +59,7 @@
       {
         "ruleId": "network",
         "file": "scripts/cards.py",
-        "line": 15,
+        "line": 16,
         "excerpt": "import urllib.request",
         "disclosed": false,
         "automatic": false,
@@ -60,7 +68,7 @@
       {
         "ruleId": "network",
         "file": "scripts/cards.py",
-        "line": 368,
+        "line": 350,
         "excerpt": "class NoRedirect(urllib.request.HTTPRedirectHandler):",
         "disclosed": false,
         "automatic": false,
@@ -69,7 +77,7 @@
       {
         "ruleId": "network",
         "file": "scripts/cards.py",
-        "line": 378,
+        "line": 360,
         "excerpt": "opener = urllib.request.build_opener(NoRedirect())",
         "disclosed": false,
         "automatic": false,
@@ -78,16 +86,124 @@
       {
         "ruleId": "network",
         "file": "scripts/cards.py",
-        "line": 384,
+        "line": 366,
         "excerpt": "req = urllib.request.Request(candidate, headers={'User-Agent': 'filtalgo-render-cards/1'})",
         "disclosed": false,
         "automatic": false,
         "hosts": []
       },
       {
+        "ruleId": "network",
+        "file": "scripts/update_check.py",
+        "line": 18,
+        "excerpt": "import urllib.request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "scripts/update_check.py",
+        "line": 41,
+        "excerpt": "class _NoRedirect(urllib.request.HTTPRedirectHandler):",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "scripts/update_check.py",
+        "line": 50,
+        "excerpt": "opener = urllib.request.build_opener(urllib.request.ProxyHandler(), _NoRedirect())",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "scripts/update_check.py",
+        "line": 51,
+        "excerpt": "request = urllib.request.Request(API_URL, headers={",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/update_check.py",
+        "line": 194,
+        "excerpt": "process = subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/update_check.py",
+        "line": 219,
+        "excerpt": "except subprocess.TimeoutExpired:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tests/test_phone_privacy.py",
+        "line": 17,
+        "excerpt": "result = subprocess.run(['python3', '-S', str(script)], capture_output=True, text=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tests/test_phone_privacy.py",
+        "line": 24,
+        "excerpt": "result = subprocess.run(['python3', '-S', str(script)], capture_output=True, text=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "tests/test_product_origin.py",
+        "line": 26,
+        "excerpt": "env = dict(os.environ)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tests/test_product_origin.py",
+        "line": 30,
+        "excerpt": "return subprocess.run([sys.executable, '-X', 'utf8', '-B', '-c', RENDER, str(SCRIPTS)],",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tests/test_region_prepare.py",
+        "line": 198,
+        "excerpt": "result = subprocess.run([sys.executable, '-B', '-X', 'utf8', region_lookup.__file__, '--data-file', str(source)],",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tests/test_region_prepare.py",
+        "line": 205,
+        "excerpt": "result = subprocess.run([sys.executable, '-B', '-X', 'utf8', region_lookup.__file__],",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tests/test_region_prepare.py",
+        "line": 217,
+        "excerpt": "result = subprocess.run([sys.executable, '-B', '-X', 'utf8', region_lookup.__file__],",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
         "ruleId": "shell",
         "file": "tests/test_service_outputs.py",
-        "line": 157,
+        "line": 212,
         "excerpt": "proc = subprocess.run([sys.executable, str(Path(service.__file__)), '--once', '--state-dir', d],",
         "disclosed": true,
         "automatic": false
@@ -95,7 +211,7 @@
       {
         "ruleId": "shell",
         "file": "tests/test_service_outputs.py",
-        "line": 166,
+        "line": 221,
         "excerpt": "proc = subprocess.run([sys.executable, str(Path(service.__file__)), '--once', '--state-dir', d],",
         "disclosed": true,
         "automatic": false
@@ -103,23 +219,98 @@
       {
         "ruleId": "network",
         "file": "tests/test_service_outputs.py",
-        "line": 241,
+        "line": 342,
         "excerpt": "with patch('urllib.request.build_opener', side_effect=AssertionError('network')):",
         "disclosed": false,
         "automatic": false,
         "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "tests/test_service_updates.py",
+        "line": 213,
+        "excerpt": "proc = subprocess.run([sys.executable, str(Path(service.__file__)), '--state-dir', directory,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tests/test_service_updates.py",
+        "line": 223,
+        "excerpt": "release = subprocess.CompletedProcess([], 0, json.dumps({'tag_name': 'v99.0.0', 'draft': False, 'prerelease': False}), '')",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tests/test_update_check.py",
+        "line": 40,
+        "excerpt": "return patch.object(self.mod.subprocess, \"run\", return_value=subprocess.CompletedProcess([], 0, json.dumps(data), \"\"))",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tests/test_update_check.py",
+        "line": 86,
+        "excerpt": "with patch.object(self.mod.subprocess, \"run\", side_effect=subprocess.TimeoutExpired([], 0.1)):",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tests/test_update_check.py",
+        "line": 145,
+        "excerpt": "with patch.object(self.mod.subprocess, \"run\", return_value=subprocess.CompletedProcess([], code, stdout, \"secret credential\")):",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "tests/test_update_check.py",
+        "line": 168,
+        "excerpt": "with patch.object(self.mod.urllib.request, \"getproxies\", return_value=proxies), patch.object(self.mod.urllib.request, \"build_opener\", return_value=opener) as bu",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "tests/test_update_check.py",
+        "line": 174,
+        "excerpt": "child = subprocess.Popen([sys.executable, \"-c\", code, str(SCRIPT), str(self.skill), str(self.state)], stdout=subprocess.PIPE, text=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "tests/test_update_check.py",
+        "line": 188,
+        "excerpt": "with patch.object(self.mod.urllib.request, \"build_opener\", return_value=opener):",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "tests/test_update_check.py",
+        "line": 203,
+        "excerpt": "original = subprocess.Popen",
+        "disclosed": true,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "downloads-code": 1,
-      "shell": 5,
-      "network": 5
+      "downloads-code": 2,
+      "shell": 22,
+      "network": 11,
+      "reads-secrets": 1
     },
-    "score": 77,
+    "score": 57,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 20,
-    "filesSkipped": 0
+    "filesScanned": 41,
+    "filesSkipped": 2
   },
   "history": [
     {
@@ -138,6 +329,12 @@
       "commit": "b32bed84ae463049795122d1a00ba5440fbd3c2f",
       "scannedAt": "2026-11-12T10:25:14.233Z",
       "score": 77,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "fcaec4f1854b57f0db6d277798eaa75e2e8bf4ac",
+      "scannedAt": "2026-11-20T10:39:23.037Z",
+      "score": 57,
       "rulesVersion": "1.3.0"
     }
   ]

@@ -5,7 +5,7 @@
   "path": "skills/alibabacloud-ecs-sec-userspace",
   "name": "alibabacloud-ecs-sec-userspace",
   "description": "Linux 用户态安全入侵检测与取证工具，专为 AI Agent 设计。自动判断服务器是否被入侵， 提供完整证据链和可执行修复建议。51 个安全分析器覆盖进程/网络/认证/持久化/Rootkit/ 恶意软件/内存取证/容器逃逸等 12 类检测维度，10 个数据采集器全面采集系统状态， 映射 103+ MITRE ATT&CK 技术，支持 standalone/docker/k8s 三种部署模式。 与 sec-kernel（内核态 CVE 漏洞检测）互补，共同构成完整的 ECS 安全评估方案。 当用户询问服务器安全、入侵检测、系统审计、恶意软件检测、安全事件响应时使用。 每当需要判断服务器是否被入侵、检查后门木马、分析安全事件时，优先使用此技能。 务必在发现安全异常时主动调用此技能，即使用户没有明确要求安全检查。",
-  "stars": 147,
+  "stars": 148,
   "category": "security",
   "commit": "788457cf09d15f3b997d232ab5fcf2309a68d3ba",
   "contentHash": "dd259759e7f0f1907b8735b4f7e6b78daa66e56a281e08e83f59755be8d859b4",
@@ -13,7 +13,7 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-15T10:00:32.478Z",
+  "scannedAt": "2026-11-20T10:39:23.037Z",
   "scan": {
     "findings": [
       {
@@ -57,132 +57,229 @@
         "automatic": false
       },
       {
+        "ruleId": "downloads-code",
+        "file": "skills/alibabacloud-ecs-sec-userspace/deploy/docker/Dockerfile",
+        "line": 15,
+        "excerpt": "RUN pip install --no-cache-dir PyNaCl psutil 2>/dev/null || true",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/alibabacloud-ecs-sec-userspace/references/installation.md",
+        "line": 7,
+        "excerpt": "ln -s {SKILL_BASE_DIR} ~/.claude/skills/sec-userspace",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/alibabacloud-ecs-sec-userspace/references/installation.md",
+        "line": 10,
+        "excerpt": "ln -s {SKILL_BASE_DIR} ~/.agents/skills/sec-userspace",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/alibabacloud-ecs-sec-userspace/references/installation.md",
+        "line": 90,
+        "excerpt": "ln -sf {SKILL_BASE_DIR} ~/.claude/skills/sec-userspace",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/alibabacloud-ecs-sec-userspace/references/installation.md",
+        "line": 96,
+        "excerpt": "rm -f ~/.claude/skills/sec-userspace",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/alibabacloud-ecs-sec-userspace/references/installation.md",
+        "line": 97,
+        "excerpt": "rm -f ~/.agents/skills/sec-userspace",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/alibabacloud-ecs-sec-userspace/references/installation.md",
+        "line": 98,
+        "excerpt": "rm -f ~/.qoder/skills/sec-userspace",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/alibabacloud-ecs-sec-userspace/scripts/analyzer/kubernetes_analyzer.py",
+        "line": 184,
+        "excerpt": "kubeconfig_paths = ['/etc/kubernetes/admin.conf', '/etc/kubernetes/kubelet.conf', os.path.expanduser('~/.kube/config')]",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/alibabacloud-ecs-sec-userspace/scripts/analyzer/network_analyzer.py",
+        "line": 1231,
+        "excerpt": "f\"echo '0.0.0.0 {domain}' >> /etc/hosts\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/alibabacloud-ecs-sec-userspace/scripts/analyzer/network_analyzer.py",
+        "line": 1395,
+        "excerpt": "f\"curl -v https://{remote_ip}:{remote_port}\",",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "{remote_ip}"
+        ]
+      },
+      {
         "ruleId": "shell",
-        "file": "skills/alibabacloud-ecs-sec-userspace/scripts/analyzer/persistence_analyzer.py",
-        "line": 302,
+        "file": "skills/alibabacloud-ecs-sec-userspace/scripts/analyzer/pam_backdoor_analyzer.py",
+        "line": 238,
         "excerpt": "result = subprocess.run(",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "skills/alibabacloud-ecs-sec-userspace/scripts/analyzer/persistence_analyzer.py",
-        "line": 304,
+        "file": "skills/alibabacloud-ecs-sec-userspace/scripts/analyzer/pam_backdoor_analyzer.py",
+        "line": 240,
         "excerpt": "stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, timeout=10",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "skills/alibabacloud-ecs-sec-userspace/scripts/analyzer/persistence_analyzer.py",
-        "line": 310,
+        "file": "skills/alibabacloud-ecs-sec-userspace/scripts/analyzer/pam_backdoor_analyzer.py",
+        "line": 265,
+        "excerpt": "except (subprocess.TimeoutExpired, OSError):",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/alibabacloud-ecs-sec-userspace/scripts/analyzer/pam_backdoor_analyzer.py",
+        "line": 275,
         "excerpt": "result = subprocess.run(",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "skills/alibabacloud-ecs-sec-userspace/scripts/analyzer/persistence_analyzer.py",
-        "line": 312,
+        "file": "skills/alibabacloud-ecs-sec-userspace/scripts/analyzer/pam_backdoor_analyzer.py",
+        "line": 277,
         "excerpt": "stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, timeout=10",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "skills/alibabacloud-ecs-sec-userspace/scripts/analyzer/persistence_analyzer.py",
-        "line": 316,
-        "excerpt": "except (subprocess.TimeoutExpired, FileNotFoundError):",
+        "file": "skills/alibabacloud-ecs-sec-userspace/scripts/analyzer/pam_backdoor_analyzer.py",
+        "line": 290,
+        "excerpt": "except (subprocess.TimeoutExpired, OSError):",
         "disclosed": true,
         "automatic": false
       },
       {
-        "ruleId": "writes-outside",
-        "file": "skills/alibabacloud-ecs-sec-userspace/scripts/analyzer/persistence_analyzer.py",
-        "line": 696,
-        "excerpt": "\"rm /etc/rc.local\",",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "skills/alibabacloud-ecs-sec-userspace/scripts/analyzer/persistence_analyzer.py",
-        "line": 738,
-        "excerpt": "\"rm /etc/ld.so.preload\",",
+        "ruleId": "downloads-code",
+        "file": "skills/alibabacloud-ecs-sec-userspace/scripts/utils/data/malicious_packages.json",
+        "line": 121,
+        "excerpt": "\"suspicious_scripts\": [\"wget | sh\"],",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "skills/alibabacloud-ecs-sec-userspace/scripts/analyzer/persistence_analyzer.py",
-        "line": 895,
-        "excerpt": "suspicious_patterns = [\"/tmp/\", \"/dev/shm/\", \"/.\", \"curl\", \"wget\", \"bash -c\"]",
+        "file": "skills/alibabacloud-ecs-sec-userspace/scripts/utils/k8s/node_collector.py",
+        "line": 243,
+        "excerpt": "result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, timeout=30)",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "skills/alibabacloud-ecs-sec-userspace/scripts/analyzer/persistence_analyzer.py",
-        "line": 1423,
-        "excerpt": "suspicious_indicators = [\"/tmp/\", \"/dev/shm/\", \"/.\", \"curl\", \"wget\", \"bash -c\", \"python -c\"]",
+        "file": "skills/alibabacloud-ecs-sec-userspace/scripts/utils/k8s/node_collector.py",
+        "line": 261,
+        "excerpt": "except (OSError, subprocess.SubprocessError, ValueError) as e:",
         "disclosed": true,
         "automatic": false
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/alibabacloud-ecs-sec-userspace/scripts/analyzer/persistence_analyzer.py",
-        "line": 1586,
-        "excerpt": "\"curl \", \"wget \", \"bash -c\", \"sh -c\",",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
       },
       {
         "ruleId": "shell",
-        "file": "skills/alibabacloud-ecs-sec-userspace/scripts/analyzer/persistence_analyzer.py",
-        "line": 1586,
-        "excerpt": "\"curl \", \"wget \", \"bash -c\", \"sh -c\",",
+        "file": "skills/alibabacloud-ecs-sec-userspace/scripts/utils/k8s/node_collector.py",
+        "line": 486,
+        "excerpt": "ps_result = subprocess.run(ps_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, timeout=30)",
         "disclosed": true,
         "automatic": false
       },
       {
-        "ruleId": "network",
-        "file": "skills/alibabacloud-ecs-sec-userspace/scripts/utils/network_prober.py",
-        "line": 55,
-        "excerpt": "import urllib.request",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
+        "ruleId": "shell",
+        "file": "skills/alibabacloud-ecs-sec-userspace/scripts/utils/k8s/node_collector.py",
+        "line": 501,
+        "excerpt": "inspect_result = subprocess.run(inspect_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, timeout=30)",
+        "disclosed": true,
+        "automatic": false
       },
       {
-        "ruleId": "network",
-        "file": "skills/alibabacloud-ecs-sec-userspace/scripts/utils/network_prober.py",
-        "line": 59,
-        "excerpt": "req = urllib.request.Request(probe_url, method='HEAD')",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
+        "ruleId": "shell",
+        "file": "skills/alibabacloud-ecs-sec-userspace/scripts/utils/k8s/node_collector.py",
+        "line": 520,
+        "excerpt": "except (OSError, subprocess.SubprocessError, ValueError, KeyError) as e:",
+        "disclosed": true,
+        "automatic": false
       },
       {
-        "ruleId": "network",
-        "file": "skills/alibabacloud-ecs-sec-userspace/scripts/utils/network_prober.py",
-        "line": 61,
-        "excerpt": "with urllib.request.urlopen(req, timeout=timeout) as resp:",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
+        "ruleId": "shell",
+        "file": "skills/alibabacloud-ecs-sec-userspace/scripts/utils/scheduler/crontab_manager.py",
+        "line": 62,
+        "excerpt": "result = subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/alibabacloud-ecs-sec-userspace/scripts/utils/scheduler/crontab_manager.py",
+        "line": 64,
+        "excerpt": "stdout=subprocess.PIPE, stderr=subprocess.PIPE,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/alibabacloud-ecs-sec-userspace/scripts/utils/scheduler/crontab_manager.py",
+        "line": 70,
+        "excerpt": "except (subprocess.SubprocessError, FileNotFoundError):",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/alibabacloud-ecs-sec-userspace/scripts/utils/scheduler/crontab_manager.py",
+        "line": 109,
+        "excerpt": "with subprocess.Popen(",
+        "disclosed": true,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 13,
-      "writes-outside": 2,
-      "network": 4
+      "shell": 42,
+      "downloads-code": 2,
+      "writes-outside": 7,
+      "reads-secrets": 1,
+      "network": 1
     },
-    "score": 82,
-    "band": "low",
+    "score": 47,
+    "band": "high",
     "rulesVersion": "1.3.0",
-    "filesScanned": 21,
-    "filesSkipped": 342
+    "filesScanned": 58,
+    "filesSkipped": 305
   },
   "history": [
     {

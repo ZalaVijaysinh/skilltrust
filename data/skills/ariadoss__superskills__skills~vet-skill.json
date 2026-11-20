@@ -1,0 +1,279 @@
+{
+  "id": "ariadoss__superskills__skills~vet-skill",
+  "owner": "ariadoss",
+  "repo": "superskills",
+  "path": "skills/vet-skill",
+  "name": "vet-skill",
+  "description": "Vet third-party code before it is installed: scan a skill, plugin or MCP\nserver directory with a read-only scanner, then read what the scanner cannot\njudge and give a verdict (block, caution or clean) with cited lines. Use when\nasked to \"vet a skill\", \"is this MCP server safe to install\", \"check this\nplugin before installing\", or \"review a third-party skill\". Not for reviewing\nyour own diff (use /defense or /code-review) and not a pentest of a running\napp (use /pentest).",
+  "stars": 12,
+  "category": "coding",
+  "commit": "a348d9a835845ecc149a6a123725a79545f47b64",
+  "contentHash": "0023725e09d4d1d8baf7b49a1a6926694ad6e52536152c362af2575d46c398f5",
+  "repoCreatedAt": "2026-04-18T21:18:55Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-20T10:39:23.037Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/vet-skill/references/checks.md",
+        "line": 18,
+        "excerpt": "| VS006 unpinned launchers | `npx`, `uvx`, `pipx run`, `bunx` of a package with no version pin; a `git+https` dependency with no revision | Whatever is newest r",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/vet-skill/references/checks.md",
+        "line": 19,
+        "excerpt": "| VS007 sensitive read plus upload | One file that both reads a sensitive source (`~/.ssh`, `~/.aws`, `~/.claude`, `.env`, `os.environ` (any use except `os.envi",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/vet-skill/references/checks.md",
+        "line": 21,
+        "excerpt": "| VS009 shell execution | `shell=True`, `os.popen(`, `eval(`; `os.system(` and `child_process.exec(` only when the command is built by interpolation | Whatever ",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/vet-skill/references/checks.md",
+        "line": 40,
+        "excerpt": "- `bash <(curl ...)` and `sh -c \"$(curl ...)\"`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/vet-skill/references/checks.md",
+        "line": 40,
+        "excerpt": "- `bash <(curl ...)` and `sh -c \"$(curl ...)\"`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/vet-skill/references/sources.md",
+        "line": 9,
+        "excerpt": "| Snyk Agent Scan | https://github.com/snyk/agent-scan | Apache-2.0 | CLI (`uvx` or standalone binary) | Yes. Its analysis step sends agent app details, MCP ser",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/vet-skill/tools/vet_rules.py",
+        "line": 171,
+        "excerpt": "r\"\\|\\s*python3?\\b|\\b(iex|Invoke-Expression)\\b.{0,40}(iwr|Invoke-WebRequest|DownloadString)\", re.I)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/vet-skill/tools/vet_rules.py",
+        "line": 265,
+        "excerpt": "_LAUNCHER = re.compile(r\"\\b(npx|uvx|pipx\\s+run|bunx)\\b\", re.I)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/vet-skill/tools/vet_rules.py",
+        "line": 295,
+        "excerpt": "\"\"\"VS006: npx/uvx/pipx run/bunx of an unpinned package, or a git+https dependency with no revision.\"\"\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/vet-skill/tools/vet_rules.py",
+        "line": 316,
+        "excerpt": "r\"\\brequests\\.(post|put)|urllib\\.request\\.urlopen|\\bfetch\\(|\\bhttpx\\.(post|put)\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/vet-skill/tools/vet_rules.py",
+        "line": 317,
+        "excerpt": "r\"|\\bsocket\\.connect|XMLHttpRequest\", re.I)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/vet-skill/tools/vet_rules.py",
+        "line": 368,
+        "excerpt": "_SHELL_NEEDS_MARKER = re.compile(r\"os\\.system\\(|child_process\\.exec\\(\", re.I)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/vet-skill/tools/vet_rules.py",
+        "line": 373,
+        "excerpt": "\"\"\"VS009: shell execution. os.system and child_process.exec count only with an interpolated command.\"\"\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/vet-skill/tools/vet_scan.py",
+        "line": 7,
+        "excerpt": "Never imports, executes or follows anything in the target. No network, no subprocess.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "setup",
+        "line": 248,
+        "excerpt": "log \"  [install] bun via curl -fsSL $BUN_INSTALL_URL | bash (third-party installer)\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "setup",
+        "line": 248,
+        "excerpt": "log \"  [install] bun via curl -fsSL $BUN_INSTALL_URL | bash (third-party installer)\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "setup",
+        "line": 249,
+        "excerpt": "curl -fsSL \"$BUN_INSTALL_URL\" | bash >/dev/null 2>&1 || {",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "setup",
+        "line": 249,
+        "excerpt": "curl -fsSL \"$BUN_INSTALL_URL\" | bash >/dev/null 2>&1 || {",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "setup",
+        "line": 251,
+        "excerpt": "log \"         Install manually: curl -fsSL $BUN_INSTALL_URL | bash\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "setup",
+        "line": 251,
+        "excerpt": "log \"         Install manually: curl -fsSL $BUN_INSTALL_URL | bash\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "setup",
+        "line": 284,
+        "excerpt": "log \"             Install: brew install ffuf\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".codex-plugin/plugin.json",
+        "line": 4,
+        "excerpt": "\"description\": \"Curated AI coding skills with a Google/Meta-quality workflow (TDD, DRY, SOLID). The Codex plugin install exposes the whole skills/ tree; pack se",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".codex-plugin/plugin.json",
+        "line": 24,
+        "excerpt": "\"longDescription\": \"Curated engineering skills with a Google/Meta-quality workflow: test-driven development, systematic debugging, code review and clean-code pa",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 8,
+        "excerpt": "\"command\": \"\\\"${CLAUDE_PLUGIN_ROOT}/scripts/qa-full-ledger-hook.sh\\\"\"",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 18,
+        "excerpt": "\"command\": \"\\\"${CLAUDE_PLUGIN_ROOT}/scripts/qa-full-ledger-hook.sh\\\"\"",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 28,
+        "excerpt": "\"command\": \"\\\"${CLAUDE_PLUGIN_ROOT}/scripts/handoff-trigger-hook.sh\\\"\"",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 38,
+        "excerpt": "\"command\": \"\\\"${CLAUDE_PLUGIN_ROOT}/scripts/humanize-prepush-hook.sh\\\"\"",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 46,
+        "excerpt": "\"command\": \"\\\"${CLAUDE_PLUGIN_ROOT}/scripts/secrets-prepush-hook.sh\\\"\"",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 55,
+        "excerpt": "\"command\": \"\\\"${CLAUDE_PLUGIN_ROOT}/scripts/qa-full-step-hook.sh\\\"\"",
+        "disclosed": false,
+        "automatic": true
+      }
+    ],
+    "findingTotals": {
+      "downloads-code": 9,
+      "network": 7,
+      "shell": 11,
+      "writes-outside": 2
+    },
+    "score": 67,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 10,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "a348d9a835845ecc149a6a123725a79545f47b64",
+      "scannedAt": "2026-11-20T10:39:23.037Z",
+      "score": 67,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

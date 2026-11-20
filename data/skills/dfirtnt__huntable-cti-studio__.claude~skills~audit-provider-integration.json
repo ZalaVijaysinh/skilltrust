@@ -4,7 +4,7 @@
   "repo": "Huntable-CTI-Studio",
   "path": ".claude/skills/audit-provider-integration",
   "name": "audit-provider-integration",
-  "description": "",
+  "description": "Audit whether an LLM provider (openai, codex, anthropic, lmstudio) is wired into every place CTI Studio dispatches to providers -- or wire a new provider in completely. Use this skill whenever the user says \"add a provider\", \"audit provider X\", \"is codex wired everywhere\", \"why does provider X fail on this page but work elsewhere\", \"add support for <vendor>\", \"provider/model mismatch\", or reports a provider working in one surface (generation, enrichment) while failing in another (validation, chat, scrape). Also use it after adding a provider anywhere, and before shipping a change that touches a provider allowlist, dispatch chain, or API-key guard. Findings-first and read-only by default: it reports every unwired sink with file:line before changing anything.",
   "stars": 12,
   "category": "security",
   "commit": "cccf0ab6b3be8dc6a8117cf0f5960a379c3af101",
@@ -12,16 +12,51 @@
   "repoCreatedAt": "2025-08-28T15:25:01Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-15T10:00:32.478Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-20T10:39:23.037Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/audit-provider-integration/SKILL.md",
+        "line": 93,
+        "excerpt": "rg -n 'provider == \"(openai|anthropic|lmstudio|codex)\"' src/ --type py -c | sort -t: -k2 -rn",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/audit-provider-integration/SKILL.md",
+        "line": 97,
+        "excerpt": "rg -n 'provider not in|provider in \\(|PROVIDERS = ' src/ --type py | grep -E 'openai|anthropic|lmstudio'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/audit-provider-integration/SKILL.md",
+        "line": 101,
+        "excerpt": "rg -n '!= \"lmstudio\"|!= .codex.|not in \\{\"lmstudio\"' src/ --type py",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/audit-provider-integration/SKILL.md",
+        "line": 108,
+        "excerpt": "rg -n \"openai|anthropic|lmstudio|codex\" src/web/static/js/ src/web/templates/ scripts/ | grep -iE \"provider\" | grep -vi codex",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 4
+    },
+    "score": 95,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 1
+    "filesScanned": 1,
+    "filesSkipped": 0
   },
   "history": [
     {

@@ -5,15 +5,15 @@
   "path": "plugins/agentic-awesome-skills-claude/skills/vercel-optimize",
   "name": "vercel-optimize",
   "description": "Audit deployed Vercel apps for cost and performance issues using metrics, project config, code scans, and version-aware recommendations.",
-  "stars": 49737,
+  "stars": 50031,
   "category": "coding",
-  "commit": "560b762c309d6b96315855d7968727d3bca7df20",
-  "contentHash": "d01436d9e767326d9c90264d6de060d4ffd1f89d2d9af14de4faaa5c3d82d3d4",
+  "commit": "4a52ab5ef117bdce2c6ba8d87dd64df0c840dfea",
+  "contentHash": "71560007d9eea512f3f57fc976e199fd503482440728721cbc7ec8d60015f00c",
   "repoCreatedAt": "2026-01-14T17:48:09Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-15T10:00:32.478Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-20T10:39:23.037Z",
   "scan": {
     "findings": [
       {
@@ -129,22 +129,110 @@
         "automatic": false
       },
       {
+        "ruleId": "network",
+        "file": "plugins/agentic-awesome-skills-claude/skills/vercel-optimize/lib/grade-recommendation.mjs",
+        "line": 6,
+        "excerpt": "const COUNT_WORDS_RE = /\\b(errors?|queries|invocations|requests|reads|writes|bytes|fetch(?:es)?|calls?|hits?|misses?|seconds?|images?|deployments?|cold[- ]?star",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agentic-awesome-skills-claude/skills/vercel-optimize/lib/investigation-brief.mjs",
+        "line": 606,
+        "excerpt": "hints.push('Next.js data fetch path: use `fetch(..., { next: { revalidate: seconds } })` or route-level `revalidate` only when it matches the project version an",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agentic-awesome-skills-claude/skills/vercel-optimize/lib/sanitizers/undeclared-dep.mjs",
+        "line": 10,
+        "excerpt": "'dns', 'tls', 'util', 'url', 'stream', 'buffer', 'events', 'process', 'child_process',",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agentic-awesome-skills-claude/skills/vercel-optimize/lib/scanners/cache-components-suspense-dedupe.mjs",
+        "line": 65,
+        "excerpt": "? `fetch(\"${truncate(first.token, 60)}\") appears ${first.count}× in a file with multiple Suspense boundaries`",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agentic-awesome-skills-claude/skills/vercel-optimize/lib/scanners/missing-cache-headers.mjs",
+        "line": 13,
+        "excerpt": "'Two antipatterns: (a) GET handlers without explicit Cache-Control headers serve uncached; (b) fetch() calls with cache:\"no-store\" or next:{revalidate:0} opt ou",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agentic-awesome-skills-claude/skills/vercel-optimize/lib/scanners/missing-cache-headers.mjs",
+        "line": 15,
+        "excerpt": "'Only after proving public, shared, freshness-safe output, for GET handlers return a Response with Cache-Control: public, s-maxage=<seconds>, stale-while-revali",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/agentic-awesome-skills-claude/skills/vercel-optimize/lib/vercel.mjs",
+        "line": 3,
+        "excerpt": "import { execFile } from 'node:child_process';",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/agentic-awesome-skills-claude/skills/vercel-optimize/lib/vercel.mjs",
+        "line": 19,
+        "excerpt": "throw new Error('VERCEL_NOT_INSTALLED: `vercel` CLI not found in PATH. Install with `npm i -g vercel@latest`.');",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/agentic-awesome-skills-claude/skills/vercel-optimize/lib/vercel.mjs",
+        "line": 28,
+        "excerpt": "`VERCEL_CLI_TOO_OLD: have ${v.join('.')}, need >= ${MIN_CLI_VERSION.join('.')}. Upgrade with \\`npm i -g vercel@latest\\`.`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
         "ruleId": "shell",
         "file": "plugins/agentic-awesome-skills-claude/skills/vercel-optimize/lib/verify-claim.mjs",
         "line": 4,
         "excerpt": "import { execFile } from 'node:child_process';",
         "disclosed": true,
         "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/agentic-awesome-skills-claude/skills/vercel-optimize/references/playbooks/sveltekit.md",
+        "line": 31,
+        "excerpt": "sequential `await fetch(...)` calls leaves wall-clock time on the",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
       }
     ],
     "findingTotals": {
-      "shell": 15
+      "shell": 17,
+      "network": 6,
+      "downloads-code": 2
     },
-    "score": 97,
-    "band": "low",
+    "score": 79,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 35,
-    "filesSkipped": 119
+    "filesScanned": 154,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -169,6 +257,12 @@
       "commit": "560b762c309d6b96315855d7968727d3bca7df20",
       "scannedAt": "2026-11-15T10:00:32.478Z",
       "score": 97,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "4a52ab5ef117bdce2c6ba8d87dd64df0c840dfea",
+      "scannedAt": "2026-11-20T10:39:23.037Z",
+      "score": 79,
       "rulesVersion": "1.3.0"
     }
   ]

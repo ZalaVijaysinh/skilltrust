@@ -4,30 +4,95 @@
   "repo": "smarter",
   "path": "skills/smarter-kubectl",
   "name": "smarter-kubectl",
-  "description": "",
-  "stars": 16,
+  "description": "Use whenever you run kubectl against a deployed Smarter environment (alpha, prod or another namespace on the EKS cluster), e.g. to list pods, download a pod's log, see restarts, events, image versions or node replacements, or to investigate an incident. Covers the read-only commands that are allowed and the write commands that are not, the context and namespace flags, the deployments and their labels, the read-only wrapper scripts/kubectl.sh (any kubectl read: pods, logs, describe, events, nodes), finding which release ran when, spot node replacements, what needs the user's OK first (kubectl exec), the permission settings that can block kubectl, and the zsh traps.",
+  "stars": 17,
   "category": "coding",
-  "commit": "d0c76ab0b63bc6a19470336336312eabeea03a31",
+  "commit": "83e691646840f86dc3c41222a038f756c60112bf",
   "contentHash": "b46032b154fbabab80bb738fc991df1845276382e1cb48809f2ac9fe3f77b90b",
   "repoCreatedAt": "2024-02-07T22:46:04Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-15T10:00:32.478Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-20T10:39:23.037Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/smarter-kubectl/SKILL.md",
+        "line": 34,
+        "excerpt": "run kubectl by any other route, `scripts/kubectl.sh` included, nor `bash -c` or an alias: tell",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/smarter-kubectl/SKILL.md",
+        "line": 42,
+        "excerpt": "skills/smarter-kubectl/scripts/kubectl.sh <context> <namespace> <kubectl command and args...>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/smarter-kubectl/SKILL.md",
+        "line": 55,
+        "excerpt": "CTX=<kube context>; NS=<namespace>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/smarter-kubectl/SKILL.md",
+        "line": 81,
+        "excerpt": "k get pods -o wide                         # status, restarts, age, node",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/smarter-kubectl/SKILL.md",
+        "line": 93,
+        "excerpt": "mkdir -p <folder>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/smarter-kubectl/SKILL.md",
+        "line": 108,
+        "excerpt": "k get rs -l app.kubernetes.io/name=smarter-api -o jsonpath='{range .items[*]}{.metadata.creationTimestamp} {.spec.replicas} {.spec.template.spec.containers[0].i",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/smarter-kubectl/SKILL.md",
+        "line": 118,
+        "excerpt": "k get nodes -o custom-columns=NAME:.metadata.name,CREATED:.metadata.creationTimestamp,TYPE:.metadata.labels.node\\\\.kubernetes\\\\.io/instance-type,CAPACITY:.metad",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 7
+    },
+    "score": 97,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 2
+    "filesScanned": 2,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "d0c76ab0b63bc6a19470336336312eabeea03a31",
       "scannedAt": "2026-11-15T10:00:32.478Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "83e691646840f86dc3c41222a038f756c60112bf",
+      "scannedAt": "2026-11-20T10:39:23.037Z",
+      "score": 97,
       "rulesVersion": "1.3.0"
     }
   ]

@@ -4,24 +4,347 @@
   "repo": "1-3-Cloud-Adoption-Skills",
   "path": "AI-Assist-Migration/Container-Migration/CCE-Cross-Region/pv-migration-planner",
   "name": "pv-migration-planner",
-  "description": "",
+  "description": "Migrate PersistentVolumeClaim (PVC) data between Huawei Cloud CCE clusters using obsutil as the data transfer mechanism via OBS bucket as intermediary storage. Use when Velero's file-level backup (restic/kopia) fails due to Huawei Cloud OBS S3 API incompatibility (virtual-hosted-style requirement). Covers helper pod deployment, obsutil installation, data upload/download, symlink preservation, permission fixup, and post-migration validation.",
   "stars": 14,
-  "category": "other",
+  "category": "data",
   "commit": "498f1cd114c88b83cbbedf8037f2dee73c0686a7",
   "contentHash": "fd1f8dde258cae00f4759856b21480f10792139cc62d42a78ae6ea40b6f2326b",
   "repoCreatedAt": "2026-04-17T21:55:08Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-15T10:00:32.478Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-20T10:39:23.037Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "reads-secrets",
+        "file": "AI-Assist-Migration/Container-Migration/CCE-Cross-Region/pv-migration-planner/SKILL.md",
+        "line": 76,
+        "excerpt": "export KUBECONFIG=~/.kube/config",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Container-Migration/CCE-Cross-Region/pv-migration-planner/SKILL.md",
+        "line": 76,
+        "excerpt": "export KUBECONFIG=~/.kube/config",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Container-Migration/CCE-Cross-Region/pv-migration-planner/SKILL.md",
+        "line": 105,
+        "excerpt": "kubectl exec -n <NAMESPACE> obsutil-helper -- sh -c \"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "AI-Assist-Migration/Container-Migration/CCE-Cross-Region/pv-migration-planner/SKILL.md",
+        "line": 106,
+        "excerpt": "apt-get update -qq && apt-get install -y -qq wget &&",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "AI-Assist-Migration/Container-Migration/CCE-Cross-Region/pv-migration-planner/SKILL.md",
+        "line": 107,
+        "excerpt": "wget -q https://obs-community.obs.cn-north-1.myhuaweicloud.com/obsutil/current/obsutil_linux_amd64.tar.gz -O /tmp/obsutil.tar.gz &&",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "obs-community.obs.cn-north-1.myhuaweicloud.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Container-Migration/CCE-Cross-Region/pv-migration-planner/SKILL.md",
+        "line": 120,
+        "excerpt": "kubectl exec -n <NAMESPACE> obsutil-helper -- /tmp/obsutil_linux_amd64_5.*/obsutil config \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "AI-Assist-Migration/Container-Migration/CCE-Cross-Region/pv-migration-planner/SKILL.md",
+        "line": 144,
+        "excerpt": "export KUBECONFIG=~/.kube/config-destination",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Container-Migration/CCE-Cross-Region/pv-migration-planner/SKILL.md",
+        "line": 144,
+        "excerpt": "export KUBECONFIG=~/.kube/config-destination",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Container-Migration/CCE-Cross-Region/pv-migration-planner/SKILL.md",
+        "line": 178,
+        "excerpt": "kubectl exec -n <NAMESPACE> obsutil-helper -- /tmp/obsutil_linux_amd64_5.*/obsutil config \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Container-Migration/CCE-Cross-Region/pv-migration-planner/SKILL.md",
+        "line": 195,
+        "excerpt": "kubectl exec -n <NAMESPACE> obsutil-helper -- chmod -R a+rX /data/",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Container-Migration/CCE-Cross-Region/pv-migration-planner/SKILL.md",
+        "line": 208,
+        "excerpt": "kubectl exec -n <NAMESPACE> deploy/<APP_DEPLOYMENT> -- \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Container-Migration/CCE-Cross-Region/pv-migration-planner/SKILL.md",
+        "line": 216,
+        "excerpt": "kubectl exec -n <NAMESPACE> obsutil-helper -- sh -c '",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "AI-Assist-Migration/Container-Migration/CCE-Cross-Region/pv-migration-planner/SKILL.md",
+        "line": 226,
+        "excerpt": "| Python virtual environments | `lib/python3.x/site-packages/` contains symlinks | Recreate venv from scratch on destination, or use `pip install` instead of co",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "AI-Assist-Migration/Container-Migration/CCE-Cross-Region/pv-migration-planner/SKILL.md",
+        "line": 234,
+        "excerpt": "export KUBECONFIG=~/.kube/config-destination",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Container-Migration/CCE-Cross-Region/pv-migration-planner/SKILL.md",
+        "line": 234,
+        "excerpt": "export KUBECONFIG=~/.kube/config-destination",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Container-Migration/CCE-Cross-Region/pv-migration-planner/SKILL.md",
+        "line": 243,
+        "excerpt": "kubectl exec -n <NAMESPACE> deploy/<APP_DEPLOYMENT> -- ls -la <MOUNT_PATH>/",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "AI-Assist-Migration/Container-Migration/CCE-Cross-Region/pv-migration-planner/SKILL.md",
+        "line": 249,
+        "excerpt": "curl -s -o /dev/null -w \"HTTP %{http_code}\" http://<EIP>:<NODE_PORT>/",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "AI-Assist-Migration/Container-Migration/CCE-Cross-Region/pv-migration-planner/SKILL.md",
+        "line": 256,
+        "excerpt": "export KUBECONFIG=~/.kube/config",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Container-Migration/CCE-Cross-Region/pv-migration-planner/SKILL.md",
+        "line": 256,
+        "excerpt": "export KUBECONFIG=~/.kube/config",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "AI-Assist-Migration/Container-Migration/CCE-Cross-Region/pv-migration-planner/SKILL.md",
+        "line": 259,
+        "excerpt": "export KUBECONFIG=~/.kube/config-destination",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Container-Migration/CCE-Cross-Region/pv-migration-planner/SKILL.md",
+        "line": 280,
+        "excerpt": "velero backup create <BACKUP_NAME> --include-namespaces <NAMESPACE> --wait",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Container-Migration/CCE-Cross-Region/pv-migration-planner/SKILL.md",
+        "line": 312,
+        "excerpt": "obsutil cp /data/ obs://bucket/prefix/ -flat -r -f -j=5",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "AI-Assist-Migration/Container-Migration/CCE-Cross-Region/pv-migration-planner/SKILL.md",
+        "line": 363,
+        "excerpt": "export KUBECONFIG=~/.kube/config",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Container-Migration/CCE-Cross-Region/pv-migration-planner/SKILL.md",
+        "line": 363,
+        "excerpt": "export KUBECONFIG=~/.kube/config",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Container-Migration/CCE-Cross-Region/pv-migration-planner/SKILL.md",
+        "line": 389,
+        "excerpt": "kubectl exec -n default obsutil-helper -- sh -c \"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "AI-Assist-Migration/Container-Migration/CCE-Cross-Region/pv-migration-planner/SKILL.md",
+        "line": 390,
+        "excerpt": "apt-get update -qq && apt-get install -y -qq wget &&",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "AI-Assist-Migration/Container-Migration/CCE-Cross-Region/pv-migration-planner/SKILL.md",
+        "line": 391,
+        "excerpt": "wget -q https://obs-community.obs.cn-north-1.myhuaweicloud.com/obsutil/current/obsutil_linux_amd64.tar.gz -O /tmp/obsutil.tar.gz &&",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "obs-community.obs.cn-north-1.myhuaweicloud.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Container-Migration/CCE-Cross-Region/pv-migration-planner/SKILL.md",
+        "line": 402,
+        "excerpt": "kubectl exec -n default obsutil-helper -- /tmp/obsutil_linux_amd64_5.8.3/obsutil config \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "AI-Assist-Migration/Container-Migration/CCE-Cross-Region/pv-migration-planner/SKILL.md",
+        "line": 415,
+        "excerpt": "export KUBECONFIG=~/.kube/config-cce-openwebui-lab-mexico",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Container-Migration/CCE-Cross-Region/pv-migration-planner/SKILL.md",
+        "line": 415,
+        "excerpt": "export KUBECONFIG=~/.kube/config-cce-openwebui-lab-mexico",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Container-Migration/CCE-Cross-Region/pv-migration-planner/SKILL.md",
+        "line": 445,
+        "excerpt": "kubectl exec -n default obsutil-helper -- /tmp/obsutil_linux_amd64_5.8.3/obsutil config \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Container-Migration/CCE-Cross-Region/pv-migration-planner/SKILL.md",
+        "line": 458,
+        "excerpt": "kubectl exec -n default obsutil-helper -- chmod -R a+rX /data/",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Container-Migration/CCE-Cross-Region/pv-migration-planner/SKILL.md",
+        "line": 467,
+        "excerpt": "kubectl exec -n default deploy/open-webui -- \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "AI-Assist-Migration/Container-Migration/CCE-Cross-Region/pv-migration-planner/SKILL.md",
+        "line": 485,
+        "excerpt": "export KUBECONFIG=~/.kube/config-cce-openwebui-lab-mexico",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "AI-Assist-Migration/Container-Migration/CCE-Cross-Region/pv-migration-planner/SKILL.md",
+        "line": 498,
+        "excerpt": "curl -s -o /dev/null -w \"HTTP %{http_code}\" http://94.74.70.219:30783/",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "94.74.70.219"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "AI-Assist-Migration/Container-Migration/CCE-Cross-Region/pv-migration-planner/SKILL.md",
+        "line": 500,
+        "excerpt": "curl -s -o /dev/null -w \"HTTP %{http_code}\" http://94.74.74.204:30783/",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "94.74.74.204"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "AI-Assist-Migration/Container-Migration/CCE-Cross-Region/pv-migration-planner/SKILL.md",
+        "line": 507,
+        "excerpt": "export KUBECONFIG=~/.kube/config",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "AI-Assist-Migration/Container-Migration/CCE-Cross-Region/pv-migration-planner/SKILL.md",
+        "line": 510,
+        "excerpt": "export KUBECONFIG=~/.kube/config-cce-openwebui-lab-mexico",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "reads-secrets": 10,
+      "shell": 24,
+      "downloads-code": 3,
+      "network": 5
+    },
+    "score": 69,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 1
+    "filesScanned": 1,
+    "filesSkipped": 0
   },
   "history": [
     {

@@ -4,24 +4,44 @@
   "repo": "apm",
   "path": "packages/pr-description-skill",
   "name": "pr-description-skill",
-  "description": "",
-  "stars": 4374,
+  "description": "Use this skill to write the PR description (PR body) for any pull request opened against microsoft/apm. Produces one self-sufficient GitHub-Flavored Markdown artifact: TL;DR, Problem (WHY), Approach (WHAT), Implementation (HOW), validated mermaid diagrams when structure is non-trivial, explicit trade-offs, validation evidence, and a How-to-test section -- with every WHY-claim backed by a verbatim quote from PROSE or Agent Skills. Activate when the user asks to \"write a PR description\", \"draft a PR body\", \"open a PR\", \"fill in the PR template\", or any equivalent.",
+  "stars": 4417,
   "category": "coding",
-  "commit": "f574a62c2a35f3c6b271763931df8dd1ed20fe21",
-  "contentHash": "2c7dbbe529d678cc2f822e6909733990b08c2886d824775d6940a118cb35ef3b",
+  "commit": "bdb26e970ce0909ec744e7b4a68e318b64eaeb67",
+  "contentHash": "d9edfd7999055334818920684f46d8a25935f10e02847701d9433ce6c21e14f2",
   "repoCreatedAt": "2025-09-18T13:45:22Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-15T10:00:32.478Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-20T10:39:23.037Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "packages/pr-description-skill/SKILL.md",
+        "line": 260,
+        "excerpt": "awk '/^```mermaid/{n++; f=outdir\"/diag\"n\".mmd\"; getline; while($0 != \"```\") {print > f; getline}}' outdir=/tmp/mermaid-check pr-body-draft.md",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "packages/pr-description-skill/SKILL.md",
+        "line": 262,
+        "excerpt": "npx --yes -p @mermaid-js/mermaid-cli@12.0.0 mmdc -i \"$f\" -o \"${f%.mmd}.svg\" --quiet || { echo \"INVALID: $f\"; exit 1; }",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 1,
+      "downloads-code": 1
+    },
+    "score": 82,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 1,
-    "filesSkipped": 20
+    "filesScanned": 21,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -46,6 +66,12 @@
       "commit": "f574a62c2a35f3c6b271763931df8dd1ed20fe21",
       "scannedAt": "2026-11-15T10:00:32.478Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "bdb26e970ce0909ec744e7b4a68e318b64eaeb67",
+      "scannedAt": "2026-11-20T10:39:23.037Z",
+      "score": 82,
       "rulesVersion": "1.3.0"
     }
   ]

@@ -4,7 +4,7 @@
   "repo": "Huntable-CTI-Studio",
   "path": ".agents/skills/refresh-model-context-windows",
   "name": "refresh-model-context-windows",
-  "description": "",
+  "description": "Verify and refresh the model context-window data AND the per-model parameter capabilities (temperature / top_p support, reasoning-effort tiers, default effort) in CTI Studio against the latest public developer docs from Anthropic and OpenAI. Use this skill whenever the user says \"refresh context windows\", \"are the context windows accurate\", \"check model context windows\", \"update MODEL_CONTEXT_TOKENS\", \"verify the model catalog\", \"sync models against the docs\", \"is this catalog stale\", \"verify effort tiers\", \"check model_capabilities.json\", \"does this model support temperature\", or similar. Also use it whenever a new model is added to `config/provider_model_catalog.json` and its context window or capabilities are unknown, or when the daily catalog job reports `unclassified_models`. The skill verifies effective behavior for **this app specifically** — not just spec sheets — by checking which API endpoints and beta headers the code actually sends.",
   "stars": 12,
   "category": "security",
   "commit": "cccf0ab6b3be8dc6a8117cf0f5960a379c3af101",
@@ -12,16 +12,52 @@
   "repoCreatedAt": "2025-08-28T15:25:01Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-15T10:00:32.478Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-20T10:39:23.037Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/refresh-model-context-windows/SKILL.md",
+        "line": 98,
+        "excerpt": "grep -rn \"anthropic-beta\" src/ --include=\"*.py\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": ".agents/skills/refresh-model-context-windows/SKILL.md",
+        "line": 101,
+        "excerpt": "grep -rn \"api.openai.com/v1/\" src/ --include=\"*.py\" | grep -v \"test\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": ".agents/skills/refresh-model-context-windows/references/sources.md",
+        "line": 39,
+        "excerpt": "`GET https://api.anthropic.com/v1/models`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": ".agents/skills/refresh-model-context-windows/references/sources.md",
+        "line": 85,
+        "excerpt": "`GET https://api.openai.com/v1/models`",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 1,
+      "paid-api": 3
+    },
+    "score": 85,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 2
+    "filesScanned": 2,
+    "filesSkipped": 0
   },
   "history": [
     {

@@ -4,7 +4,7 @@
   "repo": "django-studio",
   "path": "template/.agents/skills/djs-deploy",
   "name": "djs-deploy",
-  "description": "",
+  "description": "Interactive first-deploy wizard: provisions infra, configures secrets, deploys",
   "stars": 32,
   "category": "devops",
   "commit": "bfe6e692f4e861df8744373742acc0b62d0672e7",
@@ -12,16 +12,239 @@
   "repoCreatedAt": "2026-02-25T14:00:51Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-15T10:00:32.478Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-20T10:39:23.037Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "template/.agents/skills/djs-deploy/SKILL.md",
+        "line": 145,
+        "excerpt": "gh auth status                    # GitHub CLI authenticated",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "template/.agents/skills/djs-deploy/SKILL.md",
+        "line": 165,
+        "excerpt": "dc_postgres=$(grep -A10 '^\\s*postgres:' docker-compose.yml | grep 'image:' | head -1 | awk '{print $2}')",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "template/.agents/skills/djs-deploy/SKILL.md",
+        "line": 214,
+        "excerpt": "- Try to read `~/.ssh/id_ed25519.pub` automatically with `cat ~/.ssh/id_ed25519.pub`",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "template/.agents/skills/djs-deploy/SKILL.md",
+        "line": 225,
+        "excerpt": "openssl rand -hex 32",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "template/.agents/skills/djs-deploy/SKILL.md",
+        "line": 253,
+        "excerpt": "just terraform hetzner init    # skip if terraform/hetzner/.terraform/ already exists",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "template/.agents/skills/djs-deploy/SKILL.md",
+        "line": 264,
+        "excerpt": "just terraform hetzner apply -auto-approve",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "template/.agents/skills/djs-deploy/SKILL.md",
+        "line": 276,
+        "excerpt": "server_ip=$(just terraform-value hetzner server_public_ip)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "template/.agents/skills/djs-deploy/SKILL.md",
+        "line": 277,
+        "excerpt": "ssh-keyscan -H \"$server_ip\" >> ~/.ssh/known_hosts",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "template/.agents/skills/djs-deploy/SKILL.md",
+        "line": 277,
+        "excerpt": "ssh-keyscan -H \"$server_ip\" >> ~/.ssh/known_hosts",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "template/.agents/skills/djs-deploy/SKILL.md",
+        "line": 284,
+        "excerpt": "just get-kubeconfig",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "template/.agents/skills/djs-deploy/SKILL.md",
+        "line": 289,
+        "excerpt": "just --yes rkube get nodes",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "template/.agents/skills/djs-deploy/SKILL.md",
+        "line": 304,
+        "excerpt": "cp terraform/cloudflare/terraform.tfvars.example terraform/cloudflare/terraform.tfvars",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "template/.agents/skills/djs-deploy/SKILL.md",
+        "line": 343,
+        "excerpt": "just terraform-value hetzner server_public_ip",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "template/.agents/skills/djs-deploy/SKILL.md",
+        "line": 391,
+        "excerpt": "just terraform cloudflare init    # skip if terraform/cloudflare/.terraform/ already exists",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "template/.agents/skills/djs-deploy/SKILL.md",
+        "line": 402,
+        "excerpt": "just terraform cloudflare apply -auto-approve",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "template/.agents/skills/djs-deploy/SKILL.md",
+        "line": 414,
+        "excerpt": "zone_id=$(cd terraform/cloudflare && terraform output -raw zone_id 2>/dev/null || \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "template/.agents/skills/djs-deploy/SKILL.md",
+        "line": 415,
+        "excerpt": "curl -s \"https://api.cloudflare.com/client/v4/zones?name=<domain>\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.cloudflare.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "template/.agents/skills/djs-deploy/SKILL.md",
+        "line": 419,
+        "excerpt": "curl -s \"https://api.cloudflare.com/client/v4/zones/$zone_id/rulesets\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.cloudflare.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "template/.agents/skills/djs-deploy/SKILL.md",
+        "line": 427,
+        "excerpt": "terraform -chdir=terraform/cloudflare import cloudflare_ruleset.zone_level_firewall zone/<zone_id>/<ruleset_id>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "template/.agents/skills/djs-deploy/SKILL.md",
+        "line": 445,
+        "excerpt": "cp terraform/storage/terraform.tfvars.example terraform/storage/terraform.tfvars",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "template/.agents/skills/djs-deploy/SKILL.md",
+        "line": 469,
+        "excerpt": "just terraform storage init    # skip if terraform/storage/.terraform/ already exists",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "template/.agents/skills/djs-deploy/SKILL.md",
+        "line": 480,
+        "excerpt": "just terraform storage apply -auto-approve",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "template/.agents/skills/djs-deploy/SKILL.md",
+        "line": 496,
+        "excerpt": "cp helm/site/values.secret.yaml.example helm/site/values.secret.yaml",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "template/.agents/skills/djs-deploy/SKILL.md",
+        "line": 551,
+        "excerpt": "curl -s https://developers.cloudflare.com/ssl/static/origin_ca_rsa_root.pem -o /tmp/cf_root.pem",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "developers.cloudflare.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "template/.agents/skills/djs-deploy/SKILL.md",
+        "line": 551,
+        "excerpt": "curl -s https://developers.cloudflare.com/ssl/static/origin_ca_rsa_root.pem -o /tmp/cf_root.pem",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "template/.agents/skills/djs-deploy/SKILL.md",
+        "line": 614,
+        "excerpt": "slug=$(.agents/skills/scripts/random-slug.py)",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 38,
+      "reads-secrets": 2,
+      "writes-outside": 1,
+      "network": 3
+    },
+    "score": 74,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 2
+    "filesScanned": 2,
+    "filesSkipped": 0
   },
   "history": [
     {

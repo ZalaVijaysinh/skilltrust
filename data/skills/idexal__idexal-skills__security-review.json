@@ -13,7 +13,7 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-15T10:00:32.478Z",
+  "scannedAt": "2026-11-20T10:39:23.037Z",
   "scan": {
     "findings": [
       {
@@ -194,151 +194,81 @@
         "automatic": false
       },
       {
-        "ruleId": "network",
-        "file": "security-review/languages/python.md",
-        "line": 25,
-        "excerpt": "requests.get(settings.EXTERNAL_API_URL)      # NOT SSRF - configured at deployment",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "security-review/languages/python.md",
-        "line": 26,
-        "excerpt": "requests.get(f\"{settings.SEER_URL}{path}\")   # NOT SSRF - base URL is server-controlled",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "security-review/languages/python.md",
-        "line": 32,
-        "excerpt": "requests.get(API_URL)  # Server operator controls this",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
         "ruleId": "shell",
-        "file": "security-review/languages/python.md",
-        "line": 80,
-        "excerpt": "os.system(f\"cmd {user_input}\")  # FLAG",
+        "file": "security-review/references/injection.md",
+        "line": 133,
+        "excerpt": "os.system(f\"mkdir {directory_name}\")",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "security-review/languages/python.md",
-        "line": 81,
-        "excerpt": "subprocess.run(cmd, shell=True)  # FLAG if cmd contains user input",
+        "file": "security-review/references/injection.md",
+        "line": 143,
+        "excerpt": "subprocess.run(f\"convert {input_file} {output_file}\", shell=True)",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "security-review/languages/python.md",
-        "line": 82,
-        "excerpt": "subprocess.Popen(cmd, shell=True)  # FLAG if cmd contains user input",
+        "file": "security-review/references/injection.md",
+        "line": 146,
+        "excerpt": "subprocess.run([\"convert\", input_file, output_file], shell=False)",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "security-review/languages/python.md",
-        "line": 222,
-        "excerpt": "os.system(user_cmd)",
+        "file": "security-review/references/injection.md",
+        "line": 170,
+        "excerpt": "| Python | `os.system()`, `subprocess.run(shell=True)`, `os.popen()`, `eval()`, `exec()` |",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "security-review/languages/python.md",
-        "line": 223,
-        "excerpt": "os.popen(user_cmd)",
+        "file": "security-review/references/injection.md",
+        "line": 171,
+        "excerpt": "| JavaScript | `child_process.exec()`, `eval()` |",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "security-review/languages/python.md",
-        "line": 224,
-        "excerpt": "subprocess.call(cmd, shell=True)  # If cmd has user input",
+        "file": "security-review/references/injection.md",
+        "line": 239,
+        "excerpt": "grep -rn \"os\\\\.system\\\\|subprocess\\\\.run.*shell=True\\\\|os\\\\.popen\" --include=\"*.py\"",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "security-review/languages/python.md",
-        "line": 225,
-        "excerpt": "subprocess.run(cmd, shell=True)   # If cmd has user input",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "security-review/languages/python.md",
-        "line": 226,
-        "excerpt": "subprocess.Popen(cmd, shell=True) # If cmd has user input",
+        "file": "security-review/references/injection.md",
+        "line": 240,
+        "excerpt": "grep -rn \"child_process\\\\.exec\" --include=\"*.js\"",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "network",
-        "file": "security-review/languages/python.md",
-        "line": 234,
-        "excerpt": "requests.get(user_url)",
+        "file": "security-review/references/misconfiguration.md",
+        "line": 233,
+        "excerpt": "requests.get(url, verify=False)",
         "disclosed": true,
         "automatic": false,
         "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "security-review/languages/python.md",
-        "line": 235,
-        "excerpt": "urllib.request.urlopen(user_url)",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "security-review/languages/python.md",
-        "line": 236,
-        "excerpt": "httpx.get(user_url)",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "security-review/languages/python.md",
-        "line": 237,
-        "excerpt": "aiohttp.ClientSession().get(user_url)",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "shell",
-        "file": "security-review/languages/python.md",
-        "line": 359,
-        "excerpt": "grep -rn \"os\\.system\\|subprocess.*shell=True\\|os\\.popen\" --include=\"*.py\"",
-        "disclosed": false,
-        "automatic": false
       }
     ],
     "findingTotals": {
-      "network": 16,
-      "shell": 15,
+      "network": 10,
+      "shell": 13,
       "downloads-code": 6
     },
     "score": 77,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 4,
-    "filesSkipped": 18
+    "filesScanned": 6,
+    "filesSkipped": 16
   },
   "history": [
     {

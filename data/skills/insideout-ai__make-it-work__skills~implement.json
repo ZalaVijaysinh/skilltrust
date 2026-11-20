@@ -4,54 +4,78 @@
   "repo": "make-it-work",
   "path": "skills/implement",
   "name": "implement",
-  "description": "Orchestrates the make-it-work pipeline for one ticket — context check → close-the-gaps → risk assessment → Lightweight implementation (low risk) or plan-the-work → execute (TDD) → review-the-code → final context sync — with saved, resumable workflow state, Guided, Autonomous, and unattended --autopilot modes, Lightweight → TDD escalation, capped fix/replan loops, and local end-of-run workflow feedback. Never commits implementation changes, pushes, opens a PR, or uploads feedback. Use when taking a ticket from request to a reviewed, context-synced implementation in one run.",
+  "description": "Orchestrates the make-it-work pipeline for one ticket — context check → close-the-gaps → risk assessment → Lightweight implementation (low risk) or plan-the-work → write-the-tests (fresh worker) → execute (TDD) → review-the-code → final context sync — with saved, resumable workflow state, Guided, Autonomous, and unattended --autopilot modes, Lightweight → TDD escalation, capped fix/replan loops, and local end-of-run workflow feedback. Never commits implementation changes, pushes, opens a PR, or uploads feedback. Use when taking a ticket from request to a reviewed, context-synced implementation in one run.",
   "stars": 12,
   "category": "coding",
-  "commit": "0f8c9f7621f7aa74dd63a27a09316948874532e1",
-  "contentHash": "3e6187e38ad68ab1f93c0d8f5cc29cff4fb7e81d8505537d39282814a8bf35cc",
+  "commit": "d6160f8eed4c2f763cfcdab605349b15987fd99c",
+  "contentHash": "3ea1ac499ed5f3e6f8c2504051eb7f0b7a64456ea7d8e1ad2702b15e6af91018",
   "repoCreatedAt": "2026-05-03T10:51:55Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-15T10:00:32.478Z",
+  "scannedAt": "2026-11-20T10:39:23.037Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
-        "file": "skills/implement/SKILL.md",
-        "line": 279,
-        "excerpt": "node \"<base>/scripts/dashboard-checkpoint.mjs\" render --state \"make-it-work/<TICKET>/<TICKET>-state.md\"",
+        "file": "skills/implement/scripts/branch-ticket.mjs",
+        "line": 2,
+        "excerpt": "import { execFileSync } from 'node:child_process';",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "skills/implement/SKILL.md",
-        "line": 697,
-        "excerpt": "node <base>/scripts/review-scope.mjs prepare --root <artifact-root> --state <state-path>",
+        "file": "skills/implement/scripts/branch-ticket.mjs",
+        "line": 15,
+        "excerpt": "const branch = execFileSync('git', ['-C', repo, 'branch', '--show-current'], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim();",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/implement/scripts/branch-ticket.test.mjs",
+        "line": 2,
+        "excerpt": "import { execFileSync } from 'node:child_process';",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/implement/scripts/branch-ticket.test.mjs",
+        "line": 24,
+        "excerpt": "const git = (...argv) => execFileSync('git', ['-C', repo, ...argv], { encoding: 'utf8', stdio: 'pipe' });",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/implement/scripts/branch-ticket.test.mjs",
+        "line": 37,
+        "excerpt": "const result = JSON.parse(execFileSync(process.execPath, [new URL('./branch-ticket.mjs', import.meta.url).pathname,",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "writes-outside",
         "file": "skills/implement/scripts/context-maintenance.test.mjs",
-        "line": 11,
-        "excerpt": "await mkdir(path.join(root, '.claude/skills/test-strategy'), { recursive: true });",
+        "line": 12,
+        "excerpt": "await mkdir(artifactJoin(root, '.claude/skills/test-strategy'), { recursive: true });",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "writes-outside",
         "file": "skills/implement/scripts/context-maintenance.test.mjs",
-        "line": 13,
-        "excerpt": "await writeFile(path.join(root, '.claude/skills/test-strategy/SKILL.md'), '# Strategy\\n\\n## Test Map\\n');",
+        "line": 14,
+        "excerpt": "await writeFile(artifactJoin(root, '.claude/skills/test-strategy/SKILL.md'), '# Strategy\\n\\n## Test Map\\n');",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/implement/scripts/deliver.mjs",
-        "line": 4,
+        "line": 6,
         "excerpt": "import { spawnSync } from 'node:child_process';",
         "disclosed": true,
         "automatic": false
@@ -59,7 +83,7 @@
       {
         "ruleId": "shell",
         "file": "skills/implement/scripts/deliver.mjs",
-        "line": 21,
+        "line": 28,
         "excerpt": "const result = spawnSync(bin, args, { encoding: 'utf8', maxBuffer: 20 * 1024 * 1024, ...options });",
         "disclosed": true,
         "automatic": false
@@ -67,7 +91,7 @@
       {
         "ruleId": "network",
         "file": "skills/implement/scripts/deliver.mjs",
-        "line": 212,
+        "line": 311,
         "excerpt": "const response = await fetch(url, { method, headers: { Authorization: authorization, Accept: 'application/json', 'Content-Type': 'application/json' },",
         "disclosed": true,
         "automatic": false,
@@ -76,7 +100,7 @@
       {
         "ruleId": "shell",
         "file": "skills/implement/scripts/deliver.test.mjs",
-        "line": 2,
+        "line": 3,
         "excerpt": "import { execFileSync } from 'node:child_process';",
         "disclosed": true,
         "automatic": false
@@ -84,7 +108,7 @@
       {
         "ruleId": "shell",
         "file": "skills/implement/scripts/deliver.test.mjs",
-        "line": 17,
+        "line": 18,
         "excerpt": "function git(repo, ...args) { return execFileSync('git', ['-C', repo, ...args], { encoding: 'utf8' }).trim(); }",
         "disclosed": true,
         "automatic": false
@@ -92,120 +116,120 @@
       {
         "ruleId": "shell",
         "file": "skills/implement/scripts/deliver.test.mjs",
-        "line": 19,
+        "line": 20,
         "excerpt": "return JSON.parse(execFileSync(process.execPath, [file, action, '--root', root, '--state', state, ...extra], { encoding: 'utf8', env, stdio: ['ignore', 'pipe', ",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "skills/implement/scripts/feedback-evidence.test.mjs",
-        "line": 2,
-        "excerpt": "import { spawnSync } from 'node:child_process';",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/implement/scripts/feedback-evidence.test.mjs",
-        "line": 40,
-        "excerpt": "const output = spawnSync(process.execPath, [script, 'evidence', '--state', statePath], { encoding: 'utf8' });",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/implement/scripts/feedback-handoff.test.mjs",
-        "line": 2,
-        "excerpt": "import { spawnSync } from 'node:child_process';",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/implement/scripts/feedback-handoff.test.mjs",
-        "line": 64,
-        "excerpt": "const inspected = spawnSync(initial.inspect, { shell: true, encoding: 'utf8' });",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/implement/scripts/feedback-handoff.test.mjs",
-        "line": 69,
-        "excerpt": "const result = spawnSync(command, { shell: true, encoding: 'utf8' });",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/implement/scripts/feedback-handoff.test.mjs",
-        "line": 97,
-        "excerpt": "const result = spawnSync(process.execPath, [script, 'unavailable', '--state', f.statePath, '--reason', 'No friction requiring a retrospective; no conversation r",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/implement/scripts/feedback-handoff.test.mjs",
-        "line": 113,
-        "excerpt": "const failed = spawnSync(process.execPath, [script, 'inspect', '--state', f.statePath], { encoding: 'utf8' });",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/implement/scripts/feedback-handoff.test.mjs",
+        "file": "skills/implement/scripts/deliver.test.mjs",
         "line": 120,
-        "excerpt": "const result = spawnSync(process.execPath, [script, ...args], { encoding: 'utf8' });",
+        "excerpt": "const indexed = (...args) => execFileSync('git', ['-C', repo.path, ...args], { env, encoding: 'utf8' }).trim();",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "skills/implement/scripts/feedback-handoff.test.mjs",
-        "line": 156,
-        "excerpt": "const failed = spawnSync(process.execPath, [script, 'write', '--state', f.statePath, '--session-review', invalid], { encoding: 'utf8' });",
+        "file": "skills/implement/scripts/deliver.test.mjs",
+        "line": 547,
+        "excerpt": "execFileSync(process.execPath, [path.join(f.repo, 'test.mjs')]);",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "skills/implement/scripts/feedback-handoff.test.mjs",
-        "line": 162,
-        "excerpt": "const result = spawnSync(process.execPath, [script, 'unavailable', '--state', f.statePath, '--reason', 'Input was rejected', '--transcript', transcript, '--fail",
+        "file": "skills/implement/scripts/deliver.test.mjs",
+        "line": 551,
+        "excerpt": "const archive = execFileSync('git', ['-C', f.repo, 'archive', selected.data.repos[0].target_tree]);",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "skills/implement/scripts/feedback-handoff.test.mjs",
-        "line": 185,
-        "excerpt": "const result = spawnSync(process.execPath, args, { encoding: 'utf8' });",
+        "file": "skills/implement/scripts/deliver.test.mjs",
+        "line": 552,
+        "excerpt": "execFileSync('tar', ['-x', '-C', candidate], { input: archive });",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "skills/implement/scripts/feedback-handoff.test.mjs",
-        "line": 205,
-        "excerpt": "assert.equal(spawnSync(process.execPath, args, { encoding: 'utf8' }).status, 0);",
+        "file": "skills/implement/scripts/deliver.test.mjs",
+        "line": 553,
+        "excerpt": "assert.throws(() => execFileSync(process.execPath, [path.join(candidate, 'test.mjs')], { stdio: ['ignore', 'pipe', 'pipe'] }), /does not provide an export named",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "skills/implement/scripts/feedback-handoff.test.mjs",
-        "line": 216,
-        "excerpt": "const result = spawnSync(process.execPath, [script, 'inspect', '--state', f.statePath, '--limit-stop'], { encoding: 'utf8' });",
+        "file": "skills/implement/scripts/deliver.test.mjs",
+        "line": 706,
+        "excerpt": "assert.deepEqual(execFileSync('git', ['--git-dir', f.bare, 'show', 'DEMO:data.bin']), originalBytes);",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/implement/scripts/deliver.test.mjs",
+        "line": 707,
+        "excerpt": "assert.deepEqual(execFileSync('git', ['--git-dir', f.bare, 'show', 'DEMO:new [*].bin']), Buffer.from([0, 8, 9, 253]));",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/implement/scripts/delivery-full-tree.mjs",
+        "line": 3,
+        "excerpt": "import { spawnSync } from 'node:child_process';",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/implement/scripts/delivery-full-tree.mjs",
+        "line": 15,
+        "excerpt": "const result = spawnSync('git', ['-C', repo, ...args], { maxBuffer: 100 * 1024 * 1024, ...spawnOptions });",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/implement/scripts/delivery-selection.mjs",
+        "line": 3,
+        "excerpt": "import { spawnSync } from 'node:child_process';",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "writes-outside",
-        "file": "skills/implement/scripts/review-checks.test.mjs",
-        "line": 12,
-        "excerpt": "await mkdir(path.join(root, '.claude/skills', name), { recursive: true });",
+        "file": "skills/implement/scripts/repo-impact.test.mjs",
+        "line": 108,
+        "excerpt": "await mkdir(path.join(docs, '.claude/skills/test-strategy'), { recursive: true });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/implement/scripts/repo-impact.test.mjs",
+        "line": 109,
+        "excerpt": "const file = path.join(docs, '.claude/skills/test-strategy/SKILL.md'); await writeFile(file, '# Strategy\\n\\n## Test Map\\n\\nA stale unrelated map.\\n');",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/implement/scripts/review-baseline.test.mjs",
+        "line": 25,
+        "excerpt": "for (const dir of ['.claude/skills/local', 'docs', 'make-it-work/DEMO']) await mkdir(path.join(root, dir), { recursive: true });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/implement/scripts/review-baseline.test.mjs",
+        "line": 26,
+        "excerpt": "for (const file of ['.claude/skills/local/SKILL.md', 'docs/local.md', 'notes [x]* café.md', 'ignored.txt', 'make-it-work/DEMO/local.md']) await writeFile(path.j",
         "disclosed": false,
         "automatic": false
       },
@@ -213,84 +237,124 @@
         "ruleId": "writes-outside",
         "file": "skills/implement/scripts/review-checks.test.mjs",
         "line": 13,
-        "excerpt": "await writeFile(path.join(root, '.claude/skills', name, 'SKILL.md'), text);",
+        "excerpt": "await mkdir(artifactJoin(root, '.claude/skills', name), { recursive: true });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/implement/scripts/review-checks.test.mjs",
+        "line": 14,
+        "excerpt": "await writeFile(artifactJoin(root, '.claude/skills', name, 'SKILL.md'), text);",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "writes-outside",
         "file": "skills/implement/scripts/review-scope.test.mjs",
-        "line": 65,
-        "excerpt": "await mkdir(path.join(f.root, '.claude/skills/domain-demo'), { recursive: true });",
+        "line": 68,
+        "excerpt": "await mkdir(artifactJoin(f.root, '.claude/skills/domain-demo'), { recursive: true });",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "writes-outside",
         "file": "skills/implement/scripts/review-scope.test.mjs",
-        "line": 66,
-        "excerpt": "await writeFile(path.join(f.root, '.claude/skills/domain-demo/SKILL.md'), '# Domain\\nPreserve the documented count.\\n');",
+        "line": 69,
+        "excerpt": "await writeFile(artifactJoin(f.root, '.claude/skills/domain-demo/SKILL.md'), '# Domain\\nPreserve the documented count.\\n');",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/implement/scripts/review-scope.test.mjs",
+        "line": 263,
+        "excerpt": "await mkdir(artifactJoin(f.root, '.claude/skills/local'), { recursive: true });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/implement/scripts/review-scope.test.mjs",
+        "line": 283,
+        "excerpt": "await mkdir(artifactJoin(f.root, '.claude/skills/local'), { recursive: true });",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "writes-outside",
         "file": "skills/implement/scripts/startup-presentation.test.mjs",
-        "line": 92,
-        "excerpt": "await mkdir(path.join(root, '.claude/skills/domain-demo'), { recursive: true });",
+        "line": 94,
+        "excerpt": "await mkdir(artifactJoin(root, '.claude/skills/domain-demo'), { recursive: true });",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "writes-outside",
         "file": "skills/implement/scripts/startup-presentation.test.mjs",
-        "line": 96,
-        "excerpt": "await writeFile(path.join(root, '.claude/skills/domain-demo/SKILL.md'), '---\\nname: domain-demo\\n---\\n');",
+        "line": 98,
+        "excerpt": "await writeFile(artifactJoin(root, '.claude/skills/domain-demo/SKILL.md'), '---\\nname: domain-demo\\n---\\n');",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/implement/scripts/testing-readiness.test.mjs",
+        "line": 156,
+        "excerpt": "await mkdir(artifactJoin(f.root, '.claude/skills/test-strategy'), { recursive: true });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/implement/scripts/testing-readiness.test.mjs",
+        "line": 157,
+        "excerpt": "await writeFile(artifactJoin(f.root, '.claude/skills/test-strategy/SKILL.md'), '# Existing strategy\\n');",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/implement/scripts/testing-summary.test.mjs",
+        "line": 33,
+        "excerpt": "await mkdir(artifactJoin(f.root, '.claude/skills/test-strategy'), { recursive: true });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/implement/scripts/testing-summary.test.mjs",
+        "line": 34,
+        "excerpt": "await writeFile(artifactJoin(f.root, '.claude/skills/test-strategy/SKILL.md'), '# Strategy');",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "writes-outside",
         "file": "skills/implement/scripts/workflow.test.mjs",
-        "line": 18,
-        "excerpt": "await mkdir(path.join(root, '.claude/skills/domain-demo'), { recursive: true });",
+        "line": 22,
+        "excerpt": "await mkdir(artifactJoin(root, '.claude/skills/domain-demo'), { recursive: true });",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "writes-outside",
         "file": "skills/implement/scripts/workflow.test.mjs",
-        "line": 21,
-        "excerpt": "await writeFile(path.join(root, '.claude/skills/domain-demo/SKILL.md'), '---\\nname: domain-demo\\n---\\n');",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "skills/implement/scripts/workspace-scope.test.mjs",
-        "line": 138,
-        "excerpt": "await mkdir(path.join(root, 'web/.claude/skills/domain-web'), { recursive: true });",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "skills/implement/scripts/workspace-scope.test.mjs",
-        "line": 142,
-        "excerpt": "await writeFile(path.join(root, 'web/.claude/skills/domain-web/SKILL.md'), '# Web');",
+        "line": 25,
+        "excerpt": "await writeFile(artifactJoin(root, '.claude/skills/domain-demo/SKILL.md'), '---\\nname: domain-demo\\n---\\n');",
         "disclosed": false,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 119,
-      "writes-outside": 12,
+      "shell": 176,
+      "writes-outside": 22,
       "network": 1
     },
     "score": 84,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 103,
+    "filesScanned": 162,
     "filesSkipped": 0
   },
   "history": [
@@ -309,6 +373,12 @@
     {
       "commit": "0f8c9f7621f7aa74dd63a27a09316948874532e1",
       "scannedAt": "2026-11-15T10:00:32.478Z",
+      "score": 84,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "d6160f8eed4c2f763cfcdab605349b15987fd99c",
+      "scannedAt": "2026-11-20T10:39:23.037Z",
       "score": 84,
       "rulesVersion": "1.3.0"
     }

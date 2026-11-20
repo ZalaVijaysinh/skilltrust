@@ -1,0 +1,222 @@
+{
+  "id": "yuiseki__geo-software-factory__.agents~skills~geo-software-deploy",
+  "owner": "yuiseki",
+  "repo": "geo-software-factory",
+  "path": ".agents/skills/geo-software-deploy",
+  "name": "geo-software-deploy",
+  "description": "実装とテストの済んだ地図プロダクトを、人間を呼ばずに公開し、本番で確かめる。昼に準備した認証と権限の範囲で、DB のマイグレーション、デプロイ、独自ドメインの割り当て、本番の URL での確認、リポジトリの公開までを行い、許可の検査に拒まれたら承認の要らない方法で成果物を残す。「デプロイして」「公開して」「本番に出して」「ドメインを割り当てて」「GitHub に公開して」と言われたとき、ダークファクトリーの夜の段階で geo-software-build のあとに使う。",
+  "stars": 14,
+  "category": "coding",
+  "commit": "dc7438d9feb17c2e6db9bdc9b1db25787d557444",
+  "contentHash": "9fe14af35688c021a88aa107e4b757f02b728e2bef5adbf39bef8219871c4116",
+  "repoCreatedAt": "2026-11-12T11:35:44Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-20T10:39:23.037Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/geo-software-deploy/references/airgap-onprem.md",
+        "line": 22,
+        "excerpt": "- Python: `pip download -r requirements.txt -d wheelhouse/` で wheel 一式を同梱し、`pip install --no-index --find-links=wheelhouse -r requirements.txt` で導入できるようにする。",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/geo-software-deploy/references/cloudflare-workers.md",
+        "line": 9,
+        "excerpt": "npx wrangler d1 migrations apply <DB 名> --remote           # 追加だけのマイグレーション",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/geo-software-deploy/references/cloudflare-workers.md",
+        "line": 10,
+        "excerpt": "npx wrangler deploy                                         # 版の ID が出る",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/geo-software-deploy/references/cloudflare-workers.md",
+        "line": 11,
+        "excerpt": "curl -s https://<本番のホスト>/api/<確かめる API>            # 本番で確かめる",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/geo-software-deploy/scripts/deploy_gate.py",
+        "line": 36,
+        "excerpt": "short = subprocess.run([\"git\", \"-C\", str(app_repo), \"rev-parse\", \"--short\", \"HEAD\"],",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/geo-software-deploy/scripts/deploy_gate.py",
+        "line": 38,
+        "excerpt": "full = subprocess.run([\"git\", \"-C\", str(app_repo), \"rev-parse\", \"HEAD\"],",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/geo-software-deploy/scripts/deploy_gate.py",
+        "line": 40,
+        "excerpt": "dirty = subprocess.run([\"git\", \"-C\", str(app_repo), \"status\", \"--porcelain\"],",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/geo-software-deploy/scripts/smoke.py",
+        "line": 23,
+        "excerpt": "import urllib.request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/geo-software-deploy/scripts/smoke.py",
+        "line": 36,
+        "excerpt": "class SameOrigin(urllib.request.HTTPRedirectHandler):",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/geo-software-deploy/scripts/smoke.py",
+        "line": 46,
+        "excerpt": "def fetch(opener, url: str, timeout: float):",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/geo-software-deploy/scripts/smoke.py",
+        "line": 49,
+        "excerpt": "with opener.open(urllib.request.Request(url, headers={\"User-Agent\": \"geo-software-smoke\"}), timeout=timeout) as r:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/geo-software-deploy/scripts/smoke.py",
+        "line": 60,
+        "excerpt": "opener = urllib.request.build_opener(SameOrigin(base))",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/geo-software-deploy/scripts/smoke.py",
+        "line": 73,
+        "excerpt": "cache[path] = fetch(opener, base + path, timeout)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/geo-software-deploy/scripts/test_deploy_gate.py",
+        "line": 20,
+        "excerpt": "subprocess.run([\"git\", \"init\", \"-q\", \"-b\", \"main\", str(self.app)], check=True)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/geo-software-deploy/scripts/test_deploy_gate.py",
+        "line": 22,
+        "excerpt": "subprocess.run([\"git\", \"-C\", str(self.app), \"-c\", \"user.email=a@example.invalid\", \"-c\", \"user.name=a\", \"add\", \"-A\"], check=True)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/geo-software-deploy/scripts/test_deploy_gate.py",
+        "line": 23,
+        "excerpt": "subprocess.run([\"git\", \"-C\", str(self.app), \"-c\", \"user.email=a@example.invalid\", \"-c\", \"user.name=a\", \"commit\", \"-q\", \"-m\", \"init\"], check=True)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/geo-software-deploy/scripts/test_deploy_gate.py",
+        "line": 24,
+        "excerpt": "self.rev = subprocess.run([\"git\", \"-C\", str(self.app), \"rev-parse\", \"--short\", \"HEAD\"],",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/geo-software-deploy/scripts/test_deploy_gate.py",
+        "line": 50,
+        "excerpt": "subprocess.run([\"git\", \"-C\", str(self.app), \"-c\", \"user.email=a@example.invalid\", \"-c\", \"user.name=a\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/geo-software-deploy/scripts/test_deploy_gate.py",
+        "line": 56,
+        "excerpt": "new_rev = subprocess.run([\"git\", \"-C\", str(self.app), \"rev-parse\", \"--short\", \"HEAD\"],",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/geo-software-deploy/scripts/test_deploy_gate.py",
+        "line": 76,
+        "excerpt": "subprocess.run([\"git\", \"-C\", str(self.app), \"-c\", \"user.email=a@example.invalid\", \"-c\", \"user.name=a\", \"add\", \"-A\"], check=True)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/geo-software-deploy/scripts/test_deploy_gate.py",
+        "line": 77,
+        "excerpt": "subprocess.run([\"git\", \"-C\", str(self.app), \"-c\", \"user.email=a@example.invalid\", \"-c\", \"user.name=a\", \"commit\", \"-q\", \"-m\", \"mig\"], check=True)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/geo-software-deploy/scripts/test_deploy_gate.py",
+        "line": 78,
+        "excerpt": "rev = subprocess.run([\"git\", \"-C\", str(self.app), \"rev-parse\", \"--short\", \"HEAD\"],",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "downloads-code": 3,
+      "network": 7,
+      "shell": 12
+    },
+    "score": 75,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 11,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "dc7438d9feb17c2e6db9bdc9b1db25787d557444",
+      "scannedAt": "2026-11-20T10:39:23.037Z",
+      "score": 75,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

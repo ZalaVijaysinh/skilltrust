@@ -5,7 +5,7 @@
   "path": "skills/alibabacloud-ecs-windows-os-troubleshooting",
   "name": "alibabacloud-ecs-windows-os-troubleshooting",
   "description": "Troubleshoot and repair Alibaba Cloud ECS Windows instances from inside the GuestOS or remotely via Cloud Assistant. Use whenever the user reports any Windows symptom or asks for a health check on an ECS Windows instance, even vague ones like \"check this machine\": boot failures (BSOD, black screen, boot loop, stuck at logo), crashes and hangs, RDP/VNC login failures, network problems (internet access, ping, DNS, DHCP, firewall, SMB), a port unreachable from outside while the service is running (8080, 3389), inbound firewall port blocking, disk and storage, Windows activation, Windows Update, time synchronization, user accounts and permissions, BitLocker, drivers, application crashes, certificates and TLS, scheduled tasks, slow performance, configuration not taking effect, Cloud Assistant and management channel issues. Supports online diagnosis (running system) and offline diagnosis (faulty system disk mounted as a data disk) via a direct in-GuestOS channel or remote aliyun ecs run-command.",
-  "stars": 147,
+  "stars": 148,
   "category": "security",
   "commit": "788457cf09d15f3b997d232ab5fcf2309a68d3ba",
   "contentHash": "2c3ed89dd0d6d60fdd3832ca036f2e5790ab2d3d6c39de0f31e65c321e2d4aa0",
@@ -13,7 +13,7 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-15T10:00:32.478Z",
+  "scannedAt": "2026-11-20T10:39:23.037Z",
   "scan": {
     "findings": [
       {
@@ -49,17 +49,81 @@
         "disclosed": true,
         "automatic": false,
         "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/alibabacloud-ecs-windows-os-troubleshooting/references/online/fixes/cloud-driver.md",
+        "line": 20,
+        "excerpt": "Invoke-WebRequest -Uri $url -OutFile $zipPath -UseBasicParsing -TimeoutSec 300",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/alibabacloud-ecs-windows-os-troubleshooting/references/online/scripts/cloud-metaserver.ps1",
+        "line": 38,
+        "excerpt": "$response = Invoke-WebRequest -Uri \"http://100.100.100.200/latest/meta-data/instance-id\" -TimeoutSec 5 -UseBasicParsing -ErrorAction Stop",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "100.100.100.200"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/alibabacloud-ecs-windows-os-troubleshooting/references/online/scripts/cloud-metaserver.ps1",
+        "line": 54,
+        "excerpt": "$ntpMeta = (Invoke-WebRequest -Uri \"http://100.100.100.200/latest/meta-data/ntp-server\" -TimeoutSec 5 -UseBasicParsing -ErrorAction Stop).Content",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "100.100.100.200"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/alibabacloud-ecs-windows-os-troubleshooting/references/online/scripts/cloud-metaserver.ps1",
+        "line": 90,
+        "excerpt": "$kmsMeta = (Invoke-WebRequest -Uri \"http://100.100.100.200/latest/meta-data/kms-server\" -TimeoutSec 5 -UseBasicParsing -ErrorAction Stop).Content",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "100.100.100.200"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/alibabacloud-ecs-windows-os-troubleshooting/references/online/scripts/cloud-metaserver.ps1",
+        "line": 121,
+        "excerpt": "$wsusMeta = (Invoke-WebRequest -Uri \"http://100.100.100.200/latest/meta-data/wsus-server\" -TimeoutSec 5 -UseBasicParsing -ErrorAction Stop).Content",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "100.100.100.200"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/alibabacloud-ecs-windows-os-troubleshooting/references/online/scripts/cloud-metaserver.ps1",
+        "line": 157,
+        "excerpt": "$metaHostname = (Invoke-WebRequest -Uri \"http://100.100.100.200/latest/meta-data/hostname\" -TimeoutSec 5 -UseBasicParsing -ErrorAction Stop).Content",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "100.100.100.200"
+        ]
       }
     ],
     "findingTotals": {
       "downloads-code": 2,
-      "network": 2
+      "network": 8
     },
     "score": 82,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 9,
-    "filesSkipped": 136
+    "filesScanned": 18,
+    "filesSkipped": 127
   },
   "history": [
     {

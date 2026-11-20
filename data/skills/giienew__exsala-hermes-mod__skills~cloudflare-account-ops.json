@@ -4,24 +4,169 @@
   "repo": "exsala-hermes-mod",
   "path": "skills/cloudflare-account-ops",
   "name": "cloudflare-account-ops",
-  "description": "",
-  "stars": 20,
-  "category": "other",
+  "description": "Use for Cloudflare deploys, Email Routing, temp-email ops.",
+  "stars": 21,
+  "category": "productivity",
   "commit": "7debe3685074aa94bc80252f9b799e9d18f1dab0",
   "contentHash": "17ffb1faf2b1e747ac4eea6584ca6ab9cd159ce6bc8d2360a193ac5f35ec4542",
   "repoCreatedAt": "2026-10-21T21:25:06Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-15T10:00:32.478Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-20T10:39:23.037Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/cloudflare-account-ops/SKILL.md",
+        "line": 39,
+        "excerpt": "- Workers/KV/D1/Pages writes work via wrangler (`npx wrangler deploy`, `d1`, `kv namespace`).",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/cloudflare-account-ops/SKILL.md",
+        "line": 44,
+        "excerpt": "- Feed secrets via stdin: `echo \"$V\" | npx wrangler secret put NAME`. Missing secrets do NOT fail at deploy time — they surface at request time.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/cloudflare-account-ops/SKILL.md",
+        "line": 45,
+        "excerpt": "- Serve a frontend from the same worker instead of a separate Pages project: build the SPA (`pnpm build:pages` in frontend/, which loads `.env.pages` — set empt",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/cloudflare-account-ops/references/cf-bulk-worker-relay.md",
+        "line": 27,
+        "excerpt": "const r = await fetch(new Request(up.toString(), init));",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/cloudflare-account-ops/references/temp-email-service.md",
+        "line": 7,
+        "excerpt": "2. Create D1: `npx wrangler d1 create temp-email-db` → note `database_id`; init schema: `npx wrangler d1 execute temp-email-db --file=../db/schema.sql --remote`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/cloudflare-account-ops/references/temp-email-service.md",
+        "line": 8,
+        "excerpt": "3. Create KV: `npx wrangler kv namespace create KV` → note `id`. List: `npx wrangler kv namespace list`.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/cloudflare-account-ops/references/temp-email-service.md",
+        "line": 10,
+        "excerpt": "5. `echo \"$JWT\" | npx wrangler secret put JWT_SECRET` — generate with `python3 -c \"import secrets;print(secrets.token_urlsafe(48))\"`.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/cloudflare-account-ops/references/temp-email-service.md",
+        "line": 11,
+        "excerpt": "6. `npx wrangler deploy`. First deploy with cron triggers fails with code 10063 until a workers.dev subdomain exists — create it (see SKILL.md) and redeploy.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/cloudflare-account-ops/references/temp-email-service.md",
+        "line": 33,
+        "excerpt": "3. Add the domain to BOTH `DEFAULT_DOMAINS` and `DOMAINS` in the worker clone's `wrangler.toml`, then `npx wrangler deploy`. Until that redeploy lands, `POST /a",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/cloudflare-account-ops/references/temp-email-service.md",
+        "line": 38,
+        "excerpt": "1. `source /root/.hermes/profiles/redmess/.env` (CLOUDFLARE_API_TOKEN).",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/cloudflare-account-ops/references/temp-email-service.md",
+        "line": 41,
+        "excerpt": "4. Databases: `npx wrangler d1 list`; KV: `npx wrangler kv namespace list`.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/cloudflare-account-ops/references/temp-email-service.md",
+        "line": 49,
+        "excerpt": "`npx wrangler d1 execute temp-email-db --remote --json --command \"SELECT id,source,raw FROM raw_mails ORDER BY id DESC LIMIT 5\"`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/cloudflare-account-ops/references/temp-email-service.md",
+        "line": 56,
+        "excerpt": "- Password rotation: edit `PASSWORDS` / `ADMIN_PASSWORDS` in wrangler.toml [vars] → `npx wrangler deploy` (vars apply only after redeploy). Verify by making an ",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/cloudflare-account-ops/references/temp-email-service.md",
+        "line": 77,
+        "excerpt": "3. `set -a; source /root/.hermes/profiles/redmess/.env; set +a; cd worker && npx wrangler deploy` — wrangler in a fresh subprocess without exported `CLOUDFLARE_",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/cloudflare-account-ops/scripts/mailbox_otp.py",
+        "line": 24,
+        "excerpt": "import urllib.request",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/cloudflare-account-ops/scripts/mailbox_otp.py",
+        "line": 55,
+        "excerpt": "req = urllib.request.Request(BASE + path, method=method)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/cloudflare-account-ops/scripts/mailbox_otp.py",
+        "line": 64,
+        "excerpt": "with urllib.request.urlopen(req, data=data, timeout=20) as resp:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "downloads-code": 12,
+      "network": 4,
+      "reads-secrets": 1
+    },
+    "score": 62,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 5
+    "filesScanned": 5,
+    "filesSkipped": 0
   },
   "history": [
     {

@@ -1,0 +1,101 @@
+{
+  "id": "mitchross__talos-argocd-proxmox__my-apps~development~hermes~skills~library~media~video-transcribe",
+  "owner": "mitchross",
+  "repo": "talos-argocd-proxmox",
+  "path": "my-apps/development/hermes/skills/library/media/video-transcribe",
+  "name": "video-transcribe",
+  "description": "Use when asked to transcribe a video link or file.",
+  "stars": 93,
+  "category": "media",
+  "commit": "13542495ac9a8ec06b418477caf981dff0f6b955",
+  "contentHash": "588dab8c47577934638331bdbfbe0eb30b2dba97e0aa141565535fe7bb492ac1",
+  "repoCreatedAt": "2024-08-09T03:38:57Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-20T10:39:23.037Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "my-apps/development/hermes/skills/library/media/video-transcribe/SKILL.md",
+        "line": 27,
+        "excerpt": "M=http://metube.metube.svc.cluster.local:8081",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "my-apps/development/hermes/skills/library/media/video-transcribe/SKILL.md",
+        "line": 28,
+        "excerpt": "curl -s $M/add -H 'Content-Type: application/json' \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "my-apps/development/hermes/skills/library/media/video-transcribe/SKILL.md",
+        "line": 31,
+        "excerpt": "curl -s $M/history",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "my-apps/development/hermes/skills/library/media/video-transcribe/SKILL.md",
+        "line": 32,
+        "excerpt": "W=/opt/data/cache/scratch/yt-<video-id>; mkdir -p $W; curl -sf -o \"$W/in.mp3\" \"$M/download/$(python3 -c 'import sys,urllib.parse;print(urllib.parse.quote(sys.ar",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "my-apps/development/hermes/skills/library/media/video-transcribe/SKILL.md",
+        "line": 38,
+        "excerpt": "ffmpeg -nostdin -loglevel error -i \"<input>\" -vn -ac 1 -ar 16000 -c:a libmp3lame -b:a 48k \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "my-apps/development/hermes/skills/library/media/video-transcribe/SKILL.md",
+        "line": 41,
+        "excerpt": "curl -s http://whisper.whisper.svc.cluster.local:8000/v3/audio/transcriptions \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "whisper.whisper.svc.cluster.local"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "my-apps/development/hermes/skills/library/media/video-transcribe/SKILL.md",
+        "line": 74,
+        "excerpt": "- `curl -s` can succeed even when Whisper is down, and the chunk JSON then holds `{\"error\":...}`. Grep the chunk files for `\"error\"` before you build the transc",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 2,
+      "network": 5
+    },
+    "score": 92,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "13542495ac9a8ec06b418477caf981dff0f6b955",
+      "scannedAt": "2026-11-20T10:39:23.037Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

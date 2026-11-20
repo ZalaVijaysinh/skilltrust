@@ -1,0 +1,170 @@
+{
+  "id": "metr__hawk__.claude~skills~auditing-dependency-bumps",
+  "owner": "METR",
+  "repo": "hawk",
+  "path": ".claude/skills/auditing-dependency-bumps",
+  "name": "auditing-dependency-bumps",
+  "description": "Use when reviewing a Dependabot (or similar) dependency-bump PR — npm/pnpm minor/patch group bumps or GitHub Actions SHA bumps — and you need to do a supply-chain audit before approving and merging. Covers downloading and inspecting package contents, checking for known compromises, the git-tap trick for Dependabot CI, and the approve/merge flow.",
+  "stars": 119,
+  "category": "devops",
+  "commit": "1fa2bebe399a5f13ee46d0a508fd72c18322f378",
+  "contentHash": "9a37ed079a6bde32ebb1841089a92fb6653a5f1616f365fe4dedb2eefedc247e",
+  "repoCreatedAt": "2026-03-23T22:14:25Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-20T10:39:23.037Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/auditing-dependency-bumps/SKILL.md",
+        "line": 27,
+        "excerpt": "gh pr diff <PR> --repo <owner>/<repo> > /tmp/pr.diff",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/auditing-dependency-bumps/SKILL.md",
+        "line": 41,
+        "excerpt": "cd /tmp && rm -rf scaudit && mkdir scaudit && cd scaudit",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/auditing-dependency-bumps/SKILL.md",
+        "line": 54,
+        "excerpt": "curl -fsSL \"$1\" -o \"$2.tgz\" || { echo \"download failed: $1\" >&2; return 1; }",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/auditing-dependency-bumps/SKILL.md",
+        "line": 68,
+        "excerpt": "find new -type f -exec sh -c 'file \"$1\" | grep -qiE \"ELF|Mach-O|PE32|executable\" && echo \"$1: $(file -b \"$1\")\"' _ {} \\;",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/auditing-dependency-bumps/SKILL.md",
+        "line": 72,
+        "excerpt": "diff <(cd old/package && find . -type f | sort) <(cd new/package && find . -type f | sort)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/auditing-dependency-bumps/SKILL.md",
+        "line": 74,
+        "excerpt": "- **Suspicious patterns — and check they're NOT pre-existing.** Grep the new build for `child_process`, `eval(`, `atob(`, `fromCharCode`, `XMLHttpRequest`, `req",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/auditing-dependency-bumps/SKILL.md",
+        "line": 74,
+        "excerpt": "- **Suspicious patterns — and check they're NOT pre-existing.** Grep the new build for `child_process`, `eval(`, `atob(`, `fromCharCode`, `XMLHttpRequest`, `req",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/auditing-dependency-bumps/SKILL.md",
+        "line": 76,
+        "excerpt": "grep -rIlE \"child_process|eval\\(|atob\\(|fromCharCode|XMLHttpRequest\" new/package | grep -v '\\.map$'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/auditing-dependency-bumps/SKILL.md",
+        "line": 76,
+        "excerpt": "grep -rIlE \"child_process|eval\\(|atob\\(|fromCharCode|XMLHttpRequest\" new/package | grep -v '\\.map$'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/auditing-dependency-bumps/SKILL.md",
+        "line": 77,
+        "excerpt": "grep -rIlE \"child_process|eval\\(|atob\\(|fromCharCode|XMLHttpRequest\" old/package | grep -v '\\.map$'  # baseline",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/auditing-dependency-bumps/SKILL.md",
+        "line": 77,
+        "excerpt": "grep -rIlE \"child_process|eval\\(|atob\\(|fromCharCode|XMLHttpRequest\" old/package | grep -v '\\.map$'  # baseline",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/auditing-dependency-bumps/SKILL.md",
+        "line": 81,
+        "excerpt": "diff -u old/package/dist/<entry>.mjs new/package/dist/<entry>.mjs | grep -E '^[+-]' | grep -vE '^[+-]{3}|version'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/auditing-dependency-bumps/SKILL.md",
+        "line": 85,
+        "excerpt": "mkdir audit && cd audit",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/auditing-dependency-bumps/SKILL.md",
+        "line": 96,
+        "excerpt": "gh pr review <PR> --approve --body \"Claude Code: Approved after supply-chain audit of all N bumps (...).",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/auditing-dependency-bumps/SKILL.md",
+        "line": 108,
+        "excerpt": "git fetch origin && gh pr checkout <PR>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/auditing-dependency-bumps/SKILL.md",
+        "line": 117,
+        "excerpt": "for i in $(seq 1 60); do",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 12,
+      "network": 4
+    },
+    "score": 90,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "1fa2bebe399a5f13ee46d0a508fd72c18322f378",
+      "scannedAt": "2026-11-20T10:39:23.037Z",
+      "score": 90,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

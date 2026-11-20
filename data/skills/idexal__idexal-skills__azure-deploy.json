@@ -4,7 +4,7 @@
   "repo": "idexal-skills",
   "path": "azure-deploy",
   "name": "azure-deploy",
-  "description": "Execute Azure deployments for ALREADY-PREPARED applications that have existing .azure/deployment-plan.md and infrastructure files. DO NOT use this skill when the user asks to CREATE a new application — use azure-prepare instead. This skill runs azd up, azd deploy, terraform apply, and az deployment commands with built-in error recovery. Requires .azure/deployment-plan.md from azure-prepare and validated status from azure-validate. WHEN: \"run azd up\", \"run azd deploy\", \"execute deployment\", \"push to production\", \"push to cloud\", \"go live\", \"ship it\", \"bicep deploy\", \"terraform apply\", \"publish to Azure\", \"launch on Azure\". DO NOT USE WHEN: \"create and deploy\", \"build and deploy\", \"create a new app\", \"set up infrastructure\", \"create and deploy to Azure using Terraform\" — use azure-prepare for these.",
+  "description": "",
   "stars": 13,
   "category": "devops",
   "commit": "7152f82d6734b10c03b70424e7c15016fecfc0b2",
@@ -13,27 +13,72 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-15T10:00:32.478Z",
+  "scannedAt": "2026-11-20T10:39:23.037Z",
   "scan": {
     "findings": [
       {
         "ruleId": "network",
-        "file": "azure-deploy/references/recipes/bicep/verify.md",
-        "line": 18,
+        "file": "azure-deploy/references/recipes/azcli/verify.md",
+        "line": 10,
         "excerpt": "curl -s https://<endpoint>/health | jq .",
         "disclosed": false,
         "automatic": false,
         "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "azure-deploy/references/recipes/azd/post-deployment.md",
+        "line": 79,
+        "excerpt": "curl -f \"$ENDPOINT/health\" || echo \"Health check failed\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "azure-deploy/references/recipes/azd/post-deployment.md",
+        "line": 82,
+        "excerpt": "curl -f \"$ENDPOINT/api/test-db\" || echo \"Database connection failed\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "azure-deploy/references/recipes/azd/post-deployment.md",
+        "line": 92,
+        "excerpt": "try { Invoke-WebRequest \"$Endpoint/health\" } catch { Write-Output \"Health check failed\" }",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "azure-deploy/references/recipes/azd/post-deployment.md",
+        "line": 95,
+        "excerpt": "try { Invoke-WebRequest \"$Endpoint/api/test-db\" } catch { Write-Output \"Database connection failed\" }",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "azure-deploy/references/sdk/azure-identity-py.md",
+        "line": 9,
+        "excerpt": "pip install azure-identity",
+        "disclosed": false,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "network": 1
+      "network": 5,
+      "downloads-code": 1
     },
-    "score": 95,
+    "score": 80,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 6,
-    "filesSkipped": 35
+    "filesScanned": 8,
+    "filesSkipped": 33
   },
   "history": [
     {

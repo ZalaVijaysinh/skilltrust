@@ -4,24 +4,71 @@
   "repo": "rsc-harness",
   "path": "skills/deployment",
   "name": "deployment",
-  "description": "",
-  "stars": 610,
+  "description": "Use when taking an app from source to live: choosing the deploy target from requirements (Hetzner+Coolify vs Vercel vs a third), then wiring container → CI → registry → host with build secrets, healthchecks and rollback. NOT one platform's mechanics (that is `coolify`, `vercel`, `railway`, `render`), NOT the Dockerfile alone (that is `docker`).",
+  "stars": 641,
   "category": "coding",
-  "commit": "d11cd71fdd117669c8e8806295392470c0907d09",
+  "commit": "28a51a9100380a7fc53848a17604cebc0d2cf364",
   "contentHash": "934f65e0a41e9b251a9a1113554fb6d0239cb7c9c1957eb27a47320b7d8f64c5",
   "repoCreatedAt": "2026-05-31T08:00:19Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-15T10:00:32.478Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-20T10:39:23.037Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/deployment/SKILL.md",
+        "line": 119,
+        "excerpt": "DOCKER_BUILDKIT=1 docker build --secret id=npm_token,env=NPM_TOKEN -t app:dev .",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/deployment/SKILL.md",
+        "line": 272,
+        "excerpt": "curl --fail -X POST \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/deployment/references/dockerfiles-by-stack.md",
+        "line": 29,
+        "excerpt": "CMD [\"python\", \"-c\", \"import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:8000/healthz').status==200 else 1)\"]",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/deployment/references/dockerfiles-by-stack.md",
+        "line": 296,
+        "excerpt": "| Shell base (slim/alpine) | `CMD wget -qO- http://localhost:PORT/healthz || exit 1` |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/deployment/references/dockerfiles-by-stack.md",
+        "line": 297,
+        "excerpt": "| Distroless python | `CMD [\"python\",\"-c\",\"import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:8000/healthz').status==200 else 1)\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 2,
+      "network": 3
+    },
+    "score": 92,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 1,
-    "filesSkipped": 7
+    "filesScanned": 8,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -46,6 +93,12 @@
       "commit": "d11cd71fdd117669c8e8806295392470c0907d09",
       "scannedAt": "2026-11-15T10:00:32.478Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "28a51a9100380a7fc53848a17604cebc0d2cf364",
+      "scannedAt": "2026-11-20T10:39:23.037Z",
+      "score": 92,
       "rulesVersion": "1.3.0"
     }
   ]

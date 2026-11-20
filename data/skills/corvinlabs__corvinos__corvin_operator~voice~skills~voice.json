@@ -7,13 +7,13 @@
   "description": "Voice mode for Claude Code — automatically reads assistant replies aloud via TTS, with German/English auto-detection and optional summarization for long responses. Trigger when the user mentions voice, vorlesen, sprachausgabe, TTS, \"speak\", \"say it out loud\", or asks about /voice-* commands.",
   "stars": 25,
   "category": "coding",
-  "commit": "47398b82fc88cf3bb215a2875c8454c7cbd9cead",
-  "contentHash": "abbce5c56cad6c5f83866a22d152a2ef99f221b96c3591273a0ddfbfa77b36c2",
+  "commit": "568158b86a480c2e4d95b56ddd0dff5fd36a8514",
+  "contentHash": "79a8c9708ffce6ac51412825cfde4175350377ba075862739e54ac13c94a719d",
   "repoCreatedAt": "2026-06-28T23:12:56Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-15T10:00:32.478Z",
+  "scannedAt": "2026-11-20T10:39:23.037Z",
   "scan": {
     "findings": [
       {
@@ -158,15 +158,31 @@
       {
         "ruleId": "writes-outside",
         "file": "corvin_operator/voice/hooks/path_gate.py",
-        "line": 1257,
+        "line": 587,
+        "excerpt": "(R2-SEC-3). ``rm -rf ~/.claude``, ``mv <key dir> /tmp/x`` and",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "corvin_operator/voice/hooks/path_gate.py",
+        "line": 1595,
         "excerpt": "`rm ~/.corvin/*.jsonl` (glob), `chmod -R ~/.corvin/global`, OR",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "corvin_operator/voice/hooks/path_gate.py",
+        "line": 2553,
+        "excerpt": "\"(command substitution, heredoc, inline interpreter, eval/xargs/sh -c, or an \"",
         "disclosed": false,
         "automatic": true
       },
       {
         "ruleId": "network",
         "file": "corvin_operator/voice/hooks/path_gate.py",
-        "line": 1817,
+        "line": 3162,
         "excerpt": "_OTA_GATED_TOOLS = (\"Write\", \"Edit\", \"MultiEdit\", \"NotebookEdit\", \"Bash\", \"PowerShell\", \"WebFetch\")",
         "disclosed": true,
         "automatic": true,
@@ -175,7 +191,7 @@
       {
         "ruleId": "downloads-code",
         "file": "corvin_operator/voice/hooks/path_gate.py",
-        "line": 1909,
+        "line": 3254,
         "excerpt": "r\"(?:^|[\\s/=])(?:python[0-9.]*|pypy[0-9.]*|py|uv|uvx)(?:\\s|$)[^;&|\\n\\r]*?\"",
         "disclosed": false,
         "automatic": true
@@ -183,7 +199,7 @@
       {
         "ruleId": "network",
         "file": "corvin_operator/voice/hooks/path_gate.py",
-        "line": 2040,
+        "line": 3380,
         "excerpt": "elif tool == \"WebFetch\":",
         "disclosed": true,
         "automatic": true,
@@ -192,7 +208,7 @@
       {
         "ruleId": "network",
         "file": "corvin_operator/voice/hooks/path_gate.py",
-        "line": 2045,
+        "line": 3385,
         "excerpt": "return False, _deny_msg(\"WebFetch\", p)",
         "disclosed": true,
         "automatic": true,
@@ -201,7 +217,7 @@
       {
         "ruleId": "shell",
         "file": "corvin_operator/voice/hooks/path_gate.py",
-        "line": 2169,
+        "line": 3509,
         "excerpt": "audit chain when this hook is running inside an ACS worker subprocess.",
         "disclosed": false,
         "automatic": true
@@ -295,14 +311,6 @@
         "file": "corvin_operator/voice/hooks/test_path_gate.py",
         "line": 583,
         "excerpt": "\"bash -c with forge hint\",",
-        "disclosed": false,
-        "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": "corvin_operator/voice/hooks/test_path_gate.py",
-        "line": 585,
-        "excerpt": "\"tool_input\": {\"command\": \"bash -c 'echo x > /tmp/x; cat forge/y'\"}},",
         "disclosed": false,
         "automatic": true
       },
@@ -427,9 +435,9 @@
     ],
     "findingTotals": {
       "downloads-code": 3,
-      "shell": 37,
+      "shell": 38,
       "network": 42,
-      "writes-outside": 3,
+      "writes-outside": 4,
       "reads-secrets": 1
     },
     "score": 47,
@@ -454,6 +462,12 @@
     {
       "commit": "47398b82fc88cf3bb215a2875c8454c7cbd9cead",
       "scannedAt": "2026-11-15T10:00:32.478Z",
+      "score": 47,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "568158b86a480c2e4d95b56ddd0dff5fd36a8514",
+      "scannedAt": "2026-11-20T10:39:23.037Z",
       "score": 47,
       "rulesVersion": "1.3.0"
     }

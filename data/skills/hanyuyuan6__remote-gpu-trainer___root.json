@@ -4,16 +4,16 @@
   "repo": "remote-gpu-trainer",
   "path": "",
   "name": "remote-gpu-trainer",
-  "description": "AutoDL/vast.ai/RunPod/Lambda/Paperspace远程GPU启动、调试、监控、续训、并行、停止及卡住/OOM/NaN/全零指标排查；可验证状态/selection-best checkpoint/拉回结果。释放实例销毁机器及数据盘，不等同关机。长期镜像/恢复→mirror-research-artifacts。",
+  "description": "AutoDL/vast.ai/RunPod/Lambda/Paperspace远程GPU启动、调试、监控、续训、并行、停止、计算与数据加载优化（榨干GPU）及卡住/OOM/NaN/全零指标排查；可验证状态/selection-best checkpoint/拉回结果。释放实例销毁机器及数据盘，不等同关机。长期镜像/恢复→mirror-research-artifacts。",
   "stars": 42,
   "category": "coding",
-  "commit": "7b3344181817c810b941635ed991d7810ed77975",
-  "contentHash": "571075a6c5e2ce5ef8b118d2102e3757108956200463211d7e65c6e252e97e3a",
+  "commit": "c8be79ab29bf4966487692e894734d2cc4cd9f4f",
+  "contentHash": "a1085e21e24e2768c2e8a0205065b0001cb83f1bb8e456bdf091969450f8d121",
   "repoCreatedAt": "2026-06-18T06:19:42Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": false,
-  "scannedAt": "2026-11-12T10:25:14.233Z",
+  "incomplete": true,
+  "scannedAt": "2026-11-20T10:39:23.037Z",
   "scan": {
     "findings": [
       {
@@ -273,115 +273,26 @@
         "automatic": false
       },
       {
-        "ruleId": "network",
-        "file": "references/run-remote/gotchas_universal.md",
-        "line": 400,
-        "excerpt": "answers locally (`curl -s localhost:<port>/ | head`). For curves that must **survive teardown**, don't",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
         "ruleId": "shell",
         "file": "references/run-remote/monitoring_patterns.md",
         "line": 137,
         "excerpt": "nohup bash -c '",
         "disclosed": true,
         "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "references/run-remote/ssh_transport.md",
-        "line": 37,
-        "excerpt": "cat ~/.ssh/id_ed25519.pub          # copy the entire line",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "references/run-remote/ssh_transport.md",
-        "line": 40,
-        "excerpt": "mkdir -p ~/.ssh && chmod 700 ~/.ssh",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "references/run-remote/ssh_transport.md",
-        "line": 40,
-        "excerpt": "mkdir -p ~/.ssh && chmod 700 ~/.ssh",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "references/run-remote/ssh_transport.md",
-        "line": 41,
-        "excerpt": "echo \"<paste the public key line>\" >> ~/.ssh/authorized_keys",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "references/run-remote/ssh_transport.md",
-        "line": 41,
-        "excerpt": "echo \"<paste the public key line>\" >> ~/.ssh/authorized_keys",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "references/run-remote/ssh_transport.md",
-        "line": 42,
-        "excerpt": "chmod 600 ~/.ssh/authorized_keys",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "references/run-remote/ssh_transport.md",
-        "line": 58,
-        "excerpt": "IdentityFile ~/.ssh/id_ed25519",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "references/run-remote/ssh_transport.md",
-        "line": 68,
-        "excerpt": "IdentityFile ~/.ssh/id_ed25519",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "references/run-remote/ssh_transport.md",
-        "line": 178,
-        "excerpt": "grep -A 2 \"machine api.<provider>.com\" ~/.netrc \\",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "scripts/run_one.sh.template",
-        "line": 56,
-        "excerpt": "nohup /bin/sh -c \"sleep $DEADMAN_SECONDS; $SHUTDOWN_CMD\" >\"$DEADMAN_DIR/deadman.log\" 2>&1 &",
-        "disclosed": true,
-        "automatic": false
       }
     ],
     "findingTotals": {
-      "downloads-code": 42,
-      "shell": 4,
-      "network": 5,
-      "reads-secrets": 10,
-      "writes-outside": 4
+      "downloads-code": 34,
+      "shell": 3,
+      "network": 4,
+      "reads-secrets": 3,
+      "writes-outside": 2
     },
     "score": 59,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 71,
-    "filesSkipped": 0
+    "filesScanned": 29,
+    "filesSkipped": 42
   },
   "history": [
     {
@@ -399,6 +310,12 @@
     {
       "commit": "7b3344181817c810b941635ed991d7810ed77975",
       "scannedAt": "2026-11-12T10:25:14.233Z",
+      "score": 59,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "c8be79ab29bf4966487692e894734d2cc4cd9f4f",
+      "scannedAt": "2026-11-20T10:39:23.037Z",
       "score": 59,
       "rulesVersion": "1.3.0"
     }

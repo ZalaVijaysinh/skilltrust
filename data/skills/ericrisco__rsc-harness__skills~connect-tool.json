@@ -4,18 +4,43 @@
   "repo": "rsc-harness",
   "path": "skills/connect-tool",
   "name": "connect-tool",
-  "description": "",
-  "stars": 610,
+  "description": "Use when the user names a specific tool to connect to the agent (an ERP, accounting or desktop program, CRM, WhatsApp, a spreadsheet, a database): research its real docs first, and when none exist, diagnose the program with the user and keep going. Picks the safest route, builds `01-TOOLS/<TOOL>/` with a test that proves it. NOT a full typed API client (that is `api-connector-builder`), NOT a whole-workspace tooling scan (that is `harness`).",
+  "stars": 641,
   "category": "coding",
-  "commit": "d11cd71fdd117669c8e8806295392470c0907d09",
+  "commit": "28a51a9100380a7fc53848a17604cebc0d2cf364",
   "contentHash": "ad8f5352761bd1d88c44c1c2580102c76eee0e238ebf08b1c1bf1d59e63027ab",
   "repoCreatedAt": "2026-05-31T08:00:19Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-15T10:00:32.478Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-20T10:39:23.037Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/connect-tool/SKILL.md",
+        "line": 144,
+        "excerpt": "out=$(psql \"$DATABASE_URL\" -v ON_ERROR_STOP=1 -c \"BEGIN; CREATE TABLE rsc_write_probe(i int); ROLLBACK;\" 2>&1) \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/connect-tool/SKILL.md",
+        "line": 152,
+        "excerpt": "out=$(sqlcmd -S \"$MSSQL_HOST\" -U \"$MSSQL_USER\" -P \"$MSSQL_PASSWORD\" -d \"$MSSQL_DB\" -b \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/connect-tool/bridge-kit/01-TOOLS-plantilla/test_connection.sh",
+        "line": 14,
+        "excerpt": "curl -fsS -m 30 -X POST \"$ERP_MCP_URL\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
       {
         "ruleId": "downloads-code",
         "file": "skills/connect-tool/bridge-kit/access/access_a_sqlite.py",
@@ -34,13 +59,15 @@
       }
     ],
     "findingTotals": {
+      "shell": 2,
+      "network": 1,
       "downloads-code": 2
     },
-    "score": 85,
-    "band": "low",
+    "score": 77,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 2,
-    "filesSkipped": 20
+    "filesScanned": 22,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -65,6 +92,12 @@
       "commit": "d11cd71fdd117669c8e8806295392470c0907d09",
       "scannedAt": "2026-11-15T10:00:32.478Z",
       "score": 85,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "28a51a9100380a7fc53848a17604cebc0d2cf364",
+      "scannedAt": "2026-11-20T10:39:23.037Z",
+      "score": 77,
       "rulesVersion": "1.3.0"
     }
   ]

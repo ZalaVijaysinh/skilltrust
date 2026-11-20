@@ -4,7 +4,7 @@
   "repo": "GeneTind-Life-Skills",
   "path": "skills/bio-variant-calling-filtering-best-practices",
   "name": "bio-variant-calling-filtering-best-practices",
-  "description": "",
+  "description": "Filters germline and somatic variant callsets at the site and genotype level with GATK VQSR (VQSLOD, truth-sensitivity tranches), VETS/ScoreVariantAnnotations, NVScoreVariants, hard filters with per-annotation thresholds, and bcftools/cyvcf2 expressions, plus Ti/Tv-based QC. Use when deciding between VQSR, hard filtering, and ML recalibration by cohort size and platform, setting SNP vs indel thresholds, replicating the missing-annotation-passes rule so hom-alt sites survive, applying genotype-level GQ/DP filters, or validating filter impact. Not for VCF normalization (see variant-calling/variant-normalization) or summary statistics (see variant-calling/vcf-statistics).",
   "stars": 18,
   "category": "other",
   "commit": "908229c955510a1841b216e8bf58f6b22818d4dc",
@@ -13,9 +13,65 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-15T10:00:32.478Z",
+  "scannedAt": "2026-11-20T10:39:23.037Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-variant-calling-filtering-best-practices/SKILL.md",
+        "line": 59,
+        "excerpt": "gatk VariantRecalibrator \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-variant-calling-filtering-best-practices/SKILL.md",
+        "line": 90,
+        "excerpt": "gatk VariantFiltration -R reference.fa -V raw_snps.vcf -O filtered_snps.vcf \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-variant-calling-filtering-best-practices/SKILL.md",
+        "line": 115,
+        "excerpt": "bcftools filter -i '",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-variant-calling-filtering-best-practices/SKILL.md",
+        "line": 147,
+        "excerpt": "bcftools filter -S . -e 'FMT/GQ<20 | FMT/DP<8' passing_sites.vcf.gz -Oz -o gt_filtered.vcf.gz",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-variant-calling-filtering-best-practices/SKILL.md",
+        "line": 157,
+        "excerpt": "bcftools filter -e 'QUAL<30' input.vcf.gz -o filtered.vcf          # hard: drop failing",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-variant-calling-filtering-best-practices/SKILL.md",
+        "line": 171,
+        "excerpt": "gatk FilterMutectCalls -R reference.fa -V mutect2_raw.vcf \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/bio-variant-calling-filtering-best-practices/SKILL.md",
+        "line": 213,
+        "excerpt": "bcftools stats input.vcf > before.txt",
+        "disclosed": false,
+        "automatic": false
+      },
       {
         "ruleId": "downloads-code",
         "file": "skills/bio-variant-calling-filtering-best-practices/usage-guide.md",
@@ -26,13 +82,14 @@
       }
     ],
     "findingTotals": {
+      "shell": 7,
       "downloads-code": 1
     },
-    "score": 85,
+    "score": 80,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 1,
-    "filesSkipped": 2
+    "filesScanned": 2,
+    "filesSkipped": 1
   },
   "history": [
     {

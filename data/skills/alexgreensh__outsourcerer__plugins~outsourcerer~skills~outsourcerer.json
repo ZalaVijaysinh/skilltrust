@@ -5,21 +5,21 @@
   "path": "plugins/outsourcerer/skills/outsourcerer",
   "name": "outsourcerer",
   "description": "Delegate coding work to Codex, Cursor, Devin, Gemini, OpenRouter or local models with your skills. Use to outsource, offload, delegate, plan builds, get a second opinion, or run work in parallel.",
-  "stars": 198,
+  "stars": 199,
   "category": "coding",
-  "commit": "361bd4bc2a544aa7e69a90e907245626266dd3f4",
-  "contentHash": "9b188e9c5bededaf5319d6159e5a8dd707839b126ddb782adc8d417f36842db4",
+  "commit": "4b721771a83a89c4283dc5c2af2afcaed56acfc3",
+  "contentHash": "576649c0a36eee06fdc38b2521ef904cfde52975ef4ecc15996c0d2ebd7a744c",
   "repoCreatedAt": "2026-07-10T19:49:49Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-15T10:00:32.478Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-20T10:39:23.037Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "plugins/outsourcerer/skills/outsourcerer/SKILL.md",
-        "line": 121,
+        "line": 122,
         "excerpt": "- **Cloud sessions are approval-gated spend, not the default.** `cloud start <id> --repo <owner/name> --base <branch> --brief <file>` launches a hosted session ",
         "disclosed": true,
         "automatic": false
@@ -33,9 +33,25 @@
         "automatic": false
       },
       {
+        "ruleId": "downloads-code",
+        "file": "plugins/outsourcerer/skills/outsourcerer/references/lanes-and-models.md",
+        "line": 207,
+        "excerpt": "- Install: `brew install opencode` (or `brew install anomalyco/tap/opencode-v2`,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/outsourcerer/skills/outsourcerer/references/lanes-and-models.md",
+        "line": 208,
+        "excerpt": "`npm i -g @opencode/cli@latest`; the old `opencode-ai/tap/opencode` formula is 0.x and the",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
         "ruleId": "network",
         "file": "plugins/outsourcerer/skills/outsourcerer/references/lanes-and-models.md",
-        "line": 300,
+        "line": 348,
         "excerpt": "`curl -s -H \"Authorization: Bearer ***\" https://api.tokenrouter.com/v1/models`.",
         "disclosed": false,
         "automatic": false,
@@ -55,7 +71,7 @@
         "ruleId": "downloads-code",
         "file": "plugins/outsourcerer/skills/outsourcerer/references/mechanism.md",
         "line": 33,
-        "excerpt": "| **jq** | `parity`, `image` (gemini/OpenRouter backends) | `brew install jq` (macOS) / `apt install jq` (Linux) |",
+        "excerpt": "| **opencode CLI + OpenCode Go login** | `--provider opencode` | Install per https://opencode.ai/docs (`brew install opencode` — or `brew install anomalyco/tap/",
         "disclosed": false,
         "automatic": false
       },
@@ -63,6 +79,14 @@
         "ruleId": "downloads-code",
         "file": "plugins/outsourcerer/skills/outsourcerer/references/mechanism.md",
         "line": 34,
+        "excerpt": "| **jq** | `parity`, `image` (gemini/OpenRouter backends) | `brew install jq` (macOS) / `apt install jq` (Linux) |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/outsourcerer/skills/outsourcerer/references/mechanism.md",
+        "line": 35,
         "excerpt": "| **tmux** | `session` + interactive OR launchers | `brew install tmux` / `apt install tmux` |",
         "disclosed": false,
         "automatic": false
@@ -241,7 +265,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/outsourcerer/skills/outsourcerer/scripts/lib/done.sh",
-        "line": 210,
+        "line": 216,
         "excerpt": "_timeout \"${OSRC_DONE_CHECK_SECS:-300}\" bash -c 'cd \"$1\" && eval \"$2\"' _ \"$cwd\" \"$cmd\" </dev/null >/dev/null 2>&1",
         "disclosed": true,
         "automatic": false
@@ -249,7 +273,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/outsourcerer/skills/outsourcerer/scripts/lib/done.sh",
-        "line": 305,
+        "line": 311,
         "excerpt": "out=\"$(_timeout \"${OSRC_DONE_CHECK_SECS:-300}\" bash -c 'gh pr view \"$1\" -R \"$2\" --json state 2>/dev/null' _ \"$num\" \"$repo\")\"; rc=$?",
         "disclosed": true,
         "automatic": false
@@ -287,9 +311,17 @@
         "automatic": false
       },
       {
+        "ruleId": "shell",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/lib/hub-perf.sh",
+        "line": 159,
+        "excerpt": "newer=\"$(_osrc_hub_cache_paths \"$slug\" | while IFS= read -r p; do [ -e \"$p\" ] && printf '%s\\n' \"$p\"; done | tr '\\n' '\\0' | xargs -0 sh -c 'find \"$@\" -newer \"$0\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
         "ruleId": "network",
         "file": "plugins/outsourcerer/skills/outsourcerer/scripts/lib/hub.html",
-        "line": 439,
+        "line": 442,
         "excerpt": "return fetch(path, opts).then((r) => {",
         "disclosed": false,
         "automatic": false,
@@ -298,7 +330,7 @@
       {
         "ruleId": "network",
         "file": "plugins/outsourcerer/skills/outsourcerer/scripts/lib/hub.html",
-        "line": 992,
+        "line": 995,
         "excerpt": "fetch('https://api.github.com/repos/alexgreensh/outsourcerer').then((r) => r.ok ? r.json() : null).then((j) => { if (j && typeof j.stargazers_count === 'number'",
         "disclosed": false,
         "automatic": false,
@@ -307,9 +339,18 @@
         ]
       },
       {
+        "ruleId": "network",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/lib/hub.sh",
+        "line": 824,
+        "excerpt": "[ \"$(curl -s -m 3 -o /dev/null -w '%{http_code}' -H \"X-Hub-Token: $tok\" \"http://127.0.0.1:$p/api/answers\" 2>/dev/null)\" = 200 ] \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
         "ruleId": "reads-secrets",
         "file": "plugins/outsourcerer/skills/outsourcerer/scripts/lib/hub_server.py",
-        "line": 117,
+        "line": 223,
         "excerpt": "env = dict(os.environ)",
         "disclosed": false,
         "automatic": false
@@ -317,15 +358,47 @@
       {
         "ruleId": "shell",
         "file": "plugins/outsourcerer/skills/outsourcerer/scripts/lib/hub_server.py",
-        "line": 119,
+        "line": 232,
         "excerpt": "proc = subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/lib/lane-opencode.sh",
+        "line": 77,
+        "excerpt": "die \"opencode CLI not on PATH (OpenCode Go lane). Install: https://opencode.ai/docs (brew install opencode — or brew install anomalyco/tap/opencode-v2 — or npm ",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/lib/lane-opencode.sh",
+        "line": 269,
+        "excerpt": "die \"opencode lane: cannot parse 'opencode --version' — supported majors are 1.x (read-only posture enforced; user agent-rule overrides remain a residual gap) a",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/lib/lane-opencode.sh",
+        "line": 326,
+        "excerpt": "echo \"    opencode: NOT on PATH — install: https://opencode.ai/docs (brew install opencode or anomalyco/tap/opencode-v2 or npm i -g @opencode/cli@latest), then ",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/lib/leanlaunch.sh",
+        "line": 29,
+        "excerpt": "pane_command='bash -c \"$OSRC_PANE_LAUNCH\"' ;;",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "browser-secrets",
         "file": "plugins/outsourcerer/skills/outsourcerer/scripts/lib/limits.sh",
-        "line": 555,
+        "line": 561,
         "excerpt": "&& security find-generic-password -s \"Claude Code-credentials\" >/dev/null 2>&1 && return 0",
         "disclosed": false,
         "automatic": false
@@ -340,41 +413,57 @@
       },
       {
         "ruleId": "shell",
-        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/lib/remote.sh",
-        "line": 93,
-        "excerpt": "p = subprocess.Popen([\"/bin/bash\", \"-c\", cmd], cwd=cwd, start_new_session=True)",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/lib/plan_probe.py",
+        "line": 33,
+        "excerpt": "return subprocess.Popen(cmd, start_new_session=True, **kw)",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/lib/remote.sh",
-        "line": 96,
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/lib/plan_probe.py",
+        "line": 74,
+        "excerpt": "p = _spawn([\"codex\", \"app-server\"], stdin=subprocess.PIPE, stdout=subprocess.PIPE,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/lib/plan_probe.py",
+        "line": 75,
+        "excerpt": "stderr=subprocess.DEVNULL)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/lib/plan_probe.py",
+        "line": 130,
+        "excerpt": "p = _spawn(cmd, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/lib/plan_probe.py",
+        "line": 135,
         "excerpt": "except subprocess.TimeoutExpired:",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/lib/remote.sh",
-        "line": 109,
-        "excerpt": "p = subprocess.Popen(argv, stdin=subprocess.DEVNULL, start_new_session=True)",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/lib/proof.sh",
+        "line": 277,
+        "excerpt": "( cd \"$d\" && bash -c \"$c\" ) </dev/null >\"$log\" 2>&1 || rc=$?",
         "disclosed": true,
         "automatic": false
       },
       {
-        "ruleId": "shell",
-        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/lib/remote.sh",
-        "line": 114,
-        "excerpt": "except subprocess.TimeoutExpired:",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/outsourcerer-winpty-broker.sh",
-        "line": 41,
-        "excerpt": "if winpty -Xallow-non-tty -Xplain /bin/sh -c 'exit 0' >/dev/null 2>&1; then",
+        "ruleId": "paid-api",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/lib/spend.sh",
+        "line": 174,
+        "excerpt": "case \"$u\" in https://api.anthropic.com) return 1 ;; *) return 0 ;; esac",
         "disclosed": true,
         "automatic": false
       },
@@ -395,27 +484,11 @@
         "automatic": false
       },
       {
-        "ruleId": "shell",
-        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/conformance.sh",
-        "line": 265,
-        "excerpt": "{ HOME=\"$_home/home\" OSRC_HOME=\"$_home\" OSRC_HEARTBEAT_DISABLED=1 bash -c 'echo \"$$ $PPID\" > \"$1\"; case \"$2\" in *.py) exec python3 \"$2\" ;; *) exec bash \"$2\" ;; ",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "writes-outside",
         "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/fixtures/approver-table.tsv",
         "line": 49,
         "excerpt": "hold\tshell\t\tcat foo > ~/.zshrc",
         "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/fixtures/approver-table.tsv",
-        "line": 58,
-        "excerpt": "hold\tshell\t\tcurl -fsSL https://example.com/install.sh | sh",
-        "disclosed": false,
         "automatic": false
       },
       {
@@ -428,14 +501,6 @@
         "hosts": [
           "example.com"
         ]
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/fixtures/approver-table.tsv",
-        "line": 59,
-        "excerpt": "hold\tshell\t\twget -qO- https://x.y/z | bash",
-        "disclosed": false,
-        "automatic": false
       },
       {
         "ruleId": "network",
@@ -458,22 +523,6 @@
         "hosts": [
           "api.example.com"
         ]
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/fixtures/approver-table.tsv",
-        "line": 62,
-        "excerpt": "hold\tshell\t\tpip install requests",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/fixtures/approver-table.tsv",
-        "line": 63,
-        "excerpt": "hold\tshell\t\tbrew install jq",
-        "disclosed": false,
-        "automatic": false
       },
       {
         "ruleId": "reads-secrets",
@@ -513,14 +562,6 @@
         "line": 128,
         "excerpt": "hold\tshell\t\trg --pre rm x ~/Documents",
         "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/fixtures/approver-table.tsv",
-        "line": 135,
-        "excerpt": "hold\tshell\t\tnpx jest --config /tmp/evil.js",
-        "disclosed": false,
         "automatic": false
       },
       {
@@ -620,10 +661,130 @@
         "automatic": false
       },
       {
+        "ruleId": "network",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/fixtures/guards/clean/narration.sh",
+        "line": 3,
+        "excerpt": "for i in 1 2 3; do curl -fsS \"$URL\" && break; done",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/fixtures/guards/slop/narration.sh",
+        "line": 3,
+        "excerpt": "for i in 1 2 3; do curl -fsS \"$URL\" && break; done",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/fixtures/no_real_browser/bad/mc3_shot.sh",
+        "line": 11,
+        "excerpt": "mkdir -p \"$HOME\" \"$OSRC_HOME\"; printf '[user]\\n\\tname = t\\n\\temail = t@t\\n' > \"$GIT_CONFIG_GLOBAL\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/fixtures/no_real_browser/good/mc3_shot.sh",
+        "line": 11,
+        "excerpt": "mkdir -p \"$HOME\" \"$OSRC_HOME\"; printf '[user]\\n\\tname = t\\n\\temail = t@t\\n' > \"$GIT_CONFIG_GLOBAL\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
         "ruleId": "writes-outside",
         "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/fixtures/screen/dv-approval-wrapped.ansi",
         "line": 15,
         "excerpt": "\u001b[38;2;255;255;255m\u001b[48;2;42;42;42m❭\u001b[39m \u001b[38;2;255;255;255mRun this shell command: ls -la src && rm -rf ~/Documents\u001b[39m",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/hub_alive_dom.js",
+        "line": 56,
+        "excerpt": "await P.window.fetch('/api/projects').catch(() => {}); await tick(); P.paint(); P.paint();",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/hub_alive_dom.js",
+        "line": 75,
+        "excerpt": "await P.window.fetch('/api/projects'); await tick();",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/hub_alive_dom.js",
+        "line": 79,
+        "excerpt": "await P.window.fetch('/api/projects').catch(() => {}); await tick(); P.paint();",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/hub_alive_dom.js",
+        "line": 82,
+        "excerpt": "mode = 'ok'; await P.window.fetch('/api/projects'); await tick();",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/hub_alive_dom.js",
+        "line": 83,
+        "excerpt": "mode = 'hang'; P.window.fetch('/api/answers'); P.clock.t += 11000; P.paint();",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/hub_alive_dom.js",
+        "line": 99,
+        "excerpt": "await P.window.fetch('/api/projects'); await tick(); await tick(); P.paint();",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/lib_mc3_seed.sh",
+        "line": 42,
+        "excerpt": "mkdir -p \"$HOME/.claude/sessions\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/lib_mc3_seed.sh",
+        "line": 45,
+        "excerpt": "> \"$HOME/.claude/sessions/$pid.json\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/lib_mc3_seed.sh",
+        "line": 57,
+        "excerpt": "mkdir -p \"$OSRC_HOME/jobs\" \"$HOME/.claude\" \"$MC3_T/bin\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/lib_mc3_seed.sh",
+        "line": 92,
+        "excerpt": "printf '{}' > \"$HOME/.claude/.credentials.json\"   # a logged-in Claude Code, so the limits rows exist",
         "disclosed": true,
         "automatic": false
       },
@@ -652,62 +813,6 @@
         "automatic": false
       },
       {
-        "ruleId": "writes-outside",
-        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_accounts.sh",
-        "line": 17,
-        "excerpt": "printf 'identity backup\\n' > \"$HOME/.claude/.claude.json.backup\"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_accounts.sh",
-        "line": 18,
-        "excerpt": "printf 'live state\\n' > \"$HOME/.claude/loop.md\"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_accounts.sh",
-        "line": 19,
-        "excerpt": "printf '{}' > \"$HOME/.claude/settings.json\"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_accounts.sh",
-        "line": 22,
-        "excerpt": "printf 'private\\n' > \"$HOME/.claude/.claude.json\"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_accounts.sh",
-        "line": 23,
-        "excerpt": "printf 'private\\n' > \"$HOME/.claude/account-cache.json\"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_accounts.sh",
-        "line": 24,
-        "excerpt": "printf 'instructions\\n' > \"$HOME/.claude/CLAUDE.md\"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_advise.sh",
-        "line": 130,
-        "excerpt": "err_msg=\"$(bash -c '. \"$0\" >/dev/null 2>&1; cmd_advise \"\" 2>&1' \"$SRC\" 2>&1)\"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
         "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_agentic_local_cert.py",
         "line": 26,
@@ -715,14 +820,6 @@
         "disclosed": false,
         "automatic": false,
         "hosts": []
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_agentic_local_cert.py",
-        "line": 89,
-        "excerpt": "if not subprocess.run([\"bash\", \"-lc\", \"command -v claude\"], capture_output=True).stdout.strip():",
-        "disclosed": true,
-        "automatic": false
       },
       {
         "ruleId": "network",
@@ -738,14 +835,6 @@
         "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_agentic_local_cert.py",
         "line": 119,
         "excerpt": "cenv = dict(os.environ)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_cline_lane.sh",
-        "line": 94,
-        "excerpt": "grep -q 'npm i -g cline' \"$SRC\" && ok \"install instruction uses the real package (npm i -g cline)\" \\",
         "disclosed": false,
         "automatic": false
       },
@@ -790,92 +879,92 @@
         "automatic": false
       },
       {
-        "ruleId": "network",
-        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_hub_home.sh",
-        "line": 237,
-        "excerpt": "curl -s -o \"$TMP/slow-refresh.rc\" -w '%{http_code}' --max-time 40 -X POST -H \"X-Hub-Token: $STK\" -H \"Origin: ${SURL%/}\" \"${SURL}api/refresh\" & RFP=$!   # fired ",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
+        "ruleId": "paid-api",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_lane_billing.sh",
+        "line": 108,
+        "excerpt": "for u in https://api.anthropic.com https://api.anthropic.com/ HTTPS://API.ANTHROPIC.COM; do",
+        "disclosed": true,
+        "automatic": false
       },
       {
-        "ruleId": "network",
-        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_hub_home.sh",
-        "line": 238,
-        "excerpt": "t1=$SECONDS; sp=\"$(curl -s --max-time 20 -H \"X-Hub-Token: $STK\" \"${SURL}api/projects\")\"",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
+        "ruleId": "paid-api",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_lane_billing.sh",
+        "line": 117,
+        "excerpt": "for u in ' https://api.anthropic.com' $'https://api.anthropic.com\\n' $'\\thttps://api.anthropic.com/ ' 'https://api.anthropic.com///'; do",
+        "disclosed": true,
+        "automatic": false
       },
       {
-        "ruleId": "network",
-        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_hub_home.sh",
-        "line": 244,
-        "excerpt": "sp=\"$(curl -s --max-time 20 -H \"X-Hub-Token: $STK\" \"${SURL}api/projects\")\"",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
+        "ruleId": "paid-api",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_lane_billing.sh",
+        "line": 121,
+        "excerpt": "for u in http://api.anthropic.com https://api.anthropic.com/v1 https://api.anthropic.com:8443 \\",
+        "disclosed": true,
+        "automatic": false
       },
       {
-        "ruleId": "network",
-        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_hub_home.sh",
-        "line": 276,
-        "excerpt": "post() { curl -s -o \"$TMP/body\" -w '%{http_code}' -X POST \"$B$1\" -H 'Content-Type: application/json' \"${@:3}\" -d \"$2\"; }",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
+        "ruleId": "paid-api",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_lane_billing.sh",
+        "line": 122,
+        "excerpt": "https://api.anthropic.com.evil.tld https://evil.tld/api.anthropic.com https://api.anthropic.com@evil.tld \\",
+        "disclosed": true,
+        "automatic": false
       },
       {
-        "ruleId": "network",
-        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_hub_home.sh",
-        "line": 292,
-        "excerpt": "curl -s -H \"X-Hub-Token: $TOK\" \"$B/api/projects\" | jq -e '.projects[]|select(.id==\"alpha\")|.status==\"shipped\"' >/dev/null && ok \"GET /api/projects reflects Mark",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
+        "ruleId": "paid-api",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_lane_billing.sh",
+        "line": 123,
+        "excerpt": "api.anthropic.com 'https://api.anthropic .com' https://xapi.anthropic.com; do",
+        "disclosed": true,
+        "automatic": false
       },
       {
-        "ruleId": "network",
-        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_hub_home.sh",
-        "line": 305,
-        "excerpt": "ct=\"$(curl -s -o /dev/null -D - \"$B/assets/hub-home.js\" | tr -d '\\r' | grep -i '^content-type:')\"",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
+        "ruleId": "paid-api",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_lane_billing.sh",
+        "line": 135,
+        "excerpt": "for sj in '{\"env\":{\"ANTHROPIC_BASE_URL\":\"https://api.anthropic.com\"}}' '{\"env\":{\"ANTHROPIC_BASE_URL\":\"HTTPS://API.ANTHROPIC.COM/ \"}}' '{\"env\":{}}' '{\"env\":{\"ANT",
+        "disclosed": true,
+        "automatic": false
       },
       {
-        "ruleId": "network",
-        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_hub_home.sh",
-        "line": 307,
-        "excerpt": "[ \"$(curl -s \"$B/assets/hub-home.js\" | head -c 2)\" = \"/*\" ] && ok \"hub-home.js served token-free from /assets\" || bad \"hub-home.js not served\"",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
+        "ruleId": "paid-api",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_lane_billing.sh",
+        "line": 139,
+        "excerpt": "for sj in '{\"env\":{\"ANTHROPIC_BASE_URL\":\"https://api.anthropic.com.evil.tld\"}}' '{\"env\":{\"ANTHROPIC_BASE_URL\":\"http://api.anthropic.com\"}}' '{\"env\":{\"ANTHROPIC_",
+        "disclosed": true,
+        "automatic": false
       },
       {
-        "ruleId": "network",
-        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_hub_home.sh",
-        "line": 308,
-        "excerpt": "csp=\"$(curl -s -D - -o /dev/null \"$B/\" | grep -i 'content-security-policy')\"",
+        "ruleId": "paid-api",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_lane_billing.sh",
+        "line": 182,
+        "excerpt": "b=$( HOME=\"$HB\" bash -c '. \"'\"$SRC\"'\" >/dev/null 2>&1; have() { [ \"$1\" = claude ] && return 0; command -v \"$1\" >/dev/null 2>&1; }; ANTHROPIC_AUTH_TOKEN=t ANTHRO",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/outsourcerer/skills/outsourcerer/scripts/tests/test_sandbox_final.py",
+        "line": 289,
+        "excerpt": "env = dict(os.environ)",
         "disclosed": false,
-        "automatic": false,
-        "hosts": []
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 104,
-      "downloads-code": 20,
-      "network": 19,
-      "writes-outside": 103,
+      "shell": 374,
+      "downloads-code": 31,
+      "network": 73,
+      "writes-outside": 203,
       "browser-secrets": 3,
-      "reads-secrets": 17,
-      "paid-api": 3
+      "reads-secrets": 18,
+      "paid-api": 12
     },
     "score": 22,
     "band": "high",
     "rulesVersion": "1.3.0",
-    "filesScanned": 225,
-    "filesSkipped": 119
+    "filesScanned": 427,
+    "filesSkipped": 6
   },
   "history": [
     {
@@ -887,6 +976,12 @@
     {
       "commit": "361bd4bc2a544aa7e69a90e907245626266dd3f4",
       "scannedAt": "2026-11-15T10:00:32.478Z",
+      "score": 22,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "4b721771a83a89c4283dc5c2af2afcaed56acfc3",
+      "scannedAt": "2026-11-20T10:39:23.037Z",
       "score": 22,
       "rulesVersion": "1.3.0"
     }

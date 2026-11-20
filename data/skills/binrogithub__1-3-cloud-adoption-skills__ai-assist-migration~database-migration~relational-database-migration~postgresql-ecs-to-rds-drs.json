@@ -4,24 +4,116 @@
   "repo": "1-3-Cloud-Adoption-Skills",
   "path": "AI-Assist-Migration/Database-Migration/Relational-Database-Migration/postgresql-ecs-to-rds-drs",
   "name": "postgresql-ecs-to-rds-drs",
-  "description": "",
+  "description": "Migrate a self-managed PostgreSQL database running on a Huawei Cloud ECS to a Huawei Cloud RDS for PostgreSQL instance in a different region, using DRS Full + Incremental synchronization over public EIP. Provisions the target with Terraform and drives DRS through the Huawei Cloud CLI. Use when a customer has PostgreSQL on an ECS and wants it on managed RDS, cross-region, with minimal downtime.",
   "stars": 14,
-  "category": "other",
+  "category": "data",
   "commit": "498f1cd114c88b83cbbedf8037f2dee73c0686a7",
   "contentHash": "2c6b554f23b3320050802ffc4a4cd818608b0c8185e592b925b685c1e76647f5",
   "repoCreatedAt": "2026-04-17T21:55:08Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-15T10:00:32.478Z",
+  "scannedAt": "2026-11-20T10:39:23.037Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Database-Migration/Relational-Database-Migration/postgresql-ecs-to-rds-drs/SKILL.md",
+        "line": 205,
+        "excerpt": "scp <skill_path>/assets/sql/01_source_readiness_check.sql root@<source_eip>:/tmp/",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Database-Migration/Relational-Database-Migration/postgresql-ecs-to-rds-drs/SKILL.md",
+        "line": 214,
+        "excerpt": "ssh root@<source_eip>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Database-Migration/Relational-Database-Migration/postgresql-ecs-to-rds-drs/SKILL.md",
+        "line": 220,
+        "excerpt": "sudo -u postgres psql -P pager=off -d <source_db> -f /tmp/01_source_readiness_check.sql",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Database-Migration/Relational-Database-Migration/postgresql-ecs-to-rds-drs/SKILL.md",
+        "line": 259,
+        "excerpt": "scp <skill_path>/assets/sql/03_source_baseline.sql root@<source_eip>:/tmp/",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Database-Migration/Relational-Database-Migration/postgresql-ecs-to-rds-drs/SKILL.md",
+        "line": 263,
+        "excerpt": "sudo -u postgres psql -P pager=off -d <source_db> -f /tmp/03_source_baseline.sql",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Database-Migration/Relational-Database-Migration/postgresql-ecs-to-rds-drs/SKILL.md",
+        "line": 334,
+        "excerpt": "export TF_VAR_rds_password='<password>'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "AI-Assist-Migration/Database-Migration/Relational-Database-Migration/postgresql-ecs-to-rds-drs/SKILL.md",
+        "line": 521,
+        "excerpt": "cat >> /etc/postgresql/<version>/main/pg_hba.conf <<'EOF'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Database-Migration/Relational-Database-Migration/postgresql-ecs-to-rds-drs/SKILL.md",
+        "line": 521,
+        "excerpt": "cat >> /etc/postgresql/<version>/main/pg_hba.conf <<'EOF'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Database-Migration/Relational-Database-Migration/postgresql-ecs-to-rds-drs/SKILL.md",
+        "line": 720,
+        "excerpt": "sudo -u postgres psql -d <source_db> -c \"\\d <table>\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Database-Migration/Relational-Database-Migration/postgresql-ecs-to-rds-drs/SKILL.md",
+        "line": 726,
+        "excerpt": "sudo -u postgres psql -d <source_db> -c \"INSERT INTO <table> (<columns>) VALUES (<values>);\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Database-Migration/Relational-Database-Migration/postgresql-ecs-to-rds-drs/SKILL.md",
+        "line": 830,
+        "excerpt": "sed -i '/<drs_ip_escaped>/d' /etc/postgresql/<version>/main/pg_hba.conf",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 10,
+      "writes-outside": 1
+    },
+    "score": 92,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 19
+    "filesScanned": 5,
+    "filesSkipped": 14
   },
   "history": [
     {

@@ -4,24 +4,83 @@
   "repo": "exsala-hermes-mod",
   "path": "skills/vps-github-backup",
   "name": "vps-github-backup",
-  "description": "",
-  "stars": 20,
+  "description": "Use when running or fixing the VPS-to-GitHub daily backup.",
+  "stars": 21,
   "category": "other",
   "commit": "7debe3685074aa94bc80252f9b799e9d18f1dab0",
   "contentHash": "9c627dad18506acbf28aa80ad862a4be2c0837536428c01299bcd04b70dd9cf3",
   "repoCreatedAt": "2026-10-21T21:25:06Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-15T10:00:32.478Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-20T10:39:23.037Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "skills/vps-github-backup/SKILL.md",
+        "line": 22,
+        "excerpt": "1. **Download each `*_partNN` over raw, not the API**: `curl -fsSL -H \"Authorization: Bearer $(cat ~/.git_token)\" -o config.tgz https://raw.githubusercontent.co",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "raw.githubusercontent.com"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/vps-github-backup/SKILL.md",
+        "line": 26,
+        "excerpt": "5. Installer for a fresh Hermes: `curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash` — fake mirrors like `he",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/vps-github-backup/SKILL.md",
+        "line": 26,
+        "excerpt": "5. Installer for a fresh Hermes: `curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash` — fake mirrors like `he",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "raw.githubusercontent.com"
+        ]
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/vps-github-backup/scripts/backup_to_gh.sh",
+        "line": 24,
+        "excerpt": "git push -f origin HEAD:master >>~/app 2>&1 \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/vps-github-backup/scripts/backup_to_gh.sh",
+        "line": 26,
+        "excerpt": "rm -f ~/app/backups/stage/.git/config",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/vps-github-backup/scripts/backup_to_gh.sh",
+        "line": 27,
+        "excerpt": "if ((ok)); then date '+%F %T OK' >>~/app; else date '+%F %T FAIL no credential' >>~/app; fi",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "network": 2,
+      "downloads-code": 1,
+      "writes-outside": 3
+    },
+    "score": 70,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 2
+    "filesScanned": 2,
+    "filesSkipped": 0
   },
   "history": [
     {

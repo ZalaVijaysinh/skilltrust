@@ -4,24 +4,238 @@
   "repo": "workflows",
   "path": "skills/farm-out",
   "name": "farm-out",
-  "description": "",
-  "stars": 26,
-  "category": "other",
+  "description": "Run ALL delegated agent work through the CLIProxyAPI wrappers. Use INSTEAD OF the Agent tool, subagents, the Workflow tool, and in-session agent teams — for any \"delegate this\", \"run these in parallel\", \"fan out\", \"have an agent review/investigate/search\", \"use a subagent\", \"spawn a team\", \"get a second opinion\", \"run this workflow script\", or any task you were about to hand to a background agent. Also use for explicit mentions of cliproxy, codex-code, gemini-code, claude-code, farm out, or delegating work to another model. NEGATIVE ROUTING: anything phrased as a new, background, separate or companion SESSION — 'spawn an agent', 'spawn a background claude', 'kick off claude in <dir>' — belongs to agent-spawn, which fires first and carries this work inside its prompt; messaging a session that already exists is agent-msg; designing, repairing or auditing a workflow is workflow-creator; and a `work`, dev or ds dispatch goes through work-dispatch.sh, never a hand-written farm.sh --workflow line.",
+  "stars": 27,
+  "category": "productivity",
   "commit": "e9643496f7df5be8bb97ebffea58d267e59f9504",
-  "contentHash": "b8b2f6af6988d9bf0bc9c9a8127d4ac40aabac4df651b835b812464d7a0d8195",
+  "contentHash": "2e7d34134ecbb424a168bae4114fef10d3f860ad950e3803e42e4f07d330ebb9",
   "repoCreatedAt": "2026-01-04T02:46:52Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-15T10:00:32.478Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-20T10:39:23.037Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/farm-out/SKILL.md",
+        "line": 130,
+        "excerpt": "S=~/.claude/skills/workflows/skills/farm-out/scripts",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/farm-out/scripts/farm.sh",
+        "line": 504,
+        "excerpt": "pre=(bash -c 'printf \"farm: %s\\n\" \"$1\" >&2; exit 125' sandbox \"$sbx_fail\"); cmd=()",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/farm-out/scripts/sandbox.sh",
+        "line": 90,
+        "excerpt": "exec nsenter -t \"$pid\" -U -m -n -p --preserve-credentials -r --wd=\"$PWD\" -- bash -c \"$1\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/farm-out/scripts/watchdog.py",
+        "line": 27,
+        "excerpt": "st = subprocess.run([\"ps\", \"-o\", \"stat=\", \"-p\", str(pid)], capture_output=True, text=True).stdout",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/lib/openrouter-credits.ts",
+        "line": 27,
+        "excerpt": "import { spawnSync } from 'node:child_process'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "scripts/lib/openrouter-credits.ts",
+        "line": 61,
+        "excerpt": "const url = process.env.OPENROUTER_CREDITS_URL || 'https://openrouter.ai/api/v1/credits'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/lib/openrouter-credits.ts",
+        "line": 63,
+        "excerpt": "const r = spawnSync('curl', ['-sS', '--max-time', '4', '-K', '-', '-w', '\\n%{http_code}', url], {",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/lib/openrouter-credits.ts",
+        "line": 120,
+        "excerpt": "const which = spawnSync('sh', ['-c', 'command -v notify-send'], { encoding: 'utf8', timeout: 2000 })",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/lib/openrouter-credits.ts",
+        "line": 122,
+        "excerpt": "spawnSync('notify-send', ['-u', 'critical', '-a', 'workflows', 'OpenRouter credits', line], { timeout: 5000 })",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "scripts/lib/route.ts",
+        "line": 371,
+        "excerpt": "const DEFAULT_PRICES_URL = 'https://openrouter.ai/api/v1/models'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "scripts/lib/route.ts",
+        "line": 380,
+        "excerpt": "const res = await fetch(url, { headers, signal: AbortSignal.timeout(timeoutMs) })",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "scripts/lib/route.ts",
+        "line": 456,
+        "excerpt": "const DEFAULT_RANKINGS_URL = 'https://openrouter.ai/api/v1/datasets/rankings-daily'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/lib/route.ts",
+        "line": 483,
+        "excerpt": "const r = Bun.spawnSync(['op', 'read', '--no-newline', ref], { env, stdin: 'ignore', stdout: 'pipe', stderr: 'pipe', timeout: 20_000 })",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/cite-fidelity-lint.ts",
+        "line": 90,
+        "excerpt": "const result = Bun.spawnSync({",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/find-slide-page-inject.ts",
+        "line": 19,
+        "excerpt": "import { spawnSync } from \"node:child_process\";",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/find-slide-page-inject.ts",
+        "line": 72,
+        "excerpt": "const queryResult = spawnSync(",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/find-slide-page-inject.ts",
+        "line": 95,
+        "excerpt": "const extractResult = spawnSync(\"uv\", [\"run\", \"python3\", extractPy], {",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 13,
+        "excerpt": "\"command\": \"bun ${CLAUDE_PLUGIN_ROOT}/hooks/session-start.ts\"",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 22,
+        "excerpt": "\"command\": \"bun ${CLAUDE_PLUGIN_ROOT}/hooks/work-hold.ts --brief\"",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 33,
+        "excerpt": "\"command\": \"bun ${CLAUDE_PLUGIN_ROOT}/hooks/find-slide-page-inject.ts\"",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 44,
+        "excerpt": "\"command\": \"bun ${CLAUDE_PLUGIN_ROOT}/hooks/lint-check.ts\"",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 48,
+        "excerpt": "\"command\": \"bun ${CLAUDE_PLUGIN_ROOT}/hooks/writing-prose-check.ts\"",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 52,
+        "excerpt": "\"command\": \"bun ${CLAUDE_PLUGIN_ROOT}/hooks/cite-fidelity-lint.ts\"",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 61,
+        "excerpt": "\"command\": \"bun ${CLAUDE_PLUGIN_ROOT}/hooks/pr-url-logger.ts\",",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "hooks/work-hold.ts",
+        "line": 965,
+        "excerpt": "const DECISIONS_URL = 'https://openrouter.ai/api/alpha/decisions'",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "hooks/work-hold.ts",
+        "line": 1077,
+        "excerpt": "const OPENAI_DECISIONS_URL = 'https://api.openai.com/v1/decisions'",
+        "disclosed": true,
+        "automatic": true
+      }
+    ],
+    "findingTotals": {
+      "shell": 53,
+      "paid-api": 5,
+      "network": 1
+    },
+    "score": 87,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 68
+    "filesScanned": 74,
+    "filesSkipped": 0
   },
   "history": [
     {

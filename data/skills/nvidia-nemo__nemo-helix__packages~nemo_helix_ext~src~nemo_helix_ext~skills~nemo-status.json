@@ -1,0 +1,105 @@
+{
+  "id": "nvidia-nemo__nemo-helix__packages~nemo_helix_ext~src~nemo_helix_ext~skills~nemo-status",
+  "owner": "NVIDIA-NeMo",
+  "repo": "nemo-helix",
+  "path": "packages/nemo_helix_ext/src/nemo_helix_ext/skills/nemo-status",
+  "name": "nemo-status",
+  "description": "Read-only dashboard for NeMo Helix. Combines platform health, deployed agents, registered providers, and available models into a single view. Use over generic status checks for any NeMo Helix dashboard request.",
+  "stars": 150,
+  "category": "coding",
+  "commit": "5d62bc74004817cf4d498639f61f580b08b39123",
+  "contentHash": "32d2eeba36325c69aa93d2d0bc232e4b754ca94ad9f4af03b69558c32e478d74",
+  "repoCreatedAt": "2026-05-14T19:08:25Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-20T10:39:23.037Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "packages/nemo_helix_ext/src/nemo_helix_ext/skills/nemo-status/SKILL.md",
+        "line": 40,
+        "excerpt": "[ -x .venv/bin/nemo ] && echo \"CLI_OK\" || echo \"CLI_MISSING\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/nemo_helix_ext/src/nemo_helix_ext/skills/nemo-status/SKILL.md",
+        "line": 50,
+        "excerpt": "NHX_URL=$(.venv/bin/python -c '",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/nemo_helix_ext/src/nemo_helix_ext/skills/nemo-status/SKILL.md",
+        "line": 65,
+        "excerpt": "for path in /health/ready /cluster-info; do",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/nemo_helix_ext/src/nemo_helix_ext/skills/nemo-status/SKILL.md",
+        "line": 66,
+        "excerpt": "code=$(curl -sS --connect-timeout 2 --max-time 5 \"$NHX_URL$path\" -o /dev/null -w \"%{http_code}\" 2>/dev/null || echo \"no-response\")",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/nemo_helix_ext/src/nemo_helix_ext/skills/nemo-status/SKILL.md",
+        "line": 78,
+        "excerpt": "LOCAL_PORT=$(python3 -c 'import sys; from urllib.parse import urlsplit; print(urlsplit(sys.argv[1]).port or 8080)' \"$NHX_URL\")",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/nemo_helix_ext/src/nemo_helix_ext/skills/nemo-status/SKILL.md",
+        "line": 82,
+        "excerpt": "HTTP=$(curl -sS --connect-timeout 2 --max-time 5 \"$NHX_URL/health/ready\" -o /dev/null -w \"%{http_code}\" 2>/dev/null || echo \"no-response\")",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/nemo_helix_ext/src/nemo_helix_ext/skills/nemo-status/SKILL.md",
+        "line": 94,
+        "excerpt": "curl -fsS --connect-timeout 2 --max-time 5 \"$NHX_URL/status\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/nemo_helix_ext/src/nemo_helix_ext/skills/nemo-status/SKILL.md",
+        "line": 94,
+        "excerpt": "curl -fsS --connect-timeout 2 --max-time 5 \"$NHX_URL/status\"",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 5,
+      "network": 3
+    },
+    "score": 92,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "5d62bc74004817cf4d498639f61f580b08b39123",
+      "scannedAt": "2026-11-20T10:39:23.037Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

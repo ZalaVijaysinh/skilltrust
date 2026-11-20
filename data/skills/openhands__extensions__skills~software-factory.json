@@ -4,30 +4,47 @@
   "repo": "extensions",
   "path": "skills/software-factory",
   "name": "software-factory",
-  "description": "Set up an OpenHands \"software factory\" on GitHub fast: ask only for the repositories and where tickets live (GitHub issues, Jira or Linear), create a working issue-to-PR and PR-review pipeline from the automation catalog with defaults, show what runs, then let the user stop or extend it one step at a time (tune settings, AGENTS.md maintainer, auto-merge, stale-CI and QA add-ons).",
+  "description": "Set up an OpenHands software factory on GitHub or GitLab: choose the code host, repositories or projects, and (for GitHub) ticket source; create issue-to-PR/MR, review and triage/refinement stations from the automation catalog. Ask whether GitLab can reach the deployment before choosing polling or signed webhooks, guide event-source setup, and request missing tokens securely.",
   "stars": 184,
-  "category": "devops",
-  "commit": "b98ac0671a51cc91bab3609bf4d334c7c832dd98",
-  "contentHash": "f6a6ab7f6fe11c7c14f0800e46b0e952e90898e1d3153a132a29f708e3a9329c",
+  "category": "coding",
+  "commit": "cfd1d0f873c0d97e0a1c30093b34c6364a1141c0",
+  "contentHash": "503b692c4f7a798fcdc30742b355c654b326aef4de83009dddcd5f68d4663d9d",
   "repoCreatedAt": "2025-11-24T14:30:27Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-12T10:25:14.233Z",
+  "scannedAt": "2026-11-20T10:39:23.037Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "skills/software-factory/SKILL.md",
-        "line": 52,
+        "line": 58,
         "excerpt": "GITHUB_PERSONAL_ACCESS_TOKEN=\"$GITHUB_PERSONAL_ACCESS_TOKEN\" \\",
         "disclosed": false,
         "automatic": false
       },
       {
+        "ruleId": "shell",
+        "file": "skills/software-factory/SKILL.md",
+        "line": 178,
+        "excerpt": "read -rsp 'GitLab signing token: ' GITLAB_SIGNING_TOKEN; echo",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/software-factory/SKILL.md",
+        "line": 181,
+        "excerpt": "curl -X POST \"$OPENHANDS_HOST/api/automation/v1/webhooks\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
         "ruleId": "network",
         "file": "skills/software-factory/scripts/factory.py",
-        "line": 36,
+        "line": 37,
         "excerpt": "import urllib.request",
         "disclosed": true,
         "automatic": false,
@@ -36,7 +53,7 @@
       {
         "ruleId": "network",
         "file": "skills/software-factory/scripts/factory.py",
-        "line": 104,
+        "line": 110,
         "excerpt": "req = urllib.request.Request(url, data=data, method=method, headers=headers)",
         "disclosed": true,
         "automatic": false,
@@ -45,7 +62,7 @@
       {
         "ruleId": "network",
         "file": "skills/software-factory/scripts/factory.py",
-        "line": 106,
+        "line": 112,
         "excerpt": "with urllib.request.urlopen(req, timeout=60) as resp:",
         "disclosed": true,
         "automatic": false,
@@ -54,15 +71,15 @@
       {
         "ruleId": "shell",
         "file": "skills/software-factory/scripts/factory.py",
-        "line": 178,
+        "line": 206,
         "excerpt": "subprocess.run([*cmd, EXTENSIONS_URL, str(root)], check=True)",
         "disclosed": false,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 2,
-      "network": 3
+      "shell": 3,
+      "network": 4
     },
     "score": 92,
     "band": "low",
@@ -74,6 +91,12 @@
     {
       "commit": "b98ac0671a51cc91bab3609bf4d334c7c832dd98",
       "scannedAt": "2026-11-12T10:25:14.233Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "cfd1d0f873c0d97e0a1c30093b34c6364a1141c0",
+      "scannedAt": "2026-11-20T10:39:23.037Z",
       "score": 92,
       "rulesVersion": "1.3.0"
     }

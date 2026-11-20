@@ -1,0 +1,79 @@
+{
+  "id": "microsoft__vscode-copilotstudio__src~vscode-extensions~microsoft-powerplatformlang-extension~client~src~tests~ui~fixtures~new-components~cli~behaviors~get-us-temperature",
+  "owner": "microsoft",
+  "repo": "vscode-copilotstudio",
+  "path": "src/vscode-extensions/microsoft-powerplatformlang-extension/client/src/tests/ui/fixtures/new-components/cli/behaviors/get-us-temperature",
+  "name": "get-us-temperature",
+  "description": "MD2-162228 - Get the current observed temperature for any city or town in the United States. Use when the user asks for the current temperature, how hot or cold it is, or the temperature in a US city, e.g. \"what is the temperature in Seattle\" or \"how cold is it in Austin right now\".",
+  "stars": 118,
+  "category": "other",
+  "commit": "b95c2add82bb74d0a1cc29954f10ccb082cf6310",
+  "contentHash": "f468e71c4d0975ac6c02d5869675ec2f2a3c0e76392a1ff06250765f9a7a263a",
+  "repoCreatedAt": "2025-03-20T19:53:16Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-20T10:39:23.037Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "src/vscode-extensions/microsoft-powerplatformlang-extension/client/src/tests/ui/fixtures/new-components/cli/behaviors/get-us-temperature/scripts/Get-UsTemperature.ps1",
+        "line": 28,
+        "excerpt": "$pointMetadata = Invoke-RestMethod -Uri \"https://api.weather.gov/points/$($location.latitude),$($location.longitude)\" -Headers $headers",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.weather.gov"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "src/vscode-extensions/microsoft-powerplatformlang-extension/client/src/tests/ui/fixtures/new-components/cli/behaviors/get-us-temperature/scripts/Get-UsTemperature.ps1",
+        "line": 29,
+        "excerpt": "$observationStations = Invoke-RestMethod -Uri $pointMetadata.properties.observationStations -Headers $headers",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "src/vscode-extensions/microsoft-powerplatformlang-extension/client/src/tests/ui/fixtures/new-components/cli/behaviors/get-us-temperature/scripts/Get-UsTemperature.ps1",
+        "line": 35,
+        "excerpt": "$stationObservation = Invoke-RestMethod -Uri \"https://api.weather.gov/stations/$stationIdentifier/observations/latest\" -Headers $headers",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.weather.gov"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "src/vscode-extensions/microsoft-powerplatformlang-extension/client/src/tests/ui/fixtures/new-components/cli/behaviors/get-us-temperature/scripts/Resolve-UsTemperatureLocation.ps1",
+        "line": 36,
+        "excerpt": "$geocodingResponse = Invoke-RestMethod -Uri \"https://geocoding-api.open-meteo.com/v1/search?name=$([uri]::EscapeDataString($City))&count=10&language=en&format=j",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "geocoding-api.open-meteo.com"
+        ]
+      }
+    ],
+    "findingTotals": {
+      "network": 4
+    },
+    "score": 95,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 5,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "b95c2add82bb74d0a1cc29954f10ccb082cf6310",
+      "scannedAt": "2026-11-20T10:39:23.037Z",
+      "score": 95,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

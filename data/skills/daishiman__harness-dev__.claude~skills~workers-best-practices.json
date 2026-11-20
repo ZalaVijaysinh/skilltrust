@@ -4,24 +4,41 @@
   "repo": "harness-dev",
   "path": ".claude/skills/workers-best-practices",
   "name": "workers-best-practices",
-  "description": "",
+  "description": "Cloudflare Workersのコードを本番運用品質のベストプラクティスに照らして作成・レビューする。新しいWorkerの実装、Workerコードのレビュー、wrangler.jsoncの設定、streaming・floating promises・global state・secrets・bindings・observabilityなどのanti-pattern確認で使用する。事前学習の記憶よりCloudflare公式ドキュメントからの取得を優先する。",
   "stars": 10,
-  "category": "other",
-  "commit": "95e3b4bed355ccbedb2759a853a1add342baf74f",
+  "category": "security",
+  "commit": "a4e43429b970183a07ba5ff4ffe23caa26e7a5d4",
   "contentHash": "521b4d832d2889d4860c65f7c08e8d714de4864f78d32bd9b1569301b430c31c",
   "repoCreatedAt": "2026-01-15T05:28:17Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-15T10:00:32.478Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-20T10:39:23.037Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/workers-best-practices/SKILL.md",
+        "line": 28,
+        "excerpt": "mkdir -p /tmp/workers-types-latest && \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/workers-best-practices/SKILL.md",
+        "line": 94,
+        "excerpt": "| `await`も`waitUntil`もない裸の`fetch()` | floating promiseにより結果やerrorが失われる |",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
       {
         "ruleId": "network",
         "file": ".claude/skills/workers-best-practices/references/review.md",
         "line": 60,
         "excerpt": "- `fetch()` handlers must return `Promise<Response>`",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": []
       },
@@ -30,7 +47,7 @@
         "file": ".claude/skills/workers-best-practices/references/rules.md",
         "line": 48,
         "excerpt": "async fetch(request: Request, env: Env): Promise<Response> {",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": []
       },
@@ -39,7 +56,7 @@
         "file": ".claude/skills/workers-best-practices/references/rules.md",
         "line": 105,
         "excerpt": "async fetch(request: Request, env: Env): Promise<Response> {",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": []
       },
@@ -48,7 +65,7 @@
         "file": ".claude/skills/workers-best-practices/references/rules.md",
         "line": 106,
         "excerpt": "const response = await fetch(\"https://api.example.com/large-dataset\");",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": [
           "api.example.com"
@@ -59,7 +76,7 @@
         "file": ".claude/skills/workers-best-practices/references/rules.md",
         "line": 113,
         "excerpt": "async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": []
       },
@@ -68,7 +85,7 @@
         "file": ".claude/skills/workers-best-practices/references/rules.md",
         "line": 120,
         "excerpt": "const response = await fetch(url);",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": []
       },
@@ -77,7 +94,7 @@
         "file": ".claude/skills/workers-best-practices/references/rules.md",
         "line": 137,
         "excerpt": "const response = await fetch(\"https://api.example.com/large-dataset\");",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": [
           "api.example.com"
@@ -88,7 +105,7 @@
         "file": ".claude/skills/workers-best-practices/references/rules.md",
         "line": 151,
         "excerpt": "async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": []
       },
@@ -97,7 +114,7 @@
         "file": ".claude/skills/workers-best-practices/references/rules.md",
         "line": 176,
         "excerpt": "**Check**: no `fetch(\"https://api.cloudflare.com/client/v4/...\")` calls for services available as bindings.",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": [
           "api.cloudflare.com"
@@ -108,7 +125,7 @@
         "file": ".claude/skills/workers-best-practices/references/rules.md",
         "line": 186,
         "excerpt": "const response = await fetch(",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": []
       },
@@ -117,7 +134,7 @@
         "file": ".claude/skills/workers-best-practices/references/rules.md",
         "line": 203,
         "excerpt": "async fetch(request: Request, env: Env): Promise<Response> {",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": []
       },
@@ -126,7 +143,7 @@
         "file": ".claude/skills/workers-best-practices/references/rules.md",
         "line": 222,
         "excerpt": "**Check**: Worker-to-Worker calls use `env.SERVICE_NAME.method()` (RPC) or `env.SERVICE_NAME.fetch()`, not `fetch(\"https://my-other-worker.example.com/...\")`.",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": [
           "my-other-worker.example.com"
@@ -137,7 +154,7 @@
         "file": ".claude/skills/workers-best-practices/references/rules.md",
         "line": 254,
         "excerpt": "async fetch(request: Request, env: Env): Promise<Response> {",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": []
       },
@@ -146,7 +163,7 @@
         "file": ".claude/skills/workers-best-practices/references/rules.md",
         "line": 312,
         "excerpt": "async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": []
       },
@@ -155,7 +172,7 @@
         "file": ".claude/skills/workers-best-practices/references/rules.md",
         "line": 326,
         "excerpt": "async fetch(request: Request, env: Env): Promise<Response> {",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": []
       },
@@ -164,7 +181,7 @@
         "file": ".claude/skills/workers-best-practices/references/rules.md",
         "line": 337,
         "excerpt": "**Check**: every `fetch()`, `env.*.put()`, `env.*.send()`, and any other async call is handled. Enable `no-floating-promises` lint rule.",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": []
       },
@@ -173,7 +190,7 @@
         "file": ".claude/skills/workers-best-practices/references/rules.md",
         "line": 349,
         "excerpt": "const response = await fetch(\"https://api.example.com/process\", { method: \"POST\", body: JSON.stringify(data) });",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": [
           "api.example.com"
@@ -184,7 +201,7 @@
         "file": ".claude/skills/workers-best-practices/references/rules.md",
         "line": 352,
         "excerpt": "ctx.waitUntil(fetch(\"https://api.example.com/webhook\", { method: \"POST\", body: JSON.stringify(data) }));",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": [
           "api.example.com"
@@ -195,30 +212,22 @@
         "file": ".claude/skills/workers-best-practices/references/rules.md",
         "line": 358,
         "excerpt": "fetch(\"https://api.example.com/webhook\", { method: \"POST\", body: JSON.stringify(data) });",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": [
           "api.example.com"
         ]
-      },
-      {
-        "ruleId": "network",
-        "file": ".claude/skills/workers-best-practices/references/rules.md",
-        "line": 421,
-        "excerpt": "async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
       }
     ],
     "findingTotals": {
-      "network": 20
+      "shell": 1,
+      "network": 21
     },
-    "score": 95,
+    "score": 92,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 2,
-    "filesSkipped": 1
+    "filesScanned": 3,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -243,6 +252,12 @@
       "commit": "95e3b4bed355ccbedb2759a853a1add342baf74f",
       "scannedAt": "2026-11-15T10:00:32.478Z",
       "score": 95,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "a4e43429b970183a07ba5ff4ffe23caa26e7a5d4",
+      "scannedAt": "2026-11-20T10:39:23.037Z",
+      "score": 92,
       "rulesVersion": "1.3.0"
     }
   ]

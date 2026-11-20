@@ -4,30 +4,66 @@
   "repo": "navin",
   "path": "navin/skills/data-lineage-observer",
   "name": "data-lineage-observer",
-  "description": "",
+  "description": "Observe data pipelines through OpenLineage events and lineage catalogs (Marquez, DataHub, OpenMetadata) to answer where a dataset comes from, what depends on it and whether it is fresh. Reads RunEvents (START, COMPLETE, FAIL, facets schema, columnLineage, errorMessage, outputStatistics) emitted by Airflow, dbt, Spark, Flink or Dagster, walks the graph for impact and root cause, finds orphan datasets, traces personal data column by column and checks freshness SLAs from a JSONL export. Use when the user asks to \"what breaks if I change this table\", \"why is this dashboard stale\", \"where does this column come from\", \"set up OpenLineage for Airflow\", \"which datasets are orphaned\", or when a data quality incident needs a producer and a timeline. In French \"analyse d'impact sur une table\", \"lineage des donnees\", \"pourquoi la donnee est perimee\".",
   "stars": 37,
-  "category": "coding",
-  "commit": "bd273fb6444c6145f4eb269b4104e133c2f8992c",
+  "category": "data",
+  "commit": "8b3dad2910906bc49bbde7418873cf9552a1a731",
   "contentHash": "7d75677eaf603dd7d970b1c181986ad633cd98535a8b6e3a4f5f1ba6e31d36b4",
   "repoCreatedAt": "2026-09-09T12:12:54Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-15T10:00:32.478Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-20T10:39:23.037Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "navin/skills/data-lineage-observer/references/marquez-api.md",
+        "line": 61,
+        "excerpt": "curl -sG \"$MARQUEZ_URL/api/v1/lineage\" --data-urlencode 'nodeId=dataset:postgres://warehouse.internal:5432:raw.orders' --data-urlencode 'depth=6'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "navin/skills/data-lineage-observer/references/marquez-api.md",
+        "line": 63,
+        "excerpt": "curl -s \"$MARQUEZ_URL/api/v1/namespaces/airflow%3A%2F%2Fprod/jobs/reporting.daily_revenue/runs?limit=20\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "navin/skills/data-lineage-observer/references/marquez-api.md",
+        "line": 65,
+        "excerpt": "curl -sG \"$MARQUEZ_URL/api/v1/events/lineage\" --data-urlencode \"after=$(date -u -d '1 day ago' +%FT%TZ)\" --data-urlencode 'limit=5000' > events.json",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "network": 3
+    },
+    "score": 95,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 8
+    "filesScanned": 8,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "bd273fb6444c6145f4eb269b4104e133c2f8992c",
       "scannedAt": "2026-11-15T10:00:32.478Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "8b3dad2910906bc49bbde7418873cf9552a1a731",
+      "scannedAt": "2026-11-20T10:39:23.037Z",
+      "score": 95,
       "rulesVersion": "1.3.0"
     }
   ]

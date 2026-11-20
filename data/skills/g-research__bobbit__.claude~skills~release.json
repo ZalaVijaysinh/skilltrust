@@ -4,24 +4,163 @@
   "repo": "bobbit",
   "path": ".claude/skills/release",
   "name": "release",
-  "description": "",
+  "description": "Cut a Bobbit release — preflight checks, version bump and release notes in a release PR; merging it makes CI publish to npm via OIDC, tag the commit, and create the GitHub release. Optional binary sub-packages stay manual.",
   "stars": 19,
-  "category": "other",
+  "category": "devops",
   "commit": "6e0ff8d90bd98dcba9039e8f38da3c492a192d10",
-  "contentHash": "27454d3c2d8919f54c66783fdd76cfd0180b67ad880622d9c736b24a3f2275ef",
+  "contentHash": "3e287113114b349cb55884ba1bfa7725eee0d0d05e15f4a126a4647d1452cbe2",
   "repoCreatedAt": "2026-02-17T13:58:18Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-15T10:00:32.478Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-20T10:39:23.037Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release/SKILL.md",
+        "line": 39,
+        "excerpt": "git fetch origin --tags",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release/SKILL.md",
+        "line": 78,
+        "excerpt": "PRIMARY=$(git worktree list --porcelain | awk '/^worktree /{print $2; exit}')",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release/SKILL.md",
+        "line": 101,
+        "excerpt": "npm ci                          # clean install, lockfile authoritative",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release/SKILL.md",
+        "line": 119,
+        "excerpt": "git diff v<prev>..HEAD -- binaries.versions.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release/SKILL.md",
+        "line": 132,
+        "excerpt": "npm version <new-version> --no-git-tag-version",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release/SKILL.md",
+        "line": 173,
+        "excerpt": "git log v<prev>..HEAD --pretty=format:'%h %s' --no-merges",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release/SKILL.md",
+        "line": 185,
+        "excerpt": "git add package.json package-lock.json CHANGELOG.md",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release/SKILL.md",
+        "line": 215,
+        "excerpt": "RELBRANCH=\"release/v<new-version>\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release/SKILL.md",
+        "line": 231,
+        "excerpt": "gh pr checks \"$PR\" --watch",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release/SKILL.md",
+        "line": 239,
+        "excerpt": "gh workflow run build-unit-gate.yml --ref \"$RELBRANCH\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release/SKILL.md",
+        "line": 269,
+        "excerpt": "npm publish ./binaries/binaries-darwin-arm64",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release/SKILL.md",
+        "line": 301,
+        "excerpt": "gh pr merge \"$PR\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release/SKILL.md",
+        "line": 327,
+        "excerpt": "gh run watch \"$(gh run list --workflow release-publish.yml --commit \"$MERGE_SHA\" --limit 1 --json databaseId -q '.[0].databaseId')\" --exit-status",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release/SKILL.md",
+        "line": 344,
+        "excerpt": "cd \"$PRIMARY\" && git pull origin main    # fast-forward the primary worktree on main",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release/SKILL.md",
+        "line": 356,
+        "excerpt": "gh release view v<new-version> --json url,isPrerelease,tagName",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release/SKILL.md",
+        "line": 367,
+        "excerpt": "cd $(mktemp -d) && npm init -y >/dev/null",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/release/SKILL.md",
+        "line": 381,
+        "excerpt": "cd \"$PRIMARY\"",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 17
+    },
+    "score": 95,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 1
+    "filesScanned": 2,
+    "filesSkipped": 0
   },
   "history": [
     {

@@ -4,24 +4,394 @@
   "repo": "1-3-Cloud-Adoption-Skills",
   "path": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration",
   "name": "kind-to-cce-migration",
-  "description": "",
+  "description": "Migrate a Kubernetes application from a local Kind cluster to Huawei Cloud CCE. Covers CCE cluster creation, node pool provisioning, public API access via EIP, ELB setup for Ingress, SWR image push, Nginx Ingress Controller installation, application deployment with CCE-specific values, and post-migration validation. Based on a verified end-to-end migration of an nginx-demo Helm chart.",
   "stars": 14,
-  "category": "other",
+  "category": "devops",
   "commit": "498f1cd114c88b83cbbedf8037f2dee73c0686a7",
   "contentHash": "eeb42b74e941a39aea8b74e1286c4c559e3ae87d4fcd5c611fc3f10791ef8596",
   "repoCreatedAt": "2026-04-17T21:55:08Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-15T10:00:32.478Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-20T10:39:23.037Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "reads-secrets",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/README.md",
+        "line": 169,
+        "excerpt": "KUBECONFIG=~/.kube/config-cce-migrated kubectl get nodes",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/README.md",
+        "line": 273,
+        "excerpt": "KUBECONFIG=~/.kube/config-cce-migrated helm install ingress-nginx ingress-nginx/ingress-nginx \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/README.md",
+        "line": 286,
+        "excerpt": "KUBECONFIG=~/.kube/config-cce-migrated kubectl get pods -n ingress-nginx",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/README.md",
+        "line": 289,
+        "excerpt": "KUBECONFIG=~/.kube/config-cce-migrated kubectl get svc -n ingress-nginx",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/README.md",
+        "line": 316,
+        "excerpt": "KUBECONFIG=~/.kube/config-cce-migrated kubectl create secret docker-registry swr-secret \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/README.md",
+        "line": 323,
+        "excerpt": "KUBECONFIG=~/.kube/config-cce-migrated kubectl patch serviceaccount default \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/README.md",
+        "line": 360,
+        "excerpt": "KUBECONFIG=~/.kube/config-cce-migrated helm install nginx-demo <CHART_PATH> \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/README.md",
+        "line": 366,
+        "excerpt": "KUBECONFIG=~/.kube/config-cce-migrated kubectl get pods -l app.kubernetes.io/name=nginx-demo",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/README.md",
+        "line": 383,
+        "excerpt": "KUBECONFIG=~/.kube/config-cce-migrated kubectl get pods",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/README.md",
+        "line": 387,
+        "excerpt": "KUBECONFIG=~/.kube/config-cce-migrated kubectl get ingress",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/README.md",
+        "line": 391,
+        "excerpt": "KUBECONFIG=~/.kube/config-cce-migrated kubectl get hpa",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/README.md",
+        "line": 395,
+        "excerpt": "KUBECONFIG=~/.kube/config-cce-migrated kubectl get configmap nginx-demo-config -o yaml",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/README.md",
+        "line": 399,
+        "excerpt": "KUBECONFIG=~/.kube/config-cce-migrated kubectl get secret nginx-demo-secret -o yaml",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/README.md",
+        "line": 403,
+        "excerpt": "curl -s -H \"Host: demo.cce-migrated.local\" http://<ELB_PUBLIC_IP>/",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/README.md",
+        "line": 416,
+        "excerpt": "| App responds | `curl -H \"Host: ...\" http://<ELB_IP>/` | Expected HTML |",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/README.md",
+        "line": 500,
+        "excerpt": "KUBECONFIG=~/.kube/config-cce-migrated helm uninstall nginx-demo",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/README.md",
+        "line": 501,
+        "excerpt": "KUBECONFIG=~/.kube/config-cce-migrated helm uninstall ingress-nginx -n ingress-nginx",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/SKILL.md",
+        "line": 54,
+        "excerpt": "hcloud CCE CreateCluster --cli-region=<REGION> \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/SKILL.md",
+        "line": 69,
+        "excerpt": "hcloud CCE ShowCluster --cli-region=<REGION> --cluster_id=<CLUSTER_ID>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/SKILL.md",
+        "line": 76,
+        "excerpt": "hcloud ECS CreateKeypair --cli-region=<REGION> --keypair.name=<KEYPAIR_NAME> --keypair.public_key=\"<SSH_PUBLIC_KEY>\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/SKILL.md",
+        "line": 81,
+        "excerpt": "hcloud ECS CreateKeypair --cli-region=<REGION> --keypair.name=<KEYPAIR_NAME>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/SKILL.md",
+        "line": 89,
+        "excerpt": "hcloud_hcloud_list_flavors(region=\"<REGION>\", availability_zone=\"<AZ>\")",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/SKILL.md",
+        "line": 94,
+        "excerpt": "hcloud CCE CreateNodePool --cli-region=<REGION> \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/SKILL.md",
+        "line": 120,
+        "excerpt": "hcloud EIP CreatePublicip --cli-region=<REGION> \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/SKILL.md",
+        "line": 131,
+        "excerpt": "hcloud CCE UpdateClusterEip --cli-region=<REGION> \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/SKILL.md",
+        "line": 139,
+        "excerpt": "hcloud CCE CreateKubernetesClusterCert --cli-region=<REGION> \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/SKILL.md",
+        "line": 146,
+        "excerpt": "KUBECONFIG=~/.kube/config-<CLUSTER_NAME> kubectl get nodes",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/SKILL.md",
+        "line": 146,
+        "excerpt": "KUBECONFIG=~/.kube/config-<CLUSTER_NAME> kubectl get nodes",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/SKILL.md",
+        "line": 153,
+        "excerpt": "hcloud_hcloud_list_elb_flavors(region=\"<REGION>\")",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/SKILL.md",
+        "line": 159,
+        "excerpt": "hcloud ELB CreateLoadBalancer --cli-region=<REGION> \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/SKILL.md",
+        "line": 180,
+        "excerpt": "hcloud SWR CreateAuthorizationToken --cli-region=<REGION>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/SKILL.md",
+        "line": 187,
+        "excerpt": "hcloud SWR CreateNamespace --cli-region=<REGION> --namespace=<SWR_NAMESPACE>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/SKILL.md",
+        "line": 192,
+        "excerpt": "docker pull <SOURCE_IMAGE>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/SKILL.md",
+        "line": 201,
+        "excerpt": "hcloud CCE ListAddonTemplates --cli-region=<REGION> --addon_template_name=nginx-ingress",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/SKILL.md",
+        "line": 227,
+        "excerpt": "helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/SKILL.md",
+        "line": 230,
+        "excerpt": "KUBECONFIG=~/.kube/config-<CLUSTER_NAME> helm install ingress-nginx ingress-nginx/ingress-nginx \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/SKILL.md",
+        "line": 243,
+        "excerpt": "KUBECONFIG=~/.kube/config-<CLUSTER_NAME> kubectl get pods -n ingress-nginx",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/SKILL.md",
+        "line": 243,
+        "excerpt": "KUBECONFIG=~/.kube/config-<CLUSTER_NAME> kubectl get pods -n ingress-nginx",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/SKILL.md",
+        "line": 244,
+        "excerpt": "KUBECONFIG=~/.kube/config-<CLUSTER_NAME> kubectl get svc -n ingress-nginx",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/SKILL.md",
+        "line": 254,
+        "excerpt": "SWR_AUTH=$(hcloud SWR CreateAuthorizationToken --cli-region=<REGION> | \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/SKILL.md",
+        "line": 260,
+        "excerpt": "KUBECONFIG=~/.kube/config-<CLUSTER_NAME> kubectl create secret docker-registry swr-secret \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/SKILL.md",
+        "line": 295,
+        "excerpt": "KUBECONFIG=~/.kube/config-<CLUSTER_NAME> helm install <RELEASE> <CHART_PATH> \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/SKILL.md",
+        "line": 312,
+        "excerpt": "curl -s -H \"Host: <HOSTNAME>\" http://<ELB_PUBLIC_IP>/",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/SKILL.md",
+        "line": 324,
+        "excerpt": "| App responds | `curl -H \"Host: ...\" http://<ELB_IP>/` | Expected HTML/response |",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "AI-Assist-Migration/Container-Migration/Local-to-CCE/kind-to-cce-migration/scripts/migrate.sh",
+        "line": 115,
+        "excerpt": "echo \"  curl -H 'Host: <HOSTNAME>' http://<ELB_PUBLIC_IP>/\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "reads-secrets": 27,
+      "network": 5,
+      "shell": 21
+    },
+    "score": 82,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 7
+    "filesScanned": 6,
+    "filesSkipped": 0
   },
   "history": [
     {

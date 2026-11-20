@@ -4,24 +4,335 @@
   "repo": "workflows",
   "path": "skills/grind",
   "name": "grind",
-  "description": "",
-  "stars": 26,
+  "description": "Use when work has to keep going with NO session alive — \"run this in a loop overnight\", \"grind loop\", \"start the loop and go to bed\", \"keep iterating until the check passes without me\", \"a fresh agent every iteration\", \"loop on this for days\", \"the orchestrator session is burning tokens on status reports\", \"wake it only when the grid job lands\", \"what has the loop done so far\", \"stop the loop\", \"it keeps re-diagnosing the same dead item\". Use proactively when a hill-climb needs many cheap passes over hours or days and each pass costs more to supervise than to run. NEGATIVE ROUTING: a stopping condition for a session that stays ALIVE — a Stop-hook hold, a cron heartbeat, an overnight brief — is the work hold; one delegated piece of work handed to another model and waited on is farm-out; starting a persistent interactive session is agent-spawn. This skill owns the out-of-session loop, the append-only journal that is its whole memory, and the shell gate that decides when a model call is worth spending.",
+  "stars": 27,
   "category": "other",
   "commit": "e9643496f7df5be8bb97ebffea58d267e59f9504",
-  "contentHash": "1c2220ed30b600887968316478c8c77f7cd9c31cd290823a1a98a172e2e546a7",
+  "contentHash": "19c7ffd7f8daaca9577e361a1b9ffc8d47225ff34b09487f3be62cf51968b507",
   "repoCreatedAt": "2026-01-04T02:46:52Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-15T10:00:32.478Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-20T10:39:23.037Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/grind/SKILL.md",
+        "line": 59,
+        "excerpt": "setsid nohup bash ${CLAUDE_SKILL_DIR}/scripts/grind.sh run \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/grind/SKILL.md",
+        "line": 91,
+        "excerpt": "J=/abs/run.jsonl",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/grind/SKILL.md",
+        "line": 164,
+        "excerpt": "bash ${CLAUDE_SKILL_DIR}/scripts/grind.sh append --journal \"$GRIND_JOURNAL\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/grind/SKILL.md",
+        "line": 186,
+        "excerpt": "grep -c '\"kind\":\"iter\"' \"$J\"                                  # iterations attempted",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/grind/scripts/grind-authority.test.ts",
+        "line": 25,
+        "excerpt": "import { spawnSync } from 'node:child_process'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/grind/scripts/grind-authority.test.ts",
+        "line": 50,
+        "excerpt": "writeFileSync(p, `#!/usr/bin/env bash\\n${bodyText}\\n`)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/grind/scripts/grind-authority.test.ts",
+        "line": 56,
+        "excerpt": "return spawnSync('bash', [GRIND, ...args], {",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/grind/scripts/grind-events.test.ts",
+        "line": 16,
+        "excerpt": "import { spawnSync } from 'node:child_process'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/grind/scripts/grind-events.test.ts",
+        "line": 45,
+        "excerpt": "writeFileSync(p, `#!/usr/bin/env bash\\n${bodyText}\\n`)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/grind/scripts/grind-events.test.ts",
+        "line": 104,
+        "excerpt": "const alive = new Set(runs.map(r => r.pid).filter(p => spawnSync('kill', ['-0', String(p)], { timeout: 10_000 }).status === 0))",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/grind/scripts/grind-events.test.ts",
+        "line": 276,
+        "excerpt": "const spawned = spawnSync('bash', ['-c', `${cmd} >/dev/null 2>&1 & echo $!`], {",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/grind/scripts/grind-events.test.ts",
+        "line": 289,
+        "excerpt": "spawnSync('sleep', ['0.1'], { timeout: 10_000 })",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/grind/scripts/grind-events.test.ts",
+        "line": 296,
+        "excerpt": "spawnSync('kill', ['-9', String(pid)], { timeout: 10_000 })",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/grind/scripts/grind-events.test.ts",
+        "line": 297,
+        "excerpt": "for (let i = 0; i < 100 && spawnSync('kill', ['-0', String(pid)], { timeout: 10_000 }).status === 0; i++) {",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/grind/scripts/grind-events.test.ts",
+        "line": 298,
+        "excerpt": "spawnSync('sleep', ['0.1'], { timeout: 10_000 })",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/grind/scripts/grind-events.test.ts",
+        "line": 323,
+        "excerpt": "spawnSync('mkdir', ['-p', eventDir], { timeout: 10_000 })",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/grind/scripts/grind-farm-child.test.ts",
+        "line": 18,
+        "excerpt": "import { spawnSync } from 'node:child_process'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/grind/scripts/grind-farm-child.test.ts",
+        "line": 41,
+        "excerpt": "writeFileSync(p, `#!/usr/bin/env bash\\n${body}\\n`)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/grind/scripts/grind-farm-child.test.ts",
+        "line": 58,
+        "excerpt": "return spawnSync('bash', [GRIND, ...args], {",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/grind/scripts/grind-floor-retract.test.ts",
+        "line": 14,
+        "excerpt": "import { spawnSync } from 'node:child_process'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/grind/scripts/grind-floor-retract.test.ts",
+        "line": 28,
+        "excerpt": "writeFileSync(p, `#!/usr/bin/env bash\\n${body}\\n`)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/grind/scripts/grind-floor-retract.test.ts",
+        "line": 34,
+        "excerpt": "return spawnSync('bash', [GRIND, ...args], { encoding: 'utf8', timeout: 60_000, env: grindEnv() })",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/grind/scripts/grind-notes.test.ts",
+        "line": 16,
+        "excerpt": "import { spawnSync } from 'node:child_process'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/grind/scripts/grind-notes.test.ts",
+        "line": 44,
+        "excerpt": "writeFileSync(p, `#!/usr/bin/env bash\\n${bodyText}\\n`)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/grind/scripts/grind-notes.test.ts",
+        "line": 51,
+        "excerpt": "const r = spawnSync('bash', [GRIND, 'append', '--journal', journal, JSON.stringify(rec)], {",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/grind/scripts/grind-notify.test.ts",
+        "line": 47,
+        "excerpt": "writeFileSync(p, `#!/usr/bin/env bash\\n${bodyText}\\n`)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/grind/scripts/grind-prompt-size.test.ts",
+        "line": 52,
+        "excerpt": "writeFileSync(p, `#!/usr/bin/env bash\\n${bodyText}\\n`)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/grind/scripts/grind-safety.test.ts",
+        "line": 58,
+        "excerpt": "writeFileSync(p, `#!/usr/bin/env bash\\n${bodyText}\\n`)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/grind/scripts/grind-subjects.test.ts",
+        "line": 55,
+        "excerpt": "writeFileSync(p, `#!/usr/bin/env bash\\n${bodyText}\\n`)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/grind/scripts/grind-test-env.ts",
+        "line": 38,
+        "excerpt": "writeFileSync(p, '#!/usr/bin/env bash\\nexit 0\\n')",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/grind/scripts/grind-wait.test.ts",
+        "line": 46,
+        "excerpt": "writeFileSync(p, `#!/usr/bin/env bash\\n${bodyText}\\n`)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/grind/scripts/grind.test.ts",
+        "line": 53,
+        "excerpt": "writeFileSync(p, `#!/usr/bin/env bash\\n${body}\\n`)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "scripts/lib/openrouter-credits.ts",
+        "line": 61,
+        "excerpt": "const url = process.env.OPENROUTER_CREDITS_URL || 'https://openrouter.ai/api/v1/credits'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "scripts/lib/route.ts",
+        "line": 371,
+        "excerpt": "const DEFAULT_PRICES_URL = 'https://openrouter.ai/api/v1/models'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "scripts/lib/route.ts",
+        "line": 380,
+        "excerpt": "const res = await fetch(url, { headers, signal: AbortSignal.timeout(timeoutMs) })",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "scripts/lib/route.ts",
+        "line": 456,
+        "excerpt": "const DEFAULT_RANKINGS_URL = 'https://openrouter.ai/api/v1/datasets/rankings-daily'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "hooks/work-hold.ts",
+        "line": 965,
+        "excerpt": "const DECISIONS_URL = 'https://openrouter.ai/api/alpha/decisions'",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "hooks/work-hold.ts",
+        "line": 1077,
+        "excerpt": "const OPENAI_DECISIONS_URL = 'https://api.openai.com/v1/decisions'",
+        "disclosed": false,
+        "automatic": true
+      }
+    ],
+    "findingTotals": {
+      "shell": 88,
+      "writes-outside": 12,
+      "paid-api": 5,
+      "network": 1
+    },
+    "score": 72,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 74
+    "filesScanned": 81,
+    "filesSkipped": 0
   },
   "history": [
     {

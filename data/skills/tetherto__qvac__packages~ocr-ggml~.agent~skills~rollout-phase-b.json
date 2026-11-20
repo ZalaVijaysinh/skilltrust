@@ -1,0 +1,177 @@
+{
+  "id": "tetherto__qvac__packages~ocr-ggml~.agent~skills~rollout-phase-b",
+  "owner": "tetherto",
+  "repo": "qvac",
+  "path": "packages/ocr-ggml/.agent/skills/rollout-phase-b",
+  "name": "rollout-phase-b",
+  "description": "Phase B of a qvac-fabric rollout — tag the merged fabric commit, publish to registry, land the consumer side (vcpkg bumps + package versions + changelogs for all 7 consumers) as one PR, post one Slack message. Pass --bump-only to resume a part-done rollout and do just the version + changelog work. Pass --on-top-of-pr to put the whole consumer side onto an open PR — revert the overlay commit Phase A placed there AND land the bumps on that same PR, instead of opening a separate bundled PR.",
+  "stars": 791,
+  "category": "coding",
+  "commit": "38131ca211a7910d2fd1f9b4bb830775ab56f24e",
+  "contentHash": "03cae471580f20d59b57e6616d06f6ebc2746820a096c1723683ebd24e06f5f1",
+  "repoCreatedAt": "2026-01-03T01:59:01Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-20T10:39:23.037Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "packages/ocr-ggml/.agent/skills/rollout-phase-b/SKILL.md",
+        "line": 212,
+        "excerpt": "gh api repos/tetherto/qvac-registry-vcpkg/contents/versions/q-/qvac-fabric.json \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/ocr-ggml/.agent/skills/rollout-phase-b/SKILL.md",
+        "line": 261,
+        "excerpt": "git -C <repo> diff --stat $BASE -- \"packages/*/addon\" \"packages/*/src\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/ocr-ggml/.agent/skills/rollout-phase-b/SKILL.md",
+        "line": 302,
+        "excerpt": "git -C <fabric-repo-path> tag v<VERSION> <merge-commit-sha>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/ocr-ggml/.agent/skills/rollout-phase-b/SKILL.md",
+        "line": 310,
+        "excerpt": "curl -fsSL https://github.com/tetherto/qvac-fabric-llm.cpp/archive/v<VERSION>.tar.gz -o /tmp/fabric-tag.tgz",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "github.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/ocr-ggml/.agent/skills/rollout-phase-b/SKILL.md",
+        "line": 310,
+        "excerpt": "curl -fsSL https://github.com/tetherto/qvac-fabric-llm.cpp/archive/v<VERSION>.tar.gz -o /tmp/fabric-tag.tgz",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/ocr-ggml/.agent/skills/rollout-phase-b/SKILL.md",
+        "line": 321,
+        "excerpt": "vcpkg --x-builtin-registry-versions-dir=versions x-add-version qvac-fabric",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/ocr-ggml/.agent/skills/rollout-phase-b/SKILL.md",
+        "line": 339,
+        "excerpt": "vcpkg --x-builtin-registry-versions-dir=versions x-add-version qvac-fabric --verbose",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/ocr-ggml/.agent/skills/rollout-phase-b/SKILL.md",
+        "line": 362,
+        "excerpt": "git rev-parse HEAD:ports/qvac-fabric",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/ocr-ggml/.agent/skills/rollout-phase-b/SKILL.md",
+        "line": 391,
+        "excerpt": "GH_TOKEN=$(gh auth token) vcpkg install qvac-fabric \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/ocr-ggml/.agent/skills/rollout-phase-b/SKILL.md",
+        "line": 446,
+        "excerpt": "git log --grep=\"^Rollout-Overlay:\" --format=%H origin/main..HEAD",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/ocr-ggml/.agent/skills/rollout-phase-b/SKILL.md",
+        "line": 455,
+        "excerpt": "git revert --no-commit <overlay-sha>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/ocr-ggml/.agent/skills/rollout-phase-b/SKILL.md",
+        "line": 467,
+        "excerpt": "BASE=$(git merge-base origin/main HEAD)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/ocr-ggml/.agent/skills/rollout-phase-b/SKILL.md",
+        "line": 534,
+        "excerpt": "git fetch origin",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/ocr-ggml/.agent/skills/rollout-phase-b/SKILL.md",
+        "line": 551,
+        "excerpt": "for p in embed-llamacpp fabric llm-llamacpp model-fit ocr-ggml translation-nmtcpp vla-ggml; do",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/ocr-ggml/.agent/skills/rollout-phase-b/SKILL.md",
+        "line": 577,
+        "excerpt": "git checkout <phase-a-branch> -- file.cpp  # WRONG — takes whole file, causes regressions",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/ocr-ggml/.agent/skills/rollout-phase-b/SKILL.md",
+        "line": 641,
+        "excerpt": "git push origin TICKET/bump-fabric-<VERSION>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/ocr-ggml/.agent/skills/rollout-phase-b/SKILL.md",
+        "line": 652,
+        "excerpt": "git show --stat HEAD          # after committing",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 16,
+      "network": 1
+    },
+    "score": 90,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "38131ca211a7910d2fd1f9b4bb830775ab56f24e",
+      "scannedAt": "2026-11-20T10:39:23.037Z",
+      "score": 90,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}
