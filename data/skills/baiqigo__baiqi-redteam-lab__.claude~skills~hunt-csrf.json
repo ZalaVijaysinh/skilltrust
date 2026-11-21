@@ -4,24 +4,165 @@
   "repo": "baiqi-redteam-lab",
   "path": ".claude/skills/hunt-csrf",
   "name": "hunt-csrf",
-  "description": "",
+  "description": "Hunting skill for csrf vulnerabilities. Built from 15 public bug bounty reports including modern variants — SameSite=Lax sibling-subdomain bypass (Argo CD CVE-2024-22424), GraphQL mutations-via-GET (GitLab $3,370), framework-wide CSRF middleware disabled (Stripe Dashboard $5,000), path-traversal CSRF-token bypass (GitHub Enterprise CVE-2022-23732 $10k), Origin-omission bypass (TikTok $2,500), OAuth-state null-byte (Streamlabs), WebSocket CSRF / CSWSH (Coda), default-SameSite email-change → ATO (YoYo Games $400), social-account-link CSRF (HackerOne), JSON-CSRF via text/plain on email-change (TikTok $500). Use when hunting modern CSRF — heavy emphasis on chain-to-ATO patterns.",
   "stars": 12,
-  "category": "other",
+  "category": "security",
   "commit": "f6133312c205bbe875013c1c01683456d3a8822f",
   "contentHash": "0df5cf9e0650a042423a0a986e6098635a1d5a7957a6367f417c2f36c8b4656f",
   "repoCreatedAt": "2026-08-10T06:36:14Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-19T10:50:00.942Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-21T10:21:16.775Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/hunt-csrf/SKILL.md",
+        "line": 104,
+        "excerpt": "fetch('/api/heartbeat', {method: 'POST', body: JSON.stringify(data)})",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/hunt-csrf/SKILL.md",
+        "line": 179,
+        "excerpt": "curl -s -X POST https://target.com/settings/email \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "target.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/hunt-csrf/SKILL.md",
+        "line": 179,
+        "excerpt": "curl -s -X POST https://target.com/settings/email \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/hunt-csrf/SKILL.md",
+        "line": 188,
+        "excerpt": "TOKEN_A=$(curl -s https://target.com/settings -H \"Cookie: session=SESSION_A\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "target.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/hunt-csrf/SKILL.md",
+        "line": 188,
+        "excerpt": "TOKEN_A=$(curl -s https://target.com/settings -H \"Cookie: session=SESSION_A\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/hunt-csrf/SKILL.md",
+        "line": 192,
+        "excerpt": "curl -s -X POST https://target.com/settings/update \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "target.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/hunt-csrf/SKILL.md",
+        "line": 201,
+        "excerpt": "grep -Eo 'name=\"(csrf|_token|authenticity_token|csrfmiddlewaretoken)\"[^>]*value=\"[^\"]+\"'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/hunt-csrf/SKILL.md",
+        "line": 207,
+        "excerpt": "curl -sI https://target.com/login | grep -i \"set-cookie\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "target.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/hunt-csrf/SKILL.md",
+        "line": 215,
+        "excerpt": "curl -s https://monitoring.target.com/api/health | jq '.version'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "monitoring.target.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/hunt-csrf/SKILL.md",
+        "line": 215,
+        "excerpt": "curl -s https://monitoring.target.com/api/health | jq '.version'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/hunt-csrf/SKILL.md",
+        "line": 300,
+        "excerpt": "- Payload: hosted on `marketing.victim.com`, target `argocd.internal.victim.com` → `fetch('https://argocd.internal.victim.com/api/v1/applications', {method:'POS",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "argocd.internal.victim.com",
+          "attacker"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/hunt-csrf/SKILL.md",
+        "line": 340,
+        "excerpt": "**Payload shape:** from a logged-in low-priv session, `fetch('/bff/admin/users/delete?id=42', {credentials:'include', headers:{'X-CSRF':'1'}})` — succeeds if th",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/hunt-csrf/SKILL.md",
+        "line": 346,
+        "excerpt": "**Payload shape:** cross-origin page opens `new WebSocket(\"wss://bff.example.com/hubs/admin\")` — browser sends session cookie, no `X-CSRF` required, attacker in",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/hunt-csrf/SKILL.md",
+        "line": 358,
+        "excerpt": "1. `curl https://target/bff/user -H 'X-CSRF: 1' -b '<session>'` — dumps the full claim set including internal IDs, role names, tenant IDs (info disclosure on it",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "target"
+        ]
+      }
+    ],
+    "findingTotals": {
+      "network": 10,
+      "shell": 4
+    },
+    "score": 90,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 1
+    "filesScanned": 1,
+    "filesSkipped": 0
   },
   "history": [
     {

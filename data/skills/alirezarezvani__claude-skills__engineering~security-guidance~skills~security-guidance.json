@@ -5,15 +5,15 @@
   "path": "engineering/security-guidance/skills/security-guidance",
   "name": "security-guidance",
   "description": "Use when installing or tuning the PreToolUse security hook that warns before Claude writes command injection, XSS, SQL injection, unsafe deserialization, eval or GitHub Actions injection. Warns once per file and rule; ENABLE_SECURITY_REMINDER=0 turns it off.",
-  "stars": 30118,
+  "stars": 30219,
   "category": "coding",
-  "commit": "f8593c4941210a621a6629ce1da9e07897976d5f",
+  "commit": "5909a72e62b5fbb809935fb6a55b58bdbe175074",
   "contentHash": "b3c8515036d174f7f99998154d5b7e043375bde85052e107cd561a30e1e81521",
   "repoCreatedAt": "2025-10-19T04:04:05Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-19T10:50:00.942Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-21T10:21:16.775Z",
   "scan": {
     "findings": [
       {
@@ -63,16 +63,64 @@
         "excerpt": "- Added 3 patterns: `subprocess shell=True`, SQL injection via f-string or `.format`, `yaml.unsafe_load`",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "engineering/security-guidance/.claude-plugin/plugin.json",
+        "line": 3,
+        "excerpt": "\"description\": \"PreToolUse security reminder hook for Claude Code. Catches 12 common security anti-patterns in Edit/Write/MultiEdit operations BEFORE they happe",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "engineering/security-guidance/hooks/hooks.json",
+        "line": 10,
+        "excerpt": "\"command\": \"python3 \\\"${CLAUDE_PLUGIN_ROOT}/hooks/security_reminder_hook.py\\\"\"",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "engineering/security-guidance/hooks/security_reminder_hook.py",
+        "line": 89,
+        "excerpt": "\"substrings\": [\"child_process.exec\", \"exec(\", \"execSync(\"],",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "engineering/security-guidance/hooks/security_reminder_hook.py",
+        "line": 90,
+        "excerpt": "\"reminder\": \"\"\"⚠️ Security Warning: Using child_process.exec() can lead to command injection vulnerabilities.",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "engineering/security-guidance/hooks/security_reminder_hook.py",
+        "line": 142,
+        "excerpt": "\"substrings\": [\"shell=True\", \"shell = True\"],",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "engineering/security-guidance/hooks/security_reminder_hook.py",
+        "line": 143,
+        "excerpt": "\"reminder\": \"⚠️ Security Warning: subprocess with shell=True can lead to command injection. Pass args as a list instead and omit shell=True (the default). Only ",
+        "disclosed": false,
+        "automatic": true
       }
     ],
     "findingTotals": {
-      "shell": 6
+      "shell": 12
     },
     "score": 95,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 2,
-    "filesSkipped": 3
+    "filesScanned": 5,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -102,6 +150,12 @@
     {
       "commit": "f8593c4941210a621a6629ce1da9e07897976d5f",
       "scannedAt": "2026-11-19T10:50:00.942Z",
+      "score": 95,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "5909a72e62b5fbb809935fb6a55b58bdbe175074",
+      "scannedAt": "2026-11-21T10:21:16.775Z",
       "score": 95,
       "rulesVersion": "1.3.0"
     }

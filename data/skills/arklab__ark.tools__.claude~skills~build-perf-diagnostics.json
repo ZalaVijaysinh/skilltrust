@@ -4,22 +4,22 @@
   "repo": "Ark.Tools",
   "path": ".claude/skills/build-perf-diagnostics",
   "name": "build-perf-diagnostics",
-  "description": "Diagnose MSBuild build performance bottlenecks using binary log analysis. USE FOR: identifying why builds are slow by analyzing binlog performance summaries, detecting ResolveAssemblyReference (RAR) taking >5s, Roslyn analyzers consuming >30% of Csc time, single targets dominating >50% of build time, node utilization below 80%, excessive Copy tasks, NuGet restore running every build. Covers timeline analysis, Target/Task Performance Summary interpretation, and 7 common bottleneck categories. Use after build-perf-baseline has established measurements. DO NOT USE FOR: establishing initial baselines (use build-perf-baseline first), fixing incremental build issues (use incremental-build), parallelism tuning (use build-parallelism), non-MSBuild build systems.",
+  "description": "Diagnose MSBuild bottlenecks from binlog timelines and Target/Task Performance Summaries after baseline measurements. USE FOR: unknown build slowness, RAR >5s, analyzers >30% of Csc, a target >50% of build, node utilization below 80%, excessive Copy, restore overhead. DO NOT USE FOR: within-build duplicates (find-repeated-work-within-one-build), known repeated restores (eliminate-redundant-restores), initial baselines (build-perf-baseline), incremental rebuilds (incremental-build), parallelism tuning (build-parallelism), non-MSBuild builds.",
   "stars": 40,
-  "category": "productivity",
-  "commit": "24138377ff0d4fb5bd8bb49213c04d7e3edddb5f",
-  "contentHash": "178647be8aca24467c5ab400bc7af5775301e9e046e81d22600cc29db590b632",
+  "category": "other",
+  "commit": "88f7ecd1b63dfa288db2cbc93bbe02be29fb1258",
+  "contentHash": "e90417df072f90c2228bf28de3eb07dcefe82b61248824e2709ae906d7e965dd",
   "repoCreatedAt": "2018-07-05T13:13:28Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-16T10:15:16.941Z",
+  "scannedAt": "2026-11-21T10:21:16.775Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": ".claude/skills/build-perf-diagnostics/SKILL.md",
-        "line": 17,
+        "line": 20,
         "excerpt": "dotnet msbuild build.binlog -noconlog -fl \"-flp:v=diag;logfile=full.log;performancesummary\"",
         "disclosed": false,
         "automatic": false
@@ -27,7 +27,7 @@
       {
         "ruleId": "shell",
         "file": ".claude/skills/build-perf-diagnostics/SKILL.md",
-        "line": 21,
+        "line": 24,
         "excerpt": "grep \"Target Performance Summary\\|Task Performance Summary\" -A 50 full.log",
         "disclosed": false,
         "automatic": false
@@ -35,7 +35,7 @@
       {
         "ruleId": "shell",
         "file": ".claude/skills/build-perf-diagnostics/SKILL.md",
-        "line": 26,
+        "line": 29,
         "excerpt": "grep -i \"node.*assigned\\|building with\\|scheduler\" full.log | head -30",
         "disclosed": false,
         "automatic": false
@@ -43,7 +43,7 @@
       {
         "ruleId": "shell",
         "file": ".claude/skills/build-perf-diagnostics/SKILL.md",
-        "line": 30,
+        "line": 33,
         "excerpt": "grep -i \"analyzer.*elapsed\\|Total analyzer execution time\\|CompilerAnalyzerDriver\" full.log",
         "disclosed": false,
         "automatic": false
@@ -51,7 +51,7 @@
       {
         "ruleId": "shell",
         "file": ".claude/skills/build-perf-diagnostics/SKILL.md",
-        "line": 106,
+        "line": 110,
         "excerpt": "dotnet msbuild build.binlog -noconlog -fl \"-flp:v=diag;logfile=full.log;performancesummary\"",
         "disclosed": false,
         "automatic": false
@@ -59,7 +59,7 @@
       {
         "ruleId": "shell",
         "file": ".claude/skills/build-perf-diagnostics/SKILL.md",
-        "line": 110,
+        "line": 114,
         "excerpt": "grep \"Target Performance Summary\\|Task Performance Summary\" -A 50 full.log",
         "disclosed": false,
         "automatic": false
@@ -67,7 +67,7 @@
       {
         "ruleId": "shell",
         "file": ".claude/skills/build-perf-diagnostics/SKILL.md",
-        "line": 115,
+        "line": 119,
         "excerpt": "grep \"done building project\\|Project Performance Summary\" full.log",
         "disclosed": false,
         "automatic": false
@@ -75,7 +75,7 @@
       {
         "ruleId": "shell",
         "file": ".claude/skills/build-perf-diagnostics/SKILL.md",
-        "line": 119,
+        "line": 123,
         "excerpt": "grep -i \"node.*assigned\\|RequiresLeadingNewline\\|Building with\" full.log | head -30",
         "disclosed": false,
         "automatic": false
@@ -83,7 +83,7 @@
       {
         "ruleId": "shell",
         "file": ".claude/skills/build-perf-diagnostics/SKILL.md",
-        "line": 123,
+        "line": 127,
         "excerpt": "grep -i \"Total analyzer execution time\\|analyzer.*elapsed\\|CompilerAnalyzerDriver\" full.log",
         "disclosed": false,
         "automatic": false
@@ -91,7 +91,7 @@
       {
         "ruleId": "shell",
         "file": ".claude/skills/build-perf-diagnostics/SKILL.md",
-        "line": 127,
+        "line": 131,
         "excerpt": "grep 'Target \"CoreCompile\"\\|Target \"ResolveAssemblyReferences\"' full.log",
         "disclosed": false,
         "automatic": false
@@ -110,6 +110,12 @@
     {
       "commit": "24138377ff0d4fb5bd8bb49213c04d7e3edddb5f",
       "scannedAt": "2026-11-16T10:15:16.941Z",
+      "score": 95,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "88f7ecd1b63dfa288db2cbc93bbe02be29fb1258",
+      "scannedAt": "2026-11-21T10:21:16.775Z",
       "score": 95,
       "rulesVersion": "1.3.0"
     }

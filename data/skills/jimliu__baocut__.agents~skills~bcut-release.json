@@ -5,15 +5,15 @@
   "path": ".agents/skills/bcut-release",
   "name": "bcut-release",
   "description": "Release BaoCut Electron desktop apps through GitHub Actions tags by default; use local/manual packaging only when explicitly requested. Also handles App version bumps, release continuation and portable signing backups; excludes craft skills and legacy standalone CLI releases.",
-  "stars": 1787,
+  "stars": 1796,
   "category": "coding",
-  "commit": "7b0c7bf4fb19461f74acb2abc1617651ad6f164a",
-  "contentHash": "17799e02e0ae8d609edf345d9b57922a37db56b3b41ae315a2fadd80f400a4e6",
+  "commit": "ba7d06575d36f95d533fef2dc33da61cc97e7bf0",
+  "contentHash": "b01f3d95da2a6d173137fdbcba883cdd8816d8a664d1abc08a48abe91550724a",
   "repoCreatedAt": "2026-07-13T07:06:42Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-18T10:48:40.347Z",
+  "scannedAt": "2026-11-21T10:21:16.775Z",
   "scan": {
     "findings": [
       {
@@ -27,7 +27,7 @@
       {
         "ruleId": "network",
         "file": ".agents/skills/bcut-release/references/download-links.md",
-        "line": 38,
+        "line": 43,
         "excerpt": "curl -s https://baocut.com/api/release",
         "disclosed": true,
         "automatic": false,
@@ -38,8 +38,19 @@
       {
         "ruleId": "network",
         "file": ".agents/skills/bcut-release/references/download-links.md",
-        "line": 39,
+        "line": 44,
         "excerpt": "curl -s -o /dev/null -w '%{http_code} %{redirect_url}\\n' https://baocut.com/download/mac-dmg",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "baocut.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/bcut-release/references/download-links.md",
+        "line": 51,
+        "excerpt": "`curl -sI https://baocut.com/releases/download/<tag>/<file>` returns 200 with",
         "disclosed": true,
         "automatic": false,
         "hosts": [
@@ -49,7 +60,7 @@
       {
         "ruleId": "downloads-code",
         "file": ".agents/skills/bcut-release/references/download-links.md",
-        "line": 54,
+        "line": 63,
         "excerpt": "`npx --yes wrangler@4.144.0 tail --config apps/portal/wrangler.jsonc --format pretty`",
         "disclosed": true,
         "automatic": false
@@ -65,7 +76,7 @@
       {
         "ruleId": "downloads-code",
         "file": "apps/portal/README.md",
-        "line": 34,
+        "line": 35,
         "excerpt": "npx --yes wrangler@4.144.0 login     # 第一次",
         "disclosed": true,
         "automatic": false
@@ -73,7 +84,15 @@
       {
         "ruleId": "downloads-code",
         "file": "apps/portal/README.md",
-        "line": 43,
+        "line": 36,
+        "excerpt": "npx --yes wrangler@4.144.0 r2 bucket create baocut-portal-releases   # 第一次：安装包镜像的桶",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "apps/portal/README.md",
+        "line": 45,
         "excerpt": "npx --yes wrangler@4.144.0 secret put GITHUB_TOKEN --config apps/portal/wrangler.jsonc",
         "disclosed": true,
         "automatic": false
@@ -81,15 +100,26 @@
       {
         "ruleId": "downloads-code",
         "file": "apps/portal/README.md",
-        "line": 57,
+        "line": 60,
         "excerpt": "- 每次到 GitHub 重取都记一条 `github-releases` 日志：`status`、`limit` / `remaining`（额度上限与剩余；`limit` 为 5000 说明 token 生效，60 说明没带上）、`token`（有没有设，不含值）与各平台取到的构建号；失败时记 `console.w",
         "disclosed": true,
         "automatic": false
       },
       {
+        "ruleId": "network",
+        "file": "apps/portal/README.md",
+        "line": 70,
+        "excerpt": "- **核对**：发布后 10 分钟左右，`curl -sI https://baocut.com/releases/download/<tag>/<文件>` 应是 200 且带 `Accept-Ranges: bytes`；还是 302 就看 `mirror` 日志里的 `failed`。",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "baocut.com"
+        ]
+      },
+      {
         "ruleId": "downloads-code",
         "file": "apps/portal/README.md",
-        "line": 75,
+        "line": 88,
         "excerpt": "npx vitest run apps/portal",
         "disclosed": true,
         "automatic": false
@@ -121,8 +151,8 @@
     ],
     "findingTotals": {
       "shell": 3,
-      "network": 2,
-      "downloads-code": 7
+      "network": 4,
+      "downloads-code": 8
     },
     "score": 84,
     "band": "low",
@@ -146,6 +176,12 @@
     {
       "commit": "7b0c7bf4fb19461f74acb2abc1617651ad6f164a",
       "scannedAt": "2026-11-18T10:48:40.347Z",
+      "score": 84,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "ba7d06575d36f95d533fef2dc33da61cc97e7bf0",
+      "scannedAt": "2026-11-21T10:21:16.775Z",
       "score": 84,
       "rulesVersion": "1.3.0"
     }

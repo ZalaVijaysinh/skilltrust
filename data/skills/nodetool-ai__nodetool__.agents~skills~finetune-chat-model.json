@@ -1,0 +1,253 @@
+{
+  "id": "nodetool-ai__nodetool__.agents~skills~finetune-chat-model",
+  "owner": "nodetool-ai",
+  "repo": "nodetool",
+  "path": ".agents/skills/finetune-chat-model",
+  "name": "finetune-chat-model",
+  "description": "Fine-tune a local model for NodeTool chat end to end: sample graded teacher runs, export SFT records, train a QLoRA adapter on a Runpod GPU, quantize to GGUF, evaluate on llama.cpp against the frozen validation split, and analyse the traces. Use when running, repeating or changing that loop. For the training code itself (render, loss mask), read scripts/finetune/README.md.",
+  "stars": 648,
+  "category": "media",
+  "commit": "3a02329a8bc466ee6042df1e64dbfe865eac311e",
+  "contentHash": "ed82493d3b441eb6d6c6c3f772c5b64aeacbd29ea4279552431cf11d1cf0a6e2",
+  "repoCreatedAt": "2024-03-25T13:09:15Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-21T10:21:16.775Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/finetune-chat-model/SKILL.md",
+        "line": 37,
+        "excerpt": "S=.agents/skills/finetune-chat-model/scripts",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/finetune-chat-model/references/evaluate.md",
+        "line": 45,
+        "excerpt": "`eval-model.sh` calls in one `bash -c '… && …'` under `run-detached.sh`.",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/finetune-chat-model/scripts/dump-tool-manifest.sh",
+        "line": 40,
+        "excerpt": "MANIFEST_OUT=$out npx jest --forceExit \"$test_file\" >&2",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/finetune-chat-model/scripts/eval-model.sh",
+        "line": 48,
+        "excerpt": "if curl -sf \"http://127.0.0.1:$port/health\" >/dev/null; then",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/finetune-chat-model/scripts/ft-data.sh",
+        "line": 34,
+        "excerpt": "exec npx tsx packages/websocket/scripts/finetune-data.ts \"$@\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/finetune-chat-model/scripts/llama-speed.sh",
+        "line": 15,
+        "excerpt": "curl -sf \"$url/health\" >/dev/null && break",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/finetune-chat-model/scripts/llama-speed.sh",
+        "line": 18,
+        "excerpt": "curl -sf \"$url/health\" >/dev/null || { echo \"no llama-server answers at $url\" >&2; exit 1; }",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/finetune-chat-model/scripts/llama-speed.sh",
+        "line": 19,
+        "excerpt": "speed=$(curl -s \"$url/v1/chat/completions\" -H \"content-type: application/json\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": ".agents/skills/finetune-chat-model/scripts/pod-create.sh",
+        "line": 28,
+        "excerpt": "pub=$(cat \"${SSH_PUBKEY:-$HOME/.ssh/id_rsa.pub}\")",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/finetune-chat-model/scripts/pod-resume.sh",
+        "line": 25,
+        "excerpt": "curl -sS https://api.runpod.io/graphql -H @<(printf 'Authorization: Bearer %s\\n' \"$key\") \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.runpod.io"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/finetune-chat-model/scripts/pod-setup-llama.sh",
+        "line": 28,
+        "excerpt": "wget -q \"https://developer.download.nvidia.com/compute/cuda/repos/$repo/x86_64/cuda-keyring_1.1-1_all.deb\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "developer.download.nvidia.com"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/finetune-chat-model/scripts/pod-setup-llama.sh",
+        "line": 31,
+        "excerpt": "apt-get install -y -q cuda-nvcc-12-8 cuda-cudart-dev-12-8 libcublas-dev-12-8 cuda-nvrtc-dev-12-8 cmake",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/finetune-chat-model/scripts/pod-setup-llama.sh",
+        "line": 36,
+        "excerpt": "python3 -m uv pip install -q --python \"$py\" sentencepiece gguf==0.17.1",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": ".agents/skills/finetune-chat-model/scripts/pod-ssh.sh",
+        "line": 32,
+        "excerpt": "-i \"${FT_SSH_KEY:-$HOME/.ssh/id_rsa}\" -p \"$port\" \"root@$ip\" \"$@\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/finetune-chat-model/scripts/pod-train.sh",
+        "line": 37,
+        "excerpt": "python3 -m pip install -q --break-system-packages uv 2>/dev/null || python3 -m pip install -q uv",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/finetune-chat-model/scripts/pod-train.sh",
+        "line": 40,
+        "excerpt": "python3 -m uv pip install -q --python $PY -r requirements.txt flash-linear-attention==0.6.0",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/finetune-chat-model/scripts/pod-train.sh",
+        "line": 45,
+        "excerpt": "python3 -m uv pip install -q --python $PY --reinstall torch==2.14.1 --index-url https://download.pytorch.org/whl/cu128",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/finetune-chat-model/scripts/pod-verify.sh",
+        "line": 23,
+        "excerpt": "there=$(\"$here/pod-ssh.sh\" \"$pod\" \"cd $(printf %q \"$remote\") && bash -c $(printf %q \"$list\") _ $quoted\") || {",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/finetune-chat-model/scripts/pod-verify.sh",
+        "line": 27,
+        "excerpt": "mine=$(cd \"$local\" && bash -c \"$list\" _ \"$@\") || { echo \"could not list the local files\" >&2; exit 1; }",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/finetune-chat-model/scripts/run-detached.sh",
+        "line": 33,
+        "excerpt": "bash -c 'exec \"$@\" >>\"$FT_LOG\" 2>&1' _ \"$@\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/finetune-chat-model/scripts/try-in-nodetool.sh",
+        "line": 31,
+        "excerpt": "curl -sf \"$llama/health\" >/dev/null || { echo \"no llama-server at $llama: start serve-local.sh first\" >&2; exit 1; }",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/finetune-chat-model/scripts/try-in-nodetool.sh",
+        "line": 52,
+        "excerpt": "curl -sf \"http://127.0.0.1:$api_port/health\" >/dev/null && break",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/finetune-chat-model/scripts/try-in-nodetool.sh",
+        "line": 55,
+        "excerpt": "curl -sf \"http://127.0.0.1:$api_port/health\" >/dev/null || { echo \"the API did not start: read $state/api.log\" >&2; exit 1; }",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "scripts/finetune/README.md",
+        "line": 45,
+        "excerpt": "T=\"npx tsx packages/websocket/scripts/finetune-data.ts\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "scripts/finetune/README.md",
+        "line": 118,
+        "excerpt": "python -m venv venv && venv/bin/pip install -r scripts/finetune/requirements.txt",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 5,
+      "downloads-code": 9,
+      "network": 9,
+      "reads-secrets": 2
+    },
+    "score": 59,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 35,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "3a02329a8bc466ee6042df1e64dbfe865eac311e",
+      "scannedAt": "2026-11-21T10:21:16.775Z",
+      "score": 59,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

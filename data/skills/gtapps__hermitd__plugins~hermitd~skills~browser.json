@@ -4,22 +4,22 @@
   "repo": "hermitd",
   "path": "plugins/hermitd/skills/browser",
   "name": "browser",
-  "description": "Drives the agent's own browser, or the operator's Chrome for their accounts. Use when WebFetch or WebSearch fails, times out, or returns a 403, an empty page or a JavaScript-only shell; when a page needs clicks, forms, scrolling or sign-in; or when a screenshot or exact rendered text is needed. Public read-only lookups start with WebSearch or WebFetch.",
+  "description": "Drives the agent's own browser, or the operator's Chrome for their accounts. Use before giving steps that send someone to a web console to create or change something on an account (an API key, a bot, an app registration), even when the person will do them by hand or no browser is available. Also use when WebFetch or WebSearch fails, times out, or returns a 403, an empty page or a JavaScript-only shell; when a page needs clicks, forms, scrolling or sign-in; or when a screenshot or exact rendered text is needed. Public read-only lookups start with WebSearch or WebFetch.",
   "stars": 85,
   "category": "coding",
-  "commit": "29184f12e16143d54768c00868b14ccfa5744c70",
-  "contentHash": "a42cff9b4463bc0847a0b01ddf7d4cd363f56c65709c84c42a949a8bf9c345f3",
+  "commit": "605075e7b8f87908f448cf45778e0ff92dccaea8",
+  "contentHash": "3022c9e42fd3ae96135f6c30156a3d89f1008005c515b95f983428360646eb56",
   "repoCreatedAt": "2026-03-23T18:33:11Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-17T11:16:37.484Z",
+  "scannedAt": "2026-11-21T10:21:16.775Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "plugins/hermitd/skills/browser/SKILL.md",
-        "line": 17,
+        "line": 30,
         "excerpt": "bun ${CLAUDE_PLUGIN_ROOT}/scripts/task.ts block .hermit <task-id> --waiting-on <admin-login> --status-line 'Waiting for browser sign-in' --next 'Take over, sign",
         "disclosed": true,
         "automatic": false
@@ -27,7 +27,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/hermitd/skills/browser/SKILL.md",
-        "line": 25,
+        "line": 38,
         "excerpt": "bun ${CLAUDE_PLUGIN_ROOT}/scripts/task.ts note .hermit <event-task> --clear-waiting --if-waiting-since <event-waiting_since>",
         "disclosed": true,
         "automatic": false
@@ -35,7 +35,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/hermitd/skills/browser/SKILL.md",
-        "line": 35,
+        "line": 48,
         "excerpt": "bun ${CLAUDE_PLUGIN_ROOT}/scripts/browser.ts claim <task-id>",
         "disclosed": true,
         "automatic": false
@@ -43,7 +43,15 @@
       {
         "ruleId": "shell",
         "file": "plugins/hermitd/scripts/browser-agent.ts",
-        "line": 61,
+        "line": 240,
+        "excerpt": "const child = Bun.spawn([binary, '--session', session, ...command], {",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/hermitd/scripts/browser-agent.ts",
+        "line": 310,
         "excerpt": "const child = Bun.spawn([process.execPath, path.join(import.meta.dir, 'browser-install.ts')], { cwd: path.dirname(dir), env: process.env, stdin: 'ignore', stdou",
         "disclosed": true,
         "automatic": false
@@ -51,7 +59,15 @@
       {
         "ruleId": "shell",
         "file": "plugins/hermitd/scripts/browser-agent.ts",
-        "line": 174,
+        "line": 475,
+        "excerpt": "const child = Bun.spawn([realBinary, ...command], { env, stdin: 'ignore', stdout: readValue ? 'pipe' : 'ignore', stderr: 'ignore' });",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/hermitd/scripts/browser-agent.ts",
+        "line": 501,
         "excerpt": "const child = Bun.spawn([realBinary, ...args], { env, stdin: 'inherit', stdout: 'pipe', stderr: 'pipe' });",
         "disclosed": true,
         "automatic": false
@@ -67,7 +83,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/hermitd/scripts/browser-display.ts",
-        "line": 126,
+        "line": 148,
         "excerpt": "const children: ReturnType<typeof Bun.spawn>[] = [];",
         "disclosed": true,
         "automatic": false
@@ -75,7 +91,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/hermitd/scripts/browser-display.ts",
-        "line": 142,
+        "line": 165,
         "excerpt": "const xvnc = Bun.spawn(['Xvnc', owned.display, '-geometry', '500x1082', '-depth', '24', '-rfbport', '-1', '-rfbunixpath', vncSocket, '-rfbunixmode', '0600', '-S",
         "disclosed": true,
         "automatic": false
@@ -83,7 +99,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/hermitd/scripts/browser-display.ts",
-        "line": 151,
+        "line": 174,
         "excerpt": "children.push(Bun.spawn(['openbox'], { env, stdin: 'ignore', stdout: 'ignore', stderr: 'inherit' }));",
         "disclosed": true,
         "automatic": false
@@ -91,7 +107,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/hermitd/scripts/browser-display.ts",
-        "line": 160,
+        "line": 183,
         "excerpt": "const child = Bun.spawn([process.execPath, path.join(import.meta.dir, 'browser-viewer.ts')], { env: { ...env, HERMIT_BROWSER_VIEWER_BIND: browserDisplaySettings",
         "disclosed": true,
         "automatic": false
@@ -99,7 +115,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/hermitd/scripts/hermitd-start.ts",
-        "line": 19,
+        "line": 20,
         "excerpt": "import { spawnSync } from 'node:child_process';",
         "disclosed": true,
         "automatic": false
@@ -107,7 +123,7 @@
       {
         "ruleId": "downloads-code",
         "file": "plugins/hermitd/scripts/hermitd-start.ts",
-        "line": 420,
+        "line": 423,
         "excerpt": "'bun: required runtime not on PATH. Install with `curl -fsSL https://bun.sh/install | bash`, ' +",
         "disclosed": false,
         "automatic": false
@@ -115,7 +131,7 @@
       {
         "ruleId": "network",
         "file": "plugins/hermitd/scripts/hermitd-start.ts",
-        "line": 420,
+        "line": 423,
         "excerpt": "'bun: required runtime not on PATH. Install with `curl -fsSL https://bun.sh/install | bash`, ' +",
         "disclosed": false,
         "automatic": false,
@@ -126,7 +142,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/hermitd/scripts/hermitd-start.ts",
-        "line": 629,
+        "line": 632,
         "excerpt": "const result = spawnSync('claude', ['plugin', 'marketplace', 'list', '--json'], {",
         "disclosed": true,
         "automatic": false
@@ -134,7 +150,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/hermitd/scripts/hermitd-start.ts",
-        "line": 1117,
+        "line": 1120,
         "excerpt": "const r = spawnSync('bun', [script, target, op], { stdio: 'pipe', encoding: 'utf-8' });",
         "disclosed": true,
         "automatic": false
@@ -142,7 +158,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/hermitd/scripts/hermitd-start.ts",
-        "line": 1155,
+        "line": 1158,
         "excerpt": "const r = spawnSync('bun', [script, '.claude/settings.local.json', 'voice-render'], { stdio: 'pipe', encoding: 'utf-8' });",
         "disclosed": true,
         "automatic": false
@@ -150,7 +166,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/hermitd/scripts/hermitd-start.ts",
-        "line": 1337,
+        "line": 1340,
         "excerpt": "const res = spawnSync(cmd[0], cmd.slice(1), { stdio: 'inherit' });",
         "disclosed": true,
         "automatic": false
@@ -158,7 +174,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/hermitd/scripts/hermitd-start.ts",
-        "line": 1380,
+        "line": 1383,
         "excerpt": "const r = spawnSync(",
         "disclosed": true,
         "automatic": false
@@ -166,24 +182,16 @@
       {
         "ruleId": "shell",
         "file": "plugins/hermitd/scripts/hermitd-start.ts",
-        "line": 1776,
+        "line": 1781,
         "excerpt": "const result = spawnSync('tmux', ['new-session', '-d', '-s', sessionName, shellCmd], {",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "plugins/hermitd/scripts/lib/backup.ts",
-        "line": 11,
+        "file": "plugins/hermitd/scripts/lib/approval.ts",
+        "line": 3,
         "excerpt": "import { spawnSync } from 'node:child_process';",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/hermitd/scripts/lib/backup.ts",
-        "line": 187,
-        "excerpt": "const res = spawnSync('git', ['-C', repoDir, '-c', `safe.directory=${repoDir}`, ...args], {",
         "disclosed": true,
         "automatic": false
       },
@@ -193,14 +201,6 @@
         "line": 228,
         "excerpt": "try { content = fs.readFileSync(path.join(root, '.env'), 'utf-8'); } catch { return null; }",
         "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/hermitd/scripts/lib/browser-runtime.ts",
-        "line": 122,
-        "excerpt": "const result = Bun.spawnSync(['ldd', chrome], { timeout: 5000, stdout: 'pipe', stderr: 'pipe' });",
-        "disclosed": true,
         "automatic": false
       },
       {
@@ -229,18 +229,123 @@
         "disclosed": false,
         "automatic": false,
         "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/hermitd/scripts/lib/connector.ts",
+        "line": 130,
+        "excerpt": "const res = await fetch('http://connector/status', { unix: socket, signal: AbortSignal.timeout(timeoutMs) });",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "connector"
+        ]
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "plugins/hermitd/scripts/lib/netguard-hosts.ts",
+        "line": 17,
+        "excerpt": "'archive.ubuntu.com', 'ports.ubuntu.com', 'huggingface.co', 'hf.co', 'api.groq.com', 'api.openai.com',",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/hermitd/scripts/render-docker-templates.ts",
+        "line": 44,
+        "excerpt": "'RUN apt-get update && apt-get install -y --no-install-recommends \\\\',",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/hermitd/scripts/render-docker-templates.ts",
+        "line": 54,
+        "excerpt": "'RUN if [ \"$HERMIT_BROWSER\" = 1 ]; then apt-get update && apt-get install -y --no-install-recommends \\\\',",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/hermitd/scripts/render-docker-templates.ts",
+        "line": 57,
+        "excerpt": "`    npm install -g --allow-scripts=agent-browser agent-browser@${BROWSER_PINS.agent.version} && \\\\`,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/hermitd/scripts/render-docker-templates.ts",
+        "line": 62,
+        "excerpt": "`    curl -fsSL \"https://storage.googleapis.com/chrome-for-testing-public/${BROWSER_PINS.chrome.version}/\\${platform}/chrome-\\${platform}.zip\" -o /tmp/chrome.zi",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "storage.googleapis.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/hermitd/scripts/render-docker-templates.ts",
+        "line": 67,
+        "excerpt": "`    curl -fsSL ${BROWSER_PINS.novnc.url} -o /tmp/novnc.tgz && \\\\`,",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/hermitd/scripts/render-docker-templates.ts",
+        "line": 70,
+        "excerpt": "\"    printf '%s\\\\n' '#!/bin/sh' 'if [ ! -f \\\"${HERMIT_PLUGIN_ROOT:-}/scripts/browser-agent.ts\\\" ]; then echo \\\"agent-browser: hermit plugin unavailable\\\" >&2; e",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/hermitd/scripts/render-docker-templates.ts",
+        "line": 72,
+        "excerpt": "`    mkdir -p /etc/hermit && printf 'display=plugin\\\\nchrome=${BROWSER_PINS.chrome.version}\\\\n' > /etc/hermit/managed-browser; \\\\`,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/hermitd/scripts/render-docker-templates.ts",
+        "line": 86,
+        "excerpt": "return `RUN mkdir -p /etc/claude-code/managed-settings.d && printf '%s\\\\n' ${quoted} > /etc/claude-code/managed-settings.d/hermitd-channels.json`;",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/hermitd/scripts/render-docker-templates.ts",
+        "line": 98,
+        "excerpt": "return `RUN mkdir -p /etc/claude-code/managed-settings.d && printf '%s\\\\n' ${quoted} > ${MANAGED_SECURITY_SETTINGS} && chmod 644 ${MANAGED_SECURITY_SETTINGS}`;",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/hermitd/scripts/render-docker-templates.ts",
+        "line": 142,
+        "excerpt": "'# --- transcription ---\\nARG HERMIT_TRANSCRIPTION=1\\nRUN if [ \"$HERMIT_TRANSCRIPTION\" = 1 ]; then apt-get update && apt-get install -y --no-install-recommends ",
+        "disclosed": false,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 57,
-      "downloads-code": 1,
-      "network": 4,
-      "reads-secrets": 1
+      "shell": 77,
+      "downloads-code": 5,
+      "network": 7,
+      "reads-secrets": 1,
+      "paid-api": 1,
+      "writes-outside": 4
     },
-    "score": 57,
-    "band": "review",
+    "score": 42,
+    "band": "high",
     "rulesVersion": "1.3.0",
-    "filesScanned": 153,
+    "filesScanned": 168,
     "filesSkipped": 1
   },
   "history": [
@@ -266,6 +371,12 @@
       "commit": "29184f12e16143d54768c00868b14ccfa5744c70",
       "scannedAt": "2026-11-17T11:16:37.484Z",
       "score": 57,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "605075e7b8f87908f448cf45778e0ff92dccaea8",
+      "scannedAt": "2026-11-21T10:21:16.775Z",
+      "score": 42,
       "rulesVersion": "1.3.0"
     }
   ]

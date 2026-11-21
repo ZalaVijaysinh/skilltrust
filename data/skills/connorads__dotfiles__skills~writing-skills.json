@@ -5,15 +5,15 @@
   "path": "skills/writing-skills",
   "name": "writing-skills",
   "description": "Guides creating, editing, reviewing, and debugging Agent Skills and SKILL.md directories. Use when writing a new skill, improving or reviewing an existing skill, fixing a skill description or frontmatter, structuring references, scripts, assets or evals, packaging a skill, or diagnosing a skill that does not trigger or does not change agent behaviour. Covers portable Agent Skills spec, progressive disclosure, eval design, and client compatibility notes. Not for using an existing skill to perform its domain task.",
-  "stars": 18,
+  "stars": 19,
   "category": "writing",
-  "commit": "2e68b286caa9d0293d920baf2e488b749cacad48",
+  "commit": "4bf544b1fcb43c2f5ed4ce3746e08b07e72ccf1c",
   "contentHash": "8b994cfa7560dfacd746900c04987d70a29e238a9eed051f54fd573ad335aa13",
   "repoCreatedAt": "2023-07-09T13:26:08Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-16T10:15:16.941Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-21T10:21:16.775Z",
   "scan": {
     "findings": [
       {
@@ -91,6 +91,14 @@
         "automatic": false
       },
       {
+        "ruleId": "shell",
+        "file": "skills/writing-skills/tests/check.bats",
+        "line": 52,
+        "excerpt": "run bash -c 'cd \"$1\" && \"$2\" .' bash \"$skill\" \"$SCRIPT\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
         "ruleId": "network",
         "file": "skills/writing-skills/tests/fixtures/transcripts/claude-with-skill.jsonl",
         "line": 1,
@@ -98,17 +106,52 @@
         "disclosed": true,
         "automatic": false,
         "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/writing-skills/tests/fixtures/transcripts/claude-without-skill.jsonl",
+        "line": 1,
+        "excerpt": "{\"type\":\"system\",\"subtype\":\"init\",\"cwd\":\"/tmp/ws\",\"session_id\":\"bd14101f-988b-42a7-9bfb-9fdbdfd08a68\",\"tools\":[\"Task\",\"Bash\",\"CronCreate\",\"CronDelete\",\"CronList",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/writing-skills/tests/fixtures/transcripts/claude-work.jsonl",
+        "line": 1,
+        "excerpt": "{\"type\":\"system\",\"subtype\":\"init\",\"cwd\":\"/tmp/ws\",\"session_id\":\"83a83ea4-62c9-4d2f-83a6-5360b942cb07\",\"tools\":[\"Task\",\"Bash\",\"CronCreate\",\"CronDelete\",\"CronList",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/writing-skills/tests/test_run_evals.py",
+        "line": 351,
+        "excerpt": "e = dict(os.environ)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/writing-skills/tests/test_run_evals.py",
+        "line": 398,
+        "excerpt": "return subprocess.run(",
+        "disclosed": false,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "network": 3,
-      "shell": 7
+      "network": 5,
+      "shell": 9,
+      "reads-secrets": 1
     },
-    "score": 92,
-    "band": "low",
+    "score": 72,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 13,
-    "filesSkipped": 7
+    "filesScanned": 20,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -127,6 +170,12 @@
       "commit": "2e68b286caa9d0293d920baf2e488b749cacad48",
       "scannedAt": "2026-11-16T10:15:16.941Z",
       "score": 92,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "4bf544b1fcb43c2f5ed4ce3746e08b07e72ccf1c",
+      "scannedAt": "2026-11-21T10:21:16.775Z",
+      "score": 72,
       "rulesVersion": "1.3.0"
     }
   ]

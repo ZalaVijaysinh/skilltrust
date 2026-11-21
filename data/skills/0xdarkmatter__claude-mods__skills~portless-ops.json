@@ -4,55 +4,89 @@
   "repo": "claude-mods",
   "path": "skills/portless-ops",
   "name": "portless-ops",
-  "description": "",
+  "description": "Portless local-dev HTTPS proxy: replaces port numbers with named URLs (Caddy/nginx alternative for local dev). Triggers on: portless, local https proxy, named localhost URL, custom TLD, portless alias, portless.json, local CA trust, boot persistence, monorepo routing, Tailscale dev sharing.",
   "stars": 82,
   "category": "coding",
-  "commit": "47dcf8db55674f98d5e43aeb122efad016f150c3",
+  "commit": "25a03abe26f6c595243a81104e831ab8c597bdbf",
   "contentHash": "865df88876c6c4d3134c5ed6980b772e34f06e40aae599603fbcc56087cdd150",
   "repoCreatedAt": "2025-11-27T03:02:32Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-19T10:50:00.942Z",
+  "scannedAt": "2026-11-21T10:21:16.775Z",
   "scan": {
     "findings": [
       {
         "ruleId": "downloads-code",
-        "file": "skills/portless-ops/references/upstream-portless.md",
-        "line": 33,
-        "excerpt": "Install globally (recommended) or as a project dev dependency. Do NOT use `npx` or `pnpm dlx` for one-off execution.",
+        "file": "skills/portless-ops/SKILL.md",
+        "line": 38,
+        "excerpt": "npm install -g portless@0.13.0",
         "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "downloads-code",
-        "file": "skills/portless-ops/references/upstream-portless.md",
-        "line": 37,
-        "excerpt": "npm install -g portless",
+        "ruleId": "shell",
+        "file": "skills/portless-ops/SKILL.md",
+        "line": 38,
+        "excerpt": "npm install -g portless@0.13.0",
         "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "downloads-code",
-        "file": "skills/portless-ops/references/upstream-portless.md",
-        "line": 43,
-        "excerpt": "When installed per-project, invoke via package.json scripts or `npx portless` (since the package is local, npx will not download anything).",
+        "ruleId": "shell",
+        "file": "skills/portless-ops/SKILL.md",
+        "line": 51,
+        "excerpt": "portless proxy start --tld lab --port 443   # HTTPS proxy on 443, *.lab routes",
         "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "downloads-code",
-        "file": "skills/portless-ops/references/upstream-portless.md",
-        "line": 49,
-        "excerpt": "npm install -g portless",
+        "ruleId": "shell",
+        "file": "skills/portless-ops/SKILL.md",
+        "line": 82,
+        "excerpt": "portless alias <your-app> <your-port>",
         "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "downloads-code",
-        "file": "skills/portless-ops/references/upstream-portless.md",
-        "line": 221,
-        "excerpt": "LAN mode depends on the system mDNS helpers that portless launches: macOS includes `dns-sd`, while Linux uses `avahi-publish-address` from `avahi-utils` (instal",
+        "ruleId": "shell",
+        "file": "skills/portless-ops/SKILL.md",
+        "line": 117,
+        "excerpt": "portless proxy stop",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/portless-ops/SKILL.md",
+        "line": 120,
+        "excerpt": "rm ~/.portless/routes.json    # Linux/macOS",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/portless-ops/SKILL.md",
+        "line": 162,
+        "excerpt": "curl on Windows uses its own bundled CA store, not the system one. So `curl https://<your-app>.<your-tld>/` returns code 000 (cert untrusted) even after `portle",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/portless-ops/SKILL.md",
+        "line": 167,
+        "excerpt": "curl -k https://<your-app>.<your-tld>/        # quick test",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/portless-ops/SKILL.md",
+        "line": 167,
+        "excerpt": "curl -k https://<your-app>.<your-tld>/        # quick test",
         "disclosed": false,
         "automatic": false
       },
@@ -311,15 +345,6 @@
         "hosts": []
       },
       {
-        "ruleId": "network",
-        "file": "hooks/README.md",
-        "line": 116,
-        "excerpt": "agent reaches for `curl -k` or `verify=False` mid-task without saying so, which is the",
-        "disclosed": false,
-        "automatic": true,
-        "hosts": []
-      },
-      {
         "ruleId": "shell",
         "file": "hooks/README.md",
         "line": 257,
@@ -494,29 +519,20 @@
         "excerpt": "MSG+=$'\\n'\"  Socket CLI not installed (free):  npm install -g socket\"",
         "disclosed": false,
         "automatic": true
-      },
-      {
-        "ruleId": "network",
-        "file": "hooks/pre-tls-verify-ask.sh",
-        "line": 212,
-        "excerpt": "if [[ \"$t\" =~ $RE_CURL_K ]]; then hit \"curl -k\"",
-        "disclosed": false,
-        "automatic": true,
-        "hosts": []
       }
     ],
     "findingTotals": {
-      "downloads-code": 20,
-      "reads-secrets": 2,
-      "network": 21,
-      "writes-outside": 1,
-      "shell": 13
+      "downloads-code": 16,
+      "shell": 18,
+      "writes-outside": 2,
+      "network": 23,
+      "reads-secrets": 2
     },
     "score": 45,
     "band": "high",
     "rulesVersion": "1.3.0",
-    "filesScanned": 25,
-    "filesSkipped": 12
+    "filesScanned": 26,
+    "filesSkipped": 11
   },
   "history": [
     {
@@ -528,6 +544,12 @@
     {
       "commit": "47dcf8db55674f98d5e43aeb122efad016f150c3",
       "scannedAt": "2026-11-19T10:50:00.942Z",
+      "score": 45,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "25a03abe26f6c595243a81104e831ab8c597bdbf",
+      "scannedAt": "2026-11-21T10:21:16.775Z",
       "score": 45,
       "rulesVersion": "1.3.0"
     }

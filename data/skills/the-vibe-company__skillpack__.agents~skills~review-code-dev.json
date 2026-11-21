@@ -4,22 +4,22 @@
   "repo": "skillpack",
   "path": ".agents/skills/review-code-dev",
   "name": "review-code-dev",
-  "description": "Delegation mode for open-code-review (OCR). Instead of OCR calling an LLM endpoint, this skill instructs the host agent to perform the code review itself, using OCR only for deterministic engineering: file selection and rule resolution. Use when the host agent should drive the review with its own LLM capabilities.",
+  "description": "Review workspace changes, PRs, commits, or branch comparisons with the host agent's model. OCR's CLI handles file selection and rule resolution; this skill defines the review workflow, coverage requirements, and output format. Use when the user has no separate API key for OCR or wants to reuse their coding-agent subscription or model setup. For OCR's full native pipeline with its own model provider, choose open-code-review instead.",
   "stars": 18,
   "category": "coding",
-  "commit": "4098b00539bc33bd580a4d6d6b652a7d879d5879",
-  "contentHash": "70fdb4086cf8a5e2284e482eb29d8192d624400c0d90b1bfe86742d7e21a43c7",
+  "commit": "4c877a6f850d178f749e3d4a34a838835eece0b6",
+  "contentHash": "853fdc857b34f361991a3ffd2cbb79280455c505c497585bf972349d36a64777",
   "repoCreatedAt": "2026-09-14T09:04:21Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-18T10:48:40.347Z",
+  "scannedAt": "2026-11-21T10:21:16.775Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": ".agents/skills/review-code-dev/SKILL.md",
-        "line": 40,
+        "line": 42,
         "excerpt": "python3 \"$SKILL_DIR/scripts/ocr.py\" version",
         "disclosed": true,
         "automatic": false
@@ -27,15 +27,15 @@
       {
         "ruleId": "downloads-code",
         "file": ".agents/skills/review-code-dev/SKILL.md",
-        "line": 56,
-        "excerpt": "`npm install -g @alibaba-group/open-code-review@1.12.1` (Node/npm required), or",
+        "line": 60,
+        "excerpt": "`npm install -g @alibaba-group/open-code-review@1.13.12` (Node/npm required), or",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
         "file": ".agents/skills/review-code-dev/SKILL.md",
-        "line": 57,
+        "line": 61,
         "excerpt": "`brew install open-code-review` when Homebrew is installed. Use `OCR_NO_UPDATE=1`",
         "disclosed": true,
         "automatic": false
@@ -43,47 +43,71 @@
       {
         "ruleId": "shell",
         "file": ".agents/skills/review-code-dev/SKILL.md",
-        "line": 73,
-        "excerpt": "ocr delegate preview --format json [--from <ref> --to <ref>] [--commit <hash>] [--exclude <patterns>]",
+        "line": 79,
+        "excerpt": "ocr delegate preview --format json [--from <ref> [--to <ref>]] [--commit <hash>] [--exclude <patterns>]",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": ".agents/skills/review-code-dev/SKILL.md",
-        "line": 93,
-        "excerpt": "ocr delegate rule --format json <path1> <path2> ...",
+        "line": 102,
+        "excerpt": "ocr delegate rule --format json [--from <ref> [--to <ref>]] [--commit <hash>] <path1> <path2> ...",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": ".agents/skills/review-code-dev/SKILL.md",
-        "line": 104,
-        "excerpt": "git diff <merge_base>..<to> -- <path>",
+        "line": 117,
+        "excerpt": "git --no-pager diff --no-ext-diff --no-textconv --no-color <merge_base>..<to> -- \"<path>\"",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": ".agents/skills/review-code-dev/SKILL.md",
-        "line": 109,
-        "excerpt": "git show <commit> -- <path>",
+        "line": 122,
+        "excerpt": "git --no-pager show --no-ext-diff --no-textconv --no-color <commit> -- \"<path>\"",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": ".agents/skills/review-code-dev/SKILL.md",
-        "line": 115,
-        "excerpt": "git diff HEAD -- <path>",
+        "line": 128,
+        "excerpt": "git --no-pager diff --no-ext-diff --no-textconv --no-color HEAD -- \"<path>\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/review-code-dev/SKILL.md",
+        "line": 136,
+        "excerpt": "git --no-pager log --no-color --oneline -- \"<path>\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/review-code-dev/SKILL.md",
+        "line": 144,
+        "excerpt": "git --no-pager diff --no-ext-diff --no-textconv --no-color --output=\"<absolute-diff-file>\" <merge_base>..<to> -- \"<path>\"",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
         "file": ".agents/skills/review-code-dev/SKILL.md",
-        "line": 231,
+        "line": 247,
+        "excerpt": "If an OCR command fails with `command not found`, install the CLI with `npm install -g @alibaba-group/open-code-review` if your environment permits, then retry ",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/review-code-dev/SKILL.md",
+        "line": 264,
         "excerpt": "npm install -g @alibaba-group/open-code-review",
         "disclosed": true,
         "automatic": false
@@ -91,7 +115,7 @@
       {
         "ruleId": "shell",
         "file": ".agents/skills/review-code-dev/SKILL.md",
-        "line": 231,
+        "line": 264,
         "excerpt": "npm install -g @alibaba-group/open-code-review",
         "disclosed": true,
         "automatic": false
@@ -134,7 +158,7 @@
       {
         "ruleId": "network",
         "file": ".agents/skills/review-code-dev/scripts/test_ocr.py",
-        "line": 48,
+        "line": 53,
         "excerpt": "patch.object(ocr.urllib.request, \"urlopen\", return_value=io.BytesIO(b\"bad\")):",
         "disclosed": true,
         "automatic": false,
@@ -142,8 +166,8 @@
       }
     ],
     "findingTotals": {
-      "shell": 8,
-      "downloads-code": 3,
+      "shell": 10,
+      "downloads-code": 4,
       "network": 4
     },
     "score": 86,
@@ -156,6 +180,12 @@
     {
       "commit": "4098b00539bc33bd580a4d6d6b652a7d879d5879",
       "scannedAt": "2026-11-18T10:48:40.347Z",
+      "score": 86,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "4c877a6f850d178f749e3d4a34a838835eece0b6",
+      "scannedAt": "2026-11-21T10:21:16.775Z",
       "score": 86,
       "rulesVersion": "1.3.0"
     }

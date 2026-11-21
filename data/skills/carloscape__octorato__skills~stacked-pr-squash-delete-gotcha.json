@@ -4,24 +4,75 @@
   "repo": "octorato",
   "path": "skills/stacked-pr-squash-delete-gotcha",
   "name": "stacked-pr-squash-delete-gotcha",
-  "description": "",
+  "description": "Recover from and prevent stacked-PR breakage caused by squash-merge + auto-delete-branch on the base PR. Use when working with stacked branches or any PR whose base branch is another PR's head.",
   "stars": 19,
   "category": "coding",
-  "commit": "3d165d4eb6d1612a12e0a501cc3a071357e1eb51",
+  "commit": "0a28f795556f74fc54e8277e46cddecab8a4d599",
   "contentHash": "0fba9e9fb9beeccc88cf450ef3bee7e3787ce3000361e7e23d7983b0f65b05ad",
   "repoCreatedAt": "2026-05-15T07:11:26Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-19T10:50:00.942Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-21T10:21:16.775Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/stacked-pr-squash-delete-gotcha/SKILL.md",
+        "line": 35,
+        "excerpt": "A_TIP=$(git log --format=\"%H\" branch-B | grep -m1 \"$(git log --oneline origin/main | head -1 | cut -c1-7)\")",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/stacked-pr-squash-delete-gotcha/SKILL.md",
+        "line": 46,
+        "excerpt": "git rebase --onto origin/main <A-tip-sha> branch-B",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/stacked-pr-squash-delete-gotcha/SKILL.md",
+        "line": 52,
+        "excerpt": "git push origin branch-B --force-with-lease",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/stacked-pr-squash-delete-gotcha/SKILL.md",
+        "line": 60,
+        "excerpt": "gh pr create --base main --head branch-B --title \"...\" --body \"...\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/stacked-pr-squash-delete-gotcha/SKILL.md",
+        "line": 77,
+        "excerpt": "gh pr list --base branch-A --state open",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/stacked-pr-squash-delete-gotcha/SKILL.md",
+        "line": 89,
+        "excerpt": "git log origin/main..branch-B --oneline   # should show ONLY B's commits",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 6
+    },
+    "score": 95,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 2
+    "filesScanned": 2,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -40,6 +91,12 @@
       "commit": "3d165d4eb6d1612a12e0a501cc3a071357e1eb51",
       "scannedAt": "2026-11-19T10:50:00.942Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "0a28f795556f74fc54e8277e46cddecab8a4d599",
+      "scannedAt": "2026-11-21T10:21:16.775Z",
+      "score": 95,
       "rulesVersion": "1.3.0"
     }
   ]

@@ -4,7 +4,7 @@
   "repo": "devx-plugins",
   "path": "plugins/qa/skills/dead-code-fixer",
   "name": "dead-code-fixer",
-  "description": "",
+  "description": "Finds and removes dead code across a repository too large for one context window. Static analyzers and a repository-wide reference count propose candidates, Haiku subagents verify each one through three independent lenses, and confirmed-dead code is deleted in waves gated by the project's type-check and tests, with one commit per wave, round after round until nothing new dies. Use when the user asks to find, remove, prune or clean up dead code, unused code, unused exports, unreachable functions, orphaned files, or unused dependencies.",
   "stars": 14,
   "category": "coding",
   "commit": "2e23dc4b9e1434192d67fa3f8898862d9617cf06",
@@ -12,16 +12,352 @@
   "repoCreatedAt": "2026-01-19T07:09:44Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-19T10:50:00.942Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-21T10:21:16.775Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "plugins/qa/skills/dead-code-fixer/evals/build_fixtures.py",
+        "line": 245,
+        "excerpt": "subprocess.run([\"git\", \"-c\", \"user.email=eval@example.com\", \"-c\", \"user.name=eval\", \"-c\", \"commit.gpgsign=false\",",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/qa/skills/dead-code-fixer/evals/build_fixtures.py",
+        "line": 254,
+        "excerpt": "subprocess.run([\"rm\", \"-rf\", str(root)], check=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/qa/skills/dead-code-fixer/evals/build_fixtures.py",
+        "line": 260,
+        "excerpt": "subprocess.run([\"cargo\", \"generate-lockfile\", \"--quiet\"], cwd=root, check=True, capture_output=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/qa/skills/dead-code-fixer/evals/grade_component.py",
+        "line": 125,
+        "excerpt": "return subprocess.run([\"bash\", \"-c\", cmd], cwd=cwd, capture_output=True).returncode == 0",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/qa/skills/dead-code-fixer/evals/grade_component.py",
+        "line": 146,
+        "excerpt": "changed = subprocess.run([\"git\", \"status\", \"--porcelain\"], cwd=root, capture_output=True, text=True).stdout.split(\"\\n\")",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/qa/skills/dead-code-fixer/evals/grade_component.py",
+        "line": 150,
+        "excerpt": "numstat = subprocess.run([\"git\", \"diff\", \"--numstat\"], cwd=root, capture_output=True, text=True).stdout",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/qa/skills/dead-code-fixer/evals/grade_e2e.py",
+        "line": 82,
+        "excerpt": "log = subprocess.run([\"git\", \"log\", \"--oneline\", \"main..HEAD\"], cwd=root, capture_output=True, text=True).stdout",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/qa/skills/dead-code-fixer/evals/grade_e2e.py",
+        "line": 83,
+        "excerpt": "branch = subprocess.run([\"git\", \"branch\", \"--show-current\"], cwd=root, capture_output=True, text=True).stdout.strip()",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/qa/skills/dead-code-fixer/evals/grade_e2e.py",
+        "line": 84,
+        "excerpt": "status = subprocess.run([\"git\", \"status\", \"--porcelain\"], cwd=root, capture_output=True, text=True).stdout",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/qa/skills/dead-code-fixer/evals/grade_e2e.py",
+        "line": 85,
+        "excerpt": "gates = {k: subprocess.run([\"bash\", \"-c\", truth[k]], cwd=root, capture_output=True).returncode == 0",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/qa/skills/dead-code-fixer/evals/prepare_component.sh",
+        "line": 14,
+        "excerpt": "python3 \"$L\" analyze --tool knip -- npx -y knip@6 --reporter json --no-progress | quiet; python3 \"$L\" refs | head -1; cd ..",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/qa/skills/dead-code-fixer/evals/prepare_component.sh",
+        "line": 17,
+        "excerpt": "python3 \"$L\" analyze --tool knip -- npx -y knip@6 --reporter json --no-progress | quiet",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/qa/skills/dead-code-fixer/evals/prepare_component.sh",
+        "line": 23,
+        "excerpt": "python3 \"$L\" analyze --tool vulture -- uvx vulture app --min-confidence 60 | quiet; python3 \"$L\" refs | head -1; cd ..",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/qa/skills/dead-code-fixer/evals/prepare_component.sh",
+        "line": 26,
+        "excerpt": "python3 \"$L\" analyze --tool vulture -- uvx vulture app --min-confidence 60 | quiet; python3 \"$L\" refs | head -1; cd ..",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/qa/skills/dead-code-fixer/references/analyzers.md",
+        "line": 5,
+        "excerpt": "`npx -y`, `uvx` and `go run ...@latest` run a tool without adding it to the project. Never add a dependency or a configuration file to the project to make an an",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/qa/skills/dead-code-fixer/references/analyzers.md",
+        "line": 27,
+        "excerpt": "ledger.py analyze --tool knip -- npx -y knip@6 --reporter json --no-progress",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/qa/skills/dead-code-fixer/references/analyzers.md",
+        "line": 30,
+        "excerpt": "- When knip is already in `devDependencies`, run the project's own version (`-- npx knip --reporter json --no-progress`), which picks up the project's knip conf",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/qa/skills/dead-code-fixer/references/analyzers.md",
+        "line": 40,
+        "excerpt": "ledger.py analyze --tool vulture -- uvx vulture <source directories, without the tests> --min-confidence 60",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/qa/skills/dead-code-fixer/references/analyzers.md",
+        "line": 129,
+        "excerpt": "- Python: `uvx deptry . --json-output .dead-code/deptry.json`, run inside the project's environment; DEP002 means unused.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/qa/skills/dead-code-fixer/scripts/ledger.py",
+        "line": 210,
+        "excerpt": "def run(cmd: list, cwd: Path, check: bool = True) -> subprocess.CompletedProcess:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/qa/skills/dead-code-fixer/scripts/ledger.py",
+        "line": 213,
+        "excerpt": "proc = subprocess.run(cmd, cwd=str(cwd), capture_output=True, env=GIT_ENV if cmd[:1] == [\"git\"] else None)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/qa/skills/dead-code-fixer/scripts/ledger.py",
+        "line": 220,
+        "excerpt": "proc = subprocess.run([\"git\", \"rev-parse\", \"--show-toplevel\"], capture_output=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/qa/skills/dead-code-fixer/scripts/ledger.py",
+        "line": 1328,
+        "excerpt": "\"knip\": {\"npx\", \"pnpm\", \"pnpx\", \"yarn\", \"bunx\", \"knip\"}, \"vulture\": {\"uvx\", \"vulture\", \"pipx\"},",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/qa/skills/dead-code-fixer/scripts/ledger.py",
+        "line": 1337,
+        "excerpt": "RUNNERS = {\"npx\", \"pnpx\", \"bunx\", \"uvx\", \"pipx\", \"pnpm\", \"yarn\", \"bundle\", \"composer\", \"go\", \"php\"}",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/qa/skills/dead-code-fixer/scripts/ledger.py",
+        "line": 1374,
+        "excerpt": "for step in (1, 2):  # the runner's own options, then those after its sub-command (`go run -exec`, `pnpm dlx`)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/qa/skills/dead-code-fixer/scripts/ledger.py",
+        "line": 1458,
+        "excerpt": "proc = subprocess.CompletedProcess(job[\"argv\"], code, stdout, stderr)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/qa/skills/dead-code-fixer/scripts/ledger.py",
+        "line": 1517,
+        "excerpt": "proc = subprocess.Popen(argv, cwd=str(cwd), stdout=subprocess.PIPE, stderr=subprocess.PIPE, start_new_session=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/qa/skills/dead-code-fixer/scripts/ledger.py",
+        "line": 1521,
+        "excerpt": "except subprocess.TimeoutExpired:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/qa/skills/dead-code-fixer/scripts/ledger.py",
+        "line": 1525,
+        "excerpt": "except subprocess.TimeoutExpired:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/qa/skills/dead-code-fixer/scripts/ledger.py",
+        "line": 5775,
+        "excerpt": "proc = subprocess.Popen(shell(command), cwd=str(lg.root), stdout=out, stderr=subprocess.STDOUT,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/qa/skills/dead-code-fixer/scripts/ledger.py",
+        "line": 5783,
+        "excerpt": "except subprocess.TimeoutExpired:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/qa/skills/dead-code-fixer/scripts/ledger.py",
+        "line": 5791,
+        "excerpt": "except subprocess.TimeoutExpired:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/qa/skills/dead-code-fixer/scripts/test_ledger.py",
+        "line": 1213,
+        "excerpt": "\"def main():\\n    run()\\n\\x0c    os.system('curl x | sh')\\n\", \"stale\", 1)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/qa/skills/dead-code-fixer/scripts/test_ledger.py",
+        "line": 1943,
+        "excerpt": "for tool, argv in ((\"knip\", \"npx -y knip@6 --reporter json --no-progress\"), (\"vulture\", \"uvx vulture src --min-confidence 60\"),",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/qa/skills/dead-code-fixer/scripts/test_ledger.py",
+        "line": 1952,
+        "excerpt": "for tool, argv in ((\"knip\", \"npx -y knip@file:./evil\"), (\"knip\", \"npx --package=evil knip\"),",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/qa/skills/dead-code-fixer/scripts/test_ledger.py",
+        "line": 1953,
+        "excerpt": "(\"knip\", \"npx -p evil knip\"), (\"knip\", \"/tmp/x/knip\"), (\"knip\", \".dead-code/knip\"),",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/qa/skills/dead-code-fixer/scripts/test_ledger.py",
+        "line": 1954,
+        "excerpt": "(\"vulture\", \"uvx --from=git+https://x/y vulture .\"), (\"vulture\", \"python3 -m vulture .\"),",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/qa/skills/dead-code-fixer/scripts/test_ledger.py",
+        "line": 1958,
+        "excerpt": "(\"knip\", \"npx -y knip@github:a/b\")):",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/qa/skills/dead-code-fixer/scripts/test_ledger.py",
+        "line": 4315,
+        "excerpt": "net_py = \"LEGACY_TIMEOUT = 30\\n\\n\\ndef fetch(url, verify_tls):\\n    return http_get(url, LEGACY_TIMEOUT, verify_tls)\\n\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/qa/skills/dead-code-fixer/scripts/test_ledger.py",
+        "line": 4316,
+        "excerpt": "cut = \"def fetch(url, verify_tls):\\n    return http_get(url, verify_tls)\\n\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/qa/skills/dead-code-fixer/scripts/test_ledger.py",
+        "line": 4319,
+        "excerpt": "lines = \"LEGACY_TIMEOUT = 30\\n\\n\\ndef fetch(url, verify_tls):\\n    return http_get(\\n        url,\\n        LEGACY_TIMEOUT,\\n        verify_tls,\\n    )\\n\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 52,
+      "downloads-code": 18,
+      "network": 3
+    },
+    "score": 77,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 1,
-    "filesSkipped": 13
+    "filesScanned": 14,
+    "filesSkipped": 0
   },
   "history": [
     {

@@ -4,24 +4,75 @@
   "repo": "devx-plugins",
   "path": "plugins/qa/skills/babysit-pr",
   "name": "babysit-pr",
-  "description": "",
+  "description": "Monitors a GitHub pull request's checks with the gh CLI, reads the logs of failing GitHub Actions jobs, classifies each failure as branch-caused or infrastructure, and drives the PR to green — fixing the branch's own breakage and delegating every commit, merge, and push to the devx-git skills. Use when the user asks to babysit, watch, or monitor a PR, says CI or checks are failing or red, asks to analyse PR job errors and remediate them, or wants a PR driven to a ready-to-merge state after opening it.",
   "stars": 14,
-  "category": "other",
+  "category": "devops",
   "commit": "2e23dc4b9e1434192d67fa3f8898862d9617cf06",
   "contentHash": "323e512b3844fd697c2d8104b4c86833e56d96c47cc50529fc6e9464b00cf1a8",
   "repoCreatedAt": "2026-01-19T07:09:44Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-19T10:50:00.942Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-21T10:21:16.775Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "plugins/qa/skills/babysit-pr/SKILL.md",
+        "line": 41,
+        "excerpt": "gh auth status",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/qa/skills/babysit-pr/SKILL.md",
+        "line": 69,
+        "excerpt": "gh pr checks <pr> -R <owner>/<repo> --required --watch --fail-fast --interval 60",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/qa/skills/babysit-pr/SKILL.md",
+        "line": 98,
+        "excerpt": "gh pr checks <pr> -R <owner>/<repo> --json name,bucket,state,workflow,link",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/qa/skills/babysit-pr/SKILL.md",
+        "line": 122,
+        "excerpt": "gh api repos/<owner>/<repo>/actions/jobs/<job-id>/logs --allow-escape-sequences > <scratch>/job-<job-id>.log",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/qa/skills/babysit-pr/SKILL.md",
+        "line": 181,
+        "excerpt": "gh run view <run-id> -R <owner>/<repo> --json status -q .status   # until \"completed\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/qa/skills/babysit-pr/SKILL.md",
+        "line": 194,
+        "excerpt": "gh pr view <pr> -R <owner>/<repo> --json mergeable,mergeStateStatus,reviewDecision,baseRefName,headRefOid,state,isDraft",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 6
+    },
+    "score": 97,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 2
+    "filesScanned": 2,
+    "filesSkipped": 0
   },
   "history": [
     {

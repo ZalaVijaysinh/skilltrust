@@ -4,8 +4,8 @@
   "repo": "Papermorph",
   "path": ".claude/skills/papermorph",
   "name": "papermorph",
-  "description": "",
-  "stars": 1796,
+  "description": "Make or edit animated, narrated, interactive web books from reference PDFs, animated picture books (paper-puppet films) from a story, a joke or a fairy tale, narrated documentaries about a book or an idea, built from public-domain pictures, upright shorts for a phone feed that make one point in under three minutes, scroll stories whose picture changes as the reader scrolls, and maps you explore, where a stretch of history plays year by year and the reader clicks the people and places on it. Use for book planning, storyboards, chapter animation and exercises, narration, and cover and contents pages, including \"make the next chapter\", \"turn this story into a picture book\", \"make a documentary about this book\", \"make a short about this for YouTube Shorts\", \"fix this animation\" or \"make an interactive map of Europe in the 1920s\". Deliver runnable static book files; bookshelf design, bookshelf registration and hosting are separate tasks.",
+  "stars": 1849,
   "category": "media",
   "commit": "839a62cad3c74446944a167faff07c994f33e5b7",
   "contentHash": "536aadd701ab2fd77cb55b41464c2deb8f8622ea20e698fe0c66e7bd71cf6926",
@@ -13,15 +13,124 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-19T10:50:00.942Z",
+  "scannedAt": "2026-11-21T10:21:16.775Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/papermorph/assets/templates/explore/lib/explore.js",
+        "line": 52,
+        "excerpt": "const topo = await fetch(A.topo).then(r => { if (!r.ok) throw new Error(`explore: no map file ${A.topo} (${r.status}): make it with topo.py`); return r.json(); ",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/papermorph/assets/templates/maps/lib/map.js",
+        "line": 404,
+        "excerpt": "const gone = (await Promise.all(files.map(f => fetch(new URL(f, HERE), { method: 'HEAD' }).then(r => !r.ok, () => true)))).map((g, i) => g && 'lib/' + files[i])",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/papermorph/assets/templates/scroll/e2e.py",
+        "line": 14,
+        "excerpt": "import argparse, asyncio, os, sys, urllib.request",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/papermorph/assets/templates/scroll/e2e.py",
+        "line": 78,
+        "excerpt": "urllib.request.urlopen(a.url, timeout=10).close()",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/papermorph/scripts/bake_puppets.py",
+        "line": 26,
+        "excerpt": "for (const [key, url] of bakedReady) { const blob = await (await fetch(url)).blob();",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/papermorph/scripts/paint_openai.py",
+        "line": 19,
+        "excerpt": "import argparse, base64, json, os, pathlib, sys, urllib.request, urllib.error",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "paid-api",
+        "file": ".claude/skills/papermorph/scripts/paint_openai.py",
+        "line": 21,
+        "excerpt": "API = \"https://api.openai.com/v1\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/papermorph/scripts/paint_openai.py",
+        "line": 54,
+        "excerpt": "req = urllib.request.Request(url, data, {\"Authorization\": f\"Bearer {key}\", **headers})",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/papermorph/scripts/paint_openai.py",
+        "line": 56,
+        "excerpt": "return json.load(urllib.request.urlopen(req, timeout=600))",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/papermorph/scripts/tts.py",
+        "line": 135,
+        "excerpt": "subprocess.run([\"ffmpeg\", \"-v\", \"error\", \"-y\", \"-f\", \"s16le\", \"-ar\", \"24000\", \"-ac\", \"1\", \"-i\", \"-\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/papermorph/scripts/tts.py",
+        "line": 268,
+        "excerpt": "r = subprocess.run(",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/papermorph/scripts/tts.py",
+        "line": 282,
+        "excerpt": "r = subprocess.run([\"ffmpeg\", \"-y\", \"-v\", \"error\", \"-i\", str(mp3), *flt, \"-ar\", str(ar), \"-b:a\", bitrate, \"-f\", \"mp3\", str(tmp)],",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "network": 8,
+      "paid-api": 1,
+      "shell": 3
+    },
+    "score": 87,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 141
+    "filesScanned": 58,
+    "filesSkipped": 83
   },
   "history": [
     {

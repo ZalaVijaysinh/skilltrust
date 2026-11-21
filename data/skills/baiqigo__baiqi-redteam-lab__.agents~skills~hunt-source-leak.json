@@ -4,24 +4,307 @@
   "repo": "baiqi-redteam-lab",
   "path": ".agents/skills/hunt-source-leak",
   "name": "hunt-source-leak",
-  "description": "",
+  "description": "Hunt source code and build artifact leakage — JavaScript source maps (.js.map) reconstructing TypeScript/ES6 source, Swagger/OpenAPI JSON endpoint discovery, .env/.git exposure, webpack chunks with hardcoded secrets, robots.txt/security.txt recon, build-info files, asset-manifest.json API route discovery, .DS_Store file listing. Use at the START of every recon session — these findings often unlock the entire attack surface.",
   "stars": 12,
-  "category": "other",
+  "category": "coding",
   "commit": "f6133312c205bbe875013c1c01683456d3a8822f",
   "contentHash": "a710b0375d908c863a511571196e644bd610515696c99c073617d728d83dff8e",
   "repoCreatedAt": "2026-08-10T06:36:14Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-19T10:50:00.942Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-21T10:21:16.775Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/hunt-source-leak/SKILL.md",
+        "line": 29,
+        "excerpt": "for PATH in \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/hunt-source-leak/SKILL.md",
+        "line": 40,
+        "excerpt": "STATUS=$(curl -s -o /tmp/sl_test -w \"%{http_code}\" \"https://$TARGET$PATH\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target$path"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/hunt-source-leak/SKILL.md",
+        "line": 82,
+        "excerpt": "curl -s \"https://$TARGET/asset-manifest.json\" | python3 -m json.tool 2>/dev/null",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/hunt-source-leak/SKILL.md",
+        "line": 82,
+        "excerpt": "curl -s \"https://$TARGET/asset-manifest.json\" | python3 -m json.tool 2>/dev/null",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/hunt-source-leak/SKILL.md",
+        "line": 83,
+        "excerpt": "curl -s \"https://$TARGET/static/js/main.*.js\" 2>/dev/null | head -3",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/hunt-source-leak/SKILL.md",
+        "line": 86,
+        "excerpt": "BUILD_ID=$(curl -s https://$TARGET/ | grep -oP '\"buildId\":\"\\K[^\"]+')",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/hunt-source-leak/SKILL.md",
+        "line": 87,
+        "excerpt": "curl -s \"https://$TARGET/_next/static/$BUILD_ID/_buildManifest.js\" | head -5",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/hunt-source-leak/SKILL.md",
+        "line": 90,
+        "excerpt": "for JS_URL in $(curl -s https://$TARGET/ | grep -oP 'src=\"[^\"]*\\.js\"' | sed 's/src=\"//;s/\"//'); do",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/hunt-source-leak/SKILL.md",
+        "line": 91,
+        "excerpt": "LAST_LINE=$(curl -s \"https://$TARGET$JS_URL\" | tail -1)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target$js_url"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/hunt-source-leak/SKILL.md",
+        "line": 98,
+        "excerpt": "curl -s \"$MAP_URL\" | python3 -c \"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/hunt-source-leak/SKILL.md",
+        "line": 124,
+        "excerpt": "SWAGGER_PATHS=(",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/hunt-source-leak/SKILL.md",
+        "line": 137,
+        "excerpt": "STATUS=$(curl -s -o /tmp/swagger_test -w \"%{http_code}\" \"https://$TARGET$PATH\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target$path"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/hunt-source-leak/SKILL.md",
+        "line": 160,
+        "excerpt": "curl -s \"https://$TARGET/.git/HEAD\" | grep -q \"ref:\" && echo \"[+] .git exposed!\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/hunt-source-leak/SKILL.md",
+        "line": 160,
+        "excerpt": "curl -s \"https://$TARGET/.git/HEAD\" | grep -q \"ref:\" && echo \"[+] .git exposed!\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/hunt-source-leak/SKILL.md",
+        "line": 164,
+        "excerpt": "pip3 install git-dumper",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/hunt-source-leak/SKILL.md",
+        "line": 182,
+        "excerpt": "DEBUG_PATHS=(",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/hunt-source-leak/SKILL.md",
+        "line": 199,
+        "excerpt": "STATUS=$(curl -s -o /tmp/debug_test -w \"%{http_code}\" \"https://$TARGET$PATH\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target$path"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/hunt-source-leak/SKILL.md",
+        "line": 214,
+        "excerpt": "curl -s \"https://$TARGET/.DS_Store\" | xxd | head -10",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/hunt-source-leak/SKILL.md",
+        "line": 214,
+        "excerpt": "curl -s \"https://$TARGET/.DS_Store\" | xxd | head -10",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/hunt-source-leak/SKILL.md",
+        "line": 217,
+        "excerpt": "pip3 install ds_store",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/hunt-source-leak/SKILL.md",
+        "line": 237,
+        "excerpt": "curl -s https://$TARGET/ | grep -oP '\"[^\"]*\\.chunk\\.js\"' | tr -d '\"' | while read chunk; do",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/hunt-source-leak/SKILL.md",
+        "line": 237,
+        "excerpt": "curl -s https://$TARGET/ | grep -oP '\"[^\"]*\\.chunk\\.js\"' | tr -d '\"' | while read chunk; do",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/hunt-source-leak/SKILL.md",
+        "line": 239,
+        "excerpt": "curl -s \"https://$TARGET$chunk\" | \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target$chunk"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/hunt-source-leak/SKILL.md",
+        "line": 244,
+        "excerpt": "curl -s \"https://$TARGET/static/js/main.*.js\" | \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/hunt-source-leak/SKILL.md",
+        "line": 248,
+        "excerpt": "curl -s \"https://$TARGET/static/js/main.*.js\" | \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$target"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/hunt-source-leak/SKILL.md",
+        "line": 274,
+        "excerpt": "pip3 install git-dumper",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/hunt-source-leak/SKILL.md",
+        "line": 274,
+        "excerpt": "pip3 install git-dumper",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/hunt-source-leak/SKILL.md",
+        "line": 278,
+        "excerpt": "npm install -g source-map-explorer",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/hunt-source-leak/SKILL.md",
+        "line": 282,
+        "excerpt": "npm install -g unwebpack-sourcemap",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 8,
+      "network": 16,
+      "downloads-code": 5
+    },
+    "score": 75,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 2
+    "filesScanned": 2,
+    "filesSkipped": 0
   },
   "history": [
     {

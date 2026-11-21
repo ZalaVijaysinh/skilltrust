@@ -5,15 +5,15 @@
   "path": "skills/cloudflare-mcp",
   "name": "cloudflare-mcp",
   "description": "Builds, migrates, secures and tests remote MCP servers hosted on Cloudflare Workers, using the Agents SDK stateless handler (createMcpHandler from agents/mcp/server) with MCP TypeScript SDK v2 so one /mcp endpoint serves both 2025-era and 2026-07-28 clients. Use when the user wants to create, deploy, debug or harden an MCP server on Cloudflare Workers, a remote MCP server, a /mcp endpoint on a Worker, or a connector for Claude or ChatGPT hosted on Cloudflare; or mentions McpAgent, serveSSE, createMcpHandler, createLegacyMcpHandler, workers-oauth-provider or OAuthProvider for MCP; or wants to migrate an old McpAgent, SSE or SDK v1 server. Not for consuming or configuring Cloudflare's own MCP servers, not for Agents SDK features unrelated to MCP (Agent class, state, scheduling, MCP clients), and not for MCP servers hosted outside Cloudflare.",
-  "stars": 18,
+  "stars": 19,
   "category": "coding",
-  "commit": "2e68b286caa9d0293d920baf2e488b749cacad48",
+  "commit": "4bf544b1fcb43c2f5ed4ce3746e08b07e72ccf1c",
   "contentHash": "f2b1ec6061bef0f96f8e9af8747b0102b0696d18ac54104a0a0622caa1d7afa1",
   "repoCreatedAt": "2023-07-09T13:26:08Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-16T10:15:16.941Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-21T10:21:16.775Z",
   "scan": {
     "findings": [
       {
@@ -53,9 +53,47 @@
       },
       {
         "ruleId": "network",
+        "file": "skills/cloudflare-mcp/evals/evals.json",
+        "line": 17,
+        "excerpt": "\"The Worker default export is an object with fetch (or the OAuthProvider instance); the agents handler function is never the default export and is created once ",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/cloudflare-mcp/evals/evals.json",
+        "line": 177,
+        "excerpt": "\"Post-deploy check includes curl -i of unauthenticated https://mcp.acme.dev/mcp expecting 401 with WWW-Authenticate: Bearer resource_metadata=..., and fetching ",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "mcp.acme.dev"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/cloudflare-mcp/evals/fixtures/acme-connector/src/auth.ts",
+        "line": 22,
+        "excerpt": "export const authHandler = { fetch: (r: Request, e: Env, c: ExecutionContext) => app.fetch(r, e, c) };",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
         "file": "skills/cloudflare-mcp/evals/fixtures/flags-mcp/src/index.ts",
         "line": 28,
         "excerpt": "async fetch(request, env, ctx) {",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/cloudflare-mcp/evals/fixtures/github-mcp-legacy/src/index.ts",
+        "line": 39,
+        "excerpt": "res = await fetch(parsed.toString(), {",
         "disclosed": false,
         "automatic": false,
         "hosts": []
@@ -70,30 +108,133 @@
         "hosts": []
       },
       {
+        "ruleId": "network",
+        "file": "skills/cloudflare-mcp/references/auth.md",
+        "line": 132,
+        "excerpt": "const res = await fetch(\"https://api.github.com/user\", {",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.github.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/cloudflare-mcp/references/auth.md",
+        "line": 153,
+        "excerpt": "async fetch(req: Request, env: Env, ctx: ExecutionContext) {",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/cloudflare-mcp/references/auth.md",
+        "line": 250,
+        "excerpt": "const tokenRes = await fetch(\"https://github.com/login/oauth/access_token\", {",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "github.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/cloudflare-mcp/references/auth.md",
+        "line": 263,
+        "excerpt": "const userRes = await fetch(\"https://api.github.com/user\", {",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.github.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/cloudflare-mcp/references/auth.md",
+        "line": 283,
+        "excerpt": "async fetch(req: Request, env: Env): Promise<Response> {",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/cloudflare-mcp/references/auth.md",
+        "line": 315,
+        "excerpt": "When something else issues the tokens, verify them in front of the handler and pass the result with `mcp.fetch(req, { authInfo })`. Tools then read `context.htt",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/cloudflare-mcp/references/auth.md",
+        "line": 335,
+        "excerpt": "async fetch(req: Request, env: { POLICY_AUD: string }) {",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/cloudflare-mcp/references/auth.md",
+        "line": 340,
+        "excerpt": "return mcp.fetch(req, {",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/cloudflare-mcp/references/handler.md",
+        "line": 57,
+        "excerpt": "fetch(request, env, ctx) {",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/cloudflare-mcp/references/handler.md",
+        "line": 71,
+        "excerpt": "- `handler.fetch(request, { authInfo?, parsedBody? })` is for middleware that has already verified a token or parsed the body. It never sees `ctx`, so `ctx.prop",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/cloudflare-mcp/references/handler.md",
+        "line": 358,
+        "excerpt": "- With `globalOutbound: null`, sandbox `fetch` throws `This worker is not permitted to access the internet via global functions like fetch()` (observed). `timeo",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/cloudflare-mcp/references/migrate.md",
+        "line": 57,
+        "excerpt": "The SDK codemod does the mechanical rewrite: `pnpm dlx @modelcontextprotocol/codemod@latest v1-to-v2 .` at the package root, then `grep -rn '@mcp-codemod-error'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/cloudflare-mcp/references/migrate.md",
+        "line": 301,
+        "excerpt": "| `npx @modelcontextprotocol/inspector` | `references/testing-deploy.md` (pnpm trust policy blocks it) |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
         "ruleId": "downloads-code",
         "file": "skills/cloudflare-mcp/references/testing-deploy.md",
         "line": 100,
         "excerpt": "Migrate existing projects with `pnpm dlx @cloudflare/codemods vitest:pool-workers-to-vitest-plugin`.",
         "disclosed": false,
         "automatic": false
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/cloudflare-mcp/references/testing-deploy.md",
-        "line": 127,
-        "excerpt": "exports.default.fetch(\"http://localhost/mcp\", {",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/cloudflare-mcp/references/testing-deploy.md",
-        "line": 145,
-        "excerpt": "- `exports.default.fetch()` calls the default export. For a direct handler call use `createExecutionContext()` and `waitOnExecutionContext()` from `cloudflare:t",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
       },
       {
         "ruleId": "downloads-code",
@@ -112,15 +253,6 @@
         "automatic": false
       },
       {
-        "ruleId": "network",
-        "file": "skills/cloudflare-mcp/references/testing-deploy.md",
-        "line": 174,
-        "excerpt": "curl -s -X POST http://127.0.0.1:8787/cdn-cgi/local/explorer/api/local/observability/query \\",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
-      },
-      {
         "ruleId": "downloads-code",
         "file": "skills/cloudflare-mcp/references/testing-deploy.md",
         "line": 208,
@@ -129,25 +261,24 @@
         "automatic": false
       },
       {
-        "ruleId": "network",
-        "file": "skills/cloudflare-mcp/references/testing-deploy.md",
-        "line": 279,
-        "excerpt": "async fetch(request, env, ctx) {",
+        "ruleId": "shell",
+        "file": "skills/cloudflare-mcp/scripts/delta.py",
+        "line": 76,
+        "excerpt": "proc = subprocess.run(",
         "disclosed": false,
-        "automatic": false,
-        "hosts": []
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 1,
-      "network": 9,
-      "downloads-code": 4
+      "shell": 2,
+      "network": 32,
+      "downloads-code": 6
     },
     "score": 75,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 16,
-    "filesSkipped": 26
+    "filesScanned": 42,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -165,6 +296,12 @@
     {
       "commit": "2e68b286caa9d0293d920baf2e488b749cacad48",
       "scannedAt": "2026-11-16T10:15:16.941Z",
+      "score": 75,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "4bf544b1fcb43c2f5ed4ce3746e08b07e72ccf1c",
+      "scannedAt": "2026-11-21T10:21:16.775Z",
       "score": 75,
       "rulesVersion": "1.3.0"
     }

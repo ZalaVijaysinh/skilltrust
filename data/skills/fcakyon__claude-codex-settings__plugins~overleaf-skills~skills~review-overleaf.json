@@ -4,24 +4,153 @@
   "repo": "claude-codex-settings",
   "path": "plugins/overleaf-skills/skills/review-overleaf",
   "name": "review-overleaf",
-  "description": "",
-  "stars": 1214,
-  "category": "design",
-  "commit": "18250de0945fbf3a2c373dbfb35a94b1435becd6",
-  "contentHash": "b5d25975b30ffb24793537c454d0fe4bef05142a7d696b3bd5adfe87d99dd254",
+  "description": "This skill should be used when user asks to \"fetch overleaf review comments\", \"address overleaf reviews\", \"apply overleaf comments\", \"review my overleaf paper\", \"sync overleaf feedback to local\", \"what comments are on my overleaf doc\", or wants to act on Overleaf reviewer feedback in a local git-tracked LaTeX repo.",
+  "stars": 1215,
+  "category": "coding",
+  "commit": "30ac853fabf3b662033e0d4d8c7476b9b7e876c6",
+  "contentHash": "d1cbd46e1391f4f1e7c1c90785cde4fa4c604d8011e41563a327c28069b9cb80",
   "repoCreatedAt": "2025-07-09T07:46:08Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-19T10:50:00.942Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-21T10:21:16.775Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "plugins/overleaf-skills/skills/review-overleaf/SKILL.md",
+        "line": 20,
+        "excerpt": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/overleaf.py --list-projects",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/overleaf-skills/skills/review-overleaf/SKILL.md",
+        "line": 41,
+        "excerpt": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/overleaf.py --json --repo . < project-id > --unresolved-only",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/overleaf-skills/skills/review-overleaf/SKILL.md",
+        "line": 68,
+        "excerpt": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/overleaf.py <project-id> --sync-github --compile",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/overleaf-skills/scripts/overleaf.py",
+        "line": 38,
+        "excerpt": "import urllib.request",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "browser-secrets",
+        "file": "plugins/overleaf-skills/scripts/overleaf.py",
+        "line": 45,
+        "excerpt": "\".config/google-chrome/DevToolsActivePort\",",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "browser-secrets",
+        "file": "plugins/overleaf-skills/scripts/overleaf.py",
+        "line": 46,
+        "excerpt": "\"Library/Application Support/Google/Chrome/DevToolsActivePort\",",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/overleaf-skills/scripts/overleaf.py",
+        "line": 58,
+        "excerpt": "class _NoRedirect(urllib.request.HTTPRedirectHandler):",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/overleaf-skills/scripts/overleaf.py",
+        "line": 67,
+        "excerpt": "OPENER = urllib.request.build_opener(_NoRedirect)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/overleaf-skills/scripts/overleaf.py",
+        "line": 99,
+        "excerpt": "req = urllib.request.Request(",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/overleaf-skills/scripts/overleaf.py",
+        "line": 130,
+        "excerpt": "else subprocess.run(",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/overleaf-skills/scripts/overleaf.py",
+        "line": 153,
+        "excerpt": "tunnel = subprocess.Popen(",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/overleaf-skills/scripts/overleaf.py",
+        "line": 165,
+        "excerpt": "stdin=subprocess.DEVNULL,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/overleaf-skills/scripts/overleaf.py",
+        "line": 166,
+        "excerpt": "stdout=subprocess.DEVNULL,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/overleaf-skills/scripts/overleaf.py",
+        "line": 167,
+        "excerpt": "stderr=subprocess.DEVNULL,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/overleaf-skills/scripts/overleaf.py",
+        "line": 179,
+        "excerpt": "return subprocess.run(",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 9,
+      "network": 4,
+      "browser-secrets": 2
+    },
+    "score": 79,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 5
+    "filesScanned": 6,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -52,6 +181,12 @@
       "commit": "18250de0945fbf3a2c373dbfb35a94b1435becd6",
       "scannedAt": "2026-11-19T10:50:00.942Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "30ac853fabf3b662033e0d4d8c7476b9b7e876c6",
+      "scannedAt": "2026-11-21T10:21:16.775Z",
+      "score": 79,
       "rulesVersion": "1.3.0"
     }
   ]

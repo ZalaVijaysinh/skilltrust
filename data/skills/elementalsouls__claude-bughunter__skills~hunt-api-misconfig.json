@@ -5,15 +5,15 @@
   "path": "skills/hunt-api-misconfig",
   "name": "hunt-api-misconfig",
   "description": "Hunt API security misconfiguration — mass assignment, prototype pollution, HTTP verb tampering. Mass assignment: send {is_admin:true, role:admin, verified:true} on profile/account/reset endpoints — server blindly applies. JWT signature/crypto forging (alg:none, key confusion, kid/jku) is owned by hunt-jwt-crypto; this skill covers only non-crypto JWT handling. Prototype pollution: __proto__ injection in JSON merge / Object.assign / lodash _.merge → polluted prototype reaches sink (RCE in Node, XSS in browser). HTTP verb: GET-bypass-CSRF, X-HTTP-Method-Override, TRACE enabled. Detection: API responses with extra fields, JWTs in headers (decode at jwt.io). CORS misconfiguration (reflect-any-origin, null origin, subdomain-regex bypass, postMessage) is owned by hunt-cors. Use when hunting API misconfigs, mass-assignment, prototype pollution (JWT crypto → hunt-jwt-crypto).",
-  "stars": 11730,
+  "stars": 15079,
   "category": "security",
-  "commit": "9bdb0a81658bc25f09c0b52d31fcde923d126e4f",
-  "contentHash": "3187b0d8d85cbf0e0b998711eddb0878d4185ecef3e77c3ae46b4936b03d2a2c",
+  "commit": "8258d29726804f5b954a09c625caedc183f7130d",
+  "contentHash": "20d2c0b97e7e23a87ba315801266160cf8c1c5d5915f0f04cbc533b848240c5c",
   "repoCreatedAt": "2026-05-05T11:22:32Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-19T10:50:00.942Z",
+  "scannedAt": "2026-11-21T10:21:16.775Z",
   "scan": {
     "findings": [
       {
@@ -73,7 +73,7 @@
       {
         "ruleId": "network",
         "file": "mcp/hackerone/server.py",
-        "line": 65,
+        "line": 66,
         "excerpt": "req = urllib.request.Request(GRAPHQL_URL, data=json.dumps({\"query\": query}).encode(),",
         "disclosed": false,
         "automatic": false,
@@ -82,7 +82,7 @@
       {
         "ruleId": "network",
         "file": "mcp/hackerone/server.py",
-        "line": 68,
+        "line": 69,
         "excerpt": "with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:",
         "disclosed": false,
         "automatic": false,
@@ -91,7 +91,27 @@
       {
         "ruleId": "network",
         "file": "mcp/hackerone/server.py",
-        "line": 92,
+        "line": 83,
+        "excerpt": "req = urllib.request.Request(f\"https://hackerone.com/reports/{int(rid)}.json\",",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "hackerone.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "mcp/hackerone/server.py",
+        "line": 86,
+        "excerpt": "with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "mcp/hackerone/server.py",
+        "line": 108,
         "excerpt": "req = urllib.request.Request(url, headers={\"Authorization\": \"Basic \" + auth,",
         "disclosed": false,
         "automatic": false,
@@ -100,7 +120,7 @@
       {
         "ruleId": "network",
         "file": "mcp/hackerone/server.py",
-        "line": 95,
+        "line": 111,
         "excerpt": "with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:",
         "disclosed": false,
         "automatic": false,
@@ -117,7 +137,7 @@
     ],
     "findingTotals": {
       "shell": 4,
-      "network": 7
+      "network": 9
     },
     "score": 90,
     "band": "low",
@@ -165,6 +185,12 @@
     {
       "commit": "9bdb0a81658bc25f09c0b52d31fcde923d126e4f",
       "scannedAt": "2026-11-19T10:50:00.942Z",
+      "score": 90,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "8258d29726804f5b954a09c625caedc183f7130d",
+      "scannedAt": "2026-11-21T10:21:16.775Z",
       "score": 90,
       "rulesVersion": "1.3.0"
     }

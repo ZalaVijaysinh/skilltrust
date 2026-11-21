@@ -7,13 +7,13 @@
   "description": "Add Sentry error reporting so it sends only what you decided to send, and prove it without sending traffic. Use for: Sentry setup, @sentry/* SDK choice, Sentry on Cloudflare Workers or Astro, withSentry, DSN vs auth token, source map upload, tracesSampleRate and Replay defaults, dataCollection, sendDefaultPii removed in v11, beforeSend scrubbing, PII in Sentry events, testing Sentry with a fake DSN, the Sentry wizard or agent plugin.",
   "stars": 82,
   "category": "coding",
-  "commit": "47dcf8db55674f98d5e43aeb122efad016f150c3",
+  "commit": "25a03abe26f6c595243a81104e831ab8c597bdbf",
   "contentHash": "cb947d3efa805ba3685203ad8b448f7d6cc04921c53b26d9cf771121a153cb66",
   "repoCreatedAt": "2025-11-27T03:02:32Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-19T10:50:00.942Z",
+  "scannedAt": "2026-11-21T10:21:16.775Z",
   "scan": {
     "findings": [
       {
@@ -21,6 +21,36 @@
         "file": "skills/sentry-ops/SKILL.md",
         "line": 139,
         "excerpt": "python \"<skill-dir>/scripts/envelope-sink.py\" listen --out ./envelopes --count 1 --timeout 120",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/sentry-ops/references/vetting.md",
+        "line": 24,
+        "excerpt": "curl -s https://registry.npmjs.org/@sentry%2fcloudflare | \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "registry.npmjs.org"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/sentry-ops/references/vetting.md",
+        "line": 43,
+        "excerpt": "| Lifecycle scripts | `curl -s https://registry.npmjs.org/<pkg>/<version> \\| jq .scripts` |",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "registry.npmjs.org"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/sentry-ops/references/vetting.md",
+        "line": 105,
+        "excerpt": "`npx @sentry/wizard@latest` is the route Sentry's docs give for source maps and for some framework",
         "disclosed": false,
         "automatic": false
       },
@@ -279,15 +309,6 @@
         "hosts": []
       },
       {
-        "ruleId": "network",
-        "file": "hooks/README.md",
-        "line": 116,
-        "excerpt": "agent reaches for `curl -k` or `verify=False` mid-task without saying so, which is the",
-        "disclosed": true,
-        "automatic": true,
-        "hosts": []
-      },
-      {
         "ruleId": "shell",
         "file": "hooks/README.md",
         "line": 257,
@@ -462,34 +483,31 @@
         "excerpt": "MSG+=$'\\n'\"  Socket CLI not installed (free):  npm install -g socket\"",
         "disclosed": false,
         "automatic": true
-      },
-      {
-        "ruleId": "network",
-        "file": "hooks/pre-tls-verify-ask.sh",
-        "line": 212,
-        "excerpt": "if [[ \"$t\" =~ $RE_CURL_K ]]; then hit \"curl -k\"",
-        "disclosed": true,
-        "automatic": true,
-        "hosts": []
       }
     ],
     "findingTotals": {
       "shell": 14,
+      "network": 23,
+      "downloads-code": 16,
       "reads-secrets": 2,
-      "network": 21,
-      "downloads-code": 15,
       "writes-outside": 1
     },
     "score": 57,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 27,
-    "filesSkipped": 10
+    "filesScanned": 29,
+    "filesSkipped": 8
   },
   "history": [
     {
       "commit": "47dcf8db55674f98d5e43aeb122efad016f150c3",
       "scannedAt": "2026-11-19T10:50:00.942Z",
+      "score": 57,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "25a03abe26f6c595243a81104e831ab8c597bdbf",
+      "scannedAt": "2026-11-21T10:21:16.775Z",
       "score": 57,
       "rulesVersion": "1.3.0"
     }

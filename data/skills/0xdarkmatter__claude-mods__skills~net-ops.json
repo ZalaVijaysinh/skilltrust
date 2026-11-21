@@ -4,82 +4,68 @@
   "repo": "claude-mods",
   "path": "skills/net-ops",
   "name": "net-ops",
-  "description": "Cross-platform network troubleshooting (Windows, macOS, Linux) via local or remote shell. Use for: DNS broken, can't resolve hostnames, nslookup/dig works but apps fail, NRPT, WFP, scutil, /etc/resolver, systemd-resolved, resolv.conf, NetworkManager, VPN DNS leak residue (ProtonVPN/Mullvad/WireGuard/AnyConnect), AV/firewall blocking DNS or DoH, Tailscale DNS, remote diagnostics over SSH, mapped drive Disconnected, SMB share unreachable, NAS by hostname fails but IP works, single-label hostname, LLMNR/NetBIOS, System error 5 on net use, NextDNS, DoH profile pinning, flushdns needed after every reboot, wrong DNS profile after reboot, inheriting router DNS profile, boot-order DNS race.",
+  "description": "",
   "stars": 82,
   "category": "coding",
-  "commit": "47dcf8db55674f98d5e43aeb122efad016f150c3",
+  "commit": "25a03abe26f6c595243a81104e831ab8c597bdbf",
   "contentHash": "070ecc242e85475c19d08f6eda65c99e7d924f1da40f1a8d6143c16be7842a96",
   "repoCreatedAt": "2025-11-27T03:02:32Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-19T10:50:00.942Z",
+  "scannedAt": "2026-11-21T10:21:16.775Z",
   "scan": {
     "findings": [
       {
         "ruleId": "network",
-        "file": "skills/net-ops/SKILL.md",
-        "line": 81,
+        "file": "skills/net-ops/references/common-culprits.md",
+        "line": 132,
         "excerpt": "(Invoke-WebRequest \"https://$r.test.nextdns.io/\" -UseBasicParsing).Content",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": false,
         "hosts": [
           "$r.test.nextdns.io"
         ]
       },
       {
-        "ruleId": "shell",
-        "file": "skills/net-ops/SKILL.md",
-        "line": 105,
-        "excerpt": "scripts/ssh-bootstrap.sh <user>@<host>",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/net-ops/SKILL.md",
-        "line": 166,
-        "excerpt": "B64=$(printf '%s' \"$PS_SCRIPT\" | iconv -t UTF-16LE | base64)",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/net-ops/SKILL.md",
-        "line": 175,
-        "excerpt": "ssh <target> 'bash -s' < scripts/linux/probe.sh",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "network",
-        "file": "skills/net-ops/SKILL.md",
-        "line": 186,
-        "excerpt": "**Windows:** `nslookup` works, `Resolve-DnsName` times out identically across all servers, `Invoke-WebRequest` says \"remote name could not be resolved\" → orphan",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/net-ops/references/case-studies.md",
-        "line": 35,
-        "excerpt": "**Rung 5 (DNS Client API):** `Resolve-DnsName google.com -Type A` → timeout. `Invoke-WebRequest https://www.google.com` → \"The remote name could not be resolved",
-        "disclosed": true,
+        "file": "skills/net-ops/references/common-culprits.md",
+        "line": 177,
+        "excerpt": "Invoke-WebRequest \"https://dns.nextdns.io/<profile-id>?dns=<b64url>\" -Headers @{Accept='application/dns-message'}",
+        "disclosed": false,
         "automatic": false,
         "hosts": [
-          "www.google.com"
+          "dns.nextdns.io"
+        ]
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/net-ops/references/common-culprits.md",
+        "line": 353,
+        "excerpt": "sudo ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/net-ops/scripts/windows/nextdns-audit.ps1",
+        "line": 255,
+        "excerpt": "$resp = Invoke-WebRequest -Uri \"https://$rand.test.nextdns.io/\" -UseBasicParsing -TimeoutSec $TimeoutSec",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$rand.test.nextdns.io"
         ]
       },
       {
         "ruleId": "network",
-        "file": "skills/net-ops/references/case-studies.md",
-        "line": 59,
-        "excerpt": "- `Invoke-WebRequest https://www.google.com` → HTTP 200, full page body",
-        "disclosed": true,
+        "file": "skills/net-ops/scripts/windows/nextdns-boot-fix.ps1",
+        "line": 173,
+        "excerpt": "$j  = (Invoke-WebRequest -Uri \"https://$r.test.nextdns.io/\" -UseBasicParsing -TimeoutSec 15).Content | ConvertFrom-Json",
+        "disclosed": false,
         "automatic": false,
         "hosts": [
-          "www.google.com"
+          "$r.test.nextdns.io"
         ]
       },
       {
@@ -87,7 +73,7 @@
         "file": "tests/hooks.sh",
         "line": 92,
         "excerpt": "'printenv' 'env' 'ls && env' 'cat .env' 'cat config/.env.local'; do",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": false
       },
       {
@@ -95,7 +81,7 @@
         "file": "tests/hooks.sh",
         "line": 97,
         "excerpt": "'psql -c \"UPDATE users SET a=1 WHERE id=2\"' 'cat .env.example' 'cat README.md'; do",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": false
       },
       {
@@ -103,7 +89,7 @@
         "file": "tests/hooks.sh",
         "line": 160,
         "excerpt": "advisory \"$(jq -cn --arg p \"$tmp/app/package.json\" '{tool_input:{file_path:$p,new_string:\"\\\"axios\\\": \\\"^1.14.1\\\"\"}}')\" \\",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": false,
         "hosts": []
       },
@@ -120,7 +106,7 @@
         "file": "tests/hooks.sh",
         "line": 215,
         "excerpt": "for c in 'curl -k https://example.com' 'curl -sSk https://example.com/install.sh -o install.sh' \\",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": false,
         "hosts": [
           "example.com"
@@ -131,7 +117,7 @@
         "file": "tests/hooks.sh",
         "line": 217,
         "excerpt": "'ls && sudo -E curl -k https://example.com' $'curl -sS \\\\\\n  -k https://example.com' \\",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": false,
         "hosts": [
           "example.com"
@@ -142,7 +128,7 @@
         "file": "tests/hooks.sh",
         "line": 218,
         "excerpt": "\"bash -lc 'curl -k https://example.com'\" 'body=$(curl -k https://example.com)' \\",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": false,
         "hosts": [
           "example.com"
@@ -153,7 +139,7 @@
         "file": "tests/hooks.sh",
         "line": 219,
         "excerpt": "$'bash <<\\'EOF\\'\\ncurl -k https://example.com\\nEOF' 'cmd /c \"curl -k https://example.com\"' \\",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": false,
         "hosts": [
           "example.com"
@@ -180,7 +166,7 @@
         "file": "tests/hooks.sh",
         "line": 238,
         "excerpt": "'$env:NODE_TLS_REJECT_UNAUTHORIZED = \"0\"' 'Invoke-WebRequest https://example.com -SkipCertificateCheck' \\",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": false,
         "hosts": [
           "example.com"
@@ -191,7 +177,7 @@
         "file": "tests/hooks.sh",
         "line": 244,
         "excerpt": "for c in 'git commit -m \"Drop curl -k from the deploy script\"' \"rg -n 'curl -k' scripts/\" \\",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": false,
         "hosts": []
       },
@@ -200,7 +186,7 @@
         "file": "tests/hooks.sh",
         "line": 246,
         "excerpt": "'curl -K curl.cfg' 'curl --keepalive-time 30 https://example.com' 'curl -sS https://example.com' \\",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": false,
         "hosts": [
           "example.com"
@@ -211,7 +197,7 @@
         "file": "tests/hooks.sh",
         "line": 247,
         "excerpt": "'curl -sS https://example.com # -k would skip verification' './scripts/serve.sh --insecure' \\",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": false,
         "hosts": [
           "example.com"
@@ -222,7 +208,7 @@
         "file": "tests/hooks.sh",
         "line": 248,
         "excerpt": "'wget https://example.com/a.tar.gz' 'NODE_TLS_REJECT_UNAUTHORIZED=1 npm test' \\",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": false,
         "hosts": [
           "example.com"
@@ -241,7 +227,7 @@
         "file": "tests/hooks.sh",
         "line": 256,
         "excerpt": "for c in 'Invoke-RestMethod https://example.com -SkipHttpErrorCheck' '$env:NODE_TLS_REJECT_UNAUTHORIZED = \"1\"' \\",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": false,
         "hosts": [
           "example.com"
@@ -252,7 +238,7 @@
         "file": "tests/hooks.sh",
         "line": 282,
         "excerpt": "scan_fires \"$w/client.py\" 'requests.get(url, verify=False)'",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": false,
         "hosts": []
       },
@@ -261,7 +247,7 @@
         "file": "tests/hooks.sh",
         "line": 287,
         "excerpt": "scan_fires \"$w/server.js\" 'https.request({ host, rejectUnauthorized: false })'",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": false,
         "hosts": []
       },
@@ -270,7 +256,7 @@
         "file": "tests/hooks.sh",
         "line": 317,
         "excerpt": "scan_quiet \"$w/client.py\" 'requests.get(url, verify=True)'",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": false,
         "hosts": []
       },
@@ -279,7 +265,7 @@
         "file": "tests/hooks.sh",
         "line": 318,
         "excerpt": "scan_quiet \"$w/client.py\" 'requests.get(url, verify=\"/etc/ssl/ca.pem\")'",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": false,
         "hosts": []
       },
@@ -288,7 +274,7 @@
         "file": "tests/hooks.sh",
         "line": 319,
         "excerpt": "scan_quiet \"$w/server.js\" 'https.request({ host, rejectUnauthorized: true })'",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": false,
         "hosts": []
       },
@@ -321,7 +307,7 @@
         "file": "hooks/README.md",
         "line": 257,
         "excerpt": "(`bash -c \"WORKTREE_ROOT=<root> exec bash <your-home>/.claude/hooks/worktree-create.sh\"`),",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": true
       },
       {
@@ -329,7 +315,7 @@
         "file": "hooks/README.md",
         "line": 331,
         "excerpt": "\"os.system(\"",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": true
       },
       {
@@ -337,7 +323,7 @@
         "file": "hooks/README.md",
         "line": 332,
         "excerpt": "\"subprocess.call.*shell=True\"",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": true
       },
       {
@@ -353,7 +339,7 @@
         "file": "hooks/README.md",
         "line": 503,
         "excerpt": "| `os.system(`, `subprocess.call.*shell=True` | Command injection |",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": true
       },
       {
@@ -377,7 +363,7 @@
         "file": "hooks/hooks.json",
         "line": 9,
         "excerpt": "\"command\": \"bash \\\"${CLAUDE_PLUGIN_ROOT}/hooks/pre-write-peer-guard.sh\\\"\",",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": true
       },
       {
@@ -385,7 +371,7 @@
         "file": "hooks/hooks.json",
         "line": 19,
         "excerpt": "\"command\": \"bash \\\"${CLAUDE_PLUGIN_ROOT}/hooks/pre-install-scan.sh\\\"\",",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": true
       },
       {
@@ -393,7 +379,7 @@
         "file": "hooks/hooks.json",
         "line": 24,
         "excerpt": "\"command\": \"bash \\\"${CLAUDE_PLUGIN_ROOT}/hooks/worktree-guard.sh\\\"\",",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": true
       },
       {
@@ -401,7 +387,7 @@
         "file": "hooks/hooks.json",
         "line": 34,
         "excerpt": "\"command\": \"bash \\\"${CLAUDE_PLUGIN_ROOT}/hooks/pre-tls-verify-ask.sh\\\"\",",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": true
       },
       {
@@ -409,7 +395,7 @@
         "file": "hooks/hooks.json",
         "line": 46,
         "excerpt": "\"command\": \"bash \\\"${CLAUDE_PLUGIN_ROOT}/hooks/manifest-dep-scan.sh\\\"\",",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": true
       },
       {
@@ -417,7 +403,7 @@
         "file": "hooks/hooks.json",
         "line": 51,
         "excerpt": "\"command\": \"bash \\\"${CLAUDE_PLUGIN_ROOT}/hooks/session-touched-ledger.sh\\\"\",",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": true
       },
       {
@@ -425,7 +411,7 @@
         "file": "hooks/hooks.json",
         "line": 56,
         "excerpt": "\"command\": \"bash \\\"${CLAUDE_PLUGIN_ROOT}/hooks/post-tls-verify-scan.sh\\\"\",",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": true
       },
       {
@@ -433,7 +419,7 @@
         "file": "hooks/hooks.json",
         "line": 67,
         "excerpt": "\"command\": \"bash \\\"${CLAUDE_PLUGIN_ROOT}/hooks/session-start-unicode-scan.sh\\\"\",",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": true
       },
       {
@@ -441,7 +427,7 @@
         "file": "hooks/hooks.json",
         "line": 78,
         "excerpt": "\"command\": \"bash \\\"${CLAUDE_PLUGIN_ROOT}/hooks/config-change-guard.sh\\\"\",",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": true
       },
       {
@@ -495,16 +481,16 @@
     ],
     "findingTotals": {
       "network": 25,
-      "shell": 16,
+      "writes-outside": 2,
       "reads-secrets": 2,
       "downloads-code": 15,
-      "writes-outside": 1
+      "shell": 13
     },
-    "score": 59,
-    "band": "review",
+    "score": 45,
+    "band": "high",
     "rulesVersion": "1.3.0",
-    "filesScanned": 25,
-    "filesSkipped": 23
+    "filesScanned": 27,
+    "filesSkipped": 21
   },
   "history": [
     {
@@ -517,6 +503,12 @@
       "commit": "47dcf8db55674f98d5e43aeb122efad016f150c3",
       "scannedAt": "2026-11-19T10:50:00.942Z",
       "score": 59,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "25a03abe26f6c595243a81104e831ab8c597bdbf",
+      "scannedAt": "2026-11-21T10:21:16.775Z",
+      "score": 45,
       "rulesVersion": "1.3.0"
     }
   ]

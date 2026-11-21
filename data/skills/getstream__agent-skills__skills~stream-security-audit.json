@@ -1,0 +1,105 @@
+{
+  "id": "getstream__agent-skills__skills~stream-security-audit",
+  "owner": "GetStream",
+  "repo": "agent-skills",
+  "path": "skills/stream-security-audit",
+  "name": "stream-security-audit",
+  "description": "Security audit of an SDK, client library or package, on any platform and for any product: Stream's SDKs or any other (iOS/Swift, Android/Kotlin, web/JS/TS, React Native, Flutter, Unity, Electron, .NET, or server SDKs in Go/Python/Ruby/Node/Java/PHP/Rust). Walks a catalog of 148 explicit checks - secrets in code, samples, git history and packages; non-expiring tokens; tokens in logs, URLs and errors; weak transport; untrusted content from other users or from LLM output; unsafe links; data left after logout; remote crashes; vendored native code; CI and supply chain - verifies each finding, separates what is proven from what depends on the server or integration, and writes a calibrated report with a coverage ledger. Use when asked to audit, pentest, threat-model, harden or find vulnerabilities or security issues in an SDK, library, framework or package, or to re-check an existing SDK security report. For a single diff or PR, use a diff-focused review instead.",
+  "stars": 21,
+  "category": "security",
+  "commit": "18121b572343139e3f6f97c494673aa66df4da59",
+  "contentHash": "e8cc7dd9f215531d892c93b772d99e8a5f87f580b53c6a28dab21fb1c53d5fd6",
+  "repoCreatedAt": "2026-03-31T10:48:15Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-21T10:21:16.775Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/stream-security-audit/SKILL.md",
+        "line": 47,
+        "excerpt": "umask 077",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/stream-security-audit/recon.md",
+        "line": 433,
+        "excerpt": "s \"[INPUT-10, LINK-04] query / format string / command construction\" 'NSPredicate\\(format: *\"[^\"]*\\\\\\(|String\\(format: *[a-z]|NSLog\\([a-z]|rawQuery\\(|execSQL\\(|",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/stream-security-audit/recon.md",
+        "line": 506,
+        "excerpt": "grep -nE '(curl|wget)[[:space:]]|gh release download|Invoke-WebRequest' \"$f\" 2>/dev/null | while IFS=: read -r ln rest; do",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/stream-security-audit/references/checklist.md",
+        "line": 531,
+        "excerpt": "- **SUPPLY-09 Unverified downloads.** `curl | sh`; tools downloaded without checksum or signature verification.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/stream-security-audit/references/platforms/cross-platform.md",
+        "line": 55,
+        "excerpt": "- Electron: unpack `app.asar` (`npx asar list`) and compare it with the source. Check `asarUnpack`, preload scripts and native modules.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/stream-security-audit/references/platforms/server.md",
+        "line": 26,
+        "excerpt": "- Command execution: `subprocess` with `shell=True`, `os.system`, `exec.Command(\"sh\", \"-c\", ...)`, `Runtime.exec(String)`, backticks in Ruby, `child_process.exe",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/stream-security-audit/references/platforms/server.md",
+        "line": 55,
+        "excerpt": "rg -n 'shell=True|os\\.system|exec\\.Command|Runtime\\.getRuntime|child_process|Process\\.Start'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/stream-security-audit/references/platforms/web-js.md",
+        "line": 15,
+        "excerpt": "- `fetch`/`XMLHttpRequest` with `credentials: 'include'` to configurable or content-derived hosts.",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 4,
+      "network": 2,
+      "downloads-code": 2
+    },
+    "score": 77,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 12,
+    "filesSkipped": 1
+  },
+  "history": [
+    {
+      "commit": "18121b572343139e3f6f97c494673aa66df4da59",
+      "scannedAt": "2026-11-21T10:21:16.775Z",
+      "score": 77,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

@@ -7,13 +7,13 @@
   "description": "Produce a short demo video of a web UI change for a pull request: explore the flow unrecorded, script and replay it with 4K frame capture, plan the edit (zoom on each action, drawn cursor, click ripples, captions, optional narration), render an H.264 MP4, gate it with frame-measured quality control and an independent frame review, then attach it to the PR. Use when: 'demo video', 'record a demo of this change', 'make a PR video', 'produced walkthrough video', 'produced screen recording of a web flow', 'video proof a UI change works', 'video evidence for the PR'.",
   "stars": 32,
   "category": "media",
-  "commit": "832899e8af7e4004eb7dae449fb1872f1872a0d8",
-  "contentHash": "02bd6624e38975b4bc434f51eaab7349769c3a71415fb00c532e865f1ec520ee",
+  "commit": "6f854874bbebd8165ea9215268c7ceb7e43df60f",
+  "contentHash": "9cabdc3755b14823df34a7eda3d56237695080b18d0648ea295f2b9f679fa501",
   "repoCreatedAt": "2026-06-22T18:28:56Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": false,
-  "scannedAt": "2026-11-18T10:48:40.347Z",
+  "incomplete": true,
+  "scannedAt": "2026-11-21T10:21:16.775Z",
   "scan": {
     "findings": [
       {
@@ -25,207 +25,73 @@
         "automatic": false
       },
       {
-        "ruleId": "shell",
-        "file": "plugins/playwright/skills/demo-video/scripts/demo_common.py",
+        "ruleId": "network",
+        "file": "plugins/playwright/lib/cli-version-check.mjs",
         "line": 102,
-        "excerpt": "out = subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', str(path)],",
+        "excerpt": "const res = await fetch(url, { headers: { accept: \"application/json\", \"user-agent\": \"cli-version-check\" }, signal: AbortSignal.timeout(timeoutMs) });",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/playwright/lib/prerequisites.mjs",
+        "line": 30,
+        "excerpt": "import { spawnSync } from \"node:child_process\";",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "plugins/playwright/skills/demo-video/scripts/media_encode.py",
-        "line": 9,
-        "excerpt": "a timeout raises subprocess.TimeoutExpired.",
+        "file": "plugins/playwright/lib/prerequisites.mjs",
+        "line": 271,
+        "excerpt": "const r = spawnSync(path.resolve(git), [\"-C\", top, \"ls-files\", \"-z\", \"--\", ...specs], {",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "plugins/playwright/skills/demo-video/scripts/media_encode.py",
-        "line": 61,
-        "excerpt": "return _check(subprocess.run(['ffmpeg', *level, '-y', *map(str, args)], cwd=cwd, capture_output=True,",
+        "file": "plugins/playwright/lib/prerequisites.mjs",
+        "line": 451,
+        "excerpt": "const r = spawnSync(command, argv, {",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "plugins/playwright/skills/demo-video/scripts/media_encode.py",
-        "line": 66,
-        "excerpt": "return _check(subprocess.run(['ffprobe', '-v', 'error', *map(str, args)], capture_output=True, text=True),",
+        "file": "plugins/playwright/lib/prerequisites.mjs",
+        "line": 838,
+        "excerpt": "const r = spawnSync(process.execPath, [installer, \"verify\", \"--quiet\", \"--repo\", repo, \"--plugin-root\", root], {",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "plugins/playwright/skills/demo-video/scripts/media_encode.py",
-        "line": 135,
-        "excerpt": "r = subprocess.run(argv, cwd=Path(out).parent, capture_output=True, text=True)",
+        "file": "plugins/playwright/hooks/exec-bash.mjs",
+        "line": 111,
+        "excerpt": "import { spawn, spawnSync } from \"node:child_process\";",
         "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/playwright/skills/demo-video/scripts/produce.py",
-        "line": 309,
-        "excerpt": "proc = subprocess.Popen(cmd, stdin=subprocess.PIPE)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/playwright/skills/demo-video/scripts/pydeps.py",
-        "line": 68,
-        "excerpt": "r = subprocess.run([sys.executable, '-P', '-S', '-c', 'import ' + ', '.join(probe)],",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/playwright/skills/demo-video/scripts/pydeps.py",
-        "line": 109,
-        "excerpt": "r = subprocess.run(",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/playwright/skills/demo-video/scripts/pydeps.py",
-        "line": 114,
-        "excerpt": "except subprocess.TimeoutExpired:",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "plugins/playwright/skills/demo-video/scripts/pydeps.py",
-        "line": 115,
-        "excerpt": "raise Broken(f'pip install did not finish in {PIP_TIMEOUT_S} s')",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "plugins/playwright/skills/demo-video/scripts/pydeps.py",
-        "line": 120,
-        "excerpt": "raise Broken(f'pip install --require-hashes failed: {tail}{hint}')",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/playwright/skills/demo-video/scripts/pydeps.py",
-        "line": 140,
-        "excerpt": "return subprocess.run([sys.executable, '-S', *script_args], env=_env(target)).returncode",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/playwright/skills/demo-video/scripts/pydeps.py",
-        "line": 151,
-        "excerpt": "if subprocess.run([found, '-c', floor], capture_output=True).returncode == 0:",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/playwright/skills/demo-video/scripts/pydeps.py",
-        "line": 159,
-        "excerpt": "return subprocess.run([other, str(Path(__file__).resolve()), *argv]).returncode",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/playwright/skills/demo-video/scripts/quality_control.py",
-        "line": 47,
-        "excerpt": "raw = subprocess.run(['ffmpeg', '-v', 'error', '-i', str(video), '-vf', f'scale={w}:{h}:flags=area', '-f', 'rawvideo',",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/playwright/skills/demo-video/scripts/quality_control.py",
-        "line": 54,
-        "excerpt": "raw = subprocess.run(['ffmpeg', '-v', 'error', '-ss', seek_time(fi, fps), '-i', str(video), '-frames:v', '1',",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "plugins/playwright/skills/demo-video/scripts/record.mjs",
-        "line": 20,
-        "excerpt": "+ '@playwright/cli (/playwright:setup); then `npx playwright install chromium`';",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/playwright/skills/demo-video/scripts/test_demo_video.py",
-        "line": 198,
-        "excerpt": "return subprocess.run([sys.executable, *map(str, args)], capture_output=True, text=True, cwd=HERE)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/playwright/skills/demo-video/scripts/test_demo_video.py",
-        "line": 203,
-        "excerpt": "dec = subprocess.Popen(['ffmpeg', '-v', 'error', '-i', str(src), '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-'], stdout=subprocess.PIPE)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/playwright/skills/demo-video/scripts/test_demo_video.py",
-        "line": 204,
-        "excerpt": "enc = subprocess.Popen(['ffmpeg', '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', '30',",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/playwright/skills/demo-video/scripts/test_demo_video.py",
-        "line": 206,
-        "excerpt": "stdin=subprocess.PIPE)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/playwright/skills/demo-video/scripts/test_demo_video.py",
-        "line": 264,
-        "excerpt": "subprocess.run(['ffmpeg', '-v', 'error', '-y', '-f', 'lavfi', '-i', 'anullsrc=r=24000:cl=mono:d=0.35', '-f', 'lavfi',",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "plugins/playwright/prerequisites.json",
-        "line": 17,
-        "excerpt": "\"npm\": \"npm install -g @playwright/cli\"",
-        "disclosed": false,
-        "automatic": false
+        "automatic": true
       },
       {
         "ruleId": "downloads-code",
         "file": "plugins/playwright/hooks/install-python-deps.test.sh",
-        "line": 107,
+        "line": 93,
         "excerpt": "\"$out\" == *'not installed; '* && \"$out\" == *'pip install --require-hashes failed'* &&",
         "disclosed": false,
         "automatic": true
       }
     ],
     "findingTotals": {
-      "shell": 31,
-      "downloads-code": 5
+      "shell": 6,
+      "network": 1,
+      "downloads-code": 1
     },
-    "score": 80,
-    "band": "low",
+    "score": 75,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 36,
-    "filesSkipped": 0
+    "filesScanned": 18,
+    "filesSkipped": 18
   },
   "history": [
     {
@@ -250,6 +116,12 @@
       "commit": "832899e8af7e4004eb7dae449fb1872f1872a0d8",
       "scannedAt": "2026-11-18T10:48:40.347Z",
       "score": 80,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "6f854874bbebd8165ea9215268c7ceb7e43df60f",
+      "scannedAt": "2026-11-21T10:21:16.775Z",
+      "score": 75,
       "rulesVersion": "1.3.0"
     }
   ]

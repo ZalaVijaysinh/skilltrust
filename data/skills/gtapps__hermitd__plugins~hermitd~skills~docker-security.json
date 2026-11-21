@@ -4,16 +4,16 @@
   "repo": "hermitd",
   "path": "plugins/hermitd/skills/docker-security",
   "name": "docker-security",
-  "description": "Opt-in advanced Docker security hardening beyond the docker-setup baseline — LAN containment with DNS policy, resource bounds with kernel-hygiene sysctls, and a boot-time plugin install audit log. Applied as a reversible docker-compose overlay (does not touch the base compose file) and verified against the live container. Run after /docker-setup; requires bridge networking.",
+  "description": "Opt-in advanced Docker security hardening beyond the docker-setup baseline — LAN containment with DNS policy, resource bounds with kernel-hygiene sysctls, a boot-time plugin install audit log, and a credential proxy that keeps API keys for mapped hosts outside the container. Applied as a reversible docker-compose overlay (does not touch the base compose file) and verified against the live container. Run after /docker-setup; requires bridge networking.",
   "stars": 85,
   "category": "coding",
-  "commit": "29184f12e16143d54768c00868b14ccfa5744c70",
-  "contentHash": "5a77c5a76143e1e7d8b6ce42a891c3f898a087c120f654d250348066c28abe00",
+  "commit": "605075e7b8f87908f448cf45778e0ff92dccaea8",
+  "contentHash": "77d123e4e4d6519aac8c65ed23e425dd54ddf41260875c63f5fa6f4bb2d27891",
   "repoCreatedAt": "2026-03-23T18:33:11Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-17T11:16:37.484Z",
+  "scannedAt": "2026-11-21T10:21:16.775Z",
   "scan": {
     "findings": [
       {
@@ -27,7 +27,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/hermitd/skills/docker-security/SKILL.md",
-        "line": 117,
+        "line": 118,
         "excerpt": "bun ${CLAUDE_PLUGIN_ROOT}/scripts/resolve-siblings.ts \"$(pwd)\" --role siblings",
         "disclosed": true,
         "automatic": false
@@ -35,7 +35,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/hermitd/skills/docker-security/SKILL.md",
-        "line": 170,
+        "line": 171,
         "excerpt": "bun ${CLAUDE_PLUGIN_ROOT}/scripts/render-security-overlay.ts mcp-hosts <PROJECT_ROOT>",
         "disclosed": true,
         "automatic": false
@@ -43,7 +43,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/hermitd/skills/docker-security/SKILL.md",
-        "line": 281,
+        "line": 301,
         "excerpt": "bun ${CLAUDE_PLUGIN_ROOT}/scripts/render-security-overlay.ts pick-subnet <PROJECT_ROOT>",
         "disclosed": true,
         "automatic": false
@@ -51,7 +51,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/hermitd/skills/docker-security/SKILL.md",
-        "line": 289,
+        "line": 309,
         "excerpt": "bun ${CLAUDE_PLUGIN_ROOT}/scripts/render-security-overlay.ts pick-subnet <PROJECT_ROOT> --candidate <cidr>",
         "disclosed": true,
         "automatic": false
@@ -59,24 +59,16 @@
       {
         "ruleId": "shell",
         "file": "plugins/hermitd/skills/docker-security/SKILL.md",
-        "line": 308,
-        "excerpt": "bun ${CLAUDE_PLUGIN_ROOT}/scripts/render-security-overlay.ts render <PROJECT_ROOT> <<'HERMIT_SEC_JSON'",
+        "line": 328,
+        "excerpt": "bun ${CLAUDE_PLUGIN_ROOT}/scripts/render-security-overlay.ts render <PROJECT_ROOT>",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "plugins/hermitd/skills/docker-security/SKILL.md",
-        "line": 339,
-        "excerpt": "timeout 180s docker compose \"${COMPOSE_FILES[@]}\" build --no-cache hermit-netguard",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/hermitd/skills/docker-security/SKILL.md",
-        "line": 387,
-        "excerpt": "docker compose \"${COMPOSE_FILES[@]}\" \\",
+        "line": 378,
+        "excerpt": "bun \"${CLAUDE_PLUGIN_ROOT}/scripts/lib/compose-files.ts\" \"$(pwd -P)\" \"\" \\",
         "disclosed": true,
         "automatic": false
       },
@@ -91,7 +83,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/hermitd/scripts/browser-display.ts",
-        "line": 126,
+        "line": 148,
         "excerpt": "const children: ReturnType<typeof Bun.spawn>[] = [];",
         "disclosed": true,
         "automatic": false
@@ -99,7 +91,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/hermitd/scripts/browser-display.ts",
-        "line": 142,
+        "line": 165,
         "excerpt": "const xvnc = Bun.spawn(['Xvnc', owned.display, '-geometry', '500x1082', '-depth', '24', '-rfbport', '-1', '-rfbunixpath', vncSocket, '-rfbunixmode', '0600', '-S",
         "disclosed": true,
         "automatic": false
@@ -107,7 +99,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/hermitd/scripts/browser-display.ts",
-        "line": 151,
+        "line": 174,
         "excerpt": "children.push(Bun.spawn(['openbox'], { env, stdin: 'ignore', stdout: 'ignore', stderr: 'inherit' }));",
         "disclosed": true,
         "automatic": false
@@ -115,7 +107,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/hermitd/scripts/browser-display.ts",
-        "line": 160,
+        "line": 183,
         "excerpt": "const child = Bun.spawn([process.execPath, path.join(import.meta.dir, 'browser-viewer.ts')], { env: { ...env, HERMIT_BROWSER_VIEWER_BIND: browserDisplaySettings",
         "disclosed": true,
         "automatic": false
@@ -123,7 +115,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/hermitd/scripts/hermitd-start.ts",
-        "line": 19,
+        "line": 20,
         "excerpt": "import { spawnSync } from 'node:child_process';",
         "disclosed": true,
         "automatic": false
@@ -131,7 +123,7 @@
       {
         "ruleId": "downloads-code",
         "file": "plugins/hermitd/scripts/hermitd-start.ts",
-        "line": 420,
+        "line": 423,
         "excerpt": "'bun: required runtime not on PATH. Install with `curl -fsSL https://bun.sh/install | bash`, ' +",
         "disclosed": false,
         "automatic": false
@@ -139,7 +131,7 @@
       {
         "ruleId": "network",
         "file": "plugins/hermitd/scripts/hermitd-start.ts",
-        "line": 420,
+        "line": 423,
         "excerpt": "'bun: required runtime not on PATH. Install with `curl -fsSL https://bun.sh/install | bash`, ' +",
         "disclosed": true,
         "automatic": false,
@@ -150,7 +142,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/hermitd/scripts/hermitd-start.ts",
-        "line": 629,
+        "line": 632,
         "excerpt": "const result = spawnSync('claude', ['plugin', 'marketplace', 'list', '--json'], {",
         "disclosed": true,
         "automatic": false
@@ -158,7 +150,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/hermitd/scripts/hermitd-start.ts",
-        "line": 1117,
+        "line": 1120,
         "excerpt": "const r = spawnSync('bun', [script, target, op], { stdio: 'pipe', encoding: 'utf-8' });",
         "disclosed": true,
         "automatic": false
@@ -166,7 +158,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/hermitd/scripts/hermitd-start.ts",
-        "line": 1155,
+        "line": 1158,
         "excerpt": "const r = spawnSync('bun', [script, '.claude/settings.local.json', 'voice-render'], { stdio: 'pipe', encoding: 'utf-8' });",
         "disclosed": true,
         "automatic": false
@@ -174,7 +166,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/hermitd/scripts/hermitd-start.ts",
-        "line": 1337,
+        "line": 1340,
         "excerpt": "const res = spawnSync(cmd[0], cmd.slice(1), { stdio: 'inherit' });",
         "disclosed": true,
         "automatic": false
@@ -182,7 +174,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/hermitd/scripts/hermitd-start.ts",
-        "line": 1380,
+        "line": 1383,
         "excerpt": "const r = spawnSync(",
         "disclosed": true,
         "automatic": false
@@ -190,8 +182,16 @@
       {
         "ruleId": "shell",
         "file": "plugins/hermitd/scripts/hermitd-start.ts",
-        "line": 1776,
+        "line": 1781,
         "excerpt": "const result = spawnSync('tmux', ['new-session', '-d', '-s', sessionName, shellCmd], {",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/hermitd/scripts/lib/approval.ts",
+        "line": 3,
+        "excerpt": "import { spawnSync } from 'node:child_process';",
         "disclosed": true,
         "automatic": false
       },
@@ -200,7 +200,7 @@
         "file": "plugins/hermitd/scripts/lib/backup.ts",
         "line": 228,
         "excerpt": "try { content = fs.readFileSync(path.join(root, '.env'), 'utf-8'); } catch { return null; }",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false
       },
       {
@@ -231,10 +231,105 @@
         "hosts": []
       },
       {
+        "ruleId": "network",
+        "file": "plugins/hermitd/scripts/lib/connector.ts",
+        "line": 130,
+        "excerpt": "const res = await fetch('http://connector/status', { unix: socket, signal: AbortSignal.timeout(timeoutMs) });",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "connector"
+        ]
+      },
+      {
         "ruleId": "paid-api",
         "file": "plugins/hermitd/scripts/lib/netguard-hosts.ts",
         "line": 17,
         "excerpt": "'archive.ubuntu.com', 'ports.ubuntu.com', 'huggingface.co', 'hf.co', 'api.groq.com', 'api.openai.com',",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/hermitd/scripts/render-docker-templates.ts",
+        "line": 44,
+        "excerpt": "'RUN apt-get update && apt-get install -y --no-install-recommends \\\\',",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/hermitd/scripts/render-docker-templates.ts",
+        "line": 54,
+        "excerpt": "'RUN if [ \"$HERMIT_BROWSER\" = 1 ]; then apt-get update && apt-get install -y --no-install-recommends \\\\',",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/hermitd/scripts/render-docker-templates.ts",
+        "line": 57,
+        "excerpt": "`    npm install -g --allow-scripts=agent-browser agent-browser@${BROWSER_PINS.agent.version} && \\\\`,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/hermitd/scripts/render-docker-templates.ts",
+        "line": 62,
+        "excerpt": "`    curl -fsSL \"https://storage.googleapis.com/chrome-for-testing-public/${BROWSER_PINS.chrome.version}/\\${platform}/chrome-\\${platform}.zip\" -o /tmp/chrome.zi",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "storage.googleapis.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/hermitd/scripts/render-docker-templates.ts",
+        "line": 67,
+        "excerpt": "`    curl -fsSL ${BROWSER_PINS.novnc.url} -o /tmp/novnc.tgz && \\\\`,",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/hermitd/scripts/render-docker-templates.ts",
+        "line": 70,
+        "excerpt": "\"    printf '%s\\\\n' '#!/bin/sh' 'if [ ! -f \\\"${HERMIT_PLUGIN_ROOT:-}/scripts/browser-agent.ts\\\" ]; then echo \\\"agent-browser: hermit plugin unavailable\\\" >&2; e",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/hermitd/scripts/render-docker-templates.ts",
+        "line": 72,
+        "excerpt": "`    mkdir -p /etc/hermit && printf 'display=plugin\\\\nchrome=${BROWSER_PINS.chrome.version}\\\\n' > /etc/hermit/managed-browser; \\\\`,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/hermitd/scripts/render-docker-templates.ts",
+        "line": 86,
+        "excerpt": "return `RUN mkdir -p /etc/claude-code/managed-settings.d && printf '%s\\\\n' ${quoted} > /etc/claude-code/managed-settings.d/hermitd-channels.json`;",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/hermitd/scripts/render-docker-templates.ts",
+        "line": 98,
+        "excerpt": "return `RUN mkdir -p /etc/claude-code/managed-settings.d && printf '%s\\\\n' ${quoted} > ${MANAGED_SECURITY_SETTINGS} && chmod 644 ${MANAGED_SECURITY_SETTINGS}`;",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/hermitd/scripts/render-docker-templates.ts",
+        "line": 142,
+        "excerpt": "'# --- transcription ---\\nARG HERMIT_TRANSCRIPTION=1\\nRUN if [ \"$HERMIT_TRANSCRIPTION\" = 1 ]; then apt-get update && apt-get install -y --no-install-recommends ",
         "disclosed": false,
         "automatic": false
       },
@@ -256,16 +351,17 @@
       }
     ],
     "findingTotals": {
-      "shell": 66,
-      "downloads-code": 1,
-      "network": 4,
+      "shell": 79,
+      "downloads-code": 5,
+      "network": 7,
       "reads-secrets": 1,
-      "paid-api": 3
+      "paid-api": 3,
+      "writes-outside": 4
     },
     "score": 49,
     "band": "high",
     "rulesVersion": "1.3.0",
-    "filesScanned": 153,
+    "filesScanned": 164,
     "filesSkipped": 1
   },
   "history": [
@@ -290,6 +386,12 @@
     {
       "commit": "29184f12e16143d54768c00868b14ccfa5744c70",
       "scannedAt": "2026-11-17T11:16:37.484Z",
+      "score": 49,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "605075e7b8f87908f448cf45778e0ff92dccaea8",
+      "scannedAt": "2026-11-21T10:21:16.775Z",
       "score": 49,
       "rulesVersion": "1.3.0"
     }

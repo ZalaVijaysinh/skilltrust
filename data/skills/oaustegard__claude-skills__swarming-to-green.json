@@ -5,15 +5,15 @@
   "path": "swarming-to-green",
   "name": "swarming-to-green",
   "description": "Runs a long swarm of hundreds to thousands of cheap headless coding workers that drive a large failing-test backlog to green. Failures are clustered by signature, each worker fixes one cluster in its own git worktree, a serial no-regression merge gate lands the fixes, the loop resumes across restarts for hours, and it federates across sibling sessions over git branches when one container's CPU is not enough. Use for \"fix these thousands of failing tests with a Haiku swarm\", \"drive the test suite to green with hundreds of agents\", \"build this compiler or interpreter against a conformance suite\", \"launch, relaunch or check in on the swarm loop\", \"the swarm is stuck, idle or rejecting everything\", \"parallel agents fixing tests keep hitting merge conflicts and regressions\", \"add sibling containers to the swarm\", or \"compare models on the tail the swarm could not fix\". Ships the harness, a per-project TOML config, a fake-worker selftest, check-in signals and the 2026-10-12 haiku-cc failure catalogue.",
-  "stars": 406,
+  "stars": 412,
   "category": "coding",
-  "commit": "cf29075086f8f00dbcf90aabc592cdc82424c179",
+  "commit": "5ad7fb5e7ac4dcfe00cbdcec74a3adea3dfd92d4",
   "contentHash": "7afce0a14ed0de5b07cbe630f18413a3f81601306179a1b116a7a0ed476568d2",
   "repoCreatedAt": "2025-10-17T02:32:23Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": false,
-  "scannedAt": "2026-11-18T10:48:40.347Z",
+  "incomplete": true,
+  "scannedAt": "2026-11-21T10:21:16.775Z",
   "scan": {
     "findings": [
       {
@@ -47,226 +47,16 @@
         "excerpt": "tail -40 runs/swarm.log; $SWARM status; df -h /tmp <root>/..",
         "disclosed": true,
         "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "swarming-to-green/scripts/sibling_setup.sh",
-        "line": 55,
-        "excerpt": "python3 -c 'import json,subprocess,sys; sys.exit(subprocess.run(json.loads(sys.argv[1])).returncode)' \"$SETUP\" \\",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "swarming-to-green/scripts/swarm.py",
-        "line": 37,
-        "excerpt": "p = subprocess.run([\"git\", \"rev-parse\", \"--show-toplevel\"], capture_output=True, text=True, check=False)",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "swarming-to-green/scripts/swarmkit/common.py",
-        "line": 131,
-        "excerpt": "p = subprocess.run([\"git\", *args], cwd=cwd, capture_output=True, text=True, errors=\"surrogateescape\",",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "swarming-to-green/scripts/swarmkit/compare.py",
-        "line": 41,
-        "excerpt": "root = (a.root or Path(subprocess.run([\"git\", \"rev-parse\", \"--show-toplevel\"], capture_output=True,",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "swarming-to-green/scripts/swarmkit/compare.py",
-        "line": 47,
-        "excerpt": "def sh(cwd: Path, *a: str, check: bool = True, **kw) -> subprocess.CompletedProcess:",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "swarming-to-green/scripts/swarmkit/compare.py",
-        "line": 48,
-        "excerpt": "return subprocess.run(list(a), cwd=cwd, check=check, capture_output=True, text=True,",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "swarming-to-green/scripts/swarmkit/compare.py",
-        "line": 137,
-        "excerpt": "subprocess.run(cmd, capture_output=True, text=True, check=False)",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "swarming-to-green/scripts/swarmkit/config.py",
-        "line": 189,
-        "excerpt": "name = subprocess.run([\"git\", \"config\", \"user.name\"], cwd=root, capture_output=True,",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "swarming-to-green/scripts/swarmkit/config.py",
-        "line": 192,
-        "excerpt": "email = subprocess.run([\"git\", \"config\", \"user.email\"], cwd=root, capture_output=True,",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "swarming-to-green/scripts/swarmkit/fake_worker.py",
-        "line": 37,
-        "excerpt": "names = subprocess.run([\"git\", \"-C\", str(cwd), \"diff\", \"--name-only\"],",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "swarming-to-green/scripts/swarmkit/federation.py",
-        "line": 66,
-        "excerpt": "check: bool = True) -> subprocess.CompletedProcess:",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "swarming-to-green/scripts/swarmkit/federation.py",
-        "line": 68,
-        "excerpt": "p = subprocess.run([\"git\", *args], cwd=cwd, capture_output=True, text=True, errors=\"surrogateescape\",",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "swarming-to-green/scripts/swarmkit/federation.py",
-        "line": 70,
-        "excerpt": "except subprocess.TimeoutExpired:",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "swarming-to-green/scripts/swarmkit/federation.py",
-        "line": 71,
-        "excerpt": "p = subprocess.CompletedProcess(args, 124, \"\", f\"git {args[0]} timed out after {timeout}s\")",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "network",
-        "file": "swarming-to-green/scripts/swarmkit/federation.py",
-        "line": 100,
-        "excerpt": "def fetch(ctx: Ctx, *refspecs: str) -> bool:",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "swarming-to-green/scripts/swarmkit/federation.py",
-        "line": 203,
-        "excerpt": "if fetch(ctx, f\"+refs/heads/{state_b}:refs/fed/state\"):",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "swarming-to-green/scripts/swarmkit/federation.py",
-        "line": 232,
-        "excerpt": "if not fetch(ctx, f\"+refs/heads/{cand}*:refs/fed/cand/*\"):",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "swarming-to-green/scripts/swarmkit/federation.py",
-        "line": 292,
-        "excerpt": "return fetch(ctx, f\"+refs/heads/{main_b}:refs/fed/main\", f\"+refs/heads/{state_b}:refs/fed/state\")",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "swarming-to-green/scripts/swarmkit/federation.py",
-        "line": 374,
-        "excerpt": "fetch(ctx, f\"+refs/heads/{branch}:refs/fed/cand/{name}\")",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "swarming-to-green/scripts/swarmkit/federation.py",
-        "line": 400,
-        "excerpt": "fetch(ctx, f\"+refs/heads/{branch}:refs/fed/stats\")",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "shell",
-        "file": "swarming-to-green/scripts/swarmkit/merge.py",
-        "line": 111,
-        "excerpt": "p = subprocess.run(cmd, cwd=g, capture_output=True, text=True, errors=\"replace\", timeout=600, check=False)",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "swarming-to-green/scripts/swarmkit/merge.py",
-        "line": 112,
-        "excerpt": "except subprocess.TimeoutExpired:",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "network",
-        "file": "swarming-to-green/scripts/swarmkit/selftest.py",
-        "line": 85,
-        "excerpt": "deny = [\"Bash(curl:*)\", \"WebFetch\"]",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "swarming-to-green/scripts/swarmkit/selftest.py",
-        "line": 341,
-        "excerpt": "task.get(\"deny\") == [\"Bash(curl:*)\", \"WebFetch\"], json.dumps(task)[:500])",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "swarming-to-green/scripts/swarmkit/testrun.py",
-        "line": 50,
-        "excerpt": "env = dict(os.environ)",
-        "disclosed": false,
-        "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 39,
-      "network": 8,
-      "reads-secrets": 1
+      "shell": 4
     },
-    "score": 74,
-    "band": "review",
+    "score": 97,
+    "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 28,
-    "filesSkipped": 0
+    "filesScanned": 2,
+    "filesSkipped": 26
   },
   "history": [
     {
@@ -291,6 +81,12 @@
       "commit": "cf29075086f8f00dbcf90aabc592cdc82424c179",
       "scannedAt": "2026-11-18T10:48:40.347Z",
       "score": 74,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "5ad7fb5e7ac4dcfe00cbdcec74a3adea3dfd92d4",
+      "scannedAt": "2026-11-21T10:21:16.775Z",
+      "score": 97,
       "rulesVersion": "1.3.0"
     }
   ]

@@ -3,36 +3,25 @@
   "owner": "jiayaoqijia",
   "repo": "cryptoskill",
   "path": "skills/exchanges/senpi-ai-senpi-strategy-ops",
-  "name": "senpi-strategy-ops",
-  "description": "Deploy / monitor / close a NAMED Senpi trading strategy. Monitoring is on demand: never an agent-turn cron to watch a strategy (a model call per firing) — the runtime supervises it at zero model cost, and there is no paper-trading mode ($10 floor = the test). Use when the user names a strategy to run — \"install spider\", \"deploy polar\", \"set up kodiak\", \"reinstall athena\", \"run the spider strategy\", \"is my strategy live?\", \"what am I running\", \"list my strategies\" (→ status.py), \"why isn't polar trading?\" / \"is it broken or just no signal?\" (→ health + lastAliveAt; a tail of events.jsonl lists only errors, never ok ticks), A STRATEGY IS A PACKAGE, NEVER A SKILL: \"install/reinstall <name>\" is `deploy.py create <id>` here — never `openclaw skills install`, never clawhub, and never a GitHub user or repo named after the strategy. A package missing from disk is normal (it was closed, or never fetched) and `deploy.py` fetches it by id. \"are my positions protected? / do they have a stop-loss (DSL)?\", \"close/uninstall polar\", \"pause polar\" / \"stop new trades\" / \"stop opening positions\" (→ watch-only, decision_mode: none; never the MCP strategy_pause), \"close my trades / positions\" (→ strategy_close_positions, coins named; not close.py) — and for teardown like \"close all strategies\", \"return funds to main\", \"tear everything down\" (→ close.py --all). ALWAYS tear down via close.py, never a raw strategy_close (that strands the runtime). ops deploys / closes / monitors; it does NOT author or edit strategy files — an edit (\"make my live strategy more aggressive\", change leverage/sizing/DSL) is authored in senpi-strategy-author, the only skill that knows the scanner / yaml / DSL schema — and \"tighten the ratchet / change the tiers / the locks\" on a LIVE strategy is applied here (update --apply), never parked \"for the next position\". A strategy is a PACKAGE (strategy.yaml + one runtime.yaml per instance + scanners/) the runtime supervises in-process — no scanner daemon. `deploy.py create <id> --budget <usd>` takes a package live end to end (it gates the package, then runs the runtime's detached deploy job; watch with `deploy.py status`); close.py tears down (stop runtime + strategy_close → flattens positions, returns funds). Before the budget question ops runs THE WALKTHROUGH (Step 0.75): what the template does, how it is set, the two levers worth shifting — all in bullets and plain words, never a config key — and its name: every template deploys as the user's own fork, named after their Senpi username (`deploy.py create <template>` → `ignas-phalanx`, spoken as \"Ignas's Phalanx\"; `--name` for their own words), as-is or with levers moved. The id (spider, polar, kodiak) is the package folder. NOT for choosing WHICH strategy (senpi-strategy-discover) or authoring / editing the strategy files themselves, nor for a user who wants their own (senpi-strategy-author).",
+  "name": "senpi-ai-senpi-strategy-ops",
+  "description": "",
   "stars": 81,
-  "category": "devops",
-  "commit": "100f6db5bc51b89029ed74229448a89f49ae7176",
-  "contentHash": "6029ac4cdc1efa05b896e32ae426a260d45ff6532a23d2a673e2f3f3672bdebd",
+  "category": "other",
+  "commit": "c24ee1c7c0e54e28ea56a1e99dcd617547c6da07",
+  "contentHash": "adb586f879cde452b29a13c128486c00d53ba753becf9d89ea2087cc3e71f4c8",
   "repoCreatedAt": "2026-03-19T14:52:16Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": false,
-  "scannedAt": "2026-11-18T10:48:40.347Z",
+  "incomplete": true,
+  "scannedAt": "2026-11-21T10:21:16.775Z",
   "scan": {
     "findings": [
-      {
-        "ruleId": "network",
-        "file": "skills/exchanges/senpi-ai-senpi-strategy-ops/SKILL.md",
-        "line": 108,
-        "excerpt": "exists against the registry (`curl -s https://raw.githubusercontent.com/Senpi-ai/senpi-skills/refs/heads/main/strategies/catalog.json`);",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": [
-          "raw.githubusercontent.com"
-        ]
-      },
       {
         "ruleId": "shell",
         "file": "skills/exchanges/senpi-ai-senpi-strategy-ops/TRUST.auto.yaml",
         "line": 29,
         "excerpt": "- 'pattern: subprocess.Popen'",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": false
       },
       {
@@ -48,7 +37,7 @@
         "file": "skills/exchanges/senpi-ai-senpi-strategy-ops/TRUST.auto.yaml",
         "line": 47,
         "excerpt": "- 'pattern: http.client.'",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": false,
         "hosts": []
       },
@@ -59,247 +48,18 @@
         "excerpt": "- 'scan: no curl|sh / wget|sh pattern matched'",
         "disclosed": false,
         "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/exchanges/senpi-ai-senpi-strategy-ops/scripts/_cli.py",
-        "line": 61,
-        "excerpt": "except subprocess.TimeoutExpired:",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/exchanges/senpi-ai-senpi-strategy-ops/scripts/_cli.py",
-        "line": 69,
-        "excerpt": "except subprocess.TimeoutExpired:",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/exchanges/senpi-ai-senpi-strategy-ops/scripts/_cli.py",
-        "line": 78,
-        "excerpt": "p = subprocess.Popen(args, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/exchanges/senpi-ai-senpi-strategy-ops/scripts/_cli.py",
-        "line": 79,
-        "excerpt": "stderr=subprocess.PIPE, text=True, env=_cli_env(),",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/exchanges/senpi-ai-senpi-strategy-ops/scripts/_cli.py",
-        "line": 85,
-        "excerpt": "except subprocess.TimeoutExpired:",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/exchanges/senpi-ai-senpi-strategy-ops/scripts/_cli.py",
-        "line": 89,
-        "excerpt": "except (subprocess.TimeoutExpired, ValueError, OSError):",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/exchanges/senpi-ai-senpi-strategy-ops/scripts/_fetch.py",
-        "line": 17,
-        "excerpt": "import http.client",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/exchanges/senpi-ai-senpi-strategy-ops/scripts/_fetch.py",
-        "line": 33,
-        "excerpt": "conn = http.client.HTTPSConnection(host, timeout=timeout)",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/exchanges/senpi-ai-senpi-strategy-ops/scripts/mcp_client.py",
-        "line": 20,
-        "excerpt": "import http.client",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/exchanges/senpi-ai-senpi-strategy-ops/scripts/mcp_client.py",
-        "line": 50,
-        "excerpt": "cls = http.client.HTTPSConnection if scheme == \"https\" else http.client.HTTPConnection",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/exchanges/senpi-ai-senpi-strategy-ops/tests/test_cli_env.py",
-        "line": 58,
-        "excerpt": "before = dict(os.environ)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/exchanges/senpi-ai-senpi-strategy-ops/tests/test_cli_env.py",
-        "line": 68,
-        "excerpt": "self.assertEqual(dict(os.environ), before)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/exchanges/senpi-ai-senpi-strategy-ops/tests/test_cli_env.py",
-        "line": 90,
-        "excerpt": "before = dict(os.environ)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "reads-secrets",
-        "file": "skills/exchanges/senpi-ai-senpi-strategy-ops/tests/test_cli_env.py",
-        "line": 96,
-        "excerpt": "self.assertEqual(dict(os.environ), before)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/exchanges/senpi-ai-senpi-strategy-ops/tests/test_cli_reads.py",
-        "line": 344,
-        "excerpt": "self._real = _cli.subprocess.Popen",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/exchanges/senpi-ai-senpi-strategy-ops/tests/test_cli_reads.py",
-        "line": 347,
-        "excerpt": "_cli.subprocess.Popen = self._real",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/exchanges/senpi-ai-senpi-strategy-ops/tests/test_cli_reads.py",
-        "line": 352,
-        "excerpt": "_cli.subprocess.Popen = boom",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/exchanges/senpi-ai-senpi-strategy-ops/tests/test_deploy_where.py",
-        "line": 12,
-        "excerpt": "out = subprocess.run([sys.executable, DEPLOY, \"where\"], env=env, capture_output=True, text=True, timeout=60)",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/exchanges/senpi-ai-senpi-strategy-ops/tests/test_deploy_where.py",
-        "line": 20,
-        "excerpt": "out = subprocess.run([sys.executable, DEPLOY, \"where\"], env=env, capture_output=True, text=True, timeout=60)",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/exchanges/senpi-ai-senpi-strategy-ops/tests/test_deploy_wrapper.py",
-        "line": 175,
-        "excerpt": "r = subprocess.run([\"node\", str(root / \"probe.cjs\"), mode, *argv],",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/exchanges/senpi-ai-senpi-strategy-ops/tests/test_deploy_wrapper.py",
-        "line": 3048,
-        "excerpt": "r = subprocess.run([sys.executable, str(SCRIPTS / \"status.py\"), \"arctic\", \"spider-swing\"],",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/exchanges/senpi-ai-senpi-strategy-ops/tests/test_deploy_wrapper.py",
-        "line": 3433,
-        "excerpt": "proc = subprocess.run(args, capture_output=True, text=True, timeout=60, env=env)",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/exchanges/senpi-ai-senpi-strategy-ops/tests/test_fork.py",
-        "line": 152,
-        "excerpt": "return subprocess.run([sys.executable, DEPLOY] + args, env=env, capture_output=True, text=True, timeout=120)",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/exchanges/senpi-ai-senpi-strategy-ops/tests/test_gateway_call.py",
-        "line": 223,
-        "excerpt": "st = subprocess.run([\"ps\", \"-o\", \"stat=\", \"-p\", str(pid)], capture_output=True, text=True).stdout.strip()",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/exchanges/senpi-ai-senpi-strategy-ops/tests/test_gateway_call.py",
-        "line": 229,
-        "excerpt": "\"m=subprocess.Popen([sys.executable,'-c',\"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/exchanges/senpi-ai-senpi-strategy-ops/tests/test_gateway_call.py",
-        "line": 263,
-        "excerpt": "script = (f\"import subprocess,time;p=subprocess.Popen(['sleep','60']);\"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/exchanges/senpi-ai-senpi-strategy-ops/tests/test_oom_stop.py",
-        "line": 511,
-        "excerpt": "p = subprocess.run([\"bash\", \"-c\", \"set -euo pipefail; ID=spider; ROOT=/r; BRANCH=b; \"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/exchanges/senpi-ai-senpi-strategy-ops/tests/test_vendored_yaml_parses_every_package.py",
-        "line": 176,
-        "excerpt": "\"reads the same on an agent host as it does here. Install it (pip install pyyaml); do not \"",
-        "disclosed": false,
-        "automatic": false
       }
     ],
     "findingTotals": {
-      "network": 6,
-      "shell": 23,
-      "downloads-code": 3,
-      "reads-secrets": 4
+      "shell": 1,
+      "downloads-code": 2,
+      "network": 1
     },
-    "score": 59,
+    "score": 75,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 53,
-    "filesSkipped": 0
+    "filesScanned": 7,
+    "filesSkipped": 46
   },
   "history": [
     {
@@ -324,6 +84,12 @@
       "commit": "100f6db5bc51b89029ed74229448a89f49ae7176",
       "scannedAt": "2026-11-18T10:48:40.347Z",
       "score": 59,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "c24ee1c7c0e54e28ea56a1e99dcd617547c6da07",
+      "scannedAt": "2026-11-21T10:21:16.775Z",
+      "score": 75,
       "rulesVersion": "1.3.0"
     }
   ]

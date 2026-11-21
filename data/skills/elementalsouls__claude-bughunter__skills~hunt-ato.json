@@ -5,15 +5,15 @@
   "path": "skills/hunt-ato",
   "name": "hunt-ato",
   "description": "Hunt account takeover taxonomy — 9 distinct paths to ATO, plus chains. Paths: (1) password reset flaws (host-header injection redirects token, predictable/numeric token, Referer leak, no-expiry/reuse), (2) email change without re-auth, (3) OAuth account-link CSRF, (4) MFA bypass (per hunt-mfa-bypass), (5) session fixation, (6) JWT manipulation (forge token to another identity; crypto details → hunt-jwt-crypto), (7) password change without step-up (chain with login timing/length oracle), (8) social-recovery / security-question brute-force, (9) SSO subdomain takeover at OAuth redirect_uri. Chains: cookie theft + password oracle + no step-up = persistent ATO; lax redirect_uri = auth-code theft; dangling-CNAME takeover at redirect_uri = ATO. Validate: demonstrate real takeover of test account B from attacker A's session; OOB/Collaborator confirm blind token-leak steps. Use when hunting ATO chains, testing password reset / email change / MFA / OAuth / session / JWT, or chaining primitives toward Critical.",
-  "stars": 11730,
+  "stars": 15079,
   "category": "security",
-  "commit": "9bdb0a81658bc25f09c0b52d31fcde923d126e4f",
-  "contentHash": "3d6ecb1792c59c8f35e2a4f139aa0fe505c6189c6e1048c4ad035cc5c7163a81",
+  "commit": "8258d29726804f5b954a09c625caedc183f7130d",
+  "contentHash": "5e4f594cecd9b266084023c22392d6d0078fa6d2ad13b4eb4eb7e5701aed2db8",
   "repoCreatedAt": "2026-05-05T11:22:32Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-19T10:50:00.942Z",
+  "scannedAt": "2026-11-21T10:21:16.775Z",
   "scan": {
     "findings": [
       {
@@ -106,7 +106,7 @@
       {
         "ruleId": "network",
         "file": "mcp/hackerone/server.py",
-        "line": 65,
+        "line": 66,
         "excerpt": "req = urllib.request.Request(GRAPHQL_URL, data=json.dumps({\"query\": query}).encode(),",
         "disclosed": true,
         "automatic": false,
@@ -115,7 +115,7 @@
       {
         "ruleId": "network",
         "file": "mcp/hackerone/server.py",
-        "line": 68,
+        "line": 69,
         "excerpt": "with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:",
         "disclosed": true,
         "automatic": false,
@@ -124,7 +124,27 @@
       {
         "ruleId": "network",
         "file": "mcp/hackerone/server.py",
-        "line": 92,
+        "line": 83,
+        "excerpt": "req = urllib.request.Request(f\"https://hackerone.com/reports/{int(rid)}.json\",",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "hackerone.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "mcp/hackerone/server.py",
+        "line": 86,
+        "excerpt": "with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "mcp/hackerone/server.py",
+        "line": 108,
         "excerpt": "req = urllib.request.Request(url, headers={\"Authorization\": \"Basic \" + auth,",
         "disclosed": true,
         "automatic": false,
@@ -133,7 +153,7 @@
       {
         "ruleId": "network",
         "file": "mcp/hackerone/server.py",
-        "line": 95,
+        "line": 111,
         "excerpt": "with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:",
         "disclosed": true,
         "automatic": false,
@@ -150,7 +170,7 @@
     ],
     "findingTotals": {
       "shell": 8,
-      "network": 7
+      "network": 9
     },
     "score": 92,
     "band": "low",
@@ -198,6 +218,12 @@
     {
       "commit": "9bdb0a81658bc25f09c0b52d31fcde923d126e4f",
       "scannedAt": "2026-11-19T10:50:00.942Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "8258d29726804f5b954a09c625caedc183f7130d",
+      "scannedAt": "2026-11-21T10:21:16.775Z",
       "score": 92,
       "rulesVersion": "1.3.0"
     }

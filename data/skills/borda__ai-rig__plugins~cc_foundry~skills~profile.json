@@ -7,13 +7,13 @@
   "description": "Session clock-time AND token/cost analyzer. Reads the foundry plugin's timings.jsonl and invocations.jsonl logs (written by task-log.js) for wall-time, plus Claude Code transcripts (~/.claude/projects/**, main-loop + subagent files) for token usage and USD cost, and merges both into one per-session and per-skill report — local-tool vs subagent-spawn vs Skill vs AskUserQuestion idle vs main-loop reasoning residual time, and main-loop vs subagent spend by model tier. Useful for answering \"why did /oss:resolve run 30 minutes?\", \"what did this session cost?\", or \"which skill burns the most tokens?\". Pure log/transcript read — no instrumentation, no skill edits, no LLM calls. TRIGGER when: user asks where wall-clock time OR tokens/cost go during a skill/session, why a skill is slow or expensive, what dominates total runtime or spend, or wants a per-skill rollup over a recent window; phrases: \"where does time go\", \"why so slow\", \"what did this cost\", \"token spend\", \"why so expensive\", \"profile last session\", \"clock breakdown\", \"session timing\", \"which skill burns tokens\". SKIP: per-line Python perf (use foundry:perf-optimizer); known failure or hang (use /foundry:investigate); a real billing statement (prices are public list rates, not effective plan rates).",
   "stars": 31,
   "category": "coding",
-  "commit": "77d2d79b8e3b3ddc6bc0ff6c750a71047171c64b",
-  "contentHash": "a8951dd6f53eb40020227d13a87f662502e2265da5675edeac2827ebba9deae3",
+  "commit": "70c441af28c16a7cc622c2ea6a3ddca7e0ab8c66",
+  "contentHash": "806b407b842cacb88af4fc2b4d1b3e81d3547b360ffd5bf94a0fdbdde06a2647",
   "repoCreatedAt": "2026-02-22T18:44:53Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-16T10:15:16.941Z",
+  "scannedAt": "2026-11-21T10:21:16.775Z",
   "scan": {
     "findings": [
       {
@@ -35,7 +35,15 @@
       {
         "ruleId": "shell",
         "file": "plugins/cc_foundry/CHANGELOG.md",
-        "line": 8,
+        "line": 7,
+        "excerpt": "- `commit-guard.js` and `gh-write-guard.js` now read what rtk executes: the string it hands to a shell like `sh -c` (`rtk run -c`, `rtk run|summary|err|test --s",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/cc_foundry/CHANGELOG.md",
+        "line": 49,
         "excerpt": "- A Codex run is recognised from the Bash call to `bridge_call.py advise|review|implement`, read from the command's own words with the interpreter as the comman",
         "disclosed": true,
         "automatic": false
@@ -43,7 +51,7 @@
       {
         "ruleId": "downloads-code",
         "file": "plugins/cc_foundry/CHANGELOG.md",
-        "line": 109,
+        "line": 150,
         "excerpt": "- `/foundry:create` and `foundry:creator` now produce two visual formats. An animated SVG uses SMIL with no script or external resources, so it plays inside an ",
         "disclosed": false,
         "automatic": false
@@ -51,7 +59,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/cc_foundry/CHANGELOG.md",
-        "line": 245,
+        "line": 286,
         "excerpt": "- The same hook reads each command as the shell's own words before judging it: quotes, backslash escapes, `$'…'` strings and line continuations are resolved and",
         "disclosed": true,
         "automatic": false
@@ -59,7 +67,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/cc_foundry/CHANGELOG.md",
-        "line": 250,
+        "line": 291,
         "excerpt": "- The manifest generator gives no entry to a block that sources a state file, runs a variable's value as a command (`bash -c \"$VAR\"`, `$RUNNER …`) or writes her",
         "disclosed": true,
         "automatic": false
@@ -67,7 +75,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/cc_foundry/CHANGELOG.md",
-        "line": 256,
+        "line": 297,
         "excerpt": "- `permissions-guide.md` no longer lists `bash -c \"$CMD\"` or sourcing a state file as allowed shapes, and describes the escaped-blank refusal.",
         "disclosed": true,
         "automatic": false
@@ -75,7 +83,7 @@
       {
         "ruleId": "network",
         "file": "plugins/cc_foundry/CHANGELOG.md",
-        "line": 306,
+        "line": 347,
         "excerpt": "- `/foundry:audit --efficiency` run alone now writes the `aggregate.md` and `summary.jsonl` the audit gate reads, and `check_codemap_guard.py` tracks the split ",
         "disclosed": false,
         "automatic": false,
@@ -192,7 +200,7 @@
       {
         "ruleId": "network",
         "file": "plugins/cc_foundry/bin/build_blueprint_manifest.py",
-        "line": 1181,
+        "line": 1185,
         "excerpt": "'curl -X POST'",
         "disclosed": false,
         "automatic": false,
@@ -201,7 +209,7 @@
       {
         "ruleId": "network",
         "file": "plugins/cc_foundry/bin/build_blueprint_manifest.py",
-        "line": 1183,
+        "line": 1187,
         "excerpt": "'curl -o'",
         "disclosed": false,
         "automatic": false,
@@ -210,7 +218,7 @@
       {
         "ruleId": "network",
         "file": "plugins/cc_foundry/bin/build_blueprint_manifest.py",
-        "line": 1191,
+        "line": 1195,
         "excerpt": "return f\"curl -X {method}\"",
         "disclosed": false,
         "automatic": false,
@@ -219,7 +227,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/cc_foundry/bin/build_blueprint_manifest.py",
-        "line": 1758,
+        "line": 1762,
         "excerpt": "command: A command, a block, or text a ``trap``/``sh -c`` runs.",
         "disclosed": true,
         "automatic": false
@@ -227,7 +235,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/cc_foundry/bin/build_blueprint_manifest.py",
-        "line": 1910,
+        "line": 1914,
         "excerpt": "including those inside substitutions, ``sh -c`` strings and ``find -exec``, is allowed.",
         "disclosed": true,
         "automatic": false
@@ -235,7 +243,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/cc_foundry/bin/build_blueprint_manifest.py",
-        "line": 1921,
+        "line": 1925,
         "excerpt": ">>> unlisted_command('bash -c \"$RUNNER pytest -q\"')",
         "disclosed": true,
         "automatic": false
@@ -243,7 +251,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/cc_foundry/bin/build_blueprint_manifest.py",
-        "line": 1924,
+        "line": 1928,
         "excerpt": "...                  'bash -c \"$RUNNER pytest -q\"')",
         "disclosed": true,
         "automatic": false
@@ -334,14 +342,6 @@
         "file": "plugins/cc_foundry/tests/fixtures/blueprint_normalization_vectors.json",
         "line": 1323,
         "excerpt": "\"input\": \"zsh -c 'set -A \\\"$n\\\" ruff /bin/echo; ruff PROBE'\"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/cc_foundry/tests/fixtures/blueprint_normalization_vectors.json",
-        "line": 1368,
-        "excerpt": "\"input\": \"bash -c -- \\\"$METRIC_CMD\\\"\"",
         "disclosed": true,
         "automatic": false
       },
@@ -451,7 +451,7 @@
       }
     ],
     "findingTotals": {
-      "shell": 100,
+      "shell": 101,
       "downloads-code": 4,
       "network": 19,
       "writes-outside": 4,
@@ -485,6 +485,12 @@
     {
       "commit": "77d2d79b8e3b3ddc6bc0ff6c750a71047171c64b",
       "scannedAt": "2026-11-16T10:15:16.941Z",
+      "score": 57,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "70c441af28c16a7cc622c2ea6a3ddca7e0ab8c66",
+      "scannedAt": "2026-11-21T10:21:16.775Z",
       "score": 57,
       "rulesVersion": "1.3.0"
     }
