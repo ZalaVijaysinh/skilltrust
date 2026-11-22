@@ -1,0 +1,168 @@
+{
+  "id": "open-metadata__openmetadata__skills~openmetadata-pr-review",
+  "owner": "open-metadata",
+  "repo": "OpenMetadata",
+  "path": "skills/openmetadata-pr-review",
+  "name": "openmetadata-pr-review",
+  "description": "Reviews OpenMetadata and Collate pull requests as a maintainer deciding whether to merge. Use WHENEVER the user asks to review a pull request — any phrasing (\"review this PR\", \"PR review\", \"can you review #1234\", \"review my PR\", a pasted github.com/open-metadata/OpenMetadata/pull/NN URL, or a batch of PR numbers). Default handler for every PR-review request on OpenMetadata (open-metadata/OpenMetadata, a fork, or a Collate repo). Also use when asked whether a PR should go into a release or backport branch, whether two PRs duplicate each other, or why a PR's CI is failing.",
+  "stars": 15832,
+  "category": "data",
+  "commit": "78e4716b17be950e79e3634c49f0b52323d6732a",
+  "contentHash": "aa55a058bbd975b4c04e773b1dedbbb6324d2845b6063b24f266eb4d4e856a00",
+  "repoCreatedAt": "2021-08-01T21:17:17Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-22T10:25:50.393Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/openmetadata-pr-review/SKILL.md",
+        "line": 39,
+        "excerpt": "REPO=open-metadata/OpenMetadata            # OSS default",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/openmetadata-pr-review/SKILL.md",
+        "line": 53,
+        "excerpt": "python3 skills/openmetadata-pr-review/scripts/pr_triage.py -R \"$REPO\" 26965,26977,27020",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/openmetadata-pr-review/SKILL.md",
+        "line": 65,
+        "excerpt": "HEAD=$(gh pr view <n> -R \"$REPO\" --json headRefOid --jq .headRefOid)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/openmetadata-pr-review/SKILL.md",
+        "line": 71,
+        "excerpt": "git fetch \"https://github.com/$REPO.git\" \"pull/<n>/head:pr-<n>\" --force",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/openmetadata-pr-review/SKILL.md",
+        "line": 84,
+        "excerpt": "gh pr view <n> -R \"$REPO\" --json title,body,author,createdAt,additions,deletions,changedFiles,labels,url",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/openmetadata-pr-review/SKILL.md",
+        "line": 102,
+        "excerpt": "gh issue view <NNNN> -R \"$REPO\" --json title,body,state",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/openmetadata-pr-review/SKILL.md",
+        "line": 112,
+        "excerpt": "git -c diff.external=difft diff <base>...<head> -- <path>   # syntax-aware, per-file",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/openmetadata-pr-review/SKILL.md",
+        "line": 120,
+        "excerpt": "gh pr diff <n> -R \"$REPO\" --patch          # raw, unified patch",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/openmetadata-pr-review/SKILL.md",
+        "line": 217,
+        "excerpt": "gh pr checks <n> -R \"$REPO\" | awk -F'\\t' '$2!=\"pass\" && $2!=\"skipping\"'   # current state per check",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/openmetadata-pr-review/scripts/pr_triage.py",
+        "line": 34,
+        "excerpt": "def fetch(number: int, repo: str) -> dict:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/openmetadata-pr-review/scripts/pr_triage.py",
+        "line": 35,
+        "excerpt": "result = subprocess.run(",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/openmetadata-pr-review/scripts/pr_triage.py",
+        "line": 55,
+        "excerpt": "rows = list(pool.map(lambda n: fetch(n, args.repo), numbers))",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hooks/hooks.json",
+        "line": 9,
+        "excerpt": "\"command\": \"cat \\\"${CLAUDE_PLUGIN_ROOT}/openmetadata-workflow/SKILL.md\\\"\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hooks/hooks.json",
+        "line": 22,
+        "excerpt": "\"command\": \"if echo \\\"$CLAUDE_TOOL_INPUT\\\" | grep -q -- '--no-verify'; then echo '{\\\"decision\\\": \\\"block\\\", \\\"reason\\\": \\\"Do not skip pre-commit hooks. Fix the ",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hooks/hooks.json",
+        "line": 34,
+        "excerpt": "\"command\": \"FILE=$(echo \\\"$CLAUDE_TOOL_INPUT\\\" | jq -r '.file_path // empty' 2>/dev/null); if [ -n \\\"$FILE\\\" ] && echo \\\"$FILE\\\" | grep -qE '\\\\.java$'; then ech",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hooks/hooks.json",
+        "line": 44,
+        "excerpt": "\"command\": \"FILE=$(echo \\\"$CLAUDE_TOOL_INPUT\\\" | jq -r '.file_path // empty' 2>/dev/null); if [ -n \\\"$FILE\\\" ] && echo \\\"$FILE\\\" | grep -qE 'openmetadata-spec/s",
+        "disclosed": false,
+        "automatic": true
+      }
+    ],
+    "findingTotals": {
+      "shell": 14,
+      "network": 2
+    },
+    "score": 90,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 5,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "78e4716b17be950e79e3634c49f0b52323d6732a",
+      "scannedAt": "2026-11-22T10:25:50.393Z",
+      "score": 90,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

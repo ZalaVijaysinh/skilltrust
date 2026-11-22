@@ -7,13 +7,13 @@
   "description": "Acknowledge a codex-pair finding by its 16-character hash and a user-owned reason. Use when the user wants to suppress a repeated finding reminder or defer a host gate where supported.",
   "stars": 21,
   "category": "coding",
-  "commit": "708915a46b0524725aa10f4d266d9b2974c71b6b",
-  "contentHash": "968ac86f040d939efc95ba6373c7cd321bbee96451c89c2da0220eb12ae677f5",
+  "commit": "4c6d6362a7d718352b46aedfdec0c045f5828786",
+  "contentHash": "bec9a13d3284c7cd168d73fc7a648b969cd4db9238caf6b2fc8de6ea1831d2b2",
   "repoCreatedAt": "2026-02-19T17:23:57Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-19T10:50:00.942Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-22T10:25:50.393Z",
   "scan": {
     "findings": [
       {
@@ -21,6 +21,22 @@
         "file": "packages/llm-mcp/skills/ask-llm-codex-pair-ack/SKILL.md",
         "line": 34,
         "excerpt": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/codex-pair-log.mjs\" ack \"<hash>\" <<'CODEX_PAIR_ACK_REASON'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/llm-mcp/scripts/codex-pair-debounce-worker.mjs",
+        "line": 5,
+        "excerpt": "import { spawnSync } from \"node:child_process\";",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/llm-mcp/scripts/codex-pair-debounce-worker.mjs",
+        "line": 26,
+        "excerpt": "return spawnSync(process.execPath, [HOOK_PATH], {",
         "disclosed": false,
         "automatic": false
       },
@@ -61,6 +77,14 @@
         "file": "packages/llm-mcp/scripts/lib/broker-lifecycle.mjs",
         "line": 493,
         "excerpt": "const table = execFileSync(\"ps\", [\"-ax\", \"-ww\", \"-o\", \"pid=,args=\"], { encoding: \"utf-8\", timeout: 2000 });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/llm-mcp/scripts/lib/pair-catch-up.mjs",
+        "line": 2,
+        "excerpt": "import { spawn } from \"node:child_process\";",
         "disclosed": false,
         "automatic": false
       },
@@ -107,23 +131,23 @@
       {
         "ruleId": "shell",
         "file": "packages/llm-mcp/scripts/lib/stop-gate-io.mjs",
-        "line": 23,
-        "excerpt": "const repoRoot = execFileSync(\"git\", [\"-C\", markerDir, \"rev-parse\", \"--show-toplevel\"], opts).trim();",
+        "line": 17,
+        "excerpt": "repoRoot = execFileSync(\"git\", [\"-C\", markerDir, \"rev-parse\", \"--show-toplevel\"], {",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "packages/llm-mcp/scripts/lib/stop-gate-io.mjs",
-        "line": 25,
-        "excerpt": "const porcelain = execFileSync(\"git\", [\"-C\", markerDir, \"status\", \"--porcelain=v1\", \"-z\", \"--untracked-files=all\"], opts);",
+        "line": 33,
+        "excerpt": "const porcelain = execFileSync(\"git\", [\"--no-optional-locks\", \"-C\", markerDir, \"status\", \"--porcelain=v1\", \"-z\", \"--untracked-files=all\"], { ...opts, timeout: M",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "packages/llm-mcp/scripts/lib/stop-gate-io.mjs",
-        "line": 42,
+        "line": 50,
         "excerpt": "ignored = execFileSync(\"git\", [\"-C\", repoDir, \"check-ignore\", \"-z\", \"--stdin\"], {",
         "disclosed": false,
         "automatic": false
@@ -151,40 +175,16 @@
         "excerpt": "\"command\": \"node\",",
         "disclosed": false,
         "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": "packages/llm-mcp/hooks/hooks.json",
-        "line": 8,
-        "excerpt": "\"command\": \"node ${CLAUDE_PLUGIN_ROOT}/scripts/codex-pair-stop-gate.mjs\"",
-        "disclosed": false,
-        "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": "packages/llm-mcp/hooks/hooks.json",
-        "line": 19,
-        "excerpt": "\"command\": \"node ${CLAUDE_PLUGIN_ROOT}/scripts/codex-pair-watch.mjs\"",
-        "disclosed": false,
-        "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": "packages/llm-mcp/hooks/hooks.json",
-        "line": 29,
-        "excerpt": "\"command\": \"node ${CLAUDE_PLUGIN_ROOT}/scripts/codex-pair-session.mjs\"",
-        "disclosed": false,
-        "automatic": true
       }
     ],
     "findingTotals": {
-      "shell": 23
+      "shell": 26
     },
     "score": 95,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 29,
-    "filesSkipped": 2
+    "filesScanned": 36,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -202,6 +202,12 @@
     {
       "commit": "708915a46b0524725aa10f4d266d9b2974c71b6b",
       "scannedAt": "2026-11-19T10:50:00.942Z",
+      "score": 95,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "4c6d6362a7d718352b46aedfdec0c045f5828786",
+      "scannedAt": "2026-11-22T10:25:50.393Z",
       "score": 95,
       "rulesVersion": "1.3.0"
     }

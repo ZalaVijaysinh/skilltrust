@@ -5,15 +5,15 @@
   "path": "skills/eval-loop",
   "name": "eval-loop",
   "description": "Conduct a local Publisher evaluation loop in five steps: scrape/run, eval, diagnose, improve, checkpoint. You are the conductor: import cases into the file ledger, spawn a blind answerer, then run eval-answer, eval-diagnose, and eval-improve. Persistence is plain files: the set in the model package's evals/ directory, runs in the set's workdir; checkpoints are git commits of the model repo. `eval.py` runs each step from the set's eval.toml. Use to score a model, diagnose failures, improve behind an acceptance check, or roll back a bad direction.",
-  "stars": 134,
+  "stars": 135,
   "category": "data",
-  "commit": "022f20f58fb6dfc13cae168ff316fe8482030249",
-  "contentHash": "e7cf084cf7293598cb73d8861569eac54082c2b3377d5b77b1d2cb5f41a12bdb",
+  "commit": "e18bde5cd59ff6d259dbcd73fcff10266ae4c858",
+  "contentHash": "5c73dcb138f62e290e2bc721c1252f170bf776fd2b866e83446a4a6952508eb6",
   "repoCreatedAt": "2024-09-16T18:29:09Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-19T10:50:00.942Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-22T10:25:50.393Z",
   "scan": {
     "findings": [
       {
@@ -240,30 +240,73 @@
       },
       {
         "ruleId": "network",
-        "file": "skills/eval-loop/scripts/serve_test.py",
-        "line": 150,
-        "excerpt": "\"\"\"Run warm_retrieval over a scripted sequence of urlopen outcomes.\"\"\"",
+        "file": "skills/eval-loop/scripts/serve.py",
+        "line": 100,
+        "excerpt": "import urllib.request",
         "disclosed": false,
         "automatic": false,
         "hosts": []
       },
       {
         "ruleId": "network",
-        "file": "skills/eval-loop/scripts/serve_test.py",
-        "line": 173,
-        "excerpt": "def urlopen(req, timeout=None):",
+        "file": "skills/eval-loop/scripts/serve.py",
+        "line": 109,
+        "excerpt": "with urllib.request.urlopen(f\"http://localhost:{port}/api/v0/projects\",",
         "disclosed": false,
         "automatic": false,
         "hosts": []
       },
       {
         "ruleId": "network",
-        "file": "skills/eval-loop/scripts/serve_test.py",
-        "line": 187,
-        "excerpt": "mock.patch.object(serve.urllib.request, \"urlopen\", urlopen), \\",
+        "file": "skills/eval-loop/scripts/serve.py",
+        "line": 234,
+        "excerpt": "with urllib.request.urlopen(f\"{package_url}/embedding-index\",",
         "disclosed": false,
         "automatic": false,
         "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/eval-loop/scripts/serve.py",
+        "line": 240,
+        "excerpt": "with urllib.request.urlopen(package_url, timeout=10) as r:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/eval-loop/scripts/serve.py",
+        "line": 260,
+        "excerpt": "req = urllib.request.Request(",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/eval-loop/scripts/serve.py",
+        "line": 264,
+        "excerpt": "urllib.request.urlopen(req, timeout=timeout).read()",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/eval-loop/scripts/serve.py",
+        "line": 604,
+        "excerpt": "p = subprocess.Popen(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/eval-loop/scripts/serve.py",
+        "line": 646,
+        "excerpt": "except (ProcessLookupError, subprocess.TimeoutExpired):",
+        "disclosed": true,
+        "automatic": false
       },
       {
         "ruleId": "shell",
@@ -275,14 +318,14 @@
       }
     ],
     "findingTotals": {
-      "shell": 13,
-      "network": 17
+      "shell": 15,
+      "network": 25
     },
     "score": 92,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 29,
-    "filesSkipped": 3
+    "filesScanned": 32,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -294,6 +337,12 @@
     {
       "commit": "022f20f58fb6dfc13cae168ff316fe8482030249",
       "scannedAt": "2026-11-19T10:50:00.942Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "e18bde5cd59ff6d259dbcd73fcff10266ae4c858",
+      "scannedAt": "2026-11-22T10:25:50.393Z",
       "score": 92,
       "rulesVersion": "1.3.0"
     }

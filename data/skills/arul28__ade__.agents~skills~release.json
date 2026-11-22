@@ -1,0 +1,354 @@
+{
+  "id": "arul28__ade__.agents~skills~release",
+  "owner": "arul28",
+  "repo": "ADE",
+  "path": ".agents/skills/release",
+  "name": "release",
+  "description": "ADE release conductor: detect whether desktop, iOS, and/or the Cloudflare web tier actually changed, bump desktop patch versions, keep iOS marketing versions fixed while bumping build numbers, ship desktop through the GitHub Actions release workflow, distribute TestFlight builds to all beta users, and reconcile every Cloudflare surface (Pages web client, the four Workers, D1 migrations, R2 buckets and lifecycle rules, Durable Object migration tags, cron triggers, vars and secrets) against what actually exists in the Cloudflare account.",
+  "stars": 146,
+  "category": "marketing",
+  "commit": "3ce56620962032ccf0e2f82a25a518267174ce58",
+  "contentHash": "0eaec330953324669ca2a0d1773c15a358f39a5145fb5633f3835c80bf81fe9f",
+  "repoCreatedAt": "2026-02-10T17:36:36Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-22T10:25:50.393Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/release/SKILL.md",
+        "line": 70,
+        "excerpt": "git checkout main && git pull --ff-only",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/release/SKILL.md",
+        "line": 99,
+        "excerpt": "bash scripts/release-tools/betas.sh",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/release/SKILL.md",
+        "line": 131,
+        "excerpt": "node scripts/docs-areas.mjs --changed --base v<previous-release>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/release/SKILL.md",
+        "line": 167,
+        "excerpt": "node scripts/validate-docs.mjs",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/release/SKILL.md",
+        "line": 178,
+        "excerpt": "git tag v<V> $BETA_SHA && git push origin v<V>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/release/SKILL.md",
+        "line": 195,
+        "excerpt": "IOS_SHA=$(git rev-parse origin/main)   # iOS is not promoted from a beta yet: main's head, the code scope.sh counted",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/release/SKILL.md",
+        "line": 203,
+        "excerpt": "gh run list --repo arul28/ADE --workflow release.yml --limit 2 --json databaseId,headBranch,status,conclusion",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/release/SKILL.md",
+        "line": 217,
+        "excerpt": "bash scripts/release-tools/verify-desktop-draft.sh <V>                 # must print DRAFT OK",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/release/SKILL.md",
+        "line": 232,
+        "excerpt": "for w in ade-account-directory-production ade-github-webhook-relay ade-tunnel-relay ade-push-relay; do",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/release/SKILL.md",
+        "line": 233,
+        "excerpt": "echo \"$w $(curl -fsS -m 10 https://$w.arulsharma1028.workers.dev/health | head -c 160)\"; done",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "$w.arulsharma1028.workers.dev"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/release/SKILL.md",
+        "line": 234,
+        "excerpt": "curl -s -o /dev/null -w '%{http_code}\\n' -X POST https://ade-account-directory-production.arulsharma1028.workers.dev/diagnostics/upload   # 400 = R2 bound",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "ade-account-directory-production.arulsharma1028.workers.dev"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/release/reference.md",
+        "line": 1062,
+        "excerpt": "binding/secret preflights, and the post-deploy auth smokes. `npx wrangler deploy`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/release/reference.md",
+        "line": 1118,
+        "excerpt": "Run the loop through `bash -c '…'` when the conductor's shell is zsh.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/release/reference.md",
+        "line": 1172,
+        "excerpt": "| `ade-web-client` (Pages) | none in repo; built by `apps/desktop/vite.webclient.config.ts` | custom domain `app.ade-app.dev`, Pages URL `ade-web-client.pages.d",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/release/reference.md",
+        "line": 1201,
+        "excerpt": "pins wrangler. Without that install, `npx wrangler` has nothing local to resolve",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/release/reference.md",
+        "line": 1207,
+        "excerpt": "(cd apps/account-directory && npx wrangler --version)   # expect 4.112.0",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/release/reference.md",
+        "line": 1208,
+        "excerpt": "(cd apps/account-directory && npx wrangler whoami)      # CLOUDFLARE_ACCOUNT_ID → right account",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/release/reference.md",
+        "line": 1222,
+        "excerpt": "(cd apps/account-directory && npx wrangler r2 bucket list)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/release/reference.md",
+        "line": 1223,
+        "excerpt": "(cd apps/account-directory && npx wrangler r2 bucket info ade-diagnostics --json)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/release/reference.md",
+        "line": 1224,
+        "excerpt": "(cd apps/account-directory && npx wrangler r2 bucket info ade-diagnostics-production --json)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/release/reference.md",
+        "line": 1230,
+        "excerpt": "(cd apps/account-directory && npx wrangler d1 list --json)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/release/reference.md",
+        "line": 1231,
+        "excerpt": "(cd apps/account-directory && npx wrangler d1 info ade-account-directory-production --json)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/release/reference.md",
+        "line": 1232,
+        "excerpt": "(cd apps/account-directory && npx wrangler d1 info ade-github-relay --json)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/release/reference.md",
+        "line": 1233,
+        "excerpt": "(cd apps/account-directory && npx wrangler d1 info ade-push-relay --json)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/release/reference.md",
+        "line": 1240,
+        "excerpt": "(cd apps/account-directory && npx wrangler secret list --env production --format json)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/release/reference.md",
+        "line": 1241,
+        "excerpt": "(cd apps/push-relay && npx wrangler secret list --format json)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/release/reference.md",
+        "line": 1247,
+        "excerpt": "(cd apps/account-directory && npx wrangler deployments list --env production)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/release/reference.md",
+        "line": 1248,
+        "excerpt": "(cd apps/account-directory && npx wrangler versions list --env production)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/release/reference.md",
+        "line": 1252,
+        "excerpt": "`npx wrangler kv namespace list`, `npx wrangler queues list`.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/release/reference.md",
+        "line": 1286,
+        "excerpt": "(cd apps/account-directory && npx wrangler r2 bucket lifecycle list ade-diagnostics)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/release/reference.md",
+        "line": 1287,
+        "excerpt": "(cd apps/account-directory && npx wrangler r2 bucket lifecycle list ade-diagnostics-production)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/release/reference.md",
+        "line": 1297,
+        "excerpt": "(cd apps/account-directory && npx wrangler r2 bucket lifecycle add ade-diagnostics \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/release/reference.md",
+        "line": 1430,
+        "excerpt": "live=\"$(curl -fsS https://app.ade-app.dev | grep -oE 'index-[A-Za-z0-9_-]+\\.js' | head -1)\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "app.ade-app.dev"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/release/reference.md",
+        "line": 1441,
+        "excerpt": "curl -fsS https://ade-account-directory-production.arulsharma1028.workers.dev/health",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "ade-account-directory-production.arulsharma1028.workers.dev"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/release/reference.md",
+        "line": 1454,
+        "excerpt": "curl -s -o /dev/null -w '%{http_code}\\n' -X POST \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/release/reference.md",
+        "line": 1500,
+        "excerpt": "curl -fsS https://ade-tunnel-relay.arulsharma1028.workers.dev/health",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "ade-tunnel-relay.arulsharma1028.workers.dev"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/release/reference.md",
+        "line": 1511,
+        "excerpt": "curl -fsS https://ade-github-webhook-relay.arulsharma1028.workers.dev/health",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "ade-github-webhook-relay.arulsharma1028.workers.dev"
+        ]
+      }
+    ],
+    "findingTotals": {
+      "shell": 10,
+      "network": 7,
+      "downloads-code": 36
+    },
+    "score": 77,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "3ce56620962032ccf0e2f82a25a518267174ce58",
+      "scannedAt": "2026-11-22T10:25:50.393Z",
+      "score": 77,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

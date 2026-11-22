@@ -1,0 +1,53 @@
+{
+  "id": "friedbotstudio__baseline__.claude~skills~spec-shippability-review",
+  "owner": "friedbotstudio",
+  "repo": "baseline",
+  "path": ".claude/skills/spec-shippability-review",
+  "name": "spec-shippability-review",
+  "description": "Dev-only check that a drafted spec for THIS baseline repo won't ship dev-tree references to consumer installs. Catches three failure modes — shipped SKILL.md prose that references paths under `src/`, `tests/`, `scripts/`, `obj/` as runtime invocations (in ```bash fences``` OR `inline backticks`, plus shipped `.mjs`/`.js`/`.sh`/`.py` helper-file imports); new Python helpers added under `.claude/skills/<slug>/` (shipped helpers must be `.sh` or `.mjs`/`.js` going forward); and imports of modules that aren't in `obj/template/.claude/manifest.json` (consumer won't have the file). The aggregate scanner (`scan-shipped-skills.mjs`) walks only baseline-owned skill dirs (via `owner: baseline` frontmatter) at top level — `references/` and other subdirs are documentation, not runtime. BLOCKER findings hard-block implementation entry; ADVISORY surfaces but doesn't block. Read-only — surfaces a punch list; maintainer edits the spec and re-runs until CLEAN.",
+  "stars": 15,
+  "category": "coding",
+  "commit": "e22e571159bdbd562b5b1dafb5bf75f284577d9c",
+  "contentHash": "a05b3e32a5e601962f145606180865bc08faa914246a863470f744ee5d20d098",
+  "repoCreatedAt": "2026-04-29T15:28:33Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-22T10:25:50.393Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/spec-shippability-review/tests/fixtures/shipped-skill-blocker/planted/SKILL.md",
+        "line": 16,
+        "excerpt": "node -e \"import('./src/foo.js').then(m => m.run())\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/spec-shippability-review/tests/fixtures/shipped-skill-unshipped/planted/SKILL.md",
+        "line": 16,
+        "excerpt": "node .claude/skills/notinmanifest/helper.mjs run",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 2
+    },
+    "score": 95,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 21,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "e22e571159bdbd562b5b1dafb5bf75f284577d9c",
+      "scannedAt": "2026-11-22T10:25:50.393Z",
+      "score": 95,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

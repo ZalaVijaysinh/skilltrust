@@ -5,15 +5,15 @@
   "path": "plugins/security/penetration-tester/skills/auditing-npm-dependencies",
   "name": "auditing-npm-dependencies",
   "description": "Audit a Node.js project's installed npm dependency tree for known\nCVEs by wrapping the npm audit JSON output and emitting findings in\nthe canonical penetration-tester schema. Detects direct AND transitive\nvulnerabilities, normalizes npm's severity scale (info/low/moderate/\nhigh/critical) to the shared Severity enum, and parses both v1 and\nv2 audit output formats so the skill works against npm 6 and npm\n7+ lockfiles.\nUse when: pre-merge gate on a Node project, post-incident sweep\nafter a transitive package compromise (e.g. event-stream, ua-parser,\nnode-ipc, color.js), SOC2 vendor-management evidence collection,\nor auditing an inherited or acquired Node codebase.\nThreshold: any HIGH or CRITICAL CVE in the resolved dependency\ntree. MODERATE / LOW reported informationally.\nTrigger with: \"audit npm deps\", \"npm vulnerability scan\", \"check\nnode packages for CVEs\", \"npm audit\".",
-  "stars": 2931,
+  "stars": 2940,
   "category": "coding",
-  "commit": "73e9de272efcd05db848b177ada0aaba369056c6",
+  "commit": "d5867d5e514077e584aa8d1524f452a6cea921ab",
   "contentHash": "0270b84148515d492d17d407c9f85944b2d1198541593ab126f2b6657488ca1e",
   "repoCreatedAt": "2025-10-10T01:01:00Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-19T10:50:00.942Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-22T10:25:50.393Z",
   "scan": {
     "findings": [
       {
@@ -39,16 +39,32 @@
         "excerpt": "python3 ./scripts/audit_npm.py . --include-dev --no-cache --format json \\",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/security/penetration-tester/skills/auditing-npm-dependencies/scripts/audit_npm.py",
+        "line": 70,
+        "excerpt": "proc = subprocess.run(  # noqa: S603 — npm is the audit tool",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/security/penetration-tester/skills/auditing-npm-dependencies/scripts/audit_npm.py",
+        "line": 78,
+        "excerpt": "except subprocess.TimeoutExpired:",
+        "disclosed": false,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 3
+      "shell": 5
     },
     "score": 95,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 4,
-    "filesSkipped": 1
+    "filesScanned": 5,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -72,6 +88,12 @@
     {
       "commit": "73e9de272efcd05db848b177ada0aaba369056c6",
       "scannedAt": "2026-11-19T10:50:00.942Z",
+      "score": 95,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "d5867d5e514077e584aa8d1524f452a6cea921ab",
+      "scannedAt": "2026-11-22T10:25:50.393Z",
       "score": 95,
       "rulesVersion": "1.3.0"
     }

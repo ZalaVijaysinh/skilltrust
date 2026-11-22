@@ -1,0 +1,101 @@
+{
+  "id": "friedbotstudio__baseline__.claude~skills~swarm-dispatch",
+  "owner": "friedbotstudio",
+  "repo": "baseline",
+  "path": ".claude/skills/swarm-dispatch",
+  "name": "swarm-dispatch",
+  "description": "Execute a swarm plan wave by wave with filesystem isolation via git worktrees. For each wave, main context decides the scenario recipe + implementation contract for every task, then spawns one swarm-worker per task in parallel. Each worker executes its recipe and reports JSON status. Worktree merge-audit verifies write-set discipline before changes land on main. Aborts remaining waves on any audit or task failure.",
+  "stars": 15,
+  "category": "coding",
+  "commit": "e22e571159bdbd562b5b1dafb5bf75f284577d9c",
+  "contentHash": "15bb34b41c95bde550bd65de033a923c5c210b16608410e5a4df11949d0b1903",
+  "repoCreatedAt": "2026-04-29T15:28:33Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-22T10:25:50.393Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/swarm-dispatch/swarm_merge.mjs",
+        "line": 29,
+        "excerpt": "import { spawnSync } from 'node:child_process';",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/swarm-dispatch/swarm_merge.mjs",
+        "line": 101,
+        "excerpt": "const diffNames = spawnSync('git', ['-C', wt, 'diff', baseline, '--name-only'], { encoding: 'utf8' });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/swarm-dispatch/swarm_merge.mjs",
+        "line": 109,
+        "excerpt": "const rm = spawnSync('git', ['-C', root, 'worktree', 'remove', wt], { encoding: 'utf8' });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/swarm-dispatch/swarm_merge.mjs",
+        "line": 128,
+        "excerpt": "const fullDiff = spawnSync('git', ['-C', wt, 'diff', baseline], { encoding: 'utf8' });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/swarm-dispatch/swarm_merge.mjs",
+        "line": 139,
+        "excerpt": "const apply = spawnSync('git', ['-C', root, 'apply', '--whitespace=nowarn', '-'], {",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/swarm-dispatch/swarm_merge.mjs",
+        "line": 149,
+        "excerpt": "const rm = spawnSync('git', ['-C', root, 'worktree', 'remove', wt], { encoding: 'utf8' });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/swarm-dispatch/swarm_wave_audit.mjs",
+        "line": 21,
+        "excerpt": "import { spawnSync } from 'node:child_process';",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/swarm-dispatch/swarm_wave_audit.mjs",
+        "line": 75,
+        "excerpt": "const status = spawnSync('git', ['-C', root, 'status', '--porcelain', '-uall'], { encoding: 'utf8' });",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 8
+    },
+    "score": 95,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 5,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "e22e571159bdbd562b5b1dafb5bf75f284577d9c",
+      "scannedAt": "2026-11-22T10:25:50.393Z",
+      "score": 95,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

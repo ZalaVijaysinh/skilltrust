@@ -1,0 +1,259 @@
+{
+  "id": "decocms__storefront-skills__.claude-deco~skills~tanstack-go-live-check",
+  "owner": "decocms",
+  "repo": "storefront-skills",
+  "path": ".claude-deco/skills/tanstack-go-live-check",
+  "name": "tanstack-go-live-check",
+  "description": "Double-check a Fresh/Deno → TanStack Start (@decocms/*, Cloudflare Workers) migration before go-live, on cutover day, and during the first 72h, so the incidents already hit on Farm, Granado, Phebo, Monte Carlo, Zee.Dog and Zee.Now do not repeat. Use when asked to review a TanStack migration before launch, run a go-live checklist, prepare the cutover / A/B proxy at 0%, audit a worker for memory, KV, cache, Set-Cookie, redirects, checkout proxy, hydration or analytics problems, or investigate a regression right after a TanStack go-live. Covers process (code freeze, reconcile, content sync, CMS pass, traffic ladder, rollback), worker runtime (128 MB, content deploy, KV per site, deadlines), cache correctness, proxied checkout headers, React/SPA pitfalls from Preact ports, SEO and analytics parity, plus a read-only preflight script. Not a migration guide — it assumes the site already builds and renders.",
+  "stars": 14,
+  "category": "data",
+  "commit": "cb5b4d05ab80184c6e69935ac39bb283a437a322",
+  "contentHash": "867f19c6abb39ffe7fe56eecb699f7267b0361cf6be755f89c1f261c1196213a",
+  "repoCreatedAt": "2026-02-24T13:22:56Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-22T10:25:50.393Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".claude-deco/skills/tanstack-go-live-check/SKILL.md",
+        "line": 29,
+        "excerpt": "bash .claude-deco/skills/tanstack-go-live-check/scripts/preflight.sh \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude-deco/skills/tanstack-go-live-check/references/cache.md",
+        "line": 23,
+        "excerpt": "curl -sI -H \"Cookie: <real session cookies>\" https://$HOST/ | grep -i \"x-cache\\|cache-control\"   # must not be HIT from anon",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$host"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude-deco/skills/tanstack-go-live-check/references/cache.md",
+        "line": 37,
+        "excerpt": "echo \"== $p\"; curl -sI -A \"Mozilla/5.0 Chrome/139\" \"https://$HOST$p\" | grep -i \"set-cookie\\|x-cache\\|cache-control\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$host$p"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude-deco/skills/tanstack-go-live-check/references/cache.md",
+        "line": 58,
+        "excerpt": "curl -sI \"https://$HOST/<plp>?gad_source=1&_gl=x\" >/dev/null",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$host"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude-deco/skills/tanstack-go-live-check/references/cache.md",
+        "line": 59,
+        "excerpt": "curl -sI \"https://$HOST/<plp>?gad_source=2&_gl=y\" | grep -i x-cache   # expect HIT",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$host"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude-deco/skills/tanstack-go-live-check/references/process.md",
+        "line": 93,
+        "excerpt": "curl -s -o /dev/null -A \"$ua\" -w \"%{http_code} %{time_total}s $path\\n\" \"https://$HOST$path\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$host$path"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude-deco/skills/tanstack-go-live-check/references/proxy-headers-checkout.md",
+        "line": 27,
+        "excerpt": "curl -sI -A \"Mozilla/5.0 Chrome/139\" \"$host$p\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude-deco/skills/tanstack-go-live-check/references/proxy-headers-checkout.md",
+        "line": 48,
+        "excerpt": "curl -sD- -o /dev/null -A \"Mozilla/5.0 Chrome/139\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude-deco/skills/tanstack-go-live-check/references/proxy-headers-checkout.md",
+        "line": 76,
+        "excerpt": "diff <(curl -s \"$LEGACY/checkout/\" | strip) <(curl -s \"$CANDIDATE/checkout/\" | strip) | head -50",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude-deco/skills/tanstack-go-live-check/references/proxy-headers-checkout.md",
+        "line": 92,
+        "excerpt": "npx vite preview --host --allowedHosts www.<domain> &",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude-deco/skills/tanstack-go-live-check/references/proxy-headers-checkout.md",
+        "line": 93,
+        "excerpt": "curl -s -H \"Host: www.<domain>\" http://localhost:4173/<plp> | grep -c \"<product-card-marker>\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude-deco/skills/tanstack-go-live-check/references/proxy-headers-checkout.md",
+        "line": 113,
+        "excerpt": "curl -s -o /dev/null -L --max-redirs 10 -A \"Mozilla/5.0 Chrome/139\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude-deco/skills/tanstack-go-live-check/references/proxy-headers-checkout.md",
+        "line": 135,
+        "excerpt": "curl -s -o /dev/null -b \"_deco_bucket=$b\" -w \"$b $p %{http_code}\\n\" \"https://$HOST$p\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$host$p"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude-deco/skills/tanstack-go-live-check/references/react-spa.md",
+        "line": 135,
+        "excerpt": "- `fetch(..., { keepalive: true })` on `pagehide` for writes.",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude-deco/skills/tanstack-go-live-check/references/seo-analytics.md",
+        "line": 24,
+        "excerpt": "curl -s \"$CANDIDATE/\" | grep -o \"googletagmanager.com/gtm.js[^\\\"']*\" | head -1",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude-deco/skills/tanstack-go-live-check/references/seo-analytics.md",
+        "line": 41,
+        "excerpt": "curl -s \"$CANDIDATE/\" | grep -cE \"googletagmanager|lilstts\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude-deco/skills/tanstack-go-live-check/references/seo-analytics.md",
+        "line": 55,
+        "excerpt": "curl -s -A Googlebot \"https://$HOST/robots.txt\" | head",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$host"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude-deco/skills/tanstack-go-live-check/references/seo-analytics.md",
+        "line": 56,
+        "excerpt": "curl -s -A Googlebot \"https://$HOST/\" | grep -io '<meta[^>]*robots[^>]*>'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "$host"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude-deco/skills/tanstack-go-live-check/references/seo-analytics.md",
+        "line": 58,
+        "excerpt": "curl -s -o /dev/null -w \"$p %{http_code}\\n\" \"$CANDIDATE$p\"; done   # compare with legacy",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude-deco/skills/tanstack-go-live-check/references/seo-analytics.md",
+        "line": 83,
+        "excerpt": "a=$(curl -s -o /dev/null -w \"%{http_code} %{redirect_url}\" \"$LEGACY$from\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude-deco/skills/tanstack-go-live-check/references/seo-analytics.md",
+        "line": 84,
+        "excerpt": "b=$(curl -s -o /dev/null -w \"%{http_code} %{redirect_url}\" \"$CANDIDATE$from\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude-deco/skills/tanstack-go-live-check/references/seo-analytics.md",
+        "line": 96,
+        "excerpt": "curl -s \"$CANDIDATE/sitemap.xml\" | grep -o \"<loc>[^<]*\" | sed 's/<loc>//' | while read -r u; do",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude-deco/skills/tanstack-go-live-check/references/worker-runtime.md",
+        "line": 49,
+        "excerpt": "npx wrangler kv key list --remote --binding DECO_KV --prefix decofile: | head",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 1,
+      "network": 23,
+      "downloads-code": 2
+    },
+    "score": 75,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 8,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "cb5b4d05ab80184c6e69935ac39bb283a437a322",
+      "scannedAt": "2026-11-22T10:25:50.393Z",
+      "score": 75,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

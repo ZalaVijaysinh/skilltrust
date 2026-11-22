@@ -7,15 +7,31 @@
   "description": "Verifies what the assistant claims to have done — proves the work against actual state using OpenAI Codex with a read-only tool surface. Use when the user asks to \"verify with Codex\", \"check the assistant's claims\", \"did Codex actually do what it said\", \"verify this turn\", \"prove the work\", or wants a trust check distinct from issue review. Different from `/codex-review`, which finds new issues.",
   "stars": 21,
   "category": "coding",
-  "commit": "708915a46b0524725aa10f4d266d9b2974c71b6b",
-  "contentHash": "c46ea1d77443c981f4382b67e3c65868f9988697d71d76028c0a039bf154ef52",
+  "commit": "4c6d6362a7d718352b46aedfdec0c045f5828786",
+  "contentHash": "4f1fce09ffd710a1aa41e20c9b37fa92c7e5e04ca80322d7ae82498d858c906c",
   "repoCreatedAt": "2026-02-19T17:23:57Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-19T10:50:00.942Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-22T10:25:50.393Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "shell",
+        "file": "packages/llm-mcp/scripts/codex-pair-debounce-worker.mjs",
+        "line": 5,
+        "excerpt": "import { spawnSync } from \"node:child_process\";",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/llm-mcp/scripts/codex-pair-debounce-worker.mjs",
+        "line": 26,
+        "excerpt": "return spawnSync(process.execPath, [HOOK_PATH], {",
+        "disclosed": false,
+        "automatic": false
+      },
       {
         "ruleId": "shell",
         "file": "packages/llm-mcp/scripts/codex-pair-watch.mjs",
@@ -58,6 +74,14 @@
       },
       {
         "ruleId": "shell",
+        "file": "packages/llm-mcp/scripts/lib/pair-catch-up.mjs",
+        "line": 2,
+        "excerpt": "import { spawn } from \"node:child_process\";",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
         "file": "packages/llm-mcp/scripts/lib/pair-reviewer.mjs",
         "line": 2,
         "excerpt": "import { spawn } from \"node:child_process\";",
@@ -83,23 +107,23 @@
       {
         "ruleId": "shell",
         "file": "packages/llm-mcp/scripts/lib/stop-gate-io.mjs",
-        "line": 23,
-        "excerpt": "const repoRoot = execFileSync(\"git\", [\"-C\", markerDir, \"rev-parse\", \"--show-toplevel\"], opts).trim();",
+        "line": 17,
+        "excerpt": "repoRoot = execFileSync(\"git\", [\"-C\", markerDir, \"rev-parse\", \"--show-toplevel\"], {",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "packages/llm-mcp/scripts/lib/stop-gate-io.mjs",
-        "line": 25,
-        "excerpt": "const porcelain = execFileSync(\"git\", [\"-C\", markerDir, \"status\", \"--porcelain=v1\", \"-z\", \"--untracked-files=all\"], opts);",
+        "line": 33,
+        "excerpt": "const porcelain = execFileSync(\"git\", [\"--no-optional-locks\", \"-C\", markerDir, \"status\", \"--porcelain=v1\", \"-z\", \"--untracked-files=all\"], { ...opts, timeout: M",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "packages/llm-mcp/scripts/lib/stop-gate-io.mjs",
-        "line": 42,
+        "line": 50,
         "excerpt": "ignored = execFileSync(\"git\", [\"-C\", repoDir, \"check-ignore\", \"-z\", \"--stdin\"], {",
         "disclosed": false,
         "automatic": false
@@ -151,40 +175,16 @@
         "excerpt": "\"command\": \"node ${CLAUDE_PLUGIN_ROOT}/scripts/codex-pair-session.mjs\"",
         "disclosed": false,
         "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": "packages/llm-mcp/hooks/hooks.json",
-        "line": 39,
-        "excerpt": "\"command\": \"node ${CLAUDE_PLUGIN_ROOT}/scripts/codex-pair-session.mjs\"",
-        "disclosed": false,
-        "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": "packages/llm-mcp/hooks/hooks.json",
-        "line": 49,
-        "excerpt": "\"command\": \"node ${CLAUDE_PLUGIN_ROOT}/scripts/codex-pair-prompt-drain.mjs\"",
-        "disclosed": false,
-        "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": "packages/llm-mcp/mcp.json",
-        "line": 4,
-        "excerpt": "\"command\": \"node\",",
-        "disclosed": false,
-        "automatic": true
       }
     ],
     "findingTotals": {
-      "shell": 20
+      "shell": 23
     },
     "score": 95,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 26,
-    "filesSkipped": 2
+    "filesScanned": 33,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -202,6 +202,12 @@
     {
       "commit": "708915a46b0524725aa10f4d266d9b2974c71b6b",
       "scannedAt": "2026-11-19T10:50:00.942Z",
+      "score": 95,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "4c6d6362a7d718352b46aedfdec0c045f5828786",
+      "scannedAt": "2026-11-22T10:25:50.393Z",
       "score": 95,
       "rulesVersion": "1.3.0"
     }

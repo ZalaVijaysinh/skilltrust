@@ -1,0 +1,146 @@
+{
+  "id": "microsoft__power-platform-skills__plugins~power-apps-mobile-extension~skills~build-ios-binary",
+  "owner": "microsoft",
+  "repo": "power-platform-skills",
+  "path": "plugins/power-apps-mobile-extension/skills/build-ios-binary",
+  "name": "build-ios-binary",
+  "description": "Compile a PAM control's iOS Obj-C/Swift module into the FLAT device-slice `.framework` for a `.ppmplugin` bundle (never an `.xcframework` — the wrap CI won't descend into one). Mac-only (Xcode). Builds from a throwaway staged copy so canonical `ios/` and the podspec stay untouched, references React-Core headers only (React is weak-linked and provided by the wrap host at runtime, no CocoaPods), generates the required umbrella header, module map and Info.plist, sets the critical build settings, asserts manifest conformance, then runs a device-only `xcodebuild archive` and copies out the flat framework to `ppmplugin/staging/ios/`. Known limitation — the React weak-link flags aren't yet validated against a live wrap host and the RN pin must match the host's. Run after /generate-ppmplugin-manifest for an iOS or Both target, before /assemble-ppmplugin.",
+  "stars": 1167,
+  "category": "coding",
+  "commit": "28c209c9eec2b7dedd598b3e211104a0b04e94c7",
+  "contentHash": "f1413a4b64036ca15ecfd544dbbebbc4bd39be58ee6991e3f933e96beca19ced",
+  "repoCreatedAt": "2026-01-21T18:25:14Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-22T10:25:50.393Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/power-apps-mobile-extension/skills/build-ios-binary/SKILL.md",
+        "line": 41,
+        "excerpt": "| CocoaPods (**optional** — fallback path only) | `pod --version` | Not required for the recommended header-only build (Step 2). Only needed if you fall back to",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/power-apps-mobile-extension/skills/build-ios-binary/SKILL.md",
+        "line": 51,
+        "excerpt": "mkdir -p ppmplugin/staging/ios-build/include/React",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/power-apps-mobile-extension/skills/build-ios-binary/SKILL.md",
+        "line": 119,
+        "excerpt": "cd ppmplugin/staging/ios-build",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/power-apps-mobile-extension/skills/build-ios-binary/SKILL.md",
+        "line": 128,
+        "excerpt": "cp -R build/<Pascal>Plugin-device.xcarchive/Products/Library/Frameworks/<Pascal>Plugin.framework ../ios/<Pascal>Plugin.framework",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/power-apps-mobile-extension/scripts/lib/telemetry/dispatcher.js",
+        "line": 3,
+        "excerpt": "const { spawn } = require(\"node:child_process\");",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/power-apps-mobile-extension/scripts/lib/telemetry/dispatcher.js",
+        "line": 25,
+        "excerpt": "request = https.request(destination.collectorUrl, {",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/power-apps-mobile-extension/scripts/lib/telemetry/lib/native-exec.js",
+        "line": 5,
+        "excerpt": "const { execFileSync } = require(\"node:child_process\");",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/power-apps-mobile-extension/scripts/lib/telemetry/lib/native-exec.js",
+        "line": 91,
+        "excerpt": "return execFileSync(file, args, {",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/power-apps-mobile-extension/scripts/lib/telemetry/routing.js",
+        "line": 28,
+        "excerpt": "request = https.get(url, response => {",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/power-apps-mobile-extension/shared/shared-instructions.md",
+        "line": 112,
+        "excerpt": "| git | OS-aware: `brew install git` (mac) / `winget install Git.Git` (win) / `apt install git` (linux, may need sudo) | OS detection per [§5](#5-os-aware-cli-i",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/power-apps-mobile-extension/shared/shared-instructions.md",
+        "line": 113,
+        "excerpt": "| JDK 17+ | OS-aware: `brew install --cask temurin@17` (mac) / `winget install EclipseAdoptium.Temurin.17.JDK` (win) / package manager | same |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/power-apps-mobile-extension/hooks/hooks.json",
+        "line": 9,
+        "excerpt": "\"command\": \"node -e 'process.on(process.argv[1],()=>{process.exitCode=0});const root=process.env.PLUGIN_ROOT||process.env.CLAUDE_PLUGIN_ROOT;if(!root)process.ex",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/power-apps-mobile-extension/hooks/hooks.json",
+        "line": 20,
+        "excerpt": "\"command\": \"node -e 'process.on(process.argv[1],()=>{process.exitCode=0});const root=process.env.PLUGIN_ROOT||process.env.CLAUDE_PLUGIN_ROOT;if(!root)process.ex",
+        "disclosed": true,
+        "automatic": true
+      }
+    ],
+    "findingTotals": {
+      "downloads-code": 3,
+      "shell": 7,
+      "writes-outside": 1,
+      "network": 2
+    },
+    "score": 67,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 18,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "28c209c9eec2b7dedd598b3e211104a0b04e94c7",
+      "scannedAt": "2026-11-22T10:25:50.393Z",
+      "score": 67,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

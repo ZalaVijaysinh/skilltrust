@@ -1,0 +1,150 @@
+{
+  "id": "allemaar__open-skills__skills~headless-claude",
+  "owner": "allemaar",
+  "repo": "open-skills",
+  "path": "skills/headless-claude",
+  "name": "headless-claude",
+  "description": "Run a bounded, observable Claude Code headless task with explicit model, least-privilege tools, and preserved authorization. Trigger on /headless-claude, \"run Claude headlessly\", \"use Claude -p\", or \"supervise a Claude harness\". Not for changing Claude authentication or installing Claude Code.",
+  "stars": 15,
+  "category": "coding",
+  "commit": "acf5f797d21208c9cff2c1d97650a3113d7840df",
+  "contentHash": "6aeecf03a8e90311460b73a91cb274f84eea5ce16a19917d4ee299564225a462",
+  "repoCreatedAt": "2026-06-14T23:23:31Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-22T10:25:50.393Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "skills/headless-claude/SKILL.md",
+        "line": 52,
+        "excerpt": "Tool exposure and noninteractive authorization are separate. For least-privilege web research, `--tools WebSearch,WebFetch` exposes those built-ins but does not",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/headless-claude/SKILL.md",
+        "line": 62,
+        "excerpt": "Do not use a PowerShell asynchronous scriptblock callback for child-output capture unless its runspace safety has been verified. Those callbacks can run without",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/headless-claude/SKILL.md",
+        "line": 79,
+        "excerpt": "claude -p \"<bounded research task>\" --model <explicit-model> --restricted --strict-mcp-config --tools WebSearch,WebFetch --allowedTools WebSearch,WebFetch --per",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/headless-claude/protocol.yon",
+        "line": 17,
+        "excerpt": "@RULE rid=rule:capture-runspace | lvl=MUST | when=\"a PowerShell supervisor captures asynchronous child output\" | then=\"not use an asynchronous scriptblock callb",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/headless-claude/protocol.yon",
+        "line": 35,
+        "excerpt": "@RULE rid=rule:web-exposure | lvl=MUST | when=\"a bounded task needs WebSearch or WebFetch\" | then=\"treat --tools as exposure only; with dontAsk it does not itse",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/headless-claude/protocol.yon",
+        "line": 36,
+        "excerpt": "@RULE rid=rule:web-authorization | lvl=MUST | when=\"a bounded task needs WebSearch or WebFetch under dontAsk\" | then=\"use the help-supported --allowedTools WebS",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/headless-claude/protocol.yon",
+        "line": 37,
+        "excerpt": "@STEP rid=step:prepare | n:int=2 | op=std:ai.prompt@v1 | in=[ref:capabilities] | use=[cfg:map:auth] | args=[task=\"Choose the explicit model and supported effort",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/headless-claude/protocol.yon",
+        "line": 38,
+        "excerpt": "@CHECK rid=check:launch-plan | assert=\"the launch plan has explicit CWD, model, tools, prelaunch MCP exclusion, timeout, stdout and stderr capture, retained pro",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/headless-claude/protocol.yon",
+        "line": 41,
+        "excerpt": "@STEP rid=step:launch | n:int=3 | op=std:cmd.run@v1 | in=[ref:launch-plan] | args=[task=\"Launch foreground claude -p with explicit model, --restricted --strict-",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/headless-claude/protocol.yon",
+        "line": 43,
+        "excerpt": "@CHECK rid=check:web-run | assert=\"a WebSearch/WebFetch run records both expected tool events and no permission denial, including an empty permission_denials fi",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/headless-claude/scripts/check-access.mjs",
+        "line": 4,
+        "excerpt": "import { execFileSync } from 'node:child_process';",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/headless-claude/scripts/check-access.mjs",
+        "line": 34,
+        "excerpt": "const out = execFileSync(reg, ['query', key, '/v', 'Path'], { encoding: 'utf8', timeout: 5000, windowsHide: true, stdio: ['ignore', 'pipe', 'ignore'] });",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/headless-claude/scripts/run-process.mjs",
+        "line": 2,
+        "excerpt": "import { spawn } from 'node:child_process';",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "network": 8,
+      "shell": 5
+    },
+    "score": 94,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 15,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "acf5f797d21208c9cff2c1d97650a3113d7840df",
+      "scannedAt": "2026-11-22T10:25:50.393Z",
+      "score": 94,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}
