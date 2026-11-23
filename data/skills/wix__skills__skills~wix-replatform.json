@@ -7,13 +7,13 @@
   "description": "Routes RePlatform source-to-Wix migrations to the next required workflow module by inspecting authoritative migration artifacts. Use when starting, resuming, or recovering a migration run.",
   "stars": 40,
   "category": "productivity",
-  "commit": "3bca8689e0c0bc0c257b9f0ddae30c88a6de254d",
-  "contentHash": "d90df58f4b9a73625e1785b5bdd885cb8324cde2ddbe78060e99cd863b8d0640",
+  "commit": "85e35a0880262e500dd6da44c8691d3ac5c4ef30",
+  "contentHash": "3ac5f74902eceb465d958030cfcd4ef11733e6be8c9a0bead2bd864533cde07d",
   "repoCreatedAt": "2026-01-25T07:34:16Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-19T10:50:00.942Z",
+  "scannedAt": "2026-11-23T11:25:12.649Z",
   "scan": {
     "findings": [
       {
@@ -27,7 +27,7 @@
       {
         "ruleId": "downloads-code",
         "file": "skills/wix-replatform/README.md",
-        "line": 14,
+        "line": 22,
         "excerpt": "npx skills add wix/skills/skills/wix-replatform",
         "disclosed": false,
         "automatic": false
@@ -35,7 +35,7 @@
       {
         "ruleId": "downloads-code",
         "file": "skills/wix-replatform/README.md",
-        "line": 20,
+        "line": 28,
         "excerpt": "npx skills add wix/skills/skills/wix-replatform -g",
         "disclosed": false,
         "automatic": false
@@ -43,7 +43,7 @@
       {
         "ruleId": "downloads-code",
         "file": "skills/wix-replatform/README.md",
-        "line": 29,
+        "line": 37,
         "excerpt": "> `npx skills add wix/skills/skills/wix-headless-replatform`. It is only needed for the",
         "disclosed": false,
         "automatic": false
@@ -66,17 +66,9 @@
         "automatic": false
       },
       {
-        "ruleId": "reads-secrets",
-        "file": "skills/wix-replatform/lib/agent-adapters/index.js",
-        "line": 43,
-        "excerpt": "const AGENT_HIDDEN_CREDENTIAL_PATHS = ['~/.ssh', '~/.aws', '~/.gnupg', '~/.config/gcloud', '~/.azure', '~/.kube', '~/.docker', '~/.config/gh', '~/.netrc', '~/.n",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "shell",
         "file": "skills/wix-replatform/lib/agent-adapters/index.js",
-        "line": 255,
+        "line": 214,
         "excerpt": "const result = spawnSync(executable, ['--version'], { encoding: 'utf8', timeout: 5000, env });",
         "disclosed": true,
         "automatic": false
@@ -84,8 +76,16 @@
       {
         "ruleId": "shell",
         "file": "skills/wix-replatform/lib/agent-adapters/index.js",
-        "line": 299,
+        "line": 258,
         "excerpt": "const result = spawnSync(executable, args, { encoding: 'utf8', timeout: 5000, env });",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wix-replatform/lib/blocked-data-entry.js",
+        "line": 88,
+        "excerpt": "const out = require('node:child_process').execFileSync(process.execPath, [__filename, '--project-dir', projectDir], { encoding: 'utf8', stdio: ['ignore', 'pipe'",
         "disclosed": true,
         "automatic": false
       },
@@ -162,6 +162,31 @@
       },
       {
         "ruleId": "shell",
+        "file": "skills/wix-replatform/lib/handler-scope-probe.js",
+        "line": 18,
+        "excerpt": "const { spawnSync } = require('node:child_process');",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wix-replatform/lib/handler-scope-probe.js",
+        "line": 38,
+        "excerpt": "const child = spawnSync(process.execPath, [__filename, projectDir, JSON.stringify(files)], {",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/wix-replatform/lib/import-composites-coupon-post.js",
+        "line": 267,
+        "excerpt": "const fetchImage = async url => { const response = await fetch(url); return { status: response.status, bytes: Buffer.from(await response.arrayBuffer()) }; };",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
         "file": "skills/wix-replatform/lib/operator-identity.js",
         "line": 8,
         "excerpt": "} = require('node:child_process');",
@@ -186,8 +211,40 @@
       },
       {
         "ruleId": "shell",
+        "file": "skills/wix-replatform/lib/quick-run.js",
+        "line": 13,
+        "excerpt": "const { spawn } = require('node:child_process');",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/wix-replatform/lib/quick-run.js",
+        "line": 415,
+        "excerpt": "throw new Stop('auth_expired', { step: 'token', message: 'the Wix site token could not be minted: run `npx --no-install wix whoami` (log in if asked), then run ",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/wix-replatform/lib/quick-run.js",
+        "line": 426,
+        "excerpt": "if (out.code === WIX_AUTH_EXIT_CODE) throw new Stop('auth_expired', { step: 'setup', message: 'the Wix token expired during setup: run `npx --no-install wix who",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/wix-replatform/lib/quick-run.js",
+        "line": 439,
+        "excerpt": "if (out.code === WIX_AUTH_EXIT_CODE) throw new Stop('auth_expired', { step: 'import', message: 'the Wix token expired during the import: run `npx --no-install w",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
         "file": "skills/wix-replatform/lib/read-back-contract.js",
-        "line": 121,
+        "line": 137,
         "excerpt": "[/\\brequire\\s*\\(\\s*['\"](?:node:)?(?:http|https|http2|net|tls|dgram|dns|child_process|worker_threads|cluster)['\"]/, 'network or process module'],",
         "disclosed": true,
         "automatic": false
@@ -195,8 +252,40 @@
       {
         "ruleId": "shell",
         "file": "skills/wix-replatform/lib/read-back-contract.js",
-        "line": 122,
+        "line": 138,
         "excerpt": "[/\\bimport\\b[^;]*['\"](?:node:)?(?:http|https|http2|net|tls|dgram|dns|child_process|worker_threads|cluster)['\"]/, 'network or process module'],",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wix-replatform/lib/source-extract-background.js",
+        "line": 18,
+        "excerpt": "const { spawn, spawnSync } = require('node:child_process');",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wix-replatform/lib/source-extract-background.js",
+        "line": 87,
+        "excerpt": "const res = spawnSync(process.execPath, [script, '--project', projectDir, '--all'], { cwd: projectDir, stdio: ['ignore', out, log] });",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wix-replatform/lib/stage-entry.js",
+        "line": 261,
+        "excerpt": "require('node:child_process').execFileSync(process.execPath, [cli, 'auto-approve', '--project-dir', projectDir, '--type', type,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/wix-replatform/lib/stage-entry.js",
+        "line": 310,
+        "excerpt": "require('node:child_process').execFileSync(process.execPath, [cli, 'checkpoint', '--project-dir', projectDir, '--phase', 'mapping', '--patch', JSON.stringify(pa",
         "disclosed": true,
         "automatic": false
       },
@@ -249,89 +338,25 @@
         "automatic": false
       },
       {
-        "ruleId": "shell",
-        "file": "skills/wix-replatform/resources/rp-discovery/SKILL.md",
-        "line": 309,
-        "excerpt": "node skills/wix-replatform/resources/rp-source-wordpress/scripts/wp-discovery.js \\",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/wix-replatform/resources/rp-discovery/SKILL.md",
-        "line": 334,
-        "excerpt": "node scripts/promote-source-coverage.js <migrations-root>/<project> --adapter wordpress   # or csv, shopify",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/wix-replatform/resources/rp-execute-import/SKILL.md",
-        "line": 66,
-        "excerpt": "node skills/wix-replatform/scripts/artifact-freshness.js check migrations/<project> \\",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "downloads-code",
         "file": "skills/wix-replatform/resources/rp-execute-import/SKILL.md",
-        "line": 320,
+        "line": 335,
         "excerpt": "npx --no-install wix token --site \"$WIX_SITE_ID\"",
         "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "shell",
-        "file": "skills/wix-replatform/resources/rp-execute-import/SKILL.md",
-        "line": 320,
-        "excerpt": "npx --no-install wix token --site \"$WIX_SITE_ID\"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/wix-replatform/resources/rp-execute-import/SKILL.md",
-        "line": 337,
-        "excerpt": "node skills/wix-replatform/scripts/execution-state-prepare.js migrations/<project>",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/wix-replatform/resources/rp-execute-import/SKILL.md",
-        "line": 349,
-        "excerpt": "node skills/wix-replatform/scripts/import-contract-verify.js migrations/<project>",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/wix-replatform/resources/rp-execute-import/SKILL.md",
-        "line": 823,
-        "excerpt": "node skills/wix-replatform/scripts/import-supervise.js --project <projectDir> \\",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "downloads-code",
         "file": "skills/wix-replatform/resources/rp-execute-import/SKILL.md",
-        "line": 1095,
+        "line": 1092,
         "excerpt": "`npx --no-install wix whoami` (log in if asked), then `bash migrations/<project>/scripts/mint-token.sh`,",
         "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "shell",
-        "file": "skills/wix-replatform/resources/rp-execute-import/SKILL.md",
-        "line": 1151,
-        "excerpt": "node skills/wix-replatform/scripts/cms-fallback.js guard --project-dir <project> --capability <capability>",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
         "ruleId": "downloads-code",
         "file": "skills/wix-replatform/resources/rp-execute-import/SKILL.md",
-        "line": 1206,
+        "line": 1203,
         "excerpt": "brew install ngrok",
         "disclosed": false,
         "automatic": false
@@ -347,7 +372,7 @@
       {
         "ruleId": "downloads-code",
         "file": "skills/wix-replatform/resources/rp-execute-setup/SKILL.md",
-        "line": 483,
+        "line": 491,
         "excerpt": "brew install ngrok",
         "disclosed": false,
         "automatic": false
@@ -355,15 +380,23 @@
       {
         "ruleId": "downloads-code",
         "file": "skills/wix-replatform/resources/rp-execute-setup/scripts/mint-token.sh",
-        "line": 35,
-        "excerpt": "TOKEN=$(npx --no-install wix token --site \"$WIX_SITE_ID\" 2>/dev/null | tr -d '[:space:]')",
+        "line": 45,
+        "excerpt": "CLI_OUT=$(npx --no-install wix token --site \"$WIX_SITE_ID\" 2>\"$CLI_ERR_FILE\") || CLI_EXIT=$?",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/wix-replatform/resources/rp-execute-setup/scripts/mint-token.sh",
+        "line": 58,
+        "excerpt": "echo \"Error: token command returned empty output (the Wix CLI login is needed: npx --no-install wix whoami) ${CLI_ERR}\" >&2",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
         "file": "skills/wix-replatform/resources/rp-import-codegen/SKILL.md",
-        "line": 2547,
+        "line": 2525,
         "excerpt": "runs `npx --no-install wix token --site \"$WIX_SITE_ID\"`, captures the token (shape:",
         "disclosed": false,
         "automatic": false
@@ -371,7 +404,7 @@
       {
         "ruleId": "downloads-code",
         "file": "skills/wix-replatform/resources/rp-import-codegen/SKILL.md",
-        "line": 2555,
+        "line": 2533,
         "excerpt": "**Do NOT** run `npx --no-install wix token` raw in a Bash tool call — it prints the",
         "disclosed": false,
         "automatic": false
@@ -379,7 +412,7 @@
       {
         "ruleId": "downloads-code",
         "file": "skills/wix-replatform/resources/rp-import-codegen/SKILL.md",
-        "line": 3229,
+        "line": 3064,
         "excerpt": "brew install ngrok",
         "disclosed": false,
         "automatic": false
@@ -387,7 +420,7 @@
       {
         "ruleId": "network",
         "file": "skills/wix-replatform/resources/rp-quick-shopify/scripts/quick-mode.js",
-        "line": 74,
+        "line": 75,
         "excerpt": "const defaultIo = { fetch: (...args) => fetch(...args), sleep, now: () => Date.now(), timeoutMs: SOURCE_CALL_TIMEOUT_MS };",
         "disclosed": true,
         "automatic": false,
@@ -396,7 +429,7 @@
       {
         "ruleId": "network",
         "file": "skills/wix-replatform/resources/rp-quick-shopify/scripts/quick-mode.js",
-        "line": 96,
+        "line": 97,
         "excerpt": "try { response = await io.fetch(endpoint, { method: 'POST', headers: { accept: 'application/json', 'content-type': 'application/json' }, body: JSON.stringify({ ",
         "disclosed": true,
         "automatic": false,
@@ -405,7 +438,7 @@
       {
         "ruleId": "network",
         "file": "skills/wix-replatform/resources/rp-quick-woocommerce/scripts/quick-mode.js",
-        "line": 73,
+        "line": 85,
         "excerpt": "const response = await fetch(url, { headers: { accept: 'application/json' } });",
         "disclosed": true,
         "automatic": false,
@@ -414,19 +447,11 @@
       {
         "ruleId": "network",
         "file": "skills/wix-replatform/resources/rp-quick-woocommerce/scripts/quick-mode.js",
-        "line": 103,
+        "line": 115,
         "excerpt": "const response = await fetch(url, { headers: { accept }, signal: AbortSignal.timeout(15000) });",
         "disclosed": true,
         "automatic": false,
         "hosts": []
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/wix-replatform/resources/rp-setup-discovery/SKILL.md",
-        "line": 155,
-        "excerpt": "brew install ngrok",
-        "disclosed": false,
-        "automatic": false
       },
       {
         "ruleId": "network",
@@ -438,12 +463,22 @@
         "hosts": []
       },
       {
-        "ruleId": "downloads-code",
-        "file": "skills/wix-replatform/resources/rp-source-wordpress/SKILL.md",
-        "line": 271,
-        "excerpt": "1. Install: `brew install ngrok`",
-        "disclosed": false,
-        "automatic": false
+        "ruleId": "network",
+        "file": "skills/wix-replatform/resources/rp-source-wordpress/lib/wp-http.js",
+        "line": 251,
+        "excerpt": "}, () => fetch(url, {",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/wix-replatform/resources/rp-source-wordpress/lib/wp-http.js",
+        "line": 255,
+        "excerpt": ": await fetch(url, {",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
       },
       {
         "ruleId": "network",
@@ -480,61 +515,17 @@
         "disclosed": true,
         "automatic": false,
         "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/wix-replatform/resources/rp-source-wordpress/plugins/requires-development.json",
-        "line": 36,
-        "excerpt": "\"method\": \"WebSearch + WebFetch against dev.wix.com, 2026-08-12\",",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/wix-replatform/resources/rp-source-wordpress/plugins/requires-development.json",
-        "line": 48,
-        "excerpt": "\"searched\": \"dropshipping supplier catalog sync, supplier fulfillment linkage, dropship product import API — searched against dev.wix.com business-solutions tre",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/wix-replatform/resources/rp-source-wordpress/plugins/requires-development.json",
-        "line": 58,
-        "excerpt": "\"method\": \"WebSearch + WebFetch against dev.wix.com, 2026-08-12\",",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/wix-replatform/resources/rp-target-wix/SKILL.md",
-        "line": 755,
-        "excerpt": "brew install ngrok",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "gemini-extension.json",
-        "line": 7,
-        "excerpt": "\"command\": \"npx\",",
-        "disclosed": false,
-        "automatic": true
       }
     ],
     "findingTotals": {
-      "downloads-code": 20,
-      "network": 24,
-      "shell": 94,
-      "reads-secrets": 1
+      "downloads-code": 24,
+      "network": 29,
+      "shell": 104
     },
-    "score": 69,
+    "score": 79,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 572,
+    "filesScanned": 674,
     "filesSkipped": 2
   },
   "history": [
@@ -560,6 +551,12 @@
       "commit": "3bca8689e0c0bc0c257b9f0ddae30c88a6de254d",
       "scannedAt": "2026-11-19T10:50:00.942Z",
       "score": 69,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "85e35a0880262e500dd6da44c8691d3ac5c4ef30",
+      "scannedAt": "2026-11-23T11:25:12.649Z",
+      "score": 79,
       "rulesVersion": "1.3.0"
     }
   ]

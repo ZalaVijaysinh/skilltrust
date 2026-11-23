@@ -4,16 +4,16 @@
   "repo": "open-vetta",
   "path": ".agents/skills/vetta-release",
   "name": "vetta-release",
-  "description": "发布 Vetta 桌面端新版本的完整流程：预检、dev 合并到 main、打 tag、推送、监视 desktop-release 流水线并重试瞬时故障、验证线上更新源、把发布说明标成已发布并开下一个版本；也用于「开下一个版本」「这一版改发 0.6.0」这类版本号变更。只在用户明确要求发版或改版本号时使用；写代码、写发布说明条目、普通推送都不用它。",
+  "description": "发布 Vetta 桌面端新版本的完整流程：预检、按开发流水定稿双语发布说明、dev 合并到 main、打 tag、推送、监视 desktop-release 流水线并重试瞬时故障、验证线上更新源、把发布说明标成已发布并开下一个版本；也用于「开下一个版本」「这一版改发 0.6.0」这类版本号变更。只在用户明确要求发版或改版本号时使用；写代码、开发期往发布说明里追加条目、普通推送都不用它。",
   "stars": 299,
   "category": "coding",
-  "commit": "85fa94044602329abccf247fda785fa8de370b8b",
-  "contentHash": "8c517db7d5a4c3db3e54726a67b9b2c4be30a56e253b8aa210ee2914c295e6f4",
+  "commit": "3a0c1477e1b95aba90761cd3e7388027c560dd2a",
+  "contentHash": "4509701ca48464eca3dcb17103d98235c7b6fd207dc962fa957d96fb176cae35",
   "repoCreatedAt": "2026-08-03T09:42:59Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-19T10:50:00.942Z",
+  "scannedAt": "2026-11-23T11:25:12.649Z",
   "scan": {
     "findings": [
       {
@@ -35,7 +35,31 @@
       {
         "ruleId": "shell",
         "file": ".agents/skills/vetta-release/SKILL.md",
-        "line": 76,
+        "line": 82,
+        "excerpt": "node scripts/release/collect-release-commits.mjs",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/vetta-release/SKILL.md",
+        "line": 105,
+        "excerpt": "node scripts/release/release-notes.mjs --check",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/vetta-release/SKILL.md",
+        "line": 111,
+        "excerpt": "git add .github/release-notes/v<版本>.md",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/vetta-release/SKILL.md",
+        "line": 120,
         "excerpt": "git checkout main",
         "disclosed": false,
         "automatic": false
@@ -43,7 +67,7 @@
       {
         "ruleId": "shell",
         "file": ".agents/skills/vetta-release/SKILL.md",
-        "line": 86,
+        "line": 130,
         "excerpt": "node scripts/release/release-preflight.mjs",
         "disclosed": false,
         "automatic": false
@@ -51,7 +75,7 @@
       {
         "ruleId": "shell",
         "file": ".agents/skills/vetta-release/SKILL.md",
-        "line": 104,
+        "line": 148,
         "excerpt": "git tag v<版本>",
         "disclosed": false,
         "automatic": false
@@ -59,7 +83,7 @@
       {
         "ruleId": "shell",
         "file": ".agents/skills/vetta-release/SKILL.md",
-        "line": 116,
+        "line": 160,
         "excerpt": "RUN=<run id>; prev=\"\"; while true; do",
         "disclosed": false,
         "automatic": false
@@ -67,7 +91,7 @@
       {
         "ruleId": "shell",
         "file": ".agents/skills/vetta-release/SKILL.md",
-        "line": 133,
+        "line": 177,
         "excerpt": "gh run rerun <run id> --failed",
         "disclosed": false,
         "automatic": false
@@ -75,7 +99,7 @@
       {
         "ruleId": "shell",
         "file": ".agents/skills/vetta-release/SKILL.md",
-        "line": 154,
+        "line": 198,
         "excerpt": "B=https://releases.openvetta.com/desktop/stable",
         "disclosed": false,
         "automatic": false
@@ -83,7 +107,7 @@
       {
         "ruleId": "network",
         "file": ".agents/skills/vetta-release/SKILL.md",
-        "line": 155,
+        "line": 199,
         "excerpt": "for f in latest.yml latest-mac.yml latest-linux.yml; do curl -fsS --max-time 40 \"$B/$f\" | grep -E '^version|url:|size:'; done",
         "disclosed": false,
         "automatic": false,
@@ -92,7 +116,7 @@
       {
         "ruleId": "network",
         "file": ".agents/skills/vetta-release/SKILL.md",
-        "line": 160,
+        "line": 204,
         "excerpt": "- 清单里每个文件用 `curl -sSI` 拿到 200，`content-length` 与清单里的 `size` 一致。",
         "disclosed": false,
         "automatic": false,
@@ -101,7 +125,7 @@
       {
         "ruleId": "shell",
         "file": ".agents/skills/vetta-release/SKILL.md",
-        "line": 169,
+        "line": 213,
         "excerpt": "git checkout dev",
         "disclosed": false,
         "automatic": false
@@ -109,14 +133,14 @@
       {
         "ruleId": "shell",
         "file": ".agents/skills/vetta-release/SKILL.md",
-        "line": 188,
+        "line": 233,
         "excerpt": "git branch --show-current     # 必须是 dev",
         "disclosed": false,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 10,
+      "shell": 13,
       "network": 2
     },
     "score": 90,
@@ -141,6 +165,12 @@
     {
       "commit": "85fa94044602329abccf247fda785fa8de370b8b",
       "scannedAt": "2026-11-19T10:50:00.942Z",
+      "score": 90,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "3a0c1477e1b95aba90761cd3e7388027c560dd2a",
+      "scannedAt": "2026-11-23T11:25:12.649Z",
       "score": 90,
       "rulesVersion": "1.3.0"
     }

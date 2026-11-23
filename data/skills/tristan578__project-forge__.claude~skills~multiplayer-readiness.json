@@ -4,18 +4,74 @@
   "repo": "project-forge",
   "path": ".claude/skills/multiplayer-readiness",
   "name": "multiplayer-readiness",
-  "description": "",
+  "description": "Audit SpawnForge code for changes that block future multiplayer networking. Use when modifying state management, entity systems, or the command pipeline — flags non-deterministic state, client-authoritative patterns, and unsyncable mutations.",
   "stars": 15,
-  "category": "other",
+  "category": "coding",
   "commit": "fe45076663d7b50fecf9860c9d949f0763554cb6",
   "contentHash": "045309eb32047abf6442a399660d9fe1317e93a5cec1b522aa3ad778d1f9adb0",
   "repoCreatedAt": "2026-02-11T22:52:17Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-19T10:50:00.942Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-23T11:25:12.649Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/multiplayer-readiness/SKILL.md",
+        "line": 32,
+        "excerpt": "grep -rn \"thread_local!\\|static mut\\|lazy_static!\\|OnceCell\" engine/src/ --include=\"*.rs\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/multiplayer-readiness/SKILL.md",
+        "line": 45,
+        "excerpt": "grep -rn \"selectedIds\\|primary_id\\|SelectionChanged\" engine/src/ web/src/stores/ | head -20",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/multiplayer-readiness/SKILL.md",
+        "line": 61,
+        "excerpt": "grep -rn \"rand::\\|thread_rng\\|random()\" engine/src/core/commands/ | head -10",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/multiplayer-readiness/SKILL.md",
+        "line": 74,
+        "excerpt": "grep -rn \"\\.insert(\\|\\.remove::<\\|commands\\.entity\" engine/src/bridge/ | grep -v \"// safe:\" | head -20",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/multiplayer-readiness/SKILL.md",
+        "line": 85,
+        "excerpt": "grep -rn \"serde_json::to_string\\|JSON.stringify\" engine/src/core/commands/ web/src/stores/slices/ | head -15",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/multiplayer-readiness/SKILL.md",
+        "line": 96,
+        "excerpt": "grep -rn \"postMessage\\|onmessage\" web/src/lib/scripting/ | head -10",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/multiplayer-readiness/SKILL.md",
+        "line": 118,
+        "excerpt": "gh pr diff <number> | grep -E \"thread_local|static mut|getState\\(\\)\\.|selectedIds|Math\\.random|Date\\.now\"",
+        "disclosed": false,
+        "automatic": false
+      },
       {
         "ruleId": "downloads-code",
         "file": ".mcp.json",
@@ -138,14 +194,14 @@
       }
     ],
     "findingTotals": {
-      "downloads-code": 7,
-      "shell": 8
+      "shell": 15,
+      "downloads-code": 7
     },
     "score": 80,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 2,
-    "filesSkipped": 1
+    "filesScanned": 3,
+    "filesSkipped": 0
   },
   "history": [
     {

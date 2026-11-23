@@ -4,22 +4,22 @@
   "repo": "FMT-exocortex-template",
   "path": ".claude/skills/peer-conversation",
   "name": "peer-conversation",
-  "description": "Многотуровый диалог писателя (Claude) с одним или несколькими напарниками (любой набор из kimi/codex/hermes/claude-headless) по задаче пилота (DP.SC.154). Ведёт turn-loop (2 участника) или round-loop (3+, WP-509), обнаруживает CONSENSUS/ESCALATE, после консенсуса — Decision Gate (зафиксировать vs реализовать → ревью → проверить → задеплоить), синтезирует report.md через Agent tool.",
+  "description": "Многотуровый диалог писателя (Claude) с одним или несколькими напарниками (любой набор из kimi/codex/hermes/claude-headless/grok) по задаче пилота (DP.SC.154). Ведёт turn-loop (2 участника) или round-loop (3+, WP-509), обнаруживает CONSENSUS/ESCALATE, после консенсуса — Decision Gate (зафиксировать vs реализовать → ревью → проверить → задеплоить), синтезирует report.md через Agent tool.",
   "stars": 64,
   "category": "coding",
-  "commit": "980ed6ba86f71fb384149840e8f7158b2a78bddd",
-  "contentHash": "ba88934cbe6e91be8751e5e432b62d73f32d191e96fb235a89e29d782a67035b",
+  "commit": "e6f0edf8281c4029d3a9e929c3a58eecfad10435",
+  "contentHash": "46b1c5ffa32d0a0885255b759efdbaecd0d196c8720a8c6731af59c186daf82e",
   "repoCreatedAt": "2026-02-10T12:42:33Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-19T10:50:00.942Z",
+  "scannedAt": "2026-11-23T11:25:12.649Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": ".claude/skills/peer-conversation/SKILL.md",
-        "line": 86,
+        "line": 96,
         "excerpt": "set -uo pipefail",
         "disclosed": false,
         "automatic": false
@@ -27,7 +27,15 @@
       {
         "ruleId": "shell",
         "file": ".claude/skills/peer-conversation/SKILL.md",
-        "line": 136,
+        "line": 146,
+        "excerpt": "ADAPTER_PATH[$vendor]=\"${IWE_WORKSPACE:-$HOME/IWE}/${IWE_GOVERNANCE_REPO:-DS-strategy}/<адаптер из таблицы>\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/peer-conversation/SKILL.md",
+        "line": 158,
         "excerpt": "remaining=()",
         "disclosed": false,
         "automatic": false
@@ -35,7 +43,7 @@
       {
         "ruleId": "shell",
         "file": ".claude/skills/peer-conversation/SKILL.md",
-        "line": 148,
+        "line": 170,
         "excerpt": "PEER_VENDORS=(\"${remaining[@]}\")",
         "disclosed": false,
         "automatic": false
@@ -43,31 +51,71 @@
       {
         "ruleId": "shell",
         "file": ".claude/skills/peer-conversation/SKILL.md",
-        "line": 219,
-        "excerpt": "SESSIONS_DIR=\"${IWE_WORKSPACE:-$HOME/IWE}/${IWE_GOVERNANCE_REPO:-DS-strategy}/sessions\"",
+        "line": 198,
+        "excerpt": "bash \"${IWE_WORKSPACE:-$HOME/IWE}/.claude/scripts/wp-sync-bundle.sh\" WP-N > /tmp/wp-sync-bundle-$$.md; BUNDLE_RC=$?; head -3 /tmp/wp-sync-bundle-$$.md; echo \"bu",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": ".claude/skills/peer-conversation/SKILL.md",
-        "line": 236,
-        "excerpt": "IWE_AGENT=claude-code bash \"${IWE_SCRIPTS:-$HOME/IWE/scripts}/session-guard.sh\" open \\",
+        "line": 261,
+        "excerpt": "IWE_COMMON=\"${IWE_SCRIPTS:-$HOME/IWE/scripts}/lib/common.sh\"",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": ".claude/skills/peer-conversation/SKILL.md",
-        "line": 247,
-        "excerpt": "mkdir -p \"$SESSION_DIR\"",
+        "line": 284,
+        "excerpt": "GOV_REPO_ROOT=\"${IWE_WORKSPACE:-$HOME/IWE}/${IWE_GOVERNANCE_REPO:-DS-strategy}\"",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": ".claude/skills/peer-conversation/SKILL.md",
-        "line": 462,
+        "line": 300,
+        "excerpt": "ISOLATE_OUTPUT=$(cd \"$GOV_REPO_ROOT\" && IWE_AGENT=claude-code bash \"${IWE_SCRIPTS:-$HOME/IWE/scripts}/session-guard.sh\" open \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/peer-conversation/SKILL.md",
+        "line": 309,
+        "excerpt": "GOV_REPO_ROOT=\"<извлечённый worktree_path>\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/peer-conversation/SKILL.md",
+        "line": 380,
+        "excerpt": "IDX_LIB=\"$GOV_REPO_ROOT/scripts/lib/session-index-draft.sh\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/peer-conversation/SKILL.md",
+        "line": 389,
+        "excerpt": "if [ ! -f \"${IWE_WORKSPACE:-$HOME/IWE}/${IWE_GOVERNANCE_REPO:-DS-strategy}/scripts/session-index-snapshot.sh\" ]; then",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/peer-conversation/SKILL.md",
+        "line": 431,
+        "excerpt": "for PEER_CORE_FILE in \"$SESSION_DIR/meta.yaml\" \"$SESSION_DIR/00-writer.md\"; do",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/peer-conversation/SKILL.md",
+        "line": 554,
         "excerpt": "PEER_FILE=\"${SESSION_DIR}/$(printf '%02d' $TURN)-peer.md\"",
         "disclosed": false,
         "automatic": false
@@ -75,7 +123,7 @@
       {
         "ruleId": "shell",
         "file": ".claude/skills/peer-conversation/SKILL.md",
-        "line": 597,
+        "line": 750,
         "excerpt": "PEER_FILE=\"${SESSION_DIR}/$(printf '%02d' $ROUND)-peer-${vendor}.md\"",
         "disclosed": false,
         "automatic": false
@@ -83,15 +131,23 @@
       {
         "ruleId": "shell",
         "file": ".claude/skills/peer-conversation/SKILL.md",
-        "line": 844,
-        "excerpt": "(cd <repo path>",
+        "line": 1059,
+        "excerpt": "cd <repo path>",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": ".claude/skills/peer-conversation/SKILL.md",
-        "line": 897,
+        "line": 1089,
+        "excerpt": "REPO_ROOT=$(git -C \"<repo path>\" rev-parse --show-toplevel)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/peer-conversation/SKILL.md",
+        "line": 1149,
         "excerpt": "START_TIME=$(grep '^start_time:' \"$SESSION_DIR/meta.yaml\" | sed -E 's/^start_time: *\"?([^\"]*)\"?$/\\1/')",
         "disclosed": false,
         "automatic": false
@@ -99,15 +155,15 @@
       {
         "ruleId": "shell",
         "file": ".claude/skills/peer-conversation/SKILL.md",
-        "line": 912,
-        "excerpt": "LEDGER_SCRIPT=\"${IWE_WORKSPACE:-$HOME/IWE}/${IWE_GOVERNANCE_REPO:-DS-strategy}/scripts/ledger-append.sh\"",
+        "line": 1164,
+        "excerpt": "if [ -f \"$GOV_REPO_ROOT/scripts/ledger-append.sh\" ]; then",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": ".claude/skills/peer-conversation/SKILL.md",
-        "line": 930,
+        "line": 1194,
         "excerpt": "TURNS_DONE=$(find \"$SESSION_DIR\" -maxdepth 1 -name \"[0-9][0-9]-*.md\" | wc -l | tr -d ' ')",
         "disclosed": false,
         "automatic": false
@@ -115,30 +171,14 @@
       {
         "ruleId": "shell",
         "file": ".claude/skills/peer-conversation/SKILL.md",
-        "line": 1111,
-        "excerpt": "GUARD_ORZ=\"${IWE_WORKSPACE:-$HOME/IWE}/${IWE_GOVERNANCE_REPO:-DS-strategy}/sessions/$MONTH/${TODAY}-${SESSION_SLUG}.md\"",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": ".claude/skills/peer-conversation/SKILL.md",
-        "line": 1150,
-        "excerpt": "(cd \"${IWE_WORKSPACE:-$HOME/IWE}/${IWE_GOVERNANCE_REPO:-DS-strategy}\"",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": ".claude/skills/peer-conversation/SKILL.md",
-        "line": 1165,
-        "excerpt": "IWE_AGENT=claude-code bash \"${IWE_SCRIPTS:-$HOME/IWE/scripts}/session-guard.sh\" close --agent claude-code 2>&1 || \\",
+        "line": 1364,
+        "excerpt": "IDX_LIB=\"$GOV_REPO_ROOT/scripts/lib/session-index-draft.sh\"",
         "disclosed": false,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 15
+      "shell": 32
     },
     "score": 95,
     "band": "low",
@@ -162,6 +202,12 @@
     {
       "commit": "980ed6ba86f71fb384149840e8f7158b2a78bddd",
       "scannedAt": "2026-11-19T10:50:00.942Z",
+      "score": 95,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "e6f0edf8281c4029d3a9e929c3a58eecfad10435",
+      "scannedAt": "2026-11-23T11:25:12.649Z",
       "score": 95,
       "rulesVersion": "1.3.0"
     }

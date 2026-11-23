@@ -4,30 +4,123 @@
   "repo": "simple-agent-manager",
   "path": ".agents/skills/product-video",
   "name": "product-video",
-  "description": "",
+  "description": "Produce a narrated SAM product video (weekly recap, blog companion, feature walkthrough) with a natural-sounding ElevenLabs voiceover, real app screenshots in animated glass frames, ethereal music and a voice-ducked mix. Use when asked for a marketing, social, recap or blog video.",
   "stars": 73,
   "category": "coding",
-  "commit": "7de72d64250acb268bc907eed634979a9cf6421a",
+  "commit": "5b799a9156eacb34572339cd0d1c5eb12988800f",
   "contentHash": "0af987bf45d2eb62202238514b1ac54d0581faa7ab589e7be419dcf11ac85976",
   "repoCreatedAt": "2026-01-24T12:50:08Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-19T10:50:00.942Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-23T11:25:12.649Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "paid-api",
+        "file": ".agents/skills/product-video/SKILL.md",
+        "line": 42,
+        "excerpt": "ElevenLabs is reached through Composio. In `COMPOSIO_REMOTE_WORKBENCH`, `proxy_execute('POST', 'https://api.elevenlabs.io/v1/text-to-speech/<voice>/with-timesta",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/product-video/SKILL.md",
+        "line": 45,
+        "excerpt": "- Move files out of the workbench with `upload_local_file(path)` and `curl -L` its `s3_url`.",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/product-video/SKILL.md",
+        "line": 97,
+        "excerpt": "- `ffmpeg`, `sox` (`sudo apt-get install -y ffmpeg sox`); Playwright Chromium in `/tmp/render` (`npm i playwright && npx playwright install --with-deps chromium",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/product-video/tools/mix.py",
+        "line": 74,
+        "excerpt": "subprocess.run([\"ffmpeg\", \"-loglevel\", \"error\", \"-y\", *inputs, \"-filter_complex\", \";\".join(f),",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/product-video/tools/mix.py",
+        "line": 77,
+        "excerpt": "probe = subprocess.run([\"ffmpeg\", \"-hide_banner\", \"-i\", str(pre), \"-af\",",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/product-video/tools/mix.py",
+        "line": 84,
+        "excerpt": "subprocess.run([\"ffmpeg\", \"-loglevel\", \"error\", \"-y\", \"-i\", str(pre), \"-af\", ln, \"-ar\", \"48000\", str(mix)], check=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/product-video/tools/mix.py",
+        "line": 88,
+        "excerpt": "probe_dur = subprocess.run([\"ffprobe\", \"-v\", \"error\", \"-show_entries\", \"format=duration\", \"-of\", \"csv=p=0\",",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/product-video/tools/mix.py",
+        "line": 92,
+        "excerpt": "subprocess.run([\"ffmpeg\", \"-loglevel\", \"error\", \"-y\", \"-i\", str(W / \"silent.mp4\"), \"-i\", str(mix),",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/product-video/tools/prosody_report.py",
+        "line": 24,
+        "excerpt": "subprocess.run([\"ffmpeg\", \"-loglevel\", \"error\", \"-y\", \"-i\", str(path), \"-ac\", \"1\", \"-ar\", \"44100\", out], check=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/product-video/tools/render.cjs",
+        "line": 7,
+        "excerpt": "const cp = require('child_process');",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "paid-api": 1,
+      "network": 1,
+      "downloads-code": 1,
+      "shell": 7
+    },
+    "score": 69,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 9
+    "filesScanned": 8,
+    "filesSkipped": 1
   },
   "history": [
     {
       "commit": "7de72d64250acb268bc907eed634979a9cf6421a",
       "scannedAt": "2026-11-19T10:50:00.942Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "5b799a9156eacb34572339cd0d1c5eb12988800f",
+      "scannedAt": "2026-11-23T11:25:12.649Z",
+      "score": 69,
       "rulesVersion": "1.3.0"
     }
   ]

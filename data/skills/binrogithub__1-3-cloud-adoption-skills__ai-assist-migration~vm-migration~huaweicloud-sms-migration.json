@@ -4,24 +4,210 @@
   "repo": "1-3-Cloud-Adoption-Skills",
   "path": "AI-Assist-Migration/VM-Migration/huaweicloud-sms-migration",
   "name": "huaweicloud-sms-migration",
-  "description": "",
+  "description": "Migrate servers to Huawei Cloud ECS using SMS (Server Migration Service), with an image-export fallback (AMI -> S3 -> OBS -> IMS -> ECS) for sources SMS cannot handle. Handles cross-cloud (AWS, Azure, GCP, on-prem) Linux/Windows server migration with agent installation, network connectivity, firmware compatibility, and Terraform automation. Use when the user wants to migrate or replicate a physical or virtual server to Huawei Cloud.",
   "stars": 14,
-  "category": "other",
+  "category": "devops",
   "commit": "498f1cd114c88b83cbbedf8037f2dee73c0686a7",
   "contentHash": "814f2f552fa4cad09f5b3730381d5588aede1788cfbda0153b95c034ad7678f0",
   "repoCreatedAt": "2026-04-17T21:55:08Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-20T10:39:23.037Z",
+  "scannedAt": "2026-11-23T11:25:12.649Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/VM-Migration/huaweicloud-sms-migration/SKILL.md",
+        "line": 80,
+        "excerpt": "scp scripts/preflight.sh <user>@<source-ip>:/tmp/preflight.sh",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/VM-Migration/huaweicloud-sms-migration/SKILL.md",
+        "line": 89,
+        "excerpt": "hcloud SMS ListServers    --cli-region=<sms-region>   --cli-output=json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/VM-Migration/huaweicloud-sms-migration/SKILL.md",
+        "line": 126,
+        "excerpt": "ssh <user>@<source-ip> \"uname -a; cat /etc/os-release; df -h; lsblk; free -h; ip addr\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/VM-Migration/huaweicloud-sms-migration/SKILL.md",
+        "line": 132,
+        "excerpt": "hcloud VPC ShowVpc --vpc_id=<vpc-id> --cli-region=<target-region>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/VM-Migration/huaweicloud-sms-migration/SKILL.md",
+        "line": 142,
+        "excerpt": "ssh <user>@<source-ip> \"sudo bash -c '",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "AI-Assist-Migration/VM-Migration/huaweicloud-sms-migration/SKILL.md",
+        "line": 144,
+        "excerpt": "wget -q https://sms-resource-intl-ap-southeast-3.obs.ap-southeast-3.myhuaweicloud.com/SMS-Agent.tar.gz",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "sms-resource-intl-ap-southeast-3.obs.ap-southeast-3.myhuaweicloud.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "AI-Assist-Migration/VM-Migration/huaweicloud-sms-migration/SKILL.md",
+        "line": 168,
+        "excerpt": "ssh <user>@<source-ip> \"curl -s https://sms.ap-southeast-3.myhuaweicloud.com/ | head -1\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "sms.ap-southeast-3.myhuaweicloud.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/VM-Migration/huaweicloud-sms-migration/SKILL.md",
+        "line": 168,
+        "excerpt": "ssh <user>@<source-ip> \"curl -s https://sms.ap-southeast-3.myhuaweicloud.com/ | head -1\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/VM-Migration/huaweicloud-sms-migration/SKILL.md",
+        "line": 247,
+        "excerpt": "terraform init",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/VM-Migration/huaweicloud-sms-migration/SKILL.md",
+        "line": 256,
+        "excerpt": "hcloud SMS ShowTask --cli-region=ap-southeast-3 --task_id=<task-id>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/VM-Migration/huaweicloud-sms-migration/SKILL.md",
+        "line": 265,
+        "excerpt": "hcloud SMS ShowTask --cli-region=ap-southeast-3 --task_id=<task-id> | grep target_server_id",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/VM-Migration/huaweicloud-sms-migration/SKILL.md",
+        "line": 275,
+        "excerpt": "hcloud SMS DeleteTask --cli-region=ap-southeast-3 --task_id=<task-id>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/VM-Migration/huaweicloud-sms-migration/SKILL.md",
+        "line": 310,
+        "excerpt": "python scripts/aws_image_path.py prep --instance-id <id> --region us-east-1 --bucket <bucket>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "AI-Assist-Migration/VM-Migration/huaweicloud-sms-migration/SKILL.md",
+        "line": 327,
+        "excerpt": "wget https://obs-community.obs.cn-north-1.myhuaweicloud.com/obsutil/current/obsutil_linux_amd64.tar.gz",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "obs-community.obs.cn-north-1.myhuaweicloud.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/VM-Migration/huaweicloud-sms-migration/SKILL.md",
+        "line": 327,
+        "excerpt": "wget https://obs-community.obs.cn-north-1.myhuaweicloud.com/obsutil/current/obsutil_linux_amd64.tar.gz",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/VM-Migration/huaweicloud-sms-migration/SKILL.md",
+        "line": 345,
+        "excerpt": "python scripts/hw_image_path.py import --region <target-region> \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/VM-Migration/huaweicloud-sms-migration/SKILL.md",
+        "line": 357,
+        "excerpt": "python scripts/hw_image_path.py ecs --region <target-region> \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "AI-Assist-Migration/VM-Migration/huaweicloud-sms-migration/SKILL.md",
+        "line": 360,
+        "excerpt": "--pub-key ~/.ssh/id_rsa.pub",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Assist-Migration/VM-Migration/huaweicloud-sms-migration/SKILL.md",
+        "line": 368,
+        "excerpt": "ssh -i <key> ec2-user@<ecs-ip> \"hostname; uname -r; df -h\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "AI-Assist-Migration/VM-Migration/huaweicloud-sms-migration/references/sms-agent-install.md",
+        "line": 30,
+        "excerpt": "wget \"https://sms-resource-intl-ap-southeast-3.obs.ap-southeast-3.myhuaweicloud.com/SMS-Agent.tar.gz\" -O SMS-Agent.tar.gz",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "sms-resource-intl-ap-southeast-3.obs.ap-southeast-3.myhuaweicloud.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "AI-Assist-Migration/VM-Migration/huaweicloud-sms-migration/references/troubleshooting.md",
+        "line": 62,
+        "excerpt": "1. Check source server internet connectivity: `curl -v https://<sms-endpoint>`",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 15,
+      "network": 5,
+      "reads-secrets": 1
+    },
+    "score": 82,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 1,
-    "filesSkipped": 4
+    "filesScanned": 4,
+    "filesSkipped": 1
   },
   "history": [
     {

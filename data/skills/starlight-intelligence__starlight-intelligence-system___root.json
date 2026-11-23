@@ -13,7 +13,7 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-19T10:50:00.942Z",
+  "scannedAt": "2026-11-23T11:25:12.649Z",
   "scan": {
     "findings": [
       {
@@ -43,204 +43,450 @@
         "automatic": false
       },
       {
-        "ruleId": "writes-outside",
-        "file": "cockpit/scripts/arc-cockpit.ps1",
-        "line": 249,
-        "excerpt": "arc install                 Register hooks in ~/.claude/settings.json + Task Scheduler",
+        "ruleId": "shell",
+        "file": ".claude/ci/agent-lint.py",
+        "line": 71,
+        "excerpt": "out = subprocess.run([\"git\", \"-C\", root, *args], capture_output=True, text=True, timeout=20)",
         "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "downloads-code",
-        "file": "docs/ops/HANDOVER-2026-05-03-memory-bus.md",
-        "line": 18,
-        "excerpt": "| pp global install | `npm i -g` from `C:/Users/frank/Arcanea/packages/peak-performance` | Decouples invocation from Arcanea path |",
+        "ruleId": "shell",
+        "file": ".claude/ci/agent-lint.py",
+        "line": 72,
+        "excerpt": "except (OSError, subprocess.SubprocessError):",
         "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "downloads-code",
-        "file": "scripts/starlight-tools.ps1",
-        "line": 80,
-        "excerpt": "$cmd = \"npx tsx src/gateway/daemon.ts `\"$StorageRoot`\" $Port\"",
+        "ruleId": "shell",
+        "file": ".claude/ci/estate-guard-scan.mjs",
+        "line": 32,
+        "excerpt": "import { execFileSync } from 'node:child_process';",
         "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "network",
-        "file": "scripts/starlight-tools.ps1",
-        "line": 96,
-        "excerpt": "$res = Invoke-RestMethod -Uri \"$url/v1/health\" -Method Get",
+        "ruleId": "shell",
+        "file": ".claude/ci/estate-guard-scan.mjs",
+        "line": 92,
+        "excerpt": "const out = execFileSync('git', ['-C', root, 'ls-files', '-z', '--cached', '--others', '--exclude-standard'], { encoding: 'utf8', maxBuffer: 256 * 1024 * 1024 }",
         "disclosed": false,
-        "automatic": false,
-        "hosts": []
+        "automatic": false
       },
       {
-        "ruleId": "network",
-        "file": "scripts/starlight-tools.ps1",
+        "ruleId": "shell",
+        "file": ".claude/ci/estate-guard-scan.mjs",
         "line": 109,
-        "excerpt": "$res = Invoke-RestMethod -Uri \"$url/v1/memory/query\" -Method Post -Headers $headers -Body $body",
+        "excerpt": "try { execFileSync('git', ['-C', root, 'ls-files', '--error-unmatch', rel], { stdio: 'ignore' }); return true; } catch { return false; }",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/ci/estate-guard-scan.mjs",
+        "line": 149,
+        "excerpt": "HK005: { severity: 'high', title: 'Hook script contains a destructive or remote-exec primitive', fix: 'Hooks run unattended on every event. Remove curl|sh, eval",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/ci/estate-guard-scan.mjs",
+        "line": 154,
+        "excerpt": "MCP002: { severity: 'low', title: 'MCP server launched with unpinned `npx -y`', fix: 'Pin the package version. `-y` plus no version = execute whatever the regis",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/ci/estate-guard-scan.mjs",
+        "line": 176,
+        "excerpt": "DEP002: { severity: 'medium', title: 'Install/setup script pipes a download into a shell', fix: 'Download, verify (checksum or signature), then execute. `curl |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/ci/estate-guard-scan.mjs",
+        "line": 225,
+        "excerpt": "const REMOTE_EXEC = /\\b(?:npx -y|pnpm dlx|bunx|uvx|pipx run)\\s+[^\\s@]+(?:@latest)?\\b|\\b[^\\s]+@latest\\b|curl\\s[^|\\n]*\\|\\s*(?:ba|z)?sh\\b|wget\\s[^|\\n]*\\|\\s*(?:ba|z",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/ci/estate-guard-scan.mjs",
+        "line": 347,
+        "excerpt": "if (/(?:npx|pnpm dlx|bunx|uvx)\\s+(?:-y\\s+)?[^\\s]+@latest|(?:npx|pnpm dlx|bunx)\\s+-y\\s+[^\\s@]+(?:\\s|$)/.test(cmd)) add('HK003', rel, 1, cmd);",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".claude/ci/estate-guard-scan.mjs",
+        "line": 358,
+        "excerpt": "if (CURL_PIPE_SH.test(ln) || /\\beval\\s*\\(?\\s*[\"$]?\\{?(?:TOOL_INPUT|tool_input|input)/.test(ln) || /rm\\s+-rf?\\s+(?:\\/|~|\\$HOME|\"\\$HOME|\\$\\{HOME\\})(?:\\s|$|\")/.tes",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".claude/commands/handover.md",
+        "line": 92,
+        "excerpt": "cp ~/.starlight/vaults/horizon.jsonl ~/starlight-horizon-dataset/vaults/",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/hooks/mcp-health-check.cjs",
+        "line": 20,
+        "excerpt": "const { spawn, spawnSync } = require('child_process');",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/hooks/mcp-health-check.cjs",
+        "line": 433,
+        "excerpt": "const result = spawnSync(command, {",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/install/meetscribe.md",
+        "line": 54,
+        "excerpt": "python -m pip install --upgrade pip",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/install/meetscribe.md",
+        "line": 55,
+        "excerpt": "pip install -r requirements.txt",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/install/meetscribe.md",
+        "line": 61,
+        "excerpt": "pip install -e .",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/ops/HANDOVER-2026-04-26-night.md",
+        "line": 45,
+        "excerpt": "pip install pydantic anthropic typer rich python-dotenv pyyaml fastapi \"uvicorn[standard]\" watchdog httpx pillow",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/ops/HANDOVER-SITE-REFRESH-V77-2026-05-02.md",
+        "line": 26,
+        "excerpt": "**Quality gates:** `npx tsc --noEmit` exit 0 · `pnpm build` clean · 23/23 routes generate · all 5 changed/new routes return 200 with expected key phrases on dev",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/ops/HANDOVER-SITE-REFRESH-V77-2026-05-02.md",
+        "line": 122,
+        "excerpt": "| `npx tsc --noEmit` | **exit 0** (clean) |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "integrations/starter-packs/friend-starter/mcp.json",
+        "line": 14,
+        "excerpt": "\"command\": \"node\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/starlight-foundry/skills/system-forge/SKILL.md",
+        "line": 45,
+        "excerpt": "node tools/foundry/cli.mjs forge \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/tests/media-guard.contract.mjs",
+        "line": 2,
+        "excerpt": "import { execFileSync, spawnSync } from \"node:child_process\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/tests/media-guard.contract.mjs",
+        "line": 27,
+        "excerpt": "return execFileSync(\"git\", args, { cwd, encoding: \"utf8\" })",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/tests/media-guard.contract.mjs",
+        "line": 42,
+        "excerpt": "return spawnSync(process.execPath, base ? [guard, ...extraArguments, \"--base\", base] : [guard, ...extraArguments], {",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "site/motion/estate-hero-loop/package.json",
+        "line": 6,
+        "excerpt": "\"dev\": \"npx --yes hyperframes@0.6.112 preview\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "site/motion/estate-hero-loop/package.json",
+        "line": 7,
+        "excerpt": "\"check\": \"npx --yes hyperframes@0.6.112 lint && npx --yes hyperframes@0.6.112 validate && npx --yes hyperframes@0.6.112 inspect\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "site/motion/estate-hero-loop/package.json",
+        "line": 8,
+        "excerpt": "\"render\": \"npx --yes hyperframes@0.6.112 render\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "site/motion/estate-hero-loop/package.json",
+        "line": 9,
+        "excerpt": "\"publish\": \"npx --yes hyperframes@0.6.112 publish\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "src/finance/finance.test.ts",
+        "line": 222,
+        "excerpt": "const snaps = await fetcher.fetch(\"2026-05-10\", \"Arcanea BV\");",
         "disclosed": false,
         "automatic": false,
         "hosts": []
       },
       {
         "ruleId": "network",
-        "file": "scripts/starlight-tools.ps1",
-        "line": 119,
-        "excerpt": "$res = Invoke-RestMethod -Uri \"$url/v1/memory/append\" -Method Post -Headers $headers -Body $body",
+        "file": "src/finance/finance.test.ts",
+        "line": 238,
+        "excerpt": "const snaps = await fetcher.fetch(\"2026-05-10\", \"Arcanea BV\");",
         "disclosed": false,
         "automatic": false,
         "hosts": []
       },
       {
-        "ruleId": "downloads-code",
-        "file": "site/motion/estate-factory-scroll/AGENTS.md",
-        "line": 24,
-        "excerpt": "> **Skills not available?** Ask the user to run `npx hyperframes skills` and restart their",
+        "ruleId": "network",
+        "file": "src/finance/finance.test.ts",
+        "line": 244,
+        "excerpt": "const snaps = await fetcher.fetch(\"2026-05-10\", \"Arcanea BV\");",
         "disclosed": false,
-        "automatic": false
+        "automatic": false,
+        "hosts": []
       },
       {
-        "ruleId": "downloads-code",
-        "file": "site/motion/estate-factory-scroll/AGENTS.md",
-        "line": 25,
-        "excerpt": "> agent session, or install manually: `npx skills add heygen-com/hyperframes`.",
+        "ruleId": "network",
+        "file": "src/finance/finance.test.ts",
+        "line": 250,
+        "excerpt": "await assert.rejects(() => fetcher.fetch(\"2026-05-10\", \"Arcanea BV\"), /Stripe API 401/);",
         "disclosed": false,
-        "automatic": false
+        "automatic": false,
+        "hosts": []
       },
       {
-        "ruleId": "downloads-code",
-        "file": "site/motion/estate-factory-scroll/AGENTS.md",
-        "line": 34,
-        "excerpt": "npx hyperframes lint --verbose  # include info-level findings",
+        "ruleId": "network",
+        "file": "src/finance/revenue-snapshot.ts",
+        "line": 77,
+        "excerpt": "const snapshots = await fetcher.fetch(period, entity.name);",
         "disclosed": false,
-        "automatic": false
+        "automatic": false,
+        "hosts": []
       },
       {
-        "ruleId": "downloads-code",
-        "file": "site/motion/estate-factory-scroll/AGENTS.md",
-        "line": 35,
-        "excerpt": "npx hyperframes lint --json     # machine-readable output for CI",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "site/motion/estate-factory-scroll/AGENTS.md",
-        "line": 36,
-        "excerpt": "npx hyperframes docs <topic> # reference docs in terminal",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "site/motion/estate-factory-scroll/AGENTS.md",
-        "line": 48,
-        "excerpt": "npx hyperframes docs <topic>",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "site/motion/estate-factory-scroll/CLAUDE.md",
-        "line": 24,
-        "excerpt": "> **Skills not available?** Ask the user to run `npx hyperframes skills` and restart their",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "site/motion/estate-factory-scroll/CLAUDE.md",
-        "line": 25,
-        "excerpt": "> agent session, or install manually: `npx skills add heygen-com/hyperframes`.",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "site/motion/estate-factory-scroll/CLAUDE.md",
-        "line": 34,
-        "excerpt": "npx hyperframes lint --verbose  # include info-level findings",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "site/motion/estate-factory-scroll/CLAUDE.md",
-        "line": 35,
-        "excerpt": "npx hyperframes lint --json     # machine-readable output for CI",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "site/motion/estate-factory-scroll/CLAUDE.md",
-        "line": 36,
-        "excerpt": "npx hyperframes docs <topic> # reference docs in terminal",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "site/motion/estate-factory-scroll/CLAUDE.md",
-        "line": 48,
-        "excerpt": "npx hyperframes docs <topic>",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "test/context-continuity.test.ts",
-        "line": 7,
-        "excerpt": "import { spawnSync } from 'node:child_process';",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "test/context-continuity.test.ts",
+        "ruleId": "network",
+        "file": "src/finance/revenue-sources/stripe.ts",
         "line": 21,
-        "excerpt": "const cli = (...args: string[]) => spawnSync(process.execPath,",
+        "excerpt": "async fetch(period: string, entity: string): Promise<RevenueSnapshot[]> {",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "src/gateway/cloud-connector.ts",
+        "line": 100,
+        "excerpt": "const res = await fetch(url, {",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "src/gateway/cloud-connector.ts",
+        "line": 181,
+        "excerpt": "const res = await fetch(url, {",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "src/gateway/cloud-connector.ts",
+        "line": 199,
+        "excerpt": "const res = await fetch(url, {",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "src/gateway/cloud-connector.ts",
+        "line": 224,
+        "excerpt": "const res = await fetch(url, {",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "src/gateway/cloud-connector.ts",
+        "line": 241,
+        "excerpt": "const res = await fetch(url, {",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "src/infra/cost-snapshot.ts",
+        "line": 57,
+        "excerpt": "const settled = await Promise.allSettled(fetchers.map((f) => f.fetch(period)));",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "src/infra/cost-sources/_shared.ts",
+        "line": 27,
+        "excerpt": "fetch(period: string): Promise<CostSnapshot>;",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "src/runtime-bridge/chatgpt-plan.ts",
+        "line": 88,
+        "excerpt": "response = await transport(`https://api.openai.com/v1/${path}`, {",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tools/spec-trace-daemon/server.py",
+        "line": 78,
+        "excerpt": "out = subprocess.run(",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "tools/merge-review/merge_review_gate.py",
-        "line": 173,
-        "excerpt": "run = subprocess.run(['gh', 'api', 'graphql', '-f', f'query={EDIT_QUERY}', '-f', f'id={node_id}'],",
+        "file": "tools/spec-trace-daemon/server.py",
+        "line": 87,
+        "excerpt": "except (OSError, subprocess.SubprocessError):",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "tools/merge-review/merge_review_gate.py",
-        "line": 232,
-        "excerpt": "run = subprocess.run(args, input=None if payload is None else json.dumps(payload),",
+        "file": "tools/spec-trace-daemon/server.py",
+        "line": 259,
+        "excerpt": "info = subprocess.run(",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "tools/merge-review/merge_review_gate.py",
-        "line": 286,
-        "excerpt": "subprocess.run(args, input=json.dumps({",
+        "file": "tools/spec-trace-daemon/server.py",
+        "line": 274,
+        "excerpt": "except (OSError, subprocess.SubprocessError):",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "tools/spec-trace-daemon/tests/test_server.py",
+        "line": 11,
+        "excerpt": "import http.client",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "tools/spec-trace-daemon/tests/test_server.py",
+        "line": 113,
+        "excerpt": "conn = http.client.HTTPConnection(\"127.0.0.1\", port, timeout=5)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "tools/spec-trace-daemon/tests/test_server.py",
+        "line": 275,
+        "excerpt": "conn = http.client.HTTPConnection(\"127.0.0.1\", port, timeout=30)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "tools/spec-trace.py",
+        "line": 37,
+        "excerpt": "out = subprocess.run(",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tools/spec-trace.py",
+        "line": 166,
+        "excerpt": "info = subprocess.run(",
         "disclosed": false,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "network": 5,
-      "downloads-code": 15,
-      "writes-outside": 1,
-      "shell": 5
+      "network": 18,
+      "downloads-code": 16,
+      "shell": 18,
+      "writes-outside": 2,
+      "paid-api": 1
     },
-    "score": 65,
+    "score": 60,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 45,
-    "filesSkipped": 3359
+    "filesScanned": 334,
+    "filesSkipped": 3070
   },
   "history": [
     {

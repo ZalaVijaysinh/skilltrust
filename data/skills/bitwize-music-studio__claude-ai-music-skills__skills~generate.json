@@ -5,25 +5,49 @@
   "path": "skills/generate",
   "name": "generate",
   "description": "Generates a track on Suno through Suno's official MCP server - a song, a cover of another Suno song, a track sung in a saved Voice, a spoken-word piece, or a sketch that plays a MIDI score. Runs the pre-generation gates, shows the cost, waits for a go-ahead, makes two takes, logs them and hands off to listening. Use when the user says \"generate track N\", \"regenerate\", or is ready to make audio. Falls back to the clipboard flow when the Suno server is not connected.",
-  "stars": 683,
+  "stars": 689,
   "category": "coding",
-  "commit": "01463d350e9ff1534bdd30ce266183b6059ff075",
-  "contentHash": "ae387127e213cf7ec82ac1b843eed0cd8325201badca2a882b77a558860a0216",
+  "commit": "8e0e19c0fe7072830ba2918e351102c3c0be9dc4",
+  "contentHash": "02880189c75c64f15ec61efe05e3e50fe23c671a835a2edaa3b2dc8b030be0e6",
   "repoCreatedAt": "2026-01-14T00:55:56Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-15T10:00:32.478Z",
+  "scannedAt": "2026-11-23T11:25:12.649Z",
   "scan": {
     "findings": [
       {
         "ruleId": "network",
         "file": "skills/generate/SKILL.md",
-        "line": 242,
+        "line": 255,
         "excerpt": "3. Upload the file, which is free: `midi-upload-create`; then send the file to its `upload_url` as a multipart form, every `upload_fields` entry first and the f",
         "disclosed": true,
         "automatic": false,
         "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "tests/unit/hooks/test_session_rules.py",
+        "line": 233,
+        "excerpt": "def _run(tmp_path: Path, cwd: Path, stdin: str | None = None) -> subprocess.CompletedProcess[str]:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "tests/unit/hooks/test_session_rules.py",
+        "line": 234,
+        "excerpt": "env = dict(os.environ)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tests/unit/hooks/test_session_rules.py",
+        "line": 241,
+        "excerpt": "return subprocess.run(  # noqa: S603 - fixed interpreter and script path",
+        "disclosed": true,
+        "automatic": false
       },
       {
         "ruleId": "shell",
@@ -82,6 +106,14 @@
         "automatic": true
       },
       {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 27,
+        "excerpt": "\"command\": \"python3 ${CLAUDE_PLUGIN_ROOT}/hooks/session_rules.py\",",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
         "ruleId": "downloads-code",
         "file": "hooks/install.sh",
         "line": 26,
@@ -132,7 +164,7 @@
       {
         "ruleId": "downloads-code",
         "file": "hooks/pre-commit",
-        "line": 240,
+        "line": 243,
         "excerpt": "echo \"      ⚠ bandit not installed, skipping code scan (pip install bandit)\"",
         "disclosed": false,
         "automatic": true
@@ -140,7 +172,7 @@
       {
         "ruleId": "downloads-code",
         "file": "hooks/pre-commit",
-        "line": 262,
+        "line": 265,
         "excerpt": "echo \"      ⚠ pip-audit not installed, skipping dependency scan (pip install pip-audit)\"",
         "disclosed": false,
         "automatic": true
@@ -148,7 +180,7 @@
       {
         "ruleId": "downloads-code",
         "file": "hooks/pre-commit",
-        "line": 277,
+        "line": 280,
         "excerpt": "echo \"      ⚠ pytest not installed, skipping (pip install pytest)\"",
         "disclosed": false,
         "automatic": true
@@ -156,13 +188,14 @@
     ],
     "findingTotals": {
       "network": 1,
-      "shell": 6,
+      "shell": 9,
+      "reads-secrets": 1,
       "downloads-code": 10
     },
-    "score": 79,
+    "score": 69,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 12,
+    "filesScanned": 18,
     "filesSkipped": 0
   },
   "history": [
@@ -170,6 +203,12 @@
       "commit": "01463d350e9ff1534bdd30ce266183b6059ff075",
       "scannedAt": "2026-11-15T10:00:32.478Z",
       "score": 79,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "8e0e19c0fe7072830ba2918e351102c3c0be9dc4",
+      "scannedAt": "2026-11-23T11:25:12.649Z",
+      "score": 69,
       "rulesVersion": "1.3.0"
     }
   ]

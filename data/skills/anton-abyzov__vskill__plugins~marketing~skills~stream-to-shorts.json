@@ -1,0 +1,417 @@
+{
+  "id": "anton-abyzov__vskill__plugins~marketing~skills~stream-to-shorts",
+  "owner": "anton-abyzov",
+  "repo": "vskill",
+  "path": "plugins/marketing/skills/stream-to-shorts",
+  "name": "stream-to-shorts",
+  "description": "Turn a multi-hour livestream or other unscripted recording into many fast vertical shorts. Covers a census of what the stream really contains, scored moment mining, shorts-mode cuts (speech at 0.0 s, pauses cut to 0.3 s, a change on screen every 1.5 s), a stacked layout (face, title bar, full-bleed screen), word-by-word captions, voice-first audio, per-platform exports, independent checks before scheduling, a spaced schedule and a retention log. Ships scripts for the cut, captions, contact sheets, layout, privacy, audio and caption checks, exports, a schedule planner and a post helper that redacts credentials. Use for 'cut shorts from my stream', 'clips from this VOD', 'reels from the livestream', 'my shorts are too slow'. Not for scripted recordings with retakes (hyperframes-best-practices), one designed reel (hyperframes) or one long video (video-pipeline).",
+  "stars": 47,
+  "category": "coding",
+  "commit": "5c9e9c7015b77f88fabe08f7725ddcab2096802e",
+  "contentHash": "dfaa662fe547ae854a51eff039a205dc82488e9369d56cfacdf8276059b568fc",
+  "repoCreatedAt": "2026-02-16T01:37:46Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-23T11:25:12.649Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "plugins/marketing/skills/stream-to-shorts/SKILL.md",
+        "line": 45,
+        "excerpt": "yt-dlp -F \"<url>\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/marketing/skills/stream-to-shorts/SKILL.md",
+        "line": 60,
+        "excerpt": "python3 <SKILL_DIR>/scripts/words.py transcript.json --grep \"look at this,oh my,no way,what,limit,failed,first time\" --context 8",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/marketing/skills/stream-to-shorts/SKILL.md",
+        "line": 94,
+        "excerpt": "python3 <SKILL_DIR>/scripts/cut_short.py plan   specs/a01-demo.json --out clips/a01-demo     # shot list, no render",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/marketing/skills/stream-to-shorts/SKILL.md",
+        "line": 112,
+        "excerpt": "python3 <SKILL_DIR>/scripts/fill_check.py clips/a01-demo/a01-demo.mp4",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/marketing/skills/stream-to-shorts/SKILL.md",
+        "line": 132,
+        "excerpt": "python3 <SKILL_DIR>/scripts/audio_check.py clips/a01-demo/a01-demo.mp4 --words clips/a01-demo/words.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/marketing/skills/stream-to-shorts/SKILL.md",
+        "line": 147,
+        "excerpt": "python3 <SKILL_DIR>/scripts/export.py clips/a01-demo/a01-demo.mp4 --preset P1 --out exports/a01-demo",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/marketing/skills/stream-to-shorts/SKILL.md",
+        "line": 171,
+        "excerpt": "python3 <SKILL_DIR>/scripts/plan_schedule.py clips.json accounts.json --busy busy.json --tz America/New_York --out plan.json --calendar calendar.csv",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/marketing/skills/stream-to-shorts/SKILL.md",
+        "line": 185,
+        "excerpt": "python3 <SKILL_DIR>/scripts/retention_log.py init plan.json retention-log.csv",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/marketing/skills/stream-to-shorts/references/checks.md",
+        "line": 117,
+        "excerpt": "curl -sL \"<the media URL the scheduler holds for this post>\" | shasum -a 256",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/marketing/skills/stream-to-shorts/scripts/audio_check.py",
+        "line": 222,
+        "excerpt": "res = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/marketing/skills/stream-to-shorts/scripts/audio_check.py",
+        "line": 253,
+        "excerpt": "res = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/marketing/skills/stream-to-shorts/scripts/captions.py",
+        "line": 3,
+        "excerpt": "Pure functions, no subprocess. cut_short.py writes the result and burns it with",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/marketing/skills/stream-to-shorts/scripts/compile_wide.py",
+        "line": 176,
+        "excerpt": "env = dict(os.environ)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/marketing/skills/stream-to-shorts/scripts/compile_wide.py",
+        "line": 270,
+        "excerpt": "m = subprocess.run([ff, \"-hide_banner\", \"-nostats\", \"-i\", base, \"-af\", pre + \",loudnorm=I=-14:TP=-1.5:LRA=11:print_format=json\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/marketing/skills/stream-to-shorts/scripts/cut_short.py",
+        "line": 76,
+        "excerpt": "r = subprocess.run(cmd, capture_output=True, text=True, cwd=cwd, env=env, errors=\"replace\")",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/marketing/skills/stream-to-shorts/scripts/cut_short.py",
+        "line": 87,
+        "excerpt": "r = subprocess.run([ffmpeg, \"-hide_banner\", \"-filters\"], capture_output=True, text=True, env=env, errors=\"replace\")",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/marketing/skills/stream-to-shorts/scripts/cut_short.py",
+        "line": 277,
+        "excerpt": "r = subprocess.run([ffprobe, \"-v\", \"error\", \"-show_entries\", \"format=duration\", \"-of\", \"csv=p=0\", path],",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/marketing/skills/stream-to-shorts/scripts/cut_short.py",
+        "line": 375,
+        "excerpt": "r = subprocess.run([ff, \"-hide_banner\", \"-nostats\", \"-f\", \"lavfi\", \"-i\", BED_NOISE % 5.0,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/marketing/skills/stream-to-shorts/scripts/cut_short.py",
+        "line": 450,
+        "excerpt": "r = subprocess.run([ff, \"-hide_banner\", \"-nostats\", \"-i\", path, \"-af\", \"ebur128=peak=true\", \"-f\", \"null\", \"-\"],",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/marketing/skills/stream-to-shorts/scripts/cut_short.py",
+        "line": 548,
+        "excerpt": "m = subprocess.run([ff, \"-hide_banner\", \"-nostats\", \"-i\", base, \"-af\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/marketing/skills/stream-to-shorts/scripts/cut_short.py",
+        "line": 652,
+        "excerpt": "env = dict(os.environ)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/marketing/skills/stream-to-shorts/scripts/cutplan.py",
+        "line": 3,
+        "excerpt": "Pure functions, no subprocess. cut_short.py and compile_wide.py build on them.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/marketing/skills/stream-to-shorts/scripts/export.py",
+        "line": 186,
+        "excerpt": "res = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/marketing/skills/stream-to-shorts/scripts/music_check.py",
+        "line": 13,
+        "excerpt": "Needs: pip install mediapipe numpy, and the YAMNet model file from the",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/marketing/skills/stream-to-shorts/scripts/music_check.py",
+        "line": 65,
+        "excerpt": "raise RuntimeError(\"music_check needs mediapipe and numpy: pip install mediapipe numpy \"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/marketing/skills/stream-to-shorts/scripts/posts.py",
+        "line": 51,
+        "excerpt": "import http.client",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/marketing/skills/stream-to-shorts/scripts/posts.py",
+        "line": 60,
+        "excerpt": "import urllib.request",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/marketing/skills/stream-to-shorts/scripts/posts.py",
+        "line": 102,
+        "excerpt": "class NoRedirect(urllib.request.HTTPRedirectHandler):",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/marketing/skills/stream-to-shorts/scripts/posts.py",
+        "line": 116,
+        "excerpt": "self.opener = urllib.request.build_opener(",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/marketing/skills/stream-to-shorts/scripts/posts.py",
+        "line": 117,
+        "excerpt": "NoRedirect(), urllib.request.HTTPCookieProcessor(http.cookiejar.CookieJar()))",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/marketing/skills/stream-to-shorts/scripts/posts.py",
+        "line": 121,
+        "excerpt": "req = urllib.request.Request(url, data=body, method=method, headers=headers or {})",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/marketing/skills/stream-to-shorts/scripts/posts.py",
+        "line": 126,
+        "excerpt": "except (urllib.error.URLError, http.client.HTTPException, OSError, ValueError) as e:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/marketing/skills/stream-to-shorts/scripts/posts.py",
+        "line": 458,
+        "excerpt": "def fetch(self, pid):",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/marketing/skills/stream-to-shorts/scripts/posts.py",
+        "line": 561,
+        "excerpt": "st, d = c.fetch(a.post_id)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/marketing/skills/stream-to-shorts/scripts/posts.py",
+        "line": 799,
+        "excerpt": "st, d = c.fetch(pid)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/marketing/skills/stream-to-shorts/scripts/posts.py",
+        "line": 819,
+        "excerpt": "st2, after = c.fetch(pid)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/marketing/skills/stream-to-shorts/scripts/posts.py",
+        "line": 846,
+        "excerpt": "st, d = c.fetch(pid)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/marketing/skills/stream-to-shorts/scripts/posts.py",
+        "line": 860,
+        "excerpt": "st2, d2 = c.fetch(pid)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/marketing/skills/stream-to-shorts/scripts/privacy_scan.py",
+        "line": 15,
+        "excerpt": "- ocrmac: macOS Vision through the ocrmac package (pip install ocrmac).",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/marketing/skills/stream-to-shorts/scripts/privacy_scan.py",
+        "line": 136,
+        "excerpt": "\"pip install ocrmac (or use --engine tesseract)\")",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/marketing/skills/stream-to-shorts/scripts/privacy_scan.py",
+        "line": 145,
+        "excerpt": "raise RuntimeError(\"tesseract not found (%s): brew install tesseract, \"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/marketing/skills/stream-to-shorts/scripts/privacy_scan.py",
+        "line": 146,
+        "excerpt": "\"or apt install tesseract-ocr\" % binary)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/marketing/skills/stream-to-shorts/scripts/tests/test_posts.py",
+        "line": 617,
+        "excerpt": "req = posts.urllib.request.Request(BASE + \"/x\", headers={\"Authorization\": API_KEY})",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/marketing/skills/stream-to-shorts/scripts/tests/test_posts.py",
+        "line": 627,
+        "excerpt": "posts.http.client.InvalidURL(\"nonnumeric port: '%s'\" % API_KEY),",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/marketing/skills/stream-to-shorts/scripts/tests/test_posts.py",
+        "line": 628,
+        "excerpt": "posts.http.client.BadStatusLine(API_KEY), OSError(API_KEY),",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 51,
+      "network": 17,
+      "reads-secrets": 2,
+      "downloads-code": 6
+    },
+    "score": 67,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 40,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "5c9e9c7015b77f88fabe08f7725ddcab2096802e",
+      "scannedAt": "2026-11-23T11:25:12.649Z",
+      "score": 67,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

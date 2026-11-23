@@ -4,18 +4,215 @@
   "repo": "project-forge",
   "path": ".agents/skills/env-health-check",
   "name": "env-health-check",
-  "description": "",
+  "description": "Validate SpawnForge production environments — Vercel deployments, health APIs, Sentry, CD pipeline. Run after deploys or at session start when a silent breakage is suspected (broken CD, health endpoint down, env var missing).",
   "stars": 15,
-  "category": "other",
+  "category": "devops",
   "commit": "fe45076663d7b50fecf9860c9d949f0763554cb6",
   "contentHash": "8c759c1abd968726860d7699e462e7851059308cedb1cf6ff74962d2b2ef5d1a",
   "repoCreatedAt": "2026-02-11T22:52:17Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-19T10:50:00.942Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-23T11:25:12.649Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/env-health-check/SKILL.md",
+        "line": 26,
+        "excerpt": "gh run list --workflow=cd.yml --branch main --limit 3",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/env-health-check/SKILL.md",
+        "line": 38,
+        "excerpt": "vercel ls spawnforge --scope tnolan 2>&1 | head -5",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/env-health-check/SKILL.md",
+        "line": 49,
+        "excerpt": "curl -s \"https://www.spawnforge.ai/api/health\" | python3 -c \"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "www.spawnforge.ai"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/env-health-check/SKILL.md",
+        "line": 49,
+        "excerpt": "curl -s \"https://www.spawnforge.ai/api/health\" | python3 -c \"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/env-health-check/SKILL.md",
+        "line": 67,
+        "excerpt": "curl -s \"https://www.spawnforge.ai/api/status\" | python3 -c \"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "www.spawnforge.ai"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/env-health-check/SKILL.md",
+        "line": 67,
+        "excerpt": "curl -s \"https://www.spawnforge.ai/api/status\" | python3 -c \"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/env-health-check/SKILL.md",
+        "line": 86,
+        "excerpt": "for url in \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/env-health-check/SKILL.md",
+        "line": 91,
+        "excerpt": "status=$(curl -sI \"$url\" 2>&1 | head -1 | awk '{print $2}')",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/env-health-check/SKILL.md",
+        "line": 108,
+        "excerpt": "HEALTH=$(curl -s \"https://www.spawnforge.ai/api/health\")",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "www.spawnforge.ai"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/env-health-check/SKILL.md",
+        "line": 108,
+        "excerpt": "HEALTH=$(curl -s \"https://www.spawnforge.ai/api/health\")",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/env-health-check/SKILL.md",
+        "line": 112,
+        "excerpt": "CDN_CHECK=$(curl -sI \"https://engine.spawnforge.ai/${PROD_COMMIT}/engine-pkg-webgl2/forge_engine.js\" 2>&1 | head -1 | awk '{print $2}')",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "engine.spawnforge.ai"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/env-health-check/SKILL.md",
+        "line": 116,
+        "excerpt": "LATEST_CHECK=$(curl -sI \"https://engine.spawnforge.ai/latest/engine-pkg-webgl2/forge_engine.js\" 2>&1 | head -1 | awk '{print $2}')",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "engine.spawnforge.ai"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/env-health-check/SKILL.md",
+        "line": 120,
+        "excerpt": "ROOT_CHECK=$(curl -sI \"https://engine.spawnforge.ai/engine-pkg-webgl2/forge_engine.js\" 2>&1 | head -1 | awk '{print $2}')",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "engine.spawnforge.ai"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/env-health-check/SKILL.md",
+        "line": 152,
+        "excerpt": "gh run list --branch main --limit 5 2>&1 | grep -E \"failure.*0s\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/env-health-check/SKILL.md",
+        "line": 162,
+        "excerpt": "vercel ls spawnforge-staging --scope tnolan 2>&1 | head -3",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/env-health-check/SKILL.md",
+        "line": 175,
+        "excerpt": "MAIN_HEAD=$(git rev-parse --short=8 main)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/env-health-check/SKILL.md",
+        "line": 179,
+        "excerpt": "PROD_COMMIT=$(curl -s \"https://www.spawnforge.ai/api/health\" | python3 -c \"import json,sys; print(json.load(sys.stdin).get('commit','unknown'))\")",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "www.spawnforge.ai"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/env-health-check/SKILL.md",
+        "line": 186,
+        "excerpt": "STAGING_COMMIT=$(curl -s \"$STAGING_URL/api/health\" 2>/dev/null | python3 -c \"import json,sys; print(json.load(sys.stdin).get('commit','unknown'))\" 2>/dev/null |",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/env-health-check/SKILL.md",
+        "line": 191,
+        "excerpt": "DOCS_STATUS=$(curl -sI \"https://docs.spawnforge.ai\" 2>&1 | head -1 | awk '{print $2}')",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "docs.spawnforge.ai"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/env-health-check/SKILL.md",
+        "line": 195,
+        "excerpt": "DESIGN_STATUS=$(curl -sI \"https://design.spawnforge.ai\" 2>&1 | head -1 | awk '{print $2}')",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "design.spawnforge.ai"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/env-health-check/SKILL.md",
+        "line": 208,
+        "excerpt": "PROD_COMMIT_FULL=$(git log --oneline main | grep \"^${PROD_COMMIT}\" | head -1)",
+        "disclosed": false,
+        "automatic": false
+      },
       {
         "ruleId": "downloads-code",
         "file": ".mcp.json",
@@ -138,14 +335,15 @@
       }
     ],
     "findingTotals": {
-      "downloads-code": 7,
-      "shell": 8
+      "shell": 18,
+      "network": 11,
+      "downloads-code": 7
     },
-    "score": 80,
-    "band": "low",
+    "score": 77,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 2,
-    "filesSkipped": 3
+    "filesScanned": 5,
+    "filesSkipped": 0
   },
   "history": [
     {

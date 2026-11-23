@@ -5,7 +5,7 @@
   "path": "skills/grab-cookie",
   "name": "grab-cookie",
   "description": "Capture, store, wire, and verify a browser-session credential for any site that has no API key and no OAuth path: an httpOnly session cookie, an opaque localStorage bearer token, or a custom auth header. The human step is one DevTools \"Copy as cURL\" paste, and everything around it is automated: parse the request, extract the secret per a per-site JSON profile, store it in the Windows Credential Manager or the macOS Keychain without the value entering the agent's context, regenerate whatever config file consumes it, and prove the result with a real authenticated call. A daily doctor re-probes every stored credential and warns before a known expiry instead of after. Use when the user says a tool stopped working after about a month, my session expired, re-auth this site, the cookie died again, refresh my token, this vendor has no API key, or set up auth for a site that only works when logged in. This Skill does NOT drive a browser. It reads a cURL command the user pastes. For vendors that DO expose OAuth or an API key, use connect-tool instead.",
-  "stars": 83,
+  "stars": 86,
   "category": "coding",
   "commit": "8e50a59ba0167138de67f8b7fe5e4f578555ad73",
   "contentHash": "6c006694ac962d0f9a696e7673d72ee8887b792e4637e39dda77f490064879bc",
@@ -13,7 +13,7 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-19T10:50:00.942Z",
+  "scannedAt": "2026-11-23T11:25:12.649Z",
   "scan": {
     "findings": [
       {
@@ -75,219 +75,125 @@
       },
       {
         "ruleId": "network",
-        "file": "skills/grab-cookie/scripts/curlparse.py",
-        "line": 21,
-        "excerpt": "thing from a curl command with backticks in it: it emits `Invoke-WebRequest`",
+        "file": "skills/grab-cookie/scripts/credgrab.py",
+        "line": 336,
+        "excerpt": "v = credstore.fetch(store_as, prof[\"name\"])",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/grab-cookie/scripts/credgrab.py",
+        "line": 450,
+        "excerpt": "r = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, timeout=VERIFY_TIMEOUT)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/grab-cookie/scripts/credgrab.py",
+        "line": 453,
+        "excerpt": "except subprocess.TimeoutExpired:",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/grab-cookie/scripts/credgrab.py",
+        "line": 551,
+        "excerpt": "store_as: credstore.fetch(store_as, prof[\"name\"]) for store_as in values",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/grab-cookie/scripts/credstore.py",
+        "line": 96,
+        "excerpt": "r = subprocess.run([\"/usr/bin/security\", \"add-generic-password\", \"-U\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/grab-cookie/scripts/credstore.py",
+        "line": 116,
+        "excerpt": "g = subprocess.run([\"/usr/bin/security\", \"find-generic-password\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/grab-cookie/scripts/credstore.py",
+        "line": 126,
+        "excerpt": "r = subprocess.run([\"/usr/bin/security\", \"find-generic-password\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/grab-cookie/scripts/credstore.py",
+        "line": 138,
+        "excerpt": "r = subprocess.run([\"/usr/bin/security\", \"delete-generic-password\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/grab-cookie/scripts/credstore.py",
+        "line": 266,
+        "excerpt": "def fetch(service: str, account: str) -> str | None:",
         "disclosed": true,
         "automatic": false,
         "hosts": []
       },
       {
         "ruleId": "network",
-        "file": "skills/grab-cookie/scripts/curlparse.py",
-        "line": 326,
-        "excerpt": "h = parse_headers(\"curl 'https://x' -H 'authorization: tok123' -H 'x-realm: rrr'\")",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": [
-          "x"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/grab-cookie/scripts/curlparse.py",
+        "file": "skills/grab-cookie/scripts/credstore.py",
         "line": 330,
-        "excerpt": "h = parse_headers('curl \"https://x\" -H \"authorization: a\\\\\"b\"')",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": [
-          "x"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/grab-cookie/scripts/curlparse.py",
-        "line": 334,
-        "excerpt": "h = parse_headers(r\"curl 'https://x' -H $'x-test: a\\x2Db'\")",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": [
-          "x"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/grab-cookie/scripts/curlparse.py",
-        "line": 338,
-        "excerpt": "cmd = 'curl \"https://x\" ^\\n  -H \"accept: application/json\" ^\\n  -H \"cookie: example_session=s%3Aabc; _ga=1\"'",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": [
-          "x"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/grab-cookie/scripts/curlparse.py",
-        "line": 344,
-        "excerpt": "h = parse_headers(\"curl 'https://x' -b 'example_session=s%3Axyz; other=2'\")",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": [
-          "x"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/grab-cookie/scripts/curlparse.py",
-        "line": 348,
-        "excerpt": "h = parse_headers(\"curl 'https://x' -H 'cookie: example_session=s%3Aqqq'\")",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": [
-          "x"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/grab-cookie/scripts/curlparse.py",
-        "line": 352,
-        "excerpt": "h = parse_headers(\"curl 'https://x' --header 'authorization: Bearer a:b:c'\")",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": [
-          "x"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/grab-cookie/scripts/curlparse.py",
-        "line": 357,
-        "excerpt": "h = parse_headers('curl \"https://x\" `\\n  -H \"x-realm: backtick\"')",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": [
-          "x"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/grab-cookie/scripts/curlparse.py",
-        "line": 363,
-        "excerpt": "'Invoke-WebRequest -UseBasicParsing -Uri \"https://x\" `\\n'",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": [
-          "x"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/grab-cookie/scripts/curlparse.py",
-        "line": 365,
-        "excerpt": "assert parse_headers(pwsh) == {}, \"Invoke-WebRequest must not parse as curl\"",
+        "excerpt": "assert fetch(svc, acct) == secret, \"round-trip mismatch\"",
         "disclosed": true,
         "automatic": false,
         "hosts": []
       },
       {
         "ruleId": "network",
-        "file": "skills/grab-cookie/scripts/curlparse.py",
-        "line": 372,
-        "excerpt": "attack = (r\"\"\"curl 'https://x' -H 'authorization: Bearer REAL' \"\"\"",
+        "file": "skills/grab-cookie/scripts/credstore.py",
+        "line": 334,
+        "excerpt": "assert fetch(svc, acct) == tricky, f\"round-trip mangled {tricky!r}\"",
         "disclosed": true,
         "automatic": false,
-        "hosts": [
-          "x"
-        ]
+        "hosts": []
       },
       {
         "ruleId": "network",
-        "file": "skills/grab-cookie/scripts/curlparse.py",
-        "line": 379,
-        "excerpt": "benign = r\"\"\"curl 'https://x' --data-raw $'{\"note\":\"it\\'s done\"}' -H 'x-realm: after'\"\"\"",
+        "file": "skills/grab-cookie/scripts/credstore.py",
+        "line": 336,
+        "excerpt": "assert fetch(svc, \"no-such-account\") is None, \"fetch invented a credential\"",
         "disclosed": true,
         "automatic": false,
-        "hosts": [
-          "x"
-        ]
+        "hosts": []
       },
       {
         "ruleId": "network",
-        "file": "skills/grab-cookie/scripts/curlparse.py",
-        "line": 387,
-        "excerpt": "attack = (r\"\"\"curl 'https://x' -H 'authorization: Bearer REAL' \"\"\"",
+        "file": "skills/grab-cookie/scripts/credstore.py",
+        "line": 337,
+        "excerpt": "assert delete(svc, acct) and fetch(svc, acct) is None, \"delete did not remove it\"",
         "disclosed": true,
         "automatic": false,
-        "hosts": [
-          "x"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/grab-cookie/scripts/curlparse.py",
-        "line": 394,
-        "excerpt": "for benign in (r\"\"\"curl 'https://x' --data-raw 'it'\\''s' -H 'x-realm: after'\"\"\",",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": [
-          "x"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/grab-cookie/scripts/curlparse.py",
-        "line": 395,
-        "excerpt": "r\"\"\"curl 'https://x' --data-raw 'it'\"'\"'s' -H 'x-realm: after'\"\"\"):",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": [
-          "x"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/grab-cookie/scripts/curlparse.py",
-        "line": 403,
-        "excerpt": "h = parse_headers(\"curl 'https://x' -H 'authorization: Bearer REAL' -H x:\\\"abc -H 'authorization: Bearer ATTACKER'\\\"\")",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": [
-          "x"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/grab-cookie/scripts/curlparse.py",
-        "line": 406,
-        "excerpt": "h = parse_headers(\"\"\"curl 'https://x' -H x:\"abc def\" -H 'authorization: Bearer REAL'\"\"\")",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": [
-          "x"
-        ]
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/grab-cookie/scripts/curlparse.py",
-        "line": 411,
-        "excerpt": "h = parse_headers(\"\"\"curl 'https://x' -H 'authorization: Bearer REAL' --data-raw prefix-H'authorization: Bearer ATTACKER'\"\"\")",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": [
-          "x"
-        ]
+        "hosts": []
       }
     ],
     "findingTotals": {
-      "shell": 6,
-      "network": 31
+      "shell": 12,
+      "network": 8
     },
     "score": 92,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 8,
-    "filesSkipped": 5
+    "filesScanned": 12,
+    "filesSkipped": 1
   },
   "history": [
     {

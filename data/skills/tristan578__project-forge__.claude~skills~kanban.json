@@ -4,7 +4,7 @@
   "repo": "project-forge",
   "path": ".claude/skills/kanban",
   "name": "kanban",
-  "description": "",
+  "description": "Manage SpawnForge taskboard tickets — create, view, move, and sync to GitHub. Use when creating tickets, checking board state, syncing to GitHub before PRs, or managing the project backlog.",
   "stars": 15,
   "category": "other",
   "commit": "fe45076663d7b50fecf9860c9d949f0763554cb6",
@@ -12,10 +12,172 @@
   "repoCreatedAt": "2026-02-11T22:52:17Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-19T10:50:00.942Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-23T11:25:12.649Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/kanban/SKILL.md",
+        "line": 22,
+        "excerpt": "node .claude/hooks/taskboard-launch.mjs start   # resolves + passes the shared DB path, waits for the API, verifies its identity",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/kanban/SKILL.md",
+        "line": 24,
+        "excerpt": "curl -s http://taskboard.localhost:1355/api/board | python3 -c \"import json,sys; c=len(json.load(sys.stdin).get('tickets',[])); print(f'{c} tickets'); exit(0 if",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "taskboard.localhost"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/kanban/SKILL.md",
+        "line": 185,
+        "excerpt": "curl -s -X POST \"http://taskboard.localhost:1355/api/tickets/<TICKET_ID>/move\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "taskboard.localhost"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/kanban/SKILL.md",
+        "line": 185,
+        "excerpt": "curl -s -X POST \"http://taskboard.localhost:1355/api/tickets/<TICKET_ID>/move\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/kanban/SKILL.md",
+        "line": 191,
+        "excerpt": "curl -s -X POST \"http://taskboard.localhost:1355/api/tickets\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "taskboard.localhost"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/kanban/SKILL.md",
+        "line": 202,
+        "excerpt": "curl -s \"http://taskboard.localhost:1355/api/tickets/<TICKET_ID>\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "taskboard.localhost"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/kanban/SKILL.md",
+        "line": 205,
+        "excerpt": "curl -s \"http://taskboard.localhost:1355/api/board\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "taskboard.localhost"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/kanban/SKILL.md",
+        "line": 208,
+        "excerpt": "curl -s -X POST \"http://taskboard.localhost:1355/api/tickets/<TICKET_ID>/subtasks\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "taskboard.localhost"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/kanban/SKILL.md",
+        "line": 213,
+        "excerpt": "curl -s -X POST \"http://taskboard.localhost:1355/api/subtasks/<SUBTASK_ID>/toggle\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "taskboard.localhost"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/kanban/SKILL.md",
+        "line": 254,
+        "excerpt": "cd \"$(git rev-parse --show-toplevel)\" && python3 .claude/hooks/github_project_sync.py push",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/kanban/SKILL.md",
+        "line": 266,
+        "excerpt": "gh issue list --search \"PF-XXX in:title\" --limit 1",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/kanban/SKILL.md",
+        "line": 275,
+        "excerpt": "cd \"$(git rev-parse --show-toplevel)\" && python3 .claude/hooks/github_project_sync.py pull",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/kanban/scripts/board-summary.sh",
+        "line": 10,
+        "excerpt": "if ! curl -s --max-time 2 \"${BASE_URL}/board\" >/dev/null 2>&1; then",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/kanban/scripts/board-summary.sh",
+        "line": 18,
+        "excerpt": "BOARD_JSON=$(curl -s --max-time 5 \"${BASE_URL}/board\" 2>/dev/null || echo \"\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/kanban/scripts/board-summary.sh",
+        "line": 23,
+        "excerpt": "echo \"  Verify:     curl -s ${BASE_URL}/board | python3 -c \\\"import json,sys; d=json.load(sys.stdin); print(len(d.get('tickets',[])), 'tickets')\\\"\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/kanban/scripts/validate-ticket.sh",
+        "line": 17,
+        "excerpt": "if ! curl -s --max-time 2 \"${BASE_URL}/board\" >/dev/null 2>&1; then",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/kanban/scripts/validate-ticket.sh",
+        "line": 27,
+        "excerpt": "HTTP_CODE=$(curl -sS --max-time 5 -o \"$TICKET_FILE\" -w '%{http_code}' \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
       {
         "ruleId": "downloads-code",
         "file": ".mcp.json",
@@ -138,14 +300,15 @@
       }
     ],
     "findingTotals": {
-      "downloads-code": 7,
-      "shell": 8
+      "shell": 13,
+      "network": 12,
+      "downloads-code": 7
     },
-    "score": 80,
-    "band": "low",
+    "score": 75,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 2,
-    "filesSkipped": 4
+    "filesScanned": 6,
+    "filesSkipped": 0
   },
   "history": [
     {

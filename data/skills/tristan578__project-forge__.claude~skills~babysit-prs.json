@@ -4,18 +4,114 @@
   "repo": "project-forge",
   "path": ".claude/skills/babysit-prs",
   "name": "babysit-prs",
-  "description": "",
+  "description": "Monitor open PRs for CI failures and review comments, then fix issues automatically. Use when PRs need to be driven to green — checks CI status, Sentry comments, merge conflicts, and applies fixes.",
   "stars": 15,
-  "category": "other",
+  "category": "devops",
   "commit": "fe45076663d7b50fecf9860c9d949f0763554cb6",
   "contentHash": "b78ae498346529d12d315d4e24f94becc57154ef0f48cefc48e1852459e66fe3",
   "repoCreatedAt": "2026-02-11T22:52:17Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-19T10:50:00.942Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-23T11:25:12.649Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/babysit-prs/SKILL.md",
+        "line": 28,
+        "excerpt": "gh pr list --state open --json number,title,headRefName,statusCheckRollup --limit 20",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/babysit-prs/SKILL.md",
+        "line": 34,
+        "excerpt": "gh pr checks <number>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/babysit-prs/SKILL.md",
+        "line": 47,
+        "excerpt": "gh api repos/{owner}/{repo}/pulls/{number}/comments --jq '.[] | {id: .id, body: .body, path: .path, line: .line, user: .user.login, created_at: .created_at}'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/babysit-prs/SKILL.md",
+        "line": 52,
+        "excerpt": "gh api repos/{owner}/{repo}/pulls/{number}/reviews --jq '.[] | {id: .id, state: .state, body: .body, user: .user.login}'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/babysit-prs/SKILL.md",
+        "line": 74,
+        "excerpt": "4. **Run quick validation**: `cd web && npx eslint --max-warnings 0 . && npx tsc --noEmit && npx vitest run`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/babysit-prs/SKILL.md",
+        "line": 86,
+        "excerpt": "gh api repos/{owner}/{repo}/pulls/{number}/comments/{comment_id}/replies \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/babysit-prs/SKILL.md",
+        "line": 92,
+        "excerpt": "gh pr comment {number} --body \"Addressed — <brief explanation>\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/babysit-prs/SKILL.md",
+        "line": 97,
+        "excerpt": "gh api repos/{owner}/{repo}/pulls/{number}/comments/{comment_id}/replies \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/babysit-prs/references/common-ci-failures.md",
+        "line": 24,
+        "excerpt": "cd web && npx eslint --max-warnings 0 . 2>&1 | head -40",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/babysit-prs/references/common-ci-failures.md",
+        "line": 41,
+        "excerpt": "cd web && npx tsc --noEmit 2>&1 | head -60",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/babysit-prs/references/common-ci-failures.md",
+        "line": 54,
+        "excerpt": "**Fix already in place:** `quality-gates.yml` runs `timeout 600 npx vitest run --coverage` and adjudicates the exit code with `scripts/check-vitest-exit.sh`, wh",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/babysit-prs/references/common-ci-failures.md",
+        "line": 78,
+        "excerpt": "cd web && npx playwright test <failing-test> --debug",
+        "disclosed": false,
+        "automatic": false
+      },
       {
         "ruleId": "downloads-code",
         "file": ".mcp.json",
@@ -138,14 +234,14 @@
       }
     ],
     "findingTotals": {
-      "downloads-code": 7,
-      "shell": 8
+      "shell": 15,
+      "downloads-code": 12
     },
     "score": 80,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 2,
-    "filesSkipped": 4
+    "filesScanned": 6,
+    "filesSkipped": 0
   },
   "history": [
     {

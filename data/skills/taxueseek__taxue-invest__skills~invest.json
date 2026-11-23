@@ -7,19 +7,55 @@
   "description": "invest系列主入口。识别标的类型，路由到专业分析工具。\n触发：「分析一下」「看看这个」「值得买吗」「这只怎么样」「资产配置」「大师怎么看」「债券」「流动性」「市场环境」「比特币抄底」",
   "stars": 30,
   "category": "coding",
-  "commit": "90927de6e7d581725969ae4f886464e6f398b00f",
-  "contentHash": "7ae275bcd36fb4e850c76fa5bb8f4e6178e8da826341e27fda0e1500f6511f61",
+  "commit": "20a20fd990ab02d1dc96e69e89d4e048f1ef4fab",
+  "contentHash": "9ec4c23b5dae6e7131a25dbc9da3b40ac48692b1a04c0773a7d991695f69ed5a",
   "repoCreatedAt": "2026-03-17T14:12:50Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-09T10:28:36.295Z",
+  "scannedAt": "2026-11-23T11:25:12.649Z",
   "scan": {
     "findings": [
       {
         "ruleId": "network",
         "file": "skills/invest/CHANGELOG.md",
-        "line": 79,
+        "line": 24,
+        "excerpt": "- **结构化快照优先**：`intent deep fund` 降级链调为 `盈米诊断 → route.fetch(\"fund\") → 妙想兜底`，确保无盈米 Key 时先走确定性结构化快照（`hithink > ttskill > eastmoney`）。",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/invest/CHANGELOG.md",
+        "line": 31,
+        "excerpt": "- `intent deep fund` 降级链改为 `盈米诊断 → 妙想基金事实 → route.fetch(\"fund\")`，中段从 sfg 换成 mxds（实测两条路径 0.45s，且不再受积分影响）。",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/invest/CHANGELOG.md",
+        "line": 50,
+        "excerpt": "- `intent screen fund` 与 `intent portfolio` 升级为 `sfg` 主路、`yingmi` 兜底（显式盈米 JSON 保持直达兼容）；`intent deep fund` 补齐 `yingmi → sfg → route.fetch(\"fund\")` 三级降级；`mx-data`",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/invest/CHANGELOG.md",
+        "line": 68,
+        "excerpt": "- **P0 SSRF 旁路收口**：eastmoney 的 `requests.post`（screen 与 cmd_stock/cmd_fund 的东财查询）与 mxds 的裸 `http.client` 此前**完全不过**共享安全闸，DNS 公网校验与禁重定向对它们形同虚设。现新增 `sources/_http",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/invest/CHANGELOG.md",
+        "line": 242,
         "excerpt": "而后者 import 期拉进 `urllib.request → ssl` + `concurrent.futures`。",
         "disclosed": false,
         "automatic": false,
@@ -28,7 +64,7 @@
       {
         "ruleId": "browser-secrets",
         "file": "skills/invest/CHANGELOG.md",
-        "line": 283,
+        "line": 446,
         "excerpt": "- 凭据每次 `_invoke` 都重跑 `security find-generic-password`（fund 深取一次调用会",
         "disclosed": false,
         "automatic": false
@@ -36,22 +72,22 @@
       {
         "ruleId": "downloads-code",
         "file": "skills/invest/README.md",
-        "line": 55,
-        "excerpt": "把本目录下 9 个技能目录复制到技能根（`~/.agents/skills/` 或 `~/.zcode/skills/`），即装即用。可选依赖：`pip3 install yfinance`（美股全量快照）、`EASTMONEY_APIKEY`（港股/东财链路）。",
+        "line": 62,
+        "excerpt": "把仓库 `skills/` 下的技能目录挂到技能根（`~/.agents/skills/` 或 `~/.zcode/skills/`），即装即用；目录数以 `skills/` 实际内容为准，不在此写死。可选依赖：`pip3 install yfinance`（美股全量快照）、`EASTMONEY_APIKEY`（港股/",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "writes-outside",
         "file": "skills/invest/README.md",
-        "line": 59,
-        "excerpt": "ln -s \"$HOME/.agents/skills/invest-cli/scripts/invest_cli.py\" ~/.local/bin/invest-cli",
+        "line": 66,
+        "excerpt": "ln -s \"<skills-root>/invest-cli/scripts/invest_cli.py\" ~/.local/bin/invest-cli",
         "disclosed": false,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "network": 1,
+      "network": 5,
       "browser-secrets": 1,
       "downloads-code": 1,
       "writes-outside": 1
@@ -67,6 +103,12 @@
       "commit": "90927de6e7d581725969ae4f886464e6f398b00f",
       "scannedAt": "2026-11-07T22:05:48.475Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "20a20fd990ab02d1dc96e69e89d4e048f1ef4fab",
+      "scannedAt": "2026-11-23T11:25:12.649Z",
+      "score": 45,
       "rulesVersion": "1.3.0"
     }
   ]

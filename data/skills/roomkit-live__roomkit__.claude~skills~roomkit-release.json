@@ -1,0 +1,183 @@
+{
+  "id": "roomkit-live__roomkit__.claude~skills~roomkit-release",
+  "owner": "roomkit-live",
+  "repo": "roomkit",
+  "path": ".claude/skills/roomkit-release",
+  "name": "roomkit-release",
+  "description": "Cut a roomkit release end to end — pre-flight state, version choice, full CHANGELOG review and promote, docs/derived artifacts, local gates, CI green on HEAD, `make release VERSION=x.y.z`, then verify tag + GitHub Release + SBOM + PyPI + next dev cycle all landed. Every decision is parked in Luge's HITL inbox, never asked in the terminal. Use for /roomkit-release, \"release roomkit\", \"cut a release\", \"publish x.y.z\".",
+  "stars": 36,
+  "category": "writing",
+  "commit": "5edec74e4e90b91117bfe63ade420f06d421133f",
+  "contentHash": "0796224e00c0b23dd330a694f0494f9478094212ae9ad3c5d53bcf7c057db491",
+  "repoCreatedAt": "2026-02-05T23:44:45Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-23T11:25:12.649Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/roomkit-release/SKILL.md",
+        "line": 82,
+        "excerpt": "export LUGE_CLI_JSON=1                  # once — never the ellipsized human view",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/roomkit-release/SKILL.md",
+        "line": 100,
+        "excerpt": "cat > \"$SCRATCH/ask-version.md\" <<'EOF'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/roomkit-release/SKILL.md",
+        "line": 121,
+        "excerpt": "for i in 1 2 3 4 5 6 7 8 9 10; do",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/roomkit-release/SKILL.md",
+        "line": 144,
+        "excerpt": "git fetch --tags --prune",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/roomkit-release/SKILL.md",
+        "line": 151,
+        "excerpt": "curl -s https://pypi.org/pypi/roomkit/json | python3 -c \"import sys,json;print(json.load(sys.stdin)['info']['version'])\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "pypi.org"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/roomkit-release/SKILL.md",
+        "line": 172,
+        "excerpt": "LAST=$(git describe --tags --abbrev=0)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/roomkit-release/SKILL.md",
+        "line": 185,
+        "excerpt": "git rev-parse -q --verify \"refs/tags/vX.Y.Z\"          # must not exist",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/roomkit-release/SKILL.md",
+        "line": 186,
+        "excerpt": "curl -sfL \"https://pypi.org/pypi/roomkit/X.Y.Z/json\" -o /dev/null && echo ON-PYPI",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "pypi.org"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/roomkit-release/SKILL.md",
+        "line": 247,
+        "excerpt": "make llms-full                 # rebuilds llms-full.txt from docs/c7/",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/roomkit-release/SKILL.md",
+        "line": 281,
+        "excerpt": "git diff --name-only HEAD                      # what this release prep is about to commit",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/roomkit-release/SKILL.md",
+        "line": 294,
+        "excerpt": "make lint typecheck security",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/roomkit-release/SKILL.md",
+        "line": 303,
+        "excerpt": "make all            # lint + typecheck + security + test",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/roomkit-release/SKILL.md",
+        "line": 328,
+        "excerpt": "gh run list --workflow CI --branch main --commit \"$(git rev-parse HEAD)\" --limit 1",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/roomkit-release/SKILL.md",
+        "line": 336,
+        "excerpt": "gh run list --workflow CI --branch main --limit 1        # get the run id",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/roomkit-release/SKILL.md",
+        "line": 352,
+        "excerpt": "make release VERSION=X.Y.Z",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/roomkit-release/SKILL.md",
+        "line": 376,
+        "excerpt": "git ls-remote --tags origin | grep \"refs/tags/vX.Y.Z$\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/roomkit-release/SKILL.md",
+        "line": 378,
+        "excerpt": "curl -sfL \"https://pypi.org/pypi/roomkit/X.Y.Z/json\" -o /dev/null && echo \"PyPI OK\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "pypi.org"
+        ]
+      }
+    ],
+    "findingTotals": {
+      "shell": 14,
+      "network": 3
+    },
+    "score": 94,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "5edec74e4e90b91117bfe63ade420f06d421133f",
+      "scannedAt": "2026-11-23T11:25:12.649Z",
+      "score": 94,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

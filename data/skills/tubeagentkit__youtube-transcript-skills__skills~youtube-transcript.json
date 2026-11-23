@@ -4,16 +4,16 @@
   "repo": "youtube-transcript-skills",
   "path": "skills/youtube-transcript",
   "name": "youtube-transcript",
-  "description": "Calls the getyoutubetranscript.com API, which is metered - 1 credit per successful request; a new account gets 100 free credits, then plans start at $5/month for 1,000 credits. Needs an API key; the skill can create the account in the conversation from the user's email and a 6-digit code. Use when the user wants a YouTube video's transcript fetched, wants to summarize/analyze/quote a YouTube video by its spoken content, wants to search YouTube (globally or a channel handle's videos), wants a channel handle resolved to its channel ID, wants the videos in a YouTube playlist, wants a channel's Shorts, live streams, playlists or community posts, wants the videos YouTube suggests next to a video, wants a video's estimated likes and dislikes, wants a channel's banner, or wants to check their remaining API credit balance.",
+  "description": "Calls the getyoutubetranscript.com API, which is metered - 1 credit per successful request; a new account gets 100 free credits, then plans start at $5/month for 1,000 credits. Needs an API key; the skill can create the account in the conversation from the user's email and a 6-digit code. Use when the user wants a YouTube video's transcript fetched, wants to summarize/analyze/quote a YouTube video by its spoken content, wants to search YouTube (globally or a channel handle's videos), wants a channel handle resolved to its channel ID, wants the videos in a YouTube playlist, wants a channel's Shorts, live streams, playlists or community posts, wants the videos YouTube suggests next to a video, wants a video's estimated likes and dislikes, wants a video's details (views, likes, upload date, tags) or its comments, wants a channel's banner, or wants to check their remaining API credit balance.",
   "stars": 41,
   "category": "coding",
-  "commit": "5b795a4348579e79f59cbcefc17792d1346bea3c",
-  "contentHash": "1ff1a928fc13a92eddb22e96ca3c054c561dc616b5c1726b41bf5f60085711fd",
+  "commit": "666348bb578e19993a6c847cb13f9320e8bdee35",
+  "contentHash": "07ef4a109b410c5610ffe5130de008e1db79c0f65d9b90d7b055f273f7979bec",
   "repoCreatedAt": "2026-09-12T19:04:00Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-14T09:34:23.329Z",
+  "scannedAt": "2026-11-23T11:25:12.649Z",
   "scan": {
     "findings": [
       {
@@ -187,8 +187,26 @@
       {
         "ruleId": "network",
         "file": "skills/youtube-transcript/scripts/fetch_transcript.sh",
-        "line": 21,
+        "line": 27,
         "excerpt": "curl -s -G \"${API_BASE}/transcript\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/youtube-transcript/scripts/fetch_video_comments.sh",
+        "line": 24,
+        "excerpt": "curl -s -G \"${API_BASE}/video/comments\" \"${query[@]}\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/youtube-transcript/scripts/fetch_video_details.sh",
+        "line": 15,
+        "excerpt": "curl -s -G \"${API_BASE}/video\" \\",
         "disclosed": true,
         "automatic": false,
         "hosts": []
@@ -219,34 +237,16 @@
         "disclosed": true,
         "automatic": false,
         "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/youtube-transcript/scripts/save_key.sh",
-        "line": 50,
-        "excerpt": "RESPONSE=\"$(curl -s -X POST \"${API_BASE}/signup/verify\" \\",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/youtube-transcript/scripts/save_key.sh",
-        "line": 76,
-        "excerpt": "BALANCE=\"$(curl -s \"${API_BASE}/credits\" -H \"Authorization: Bearer ${KEY}\" -H \"$USER_AGENT\")\"",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
       }
     ],
     "findingTotals": {
       "shell": 5,
-      "network": 21
+      "network": 23
     },
     "score": 94,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 21,
+    "filesScanned": 23,
     "filesSkipped": 0
   },
   "history": [
@@ -265,6 +265,12 @@
     {
       "commit": "5b795a4348579e79f59cbcefc17792d1346bea3c",
       "scannedAt": "2026-11-14T09:34:23.329Z",
+      "score": 94,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "666348bb578e19993a6c847cb13f9320e8bdee35",
+      "scannedAt": "2026-11-23T11:25:12.649Z",
       "score": 94,
       "rulesVersion": "1.3.0"
     }

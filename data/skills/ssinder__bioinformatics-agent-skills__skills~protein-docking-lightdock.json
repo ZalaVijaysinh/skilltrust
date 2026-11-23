@@ -4,31 +4,55 @@
   "repo": "bioinformatics-agent-skills",
   "path": "skills/protein-docking-lightdock",
   "name": "protein-docking-lightdock",
-  "description": "Runs LightDock protein-protein docking locally by driving the lightdock3_setup.py and lightdock3.py executables, then extracts the best docked complex. Parses the GSO swarm output files with the correct field semantics (glowworm id is the line number, not the LigID column), selects the latest gso_<step>.out by numeric step rather than dictionary order, and generates conformations from the origin-shifted structures that the setup stage produced so the receptor and ligand stay in a consistent coordinate frame. Supports batch receptor-ligand grids, resumable execution, incremental score logging, and DFIRE-based ranking. This skill should be used when protein-protein docking must be performed on the local machine, when a swarm-level score ranking is needed, or when the best docked complex model must be generated as a PDB file.",
-  "stars": 76,
+  "description": "Use when protein-protein docking must be performed on the local machine, when a swarm-level score ranking is needed, or when the best docked complex model must be generated as a PDB file. Runs lightdock3 locally and extracts the best complex with correct GSO field semantics, numeric step selection, and a single consistent coordinate frame; supports batch grids, resumable execution and DFIRE ranking. 用于本地 LightDock 对接。",
+  "stars": 77,
   "category": "research",
-  "commit": "42cf1a9c2381b25047dae98ca944ee7b52781ed8",
-  "contentHash": "2179ee9df7ad12ec487ee36bbca456d15e9a50b9117dfec7cfc2439a9078c808",
+  "commit": "2aa0e3f4603bdc37c421759a13a22764f5db89c5",
+  "contentHash": "b4b2b3f0c7a6c8d0f9e24b1cf8562f795da8b3bfd3662e78bd17f9798ef52b52",
   "repoCreatedAt": "2026-10-25T13:05:31Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-07T22:05:48.475Z",
+  "scannedAt": "2026-11-23T11:25:12.649Z",
   "scan": {
     "findings": [
       {
         "ruleId": "downloads-code",
         "file": "skills/protein-docking-lightdock/SKILL.md",
-        "line": 33,
-        "excerpt": "**local program**: `pip install lightdock`, and the search runs on your own CPUs.",
+        "line": 26,
+        "excerpt": "LightDock differs from the HDOCK skill here: HDOCK is a **web service** (submit a job, the server computes), LightDock is a **local program** (`pip install ligh",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/protein-docking-lightdock/SKILL.md",
-        "line": 56,
+        "line": 41,
         "excerpt": "export PYTHONPATH=\"$PWD/packages\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/protein-docking-lightdock/evals/evals.json",
+        "line": 7,
+        "excerpt": "\"expected_output\": \"Runs run_docking.py --receptor data/rec.pdb --ligands data/ligands/*.pdb --swarms 50 --glowworms 50 --steps 50 --cores 8 --output-dir data/d",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/protein-docking-lightdock/evals/evals.json",
+        "line": 45,
+        "excerpt": "\"prompt\": \"I'm on Windows 11 and pip install lightdock failed compiling the Cython extension. I have some PDB files I really need docked though. Is there any wa",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/protein-docking-lightdock/evals/evals.json",
+        "line": 46,
+        "excerpt": "\"expected_output\": \"Explains that LightDock is officially unsupported on Windows — the Cython extension under lightdock/gso/searchspace/cython/ plus ProDy and f",
         "disclosed": false,
         "automatic": false
       },
@@ -122,19 +146,25 @@
       }
     ],
     "findingTotals": {
-      "downloads-code": 8,
+      "downloads-code": 11,
       "shell": 5
     },
     "score": 80,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 9,
+    "filesScanned": 10,
     "filesSkipped": 0
   },
   "history": [
     {
       "commit": "42cf1a9c2381b25047dae98ca944ee7b52781ed8",
       "scannedAt": "2026-11-07T22:05:48.475Z",
+      "score": 80,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "2aa0e3f4603bdc37c421759a13a22764f5db89c5",
+      "scannedAt": "2026-11-23T11:25:12.649Z",
       "score": 80,
       "rulesVersion": "1.3.0"
     }

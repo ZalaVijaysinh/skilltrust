@@ -4,7 +4,7 @@
   "repo": "codex-skills",
   "path": "skills/review-gate",
   "name": "review-gate",
-  "description": "",
+  "description": "HARD GATE before PR creation - verifies review artifact exists in issue comments, all findings addressed or tracked, blocks PR creation if requirements not met",
   "stars": 12,
   "category": "other",
   "commit": "d8fb3968e453aefc1b904381839e58f0b5cc853d",
@@ -12,16 +12,59 @@
   "repoCreatedAt": "2026-01-07T23:02:06Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-19T10:50:00.942Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-23T11:25:12.649Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/review-gate/SKILL.md",
+        "line": 41,
+        "excerpt": "ISSUE_NUMBER=123",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/review-gate/SKILL.md",
+        "line": 57,
+        "excerpt": "REVIEW_BODY=$(gh api \"/repos/$REPO/issues/$ISSUE_NUMBER/comments\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/review-gate/SKILL.md",
+        "line": 72,
+        "excerpt": "UNADDRESSED=$(echo \"$REVIEW_BODY\" | grep -oP 'Unaddressed[:\\s|]+\\K\\d+' | head -1)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/review-gate/SKILL.md",
+        "line": 85,
+        "excerpt": "DEFERRED_WITHOUT_ISSUE=$(echo \"$REVIEW_BODY\" | grep -i \"DEFERRED\" | grep -cv \"#[0-9]\" || echo \"0\")",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/review-gate/SKILL.md",
+        "line": 98,
+        "excerpt": "SECURITY_FILES=$(git diff --name-only HEAD~1 | grep -E '(auth|security|middleware|api|password|token|secret)')",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 5
+    },
+    "score": 95,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 1
+    "filesScanned": 1,
+    "filesSkipped": 0
   },
   "history": [
     {

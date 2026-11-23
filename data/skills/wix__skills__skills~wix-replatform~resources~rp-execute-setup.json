@@ -7,13 +7,13 @@
   "description": "Verifies and provisions Wix-side setup required before import. Use after codegen when machine-readable setup artifacts must be validated or executed against the target site.",
   "stars": 40,
   "category": "other",
-  "commit": "3bca8689e0c0bc0c257b9f0ddae30c88a6de254d",
-  "contentHash": "bafa08b4afbe213de7f971f5ed635e41af4ea2623fd0df9a168024f57a780e5d",
+  "commit": "85e35a0880262e500dd6da44c8691d3ac5c4ef30",
+  "contentHash": "0e29429571e5a8218a7707b2daa1b22e3f1f20582884995a9ad4d5ed938b630d",
   "repoCreatedAt": "2026-01-25T07:34:16Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-19T10:50:00.942Z",
+  "scannedAt": "2026-11-23T11:25:12.649Z",
   "scan": {
     "findings": [
       {
@@ -43,7 +43,7 @@
       {
         "ruleId": "shell",
         "file": "skills/wix-replatform/resources/rp-execute-setup/SKILL.md",
-        "line": 412,
+        "line": 420,
         "excerpt": "node resources/rp-target-wix/scripts/verify-stores.js stores inventory-import --env <test-target-config> --artifact <verification-json>",
         "disclosed": true,
         "automatic": false
@@ -51,7 +51,7 @@
       {
         "ruleId": "shell",
         "file": "skills/wix-replatform/resources/rp-execute-setup/SKILL.md",
-        "line": 434,
+        "line": 442,
         "excerpt": "node skills/wix-replatform/resources/rp-target-wix/scripts/verify-stores.js stores subscription-create \\",
         "disclosed": true,
         "automatic": false
@@ -59,7 +59,7 @@
       {
         "ruleId": "downloads-code",
         "file": "skills/wix-replatform/resources/rp-execute-setup/SKILL.md",
-        "line": 483,
+        "line": 491,
         "excerpt": "brew install ngrok",
         "disclosed": false,
         "automatic": false
@@ -67,7 +67,7 @@
       {
         "ruleId": "shell",
         "file": "skills/wix-replatform/resources/rp-execute-setup/SKILL.md",
-        "line": 483,
+        "line": 491,
         "excerpt": "brew install ngrok",
         "disclosed": true,
         "automatic": false
@@ -75,8 +75,16 @@
       {
         "ruleId": "downloads-code",
         "file": "skills/wix-replatform/resources/rp-execute-setup/scripts/mint-token.sh",
-        "line": 35,
-        "excerpt": "TOKEN=$(npx --no-install wix token --site \"$WIX_SITE_ID\" 2>/dev/null | tr -d '[:space:]')",
+        "line": 45,
+        "excerpt": "CLI_OUT=$(npx --no-install wix token --site \"$WIX_SITE_ID\" 2>\"$CLI_ERR_FILE\") || CLI_EXIT=$?",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/wix-replatform/resources/rp-execute-setup/scripts/mint-token.sh",
+        "line": 58,
+        "excerpt": "echo \"Error: token command returned empty output (the Wix CLI login is needed: npx --no-install wix whoami) ${CLI_ERR}\" >&2",
         "disclosed": false,
         "automatic": false
       },
@@ -96,6 +104,15 @@
         "excerpt": "const { spawn } = require('node:child_process');",
         "disclosed": true,
         "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/wix-replatform/lib/import-composites-coupon-post.js",
+        "line": 267,
+        "excerpt": "const fetchImage = async url => { const response = await fetch(url); return { status: response.status, bytes: Buffer.from(await response.arrayBuffer()) }; };",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
       },
       {
         "ruleId": "shell",
@@ -124,7 +141,7 @@
       {
         "ruleId": "shell",
         "file": "skills/wix-replatform/lib/read-back-contract.js",
-        "line": 121,
+        "line": 137,
         "excerpt": "[/\\brequire\\s*\\(\\s*['\"](?:node:)?(?:http|https|http2|net|tls|dgram|dns|child_process|worker_threads|cluster)['\"]/, 'network or process module'],",
         "disclosed": true,
         "automatic": false
@@ -132,7 +149,7 @@
       {
         "ruleId": "shell",
         "file": "skills/wix-replatform/lib/read-back-contract.js",
-        "line": 122,
+        "line": 138,
         "excerpt": "[/\\bimport\\b[^;]*['\"](?:node:)?(?:http|https|http2|net|tls|dgram|dns|child_process|worker_threads|cluster)['\"]/, 'network or process module'],",
         "disclosed": true,
         "automatic": false
@@ -180,13 +197,13 @@
     ],
     "findingTotals": {
       "shell": 13,
-      "downloads-code": 6,
-      "network": 1
+      "downloads-code": 7,
+      "network": 2
     },
     "score": 79,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 92,
+    "filesScanned": 139,
     "filesSkipped": 0
   },
   "history": [
@@ -211,6 +228,12 @@
     {
       "commit": "3bca8689e0c0bc0c257b9f0ddae30c88a6de254d",
       "scannedAt": "2026-11-19T10:50:00.942Z",
+      "score": 79,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "85e35a0880262e500dd6da44c8691d3ac5c4ef30",
+      "scannedAt": "2026-11-23T11:25:12.649Z",
       "score": 79,
       "rulesVersion": "1.3.0"
     }

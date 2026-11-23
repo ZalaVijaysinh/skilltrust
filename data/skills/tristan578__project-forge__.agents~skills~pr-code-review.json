@@ -4,7 +4,7 @@
   "repo": "project-forge",
   "path": ".agents/skills/pr-code-review",
   "name": "pr-code-review",
-  "description": "",
+  "description": "Review a PR for SpawnForge bugs, security issues, and regressions. Posts inline GitHub comments with severity markers. Use when asked to \"review PR\", \"code review\", or \"check this PR\". Invoke with /pr-code-review <PR number>.",
   "stars": 15,
   "category": "coding",
   "commit": "fe45076663d7b50fecf9860c9d949f0763554cb6",
@@ -12,10 +12,58 @@
   "repoCreatedAt": "2026-02-11T22:52:17Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-19T10:50:00.942Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-23T11:25:12.649Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/pr-code-review/SKILL.md",
+        "line": 37,
+        "excerpt": "cat CLAUDE.md",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/pr-code-review/SKILL.md",
+        "line": 49,
+        "excerpt": "gh pr view <PR> --json title,body,headRefName,baseRefName,changedFiles,additions,deletions",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/pr-code-review/SKILL.md",
+        "line": 64,
+        "excerpt": "gh pr view <PR> --json headRefName --jq '.headRefName' | xargs -I{} git show origin/{}:<filepath>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/pr-code-review/SKILL.md",
+        "line": 126,
+        "excerpt": "gh api repos/{owner}/{repo}/pulls/{PR}/reviews \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/pr-code-review/SKILL.md",
+        "line": 150,
+        "excerpt": "gh pr comment <PR> --body \"## Claude Code Review",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/pr-code-review/references/common-antipatterns.md",
+        "line": 23,
+        "excerpt": "**Fix:** Read 10 lines before AND after the insertion point. Run `npx vitest run src/lib/workspace/__tests__/panelRegistry.test.ts` after every edit.",
+        "disclosed": false,
+        "automatic": false
+      },
       {
         "ruleId": "downloads-code",
         "file": ".mcp.json",
@@ -138,14 +186,14 @@
       }
     ],
     "findingTotals": {
-      "downloads-code": 7,
-      "shell": 8
+      "shell": 13,
+      "downloads-code": 8
     },
     "score": 80,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 2,
-    "filesSkipped": 8
+    "filesScanned": 10,
+    "filesSkipped": 0
   },
   "history": [
     {

@@ -5,15 +5,15 @@
   "path": "antigravity-plugin/skills/slm-loop",
   "name": "slm-loop",
   "description": "Gate-verified bounded loops with SuperLocalMemory as the durable ledger. Use when a task has a checkable acceptance condition and you must iterate until an INDEPENDENT gate passes — never stopping because the agent believes it is done. `slm_loop_run` (MCP) waits, under hard bounds, for an independently executed check registered by the operator to pass; `slm loop demo` shows the control flow keyless; `slm loop history` and `slm loop show <run_id>` (or `slm_loop_history` / `slm_loop_show`) inspect past runs, whose every lap is stored as queryable SLM memory (tag `loop:<name>`). Terminal statuses are DONE / HALT / PAUSE / KILLED / ERROR — report them exactly, never converting HALT/PAUSE/ERROR into success.",
-  "stars": 278,
+  "stars": 290,
   "category": "coding",
-  "commit": "2c4a8e367b4bf881a4b956ab86178454325607c7",
-  "contentHash": "a723f6d5ec6eee1ef01c8e974181f5de42dd9dae5bc8b0b0ca021b4e71108207",
+  "commit": "4023d6591ca370f5fee3325360ae0235d6c43836",
+  "contentHash": "6d17e84a0d2c664f195d1b4d34439cfb0a743169a374ff67420737628708dfd5",
   "repoCreatedAt": "2026-02-05T12:07:55Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-19T10:50:00.942Z",
+  "scannedAt": "2026-11-23T11:25:12.649Z",
   "scan": {
     "findings": [
       {
@@ -27,7 +27,7 @@
       {
         "ruleId": "reads-secrets",
         "file": "antigravity-plugin/scripts/antigravity_hook_adapter.py",
-        "line": 20,
+        "line": 31,
         "excerpt": "env = dict(os.environ)",
         "disclosed": false,
         "automatic": false
@@ -35,9 +35,17 @@
       {
         "ruleId": "shell",
         "file": "antigravity-plugin/scripts/antigravity_hook_adapter.py",
-        "line": 24,
+        "line": 35,
         "excerpt": "result = subprocess.run(",
         "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "antigravity-plugin/scripts/slm-run",
+        "line": 57,
+        "excerpt": "_give_up \"no SuperLocalMemory found: looked for 'slm' on PATH and ${_VENV_BIN}. Install it with: pipx install superlocalmemory\"",
+        "disclosed": false,
         "automatic": false
       },
       {
@@ -76,7 +84,7 @@
         "ruleId": "shell",
         "file": "antigravity-plugin/hooks/hooks.json",
         "line": 8,
-        "excerpt": "\"command\": \"slm hook mandate 2>/dev/null || true\",",
+        "excerpt": "\"command\": \"bash ./scripts/slm-run hook mandate || true\",",
         "disclosed": true,
         "automatic": true
       },
@@ -84,7 +92,7 @@
         "ruleId": "shell",
         "file": "antigravity-plugin/hooks/hooks.json",
         "line": 17,
-        "excerpt": "\"command\": \"slm hook start 2>/dev/null || true\",",
+        "excerpt": "\"command\": \"bash ./scripts/slm-run hook start || true\",",
         "disclosed": true,
         "automatic": true
       },
@@ -101,14 +109,22 @@
         "ruleId": "shell",
         "file": "antigravity-plugin/hooks/hooks.json",
         "line": 29,
-        "excerpt": "\"command\": \"slm hook before_web 2>/dev/null || true\",",
+        "excerpt": "\"command\": \"bash ./scripts/slm-run hook before_web || true\",",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "antigravity-plugin/hooks/hooks.json",
+        "line": 39,
+        "excerpt": "\"command\": \"bash ./scripts/slm-run hook cue || true\",",
         "disclosed": true,
         "automatic": true
       },
       {
         "ruleId": "network",
         "file": "antigravity-plugin/hooks/hooks.json",
-        "line": 37,
+        "line": 47,
         "excerpt": "\"matcher\": \"Bash|Read|Write|Edit|Glob|Grep|Agent|WebFetch|WebSearch|NotebookEdit\",",
         "disclosed": false,
         "automatic": true,
@@ -117,29 +133,46 @@
       {
         "ruleId": "shell",
         "file": "antigravity-plugin/hooks/hooks.json",
-        "line": 41,
-        "excerpt": "\"command\": \"slm hook post_tool_outcome 2>/dev/null || true\",",
+        "line": 51,
+        "excerpt": "\"command\": \"bash ./scripts/slm-run hook post_tool_outcome || true\",",
         "disclosed": true,
         "automatic": true
       },
       {
         "ruleId": "shell",
         "file": "antigravity-plugin/hooks/hooks.json",
-        "line": 52,
-        "excerpt": "\"command\": \"slm hook stop_outcome 2>/dev/null || true\",",
+        "line": 61,
+        "excerpt": "\"command\": \"bash ./scripts/slm-run hook cue || true\",",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "antigravity-plugin/hooks/hooks.json",
+        "line": 72,
+        "excerpt": "\"command\": \"bash ./scripts/slm-run hook auto_recall || true\",",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "antigravity-plugin/hooks/hooks.json",
+        "line": 83,
+        "excerpt": "\"command\": \"bash ./scripts/slm-run hook stop_outcome || true\",",
         "disclosed": true,
         "automatic": true
       }
     ],
     "findingTotals": {
-      "shell": 11,
+      "shell": 14,
       "reads-secrets": 1,
+      "downloads-code": 1,
       "network": 2
     },
-    "score": 72,
+    "score": 57,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 6,
+    "filesScanned": 7,
     "filesSkipped": 0
   },
   "history": [
@@ -165,6 +198,12 @@
       "commit": "2c4a8e367b4bf881a4b956ab86178454325607c7",
       "scannedAt": "2026-11-19T10:50:00.942Z",
       "score": 72,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "4023d6591ca370f5fee3325360ae0235d6c43836",
+      "scannedAt": "2026-11-23T11:25:12.649Z",
+      "score": 57,
       "rulesVersion": "1.3.0"
     }
   ]

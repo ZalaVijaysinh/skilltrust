@@ -5,21 +5,21 @@
   "path": "skills/import-audio",
   "name": "import-audio",
   "description": "Moves audio files to the correct album location with proper path structure, or pulls an approved take's WAV and stems straight from Suno. Use when the user has downloaded WAV files from Suno or other sources that need to be organized, or wants to import the keeper, or its instrumental version, after approving a take.",
-  "stars": 683,
+  "stars": 689,
   "category": "coding",
-  "commit": "01463d350e9ff1534bdd30ce266183b6059ff075",
-  "contentHash": "1786713562f0940ce0c998f9796e7a5f6afc25a8f4411b516546b0bd8bd5391b",
+  "commit": "8e0e19c0fe7072830ba2918e351102c3c0be9dc4",
+  "contentHash": "c1da81dc758103041402df73da9101ba08a087dcf81aa5a695bbb1715da0dd80",
   "repoCreatedAt": "2026-01-14T00:55:56Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-15T10:00:32.478Z",
+  "scannedAt": "2026-11-23T11:25:12.649Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "skills/import-audio/SKILL.md",
-        "line": 72,
+        "line": 77,
         "excerpt": "mkdir -p {resolved_path}",
         "disclosed": true,
         "automatic": false
@@ -27,7 +27,7 @@
       {
         "ruleId": "shell",
         "file": "skills/import-audio/SKILL.md",
-        "line": 104,
+        "line": 109,
         "excerpt": "mkdir -p {resolved_path}/stems/{track-slug}",
         "disclosed": true,
         "automatic": false
@@ -35,7 +35,7 @@
       {
         "ruleId": "shell",
         "file": "skills/import-audio/SKILL.md",
-        "line": 170,
+        "line": 175,
         "excerpt": "mkdir -p \"$(dirname \"{wav.path}\")\" \\",
         "disclosed": true,
         "automatic": false
@@ -43,7 +43,7 @@
       {
         "ruleId": "network",
         "file": "skills/import-audio/SKILL.md",
-        "line": 171,
+        "line": 176,
         "excerpt": "&& curl -fsSL --max-time 600 -o \"{wav.path}.part\" \"{url}\" \\",
         "disclosed": true,
         "automatic": false,
@@ -52,7 +52,7 @@
       {
         "ruleId": "shell",
         "file": "skills/import-audio/SKILL.md",
-        "line": 200,
+        "line": 205,
         "excerpt": "mkdir -p \"$(dirname \"{wav.path}\")\" \\",
         "disclosed": true,
         "automatic": false
@@ -60,7 +60,7 @@
       {
         "ruleId": "shell",
         "file": "skills/import-audio/SKILL.md",
-        "line": 340,
+        "line": 345,
         "excerpt": "cat ~/.bitwize-music/config.yaml",
         "disclosed": true,
         "automatic": false
@@ -68,8 +68,32 @@
       {
         "ruleId": "writes-outside",
         "file": "skills/import-audio/SKILL.md",
-        "line": 341,
+        "line": 346,
         "excerpt": "mv file.wav ~/music-projects/audio/artists/bitwize/albums/electronic/sample-album/",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tests/unit/hooks/test_session_rules.py",
+        "line": 233,
+        "excerpt": "def _run(tmp_path: Path, cwd: Path, stdin: str | None = None) -> subprocess.CompletedProcess[str]:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "tests/unit/hooks/test_session_rules.py",
+        "line": 234,
+        "excerpt": "env = dict(os.environ)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "tests/unit/hooks/test_session_rules.py",
+        "line": 241,
+        "excerpt": "return subprocess.run(  # noqa: S603 - fixed interpreter and script path",
         "disclosed": true,
         "automatic": false
       },
@@ -130,6 +154,14 @@
         "automatic": true
       },
       {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 27,
+        "excerpt": "\"command\": \"python3 ${CLAUDE_PLUGIN_ROOT}/hooks/session_rules.py\",",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
         "ruleId": "downloads-code",
         "file": "hooks/install.sh",
         "line": 26,
@@ -180,7 +212,7 @@
       {
         "ruleId": "downloads-code",
         "file": "hooks/pre-commit",
-        "line": 240,
+        "line": 243,
         "excerpt": "echo \"      ⚠ bandit not installed, skipping code scan (pip install bandit)\"",
         "disclosed": false,
         "automatic": true
@@ -188,7 +220,7 @@
       {
         "ruleId": "downloads-code",
         "file": "hooks/pre-commit",
-        "line": 262,
+        "line": 265,
         "excerpt": "echo \"      ⚠ pip-audit not installed, skipping dependency scan (pip install pip-audit)\"",
         "disclosed": false,
         "automatic": true
@@ -196,22 +228,23 @@
       {
         "ruleId": "downloads-code",
         "file": "hooks/pre-commit",
-        "line": 277,
+        "line": 280,
         "excerpt": "echo \"      ⚠ pytest not installed, skipping (pip install pytest)\"",
         "disclosed": false,
         "automatic": true
       }
     ],
     "findingTotals": {
-      "shell": 11,
+      "shell": 14,
       "network": 1,
       "writes-outside": 1,
+      "reads-secrets": 1,
       "downloads-code": 10
     },
-    "score": 74,
+    "score": 54,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 12,
+    "filesScanned": 17,
     "filesSkipped": 0
   },
   "history": [
@@ -231,6 +264,12 @@
       "commit": "01463d350e9ff1534bdd30ce266183b6059ff075",
       "scannedAt": "2026-11-15T10:00:32.478Z",
       "score": 74,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "8e0e19c0fe7072830ba2918e351102c3c0be9dc4",
+      "scannedAt": "2026-11-23T11:25:12.649Z",
+      "score": 54,
       "rulesVersion": "1.3.0"
     }
   ]

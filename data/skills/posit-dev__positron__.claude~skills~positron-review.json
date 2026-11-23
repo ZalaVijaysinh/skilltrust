@@ -4,16 +4,16 @@
   "repo": "positron",
   "path": ".claude/skills/positron-review",
   "name": "positron-review",
-  "description": "Code-reviews a Positron change (PR, branch, range, or local working tree). Runs the built-in /code-review for the general bug hunt, then a short Positron layer that checks what it misses (stated facts and disable reasons, unexplained literals, behavior against the upstream sibling it imitates, enforced settings, saved state, Positron build and platform dimensions), fact-checks the general pass, ranks everything by what users see, and saves the review to a file. Both passes run in fresh subagents that never see the conversation, so a session that wrote the change still gets a blind review. Use when the user invokes /positron-review or asks for a thorough review of a Positron PR or their local changes. Not for upstream VS Code merges (review-upstream-merge) or for grading test coverage alone (pete).",
-  "stars": 4354,
+  "description": "Code-reviews a Positron change (PR, branch, range, or local working tree). Runs the built-in /code-review for the general bug hunt, then a short Positron layer that checks what it misses (stated facts and disable reasons, unexplained literals, behavior against the upstream sibling it imitates, enforced settings, saved state, Positron build and platform dimensions, accessibility of changed UI), fact-checks the general pass, ranks everything by what users see, and saves the review to a file. Both passes run in fresh subagents that never see the conversation, so a session that wrote the change still gets a blind review. Use when the user invokes /positron-review or asks for a thorough review of a Positron PR or their local changes. Not for upstream VS Code merges (review-upstream-merge) or for grading test coverage alone (pete).",
+  "stars": 4356,
   "category": "coding",
-  "commit": "6d6004d494f1ca1d74687d1378754a251d480fe6",
-  "contentHash": "477335444257857cf2affb0dd1bf5099a06efe9b5fdf105377a9d7542817c7c1",
+  "commit": "10d6caf9c9c07e5dc7ac26f73c61d6ba41c4baa6",
+  "contentHash": "c4065d9e7727a763abc2c2e6d41eb97cd767a09cd0187f6ff463450d5d22b2d2",
   "repoCreatedAt": "2022-05-24T20:22:25Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-19T10:50:00.942Z",
+  "scannedAt": "2026-11-23T11:25:12.649Z",
   "scan": {
     "findings": [
       {
@@ -31,12 +31,46 @@
         "excerpt": "git log --oneline $BASE..$TARGET",
         "disclosed": true,
         "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/positron-review/SKILL.md",
+        "line": 214,
+        "excerpt": "| Extension code that touches the local machine (`os`, `child_process`, fs) or sets `extensionKind` | Remote SSH, WSL, dev containers (the extension host is rem",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/positron-review/SKILL.md",
+        "line": 240,
+        "excerpt": "gh api --paginate \"repos/posit-dev/positron/issues/<n>/comments\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/positron-review/SKILL.md",
+        "line": 244,
+        "excerpt": "Use the newest. Its title line holds the short SHA it tested. If `TARGET` doesn't start with that SHA, the report is stale: use it, but check each finding still",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/positron-review/SKILL.md",
+        "line": 314,
+        "excerpt": "ME=$(gh api user --jq .login)",
+        "disclosed": true,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 2
+      "shell": 5,
+      "network": 1
     },
-    "score": 97,
+    "score": 94,
     "band": "low",
     "rulesVersion": "1.3.0",
     "filesScanned": 1,
@@ -47,6 +81,12 @@
       "commit": "6d6004d494f1ca1d74687d1378754a251d480fe6",
       "scannedAt": "2026-11-19T10:50:00.942Z",
       "score": 97,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "10d6caf9c9c07e5dc7ac26f73c61d6ba41c4baa6",
+      "scannedAt": "2026-11-23T11:25:12.649Z",
+      "score": 94,
       "rulesVersion": "1.3.0"
     }
   ]

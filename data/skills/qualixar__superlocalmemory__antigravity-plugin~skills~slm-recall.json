@@ -5,22 +5,31 @@
   "path": "antigravity-plugin/skills/slm-recall",
   "name": "slm-recall",
   "description": "Search and retrieve facts, decisions, and past context from SuperLocalMemory. Use when the user asks to recall, find, search, or \"what did we decide/say about X\". Triggers multi-channel semantic retrieval with reranking; always call before storing anything new.",
-  "stars": 278,
+  "stars": 290,
   "category": "coding",
-  "commit": "2c4a8e367b4bf881a4b956ab86178454325607c7",
-  "contentHash": "16e9b60d83e8306939c177e40304f97bd68ecbdb2864669b013657be0f75245f",
+  "commit": "4023d6591ca370f5fee3325360ae0235d6c43836",
+  "contentHash": "df51286ee36acbe57ec561988f28368ff0f0ba20e45a6f8bb514854ed35a7e0a",
   "repoCreatedAt": "2026-02-05T12:07:55Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-19T10:50:00.942Z",
+  "scannedAt": "2026-11-23T11:25:12.649Z",
   "scan": {
     "findings": [
       {
         "ruleId": "network",
         "file": "antigravity-plugin/skills/slm-recall/SKILL.md",
-        "line": 309,
+        "line": 310,
         "excerpt": "fetch(fact_ids=\"f8a2bc91,d4c1e203\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "antigravity-plugin/skills/slm-recall/SKILL.md",
+        "line": 321,
+        "excerpt": "When you need to know whether to rely on a memory, or the user asks where it came from or why it was shown, ask for its explanation instead of guessing: `fetch(",
         "disclosed": false,
         "automatic": false,
         "hosts": []
@@ -28,23 +37,23 @@
       {
         "ruleId": "shell",
         "file": "antigravity-plugin/skills/slm-recall/SKILL.md",
-        "line": 418,
+        "line": 503,
         "excerpt": "slm trace \"<query>\" [--limit N] [--json]",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "antigravity-plugin/skills/slm-recall/SKILL.md",
-        "line": 429,
+        "line": 514,
         "excerpt": "slm recall \"<query>\" [--limit N] [--json]",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "reads-secrets",
         "file": "antigravity-plugin/scripts/antigravity_hook_adapter.py",
-        "line": 20,
+        "line": 31,
         "excerpt": "env = dict(os.environ)",
         "disclosed": false,
         "automatic": false
@@ -52,8 +61,16 @@
       {
         "ruleId": "shell",
         "file": "antigravity-plugin/scripts/antigravity_hook_adapter.py",
-        "line": 24,
+        "line": 35,
         "excerpt": "result = subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "antigravity-plugin/scripts/slm-run",
+        "line": 57,
+        "excerpt": "_give_up \"no SuperLocalMemory found: looked for 'slm' on PATH and ${_VENV_BIN}. Install it with: pipx install superlocalmemory\"",
         "disclosed": false,
         "automatic": false
       },
@@ -62,7 +79,7 @@
         "file": "antigravity-plugin/hooks.json",
         "line": 6,
         "excerpt": "\"command\": \"python3 ./scripts/antigravity_hook_adapter.py pre-invocation\",",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -70,7 +87,7 @@
         "file": "antigravity-plugin/hooks.json",
         "line": 16,
         "excerpt": "\"command\": \"python3 ./scripts/antigravity_hook_adapter.py pre-tool\",",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -78,7 +95,7 @@
         "file": "antigravity-plugin/hooks.json",
         "line": 28,
         "excerpt": "\"command\": \"python3 ./scripts/antigravity_hook_adapter.py post-tool\",",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -86,23 +103,23 @@
         "file": "antigravity-plugin/hooks.json",
         "line": 37,
         "excerpt": "\"command\": \"python3 ./scripts/antigravity_hook_adapter.py stop\",",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": true
       },
       {
         "ruleId": "shell",
         "file": "antigravity-plugin/hooks/hooks.json",
         "line": 8,
-        "excerpt": "\"command\": \"slm hook mandate 2>/dev/null || true\",",
-        "disclosed": false,
+        "excerpt": "\"command\": \"bash ./scripts/slm-run hook mandate || true\",",
+        "disclosed": true,
         "automatic": true
       },
       {
         "ruleId": "shell",
         "file": "antigravity-plugin/hooks/hooks.json",
         "line": 17,
-        "excerpt": "\"command\": \"slm hook start 2>/dev/null || true\",",
-        "disclosed": false,
+        "excerpt": "\"command\": \"bash ./scripts/slm-run hook start || true\",",
+        "disclosed": true,
         "automatic": true
       },
       {
@@ -118,14 +135,22 @@
         "ruleId": "shell",
         "file": "antigravity-plugin/hooks/hooks.json",
         "line": 29,
-        "excerpt": "\"command\": \"slm hook before_web 2>/dev/null || true\",",
-        "disclosed": false,
+        "excerpt": "\"command\": \"bash ./scripts/slm-run hook before_web || true\",",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "antigravity-plugin/hooks/hooks.json",
+        "line": 39,
+        "excerpt": "\"command\": \"bash ./scripts/slm-run hook cue || true\",",
+        "disclosed": true,
         "automatic": true
       },
       {
         "ruleId": "network",
         "file": "antigravity-plugin/hooks/hooks.json",
-        "line": 37,
+        "line": 47,
         "excerpt": "\"matcher\": \"Bash|Read|Write|Edit|Glob|Grep|Agent|WebFetch|WebSearch|NotebookEdit\",",
         "disclosed": false,
         "automatic": true,
@@ -134,29 +159,46 @@
       {
         "ruleId": "shell",
         "file": "antigravity-plugin/hooks/hooks.json",
-        "line": 41,
-        "excerpt": "\"command\": \"slm hook post_tool_outcome 2>/dev/null || true\",",
-        "disclosed": false,
+        "line": 51,
+        "excerpt": "\"command\": \"bash ./scripts/slm-run hook post_tool_outcome || true\",",
+        "disclosed": true,
         "automatic": true
       },
       {
         "ruleId": "shell",
         "file": "antigravity-plugin/hooks/hooks.json",
-        "line": 52,
-        "excerpt": "\"command\": \"slm hook stop_outcome 2>/dev/null || true\",",
-        "disclosed": false,
+        "line": 61,
+        "excerpt": "\"command\": \"bash ./scripts/slm-run hook cue || true\",",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "antigravity-plugin/hooks/hooks.json",
+        "line": 72,
+        "excerpt": "\"command\": \"bash ./scripts/slm-run hook auto_recall || true\",",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "antigravity-plugin/hooks/hooks.json",
+        "line": 83,
+        "excerpt": "\"command\": \"bash ./scripts/slm-run hook stop_outcome || true\",",
+        "disclosed": true,
         "automatic": true
       }
     ],
     "findingTotals": {
-      "network": 3,
-      "shell": 12,
-      "reads-secrets": 1
+      "network": 4,
+      "shell": 15,
+      "reads-secrets": 1,
+      "downloads-code": 1
     },
-    "score": 70,
+    "score": 57,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 7,
+    "filesScanned": 8,
     "filesSkipped": 0
   },
   "history": [
@@ -182,6 +224,12 @@
       "commit": "2c4a8e367b4bf881a4b956ab86178454325607c7",
       "scannedAt": "2026-11-19T10:50:00.942Z",
       "score": 70,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "4023d6591ca370f5fee3325360ae0235d6c43836",
+      "scannedAt": "2026-11-23T11:25:12.649Z",
+      "score": 57,
       "rulesVersion": "1.3.0"
     }
   ]

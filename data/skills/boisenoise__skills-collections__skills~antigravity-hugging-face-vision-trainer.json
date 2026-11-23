@@ -7,13 +7,13 @@
   "description": "Train object detection, image classification, and SAM or SAM2 segmentation models locally or on Hugging Face Jobs, with bounded dataset pilots and explicit artifact persistence.",
   "stars": 13,
   "category": "media",
-  "commit": "77228f7c20f10059324481e680f1637483d9ce03",
+  "commit": "7de6471bc84c044e28349171a430b81a0c34a236",
   "contentHash": "a44e0289ab55b942b2f082c28310daba0d52d6c1f99ca9ec1335c9d7f7917663",
   "repoCreatedAt": "2026-01-19T14:28:55Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-20T10:39:23.037Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-23T11:25:12.649Z",
   "scan": {
     "findings": [
       {
@@ -23,16 +23,69 @@
         "excerpt": "python3 scripts/image_classification_training.py --help",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity-hugging-face-vision-trainer/scripts/dataset_inspector.py",
+        "line": 11,
+        "excerpt": "import urllib.request",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity-hugging-face-vision-trainer/scripts/dataset_inspector.py",
+        "line": 13,
+        "excerpt": "class NoRedirects(urllib.request.HTTPRedirectHandler):",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/antigravity-hugging-face-vision-trainer/scripts/dataset_inspector.py",
+        "line": 21,
+        "excerpt": "with urllib.request.build_opener(NoRedirects()).open(url,timeout=15) as response:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/antigravity-hugging-face-vision-trainer/scripts/object_detection_training.py",
+        "line": 59,
+        "excerpt": "require_version(\"datasets>=2.0.0\", \"To fix: pip install -r examples/pytorch/object-detection/requirements.txt\")",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-hugging-face-vision-trainer/tests/offline_safety_test.py",
+        "line": 20,
+        "excerpt": "result=subprocess.run([sys.executable,str(ROOT/'scripts'/name),'--help'],capture_output=True,text=True,timeout=10)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/antigravity-hugging-face-vision-trainer/tests/offline_safety_test.py",
+        "line": 23,
+        "excerpt": "result=subprocess.run([sys.executable,str(ROOT/'scripts/object_detection_training.py')],capture_output=True,text=True,timeout=10)",
+        "disclosed": false,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 1
+      "shell": 3,
+      "network": 3,
+      "downloads-code": 1
     },
-    "score": 95,
-    "band": "low",
+    "score": 77,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 9,
-    "filesSkipped": 8
+    "filesScanned": 17,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -63,6 +116,12 @@
       "commit": "77228f7c20f10059324481e680f1637483d9ce03",
       "scannedAt": "2026-11-20T10:39:23.037Z",
       "score": 95,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "7de6471bc84c044e28349171a430b81a0c34a236",
+      "scannedAt": "2026-11-23T11:25:12.649Z",
+      "score": 77,
       "rulesVersion": "1.3.0"
     }
   ]

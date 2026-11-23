@@ -4,46 +4,94 @@
   "repo": "FMT-exocortex-template",
   "path": ".claude/skills/kimi-peer-writer",
   "name": "kimi-peer-writer",
-  "description": "Peer-сессия DP.SC.154 где Kimi = писатель, Claude = напарник. Запускается простой фразой. Включает ОРЗ Opening и Closing, turn-loop, эскалации, Decision Gate (зафиксировать vs реализовать → ревью → проверить → задеплоить), отложенную финализацию и верификацию.",
+  "description": "Peer-сессия DP.SC.154 где Kimi = писатель, напарник — параметр `--peer` (default Claude). Запускается простой фразой. Включает ОРЗ Opening и Closing, turn-loop, эскалации, Decision Gate (зафиксировать vs реализовать → ревью → проверить → задеплоить), отложенную финализацию и верификацию.",
   "stars": 64,
   "category": "coding",
-  "commit": "980ed6ba86f71fb384149840e8f7158b2a78bddd",
-  "contentHash": "0d10db4925b31c446f4bd0fb4bd80234ca9b3ffefbf57b6306167f6162308f95",
+  "commit": "e6f0edf8281c4029d3a9e929c3a58eecfad10435",
+  "contentHash": "23048742972fb393fb6181d18ab68f62ccc798affafaba6c959ae2345e016a93",
   "repoCreatedAt": "2026-02-10T12:42:33Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-19T10:50:00.942Z",
+  "scannedAt": "2026-11-23T11:25:12.649Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": ".claude/skills/kimi-peer-writer/SKILL.md",
-        "line": 60,
-        "excerpt": "bash \"${IWE_SCRIPTS:-$HOME/IWE/scripts}/kimi-standalone-preflight.sh\"",
+        "line": 100,
+        "excerpt": "PREFLIGHT_OUT=$(bash \"${IWE_SCRIPTS:-$HOME/IWE/scripts}/kimi-standalone-preflight.sh\" --wp \"$PEER_WP\")",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": ".claude/skills/kimi-peer-writer/SKILL.md",
-        "line": 89,
-        "excerpt": "SESSIONS_DIR=\"${IWE_WORKSPACE:-$HOME/IWE}/${IWE_GOVERNANCE_REPO:-DS-strategy}/sessions\"",
+        "line": 117,
+        "excerpt": "MARKER_LINES=$(grep -c '^MARKER: ' <<< \"$PREFLIGHT_OUT\")",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": ".claude/skills/kimi-peer-writer/SKILL.md",
-        "line": 105,
-        "excerpt": "mkdir -p \"$SESSION_DIR\"",
+        "line": 150,
+        "excerpt": "[ ! -f \"${IWE_WORKSPACE:-$HOME/IWE}/${IWE_GOVERNANCE_REPO:-DS-strategy}/scripts/resolve-personality-by-host.py\" ] || \\",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": ".claude/skills/kimi-peer-writer/SKILL.md",
-        "line": 223,
+        "line": 195,
+        "excerpt": "ADAPTER_PATH=\"${IWE_WORKSPACE:-$HOME/IWE}/${IWE_GOVERNANCE_REPO:-DS-strategy}/$ADAPTER\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/kimi-peer-writer/SKILL.md",
+        "line": 207,
+        "excerpt": "bash \"${IWE_WORKSPACE:-$HOME/IWE}/.claude/scripts/wp-sync-bundle.sh\" WP-N > /tmp/wp-sync-bundle-$$.md; BUNDLE_RC=$?; head -3 /tmp/wp-sync-bundle-$$.md; echo \"bu",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/kimi-peer-writer/SKILL.md",
+        "line": 233,
+        "excerpt": "IWE_COMMON=\"${IWE_SCRIPTS:-$HOME/IWE/scripts}/lib/common.sh\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/kimi-peer-writer/SKILL.md",
+        "line": 303,
+        "excerpt": "IDX_LIB=\"${IWE_WORKSPACE:-$HOME/IWE}/${IWE_GOVERNANCE_REPO:-DS-strategy}/scripts/lib/session-index-draft.sh\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/kimi-peer-writer/SKILL.md",
+        "line": 312,
+        "excerpt": "if [ ! -f \"${IWE_WORKSPACE:-$HOME/IWE}/${IWE_GOVERNANCE_REPO:-DS-strategy}/scripts/session-index-snapshot.sh\" ]; then",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/kimi-peer-writer/SKILL.md",
+        "line": 354,
+        "excerpt": "[ -n \"$SEM_FILE\" ] && [ -f \"$SEM_FILE\" ] || { echo \"семафор Kimi не определён\" >&2; exit 1; }",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/kimi-peer-writer/SKILL.md",
+        "line": 412,
         "excerpt": "PEER_FILE=\"${SESSION_DIR}/$(printf '%02d' $TURN)-peer.md\"",
         "disclosed": true,
         "automatic": false
@@ -51,7 +99,23 @@
       {
         "ruleId": "shell",
         "file": ".claude/skills/kimi-peer-writer/SKILL.md",
-        "line": 365,
+        "line": 424,
+        "excerpt": "ERR_FILE=\"${PEER_FILE%.md}.err\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".claude/skills/kimi-peer-writer/SKILL.md",
+        "line": 570,
+        "excerpt": "Каталог для промптов создать один раз: `mkdir -p \"${IWE_WORKSPACE:-$HOME/IWE}/.iwe-runtime/peer-prompts\"`. Промпт собирается **в файл инструментом записи файлов",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/kimi-peer-writer/SKILL.md",
+        "line": 603,
         "excerpt": ": \"${REVIEW_ITER:=1}\"",
         "disclosed": true,
         "automatic": false
@@ -59,7 +123,15 @@
       {
         "ruleId": "shell",
         "file": ".claude/skills/kimi-peer-writer/SKILL.md",
-        "line": 422,
+        "line": 639,
+        "excerpt": "[ -f \"${IWE_WORKSPACE:-$HOME/IWE}/.claude/skills/verify/falsification_lint.py\" ] || echo \"программы проверки условий на этой установке нет — условие сверить по ",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/kimi-peer-writer/SKILL.md",
+        "line": 683,
         "excerpt": "VERIFY_FILE=\"${SESSION_DIR}/verify-01.md\"",
         "disclosed": true,
         "automatic": false
@@ -67,15 +139,23 @@
       {
         "ruleId": "shell",
         "file": ".claude/skills/kimi-peer-writer/SKILL.md",
-        "line": 461,
-        "excerpt": "(cd <repo path>",
+        "line": 724,
+        "excerpt": "cd <repo path>",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": ".claude/skills/kimi-peer-writer/SKILL.md",
-        "line": 513,
+        "line": 758,
+        "excerpt": "REPO_ROOT=$(git -C \"<repo path>\" rev-parse --show-toplevel)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/kimi-peer-writer/SKILL.md",
+        "line": 812,
         "excerpt": "START_TIME=$(grep '^start_time:' \"$SESSION_DIR/meta.yaml\" | sed -E 's/^start_time: *\"?([^\"]*)\"?$/\\1/')",
         "disclosed": true,
         "automatic": false
@@ -83,7 +163,7 @@
       {
         "ruleId": "shell",
         "file": ".claude/skills/kimi-peer-writer/SKILL.md",
-        "line": 528,
+        "line": 827,
         "excerpt": "LEDGER_SCRIPT=\"${IWE_WORKSPACE:-$HOME/IWE}/${IWE_GOVERNANCE_REPO:-DS-strategy}/scripts/ledger-append.sh\"",
         "disclosed": true,
         "automatic": false
@@ -91,7 +171,7 @@
       {
         "ruleId": "shell",
         "file": ".claude/skills/kimi-peer-writer/SKILL.md",
-        "line": 546,
+        "line": 845,
         "excerpt": "TURNS_DONE=$(find \"$SESSION_DIR\" -maxdepth 1 -name \"[0-9][0-9]-*.md\" | wc -l | tr -d ' ')",
         "disclosed": true,
         "automatic": false
@@ -99,56 +179,17 @@
       {
         "ruleId": "shell",
         "file": ".claude/skills/kimi-peer-writer/SKILL.md",
-        "line": 563,
-        "excerpt": "python3 - \"$SESSION_DIR\" \"$SESSION_ID\" <<'PYEOF'",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": ".claude/skills/kimi-peer-writer/SKILL.md",
-        "line": 742,
-        "excerpt": "result = subprocess.run(",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": ".claude/skills/kimi-peer-writer/SKILL.md",
-        "line": 749,
-        "excerpt": "except (subprocess.TimeoutExpired, OSError):",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": ".claude/skills/kimi-peer-writer/SKILL.md",
-        "line": 754,
-        "excerpt": "result = subprocess.CompletedProcess(args=[], returncode=1)",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": ".claude/skills/kimi-peer-writer/SKILL.md",
-        "line": 803,
-        "excerpt": "mv \"$SESSION_DIR/report-draft.md\" \"$SESSION_DIR/report.md\"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": ".claude/skills/kimi-peer-writer/SKILL.md",
         "line": 862,
-        "excerpt": "(cd \"${IWE_WORKSPACE:-$HOME/IWE}/${IWE_GOVERNANCE_REPO:-DS-strategy}\"",
+        "excerpt": "python3 - \"$SESSION_DIR\" \"$SESSION_ID\" <<'PYEOF'",
         "disclosed": true,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 16
+      "shell": 31,
+      "writes-outside": 1
     },
-    "score": 97,
+    "score": 87,
     "band": "low",
     "rulesVersion": "1.3.0",
     "filesScanned": 1,
@@ -171,6 +212,12 @@
       "commit": "980ed6ba86f71fb384149840e8f7158b2a78bddd",
       "scannedAt": "2026-11-19T10:50:00.942Z",
       "score": 97,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "e6f0edf8281c4029d3a9e929c3a58eecfad10435",
+      "scannedAt": "2026-11-23T11:25:12.649Z",
+      "score": 87,
       "rulesVersion": "1.3.0"
     }
   ]

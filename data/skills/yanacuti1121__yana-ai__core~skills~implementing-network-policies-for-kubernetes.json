@@ -4,24 +4,66 @@
   "repo": "Yana-AI",
   "path": "core/skills/implementing-network-policies-for-kubernetes",
   "name": "implementing-network-policies-for-kubernetes",
-  "description": "",
+  "description": "Kubernetes NetworkPolicies provide pod-level network segmentation by",
   "stars": 13,
   "category": "coding",
-  "commit": "cc1193ce6757d241f317fb5b6d2ada7399c4fee4",
-  "contentHash": "38670a11f98589607a6777ca63238c71dd58817a17894a3dd59f1f3f20be6e14",
+  "commit": "e821ccd2f0f7d96a9213082f7dfc1d43b5836e7f",
+  "contentHash": "da4fbd56029a8f1df3f23334b8c12d92270bc1b25e3948b00c04b1726727f527",
   "repoCreatedAt": "2026-05-17T00:35:59Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-19T10:50:00.942Z",
+  "scannedAt": "2026-11-23T11:25:12.649Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "core/skills/implementing-network-policies-for-kubernetes/SKILL.md",
+        "line": 225,
+        "excerpt": "kubectl get networkpolicies -n production",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "core/skills/implementing-network-policies-for-kubernetes/SKILL.md",
+        "line": 228,
+        "excerpt": "kubectl run test-pod --image=busybox --restart=Never -n production -- wget -qO- --timeout=2 http://database-service:5432",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "database-service"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "core/skills/implementing-network-policies-for-kubernetes/SKILL.md",
+        "line": 232,
+        "excerpt": "kubectl run frontend-test --image=busybox --labels=app=frontend --restart=Never -n production -- wget -qO- --timeout=2 http://backend-service:8080",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "backend-service"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "core/skills/implementing-network-policies-for-kubernetes/scripts/agent.py",
+        "line": 17,
+        "excerpt": "result = subprocess.run(cmd, capture_output=True, text=True, timeout=120)",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 2,
+      "network": 2
+    },
+    "score": 92,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 1,
-    "filesSkipped": 8
+    "filesScanned": 4,
+    "filesSkipped": 5
   },
   "history": [
     {
@@ -40,6 +82,12 @@
       "commit": "cc1193ce6757d241f317fb5b6d2ada7399c4fee4",
       "scannedAt": "2026-11-19T10:50:00.942Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "e821ccd2f0f7d96a9213082f7dfc1d43b5836e7f",
+      "scannedAt": "2026-11-23T11:25:12.649Z",
+      "score": 92,
       "rulesVersion": "1.3.0"
     }
   ]

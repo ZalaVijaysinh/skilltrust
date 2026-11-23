@@ -4,7 +4,7 @@
   "repo": "proxy-verifier",
   "path": ".agents/skills/update-ci-registry-image",
   "name": "update-ci-registry-image",
-  "description": "",
+  "description": "Rebuild a Proxy Verifier CI Docker image (for example ubuntu:26.04) for amd64 and arm64, push it to the ci.trafficserver.apache.org:5000 controller registry, and publish the multi-arch manifest from docker1. Use when asked to update, refresh, or republish a CI registry image.",
   "stars": 46,
   "category": "devops",
   "commit": "ba726f6161c90e81002333f783eb1fbc6a358209",
@@ -12,16 +12,91 @@
   "repoCreatedAt": "2020-01-24T23:49:56Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-19T10:50:00.942Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-23T11:25:12.649Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/update-ci-registry-image/SKILL.md",
+        "line": 45,
+        "excerpt": "D=/tmp/$USER-pv-ci-image",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/update-ci-registry-image/SKILL.md",
+        "line": 59,
+        "excerpt": "ssh AMD64_HOST 'cd /tmp/$USER-pv-ci-image && docker build --no-cache --pull --platform linux/amd64 --target dev --file docker/DISTRO_DIR/Dockerfile --tag IMAGE-",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/update-ci-registry-image/SKILL.md",
+        "line": 67,
+        "excerpt": "docker buildx build --no-cache --load --pull --platform linux/arm64 --target dev --file docker/DISTRO_DIR/Dockerfile --tag IMAGE-arm64 --progress plain --proven",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/update-ci-registry-image/SKILL.md",
+        "line": 78,
+        "excerpt": "ssh CONTROLLER 'sudo ufw allow 5000/tcp'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/update-ci-registry-image/SKILL.md",
+        "line": 86,
+        "excerpt": "ssh AMD64_HOST 'docker push IMAGE-amd64'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/update-ci-registry-image/SKILL.md",
+        "line": 98,
+        "excerpt": "ssh CONTROLLER ssh MANIFEST_HOST '",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/update-ci-registry-image/SKILL.md",
+        "line": 114,
+        "excerpt": "ssh CONTROLLER 'sudo ufw deny 5000/tcp'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/update-ci-registry-image/SKILL.md",
+        "line": 127,
+        "excerpt": "ssh CONTROLLER ssh MANIFEST_HOST 'docker manifest inspect --insecure IMAGE'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/update-ci-registry-image/SKILL.md",
+        "line": 137,
+        "excerpt": "ssh AMD64_HOST 'rm -rf /tmp/$USER-pv-ci-image'",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 9
+    },
+    "score": 95,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 1
+    "filesScanned": 1,
+    "filesSkipped": 0
   },
   "history": [
     {

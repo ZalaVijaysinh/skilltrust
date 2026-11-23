@@ -4,7 +4,7 @@
   "repo": "1-3-Cloud-Adoption-Skills",
   "path": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router",
   "name": "claude-code-maas-direct-router",
-  "description": "",
+  "description": "Configure Claude Code's `claude-glm` command as a direct MaaS router: all Claude Code traffic for that command goes through claude-code-router and a LiteLLM Anthropic adapter to Huawei Cloud MaaS or ModelArts MaaS, while the original `claude` command stays on Anthropic. Optionally add a CCR bridge for LiteLLM-backed search or Z.ai web-search-prime MCP search, add a claude-anou anonymous blind model-test command, or configure the Claude Agent SDK (and Claude Code) against a standalone local Anthropic Messages API proxy backed directly by the MaaS OpenAI-compatible endpoint. Use when Codex needs to install or troubleshoot the MaaS-only `claude-glm` path, deploy the production CCR config/custom-router/adapter, adjust context length, verify that Claude Code is actually backed by MaaS, route Claude Code WebSearch/current-news/latest prompts through a LiteLLM Exa search injection path, configure Z.ai MCP search with Z_API_KEY, add an optional claude-anou command that runs Claude Code as \"Anonymous-Model\" and binds each project to a hidden anon-model-a/anon-model-b backend for blind A/B model comparison, or wire the TypeScript Claude Agent SDK query() and Claude Code to a simpler 127.0.0.1:3000 Anthropic-to-MaaS proxy (including tool-call/streaming compatibility, rate limiting, metrics, and metadata-only logging).",
   "stars": 14,
   "category": "coding",
   "commit": "498f1cd114c88b83cbbedf8037f2dee73c0686a7",
@@ -13,7 +13,7 @@
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-20T10:39:23.037Z",
+  "scannedAt": "2026-11-23T11:25:12.649Z",
   "scan": {
     "findings": [
       {
@@ -52,33 +52,402 @@
         "hosts": []
       },
       {
+        "ruleId": "downloads-code",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 15,
+        "excerpt": "2. Confirm `claude --version` works. If it does not, install Claude Code first with `npm install -g @anthropic-ai/claude-code` (the script errors out with this ",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
         "ruleId": "network",
-        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/adapter/server.js",
-        "line": 318,
-        "excerpt": "const upstream = await fetch(LITELLM_CHAT_URL, {",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 30,
+        "excerpt": "6. If the user wants Claude Code search prompts such as `搜索今天的新闻` to avoid Claude Code local `WebFetch`, configure the CCR bridge and LiteLLM search callback:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 41,
+        "excerpt": "export HUAWEI_MAAS_API_KEY='...'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 50,
+        "excerpt": "export Z_API_KEY='...'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 57,
+        "excerpt": "/root/.codex/skills/claude-code-maas-direct-router/scripts/configure-ccr-search.py --dry-run",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 74,
+        "excerpt": "- Writes `~/.config/claude-glm/settings.json` denying `WebSearch`/`WebFetch` and injects it with `--settings`, because glm-5.1 has no native Anthropic server-si",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 108,
+        "excerpt": "claude-glm-recover <session-id>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 114,
+        "excerpt": "cd <original-project-dir>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 121,
+        "excerpt": "cat /tmp/claude-glm-recovery-<session-id>.md",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 127,
+        "excerpt": "claude-glm-recover <session-id> --launch",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 143,
+        "excerpt": "npm install -g @musistudio/claude-code-router",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 143,
+        "excerpt": "npm install -g @musistudio/claude-code-router",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 149,
+        "excerpt": "install -m 600 assets/ccr/config.json       ~/.claude-code-router/config.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 149,
+        "excerpt": "install -m 600 assets/ccr/config.json       ~/.claude-code-router/config.json",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 150,
+        "excerpt": "install -m 644 assets/ccr/custom-router.js  ~/.claude-code-router/custom-router.js",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 151,
+        "excerpt": "mkdir -p ~/.claude-code-router/plugins",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 152,
+        "excerpt": "install -m 644 assets/ccr/plugins/*.js      ~/.claude-code-router/plugins/",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 163,
+        "excerpt": "scripts/install-anthropic-adapter.sh   # -> ~/litellm-anthropic-adapter/ (port 4010)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 163,
+        "excerpt": "scripts/install-anthropic-adapter.sh   # -> ~/litellm-anthropic-adapter/ (port 4010)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 169,
+        "excerpt": "ccr restart",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 175,
+        "excerpt": "systemctl --user enable --now claude-glm-ccr.service claude-glm-ccr-health.timer",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 182,
+        "excerpt": "systemctl --user status claude-glm-ccr.service --no-pager",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 184,
+        "excerpt": "curl -fsS -H \"Authorization: Bearer ${CLAUDE_GLM_ROUTER_KEY:-claude-glm-local}\" http://127.0.0.1:3456/",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 190,
+        "excerpt": "mkdir -p ~/.config/claude-glm ~/.local/bin",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 190,
+        "excerpt": "mkdir -p ~/.config/claude-glm ~/.local/bin",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 192,
+        "excerpt": "cat > ~/.config/claude-glm/env <<'EOF'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 208,
+        "excerpt": "set -euo pipefail",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 226,
+        "excerpt": "ccr_healthy() { curl -fsS -m 2 \"$ANTHROPIC_BASE_URL/\" >/dev/null 2>&1; }",
         "disclosed": false,
         "automatic": false,
         "hosts": []
       },
       {
         "ruleId": "network",
-        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/adapter/server.js",
-        "line": 336,
-        "excerpt": "const upstream = await fetch(LITELLM_CHAT_URL, {",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 237,
+        "excerpt": "status=\"$(curl -sS -m 2 -o /dev/null -w '%{http_code}' \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 250,
+        "excerpt": "`claude-glm` denies Claude Code's native `WebSearch` and `WebFetch` tools by default,",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 255,
+        "excerpt": "`permissions.deny: [\"WebSearch\", \"WebFetch\"]`) injected via `--settings`, so the plain",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 261,
+        "excerpt": "claude-glm --print --output-format json '搜索今天的新闻。如果无法联网搜索，只回复 NO-WEB。'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 270,
+        "excerpt": "Use this when the user wants Claude Code search tasks to avoid Claude Code local `WebFetch`/`Fetch`, especially for prompts like:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 308,
+        "excerpt": "/root/.codex/skills/claude-code-maas-direct-router/scripts/configure-ccr-search.py --dry-run",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 315,
+        "excerpt": "curl -sS -N 'http://127.0.0.1:3456/v1/messages?beta=true' \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 315,
+        "excerpt": "curl -sS -N 'http://127.0.0.1:3456/v1/messages?beta=true' \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 323,
+        "excerpt": "{\"name\":\"WebFetch\",\"description\":\"Fetch URL\",\"input_schema\":{\"type\":\"object\",\"properties\":{\"url\":{\"type\":\"string\"},\"prompt\":{\"type\":\"string\"}},\"required\":[\"url\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 324,
+        "excerpt": "{\"name\":\"WebSearch\",\"description\":\"Search the web\",\"input_schema\":{\"type\":\"object\",\"properties\":{\"query\":{\"type\":\"string\"}},\"required\":[\"query\"]}}",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 334,
+        "excerpt": "- Claude Code does not show local `Fetch(...)` or `WebFetch(...)` tool calls for search-intent prompts.",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 351,
+        "excerpt": "export Z_API_KEY='...'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 418,
+        "excerpt": "/root/.codex/skills/claude-code-maas-direct-router/scripts/configure-claude-anou.sh",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 558,
+        "excerpt": "1. Proxy health: `curl http://127.0.0.1:3000/`",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 559,
+        "excerpt": "2. Proxy metrics: `curl http://127.0.0.1:3000/metrics`",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 566,
+        "excerpt": "`curl http://127.0.0.1:3000/metrics`.",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 661,
+        "excerpt": "- **`Unable to connect to API (FailedToOpenSocket)` or `ConnectionRefused` against `http://127.0.0.1:3456/v1/messages?beta=true`**: Treat this as a local router",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "AI/AI-Coding/Enterprise-MaaS-Foundation/claude-code-maas-direct-router/SKILL.md",
+        "line": 664,
+        "excerpt": "- **Health timer keeps restarting `ccr`**: Check `journalctl --user -u claude-glm-ccr.service -u claude-glm-ccr-health.service --no-pager -n 100`, then verify `",
         "disclosed": false,
         "automatic": false,
         "hosts": []
       }
     ],
     "findingTotals": {
-      "network": 5,
-      "downloads-code": 1
+      "network": 25,
+      "downloads-code": 3,
+      "shell": 28,
+      "writes-outside": 7
     },
-    "score": 80,
-    "band": "low",
+    "score": 67,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 5,
-    "filesSkipped": 22
+    "filesScanned": 8,
+    "filesSkipped": 19
   },
   "history": [
     {
