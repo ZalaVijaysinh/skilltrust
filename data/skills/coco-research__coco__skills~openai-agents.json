@@ -5,15 +5,15 @@
   "path": "skills/openai-agents",
   "name": "openai-agents",
   "description": "Build AI applications with OpenAI Agents SDK - text agents, voice agents, multi-agent handoffs, tools with Zod schemas, guardrails, and streaming. Prevents 11 documented errors.\n\nUse when: building agents with tools, voice agents with WebRTC, multi-agent workflows, or troubleshooting MaxTurnsExceededError, tool call failures, reasoning defaults, JSON output leaks.",
-  "stars": 327,
+  "stars": 326,
   "category": "coding",
-  "commit": "0860a889ae6d9ef87c3b216f6117b52d49712dc7",
+  "commit": "cb50e479ef6618ce174ec291acd975612b4fc35f",
   "contentHash": "9e50b5460a7246cfe0e086f3c324379105ecb32632cd268e73ada07d4844ae1c",
   "repoCreatedAt": "2026-04-25T21:22:40Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-20T10:39:23.037Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-24T13:00:25.876Z",
   "scan": {
     "findings": [
       {
@@ -61,17 +61,73 @@
         "hosts": [
           "api.example.com"
         ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/openai-agents/templates/cloudflare-workers/worker-text-agent.ts",
+        "line": 6,
+        "excerpt": "* - Handling agent requests via fetch()",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/openai-agents/templates/cloudflare-workers/worker-text-agent.ts",
+        "line": 45,
+        "excerpt": "async fetch(request: Request, env: Env): Promise<Response> {",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/openai-agents/templates/nextjs/api-realtime-route.ts",
+        "line": 16,
+        "excerpt": "import OpenAI from 'openai';",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/openai-agents/templates/nextjs/api-realtime-route.ts",
+        "line": 16,
+        "excerpt": "import OpenAI from 'openai';",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.openai.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/openai-agents/templates/realtime-agents/realtime-session-browser.tsx",
+        "line": 32,
+        "excerpt": "const response = await fetch(`/api/weather?city=${city}`);",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/openai-agents/templates/realtime-agents/realtime-session-browser.tsx",
+        "line": 80,
+        "excerpt": "const response = await fetch('/api/generate-session-key');",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
       }
     ],
     "findingTotals": {
       "shell": 1,
-      "network": 4
+      "network": 9,
+      "paid-api": 1
     },
-    "score": 90,
+    "score": 85,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 8,
-    "filesSkipped": 20
+    "filesScanned": 28,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -96,6 +152,12 @@
       "commit": "0860a889ae6d9ef87c3b216f6117b52d49712dc7",
       "scannedAt": "2026-11-20T10:39:23.037Z",
       "score": 90,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "cb50e479ef6618ce174ec291acd975612b4fc35f",
+      "scannedAt": "2026-11-24T13:00:25.876Z",
+      "score": 85,
       "rulesVersion": "1.3.0"
     }
   ]

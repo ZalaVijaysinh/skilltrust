@@ -4,16 +4,16 @@
   "repo": "crewrig",
   "path": "artifacts/core/skills/gitlab-ci",
   "name": "gitlab-ci",
-  "description": "",
+  "description": "Authors, reviews, hardens and debugs GitLab CI/CD pipelines, and checks them with bundled scripts for server-side validation, image pinning, secret exposure and legacy only/except keys. Use when reading or writing `.gitlab-ci.yml`, `rules:` or `workflow:rules`, `include:` or CI/CD Components, `id_tokens`, a runner or `glab ci lint`, when a pipeline runs twice or a job stays pending, or when migrating a pipeline from GitHub Actions, Jenkins or CircleCI to GitLab. Not for GitHub Actions workflows, Jenkins or other CI systems except as the source of a migration to GitLab, generic YAML such as Kubernetes manifests or compose files, security or threat-model reviews (security), or merge request descriptions and logbook entries (pr-logbook).",
   "stars": 24,
   "category": "devops",
-  "commit": "72d08c84989c21e328e0513b9e41fb1f1406f23d",
-  "contentHash": "1051d99e005b00c242fdd12586eb25618869eb1f949a76f440c00c82c4cdde8a",
+  "commit": "d32621cae28d6103f60e754d6ce6ee035fd6e990",
+  "contentHash": "a666ee589f188b521e50d8d0d386db1f61fe8c2c9cb41dae2a8ddcb748c7eb7f",
   "repoCreatedAt": "2026-05-14T19:26:05Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-20T10:39:23.037Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-24T13:00:25.876Z",
   "scan": {
     "findings": [
       {
@@ -23,16 +23,53 @@
         "excerpt": "- pip install -r requirements.txt",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "artifacts/core/skills/gitlab-ci/references/variables-and-secrets.md",
+        "line": 394,
+        "excerpt": "- curl -H \"Authorization: Bearer $TOKEN\" https://api.example.com",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.example.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "artifacts/core/skills/gitlab-ci/scripts/lint-gitlab-ci.ts",
+        "line": 13,
+        "excerpt": "const cp = process.getBuiltinModule(\"node:child_process\");",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "artifacts/core/skills/gitlab-ci/scripts/lint-gitlab-ci.ts",
+        "line": 137,
+        "excerpt": "cp.spawnSync(\"taskkill\", [\"/pid\", String(child.pid), \"/T\", \"/F\"]);",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/ci-reference-format.md",
+        "line": 1013,
+        "excerpt": "interpolated), then runs `sudo apt-get update && sudo apt-get install -y --no-install-recommends <packages>`",
+        "disclosed": false,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "downloads-code": 1
+      "downloads-code": 2,
+      "network": 1,
+      "shell": 2
     },
-    "score": 85,
-    "band": "low",
+    "score": 79,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 3,
-    "filesSkipped": 16
+    "filesScanned": 20,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -63,6 +100,12 @@
       "commit": "72d08c84989c21e328e0513b9e41fb1f1406f23d",
       "scannedAt": "2026-11-20T10:39:23.037Z",
       "score": 85,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "d32621cae28d6103f60e754d6ce6ee035fd6e990",
+      "scannedAt": "2026-11-24T13:00:25.876Z",
+      "score": 79,
       "rulesVersion": "1.3.0"
     }
   ]

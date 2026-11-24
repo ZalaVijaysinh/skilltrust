@@ -5,15 +5,15 @@
   "path": "skills/docker-sandboxes-lifecycle",
   "name": "docker-sandboxes-lifecycle",
   "description": "Use this skill when creating, running, reattaching to, listing, stopping, or removing Docker Sandboxes (the standalone `sbx` CLI that runs AI coding agents in isolated microVMs), even if the user just says they want to \"run claude in a sandbox\", \"isolate an agent from my repo\", \"give an agent its own git clone\", or \"clean up old sandboxes\". Covers `sbx run`/`sbx create` (including the built-in agents claude, codex, cursor, devin, docker-agent, gemini, opencode, shell), workspace bind-mount vs `--clone` isolation, additional read-only workspaces, reattaching by `--name`, `sbx ls`/`stop`/`rm`/`prune`, `sbx exec`, `sbx cp`, and `sbx ports`.",
-  "stars": 645,
+  "stars": 651,
   "category": "devops",
-  "commit": "caeee2024f7527d890a29dd1732b62a112f56d0e",
+  "commit": "5cf37e721e6190622b4dc2d81d4cd7f15933ee9c",
   "contentHash": "5ccbdbf913809a0c87bec752f073a0afc8040b302fc76dd69d62fd251f7d17f3",
   "repoCreatedAt": "2026-03-27T13:58:50Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-20T10:39:23.037Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-24T13:00:25.876Z",
   "scan": {
     "findings": [
       {
@@ -87,16 +87,56 @@
         "excerpt": "sbx exec -it my-sandbox bash",
         "disclosed": true,
         "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/docker-sandboxes-lifecycle/checks/verification.md",
+        "line": 73,
+        "excerpt": "sbx --app-name \"$APP\" exec ro-check sh -c 'echo x >> \"$1\"' sh \"$WORK/docs/notes.txt\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/docker-sandboxes-lifecycle/evals/docker-sandboxes-lifecycle.md",
+        "line": 152,
+        "excerpt": "sbx --app-name \"$APP\" exec -w /tmp -e DIAGNOSTIC=ready eval-diagnostic sh -c \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/docker-sandboxes-lifecycle/evals/docker-sandboxes-lifecycle.md",
+        "line": 227,
+        "excerpt": "sbx --app-name \"$APP\" exec eval-resume sh -c 'printf retained > /tmp/retained.txt'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/docker-sandboxes-lifecycle/evals/docker-sandboxes-lifecycle.md",
+        "line": 231,
+        "excerpt": "sbx --app-name \"$APP\" exec eval-resume sh -c 'test \"$(cat /tmp/retained.txt)\" = retained'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/docker-sandboxes-lifecycle/evals/docker-sandboxes-lifecycle.md",
+        "line": 266,
+        "excerpt": "sbx --app-name \"$APP\" exec eval-readonly sh -c 'printf changed >> \"$1\"' sh \"$WORK/eval-docs/notes.txt\"",
+        "disclosed": true,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 9
+      "shell": 14
     },
     "score": 97,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 9,
-    "filesSkipped": 3
+    "filesScanned": 12,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -126,6 +166,12 @@
     {
       "commit": "caeee2024f7527d890a29dd1732b62a112f56d0e",
       "scannedAt": "2026-11-20T10:39:23.037Z",
+      "score": 97,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "5cf37e721e6190622b4dc2d81d4cd7f15933ee9c",
+      "scannedAt": "2026-11-24T13:00:25.876Z",
       "score": 97,
       "rulesVersion": "1.3.0"
     }

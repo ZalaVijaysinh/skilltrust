@@ -4,24 +4,117 @@
   "repo": "rsc-harness",
   "path": "skills/fastapi",
   "name": "fastapi",
-  "description": "",
-  "stars": 641,
+  "description": "Use when building, reviewing, testing, securing or shipping a FastAPI / async Python service — routers, Pydantic v2 schemas, dependency injection, async SQLAlchemy 2.0, OAuth2/JWT, ASGITransport tests, production wiring. NOT language-level Python or packaging (that is `python`), NOT engine-level SQL (that is `postgresdb`), NOT framework-agnostic REST contracts (that is `api-design`).",
+  "stars": 661,
   "category": "coding",
-  "commit": "28a51a9100380a7fc53848a17604cebc0d2cf364",
+  "commit": "c37b14ec12063853a17e741b72776d0e30c12dfc",
   "contentHash": "bbbab6f32342d035bca5ee3cbe5b3980a0bcbf40dde3c99a223c56ebeccadeaf",
   "repoCreatedAt": "2026-05-31T08:00:19Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-20T10:39:23.037Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-24T13:00:25.876Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "skills/fastapi/SKILL.md",
+        "line": 419,
+        "excerpt": "Drive the app in-process with `httpx.AsyncClient(transport=ASGITransport(app=create_app()))`",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/fastapi/SKILL.md",
+        "line": 447,
+        "excerpt": "| `requests` (or any blocking call) inside an `async def` route | Blocks the event loop → use `httpx.AsyncClient`. |",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/fastapi/evals/cases.yaml",
+        "line": 6,
+        "excerpt": "- prompt: \"My async route calls an external API with requests.get() and the whole server hangs under load. How should I fix it?\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/fastapi/evals/cases.yaml",
+        "line": 7,
+        "excerpt": "why: \"Blocking-call-on-the-event-loop anti-pattern; skill's decision rule #1 (httpx.AsyncClient / anyio.to_thread). User never names FastAPI but it's an async P",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/fastapi/evals/cases.yaml",
+        "line": 50,
+        "excerpt": "- \"httpx.AsyncClient with transport=ASGITransport(app=create_app()) — in-process, not a real network/uvicorn server\"",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/fastapi/references/production.md",
+        "line": 25,
+        "excerpt": "(`pip install uvicorn-worker`) — the old `uvicorn.workers.UvicornWorker` was deprecated in",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/fastapi/references/production.md",
+        "line": 325,
+        "excerpt": "HEALTHCHECK --interval=30s --timeout=3s CMD python -c \"import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/health').status==2",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/fastapi/references/testing.md",
+        "line": 4,
+        "excerpt": "async-correct tests that hit the real ASGI app over `httpx.ASGITransport`, run against a",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/fastapi/references/testing.md",
+        "line": 271,
+        "excerpt": "async def test_outbound_call(client: httpx.AsyncClient) -> None:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/fastapi/references/testing.md",
+        "line": 273,
+        "excerpt": "return_value=httpx.Response(200, json={\"status\": \"ok\"})",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "network": 9,
+      "downloads-code": 1
+    },
+    "score": 80,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 8
+    "filesScanned": 8,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -52,6 +145,12 @@
       "commit": "28a51a9100380a7fc53848a17604cebc0d2cf364",
       "scannedAt": "2026-11-20T10:39:23.037Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "c37b14ec12063853a17e741b72776d0e30c12dfc",
+      "scannedAt": "2026-11-24T13:00:25.876Z",
+      "score": 80,
       "rulesVersion": "1.3.0"
     }
   ]

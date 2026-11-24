@@ -1,0 +1,63 @@
+{
+  "id": "frkak__piyaz__plugins~antigravity~skills~review",
+  "owner": "FrkAk",
+  "repo": "piyaz",
+  "path": "plugins/antigravity/skills/review",
+  "name": "review",
+  "description": "Dispatched after a task lands at `in_review` to produce a structured CTO-grade verdict on the work and its PR. Two invocation paths: composer Phase 4 (orchestrator dispatches after the implementer's `in_review` write, surfaces the verdict to HOTL, stops), and direct mode from the piyaz skill on requests (\"review VF-N\", \"review this PR\", \"review <PR URL>\"). Reads `piyaz_get lens='review'` for the implementationPlan rendered alongside executionRecord, AC evaluation against executionRecord excerpts, downstream impact, and the PR handle from `task.links` filtered to `kind='pull_request'`; the PR diff is the source of truth for what changed, and tasks that ship deliverables instead of a PR are reviewed through their linked artifacts. Returns one of `approve`, `request-changes`, or `block` with file-cited reasoning across the security, performance, reliability, observability, and codebase standards lenses. Never auto-flips status; HOTL owns the `in_review` to `done` transition. Do not use for refinement, draft / planned review, style nits, or speculative scaling concerns outside the task's scope.",
+  "stars": 200,
+  "category": "coding",
+  "commit": "e1ed033e9a4d0e7af81da5833b47dcd2c0e6fdfb",
+  "contentHash": "f4880652d207f71ca166a5e84a0ca94c128c914f3e0f7e1f40a9f1978234728a",
+  "repoCreatedAt": "2026-04-06T11:00:51Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-24T13:00:25.876Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "plugins/antigravity/skills/review/SKILL.md",
+        "line": 69,
+        "excerpt": "- `context7` (`resolve-library-id`, `query-docs`), `WebFetch`, `WebSearch`: outward research when an API call in the diff looks wrong against the library's curr",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/antigravity/skills/review/SKILL.md",
+        "line": 319,
+        "excerpt": "gh pr view <num|url> --json url,state,headRefName,reviewDecision,latestReviews,reviews,comments,statusCheckRollup,mergeable",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/antigravity/skills/review/SKILL.md",
+        "line": 327,
+        "excerpt": "gh api graphql -f query='",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "network": 1,
+      "shell": 2
+    },
+    "score": 94,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 2,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "e1ed033e9a4d0e7af81da5833b47dcd2c0e6fdfb",
+      "scannedAt": "2026-11-24T13:00:25.876Z",
+      "score": 94,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

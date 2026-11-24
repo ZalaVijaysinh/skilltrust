@@ -1,0 +1,149 @@
+{
+  "id": "mondoohq__mql__.agents~skills~provider-api-call-dedup",
+  "owner": "mondoohq",
+  "repo": "mql",
+  "path": ".agents/skills/provider-api-call-dedup",
+  "name": "provider-api-call-dedup",
+  "description": "Use when a provider scan is slow, times out, or trips rate limits (429, throttling, Retry-After), when the same request URL appears many times in a debug log, when an asset's fields look like they cost one API call per scanned asset, or when auditing any provider under providers/ for redundant per-asset API traffic. Applies to aws, azure, gcp, k8s, okta and any other provider, since the resource cache and init dispatch are shared machinery.",
+  "stars": 414,
+  "category": "coding",
+  "commit": "389303781aa480f11f0c2a4683ed80cc49077fff",
+  "contentHash": "846b9428f4d9a009f914d21e0bf7a2cba40b399a3ec1d559d64ccc39b423681e",
+  "repoCreatedAt": "2022-08-16T07:52:45Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-24T13:00:25.876Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/provider-api-call-dedup/SKILL.md",
+        "line": 196,
+        "excerpt": "grep \"azure api call\" scan.log | grep -oE 'status=[0-9]+' | sort | uniq -c | sort -rn",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/provider-api-call-dedup/SKILL.md",
+        "line": 215,
+        "excerpt": "grep \"api call\" scan.log | sed -E 's/.*host=([^ ]*).*params=(.*)/\\1\\t\\2/' |",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/provider-api-call-dedup/SKILL.md",
+        "line": 300,
+        "excerpt": "grep \"api call\" scan.log | sed -E 's/.*url=([^ ]+).*/\\1/' | sort | uniq -c | sort -rn | head",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/provider-api-call-dedup/SKILL.md",
+        "line": 311,
+        "excerpt": "first=$(grep -n \"scan complete asset\" scan.log | head -1 | cut -d: -f1)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/provider-api-call-dedup/SKILL.md",
+        "line": 338,
+        "excerpt": "mql run <provider> <scope-flags> --discover <target> -c \"<query>\" --log-level debug > before.log 2>&1",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/provider-api-call-dedup/SKILL.md",
+        "line": 350,
+        "excerpt": "P=~/.config/mondoo/providers/<provider>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/provider-api-call-dedup/SKILL.md",
+        "line": 382,
+        "excerpt": "awk -f .agents/skills/provider-api-call-dedup/classify-inits.awk providers/<name>/resources/*.go | sort",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/provider-api-call-dedup/SKILL.md",
+        "line": 396,
+        "excerpt": "grep -n \"Discovery[A-Z][A-Za-z]* *=\" providers/<name>/resources/discovery.go",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/provider-api-call-dedup/SKILL.md",
+        "line": 405,
+        "excerpt": "rg -c \"NewResource\\([^)]*\\\"<resource.mql.name>\\\"\" providers/<name>/resources/*.go | grep -v _test",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/provider-api-call-dedup/SKILL.md",
+        "line": 435,
+        "excerpt": "awk -f .agents/skills/provider-api-call-dedup/classify-accessors.awk \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/provider-api-call-dedup/SKILL.md",
+        "line": 452,
+        "excerpt": "rg -c \"\\\"<target.mql.name>\\\"\" providers/<name>/resources/*.go | grep -v _test | wc -l",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/provider-api-call-dedup/SKILL.md",
+        "line": 458,
+        "excerpt": "rg -n \"WithParentConnectionId\" providers/<name> -g '*.go' | grep -v _test",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/provider-api-call-dedup/SKILL.md",
+        "line": 472,
+        "excerpt": "rg -c \"conn\\.(SubId|ProjectID|AccountId|ResourceID)\\(\\)\" providers/<name>/resources -g '*.go'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/provider-api-call-dedup/SKILL.md",
+        "line": 483,
+        "excerpt": "rg -l \"conn\\.(SubId|ProjectID|AccountId|ResourceID)\\(\\)\" providers/<name>/resources -g '*.go'",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 14
+    },
+    "score": 97,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 4,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "389303781aa480f11f0c2a4683ed80cc49077fff",
+      "scannedAt": "2026-11-24T13:00:25.876Z",
+      "score": 97,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

@@ -4,24 +4,215 @@
   "repo": "rsc-harness",
   "path": "skills/security-audit",
   "name": "security-audit",
-  "description": "",
-  "stars": 641,
+  "description": "Use when asking if a project, diff or feature is secure: security audit or review, vulnerabilities, injection (SQL, XSS), broken access control, auth and JWT, CORS, SSRF, uploads, rate limits, encryption, secrets and API keys (store, rotate, leaked in git), CVE and dependency scans, CI supply chain, threat models, OWASP fixes. Audits the code and its platforms (GitHub, Vercel, Postgres, Hetzner servers…) read-only with check scripts, fixes what the user approves, re-checks, reports in HTML. NOT agent guardrails (that is agent-safety).",
+  "stars": 661,
   "category": "coding",
-  "commit": "28a51a9100380a7fc53848a17604cebc0d2cf364",
+  "commit": "c37b14ec12063853a17e741b72776d0e30c12dfc",
   "contentHash": "77c4efe1d178dea2eec8c2d2adcc5ccef8b09616798413b76c732cac66f56b78",
   "repoCreatedAt": "2026-05-31T08:00:19Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-20T10:39:23.037Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-24T13:00:25.876Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/security-audit/SKILL.md",
+        "line": 121,
+        "excerpt": "node <skill-dir>/scripts/validate-findings.mjs 02-DOCS/security/audit-<date>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/security-audit/SKILL.md",
+        "line": 153,
+        "excerpt": "node <skill-dir>/scripts/render-report.mjs 02-DOCS/security/audit-<date> --lang <user language>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/security-audit/references/classes/README.md",
+        "line": 67,
+        "excerpt": "`subprocess` with `shell=True`, `child_process`, `eval(`, `Function(`, `vm.runInContext`,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/security-audit/references/classes/README.md",
+        "line": 107,
+        "excerpt": "`tar.extractall`, `requests.get(user_url)`, `fetch(url)` on the server, image and PDF renderers",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/security-audit/references/classes/README.md",
+        "line": 211,
+        "excerpt": "| `dynamic-code-execution` | `eval`, `exec`, `Function`, `vm.runInContext`, `child_process`, dynamic `import()` fed by non-constant input. |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/security-audit/references/classes/ai-and-llm.md",
+        "line": 111,
+        "excerpt": "call to its sink: `subprocess` with model strings, `open(args.path)`, `fetch(args.url)` (also",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/security-audit/references/classes/supply-chain.md",
+        "line": 44,
+        "excerpt": "pinned to a commit, a tool downloaded at build time, `curl | sh`, a remote include, a CI action",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/security-audit/references/fixes-by-stack.md",
+        "line": 42,
+        "excerpt": "| A03 Injection | f-string SQL / `shell=True` | Bound params / arg list, no shell / canonicalize path |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/security-audit/references/fixes-by-stack.md",
+        "line": 47,
+        "excerpt": "| A08 Data Integrity | `curl \\| bash`, unpinned CDN script | `npm ci`/`go mod verify` + SRI |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/security-audit/references/fixes-by-stack.md",
+        "line": 262,
+        "excerpt": "subprocess.run(f\"convert {infile} {outfile}\", shell=True)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/security-audit/references/fixes-by-stack.md",
+        "line": 264,
+        "excerpt": "subprocess.run([\"convert\", infile, outfile], shell=False, check=True)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/security-audit/references/fixes-by-stack.md",
+        "line": 434,
+        "excerpt": "- **No `curl … | bash`:** download, `sha256sum -c`, then run. SRI for any",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/security-audit/references/fixes-by-stack.md",
+        "line": 488,
+        "excerpt": "def safe_get(user_url: str) -> httpx.Response:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/security-audit/references/fixes-by-stack.md",
+        "line": 501,
+        "excerpt": "with httpx.Client(timeout=5.0, follow_redirects=False) as c:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/security-audit/references/fixes-by-stack.md",
+        "line": 587,
+        "excerpt": "return fetch(u, { redirect: \"error\", signal: AbortSignal.timeout(5000) });",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/security-audit/references/secrets-and-supply-chain.md",
+        "line": 8,
+        "excerpt": "Tools: `gitleaks`, `pip-audit` (or `uvx pip-audit`), `osv-scanner`,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/security-audit/references/secrets-and-supply-chain.md",
+        "line": 144,
+        "excerpt": "| Python | `uv lock` or `pip-tools` compile **with hashes** | `pip install --require-hashes -r requirements.txt` |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/security-audit/references/secrets-and-supply-chain.md",
+        "line": 227,
+        "excerpt": "run: pipx run pip-audit==<exact-version>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "browser-secrets",
+        "file": "skills/security-audit/references/secrets-discipline.md",
+        "line": 65,
+        "excerpt": "token=\"$(security find-generic-password -s rsc-audit-github -w)\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/security-audit/references/secrets-discipline.md",
+        "line": 68,
+        "excerpt": "| /usr/bin/curl -sS --config - https://api.github.com/user \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.github.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/security-audit/references/secrets-discipline.md",
+        "line": 166,
+        "excerpt": "| `tool --token \"$T\"` / `curl -H \"Authorization: Bearer $T\"` | Secret or config on stdin (`curl --config -`) |",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/security-audit/references/secrets-discipline.md",
+        "line": 168,
+        "excerpt": "| `npx some-cli login` | Absolute path to a pinned, verified binary outside the project |",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 7,
+      "network": 7,
+      "downloads-code": 7,
+      "browser-secrets": 1
+    },
+    "score": 52,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 1,
-    "filesSkipped": 29
+    "filesScanned": 30,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -40,6 +231,12 @@
       "commit": "28a51a9100380a7fc53848a17604cebc0d2cf364",
       "scannedAt": "2026-11-20T10:39:23.037Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "c37b14ec12063853a17e741b72776d0e30c12dfc",
+      "scannedAt": "2026-11-24T13:00:25.876Z",
+      "score": 52,
       "rulesVersion": "1.3.0"
     }
   ]

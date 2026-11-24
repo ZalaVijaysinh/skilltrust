@@ -4,16 +4,16 @@
   "repo": "skills",
   "path": "skills/video-check",
   "name": "video-check",
-  "description": "",
-  "stars": 51,
+  "description": "Check a finished video before the person sees it or posts it, then fix what is wrong. Measures the file (size, frame rate, pixel format, length), picture faults (black or white frames, frozen stretches, one-frame glitches and wrong frames at cuts, stutter, loop seams), sound (loudness, clipping, silences, abrupt ends) and text too small or too brief for a phone; makes frame sheets at phone size and a strip around each cut; a reviewer who has not seen your plan judges them by the kind of video (tutorial, talking head, ad, reel, film) and, from round 2, checks each claimed fix on the new frames. Fix the worst three, render again, at most three rounds. Use it after rendering any edit, and when someone asks to check a video before sending or posting it, says \"kiểm tra video trước khi gửi\", \"xem lại bản dựng\", \"video này có lỗi gì không\", \"review my edit\", \"QA this render\". Works on a local file. Not for breaking down someone else's video (use video-breakdown) or for judging footage the person has not edited.",
+  "stars": 53,
   "category": "media",
-  "commit": "7332ced6bcea4673b592a326af3542111ac30b2c",
+  "commit": "cde1ede63a7c88be6ef9fcc3bce4120f43e1b76e",
   "contentHash": "596c0762c9ceddd74b979afd9b2fcbd3bafe1fffc55015621929a8453f3f2e9c",
   "repoCreatedAt": "2026-11-07T04:38:51Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-20T10:39:23.037Z",
+  "scannedAt": "2026-11-24T13:00:25.876Z",
   "scan": {
     "findings": [
       {
@@ -25,59 +25,63 @@
         "automatic": false
       },
       {
-        "ruleId": "network",
-        "file": "skills/video-check/scripts/editatlas_signal.py",
-        "line": 41,
-        "excerpt": "import urllib.request",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/video-check/scripts/editatlas_signal.py",
-        "line": 71,
-        "excerpt": "request = urllib.request.Request(url, data=body, method=\"POST\",",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/video-check/scripts/editatlas_signal.py",
-        "line": 73,
-        "excerpt": "with urllib.request.urlopen(request, timeout=WAIT_SECONDS) as answer:",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
-      },
-      {
         "ruleId": "shell",
-        "file": "skills/video-check/scripts/fix_sound.py",
-        "line": 21,
-        "excerpt": "p = subprocess.run([\"ffmpeg\", \"-hide_banner\", \"-nostats\", \"-i\", str(src), \"-af\", af, \"-f\", \"null\", \"-\"],",
+        "file": "skills/video-check/scripts/check.py",
+        "line": 68,
+        "excerpt": "return subprocess.run([str(c) for c in cmd], capture_output=True, text=True, encoding=\"utf-8\", errors=\"replace\")",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "skills/video-check/scripts/fix_sound.py",
-        "line": 65,
-        "excerpt": "subprocess.run([\"ffmpeg\", \"-v\", \"error\", \"-y\", \"-i\", str(src), \"-map\", \"0\", \"-c\", \"copy\", \"-c:a\", \"aac\",",
+        "file": "skills/video-check/scripts/check.py",
+        "line": 77,
+        "excerpt": "r = subprocess.run([\"ffmpeg\", \"-v\", \"error\", \"-nostdin\", \"-f\", \"lavfi\", \"-i\", \"color=s=16x16:d=0.1\",",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/video-check/scripts/check.py",
+        "line": 132,
+        "excerpt": "p = subprocess.Popen([\"ffmpeg\", \"-v\", \"error\", \"-nostdin\", \"-i\", str(video), \"-an\", *passthrough(),",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/video-check/scripts/check.py",
+        "line": 134,
+        "excerpt": "stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/video-check/scripts/check.py",
+        "line": 466,
+        "excerpt": "tail = subprocess.run([\"ffmpeg\", \"-v\", \"error\", \"-nostdin\", \"-sseof\", \"-0.6\", \"-i\", video, \"-vn\", \"-ac\", \"1\",",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/video-check/scripts/check.py",
+        "line": 714,
+        "excerpt": "r = subprocess.run([\"ffmpeg\", \"-v\", \"error\", \"-nostdin\", \"-i\", str(video), \"-an\", *passthrough(), \"-vf\",",
         "disclosed": true,
         "automatic": false
       }
     ],
     "findingTotals": {
       "downloads-code": 1,
-      "network": 3,
-      "shell": 2
+      "shell": 6
     },
-    "score": 77,
-    "band": "review",
+    "score": 82,
+    "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 9,
-    "filesSkipped": 26
+    "filesScanned": 12,
+    "filesSkipped": 23
   },
   "history": [
     {
@@ -96,6 +100,12 @@
       "commit": "7332ced6bcea4673b592a326af3542111ac30b2c",
       "scannedAt": "2026-11-20T10:39:23.037Z",
       "score": 77,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "cde1ede63a7c88be6ef9fcc3bce4120f43e1b76e",
+      "scannedAt": "2026-11-24T13:00:25.876Z",
+      "score": 82,
       "rulesVersion": "1.3.0"
     }
   ]

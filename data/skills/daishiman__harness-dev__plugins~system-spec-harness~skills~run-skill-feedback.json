@@ -7,13 +7,13 @@
   "description": "既存スキルへの改善要望を構造化するとき、Notion 改善要望 DB へ登録するときに使う。",
   "stars": 10,
   "category": "other",
-  "commit": "a4e43429b970183a07ba5ff4ffe23caa26e7a5d4",
+  "commit": "45302cb1d6bd0b67ec4cd8e11b5c9fa36caa702d",
   "contentHash": "80f83c4d8447046582c6de00567617fd41d7e68288a81801cc93922f0824d092",
   "repoCreatedAt": "2026-01-15T05:28:17Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-20T10:39:23.037Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-24T13:00:25.876Z",
   "scan": {
     "findings": [
       {
@@ -53,6 +53,62 @@
         "file": "plugins/system-spec-harness/skills/run-skill-feedback/SKILL.md",
         "line": 283,
         "excerpt": "python3 \"$SKILL_ROOT/scripts/notion-submit-improvement.py\" --plugin <plugin> --dry-run \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "browser-secrets",
+        "file": "plugins/system-spec-harness/skills/run-skill-feedback/references/notion-submit-contract.md",
+        "line": 13,
+        "excerpt": "| token | **Keychain が既定**。`security find-generic-password -s <keychain_service> [-a <keychain_account>] -w`。env `NOTION_TOKEN` は **`INTAKE_ALLOW_ENV_TOKEN=1` を",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/system-spec-harness/skills/run-skill-feedback/scripts/notion-submit-improvement.py",
+        "line": 83,
+        "excerpt": "out = subprocess.run(cmd, input=f'header = \"Authorization: Bearer {esc}\"\\n'.encode(),",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/system-spec-harness/skills/run-skill-feedback/scripts/notion-submit-improvement.py",
+        "line": 84,
+        "excerpt": "stdout=subprocess.PIPE, check=True).stdout.decode()",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/system-spec-harness/skills/run-skill-feedback/scripts/notion-submit-improvement.py",
+        "line": 107,
+        "excerpt": "except (subprocess.CalledProcessError, OSError, ValueError) as e:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/system-spec-harness/skills/run-skill-feedback/scripts/notion-submit-improvement.py",
+        "line": 171,
+        "excerpt": "except (subprocess.CalledProcessError, OSError, ValueError) as e:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/system-spec-harness/skills/run-skill-feedback/scripts/notion_config.py",
+        "line": 280,
+        "excerpt": "out = subprocess.check_output(cmd, text=True, stderr=subprocess.DEVNULL)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/system-spec-harness/skills/run-skill-feedback/scripts/notion_config.py",
+        "line": 282,
+        "excerpt": "except (subprocess.CalledProcessError, FileNotFoundError):",
         "disclosed": true,
         "automatic": false
       },
@@ -127,64 +183,17 @@
         "excerpt": "self.assertEqual(self.bash(\"env -i F=system-spec/spec-state.json sh -c 'cp x $F'\"), 2)",
         "disclosed": true,
         "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/system-spec-harness/hooks/tests/test_guard_confirmed_chapter_overwrite.py",
-        "line": 341,
-        "excerpt": "入れ子 shell 経由 (`env -i F=... sh -c 'cp x $F'`) は bash -c の再帰解析で塞がり、",
-        "disclosed": true,
-        "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/system-spec-harness/hooks/tests/test_record_audit_fork.py",
-        "line": 353,
-        "excerpt": "def _run(self, payload: dict, ledger: Path) -> subprocess.CompletedProcess:",
-        "disclosed": true,
-        "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/system-spec-harness/hooks/tests/test_record_audit_fork.py",
-        "line": 357,
-        "excerpt": "return subprocess.run(",
-        "disclosed": true,
-        "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/system-spec-harness/hooks/tests/test_record_audit_fork.py",
-        "line": 451,
-        "excerpt": "def run_one(index: int) -> subprocess.CompletedProcess:",
-        "disclosed": true,
-        "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/system-spec-harness/hooks/tests/test_record_audit_fork.py",
-        "line": 471,
-        "excerpt": "proc = subprocess.run(",
-        "disclosed": true,
-        "automatic": true
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/system-spec-harness/hooks/tests/test_record_audit_fork.py",
-        "line": 564,
-        "excerpt": "proc = subprocess.run(",
-        "disclosed": true,
-        "automatic": true
       }
     ],
     "findingTotals": {
-      "shell": 20
+      "shell": 26,
+      "browser-secrets": 1
     },
-    "score": 97,
+    "score": 84,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 14,
-    "filesSkipped": 9
+    "filesScanned": 23,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -215,6 +224,12 @@
       "commit": "a4e43429b970183a07ba5ff4ffe23caa26e7a5d4",
       "scannedAt": "2026-11-20T10:39:23.037Z",
       "score": 97,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "45302cb1d6bd0b67ec4cd8e11b5c9fa36caa702d",
+      "scannedAt": "2026-11-24T13:00:25.876Z",
+      "score": 84,
       "rulesVersion": "1.3.0"
     }
   ]

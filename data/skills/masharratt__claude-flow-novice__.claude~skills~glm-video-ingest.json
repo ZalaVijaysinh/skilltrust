@@ -1,0 +1,159 @@
+{
+  "id": "masharratt__claude-flow-novice__.claude~skills~glm-video-ingest",
+  "owner": "masharratt",
+  "repo": "claude-flow-novice",
+  "path": ".claude/skills/glm-video-ingest",
+  "name": "glm-video-ingest",
+  "description": "Ingest a Loom (or public mp4 / local file) screen recording with a video-understanding model (Kimi K2.6 default; z.ai GLM-5V or Gemini optional) and extract a build-ready UI spec: every screen, UI element, and the conditional logic the narrator describes, aligned to Loom's timestamped transcript. Use to reverse-engineer a no-code UI (Softr/WordPress/Bubble/Zapier) into custom code, or any time you need video understanding paired with narration.",
+  "stars": 13,
+  "category": "design",
+  "commit": "83c12d766a25b369d349a8655d9519852b9441c1",
+  "contentHash": "466a6a9692836a3c43bc901170bd51b90fb6f010e70e7dc03a7bbd93a3296859",
+  "repoCreatedAt": "2025-09-23T17:08:17Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-24T13:00:25.876Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/glm-video-ingest/SKILL.md",
+        "line": 42,
+        "excerpt": "./.claude/skills/glm-video-ingest/execute.sh \"https://www.loom.com/share/<id>\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": ".claude/skills/glm-video-ingest/SKILL.md",
+        "line": 78,
+        "excerpt": "| `GOOGLE_API_KEY` | gemini (`generativelanguage.googleapis.com`) |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/glm-video-ingest/execute.sh",
+        "line": 111,
+        "excerpt": "resp=\"$(curl -s -X POST \"https://www.loom.com/api/campaigns/sessions/${id}/transcoded-url\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "www.loom.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/glm-video-ingest/execute.sh",
+        "line": 119,
+        "excerpt": "page=\"$(curl -sL \"https://www.loom.com/share/${id}\" -H 'user-agent: Mozilla/5.0')\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "www.loom.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/glm-video-ingest/execute.sh",
+        "line": 127,
+        "excerpt": "curl -sL \"$vtturl\" -H 'user-agent: Mozilla/5.0'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/glm-video-ingest/execute.sh",
+        "line": 169,
+        "excerpt": "curl -sL \"$VIDEO_URL\" -H 'user-agent: Mozilla/5.0' -o \"$VIDEO_FILE\" || die \"download failed\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/glm-video-ingest/execute.sh",
+        "line": 231,
+        "excerpt": "HTTP=\"$(curl -s --max-time 600 -w '%{http_code}' -o \"$RESP\" -X POST \"$1\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "paid-api",
+        "file": ".claude/skills/glm-video-ingest/execute.sh",
+        "line": 265,
+        "excerpt": "UP=\"$(curl -s -X POST \"https://generativelanguage.googleapis.com/upload/v1beta/files?key=$KEY\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/glm-video-ingest/execute.sh",
+        "line": 265,
+        "excerpt": "UP=\"$(curl -s -X POST \"https://generativelanguage.googleapis.com/upload/v1beta/files?key=$KEY\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "generativelanguage.googleapis.com"
+        ]
+      },
+      {
+        "ruleId": "paid-api",
+        "file": ".claude/skills/glm-video-ingest/execute.sh",
+        "line": 271,
+        "excerpt": "ST=\"$(curl -s \"https://generativelanguage.googleapis.com/v1beta/$FNAME?key=$KEY\" | jq -r '.state')\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/glm-video-ingest/execute.sh",
+        "line": 271,
+        "excerpt": "ST=\"$(curl -s \"https://generativelanguage.googleapis.com/v1beta/$FNAME?key=$KEY\" | jq -r '.state')\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "generativelanguage.googleapis.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/glm-video-ingest/execute.sh",
+        "line": 278,
+        "excerpt": "HTTP=\"$(curl -s --max-time 600 -w '%{http_code}' -o \"$RESP\" -X POST \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "paid-api",
+        "file": ".claude/skills/glm-video-ingest/execute.sh",
+        "line": 279,
+        "excerpt": "\"https://generativelanguage.googleapis.com/v1beta/models/$MODEL:generateContent?key=$KEY\" \\",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 1,
+      "paid-api": 4,
+      "network": 8
+    },
+    "score": 82,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 3,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "83c12d766a25b369d349a8655d9519852b9441c1",
+      "scannedAt": "2026-11-24T13:00:25.876Z",
+      "score": 82,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

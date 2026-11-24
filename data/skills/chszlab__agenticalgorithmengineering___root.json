@@ -5,23 +5,23 @@
   "path": "",
   "name": "AgenticAlgorithmEngineering",
   "description": "",
-  "stars": 36,
-  "category": "other",
-  "commit": "e7265d581987bbf9d7359592c68788940c3ba9d0",
-  "contentHash": "fc36fe62e31d903a89efb82f3462bca4fd93105b81aa58b98cc39a1ce769a26f",
+  "stars": 38,
+  "category": "coding",
+  "commit": "1f6dd6c34d54338c6ecd3862f4e5faa39217dfc0",
+  "contentHash": "c3398bd4b36f2aa198476a27c8d1934beac457c64c24421b81673ac807890908",
   "repoCreatedAt": "2026-03-21T13:32:59Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-12T10:25:14.233Z",
+  "scannedAt": "2026-11-24T13:00:25.876Z",
   "scan": {
     "findings": [
       {
         "ruleId": "network",
         "file": "AAE.md",
-        "line": 263,
+        "line": 264,
         "excerpt": "curl -sL https://raw.githubusercontent.com/CHSZLab/AgenticAlgorithmEngineering/main/templates/report/$f -o report/$f",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": [
           "raw.githubusercontent.com"
@@ -30,28 +30,93 @@
       {
         "ruleId": "network",
         "file": "AAE.md",
-        "line": 359,
+        "line": 360,
         "excerpt": "1. Fetch the index: `curl -sL https://raw.githubusercontent.com/CHSZLab/AgenticAlgorithmEngineering/main/knowledge-base/INDEX.md` and scan titles, problem domai",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": [
           "raw.githubusercontent.com"
         ]
       },
       {
+        "ruleId": "shell",
+        "file": "claude-plugin/skills/aae/SKILL.md",
+        "line": 172,
+        "excerpt": "parallel --jobs 4 --results run_results/ './bench.sh --input {} > logs/run_{}.log 2>&1' ::: input1 input2 input3 input4",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "claude-plugin/skills/aae/SKILL.md",
+        "line": 233,
+        "excerpt": "git format-patch -1 HEAD --stdout > patches/$(printf '%04d' $N)-<short-slug>.patch",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "claude-plugin/skills/aae/SKILL.md",
+        "line": 239,
+        "excerpt": "git checkout <baseline-commit> && git am patches/*.patch",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "claude-plugin/skills/aae/SKILL.md",
+        "line": 283,
+        "excerpt": "(cd report && latexmk -pdf -interaction=nonstopmode report.tex > /dev/null 2>&1) || true",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "examples/quickstart/README.md",
+        "line": 19,
+        "excerpt": "cp -r examples/quickstart ~/aae-quickstart && cd ~/aae-quickstart",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "scripts/build_claude_plugin.py",
+        "line": 149,
+        "excerpt": "for banned in (\"curl \", \"build_report.py\", \"gh repo fork\", \"gh pr create\", \"$aae\"):",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/build_claude_plugin.py",
+        "line": 169,
+        "excerpt": "subprocess.run([sys.executable, str(ROOT / \"templates\" / \"report\" / \"build_report.py\"), str(d)],",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
         "ruleId": "downloads-code",
-        "file": "knowledge-base/022-numba-jit-numerical-computation.md",
-        "line": 78,
-        "excerpt": "Python 3.11, Numba 0.58, NumPy 1.25. Numba requires LLVM (bundled via `llvmlite`). AMD Ryzen 9 5900X (12 cores). `pip install numba`.",
+        "file": "scripts/build_claude_plugin.py",
+        "line": 250,
+        "excerpt": "banned = re.compile(r\"curl |wget |pip3? install|apt(-get)? install|brew install|npm (i|install) |npx |\"",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
-        "file": "knowledge-base/033-cython-c-speed-hot-loops.md",
-        "line": 72,
-        "excerpt": "Python 3.8+, Cython 3.0+, NumPy. Requires a C compiler (GCC/Clang/MSVC). `pip install cython`. Build with `python setup.py build_ext --inplace` or use `pyximpor",
+        "file": "scripts/build_claude_plugin.py",
+        "line": 251,
+        "excerpt": "r\"git clone|gh (repo|pr|auth|api) |conda install|cargo install|go install|^#!\", re.M)",
         "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/build_claude_plugin.py",
+        "line": 264,
+        "excerpt": "diff = subprocess.run([\"diff\", \"-r\", str(tmp), str(OUT)], capture_output=True, text=True)",
+        "disclosed": true,
         "automatic": false
       },
       {
@@ -64,15 +129,16 @@
       }
     ],
     "findingTotals": {
-      "network": 2,
-      "downloads-code": 2,
-      "shell": 1
+      "network": 3,
+      "shell": 7,
+      "writes-outside": 1,
+      "downloads-code": 2
     },
-    "score": 77,
+    "score": 69,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 50,
-    "filesSkipped": 2
+    "filesScanned": 115,
+    "filesSkipped": 10
   },
   "history": [
     {
@@ -91,6 +157,12 @@
       "commit": "e7265d581987bbf9d7359592c68788940c3ba9d0",
       "scannedAt": "2026-11-12T10:25:14.233Z",
       "score": 77,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "1f6dd6c34d54338c6ecd3862f4e5faa39217dfc0",
+      "scannedAt": "2026-11-24T13:00:25.876Z",
+      "score": 69,
       "rulesVersion": "1.3.0"
     }
   ]

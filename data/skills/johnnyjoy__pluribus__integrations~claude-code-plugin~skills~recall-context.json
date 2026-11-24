@@ -1,0 +1,98 @@
+{
+  "id": "johnnyjoy__pluribus__integrations~claude-code-plugin~skills~recall-context",
+  "owner": "johnnyjoy",
+  "repo": "pluribus",
+  "path": "integrations/claude-code-plugin/skills/recall-context",
+  "name": "recall-context",
+  "description": "Retrieve durable Pluribus context before substantive work. Use when editing multiple files, changing APIs or schema, debugging failures, handling security or compliance, or any task needing more than two sentences to explain to a teammate.",
+  "stars": 10,
+  "category": "security",
+  "commit": "e869aa2ba2c4fb78506b9edd55ce7fe1016cbcc6",
+  "contentHash": "8d8a6182e1929635b590d3b45ea6a0e9511416a890cf1fb73734636adfd4997e",
+  "repoCreatedAt": "2026-03-29T14:47:02Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-24T13:00:25.876Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "integrations/claude-code-plugin/hooks/hooks.json",
+        "line": 10,
+        "excerpt": "\"command\": \"bash \\\"${CLAUDE_PLUGIN_ROOT}/hooks/session-start.sh\\\"\"",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "integrations/claude-code-plugin/hooks/hooks.json",
+        "line": 20,
+        "excerpt": "\"command\": \"bash \\\"${CLAUDE_PLUGIN_ROOT}/hooks/user-prompt-recall.sh\\\"\"",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "integrations/claude-code-plugin/hooks/hooks.json",
+        "line": 31,
+        "excerpt": "\"command\": \"bash \\\"${CLAUDE_PLUGIN_ROOT}/hooks/post-tool-failure-hint.sh\\\"\"",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "network",
+        "file": "integrations/claude-code-plugin/hooks/session-start.sh",
+        "line": 15,
+        "excerpt": "if curl -fsS -m 2 \"${BASE}/healthz\" >/dev/null 2>&1; then",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "integrations/claude-code-plugin/hooks/session-start.sh",
+        "line": 48,
+        "excerpt": "if MCP_RESP=$(curl -fsS -m 25 -X POST \"${BASE}/v1/mcp\" \"${HDR[@]}\" -d \"$MCP_BODY\" 2>/dev/null); then",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "integrations/claude-code-plugin/hooks/user-prompt-recall.sh",
+        "line": 32,
+        "excerpt": "RESP=$(curl -fsS -m 12 -X POST \"${BASE}/v1/recall/compile\" \"${HDR[@]}\" -d \"$BODY\" 2>/dev/null) || exit 0",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "integrations/claude-code-plugin/hooks/user-prompt-recall.sh",
+        "line": 48,
+        "excerpt": "CHORE_RESP=$(curl -fsS -m 8 -X GET \"${BASE}/v1/curation/chores?limit=1\" \"${HDR[@]}\" 2>/dev/null) || CHORE_RESP=\"\"",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 3,
+      "network": 4
+    },
+    "score": 90,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 7,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "e869aa2ba2c4fb78506b9edd55ce7fe1016cbcc6",
+      "scannedAt": "2026-11-24T13:00:25.876Z",
+      "score": 90,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

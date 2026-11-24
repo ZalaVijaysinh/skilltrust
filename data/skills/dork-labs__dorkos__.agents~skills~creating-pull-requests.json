@@ -4,22 +4,22 @@
   "repo": "dorkos",
   "path": ".agents/skills/creating-pull-requests",
   "name": "creating-pull-requests",
-  "description": "When to open a pull request in the DorkOS repo (review the pushed branch first, open the PR after it converges), how the automated review behaves (skip-review, review:light/deep, re-review), and how a PR lands through merge-tail and the merge queue, including what to do when it goes red or is ejected. Use when finishing a branch, opening a PR, deciding how much review a PR should get, requesting a re-review, or watching a PR until it merges.",
-  "stars": 12,
+  "description": "When to open a pull request in the DorkOS repo (review the pushed branch first, open the PR after it converges), how the automated review behaves (skip-review, review:light/deep, re-review), and how a PR lands through auto-merge at open and the merge queue, including what to do when it goes red or is ejected. Use when finishing a branch, opening a PR, deciding how much review a PR should get, requesting a re-review, or watching a PR until it merges.",
+  "stars": 11,
   "category": "coding",
-  "commit": "4da51fef983573ad910742d4348724167ae7830e",
-  "contentHash": "6af3dd35bd525e0a1710bd95b3bb216d833f388468dfaf08448343f5fcf38dca",
+  "commit": "ca6291acbf53b9bf2c5718885a859f13aee184f9",
+  "contentHash": "9e4de8f11487450d7ebbf12970fc89ddd569b746a15f84c6e36c2ba283be82eb",
   "repoCreatedAt": "2026-02-12T00:54:36Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-20T10:39:23.037Z",
+  "scannedAt": "2026-11-24T13:00:25.876Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": ".agents/skills/creating-pull-requests/SKILL.md",
-        "line": 91,
+        "line": 84,
         "excerpt": "git fetch origin",
         "disclosed": true,
         "automatic": false
@@ -27,7 +27,7 @@
       {
         "ruleId": "shell",
         "file": ".agents/skills/creating-pull-requests/SKILL.md",
-        "line": 168,
+        "line": 163,
         "excerpt": "python3 .claude/scripts/changelog_backfill.py --since \"$(git merge-base origin/main HEAD)\" --validate --changed-only",
         "disclosed": true,
         "automatic": false
@@ -35,23 +35,15 @@
       {
         "ruleId": "shell",
         "file": ".agents/skills/creating-pull-requests/SKILL.md",
-        "line": 241,
-        "excerpt": "gh pr create --title \"<type>(<scope>): <summary>\" --body \"<body>\"",
+        "line": 230,
+        "excerpt": "scripts/open-pr.sh --title \"<type>(<scope>): <summary>\" --body-file <file> \\",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": ".agents/skills/creating-pull-requests/SKILL.md",
-        "line": 251,
-        "excerpt": "gh pr create --draft --title \"<type>(<scope>): <summary>\" --body \"<body>\"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": ".agents/skills/creating-pull-requests/SKILL.md",
-        "line": 366,
+        "line": 360,
         "excerpt": "gh workflow run claude-code-review.yml -f pr=<number>",
         "disclosed": true,
         "automatic": false
@@ -59,15 +51,7 @@
       {
         "ruleId": "shell",
         "file": ".agents/skills/creating-pull-requests/SKILL.md",
-        "line": 411,
-        "excerpt": "gh pr create --draft --label review:light --title \"...\" --body \"...\"",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": ".agents/skills/creating-pull-requests/SKILL.md",
-        "line": 421,
+        "line": 412,
         "excerpt": "gh pr edit <number> --add-label re-review",
         "disclosed": true,
         "automatic": false
@@ -75,15 +59,15 @@
       {
         "ruleId": "shell",
         "file": ".agents/skills/creating-pull-requests/SKILL.md",
-        "line": 452,
-        "excerpt": "gh pr merge --auto <number>",
+        "line": 448,
+        "excerpt": "gh pr merge --auto <number>   # only in those three cases, once",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": ".agents/skills/creating-pull-requests/SKILL.md",
-        "line": 495,
+        "line": 491,
         "excerpt": "bash scripts/worktree-janitor.sh          # what would go, and why",
         "disclosed": true,
         "automatic": false
@@ -91,7 +75,7 @@
       {
         "ruleId": "shell",
         "file": ".agents/skills/creating-pull-requests/SKILL.md",
-        "line": 533,
+        "line": 529,
         "excerpt": "gh api repos/{owner}/{repo}/rules/branches/main \\",
         "disclosed": true,
         "automatic": false
@@ -99,7 +83,7 @@
       {
         "ruleId": "shell",
         "file": ".agents/skills/creating-pull-requests/SKILL.md",
-        "line": 579,
+        "line": 578,
         "excerpt": "gh pr view <number> --json state --jq .state   # OPEN until MERGED/CLOSED — says NOTHING about a failed check",
         "disclosed": true,
         "automatic": false
@@ -107,7 +91,7 @@
       {
         "ruleId": "shell",
         "file": ".agents/skills/creating-pull-requests/SKILL.md",
-        "line": 589,
+        "line": 588,
         "excerpt": "gh pr checks <number>                                   # one bucket per check: pass | fail | pending | skipping",
         "disclosed": true,
         "automatic": false
@@ -115,7 +99,7 @@
       {
         "ruleId": "shell",
         "file": ".agents/skills/creating-pull-requests/SKILL.md",
-        "line": 605,
+        "line": 604,
         "excerpt": ".agents/skills/creating-pull-requests/scripts/watch-prs.sh --interval 120 <number> [<number>...]",
         "disclosed": true,
         "automatic": false
@@ -123,7 +107,7 @@
       {
         "ruleId": "shell",
         "file": ".agents/skills/creating-pull-requests/SKILL.md",
-        "line": 751,
+        "line": 793,
         "excerpt": "PR_ID=$(gh pr view <number> --json id --jq .id)",
         "disclosed": true,
         "automatic": false
@@ -131,7 +115,7 @@
       {
         "ruleId": "shell",
         "file": ".agents/skills/creating-pull-requests/SKILL.md",
-        "line": 799,
+        "line": 841,
         "excerpt": "gh label create skip-review  --description \"Skip the automated Claude review\"      --color ededed",
         "disclosed": true,
         "automatic": false
@@ -139,14 +123,22 @@
       {
         "ruleId": "shell",
         "file": ".agents/skills/creating-pull-requests/SKILL.md",
-        "line": 832,
+        "line": 874,
         "excerpt": "./node_modules/.bin/prettier --write <changed-files-under-the-worktree>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/creating-pull-requests/scripts/test-watch-prs.sh",
+        "line": 585,
+        "excerpt": "os.execvp(sys.argv[1], sys.argv[1:])",
         "disclosed": true,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 16
+      "shell": 15
     },
     "score": 97,
     "band": "low",
@@ -176,6 +168,12 @@
     {
       "commit": "4da51fef983573ad910742d4348724167ae7830e",
       "scannedAt": "2026-11-20T10:39:23.037Z",
+      "score": 97,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "ca6291acbf53b9bf2c5718885a859f13aee184f9",
+      "scannedAt": "2026-11-24T13:00:25.876Z",
       "score": 97,
       "rulesVersion": "1.3.0"
     }
