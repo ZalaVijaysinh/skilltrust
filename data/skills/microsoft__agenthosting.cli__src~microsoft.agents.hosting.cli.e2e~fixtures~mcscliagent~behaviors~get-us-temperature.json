@@ -4,30 +4,81 @@
   "repo": "AgentHosting.Cli",
   "path": "src/Microsoft.Agents.Hosting.Cli.E2E/fixtures/MCSCliAgent/behaviors/get-us-temperature",
   "name": "get-us-temperature",
-  "description": "",
-  "stars": 12,
+  "description": "MD2-162228 - Get the current observed temperature for any city or town in the United States. Use when the user asks for the current temperature, how hot or cold it is, or the temperature in a US city, e.g. \"what is the temperature in Seattle\" or \"how cold is it in Austin right now\".",
+  "stars": 17,
   "category": "other",
-  "commit": "ec0336f0dcda1d270899763dc446915ebebb09cc",
+  "commit": "d43667602a1905f339d01f5df5e8977f670b074f",
   "contentHash": "4252db85d3fdc1c672a60f26a3e83d07ff2661c1a5b75e1d2815006e49799b1e",
   "repoCreatedAt": "2026-10-05T21:43:46Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-20T10:39:23.037Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-25T11:49:36.262Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "src/Microsoft.Agents.Hosting.Cli.E2E/fixtures/MCSCliAgent/behaviors/get-us-temperature/scripts/Get-UsTemperature.ps1",
+        "line": 28,
+        "excerpt": "$pointMetadata = Invoke-RestMethod -Uri \"https://api.weather.gov/points/$($location.latitude),$($location.longitude)\" -Headers $headers",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.weather.gov"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "src/Microsoft.Agents.Hosting.Cli.E2E/fixtures/MCSCliAgent/behaviors/get-us-temperature/scripts/Get-UsTemperature.ps1",
+        "line": 29,
+        "excerpt": "$observationStations = Invoke-RestMethod -Uri $pointMetadata.properties.observationStations -Headers $headers",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "src/Microsoft.Agents.Hosting.Cli.E2E/fixtures/MCSCliAgent/behaviors/get-us-temperature/scripts/Get-UsTemperature.ps1",
+        "line": 35,
+        "excerpt": "$stationObservation = Invoke-RestMethod -Uri \"https://api.weather.gov/stations/$stationIdentifier/observations/latest\" -Headers $headers",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.weather.gov"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "src/Microsoft.Agents.Hosting.Cli.E2E/fixtures/MCSCliAgent/behaviors/get-us-temperature/scripts/Resolve-UsTemperatureLocation.ps1",
+        "line": 36,
+        "excerpt": "$geocodingResponse = Invoke-RestMethod -Uri \"https://geocoding-api.open-meteo.com/v1/search?name=$([uri]::EscapeDataString($City))&count=10&language=en&format=j",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "geocoding-api.open-meteo.com"
+        ]
+      }
+    ],
+    "findingTotals": {
+      "network": 4
+    },
+    "score": 95,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 10
+    "filesScanned": 10,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "ec0336f0dcda1d270899763dc446915ebebb09cc",
       "scannedAt": "2026-11-20T10:39:23.037Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "d43667602a1905f339d01f5df5e8977f670b074f",
+      "scannedAt": "2026-11-25T11:49:36.262Z",
+      "score": 95,
       "rulesVersion": "1.3.0"
     }
   ]

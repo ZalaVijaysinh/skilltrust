@@ -5,15 +5,15 @@
   "path": "skills/skill-upper",
   "name": "skill-upper",
   "description": "Capture and review Agent Skill observations, and create, run, diagnose, or iteratively improve Skill evaluations (evals) with the skill-up CLI. Use when the user asks to record explicitly attributed Skill usage or feedback; review observations or user-supplied traces/transcripts; turn an approved observation into a regression case; evaluate, test, regress, verify, fix, improve, iterate, or evolve a Skill; add or strengthen eval cases; write eval.yaml/case.yaml; run skill-up run/validate/list-cases/report/import/init; or migrate from Anthropic evals.json. Plugin observation capture/review require either the Codex skill-up plugin or an observer-enabled DSH skill-up plugin. User-supplied external evidence can be reviewed without a plugin; evaluation remains multi-engine.",
-  "stars": 1508,
+  "stars": 1520,
   "category": "other",
-  "commit": "af7adbb312e856ab13f2825c1049cbef20d48d64",
-  "contentHash": "214d8030d33ca0d0b1152637375212bd74aef0870081b455aaf293bcc0d0a4e6",
+  "commit": "5127b0d998d146a1e32ddbb6e0c6e9f89e371e75",
+  "contentHash": "5d861be62c70cc5f3e3e53f4d0110f38ce7f837f7bc534728ea7d4a4adeca5b1",
   "repoCreatedAt": "2026-05-09T10:09:28Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-21T10:21:16.775Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-25T11:49:36.262Z",
   "scan": {
     "findings": [
       {
@@ -128,18 +128,230 @@
         "excerpt": "its dependencies with `python3 -m pip install -r evals/requirements.txt` from the",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/skill-upper/evals/fixtures/scripts/assert-credential-presence.sh",
+        "line": 601,
+        "excerpt": "result = subprocess.run(argv, cwd=root, env=env, text=True, capture_output=True, timeout=10)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/skill-upper/evals/fixtures/scripts/assert-localized-regressions.sh",
+        "line": 316,
+        "excerpt": "validation = subprocess.run([\"skill-up\", \"validate\", \"evals/eval.yaml\"], text=True, capture_output=True, timeout=20)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/skill-upper/evals/fixtures/scripts/assert-localized-regressions.sh",
+        "line": 318,
+        "excerpt": "result = subprocess.run([\"skill-up\", \"list-cases\", \"evals/eval.yaml\"], text=True, errors=\"replace\", capture_output=True, timeout=20)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/skill-upper/evals/test_regression_scripts.py",
+        "line": 32,
+        "excerpt": "result = subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/skill-upper/evals/test_regression_scripts.py",
+        "line": 160,
+        "excerpt": "self.check_command('assert-credential-presence.sh', 'bash -c \\'\"$1\" run evals/eval.yaml\\' ignored skill-up', False, 'positional shell')",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/skill-upper/evals/test_regression_scripts.py",
+        "line": 161,
+        "excerpt": "self.check_command('assert-read-only-plan.sh', 'bash -c \\'cat SKILL.md\\' ignored', True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/skill-upper/evals/test_regression_scripts.py",
+        "line": 162,
+        "excerpt": "self.check_command('assert-localized-regressions.sh', 'bash -c \\'skill-up run evals/eval.yaml\\' ignored', False, 'launched an evaluation')",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/skill-upper/evals/test_regression_scripts.py",
+        "line": 166,
+        "excerpt": "('assert-credential-presence.sh', \"bash -c 'echo ready' ignored; printenv OPENAI_API_KEY | cut -c 1\"),",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/skill-upper/evals/test_regression_scripts.py",
+        "line": 167,
+        "excerpt": "('assert-credential-presence.sh', \"bash -c 'echo ready' ignored \\\"$OPENAI_API_KEY\\\"\"),",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/skill-upper/evals/test_regression_scripts.py",
+        "line": 168,
+        "excerpt": "('assert-read-only-plan.sh', \"bash -c 'cat SKILL.md' ignored; touch /tmp/outside-fixture\"),",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/skill-upper/evals/test_regression_scripts.py",
+        "line": 169,
+        "excerpt": "('assert-localized-regressions.sh', \"bash -c 'echo ready' ignored; skill-up run evals/eval.yaml\"),",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/skill-upper/evals/test_regression_scripts.py",
+        "line": 170,
+        "excerpt": "('assert-credential-presence.sh', \"bash -c 'echo ready' ignored\\nprintenv OPENAI_API_KEY | cut -c 1\"),",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/skill-upper/evals/test_regression_scripts.py",
+        "line": 175,
+        "excerpt": "self.check_command('assert-credential-presence.sh', \"bash -c 'printenv OPENAI_API_KEY | grep -q .' 'ignored;label'\", True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/skill-upper/evals/test_regression_scripts.py",
+        "line": 189,
+        "excerpt": "for command in (\"env bash -c 'printenv OPENAI_API_KEY | cut -c 1'\", \"nice bash -c 'skill-up run evals/eval.yaml'\", \"nohup sh -c 'printenv OPENAI_API_KEY | cut -",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/skill-upper/references/eval-yaml.md",
+        "line": 124,
+        "excerpt": "- run: npm install -g typescript",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/skill-upper/references/install.md",
+        "line": 15,
+        "excerpt": "curl -fsSL https://raw.githubusercontent.com/alibaba/skill-up/main/install.sh | bash",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/skill-upper/references/install.md",
+        "line": 15,
+        "excerpt": "curl -fsSL https://raw.githubusercontent.com/alibaba/skill-up/main/install.sh | bash",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "raw.githubusercontent.com"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/skill-upper/references/install.md",
+        "line": 25,
+        "excerpt": "curl -fsSL https://raw.githubusercontent.com/alibaba/skill-up/main/install.sh | bash",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/skill-upper/references/install.md",
+        "line": 25,
+        "excerpt": "curl -fsSL https://raw.githubusercontent.com/alibaba/skill-up/main/install.sh | bash",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "raw.githubusercontent.com"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/skill-upper/references/install.md",
+        "line": 29,
+        "excerpt": "curl -fsSL https://raw.githubusercontent.com/alibaba/skill-up/main/install.sh | bash",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/skill-upper/references/install.md",
+        "line": 29,
+        "excerpt": "curl -fsSL https://raw.githubusercontent.com/alibaba/skill-up/main/install.sh | bash",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "raw.githubusercontent.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/skill-upper/references/install.md",
+        "line": 56,
+        "excerpt": "curl -fL \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/skill-upper/references/install.md",
+        "line": 102,
+        "excerpt": "curl -fL \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/skill-upper/references/install.md",
+        "line": 135,
+        "excerpt": "echo 'export PATH=\"$HOME/.local/bin:$PATH\"' >> ~/.zshrc",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/skill-upper/references/install.md",
+        "line": 142,
+        "excerpt": "echo 'export PATH=\"$HOME/.local/bin:$PATH\"' >> ~/.bashrc",
+        "disclosed": true,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 6,
-      "downloads-code": 4,
-      "network": 3
+      "shell": 22,
+      "downloads-code": 8,
+      "network": 8,
+      "writes-outside": 2
     },
-    "score": 77,
+    "score": 72,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 10,
-    "filesSkipped": 27
+    "filesScanned": 37,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -170,6 +382,12 @@
       "commit": "af7adbb312e856ab13f2825c1049cbef20d48d64",
       "scannedAt": "2026-11-19T10:50:00.942Z",
       "score": 77,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "5127b0d998d146a1e32ddbb6e0c6e9f89e371e75",
+      "scannedAt": "2026-11-25T11:49:36.262Z",
+      "score": 72,
       "rulesVersion": "1.3.0"
     }
   ]

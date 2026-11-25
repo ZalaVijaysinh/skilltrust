@@ -5,15 +5,15 @@
   "path": "skills/ezviz-open-multimodal-analysis",
   "name": "ezviz-multimodal-analysis",
   "description": "萤石多模态理解技能。通过设备抓图 + 智能体分析接口，实现对摄像头画面的 AI 理解分析。\nUse when: 需要对监控画面进行智能分析、场景识别、行为理解、物体检测等多模态 AI 分析任务。\n\n⚠️ 安全要求：必须设置 EZVIZ_APP_KEY 和 EZVIZ_APP_SECRET 环境变量，使用最小权限凭证。",
-  "stars": 2210,
+  "stars": 2224,
   "category": "coding",
-  "commit": "90f95204adef528b4248213d7d78e0b62af4c497",
+  "commit": "930c34b923146c137b86190a97b67d86f5ae454b",
   "contentHash": "bea373dc0fb9cb8763afd789c8116b811fc1072fac1ef8fe7703cdcd4980bf80",
   "repoCreatedAt": "2026-03-02T02:02:25Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-20T10:39:23.037Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-25T11:49:36.262Z",
   "scan": {
     "findings": [
       {
@@ -129,6 +129,14 @@
         "automatic": false
       },
       {
+        "ruleId": "reads-secrets",
+        "file": "skills/ezviz-open-multimodal-analysis/SKILL.md",
+        "line": 647,
+        "excerpt": "source .env",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
         "ruleId": "shell",
         "file": "skills/ezviz-open-multimodal-analysis/SKILL.md",
         "line": 655,
@@ -159,17 +167,46 @@
         "excerpt": "*/5 * * * * cd /path/to/multimodal-analysis && python3 scripts/multimodal_analysis.py >> /var/log/analysis.log 2>&1",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/ezviz-open-multimodal-analysis/lib/token_manager.py",
+        "line": 204,
+        "excerpt": "response = requests.post(",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/ezviz-open-multimodal-analysis/scripts/multimodal_analysis.py",
+        "line": 150,
+        "excerpt": "response = requests.post(DEVICE_CAPTURE_API_URL, headers=headers, data=data, timeout=30)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/ezviz-open-multimodal-analysis/scripts/multimodal_analysis.py",
+        "line": 193,
+        "excerpt": "response = requests.post(AGENT_ANALYSIS_API_URL, headers=headers, json=payload, timeout=60)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
       }
     ],
     "findingTotals": {
       "shell": 17,
-      "downloads-code": 1
+      "downloads-code": 1,
+      "reads-secrets": 1,
+      "network": 3
     },
-    "score": 80,
-    "band": "low",
+    "score": 65,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 2,
-    "filesSkipped": 3
+    "filesScanned": 5,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -194,6 +231,12 @@
       "commit": "90f95204adef528b4248213d7d78e0b62af4c497",
       "scannedAt": "2026-11-20T10:39:23.037Z",
       "score": 80,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "930c34b923146c137b86190a97b67d86f5ae454b",
+      "scannedAt": "2026-11-25T11:49:36.262Z",
+      "score": 65,
       "rulesVersion": "1.3.0"
     }
   ]

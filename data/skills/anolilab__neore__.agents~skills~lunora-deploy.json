@@ -4,30 +4,95 @@
   "repo": "neore",
   "path": ".agents/skills/lunora-deploy",
   "name": "lunora-deploy",
-  "description": "",
+  "description": "Deploys a Lunora app to Cloudflare Workers + Durable Objects and gets wrangler.jsonc, remote resources and secrets to line up. Covers `lunora deploy` (and `--env`, `--dry-run`, `--migrate`), isolated per-PR previews (`lunora preview deploy | list | delete`), the `lunora doctor` / `lunora verify` / `lunora prepare` preflights, Durable Object bindings (SHARD, SHARD_REGISTRY, SCHEDULER), the `DB` D1 binding and its placeholder id, R2 buckets, production secrets (`lunora env push`, `wrangler secret put`) versus `.dev.vars`, the schema-drift gate, the architecture diff, and rollback with `lunora cloudflare deployments`. Use when the user asks to \"deploy\", \"ship to production\", \"set up a staging environment\", wire CI deploys, or when a deploy fails on a binding, a placeholder `database_id`, an unexported Durable Object class, a missing secret, or \"schema drift gate blocked deploy\".",
   "stars": 14,
-  "category": "coding",
-  "commit": "936d31f75ea59a51d2c86b559264883ee48bb421",
+  "category": "devops",
+  "commit": "9446fe2fd978d8e6c902b48ddb7e426024d953aa",
   "contentHash": "b4ab7a6e2cc3c5d000c3bbd141b5b166e8f3798d1d473f9f5efa697f1050a3aa",
   "repoCreatedAt": "2025-06-08T18:54:04Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-21T10:21:16.775Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-25T11:49:36.262Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/lunora-deploy/SKILL.md",
+        "line": 82,
+        "excerpt": "lunora deploy --migrate --migrate-yes --migrate-url https://app.example.com",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/lunora-deploy/SKILL.md",
+        "line": 91,
+        "excerpt": "lunora preview deploy 123 --seed      # own Worker + DO namespace + D1/KV/R2, migrated, seeded",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/lunora-deploy/SKILL.md",
+        "line": 123,
+        "excerpt": "lunora doctor                 # read-only; exits 1 on any FAIL, WARN/INFO don't block",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/lunora-deploy/SKILL.md",
+        "line": 166,
+        "excerpt": "wrangler d1 create my-app              # paste the returned database_id into wrangler.jsonc",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/lunora-deploy/SKILL.md",
+        "line": 180,
+        "excerpt": "lunora env diff --env production        # keys local-only vs set remotely",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/lunora-deploy/SKILL.md",
+        "line": 216,
+        "excerpt": "wrangler d1 execute DB --remote --file=lunora/migrations/<file>.sql",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/lunora-deploy/SKILL.md",
+        "line": 224,
+        "excerpt": "lunora cloudflare deployments list",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 7
+    },
+    "score": 95,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 1
+    "filesScanned": 1,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "936d31f75ea59a51d2c86b559264883ee48bb421",
       "scannedAt": "2026-11-21T10:21:16.775Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "9446fe2fd978d8e6c902b48ddb7e426024d953aa",
+      "scannedAt": "2026-11-25T11:49:36.262Z",
+      "score": 95,
       "rulesVersion": "1.3.0"
     }
   ]

@@ -4,35 +4,116 @@
   "repo": "skills",
   "path": "skills/tao-run-automl",
   "name": "tao-run-automl",
-  "description": "",
-  "stars": 4095,
+  "description": "Run container-backed AutoML / hyperparameter optimization (HPO) for NVIDIA TAO networks using AutoMLRunner. Handles algorithm",
+  "stars": 4147,
   "category": "coding",
-  "commit": "6b75e9e3c9737a4985ab87462d2ecb02d5b2ada7",
-  "contentHash": "12aa4e00542bc4ce180ec49224f37c18fd2095d7352078e9f648cac711e061c3",
+  "commit": "a79ed3dca393fd894ddfb907f4b5e70a4098ec80",
+  "contentHash": "e8bace8dee05f8a82e5de53f8cd242d25c7bbdf85e788d28f78a2196a5f7e81d",
   "repoCreatedAt": "2026-02-25T21:54:05Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-20T10:39:23.037Z",
+  "scannedAt": "2026-11-25T11:49:36.262Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
-        "file": "skills/tao-run-automl/tests/test_resolve_automl_session.py",
-        "line": 99,
-        "excerpt": "result = subprocess.run(",
+        "file": "skills/tao-run-automl/SKILL.md",
+        "line": 83,
+        "excerpt": "python -c \"import tao_automl; from tao_automl.runner import AutoMLRunner; print('OK')\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-automl/SKILL.md",
+        "line": 95,
+        "excerpt": "SB=\"${TAO_SKILL_BANK_PATH:-~/tao-skill-bank}\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/tao-run-automl/SKILL.md",
+        "line": 96,
+        "excerpt": "pip install \"$($SB/scripts/resolve_versions_key.py wheels.tao_automl_<platform>)\"",
         "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-automl/cards/00-preflight.md",
+        "line": 5,
+        "excerpt": "bash -c 'grep -h \"ok$\\|FAIL$\" $RD/progress.log 2>/dev/null | tail -3; echo \"---GATE-END---\"'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-automl/cards/00-preflight.md",
+        "line": 21,
+        "excerpt": "bash -c 'docker image inspect $TRAIN_IMG --format \"image OK: {{.Id}}\" | head -1 && nvidia-smi --query-gpu=name,memory.total --format=csv,noheader && { [ -s \"$BA",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-automl/cards/00-preflight.md",
+        "line": 27,
+        "excerpt": "bash -c 'grep -m1 \"automl_enabled\" $SB/skills/models/tao-train-visual-changenet/references/skill_info.yaml; $VENV/bin/python3 -c \"import json;json.load(open(\\\"$",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-automl/cards/00-preflight.md",
+        "line": 33,
+        "excerpt": "bash -c 'mkdir -p $RD/{runner,review,baseline,automl_workspace}; touch $RD/commands.log; [ -f $RD/state.json ] || echo \"{}\" > $RD/state.json; echo \"preflight ok",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-automl/cards/10-baseline-eval.md",
+        "line": 10,
+        "excerpt": "bash -c 'grep -h \"baseline_eval ok\" $RD/progress.log 2>/dev/null | tail -1; [ -f $RD/baseline/BASELINE_JOB_DONE ] && echo MARKER_DONE; [ -f $RD/baseline/job.pid",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-automl/cards/10-baseline-eval.md",
+        "line": 22,
+        "excerpt": "bash -c 'cp $WS/specs/baseline_spec.yaml $RD/baseline/baseline_lr0_spec.yaml && sed -i -E -e \"0,/^results_dir:/s|^results_dir:.*|results_dir: /results|\" -e \"s|^",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-automl/cards/10-baseline-eval.md",
+        "line": 28,
+        "excerpt": "bash -c 'printf \"#!/bin/bash\\ndocker run --rm --gpus all --shm-size=8g -v $WS:/data/workspace -v $RD/baseline:/results -v $WS/kpi/images:/data/datasets/NV_PCB_S",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/tao-run-automl/cards/10-baseline-eval.md",
+        "line": 34,
+        "excerpt": "bash -c 'set -e; tail -2 $RD/baseline/train.log | grep -q \"Execution status: PASS\" || { echo \"baseline_eval FAIL\" >> $RD/progress.log; exit 0; }; $VENV/bin/pyth",
+        "disclosed": true,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 1
+      "shell": 10,
+      "downloads-code": 1
     },
-    "score": 95,
+    "score": 82,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 3,
-    "filesSkipped": 23
+    "filesScanned": 6,
+    "filesSkipped": 20
   },
   "history": [
     {
@@ -63,6 +144,12 @@
       "commit": "6b75e9e3c9737a4985ab87462d2ecb02d5b2ada7",
       "scannedAt": "2026-11-20T10:39:23.037Z",
       "score": 95,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "a79ed3dca393fd894ddfb907f4b5e70a4098ec80",
+      "scannedAt": "2026-11-25T11:49:36.262Z",
+      "score": 82,
       "rulesVersion": "1.3.0"
     }
   ]

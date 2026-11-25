@@ -7,13 +7,13 @@
   "description": "Domain-agnostic cross-model review gate: run a planning markdown (PLAN gate) or a branch/PR diff (DIFF gate) through INDEPENDENT external reviewers via scripts/independent_review.sh — the standard pair (Codex + your signed-in ollama-cloud model) runs automatically; Antigravity/Gemini only on explicit opt-in, its credits are scarce. Consolidates a ranked BUG/RISK/NIT list and BLOCKS until every BUG is fixed, refuted, or owner-deferred (only a BUG the change did not introduce), and every RISK/NIT is fixed, refuted, or owner-waived; first use runs a guided onboarding wizard. Use BEFORE building from any non-trivial plan, BEFORE merging any non-trivial PR, and whenever asked for a \"codex review\", \"gemini review\", \"antigravity review\", \"agy review\", \"adversarial review\", \"cross-model review\", \"independent review\", \"get a second model to review\", \"review before I merge\", \"which review tool should I use\", or to \"set up AI code review\" / \"set up codex, ollama, or antigravity for review\".",
   "stars": 11,
   "category": "coding",
-  "commit": "b07d04f3a71956012cfd912fd00e3b8ddbdcfabf",
-  "contentHash": "413281292cd931b2cc5eb785ea46dcb67410a4161efa6ab02e8a07f7a94cedf8",
+  "commit": "af7bdfdee2522242d2ad8166a1a44a254243e432",
+  "contentHash": "cf9f4add24b6163ab0554928ea4fbf224d19fac92851b3f4d9cda42bd4524aa1",
   "repoCreatedAt": "2026-06-18T20:42:45Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-20T10:39:23.037Z",
+  "scannedAt": "2026-11-25T11:49:36.262Z",
   "scan": {
     "findings": [
       {
@@ -149,7 +149,7 @@
       {
         "ruleId": "network",
         "file": "skills/independent-review/scripts/independent_review.sh",
-        "line": 1630,
+        "line": 1639,
         "excerpt": "| curl -sS --max-time \"${OLLAMA_API_TIMEOUT:-1800}\" -o \"$resp\" -w '%{http_code}' \\",
         "disclosed": false,
         "automatic": false,
@@ -158,8 +158,8 @@
       {
         "ruleId": "network",
         "file": "skills/independent-review/scripts/independent_review.sh",
-        "line": 1736,
-        "excerpt": "| curl -sS --max-time \"${MELIOUS_API_TIMEOUT:-3600}\" -o \"$resp\" -w '%{http_code}' \\",
+        "line": 1754,
+        "excerpt": "| curl -sS --max-time \"${MELIOUS_API_TIMEOUT:-3600}\" --speed-limit \"$spd\" --speed-time \"$spt\" -o \"$resp\" -w '%{http_code}' \\",
         "disclosed": false,
         "automatic": false,
         "hosts": []
@@ -191,7 +191,15 @@
       {
         "ruleId": "shell",
         "file": "skills/independent-review/scripts/test_base_check.sh",
-        "line": 138,
+        "line": 128,
+        "excerpt": "check \"T3p ... by the base check, quoting the line and naming --evidence\" sh -c 'grep -qF \"text after the last hunk\" \"$1.err\" && grep -qF \"Reviewer note: all of",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/independent-review/scripts/test_base_check.sh",
+        "line": 175,
         "excerpt": "check \"T3r: the printed git command was found and exits 0\" sh -c '[ -s \"$1.cmd\" ] && [ \"$(cat \"$1-git.rc\")\" = 0 ]' _ \"$T/t3r\"",
         "disclosed": false,
         "automatic": false
@@ -199,7 +207,7 @@
       {
         "ruleId": "shell",
         "file": "skills/independent-review/scripts/test_base_check.sh",
-        "line": 168,
+        "line": 205,
         "excerpt": "g \"$R/w\" remote set-url origin \"ext::sh -c touch% $T/fetched\"",
         "disclosed": false,
         "automatic": false
@@ -207,7 +215,7 @@
       {
         "ruleId": "shell",
         "file": "skills/independent-review/scripts/test_base_check.sh",
-        "line": 219,
+        "line": 256,
         "excerpt": "sh -c 'grep -q \"^similarity index 100%\" \"$1\" && grep -q \"^rename from r80\" \"$1\" && grep -q \"^new mode 100755\" \"$1\" && grep -q \"^diff --git \\\"a/t\" \"$1\"' _ \"$T/t4",
         "disclosed": false,
         "automatic": false
@@ -215,7 +223,7 @@
       {
         "ruleId": "shell",
         "file": "skills/independent-review/scripts/test_base_check.sh",
-        "line": 233,
+        "line": 270,
         "excerpt": "sh -c 'grep -q \"^rename to \\\"\" \"$1\" && grep -q \"^new file mode 120000\" \"$1\" && grep -q \"^new file mode 100644\" \"$1\" && grep -q \"^Binary files a/bin2.dat and /de",
         "disclosed": false,
         "automatic": false
@@ -223,7 +231,7 @@
       {
         "ruleId": "shell",
         "file": "skills/independent-review/scripts/test_base_check.sh",
-        "line": 239,
+        "line": 276,
         "excerpt": "check \"T5 a symlink's target edited by hand (in a binary/symlink swap): refused\" sh -c 'grep -q \"^2$\" \"$1.rc\" && grep -qF \"headers match the base, but\" \"$1.err\"",
         "disclosed": false,
         "automatic": false
@@ -231,7 +239,7 @@
       {
         "ruleId": "shell",
         "file": "skills/independent-review/scripts/test_base_check.sh",
-        "line": 246,
+        "line": 283,
         "excerpt": "check \"T5 ... by the content step, naming the file\" sh -c 'grep -qF \"headers match the base, but\" \"$1.err\" && grep -qF \"ws.txt\" \"$1.err\"' _ \"$T/t5w\"",
         "disclosed": false,
         "automatic": false
@@ -239,7 +247,7 @@
       {
         "ruleId": "shell",
         "file": "skills/independent-review/scripts/test_base_check.sh",
-        "line": 249,
+        "line": 286,
         "excerpt": "check \"T5 a new-file record cut before its index line: refused\" sh -c 'grep -q \"^2$\" \"$1.rc\" && grep -qF \"no index line\" \"$1.err\"' _ \"$T/t5cut\"",
         "disclosed": false,
         "automatic": false
@@ -247,7 +255,7 @@
       {
         "ruleId": "shell",
         "file": "skills/independent-review/scripts/test_base_check.sh",
-        "line": 252,
+        "line": 289,
         "excerpt": "check \"T5 a record whose hunks were cut off: refused\" sh -c 'grep -q \"^2$\" \"$1.rc\" && grep -qF \"headers match the base, but\" \"$1.err\"' _ \"$T/t5nohunk\"",
         "disclosed": false,
         "automatic": false
@@ -255,7 +263,7 @@
       {
         "ruleId": "shell",
         "file": "skills/independent-review/scripts/test_base_check.sh",
-        "line": 261,
+        "line": 298,
         "excerpt": "check \"T5 a text record relabelled as binary: refused\" sh -c 'grep -q \"^2$\" \"$1.rc\" && grep -qF \"  dash.txt: the diff marks it binary, but git shows its content",
         "disclosed": false,
         "automatic": false
@@ -263,7 +271,7 @@
       {
         "ruleId": "shell",
         "file": "skills/independent-review/scripts/test_base_check.sh",
-        "line": 264,
+        "line": 301,
         "excerpt": "check \"T5 a deleted text file relabelled as binary: refused\" sh -c 'grep -q \"^2$\" \"$1.rc\" && grep -qF \"  del.txt: the diff marks it binary, but git shows its co",
         "disclosed": false,
         "automatic": false
@@ -271,7 +279,7 @@
       {
         "ruleId": "shell",
         "file": "skills/independent-review/scripts/test_base_check.sh",
-        "line": 268,
+        "line": 305,
         "excerpt": "check \"T5 a rename marked binary, from a deleted binary file to a new text one: refused\" sh -c 'grep -q \"^2$\" \"$1.rc\" && grep -qF \"  new.txt: the diff marks it ",
         "disclosed": false,
         "automatic": false
@@ -279,7 +287,7 @@
       {
         "ruleId": "shell",
         "file": "skills/independent-review/scripts/test_base_check.sh",
-        "line": 271,
+        "line": 308,
         "excerpt": "check \"T4 a real binary record on its own, made with --binary: runs\" sh -c 'grep -q \"^GIT binary patch\" \"$1.diff\" && grep -q \"^0$\" \"$1.rc\"' _ \"$T/t4bin\"",
         "disclosed": false,
         "automatic": false
@@ -287,7 +295,7 @@
       {
         "ruleId": "shell",
         "file": "skills/independent-review/scripts/test_base_check.sh",
-        "line": 274,
+        "line": 311,
         "excerpt": "check \"T5 diff.renames=copies writes a copy record: refused\" sh -c 'grep -q \"^2$\" \"$1.rc\" && grep -qF \"copy record\" \"$1.err\"' _ \"$T/t5copies\"",
         "disclosed": false,
         "automatic": false
@@ -295,7 +303,7 @@
       {
         "ruleId": "shell",
         "file": "skills/independent-review/scripts/test_base_check.sh",
-        "line": 313,
+        "line": 350,
         "excerpt": "check \"T5 colour codes: refused\" sh -c 'grep -q \"^2$\" \"$1.rc\" && grep -qF \"colour codes\" \"$1.err\"' _ \"$T/t5col\"",
         "disclosed": false,
         "automatic": false
@@ -303,7 +311,7 @@
       {
         "ruleId": "shell",
         "file": "skills/independent-review/scripts/test_base_check.sh",
-        "line": 316,
+        "line": 353,
         "excerpt": "check \"T5 diff --cc: refused\" sh -c 'grep -q \"^2$\" \"$1.rc\" && grep -qF \"combined diff\" \"$1.err\"' _ \"$T/t5cc\"",
         "disclosed": false,
         "automatic": false
@@ -311,23 +319,15 @@
       {
         "ruleId": "shell",
         "file": "skills/independent-review/scripts/test_base_check.sh",
-        "line": 319,
+        "line": 356,
         "excerpt": "check \"T5 a copy record: refused\" sh -c 'grep -q \"^2$\" \"$1.rc\" && grep -qF \"copy record\" \"$1.err\"' _ \"$T/t5cp\"",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/independent-review/scripts/test_base_check.sh",
-        "line": 323,
-        "excerpt": "check \"T5 a format-patch series: refused\" sh -c 'grep -q \"^2$\" \"$1.rc\" && grep -qF \"format-patch series\" \"$1.err\"' _ \"$T/t5ser\"",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "network",
         "file": "skills/independent-review/scripts/test_failed_tier_report.sh",
-        "line": 1879,
+        "line": 1886,
         "excerpt": "echo \"real-curl cases: curl $REAL_CURL, python3 $(command -v python3) ($(python3 -c 'import sys; print(sys.version.split()[0])'))\"",
         "disclosed": false,
         "automatic": false,
@@ -336,7 +336,7 @@
       {
         "ruleId": "writes-outside",
         "file": "skills/independent-review/scripts/test_failed_tier_report.sh",
-        "line": 1974,
+        "line": 2041,
         "excerpt": "mkdir -p \"$T/no$drop\"; ln -s /usr/bin/* \"$T/no$drop/\" 2>/dev/null; ln -s /bin/* \"$T/no$drop/\" 2>/dev/null; rm -f \"$T/no$drop/$drop\"",
         "disclosed": true,
         "automatic": false
@@ -345,7 +345,7 @@
     "findingTotals": {
       "network": 7,
       "downloads-code": 11,
-      "shell": 223,
+      "shell": 225,
       "writes-outside": 1
     },
     "score": 70,
@@ -364,6 +364,12 @@
     {
       "commit": "b07d04f3a71956012cfd912fd00e3b8ddbdcfabf",
       "scannedAt": "2026-11-20T10:39:23.037Z",
+      "score": 70,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "af7bdfdee2522242d2ad8166a1a44a254243e432",
+      "scannedAt": "2026-11-25T11:49:36.262Z",
       "score": 70,
       "rulesVersion": "1.3.0"
     }

@@ -5,37 +5,37 @@
   "path": "packages/daemon/assets/plugins/openrig-core/skills/claude-compaction-restore",
   "name": "claude-compaction-restore",
   "description": "Use when a Claude Code session is about to compact, has just compacted, reached its context limit, resumed after /compact, or must rebuild its working picture of a long-running seat from its own restore map, its JSONL transcript and the files it touched.",
-  "stars": 8907,
+  "stars": 8977,
   "category": "coding",
-  "commit": "c1c89622652aea0d0f58dacfdd375307cc193468",
-  "contentHash": "575c7f7bdee9308cad63860b69a1a9d0f5664907c93358393064ec42a9ac6412",
+  "commit": "90f8e0508b26e7d8775074fe64a3a0a9398e27a5",
+  "contentHash": "dd44810e1dae74655150c1171849ea0393966b9227396675d8b3e3d0c3938f57",
   "repoCreatedAt": "2026-04-01T06:22:40Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-20T10:39:23.037Z",
+  "scannedAt": "2026-11-25T11:49:36.262Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "packages/daemon/assets/plugins/openrig-core/skills/claude-compaction-restore/scripts/precompact-hook.mjs",
-        "line": 5,
-        "excerpt": "import { spawnSync } from \"node:child_process\";",
+        "line": 6,
+        "excerpt": "import { spawn, spawnSync } from \"node:child_process\";",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "packages/daemon/assets/plugins/openrig-core/skills/claude-compaction-restore/scripts/precompact-hook.mjs",
-        "line": 268,
-        "excerpt": "const result = spawnSync(process.execPath, args, { encoding: \"utf8\" });",
+        "line": 323,
+        "excerpt": "const result = spawnSync(process.execPath, job.args, { encoding: \"utf8\" });",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "packages/daemon/assets/plugins/openrig-core/skills/claude-compaction-restore/scripts/restore-from-jsonl.mjs",
-        "line": 5,
+        "line": 6,
         "excerpt": "import { spawnSync } from \"node:child_process\";",
         "disclosed": true,
         "automatic": false
@@ -43,7 +43,7 @@
       {
         "ruleId": "shell",
         "file": "packages/daemon/assets/plugins/openrig-core/skills/claude-compaction-restore/scripts/restore-from-jsonl.mjs",
-        "line": 77,
+        "line": 122,
         "excerpt": "const result = spawnSync(\"find\", [root, \"-name\", \"*.jsonl\", \"-maxdepth\", root === projectsRoot ? \"4\" : \"2\"], {",
         "disclosed": true,
         "automatic": false
@@ -51,7 +51,7 @@
       {
         "ruleId": "shell",
         "file": "packages/daemon/assets/plugins/openrig-core/skills/claude-compaction-restore/scripts/restore-from-jsonl.mjs",
-        "line": 241,
+        "line": 286,
         "excerpt": "const result = spawnSync(\"find\", [full, \"-maxdepth\", candidate === \"docs\" ? \"2\" : \"1\", \"-type\", \"f\", \"-name\", \"*.md\"], {",
         "disclosed": true,
         "automatic": false
@@ -147,15 +147,15 @@
       {
         "ruleId": "shell",
         "file": "packages/daemon/assets/plugins/openrig-core/hooks/claude.json",
-        "line": 120,
-        "excerpt": "\"command\": \"exec \\\"${OPENRIG_NODE:-node}\\\" \\\"${CLAUDE_PLUGIN_ROOT}/hooks/scripts/refocus.cjs\\\" --runtime claude\",",
+        "line": 122,
+        "excerpt": "\"command\": \"exec \\\"${OPENRIG_NODE:-node}\\\" \\\"${CLAUDE_PLUGIN_ROOT}/hooks/scripts/activity-relay.cjs\\\" --from-plugin\",",
         "disclosed": true,
         "automatic": true
       },
       {
         "ruleId": "shell",
         "file": "packages/daemon/assets/plugins/openrig-core/hooks/claude.json",
-        "line": 131,
+        "line": 133,
         "excerpt": "\"command\": \"exec \\\"${OPENRIG_NODE:-node}\\\" \\\"${CLAUDE_PLUGIN_ROOT}/hooks/scripts/activity-relay.cjs\\\" --from-plugin\",",
         "disclosed": true,
         "automatic": true
@@ -164,15 +164,15 @@
         "ruleId": "shell",
         "file": "packages/daemon/assets/plugins/openrig-core/hooks/claude.json",
         "line": 142,
-        "excerpt": "\"command\": \"exec \\\"${OPENRIG_NODE:-node}\\\" \\\"${CLAUDE_PLUGIN_ROOT}/hooks/scripts/activity-relay.cjs\\\" --from-plugin\",",
+        "excerpt": "\"command\": \"exec \\\"${OPENRIG_NODE:-node}\\\" \\\"${CLAUDE_PLUGIN_ROOT}/hooks/scripts/refocus.cjs\\\" --runtime claude\",",
         "disclosed": true,
         "automatic": true
       },
       {
         "ruleId": "shell",
-        "file": "packages/daemon/assets/plugins/openrig-core/hooks/codex.json",
-        "line": 8,
-        "excerpt": "\"command\": \"test -n \\\"$OPENRIG_SEAT_PROJECT_DIR\\\" && test -f \\\"$OPENRIG_NODE\\\" && test -x \\\"$OPENRIG_NODE\\\" || exit 0; exec \\\"$OPENRIG_NODE\\\" \\\"${PLUGIN_ROOT}/h",
+        "file": "packages/daemon/assets/plugins/openrig-core/hooks/claude.json",
+        "line": 153,
+        "excerpt": "\"command\": \"exec \\\"${OPENRIG_NODE:-node}\\\" \\\"${CLAUDE_PLUGIN_ROOT}/hooks/scripts/activity-relay.cjs\\\" --from-plugin\",",
         "disclosed": true,
         "automatic": true
       },
@@ -196,7 +196,7 @@
       }
     ],
     "findingTotals": {
-      "shell": 33,
+      "shell": 35,
       "network": 2
     },
     "score": 92,
@@ -233,6 +233,12 @@
     {
       "commit": "c1c89622652aea0d0f58dacfdd375307cc193468",
       "scannedAt": "2026-11-20T10:39:23.037Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "90f8e0508b26e7d8775074fe64a3a0a9398e27a5",
+      "scannedAt": "2026-11-25T11:49:36.262Z",
       "score": 92,
       "rulesVersion": "1.3.0"
     }

@@ -1,0 +1,221 @@
+{
+  "id": "nvidia__skills__plugins~nvidia-tao-toolkit~skills~tao-run-on-kubernetes",
+  "owner": "NVIDIA",
+  "repo": "skills",
+  "path": "plugins/nvidia-tao-toolkit/skills/tao-run-on-kubernetes",
+  "name": "tao-run-on-kubernetes",
+  "description": "Kubernetes execution platform — submits TAO container jobs as k8s Jobs with NVIDIA GPU scheduling; single-pod",
+  "stars": 4147,
+  "category": "coding",
+  "commit": "a79ed3dca393fd894ddfb907f4b5e70a4098ec80",
+  "contentHash": "bfe5ea4763ad2dab8991628cdbed790eb44da0401caf0682d8d99cfc0b6c4b06",
+  "repoCreatedAt": "2026-02-25T21:54:05Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-25T11:49:36.262Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "plugins/nvidia-tao-toolkit/skills/tao-run-on-kubernetes/SKILL.md",
+        "line": 38,
+        "excerpt": "if [ \"${TAO_K8S_SKIP_NODE_RUNTIME_CHECK:-0}\" != \"1\" ]; then",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/nvidia-tao-toolkit/skills/tao-run-on-kubernetes/SKILL.md",
+        "line": 57,
+        "excerpt": "echo \"MISSING: no reachable cluster (kubeconfig at ~/.kube/config, \\$KUBECONFIG, or in-pod service account).\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/nvidia-tao-toolkit/skills/tao-run-on-kubernetes/SKILL.md",
+        "line": 114,
+        "excerpt": "ALLOC=$(kubectl get nodes -o jsonpath='{range .items[*]}{.status.allocatable.nvidia\\.com/gpu}{\"\\n\"}{end}' | awk '{s+=$1} END{print s+0}')",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/nvidia-tao-toolkit/skills/tao-run-on-kubernetes/SKILL.md",
+        "line": 137,
+        "excerpt": "JOB_ID=$(\"$BANK/scripts/tao_job_record.py\" open --platform kubernetes --image \"$IMAGE\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/nvidia-tao-toolkit/skills/tao-run-on-kubernetes/SKILL.md",
+        "line": 160,
+        "excerpt": "kubectl get job \"$K8S_JOB_NAME\" -n \"$NAMESPACE\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/nvidia-tao-toolkit/skills/tao-run-on-kubernetes/SKILL.md",
+        "line": 175,
+        "excerpt": "kubectl logs -n \"$NAMESPACE\" -l \"job-name=$K8S_JOB_NAME\" --tail \"${N:-200}\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/nvidia-tao-toolkit/skills/tao-run-on-kubernetes/SKILL.md",
+        "line": 181,
+        "excerpt": "kubectl delete job \"$K8S_JOB_NAME\" -n \"$NAMESPACE\" --cascade=foreground",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/nvidia-tao-toolkit/skills/tao-run-on-kubernetes/SKILL.md",
+        "line": 226,
+        "excerpt": "The simple single-pod template invokes its command via `/bin/sh -c` (POSIX sh,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/nvidia-tao-toolkit/skills/tao-run-on-kubernetes/SKILL.md",
+        "line": 232,
+        "excerpt": "script is preserved verbatim under `/bin/sh -c`; the renderer never constructs",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/nvidia-tao-toolkit/skills/tao-run-on-kubernetes/SKILL.md",
+        "line": 240,
+        "excerpt": "bash skills/tao-setup-nvidia-gpu-host/scripts/setup-nvidia-gpu-host.sh --backend kubernetes --install --yes",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/nvidia-tao-toolkit/skills/tao-run-on-kubernetes/SKILL.md",
+        "line": 246,
+        "excerpt": "helm repo add nvidia https://helm.ngc.nvidia.com/nvidia",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/nvidia-tao-toolkit/skills/tao-run-on-kubernetes/SKILL.md",
+        "line": 282,
+        "excerpt": "torchrun --nnodes=$NNODES --nproc-per-node=$NPROC_PER_NODE --node-rank=$NODE_RANK \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/nvidia-tao-toolkit/skills/tao-run-on-kubernetes/SKILL.md",
+        "line": 320,
+        "excerpt": "set -a; source /path/to/.env; set +a   # omit if already exported",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/nvidia-tao-toolkit/skills/tao-run-on-kubernetes/references/action-request.md",
+        "line": 110,
+        "excerpt": "verbatim under `/bin/sh -c`; values from the config are never interpolated as",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/nvidia-tao-toolkit/skills/tao-run-on-kubernetes/references/local-cluster.md",
+        "line": 15,
+        "excerpt": "mkdir -p \"$HOME/.local/bin\"; export PATH=\"$HOME/.local/bin:$PATH\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/nvidia-tao-toolkit/skills/tao-run-on-kubernetes/references/local-cluster.md",
+        "line": 18,
+        "excerpt": "curl -fsSLo \"$HOME/.local/bin/kubectl\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/nvidia-tao-toolkit/skills/tao-run-on-kubernetes/references/local-cluster.md",
+        "line": 19,
+        "excerpt": "\"https://dl.k8s.io/release/$(curl -fsSL https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "dl.k8s.io"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/nvidia-tao-toolkit/skills/tao-run-on-kubernetes/references/local-cluster.md",
+        "line": 23,
+        "excerpt": "curl -fsSLo \"$HOME/.local/bin/minikube\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/nvidia-tao-toolkit/skills/tao-run-on-kubernetes/references/skill_info.yaml",
+        "line": 2,
+        "excerpt": "required_credentials: []  # Auth via kubeconfig (~/.kube/config) or in-cluster service account",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "plugins/nvidia-tao-toolkit/skills/tao-run-on-kubernetes/references/skill_info.yaml",
+        "line": 12,
+        "excerpt": "description: Alternate kubeconfig path (defaults to ~/.kube/config).",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/nvidia-tao-toolkit/hooks/hooks.json",
+        "line": 8,
+        "excerpt": "\"command\": \"\\\"${CLAUDE_PLUGIN_ROOT}/hooks/session_start.sh\\\" identity\"",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/nvidia-tao-toolkit/hooks/hooks.json",
+        "line": 12,
+        "excerpt": "\"command\": \"\\\"${CLAUDE_PLUGIN_ROOT}/hooks/session_start.sh\\\" context\"",
+        "disclosed": true,
+        "automatic": true
+      }
+    ],
+    "findingTotals": {
+      "shell": 15,
+      "reads-secrets": 3,
+      "writes-outside": 1,
+      "network": 3
+    },
+    "score": 74,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 13,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "a79ed3dca393fd894ddfb907f4b5e70a4098ec80",
+      "scannedAt": "2026-11-25T11:49:36.262Z",
+      "score": 74,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

@@ -12,8 +12,8 @@
   "repoCreatedAt": "2026-06-06T05:21:45Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-20T10:39:23.037Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-25T11:49:36.262Z",
   "scan": {
     "findings": [
       {
@@ -29,6 +29,14 @@
         "file": ".codebuddy/skills/cnb-pipeline/SKILL.md",
         "line": 161,
         "excerpt": "1. **系统依赖手动安装** — 检测到 `apt install`/`yum install`/`apk add` 时建议改用 `docker.build` Dockerfile 预装",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": ".codebuddy/skills/cnb-pipeline/references/best-practices.md",
+        "line": 462,
+        "excerpt": "echo \"$KUBECONFIG_DATA\" > ~/.kube/config",
         "disclosed": false,
         "automatic": false
       },
@@ -55,18 +63,53 @@
         "excerpt": "script: apt-get update && apt-get install -y python3 curl jq",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".codebuddy/skills/cnb-pipeline/validator/validate.js",
+        "line": 427,
+        "excerpt": "if (APT_INSTALL_PATTERN.test(trimmed)) return 'apt install';",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".codebuddy/skills/cnb-pipeline/validator/validate.js",
+        "line": 428,
+        "excerpt": "if (YUM_INSTALL_PATTERN.test(trimmed)) return 'yum install';",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".codebuddy/skills/cnb-pipeline/validator/validate.js",
+        "line": 430,
+        "excerpt": "if (DNF_INSTALL_PATTERN.test(trimmed)) return 'dnf install';",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".codebuddy/skills/cnb-pipeline/validator/validate.js",
+        "line": 562,
+        "excerpt": "https.get(url, (res) => {",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
       }
     ],
     "findingTotals": {
       "shell": 1,
-      "downloads-code": 3,
-      "writes-outside": 1
+      "downloads-code": 6,
+      "reads-secrets": 1,
+      "writes-outside": 1,
+      "network": 1
     },
-    "score": 70,
-    "band": "review",
+    "score": 45,
+    "band": "high",
     "rulesVersion": "1.3.0",
-    "filesScanned": 3,
-    "filesSkipped": 7
+    "filesScanned": 10,
+    "filesSkipped": 0
   },
   "history": [
     {

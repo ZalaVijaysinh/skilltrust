@@ -7,13 +7,13 @@
   "description": "Use when a repository's issue backlog needs refinement so agents can start work without asking back. Measures the tracker with scripts/backlog-refine.mjs (labels, readiness of status:ready issues, size, dependencies, epics, closed-issue hygiene), then proposes splits, epics, merges, fills and closings for approval and applies them through gitlab-ops. Triggered by /backlog [repo], \"refine the backlog\", \"is the backlog ready for agents\", \"Backlog aufräumen\". Not for finding code defects (use discovery), not for cross-repo dashboards (use portfolio), and not for creating issues from scratch.",
   "stars": 53,
   "category": "coding",
-  "commit": "e1fb7cb768ae4d926b6b50e96e65b0672188934e",
-  "contentHash": "7d0ec41b5f0491e0e220c04077f3c1134b65dc3ef4c3ab9e581c95ee810ac037",
+  "commit": "d907c5e5ba497c924eeb16a82bec54cd819239e0",
+  "contentHash": "fbe9d2ebd8b3abf01231c92fb0808fd0dc3fa477b08ffdd2fbaff11b314d7a41",
   "repoCreatedAt": "2026-04-02T18:34:17Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-15T10:00:32.478Z",
+  "scannedAt": "2026-11-25T11:49:36.262Z",
   "scan": {
     "findings": [
       {
@@ -53,6 +53,14 @@
         "file": "docs/session-config-reference.md",
         "line": 378,
         "excerpt": "The 17th is `git-hooks-missing-in-worktree` (#1732): `git commit`/`git push` in a linked worktree whose relative `core.hooksPath` (husky: `.husky/_`) is missing",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "mcp/servers.json",
+        "line": 7,
+        "excerpt": "\"# Plugin-root lookup. Order: PLUGIN_ROOT; then CLAUDE_PLUGIN_ROOT, CODEX_PLUGIN_ROOT, CURSOR_RULES_DIR, PI_PLUGIN_ROOT with the one matching SO_PLATFORM moved ",
         "disclosed": false,
         "automatic": false
       },
@@ -99,7 +107,7 @@
       {
         "ruleId": "shell",
         "file": "scripts/emit-session.mjs",
-        "line": 376,
+        "line": 401,
         "excerpt": "const top = execFileSync('git', ['rev-parse', '--show-toplevel'], {",
         "disclosed": true,
         "automatic": false
@@ -123,7 +131,7 @@
       {
         "ruleId": "shell",
         "file": "scripts/lib/backlog-refine/fetch.mjs",
-        "line": 41,
+        "line": 47,
         "excerpt": "return spawnSync(bin, args, {",
         "disclosed": true,
         "automatic": false
@@ -147,15 +155,15 @@
       {
         "ruleId": "shell",
         "file": "scripts/lib/fleet-protocol.mjs",
-        "line": 404,
-        "excerpt": "const out = execFileSync('git', ['-C', dir, 'rev-parse', '--path-format=absolute', '--git-common-dir'], {",
+        "line": 405,
+        "excerpt": "const out = execFileSync(hookProgram('git', dir), ['-C', dir, 'rev-parse', '--path-format=absolute', '--git-common-dir'], {",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
         "file": "scripts/lib/gates/gate-full.mjs",
-        "line": 412,
+        "line": 413,
         "excerpt": "`  reproduce: npx vitest run ${failedTestFiles.join(' ')}\\n`,",
         "disclosed": false,
         "automatic": false
@@ -178,6 +186,14 @@
       },
       {
         "ruleId": "shell",
+        "file": "scripts/lib/git-config-drift.mjs",
+        "line": 594,
+        "excerpt": "const spawn = deps?.spawn ?? ((cmd, args, options) => spawnSync(hookProgram(cmd, repoRoot, options.env), args, options));",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
         "file": "scripts/lib/harness-audit/categories/category6.mjs",
         "line": 165,
         "excerpt": "return execFileSync('git', args, { cwd: root, encoding: 'utf8', env: { ...process.env, GIT_NO_REPLACE_OBJECTS: '1' } }).trim();",
@@ -187,23 +203,15 @@
       {
         "ruleId": "shell",
         "file": "scripts/lib/ledger-path.mjs",
-        "line": 67,
-        "excerpt": "const r = spawnSync('git', ['-C', root, 'check-ignore', '-q', '--', relPath], {",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "scripts/lib/named-vault-resolver.mjs",
-        "line": 273,
-        "excerpt": "const res = spawnSync('git', ['-C', vaultDir, 'remote', 'get-url', 'origin'], { encoding: 'utf8' });",
+        "line": 68,
+        "excerpt": "const r = spawnSync(hookProgram('git', root), ['-C', root, 'check-ignore', '-q', '--', relPath], {",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
         "file": "scripts/lib/project-hygiene.mjs",
-        "line": 680,
+        "line": 687,
         "excerpt": "const RUNNER_SUBCOMMANDS = { uvx: [], pipx: ['run'], uv: ['tool', 'run'] };",
         "disclosed": false,
         "automatic": false
@@ -211,18 +219,10 @@
       {
         "ruleId": "downloads-code",
         "file": "scripts/lib/project-hygiene.mjs",
-        "line": 810,
+        "line": 817,
         "excerpt": "if (verb === 'uvx' || verb === 'pipx' || verb === 'uv') {",
         "disclosed": false,
         "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": ".mcp.json",
-        "line": 7,
-        "excerpt": "\"# Plugin-root lookup. Order: PLUGIN_ROOT; then CLAUDE_PLUGIN_ROOT, CODEX_PLUGIN_ROOT, CURSOR_RULES_DIR, PI_PLUGIN_ROOT with the one matching SO_PLATFORM moved ",
-        "disclosed": false,
-        "automatic": true
       },
       {
         "ruleId": "obfuscated",
@@ -235,14 +235,14 @@
       {
         "ruleId": "writes-outside",
         "file": "hooks/run-node.sh",
-        "line": 122,
+        "line": 239,
         "excerpt": "echo \"  (Hook shells do not source ~/.zshrc — Homebrew/nvm/volta installs can be invisible here.\"",
         "disclosed": false,
         "automatic": true
       }
     ],
     "findingTotals": {
-      "shell": 183,
+      "shell": 182,
       "downloads-code": 5,
       "writes-outside": 2,
       "obfuscated": 1
@@ -257,6 +257,12 @@
     {
       "commit": "e1fb7cb768ae4d926b6b50e96e65b0672188934e",
       "scannedAt": "2026-11-15T10:00:32.478Z",
+      "score": 47,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "d907c5e5ba497c924eeb16a82bec54cd819239e0",
+      "scannedAt": "2026-11-25T11:49:36.262Z",
       "score": 47,
       "rulesVersion": "1.3.0"
     }

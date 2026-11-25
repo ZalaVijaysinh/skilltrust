@@ -4,23 +4,42 @@
   "repo": "apm",
   "path": ".agents/skills/cut-release",
   "name": "cut-release",
-  "description": "Use this skill to cut an APM release from the current worktree: assess whether the cycle since the last tag warrants a patch or minor bump (semver discipline against the merged-since-last-tag diff), sanitize the [Unreleased] CHANGELOG block into a dated version block where each change has one line in one section (dedupe across sections, condense, add Highlights, drop internal-only churn), bump pyproject.toml + uv.lock, run the CI-mirror lint chain, and open the release PR. Activate on \"ship a release\", \"cut v0.x\", \"release prep\", \"bump and PR\", \"open release PR\", \"what kind of release do we need\", or any phrasing that ends in opening a release PR -- even when the user does not say \"skill\". Stops BEFORE tagging; tagging stays a human gate that triggers the release workflow. Refuses to bump to a major (>= 1.0.0) version without explicit operator confirmation.",
-  "stars": 4417,
+  "description": "Use this skill to cut an APM release from the current worktree: assess whether the cycle since the last tag warrants a patch or minor bump (semver discipline against the merged-since-last-tag diff), assemble the changelog.d/ fragments and any legacy [Unreleased] CHANGELOG bullets into a dated version block and sanitize it so each change has one line in one section (dedupe across sections, condense, add Highlights, drop internal-only churn), bump pyproject.toml + uv.lock, run the CI-mirror lint chain, and open the release PR. Activate on \"ship a release\", \"cut v0.x\", \"release prep\", \"bump and PR\", \"open release PR\", \"what kind of release do we need\", or any phrasing that ends in opening a release PR -- even when the user does not say \"skill\". Stops BEFORE tagging; tagging stays a human gate that triggers the release workflow. Refuses to bump to a major (>= 1.0.0) version without explicit operator confirmation.",
+  "stars": 4451,
   "category": "coding",
-  "commit": "bdb26e970ce0909ec744e7b4a68e318b64eaeb67",
-  "contentHash": "515dbbc5dcac14ca1dc96d5528fcff376a02e14d96c7a76a364eff0979e2aba8",
+  "commit": "f68cebd540c7487b261e6dbe8cba70affb21a4cb",
+  "contentHash": "6c961d5e993ce200022d7b03fa10403ec0a310812d4139919d27ef4f5c235bb1",
   "repoCreatedAt": "2025-09-18T13:45:22Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-20T10:39:23.037Z",
+  "scannedAt": "2026-11-25T11:49:36.262Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/cut-release/scripts/changelog_fragments.py",
+        "line": 247,
+        "excerpt": "def _git(root: Path, *args: str) -> subprocess.CompletedProcess[str]:",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/cut-release/scripts/changelog_fragments.py",
+        "line": 251,
+        "excerpt": "return subprocess.run(  # noqa: S603 - resolved executable, argument vector, no shell",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 2
+    },
+    "score": 95,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 8,
+    "filesScanned": 9,
     "filesSkipped": 0
   },
   "history": [
@@ -52,6 +71,12 @@
       "commit": "bdb26e970ce0909ec744e7b4a68e318b64eaeb67",
       "scannedAt": "2026-11-20T10:39:23.037Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "f68cebd540c7487b261e6dbe8cba70affb21a4cb",
+      "scannedAt": "2026-11-25T11:49:36.262Z",
+      "score": 95,
       "rulesVersion": "1.3.0"
     }
   ]

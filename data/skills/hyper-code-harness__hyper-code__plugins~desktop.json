@@ -5,15 +5,15 @@
   "path": "plugins/desktop",
   "name": "desktop",
   "description": "Control macOS desktops like a user — this Mac or any Mac reachable over SSH: list apps and windows, look at a window (Accessibility outline with clickable indexes + screenshot + OCR), click, type, press keys, scroll and fill fields in the background without stealing the pointer. Built on Cua Driver (trycua/cua). Use when a task needs a native or Electron app (Calculator, Notes, Finder, System Settings, Discord, Slack, Figma…) that has no API or plugin. For Chrome pages prefer the browser plugin.",
-  "stars": 19,
+  "stars": 20,
   "category": "design",
-  "commit": "98ec3d26fa2531a152695d6c2e85649a02332177",
+  "commit": "8d713356635f73bc7dc9d8b7ff9b00390b9275f4",
   "contentHash": "81d8801a3f7a97e77f26d7e5aad2618fa43f78c8ebb7e803c34a96465e9af1c0",
   "repoCreatedAt": "2026-04-18T19:18:18Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-20T10:39:23.037Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-25T11:49:36.262Z",
   "scan": {
     "findings": [
       {
@@ -34,23 +34,82 @@
         "hosts": [
           "cua.ai"
         ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/desktop/src/desktop/call.ts",
+        "line": 5,
+        "excerpt": "type Conn = { proc: ReturnType<typeof Bun.spawn>; pending: Map<number, Pending>; nextId: number; ready: Promise<void>; dead: boolean; idleMs: number; idleTimer?",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/desktop/src/desktop/call.ts",
+        "line": 19,
+        "excerpt": "const proc = Bun.spawn(cmd, { stdin: \"pipe\", stdout: \"pipe\", stderr: \"pipe\" });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/desktop/src/desktop/check.ts",
+        "line": 26,
+        "excerpt": "if (v.exitCode !== 0) return { host, installed: false, hint: `Install on ${host}: curl -fsSL https://cua.ai/driver/install.sh | bash -s -- --no-modify-path && ~",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "plugins/desktop/src/desktop/check.ts",
+        "line": 26,
+        "excerpt": "if (v.exitCode !== 0) return { host, installed: false, hint: `Install on ${host}: curl -fsSL https://cua.ai/driver/install.sh | bash -s -- --no-modify-path && ~",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/desktop/src/desktop/check.ts",
+        "line": 26,
+        "excerpt": "if (v.exitCode !== 0) return { host, installed: false, hint: `Install on ${host}: curl -fsSL https://cua.ai/driver/install.sh | bash -s -- --no-modify-path && ~",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "cua.ai"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/desktop/src/desktop/ensureDaemon.ts",
+        "line": 23,
+        "excerpt": "const r = await Bun.$`bash -c ${cmd}`.quiet().nothrow();",
+        "disclosed": false,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "downloads-code": 1,
-      "network": 1
+      "downloads-code": 2,
+      "network": 2,
+      "shell": 3,
+      "writes-outside": 1
     },
-    "score": 80,
-    "band": "low",
+    "score": 65,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 4,
-    "filesSkipped": 19
+    "filesScanned": 23,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "98ec3d26fa2531a152695d6c2e85649a02332177",
       "scannedAt": "2026-11-20T10:39:23.037Z",
       "score": 80,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "8d713356635f73bc7dc9d8b7ff9b00390b9275f4",
+      "scannedAt": "2026-11-25T11:49:36.262Z",
+      "score": 65,
       "rulesVersion": "1.3.0"
     }
   ]

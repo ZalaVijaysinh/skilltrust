@@ -4,30 +4,90 @@
   "repo": "neore",
   "path": ".agents/skills/lunora-setup-auth",
   "name": "lunora-setup-auth",
-  "description": "",
+  "description": "Adds authentication to a Lunora app with the `auth` registry item (better-auth via `@lunora/auth`, users and sessions in D1). Covers email/password sign-up and sign-in, Clerk or Auth0 OAuth, magic link, email OTP, copy-in auth screens (`lunora add auth-ui`), wiring `/api/auth/*` and `resolveIdentity` into the Worker, and gating functions on `ctx.auth.userId`. Use when the user asks to \"add auth\", \"add login/sign-in/sign-up\", \"protect this query\", or \"add Clerk/Auth0/magic link/OTP\", wants to keep an external identity provider (Clerk, WorkOS, Auth0, Supabase, any OIDC JWT) as the session owner, runs `lunora add auth` or `lunora registry add auth`, edits `lunora/auth/index.ts`, or `ctx.auth.userId` is unexpectedly `null`.",
   "stars": 14,
   "category": "coding",
-  "commit": "936d31f75ea59a51d2c86b559264883ee48bb421",
+  "commit": "9446fe2fd978d8e6c902b48ddb7e426024d953aa",
   "contentHash": "f07a95ac347bc685fb52c8032e49fe525c19c7076c57af05ecf19f23e49d3499",
   "repoCreatedAt": "2025-06-08T18:54:04Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-21T10:21:16.775Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-25T11:49:36.262Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/lunora-setup-auth/SKILL.md",
+        "line": 23,
+        "excerpt": "lunora init --auth=clerk             # new project: or workos | auth0 (wires everything below)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/lunora-setup-auth/SKILL.md",
+        "line": 61,
+        "excerpt": "lunora add auth                      # asks for the provider and D1 database name",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/lunora-setup-auth/SKILL.md",
+        "line": 82,
+        "excerpt": "wrangler d1 create my-app-db   # paste the returned id into the DB binding",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/lunora-setup-auth/SKILL.md",
+        "line": 156,
+        "excerpt": "async fetch(request: Request, env: AuthEnv, ctx: ExecutionContext): Promise<Response> {",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/lunora-setup-auth/SKILL.md",
+        "line": 159,
+        "excerpt": "return worker.fetch(request, env, ctx); // RPC, WebSocket, everything else",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/lunora-setup-auth/SKILL.md",
+        "line": 170,
+        "excerpt": "lunora add auth-clerk        # Clerk OIDC (genericOAuth): CLERK_CLIENT_ID / _SECRET / CLERK_ISSUER_URL",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 4,
+      "network": 2
+    },
+    "score": 90,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 1
+    "filesScanned": 1,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "936d31f75ea59a51d2c86b559264883ee48bb421",
       "scannedAt": "2026-11-21T10:21:16.775Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "9446fe2fd978d8e6c902b48ddb7e426024d953aa",
+      "scannedAt": "2026-11-25T11:49:36.262Z",
+      "score": 90,
       "rulesVersion": "1.3.0"
     }
   ]

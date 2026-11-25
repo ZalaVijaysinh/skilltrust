@@ -1,0 +1,85 @@
+{
+  "id": "ar9av__paperorchestra__skills~claim-evidence-audit",
+  "owner": "Ar9av",
+  "repo": "PaperOrchestra",
+  "path": "skills/claim-evidence-audit",
+  "name": "claim-evidence-audit",
+  "description": "OPTIONAL claim-level audit gate for the PaperOrchestra pipeline (arXiv:2604.05018), run after Step 5 (content refinement) and before final output. Extracts atomic claims (numeric results, comparisons, \"we show / we outperform\" statements, cited facts) from drafts/paper.tex with section and line numbers, maps each claim to evidence (experimental_log.md numbers or table rows, figures, tables, citation keys present in the verified refs.bib), flags unmapped claims, checks every number in the paper against the log, and enforces a coverage threshold. Includes an opt-in pass where the host agent fetches each cited source and judges supported / partially_supported / not_supported / cannot_verify with a locator. TRIGGER when the orchestrator reaches the optional audit gate or when the user asks to \"audit the claims\", \"check that every claim is backed by evidence\", \"verify the numbers against the log\", \"build a claim-evidence map\", or \"check that citations actually support what we say\".",
+  "stars": 795,
+  "category": "research",
+  "commit": "fcf8a384f5495e82b650ce9af7152b7c9a95e0ea",
+  "contentHash": "63c73efa68d302dbd743c00e827644d2bcfe67e0b0e810fdda96c55399426e80",
+  "repoCreatedAt": "2026-04-09T15:20:37Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-25T11:49:36.262Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/claim-evidence-audit/SKILL.md",
+        "line": 64,
+        "excerpt": "python $S/extract_claims.py --paper workspace/final/paper.tex --out $A/claims.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/claim-evidence-audit/SKILL.md",
+        "line": 78,
+        "excerpt": "python $S/validate_schema.py --claims $A/claims.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/claim-evidence-audit/SKILL.md",
+        "line": 84,
+        "excerpt": "python $S/build_evidence_map.py --claims $A/claims.json \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/claim-evidence-audit/SKILL.md",
+        "line": 120,
+        "excerpt": "python $S/validate_schema.py --claims $A/claims.json --map $A/claim_evidence_map.json \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/claim-evidence-audit/SKILL.md",
+        "line": 145,
+        "excerpt": "python3 skills/claim-evidence-audit/scripts/test_claim_evidence_audit.py",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/claim-evidence-audit/scripts/test_claim_evidence_audit.py",
+        "line": 276,
+        "excerpt": "return subprocess.run([sys.executable, os.path.join(HERE, name), *args],",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 6
+    },
+    "score": 95,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 15,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "fcf8a384f5495e82b650ce9af7152b7c9a95e0ea",
+      "scannedAt": "2026-11-25T11:49:36.262Z",
+      "score": 95,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

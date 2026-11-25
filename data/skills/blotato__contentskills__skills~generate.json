@@ -1,0 +1,146 @@
+{
+  "id": "blotato__contentskills__skills~generate",
+  "owner": "blotato",
+  "repo": "contentskills",
+  "path": "skills/generate",
+  "name": "generate",
+  "description": "AI-generated footage (image-to-video through kie.ai, a paid service); for a narrated or edited video rendered free on this computer use make-video instead. Generate faceless video content cheaply and consistently. Draft a still on a cheap model, run a pre-animate quality check, then animate the approved still through kie.ai, always routing to the lowest cost model. Enforces a running spend cap with a cost ledger, applies reusable style and character presets so a whole channel stays consistent, and outputs a publish-ready clip that hands off to Blotato for scheduling. Triggers on /generate, generate image, generate video, make a POV clip, animate this.",
+  "stars": 108,
+  "category": "media",
+  "commit": "d137fbf17e4a8614d41185535c32b284e4845e4b",
+  "contentHash": "659952a874a7a7d1adae0737dbc79e9aa1eea3935a5c323a278b200f615767bd",
+  "repoCreatedAt": "2026-11-21T17:15:13Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-25T11:49:36.262Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/generate/animate.sh",
+        "line": 20,
+        "excerpt": "set -a; source \"$SKILL_DIR/.env\"; set +a",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/generate/animate.sh",
+        "line": 102,
+        "excerpt": "BAL_RESP=$(curl -s -m 15 -H \"Authorization: Bearer ${KIE_API_KEY}\" \"https://api.kie.ai/api/v1/chat/credit\")",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.kie.ai"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/generate/animate.sh",
+        "line": 137,
+        "excerpt": "CREATE=$(curl -s -X POST \"https://api.kie.ai/api/v1/jobs/createTask\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.kie.ai"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/generate/animate.sh",
+        "line": 146,
+        "excerpt": "Q=$(curl -s \"https://api.kie.ai/api/v1/jobs/recordInfo?taskId=${TASK_ID}\" -H \"Authorization: Bearer ${KIE_API_KEY}\")",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.kie.ai"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/generate/animate.sh",
+        "line": 159,
+        "excerpt": "curl -s -L \"$URL\" -o \"$MP4_PATH\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/generate/balance.sh",
+        "line": 5,
+        "excerpt": "set -a; source \"$SKILL_DIR/.env\"; set +a",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/generate/balance.sh",
+        "line": 7,
+        "excerpt": "RESP=$(curl -s -m 15 -H \"Authorization: Bearer ${KIE_API_KEY}\" \"https://api.kie.ai/api/v1/chat/credit\")",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.kie.ai"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/generate/draft-image.sh",
+        "line": 8,
+        "excerpt": "set -a; source \"$SKILL_DIR/.env\"; set +a",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/generate/draft-image.sh",
+        "line": 28,
+        "excerpt": "CREATE=$(curl -s -X POST \"https://api.kie.ai/api/v1/jobs/createTask\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.kie.ai"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/generate/draft-image.sh",
+        "line": 37,
+        "excerpt": "Q=$(curl -s \"https://api.kie.ai/api/v1/jobs/recordInfo?taskId=${TASK_ID}\" -H \"Authorization: Bearer ${KIE_API_KEY}\")",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.kie.ai"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/generate/draft-image.sh",
+        "line": 50,
+        "excerpt": "curl -s -L \"$URL\" -o \"$IMG_PATH\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "reads-secrets": 3,
+      "network": 8
+    },
+    "score": 77,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 22,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "d137fbf17e4a8614d41185535c32b284e4845e4b",
+      "scannedAt": "2026-11-25T11:49:36.262Z",
+      "score": 77,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

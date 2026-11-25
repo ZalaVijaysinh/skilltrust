@@ -4,30 +4,96 @@
   "repo": "hyper-code",
   "path": "plugins/marker",
   "name": "marker",
-  "description": "",
-  "stars": 19,
-  "category": "other",
-  "commit": "98ec3d26fa2531a152695d6c2e85649a02332177",
+  "description": "Local PDF-to-Markdown conversion with Marker on Apple Silicon, including installation diagnostics, generated artifact inventory, and automatic quality analysis of headings, tables, equations, images, pages, suspicious text, and likely conversion warnings. Use when the user asks to convert or inspect a PDF, make Markdown from a PDF, OCR a local document, benchmark Marker, or analyze conversion quality.",
+  "stars": 20,
+  "category": "media",
+  "commit": "8d713356635f73bc7dc9d8b7ff9b00390b9275f4",
   "contentHash": "6157f6e947dd7a617a0d70aff1742598ec9e274134a291cca58e1334d98e6975",
   "repoCreatedAt": "2026-04-18T19:18:18Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-20T10:39:23.037Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-25T11:49:36.262Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "plugins/marker/src/marker/analyze.ts",
+        "line": 100,
+        "excerpt": "const proc = Bun.spawn([\"pdfinfo\", sourcePdf], { stdout: \"pipe\", stderr: \"pipe\" });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/marker/src/marker/convert.ts",
+        "line": 52,
+        "excerpt": "if (!status.installed || !status.executable) throw new Error(\"marker.convert: marker-pdf is not installed; install it with `uv pip install marker-pdf`\");",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/marker/src/marker/convert.ts",
+        "line": 75,
+        "excerpt": "const proc = Bun.spawn(args, { stdout: \"pipe\", stderr: \"pipe\", env: { ...process.env, TORCH_DEVICE: device } });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/marker/src/marker/probe.ts",
+        "line": 41,
+        "excerpt": "const info = Bun.spawn([\"pdfinfo\", input], { stdout: \"pipe\", stderr: \"pipe\" });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/marker/src/marker/probe.ts",
+        "line": 52,
+        "excerpt": "const proc = Bun.spawn([\"pdftotext\", \"-enc\", \"UTF-8\", \"-f\", String(page), \"-l\", String(page), input, out], { stdout: \"pipe\", stderr: \"pipe\" });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/marker/src/marker/status.ts",
+        "line": 22,
+        "excerpt": "let proc: ReturnType<typeof Bun.spawn>;",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/marker/src/marker/status.ts",
+        "line": 23,
+        "excerpt": "try { proc = Bun.spawn(args, { stdout: \"pipe\", stderr: \"pipe\", env: process.env }); }",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 6,
+      "downloads-code": 1
+    },
+    "score": 80,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 7
+    "filesScanned": 7,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "98ec3d26fa2531a152695d6c2e85649a02332177",
       "scannedAt": "2026-11-20T10:39:23.037Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "8d713356635f73bc7dc9d8b7ff9b00390b9275f4",
+      "scannedAt": "2026-11-25T11:49:36.262Z",
+      "score": 80,
       "rulesVersion": "1.3.0"
     }
   ]

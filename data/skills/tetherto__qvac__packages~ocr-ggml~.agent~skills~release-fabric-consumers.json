@@ -4,22 +4,22 @@
   "repo": "qvac",
   "path": "packages/ocr-ggml/.agent/skills/release-fabric-consumers",
   "name": "release-fabric-consumers",
-  "description": "Release the qvac-fabric consumers to npm after the bundled version-bump PR merges — one release branch + `publish-npm.yml` dispatch per consumer, stopping at the npm approval gate. Supports --exclude to hold packages back. Phase C after rollout-phase-b.",
-  "stars": 791,
+  "description": "Release the qvac-fabric consumers to npm after the bundled version-bump PR merges — follow the publish runs addon-auto-release.yml starts per consumer to the npm approval gate, and hand off the links. Supports --exclude to hold packages back. Phase C after rollout-phase-b.",
+  "stars": 826,
   "category": "coding",
-  "commit": "38131ca211a7910d2fd1f9b4bb830775ab56f24e",
-  "contentHash": "c7a8582216a5ed5fdcc0cef4f3dae3427232061637810510c95cc053d70f27ea",
+  "commit": "ac50355587587951eed64f79d9107f246e790da6",
+  "contentHash": "003c85993c3b0cea788296251d03107c9feb9be9bad176f9e78b174179725c49",
   "repoCreatedAt": "2026-01-03T01:59:01Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-20T10:39:23.037Z",
+  "scannedAt": "2026-11-25T11:49:36.262Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "packages/ocr-ggml/.agent/skills/release-fabric-consumers/SKILL.md",
-        "line": 67,
+        "line": 69,
         "excerpt": "npm view @qvac/<pkg> dist-tags.latest",
         "disclosed": false,
         "automatic": false
@@ -27,7 +27,7 @@
       {
         "ruleId": "shell",
         "file": "packages/ocr-ggml/.agent/skills/release-fabric-consumers/SKILL.md",
-        "line": 134,
+        "line": 140,
         "excerpt": "git -C <repo> grep -h \"@qvac/fabric\" origin/main -- packages/classification-ggml/package.json",
         "disclosed": false,
         "automatic": false
@@ -35,7 +35,7 @@
       {
         "ruleId": "shell",
         "file": "packages/ocr-ggml/.agent/skills/release-fabric-consumers/SKILL.md",
-        "line": 151,
+        "line": 156,
         "excerpt": "git -C <repo> fetch origin <base-branch>",
         "disclosed": false,
         "automatic": false
@@ -43,23 +43,23 @@
       {
         "ruleId": "shell",
         "file": "packages/ocr-ggml/.agent/skills/release-fabric-consumers/SKILL.md",
-        "line": 164,
-        "excerpt": "git -C <repo> branch release-<pkg>-<ver> origin/<base-branch>    # no checkout",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "packages/ocr-ggml/.agent/skills/release-fabric-consumers/SKILL.md",
         "line": 171,
-        "excerpt": "gh workflow run publish-npm.yml --repo tetherto/qvac \\",
+        "excerpt": "gh workflow run addon-auto-release.yml --repo tetherto/qvac -f sha=<merge-commit> -f dry_run=true",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "packages/ocr-ggml/.agent/skills/release-fabric-consumers/SKILL.md",
-        "line": 185,
+        "line": 179,
+        "excerpt": "gh run list --repo tetherto/qvac --workflow publish-npm.yml --branch release-<pkg>-<ver> --limit 1 --json databaseId",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/ocr-ggml/.agent/skills/release-fabric-consumers/SKILL.md",
+        "line": 190,
         "excerpt": "gh run list --branch release-<pkg>-<ver> --repo tetherto/qvac --limit 1 --json databaseId,url,status,conclusion",
         "disclosed": false,
         "automatic": false
@@ -67,7 +67,7 @@
       {
         "ruleId": "shell",
         "file": "packages/ocr-ggml/.agent/skills/release-fabric-consumers/SKILL.md",
-        "line": 230,
+        "line": 235,
         "excerpt": "npm view @qvac/<pkg> dist-tags.latest                 # == <ver>",
         "disclosed": false,
         "automatic": false
@@ -86,6 +86,12 @@
     {
       "commit": "38131ca211a7910d2fd1f9b4bb830775ab56f24e",
       "scannedAt": "2026-11-20T10:39:23.037Z",
+      "score": 95,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "ac50355587587951eed64f79d9107f246e790da6",
+      "scannedAt": "2026-11-25T11:49:36.262Z",
       "score": 95,
       "rulesVersion": "1.3.0"
     }

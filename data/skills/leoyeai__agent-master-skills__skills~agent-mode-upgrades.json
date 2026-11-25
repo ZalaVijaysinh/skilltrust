@@ -5,17 +5,33 @@
   "path": "skills/agent-mode-upgrades",
   "name": "agentic-loop-upgrade",
   "description": "Enhanced agentic loop with planning, parallel execution, confidence gates, semantic error recovery, and observable state machine. Includes Mode dashboard UI for easy configuration.",
-  "stars": 2210,
+  "stars": 2224,
   "category": "coding",
-  "commit": "90f95204adef528b4248213d7d78e0b62af4c497",
+  "commit": "930c34b923146c137b86190a97b67d86f5ae454b",
   "contentHash": "05bbd3d13c8e5e3c51022be0e54bea2010fbaaf6e158058f10366051f1670d0f",
   "repoCreatedAt": "2026-03-02T02:02:25Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-20T10:39:23.037Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-25T11:49:36.262Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "paid-api",
+        "file": "skills/agent-mode-upgrades/SECURITY.md",
+        "line": 27,
+        "excerpt": "All network activity is limited to the LLM API calls that the host OpenClaw agent already makes (e.g., `api.anthropic.com` for Anthropic, `api.openai.com` for O",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/agent-mode-upgrades/SECURITY.md",
+        "line": 137,
+        "excerpt": "rm ~/.openclaw/agents/main/agent/enhanced-loop-config.json",
+        "disclosed": true,
+        "automatic": false
+      },
       {
         "ruleId": "shell",
         "file": "skills/agent-mode-upgrades/SKILL.md",
@@ -30,6 +46,48 @@
         "line": 296,
         "excerpt": "- **No external network calls** beyond the configured LLM provider API (e.g. `api.anthropic.com`). The skill does not phone home or send telemetry. Run `scripts",
         "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/agent-mode-upgrades/scripts/verify.sh",
+        "line": 95,
+        "excerpt": "\"fetch(\" \"axios.get\\|axios.post\" \"http.request\\|https.request\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/agent-mode-upgrades/src/dist/execution/retry-engine.js",
+        "line": 73,
+        "excerpt": "arguments: { command: `which ${cmd.split(\" \")[0]} || apt-get install -y ${cmd.split(\" \")[0]} 2>/dev/null || npm install -g ${cmd.split(\" \")[0]}` },",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/agent-mode-upgrades/src/dist/llm/caller.js",
+        "line": 69,
+        "excerpt": "const ANTHROPIC_API_URL = \"https://api.anthropic.com/v1/messages\";",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/agent-mode-upgrades/src/dist/llm/caller.js",
+        "line": 107,
+        "excerpt": "const response = await fetch(this.baseUrl, {",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/agent-mode-upgrades/src/execution/retry-engine.ts",
+        "line": 152,
+        "excerpt": "arguments: { command: `which ${cmd.split(\" \")[0]} || apt-get install -y ${cmd.split(\" \")[0]} 2>/dev/null || npm install -g ${cmd.split(\" \")[0]}` },",
+        "disclosed": false,
         "automatic": false
       },
       {
@@ -51,15 +109,17 @@
       }
     ],
     "findingTotals": {
+      "paid-api": 4,
+      "writes-outside": 1,
       "shell": 1,
-      "paid-api": 2,
-      "network": 1
+      "network": 3,
+      "downloads-code": 2
     },
-    "score": 87,
-    "band": "low",
+    "score": 67,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 13,
-    "filesSkipped": 111
+    "filesScanned": 123,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -84,6 +144,12 @@
       "commit": "90f95204adef528b4248213d7d78e0b62af4c497",
       "scannedAt": "2026-11-20T10:39:23.037Z",
       "score": 87,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "930c34b923146c137b86190a97b67d86f5ae454b",
+      "scannedAt": "2026-11-25T11:49:36.262Z",
+      "score": 67,
       "rulesVersion": "1.3.0"
     }
   ]

@@ -7,19 +7,19 @@
   "description": "Use this skill when the operator wants a prepared tmux visualization layout for the session's side-channels (STATE.md tail, CI-watch, events.jsonl tail). Renders a 4-pane default layout or debug layout. Read-only side-channel observability — the coordinator chat stays in the operator's original terminal. Trigger phrases: \"tmux layout\", \"split panes for ci watch\", \"visualize session side-channels\", \"show me state-md tail and ci\".",
   "stars": 53,
   "category": "coding",
-  "commit": "e1fb7cb768ae4d926b6b50e96e65b0672188934e",
-  "contentHash": "7a788b83371cccdc0e7b1a78771555bbda2b147950fddb83b86d22d577623d3e",
+  "commit": "d907c5e5ba497c924eeb16a82bec54cd819239e0",
+  "contentHash": "eee6741c7fbe1766ad21b82030947ad2d88fa7aa18872e571a98e3201328b1ae",
   "repoCreatedAt": "2026-04-02T18:34:17Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-15T10:00:32.478Z",
+  "scannedAt": "2026-11-25T11:49:36.262Z",
   "scan": {
     "findings": [
       {
         "ruleId": "downloads-code",
         "file": "skills/tmux-layout/SKILL.md",
-        "line": 102,
+        "line": 104,
         "excerpt": "- **tmux not found** → install: `brew install tmux` (macOS) / `apt install tmux` (Linux). Minimum tmux ≥ 3.0.",
         "disclosed": false,
         "automatic": false
@@ -65,6 +65,14 @@
         "automatic": false
       },
       {
+        "ruleId": "writes-outside",
+        "file": "mcp/servers.json",
+        "line": 7,
+        "excerpt": "\"# Plugin-root lookup. Order: PLUGIN_ROOT; then CLAUDE_PLUGIN_ROOT, CODEX_PLUGIN_ROOT, CURSOR_RULES_DIR, PI_PLUGIN_ROOT with the one matching SO_PLATFORM moved ",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
         "ruleId": "shell",
         "file": "scripts/auq-audit.mjs",
         "line": 220,
@@ -107,7 +115,7 @@
       {
         "ruleId": "shell",
         "file": "scripts/emit-session.mjs",
-        "line": 376,
+        "line": 401,
         "excerpt": "const top = execFileSync('git', ['rev-parse', '--show-toplevel'], {",
         "disclosed": true,
         "automatic": false
@@ -131,7 +139,7 @@
       {
         "ruleId": "shell",
         "file": "scripts/lib/backlog-refine/fetch.mjs",
-        "line": 41,
+        "line": 47,
         "excerpt": "return spawnSync(bin, args, {",
         "disclosed": true,
         "automatic": false
@@ -155,15 +163,15 @@
       {
         "ruleId": "shell",
         "file": "scripts/lib/fleet-protocol.mjs",
-        "line": 404,
-        "excerpt": "const out = execFileSync('git', ['-C', dir, 'rev-parse', '--path-format=absolute', '--git-common-dir'], {",
+        "line": 405,
+        "excerpt": "const out = execFileSync(hookProgram('git', dir), ['-C', dir, 'rev-parse', '--path-format=absolute', '--git-common-dir'], {",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
         "file": "scripts/lib/gates/gate-full.mjs",
-        "line": 412,
+        "line": 413,
         "excerpt": "`  reproduce: npx vitest run ${failedTestFiles.join(' ')}\\n`,",
         "disclosed": false,
         "automatic": false
@@ -186,6 +194,14 @@
       },
       {
         "ruleId": "shell",
+        "file": "scripts/lib/git-config-drift.mjs",
+        "line": 594,
+        "excerpt": "const spawn = deps?.spawn ?? ((cmd, args, options) => spawnSync(hookProgram(cmd, repoRoot, options.env), args, options));",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
         "file": "scripts/lib/harness-audit/categories/category6.mjs",
         "line": 165,
         "excerpt": "return execFileSync('git', args, { cwd: root, encoding: 'utf8', env: { ...process.env, GIT_NO_REPLACE_OBJECTS: '1' } }).trim();",
@@ -195,23 +211,15 @@
       {
         "ruleId": "shell",
         "file": "scripts/lib/ledger-path.mjs",
-        "line": 67,
-        "excerpt": "const r = spawnSync('git', ['-C', root, 'check-ignore', '-q', '--', relPath], {",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "scripts/lib/named-vault-resolver.mjs",
-        "line": 273,
-        "excerpt": "const res = spawnSync('git', ['-C', vaultDir, 'remote', 'get-url', 'origin'], { encoding: 'utf8' });",
+        "line": 68,
+        "excerpt": "const r = spawnSync(hookProgram('git', root), ['-C', root, 'check-ignore', '-q', '--', relPath], {",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
         "file": "scripts/lib/project-hygiene.mjs",
-        "line": 680,
+        "line": 687,
         "excerpt": "const RUNNER_SUBCOMMANDS = { uvx: [], pipx: ['run'], uv: ['tool', 'run'] };",
         "disclosed": false,
         "automatic": false
@@ -219,18 +227,10 @@
       {
         "ruleId": "downloads-code",
         "file": "scripts/lib/project-hygiene.mjs",
-        "line": 810,
+        "line": 817,
         "excerpt": "if (verb === 'uvx' || verb === 'pipx' || verb === 'uv') {",
         "disclosed": false,
         "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": ".mcp.json",
-        "line": 7,
-        "excerpt": "\"# Plugin-root lookup. Order: PLUGIN_ROOT; then CLAUDE_PLUGIN_ROOT, CODEX_PLUGIN_ROOT, CURSOR_RULES_DIR, PI_PLUGIN_ROOT with the one matching SO_PLATFORM moved ",
-        "disclosed": true,
-        "automatic": true
       },
       {
         "ruleId": "obfuscated",
@@ -243,7 +243,7 @@
       {
         "ruleId": "writes-outside",
         "file": "hooks/run-node.sh",
-        "line": 122,
+        "line": 239,
         "excerpt": "echo \"  (Hook shells do not source ~/.zshrc — Homebrew/nvm/volta installs can be invisible here.\"",
         "disclosed": true,
         "automatic": true
@@ -251,7 +251,7 @@
     ],
     "findingTotals": {
       "downloads-code": 6,
-      "shell": 183,
+      "shell": 182,
       "writes-outside": 2,
       "obfuscated": 1
     },
@@ -271,6 +271,12 @@
     {
       "commit": "e1fb7cb768ae4d926b6b50e96e65b0672188934e",
       "scannedAt": "2026-11-15T10:00:32.478Z",
+      "score": 52,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "d907c5e5ba497c924eeb16a82bec54cd819239e0",
+      "scannedAt": "2026-11-25T11:49:36.262Z",
       "score": 52,
       "rulesVersion": "1.3.0"
     }

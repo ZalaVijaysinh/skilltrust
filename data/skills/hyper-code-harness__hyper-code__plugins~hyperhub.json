@@ -5,17 +5,49 @@
   "path": "plugins/hyperhub",
   "name": "hyperhub",
   "description": "",
-  "stars": 19,
+  "stars": 20,
   "category": "other",
-  "commit": "98ec3d26fa2531a152695d6c2e85649a02332177",
-  "contentHash": "4845cc568027e8d9d1fcb6bafac6632b4630237eb060cc82ea507cfd4a411817",
+  "commit": "8d713356635f73bc7dc9d8b7ff9b00390b9275f4",
+  "contentHash": "306465fd94787b1c37dd8d51c457f478d9bcb8fed93fe1bb418769f720d8e3a8",
   "repoCreatedAt": "2026-04-18T19:18:18Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-20T10:39:23.037Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-25T11:49:36.262Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "shell",
+        "file": "plugins/hyperhub/src/hyperhub/command.test.ts",
+        "line": 3,
+        "excerpt": "const originalSpawn = Bun.spawn;",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/hyperhub/src/hyperhub/command.test.ts",
+        "line": 6,
+        "excerpt": "afterEach(() => { Bun.spawn = originalSpawn; process.kill = originalKill; globalThis.setTimeout = originalTimeout; });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/hyperhub/src/hyperhub/command.test.ts",
+        "line": 12,
+        "excerpt": "Bun.spawn = ((argv: string[], opts: Record<string, unknown>) => {",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/hyperhub/src/hyperhub/command.test.ts",
+        "line": 16,
+        "excerpt": "}) as typeof Bun.spawn;",
+        "disclosed": false,
+        "automatic": false
+      },
       {
         "ruleId": "shell",
         "file": "plugins/hyperhub/src/hyperhub/command.ts",
@@ -23,22 +55,78 @@
         "excerpt": "const proc = Bun.spawn([\"git\", \"-c\", \"core.hooksPath=/dev/null\", \"-c\", \"protocol.file.allow=never\", ...opts.args], {",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/hyperhub/src/hyperhub/provider.test.ts",
+        "line": 11,
+        "excerpt": "async function fixture(){const root=await realpath(await mkdtemp(join(tmpdir(),'provider-inert-')));roots.push(root);const destination=join(root,'content');awai",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/hyperhub/src/hyperhub/provider.test.ts",
+        "line": 19,
+        "excerpt": "const git=async(dir:string,args:string[])=>{const p=Bun.spawn(['git',...args],{cwd:dir,stdout:'pipe',stderr:'pipe'});const [out,err,code]=await Promise.all([new",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/hyperhub/src/hyperhub/providerMaterialize.ts",
+        "line": 48,
+        "excerpt": "const tar=Bun.spawn(['tar','-xf',archive,'-C',opts.destination],{stdout:'ignore',stderr:'ignore'}),timer=setTimeout(()=>tar.kill(),30_000);",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/hyperhub/src/hyperhub/publish.it.test.ts",
+        "line": 9,
+        "excerpt": "async function git(dir:string,args:string[]){const p=Bun.spawn(['git','-c','user.name=Test','-c','user.email=test@localhost',...args],{cwd:dir,stdout:'pipe',std",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/hyperhub/src/hyperhub/registryRequest.ts",
+        "line": 55,
+        "excerpt": "const response = await Promise.race([fetch(url,{method:opts.action === 'createRepo' ? 'POST' : 'GET',redirect:'error',credentials:'omit',headers:{Accept:opts.ac",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/hyperhub/src/hyperhub/workflows.test.ts",
+        "line": 15,
+        "excerpt": "test('core install through the HyperHub provider: preview never loads; confirmed install binds target and writes provenance',async()=>{const {root,dir}=await fi",
+        "disclosed": false,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 1
+      "shell": 10,
+      "network": 1
     },
-    "score": 95,
+    "score": 92,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 2,
-    "filesSkipped": 25
+    "filesScanned": 28,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "98ec3d26fa2531a152695d6c2e85649a02332177",
       "scannedAt": "2026-11-20T10:39:23.037Z",
       "score": 95,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "8d713356635f73bc7dc9d8b7ff9b00390b9275f4",
+      "scannedAt": "2026-11-25T11:49:36.262Z",
+      "score": 92,
       "rulesVersion": "1.3.0"
     }
   ]

