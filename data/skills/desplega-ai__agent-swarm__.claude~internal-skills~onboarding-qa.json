@@ -5,15 +5,15 @@
   "path": ".claude/internal-skills/onboarding-qa",
   "name": "onboarding-qa",
   "description": "Maintainer QA for the new-user onboarding of agent-swarm. It spins up a throwaway Hetzner box and runs one of four modes. Mode install lets a headless Claude Code follow the landing-page prompt while you play a persona. Mode ui installs a clean swarm with the one-shot installer, then walks the dashboard /setup flow with agent-browser. Mode stack deploys the full self-hosted Compose stack (lead, workers, agent-fs, MinIO, Caddy HTTPS) on a real agent-swarm.dev subdomain in about 5 minutes. Mode record records the onboarding demo takes for the videos repo (the install typed into a browser terminal, /setup as the owner, the invite as a teammate) on a box that sends no telemetry. Each run ends with a friction report, a telemetry check against the desplega-labs ClickHouse, and teardown. Use when asked to \"test onboarding\", \"test the install as a new user\", \"try the landing prompt on a fresh box\", \"QA /setup\", \"run an onboarding pass\", \"spin up a demo swarm\", \"deploy a swarm with a lead, a worker, agent-fs and MinIO on a server\", \"put a swarm on <name>.agent-swarm.dev\", \"record the onboarding demo\", \"re-record the install take\", \"capture the dashboard for the video\", or to check what real users see when they install.",
-  "stars": 1094,
+  "stars": 1127,
   "category": "coding",
-  "commit": "48fa684f1c065fa60e2a5021a692da9adbaa837e",
-  "contentHash": "a6767457338b116ee81c2326854b35d830453ef335a60434cb6290e731e01914",
+  "commit": "3ec7f5b2f670d5bff3f8c58869800edf2ff924fe",
+  "contentHash": "971f302e5973849722c6d595103b75db7f02a2b05e5a1e35dcced0d0d1892fb2",
   "repoCreatedAt": "2025-12-19T18:59:13Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": false,
-  "scannedAt": "2026-11-21T10:21:16.775Z",
+  "incomplete": true,
+  "scannedAt": "2026-11-26T11:36:54.718Z",
   "scan": {
     "findings": [
       {
@@ -84,6 +84,22 @@
         "ruleId": "shell",
         "file": ".claude/internal-skills/onboarding-qa/SKILL.md",
         "line": 156,
+        "excerpt": "bash $S/stack-pg.sh reader $RUN    # db-query role swarm_reader (runbooks/postgres.md), DATABASE_QUERY_URL, API recreated",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/internal-skills/onboarding-qa/SKILL.md",
+        "line": 162,
+        "excerpt": "bash $S/stress-pack.sh install $RUN            # 11 scripts, 7 workflows, 12 schedules, all named stress-*",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/internal-skills/onboarding-qa/SKILL.md",
+        "line": 188,
         "excerpt": "export AGENT_BROWSER_SESSION=onboarding-qa-$RUN-terminal",
         "disclosed": true,
         "automatic": false
@@ -91,7 +107,7 @@
       {
         "ruleId": "downloads-code",
         "file": ".claude/internal-skills/onboarding-qa/SKILL.md",
-        "line": 160,
+        "line": 192,
         "excerpt": "bash $S/take.sh type 'curl -fsSL https://agent-swarm.dev/install.sh | bash'",
         "disclosed": false,
         "automatic": false
@@ -99,7 +115,7 @@
       {
         "ruleId": "network",
         "file": ".claude/internal-skills/onboarding-qa/SKILL.md",
-        "line": 160,
+        "line": 192,
         "excerpt": "bash $S/take.sh type 'curl -fsSL https://agent-swarm.dev/install.sh | bash'",
         "disclosed": true,
         "automatic": false,
@@ -110,7 +126,7 @@
       {
         "ruleId": "shell",
         "file": ".claude/internal-skills/onboarding-qa/SKILL.md",
-        "line": 172,
+        "line": 204,
         "excerpt": "export AGENT_BROWSER_SESSION=onboarding-qa-$RUN-owner",
         "disclosed": true,
         "automatic": false
@@ -118,7 +134,7 @@
       {
         "ruleId": "shell",
         "file": ".claude/internal-skills/onboarding-qa/SKILL.md",
-        "line": 180,
+        "line": 212,
         "excerpt": "ORG=$(bash $S/box-api.sh $RUN GET '/api/config?scope=global&key=telemetry_org_id' | head -1 | jq -r '.configs[0].value')",
         "disclosed": true,
         "automatic": false
@@ -126,7 +142,7 @@
       {
         "ruleId": "shell",
         "file": ".claude/internal-skills/onboarding-qa/SKILL.md",
-        "line": 189,
+        "line": 221,
         "excerpt": "bash $S/telemetry.sh org $(grep ^ORG= $D/run.env | cut -d= -f2)   # this run's timeline, BCN",
         "disclosed": true,
         "automatic": false
@@ -134,7 +150,7 @@
       {
         "ruleId": "shell",
         "file": ".claude/internal-skills/onboarding-qa/SKILL.md",
-        "line": 204,
+        "line": 236,
         "excerpt": "bash $S/stack.sh down $RUN        # stack mode only: DNS records first, then the box",
         "disclosed": true,
         "automatic": false
@@ -142,7 +158,7 @@
       {
         "ruleId": "network",
         "file": ".claude/internal-skills/onboarding-qa/SKILL.md",
-        "line": 220,
+        "line": 252,
         "excerpt": "- Each `*.lt.desplega.ai` name waits for its own certificate (Caddy on host `desplega-main` asks ZeroSSL on demand). In the 14 days to 2026-10-24 the p90 was 13",
         "disclosed": true,
         "automatic": false,
@@ -343,9 +359,71 @@
         "automatic": false
       },
       {
+        "ruleId": "network",
+        "file": ".claude/internal-skills/onboarding-qa/scripts/stack-pg.sh",
+        "line": 52,
+        "excerpt": "curl -fsS -m 5 -o /dev/null http://127.0.0.1:3013/health 2>/dev/null && break",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/internal-skills/onboarding-qa/scripts/stack-pg.sh",
+        "line": 55,
+        "excerpt": "curl -fsS -m 5 -o /dev/null http://127.0.0.1:3013/health || { echo \"the API did not come back after 3 min\" >&2; exit 1; }",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".claude/internal-skills/onboarding-qa/scripts/stack-pg.sh",
+        "line": 66,
+        "excerpt": "cat >/usr/local/bin/swarm-pg-backup <<'EOF'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".claude/internal-skills/onboarding-qa/scripts/stack-pg.sh",
+        "line": 83,
+        "excerpt": "cat >/etc/systemd/system/swarm-pg-backup.service <<EOF",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".claude/internal-skills/onboarding-qa/scripts/stack-pg.sh",
+        "line": 95,
+        "excerpt": "cat >/etc/systemd/system/swarm-pg-backup.timer <<'EOF'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/internal-skills/onboarding-qa/scripts/stack.sh",
+        "line": 79,
+        "excerpt": "token=\"$(curl -fsS \"https://ghcr.io/token?scope=repository:$REPO_OWNER/$img:pull\" | jq -r .token)\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "ghcr.io"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/internal-skills/onboarding-qa/scripts/stack.sh",
+        "line": 80,
+        "excerpt": "code=\"$(curl -s -o /dev/null -w '%{http_code}' -H \"Authorization: Bearer $token\" -H \"Accept: $accept\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
         "ruleId": "writes-outside",
         "file": ".claude/internal-skills/onboarding-qa/scripts/stack.sh",
-        "line": 109,
+        "line": 150,
         "excerpt": "mkdir -p ~/swarm && cd ~/swarm && umask 077",
         "disclosed": false,
         "automatic": false
@@ -353,18 +431,25 @@
       {
         "ruleId": "network",
         "file": ".claude/internal-skills/onboarding-qa/scripts/stack.sh",
-        "line": 110,
-        "excerpt": "curl -fsSL \"https://raw.githubusercontent.com/desplega-ai/agent-swarm/v$version/docker-compose.example.yml\" -o docker-compose.yml",
+        "line": 152,
+        "excerpt": "curl -fsSL \"$raw/docker-compose.example.yml\" -o docker-compose.yml",
         "disclosed": true,
         "automatic": false,
-        "hosts": [
-          "raw.githubusercontent.com"
-        ]
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/internal-skills/onboarding-qa/scripts/stack.sh",
+        "line": 155,
+        "excerpt": "curl -fsSL \"$raw/docker-compose.$o.yml\" -o \"docker-compose.$o.yml\" ||",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
       },
       {
         "ruleId": "shell",
         "file": ".claude/internal-skills/onboarding-qa/scripts/stack.sh",
-        "line": 135,
+        "line": 212,
         "excerpt": "/bin/sh -c \"",
         "disclosed": true,
         "automatic": false
@@ -372,7 +457,7 @@
       {
         "ruleId": "network",
         "file": ".claude/internal-skills/onboarding-qa/scripts/stack.sh",
-        "line": 171,
+        "line": 268,
         "excerpt": "curl -fsS -m 10 -o /dev/null --resolve \"$host:443:$ip\" \"https://$host/health\" 2>/dev/null || ok=\"\"",
         "disclosed": true,
         "automatic": false,
@@ -415,9 +500,26 @@
       },
       {
         "ruleId": "network",
-        "file": "src/utils/secret-rules.generated.ts",
-        "line": 2024,
-        "excerpt": "\"reason\": \"the key-context pass already redacts curl -u/--user; its unbounded multi-line `.*` backtracks in JS\"",
+        "file": ".claude/internal-skills/onboarding-qa/stress-pack/pack.ts",
+        "line": 37,
+        "excerpt": "code=\"$(curl \"\\${args[@]}\" \"http://127.0.0.1:\\${port:-3013}$path\")\" || code=000",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/internal-skills/onboarding-qa/stress-pack/pack.ts",
+        "line": 69,
+        "excerpt": "const proc = Bun.spawn(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/internal-skills/onboarding-qa/stress-pack/scripts/stress-rejections.ts",
+        "line": 19,
+        "excerpt": "res = await ctx.stdlib.fetch(`${base}${path}`, {",
         "disclosed": true,
         "automatic": false,
         "hosts": []
@@ -425,16 +527,16 @@
     ],
     "findingTotals": {
       "downloads-code": 6,
-      "shell": 12,
-      "network": 14,
+      "shell": 15,
+      "network": 21,
       "reads-secrets": 1,
-      "writes-outside": 14
+      "writes-outside": 17
     },
     "score": 59,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 22,
-    "filesSkipped": 2
+    "filesScanned": 35,
+    "filesSkipped": 14
   },
   "history": [
     {
@@ -446,6 +548,12 @@
     {
       "commit": "48fa684f1c065fa60e2a5021a692da9adbaa837e",
       "scannedAt": "2026-11-21T10:21:16.775Z",
+      "score": 59,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "3ec7f5b2f670d5bff3f8c58869800edf2ff924fe",
+      "scannedAt": "2026-11-26T11:36:54.718Z",
       "score": 59,
       "rulesVersion": "1.3.0"
     }

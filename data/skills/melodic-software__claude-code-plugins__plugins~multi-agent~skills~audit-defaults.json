@@ -4,22 +4,62 @@
   "repo": "claude-code-plugins",
   "path": "plugins/multi-agent/skills/audit-defaults",
   "name": "audit-defaults",
-  "description": "Recheck every bundled multi-agent role default (model, effort, the fan-out guard) against the upstream pointer recorded beside it, and report which defaults have drifted or whose recheck trigger has fired, each with fetched evidence and a proposed diff to reference/defaults.yaml; `repo` mode sweeps the repository's own model, effort, subagent and workflow guidance for stale or copied upstream claims. Proposes only; never edits a file. Use when: 'are the routing defaults current', 'audit the role map', 'recheck model defaults', 'did the workflow guidance change', 'new model released, check the defaults', 'is our model guidance stale', or when an as-of date in defaults.yaml looks old.",
+  "description": "Recheck bundled multi-agent role defaults against upstream pointers (`defaults`), sweep repository model/effort/subagent/workflow prose (`repo`), or recheck benchmark registry rows for reachability, dates, coverage and current-model testing (`registry`) with a proposed diff to the shipped benchmark registry. Proposes only; never edits a file in its default modes (an explicit apply request in registry mode opens a PR in the marketplace repository only). Use when: 'are the routing defaults current', 'audit the role map', 'recheck model defaults', 'recheck the benchmark registry', 'audit benchmark sources', 'did the workflow guidance change', or 'new model released, check the defaults'.",
   "stars": 32,
   "category": "coding",
-  "commit": "6f854874bbebd8165ea9215268c7ceb7e43df60f",
-  "contentHash": "536075ecc154cf2888c8ca6512606689a174081fcb0ab5b6985003594bb60b14",
+  "commit": "0c5e2cc8c7cba7867033a16ac15f5f8f49f1d2c7",
+  "contentHash": "1323ada2529344f78a09d6e78e647e1a811ba355941a72e14b99ac3f11f0a291",
   "repoCreatedAt": "2026-06-22T18:28:56Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-21T10:21:16.775Z",
+  "scannedAt": "2026-11-26T11:36:54.718Z",
   "scan": {
     "findings": [
       {
+        "ruleId": "shell",
+        "file": "plugins/multi-agent/skills/audit-defaults/scripts/list-registry.mjs",
+        "line": 3,
+        "excerpt": "import { spawnSync } from 'node:child_process'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/multi-agent/skills/audit-defaults/scripts/list-registry.mjs",
+        "line": 92,
+        "excerpt": "const res = spawnSync('git', ['rev-parse', '--show-toplevel'], { cwd, encoding: 'utf8' })",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/multi-agent/skills/audit-defaults/scripts/list-registry.test.mjs",
+        "line": 4,
+        "excerpt": "import { spawnSync } from 'node:child_process'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/multi-agent/skills/audit-defaults/scripts/list-registry.test.mjs",
+        "line": 76,
+        "excerpt": "const ok = spawnSync('node', [script, '--json', '--root', goodDir], { encoding: 'utf8' })",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/multi-agent/skills/audit-defaults/scripts/list-registry.test.mjs",
+        "line": 81,
+        "excerpt": "const bad = spawnSync('node', [script, '--json', '--root', badDir], { encoding: 'utf8' })",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
         "ruleId": "network",
         "file": "plugins/multi-agent/hooks/drift-checker-fetch-gate.mjs",
-        "line": 27,
+        "line": 17,
         "excerpt": "if (payload.tool_name !== 'WebFetch') return 'drift-checker may only use WebFetch'",
         "disclosed": false,
         "automatic": true,
@@ -28,7 +68,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/multi-agent/hooks/drift-checker-fetch-gate.test.mjs",
-        "line": 7,
+        "line": 4,
         "excerpt": "import { spawnSync } from 'node:child_process'",
         "disclosed": true,
         "automatic": true
@@ -36,7 +76,7 @@
       {
         "ruleId": "network",
         "file": "plugins/multi-agent/hooks/drift-checker-fetch-gate.test.mjs",
-        "line": 13,
+        "line": 10,
         "excerpt": "const fetch = (url, agent = 'multi-agent:drift-checker') => ({ agent_type: agent, tool_name: 'WebFetch', tool_input: { url } })",
         "disclosed": false,
         "automatic": true,
@@ -45,7 +85,7 @@
       {
         "ruleId": "network",
         "file": "plugins/multi-agent/hooks/drift-checker-fetch-gate.test.mjs",
-        "line": 16,
+        "line": 13,
         "excerpt": "assert.equal(decide(fetch('https://code.claude.com/docs/en/workflows#cost')), null)",
         "disclosed": false,
         "automatic": true,
@@ -56,7 +96,7 @@
       {
         "ruleId": "network",
         "file": "plugins/multi-agent/hooks/drift-checker-fetch-gate.test.mjs",
-        "line": 17,
+        "line": 14,
         "excerpt": "assert.equal(decide(fetch('https://platform.claude.com/docs/en/models/overview')), null)",
         "disclosed": false,
         "automatic": true,
@@ -67,7 +107,7 @@
       {
         "ruleId": "network",
         "file": "plugins/multi-agent/hooks/drift-checker-fetch-gate.test.mjs",
-        "line": 28,
+        "line": 25,
         "excerpt": "]) assert.match(decide(fetch(url)), /denied/, url)",
         "disclosed": false,
         "automatic": true,
@@ -76,7 +116,7 @@
       {
         "ruleId": "network",
         "file": "plugins/multi-agent/hooks/drift-checker-fetch-gate.test.mjs",
-        "line": 32,
+        "line": 29,
         "excerpt": "assert.equal(decide(fetch('https://attacker.example/?d=x', 'Explore')), null)",
         "disclosed": false,
         "automatic": true,
@@ -87,7 +127,7 @@
       {
         "ruleId": "network",
         "file": "plugins/multi-agent/hooks/drift-checker-fetch-gate.test.mjs",
-        "line": 33,
+        "line": 30,
         "excerpt": "assert.equal(decide({ tool_name: 'WebFetch', tool_input: { url: 'https://attacker.example/' } }), null)",
         "disclosed": false,
         "automatic": true,
@@ -98,7 +138,7 @@
       {
         "ruleId": "network",
         "file": "plugins/multi-agent/hooks/drift-checker-fetch-gate.test.mjs",
-        "line": 34,
+        "line": 31,
         "excerpt": "assert.equal(decide(fetch('https://attacker.example/', 'drift-checker-ish')), null)",
         "disclosed": false,
         "automatic": true,
@@ -109,7 +149,7 @@
       {
         "ruleId": "network",
         "file": "plugins/multi-agent/hooks/drift-checker-fetch-gate.test.mjs",
-        "line": 38,
+        "line": 35,
         "excerpt": "assert.match(decide(fetch('https://attacker.example/', 'drift-checker')), /denied/)",
         "disclosed": false,
         "automatic": true,
@@ -120,7 +160,7 @@
       {
         "ruleId": "network",
         "file": "plugins/multi-agent/hooks/drift-checker-fetch-gate.test.mjs",
-        "line": 43,
+        "line": 40,
         "excerpt": "const denied = spawnSync('node', [hook], { input: JSON.stringify(fetch('https://attacker.example/')), encoding: 'utf8' })",
         "disclosed": false,
         "automatic": true,
@@ -131,7 +171,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/multi-agent/hooks/drift-checker-fetch-gate.test.mjs",
-        "line": 43,
+        "line": 40,
         "excerpt": "const denied = spawnSync('node', [hook], { input: JSON.stringify(fetch('https://attacker.example/')), encoding: 'utf8' })",
         "disclosed": true,
         "automatic": true
@@ -139,7 +179,7 @@
       {
         "ruleId": "network",
         "file": "plugins/multi-agent/hooks/drift-checker-fetch-gate.test.mjs",
-        "line": 46,
+        "line": 43,
         "excerpt": "const allowed = spawnSync('node', [hook], { input: JSON.stringify(fetch('https://code.claude.com/docs/en/hooks')), encoding: 'utf8' })",
         "disclosed": false,
         "automatic": true,
@@ -150,7 +190,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/multi-agent/hooks/drift-checker-fetch-gate.test.mjs",
-        "line": 46,
+        "line": 43,
         "excerpt": "const allowed = spawnSync('node', [hook], { input: JSON.stringify(fetch('https://code.claude.com/docs/en/hooks')), encoding: 'utf8' })",
         "disclosed": true,
         "automatic": true
@@ -158,7 +198,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/multi-agent/hooks/drift-checker-fetch-gate.test.mjs",
-        "line": 48,
+        "line": 45,
         "excerpt": "const garbage = spawnSync('node', [hook], { input: 'not json', encoding: 'utf8' })",
         "disclosed": true,
         "automatic": true
@@ -166,7 +206,7 @@
       {
         "ruleId": "network",
         "file": "plugins/multi-agent/hooks/drift-checker-fetch-gate.test.mjs",
-        "line": 59,
+        "line": 56,
         "excerpt": "test('hooks.json registers the gate on WebFetch in exec form', () => {",
         "disclosed": false,
         "automatic": true,
@@ -175,7 +215,7 @@
       {
         "ruleId": "network",
         "file": "plugins/multi-agent/hooks/drift-checker-fetch-gate.test.mjs",
-        "line": 62,
+        "line": 59,
         "excerpt": "assert.equal(entry.matcher, 'WebFetch')",
         "disclosed": false,
         "automatic": true,
@@ -214,16 +254,33 @@
         "excerpt": "\"command\": \"node\",",
         "disclosed": true,
         "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/multi-agent/hooks/hooks.json",
+        "line": 43,
+        "excerpt": "\"command\": \"node\",",
+        "disclosed": true,
+        "automatic": true
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/multi-agent/hooks/registry-fetcher-gate.test.mjs",
+        "line": 84,
+        "excerpt": "`curl '${benchmarks.rows[0].link}'`,",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": []
       }
     ],
     "findingTotals": {
-      "network": 15,
-      "shell": 6
+      "shell": 12,
+      "network": 16
     },
     "score": 92,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 13,
+    "filesScanned": 19,
     "filesSkipped": 0
   },
   "history": [
@@ -254,6 +311,12 @@
     {
       "commit": "6f854874bbebd8165ea9215268c7ceb7e43df60f",
       "scannedAt": "2026-11-21T10:21:16.775Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "0c5e2cc8c7cba7867033a16ac15f5f8f49f1d2c7",
+      "scannedAt": "2026-11-26T11:36:54.718Z",
       "score": 92,
       "rulesVersion": "1.3.0"
     }

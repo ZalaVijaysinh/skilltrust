@@ -7,13 +7,13 @@
   "description": "Cut a release of the Guren packages to npm, from pending changesets to the published-package check. Use when the user says \"release\", \"prepare a release\", \"cut a release\", \"version PR\", \"version packages\", \"publish to npm\", \"リリース\", \"リリースの準備\", \"リリース進めて\", asks what the next version or tag will be, or asks why a release run failed. Also use to finish a release someone else started (merge the version PR, check the publish, publish the agent catalog).",
   "stars": 35,
   "category": "coding",
-  "commit": "41d764a206c16f8071fbaed8dcc7758255860c82",
-  "contentHash": "23c6acf57dcc3919fccaf18bca9ab12ac7825b4c9b8b0b614539a8288a61bf38",
+  "commit": "8cf04387d18897025326b4cea3df55b3e44f81b6",
+  "contentHash": "c6786d4cf6953504e5aefe7be979b3b0c43fcf5a4d6e28419b5a5bd72f77a0cc",
   "repoCreatedAt": "2025-11-01T13:45:07Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-21T10:21:16.775Z",
+  "scannedAt": "2026-11-26T11:36:54.718Z",
   "scan": {
     "findings": [
       {
@@ -67,7 +67,7 @@
       {
         "ruleId": "network",
         "file": ".claude/skills/release/SKILL.md",
-        "line": 208,
+        "line": 210,
         "excerpt": "curl -s https://registry.npmjs.org/@guren/server | jq -r '.\"dist-tags\".latest'",
         "disclosed": false,
         "automatic": false,
@@ -78,7 +78,7 @@
       {
         "ruleId": "shell",
         "file": ".claude/skills/release/SKILL.md",
-        "line": 208,
+        "line": 210,
         "excerpt": "curl -s https://registry.npmjs.org/@guren/server | jq -r '.\"dist-tags\".latest'",
         "disclosed": true,
         "automatic": false
@@ -86,18 +86,38 @@
       {
         "ruleId": "network",
         "file": ".claude/skills/release/references/troubleshooting.md",
-        "line": 46,
-        "excerpt": "echo \"$pkg $(curl -s \"https://registry.npmjs.org/$pkg\" | jq -r '.\"dist-tags\".latest') (want $want)\"",
+        "line": 47,
+        "excerpt": "latest=$(curl -s \"https://registry.npmjs.org/$pkg\" | jq -r '.\"dist-tags\".latest')",
         "disclosed": false,
         "automatic": false,
         "hosts": [
           "registry.npmjs.org"
         ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/release/references/troubleshooting.md",
+        "line": 48,
+        "excerpt": "tarball=$(curl -s \"https://registry.npmjs.org/$pkg/$want\" | jq -r '.dist.tarball // empty' 2>/dev/null)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "registry.npmjs.org"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/release/references/troubleshooting.md",
+        "line": 49,
+        "excerpt": "code=$([ -n \"$tarball\" ] && curl -s -o /dev/null -w '%{http_code}' -I \"$tarball\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
       }
     ],
     "findingTotals": {
       "shell": 7,
-      "network": 2
+      "network": 4
     },
     "score": 92,
     "band": "low",
@@ -115,6 +135,12 @@
     {
       "commit": "41d764a206c16f8071fbaed8dcc7758255860c82",
       "scannedAt": "2026-11-21T10:21:16.775Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "8cf04387d18897025326b4cea3df55b3e44f81b6",
+      "scannedAt": "2026-11-26T11:36:54.718Z",
       "score": 92,
       "rulesVersion": "1.3.0"
     }

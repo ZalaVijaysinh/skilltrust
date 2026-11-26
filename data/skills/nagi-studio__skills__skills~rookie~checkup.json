@@ -4,42 +4,83 @@
   "repo": "skills",
   "path": "skills/rookie/checkup",
   "name": "checkup",
-  "description": "体检并清理 Codex 和 DSH 已安装的 skill、MCP、plugin 和 hook（统计近 30 天调用次数、常驻上下文开销与失效配置）。用在定期清理吃灰扩展、怀疑上下文变臃肿，或用户说 checkup、体检、清理插件或 skill 时；Claude Code 直接用官方 /doctor。",
-  "stars": 612,
+  "description": "体检并清理 agent harness 已安装的 skill、MCP、plugin 和 hook（统计近 30 天调用次数、常驻上下文开销与失效配置）：Codex、DSH 有现成脚本，Cursor、Antigravity 等其他 harness 现场找日志统计。用在定期清理吃灰扩展、怀疑上下文变臃肿，或用户说 checkup、体检、清理插件或 skill 时；Claude Code 直接用官方 /doctor。",
+  "stars": 681,
   "category": "coding",
-  "commit": "4705e4e87f87742652fa95fe83fef3c8b4bdfe2c",
-  "contentHash": "fca55e4095bdd7fdf83989880805d3c292755e4c6c20ff841033fbba903b1725",
+  "commit": "219314ab87be3fe9bcce82e015734e0e5142acab",
+  "contentHash": "ac86e76d0c39ede70b6e76848ba2250f9a0fff9a87bb0cc4ba3a1e6a4722d8d0",
   "repoCreatedAt": "2026-08-01T17:01:02Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-21T10:21:16.775Z",
+  "scannedAt": "2026-11-26T11:36:54.718Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "skills/rookie/checkup/SKILL.md",
-        "line": 15,
-        "excerpt": "python3 <本技能目录>/scripts/audit.py --agent all --days 30",
+        "line": 19,
+        "excerpt": "python3 \"<本技能目录>/scripts/audit.py\" --agent all --days 30",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/rookie/checkup/references/log-formats.md",
+        "line": 12,
+        "excerpt": "python3 -m pip install zstandard            # 或在 3.11–3.13 上装这个",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/rookie/checkup/scripts/audit.py",
+        "line": 37,
+        "excerpt": "try:  # pip install zstandard — 覆盖 Python 3.11~3.13（compression.zstd 只在 3.14+）",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/rookie/checkup/scripts/audit.py",
-        "line": 69,
-        "excerpt": "res = subprocess.run([ZSTD_BIN, \"-dc\", str(path)], capture_output=True, timeout=10, check=False)",
+        "line": 54,
+        "excerpt": "res = subprocess.run([exe, \"--version\"], capture_output=True, timeout=5, check=False)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/rookie/checkup/scripts/audit.py",
+        "line": 55,
+        "excerpt": "except (OSError, subprocess.TimeoutExpired):",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/rookie/checkup/scripts/audit.py",
+        "line": 101,
+        "excerpt": "res = subprocess.run([ZSTD_BIN, \"-dc\", str(path)], capture_output=True, timeout=30, check=False)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/rookie/checkup/scripts/audit.py",
+        "line": 104,
+        "excerpt": "except (OSError, subprocess.TimeoutExpired):",
         "disclosed": false,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 2
+      "shell": 5,
+      "downloads-code": 2
     },
-    "score": 95,
+    "score": 80,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 6,
+    "filesScanned": 7,
     "filesSkipped": 0
   },
   "history": [
@@ -47,6 +88,12 @@
       "commit": "4705e4e87f87742652fa95fe83fef3c8b4bdfe2c",
       "scannedAt": "2026-11-21T10:21:16.775Z",
       "score": 95,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "219314ab87be3fe9bcce82e015734e0e5142acab",
+      "scannedAt": "2026-11-26T11:36:54.718Z",
+      "score": 80,
       "rulesVersion": "1.3.0"
     }
   ]

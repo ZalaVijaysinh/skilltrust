@@ -4,16 +4,16 @@
   "repo": "gggodlin-cc-harness",
   "path": "skills/research-before-answer",
   "name": "research-before-answer",
-  "description": "Use when answering a factual question about a named repo, package, library, framework, SDK, API, version, release note, deprecation, company, product, market, or person activity, or when making a current-state claim. Do not use for pure framework, principle, design-pattern, or concept explanations, or trivial single-fact lookups you are already certain of. Also invokable manually via /research-before-answer.",
-  "stars": 74,
+  "description": "Use when answering a factual question about a named repo, package, library, framework, SDK, API, version, release note, deprecation, company, product, market, or person activity, or when making a current-state claim. Do not use for pure concept explanations, trivial certain lookups, multi-source deep research reports (deep-research), or tool-vs-my-stack adoption analysis (check-my-stack). Also invokable via /research-before-answer.",
+  "stars": 73,
   "category": "research",
-  "commit": "7f26172442574be9f85469ef9a29c08d96ade4b0",
-  "contentHash": "07cfd4d8b162160478a80bc6f8865b24b8b8dacb45551a31c806590d19d60c15",
+  "commit": "7343944fbced9ffdd399b5995494a76b2bb98360",
+  "contentHash": "5c6df0ff6fbfb07f5e241db1eaaaaa9dd8f930239bd48c20420b8ef3c3eaebbd",
   "repoCreatedAt": "2026-10-09T13:51:51Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-18T10:48:40.347Z",
+  "scannedAt": "2026-11-26T11:36:54.718Z",
   "scan": {
     "findings": [
       {
@@ -28,7 +28,7 @@
       {
         "ruleId": "network",
         "file": "skills/research-before-answer/SKILL.md",
-        "line": 60,
+        "line": 62,
         "excerpt": "2. 確認 LCU provider 沒有 isError，且頁面讀回有可用的搜尋結果，再在另一則訊息 call `WebSearch`，query 使用同一個原字串。未載入／失敗時停止並回報，不自動啟動 OBU、Cua 或 Agent Chrome。",
         "disclosed": false,
         "automatic": false,
@@ -37,7 +37,7 @@
       {
         "ruleId": "network",
         "file": "skills/research-before-answer/SKILL.md",
-        "line": 75,
+        "line": 77,
         "excerpt": "**派 subagent 做配對搜尋 → 用 `parallel-search` agent**：`Agent(subagent_type:'parallel-search')` 或 workflow `agent(prompt, {agentType:'parallel-search'})`。丟一個 query，它用",
         "disclosed": false,
         "automatic": false,
@@ -46,7 +46,7 @@
       {
         "ruleId": "network",
         "file": "skills/research-before-answer/SKILL.md",
-        "line": 77,
+        "line": 79,
         "excerpt": "Hook: `~/.claude/hooks/websearch-parallel-enforce.sh`（agent_type gate：main + `parallel-search` 強制、其餘 subagent 豁免；subagent 走 `agent_id` → 自己 transcript 的 redirec",
         "disclosed": false,
         "automatic": false,
@@ -55,7 +55,7 @@
       {
         "ruleId": "network",
         "file": "skills/research-before-answer/SKILL.md",
-        "line": 83,
+        "line": 85,
         "excerpt": "先看這次抓頁面要拿來做什麼，再選工具。`WebFetch` 回的不是原文：頁面先交給小模型照你的 prompt 改寫成回答。它回 200、讀起來通順，細節卻可能被改掉或漏掉（實例：從相對日期推錯年份、讀錯表格欄位、憑空加一段「官方回應」），而且這種錯不會命中下面任何退路條件——「回傳看起來完整」不是判斷依據。",
         "disclosed": false,
         "automatic": false,
@@ -64,45 +64,24 @@
       {
         "ruleId": "network",
         "file": "skills/research-before-answer/SKILL.md",
-        "line": 95,
-        "excerpt": "curl -s https://api.context.dev/v1/web/scrape -H \"Authorization: Bearer $(cat ~/.config/context-dev/api-key)\" -H 'Content-Type: application/json' -d '{\"url\":\"<u",
+        "line": 93,
+        "excerpt": "若起點尚無單篇 URL、要先探索 X 上的話題熱點或某帳號近期發言（加 `--handle <user>`、`--from <YYYY-MM-DD>`），先執行 `bash ~/.claude/scripts/x-search.sh \"<query>\" > \"<scratchpad>/x-search.md\"` 存檔後",
         "disclosed": false,
         "automatic": false,
-        "hosts": [
-          "api.context.dev"
-        ]
+        "hosts": []
       },
       {
         "ruleId": "shell",
         "file": "skills/research-before-answer/SKILL.md",
-        "line": 95,
-        "excerpt": "curl -s https://api.context.dev/v1/web/scrape -H \"Authorization: Bearer $(cat ~/.config/context-dev/api-key)\" -H 'Content-Type: application/json' -d '{\"url\":\"<u",
+        "line": 101,
+        "excerpt": "python3 ~/.claude/scripts/context-dev-scrape.py \"<url>\" \"<scratchpad>/<名稱>.md\"",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "network",
         "file": "skills/research-before-answer/SKILL.md",
-        "line": 102,
-        "excerpt": "curl -s -X POST https://api.firecrawl.dev/v2/scrape -H \"Authorization: Bearer $(cat ~/.config/firecrawl/api-key)\" -H 'Content-Type: application/json' -d '{\"url\"",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": [
-          "api.firecrawl.dev"
-        ]
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/research-before-answer/SKILL.md",
-        "line": 102,
-        "excerpt": "curl -s -X POST https://api.firecrawl.dev/v2/scrape -H \"Authorization: Bearer $(cat ~/.config/firecrawl/api-key)\" -H 'Content-Type: application/json' -d '{\"url\"",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "network",
-        "file": "skills/research-before-answer/SKILL.md",
-        "line": 111,
+        "line": 110,
         "excerpt": "- **只是導航**（找連結、確認頁面還在、判斷該讀哪一頁哪一段）→ 可用 `WebFetch`（快、省 token）。它的回答只用來決定下一步；要寫成事實就回上一條抓原文。",
         "disclosed": false,
         "automatic": false,
@@ -219,11 +198,20 @@
         "disclosed": false,
         "automatic": false,
         "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/research-before-answer/evals/cases/repo-look-heeler.yaml",
+        "line": 15,
+        "excerpt": "- 從 transcript 可見對該 repo 的實際查詢（gh api、WebFetch README 或等價），不是憑名字猜功能",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
       }
     ],
     "findingTotals": {
-      "network": 24,
-      "shell": 2
+      "network": 23,
+      "shell": 1
     },
     "score": 90,
     "band": "low",
@@ -235,6 +223,12 @@
     {
       "commit": "7f26172442574be9f85469ef9a29c08d96ade4b0",
       "scannedAt": "2026-11-18T10:48:40.347Z",
+      "score": 90,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "7343944fbced9ffdd399b5995494a76b2bb98360",
+      "scannedAt": "2026-11-26T11:36:54.718Z",
       "score": 90,
       "rulesVersion": "1.3.0"
     }

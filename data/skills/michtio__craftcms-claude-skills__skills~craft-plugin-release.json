@@ -4,22 +4,22 @@
   "repo": "craftcms-claude-skills",
   "path": "skills/craft-plugin-release",
   "name": "craft-plugin-release",
-  "description": "Releasing Craft CMS plugins — tagging, Packagist propagation, GitHub releases, branch promotion, shared-library ordering, history rewrites. ALWAYS load when cutting, preparing, verifying, or debugging a plugin release: bumping a version, dating a changelog, creating or moving a git tag, or checking what Packagist serves.",
-  "stars": 89,
+  "description": "Releasing Craft CMS plugins: tagging, Packagist propagation, GitHub releases, branch promotion, shared-library ordering, history rewrites. ALWAYS load when cutting, preparing, verifying, or debugging a plugin release: bumping a version, dating a changelog, creating or moving a git tag, or checking what Packagist serves.",
+  "stars": 90,
   "category": "coding",
-  "commit": "822f3177187ddf146d11ab158b2cc5244f92bc25",
-  "contentHash": "d72f67b0978a7a1d985a070a02c7f0a63972b61b2d960e883c49adcbc3e1c0df",
+  "commit": "5910e2a7b20ecc76fb1520cb3e6239b8a57a6665",
+  "contentHash": "384ce0d55e83487017f20509f790d441b26840667baf7ca5c2ab9c1c95ab2d6b",
   "repoCreatedAt": "2026-04-07T22:45:19Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "scannedAt": "2026-11-26T11:36:54.718Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "skills/craft-plugin-release/SKILL.md",
-        "line": 33,
+        "line": 40,
         "excerpt": "git show 1.7.4:composer.json | grep '\"version\"'",
         "disclosed": true,
         "automatic": false
@@ -27,7 +27,7 @@
       {
         "ruleId": "network",
         "file": "skills/craft-plugin-release/SKILL.md",
-        "line": 52,
+        "line": 59,
         "excerpt": "curl -s https://repo.packagist.org/p2/acme/craft-thing.json | jq -r '.packages[\"acme/craft-thing\"][].version'",
         "disclosed": false,
         "automatic": false,
@@ -38,7 +38,7 @@
       {
         "ruleId": "shell",
         "file": "skills/craft-plugin-release/SKILL.md",
-        "line": 52,
+        "line": 59,
         "excerpt": "curl -s https://repo.packagist.org/p2/acme/craft-thing.json | jq -r '.packages[\"acme/craft-thing\"][].version'",
         "disclosed": true,
         "automatic": false
@@ -46,7 +46,7 @@
       {
         "ruleId": "shell",
         "file": "skills/craft-plugin-release/SKILL.md",
-        "line": 69,
+        "line": 76,
         "excerpt": "git ls-remote --tags origin | tail -5",
         "disclosed": true,
         "automatic": false
@@ -54,7 +54,7 @@
       {
         "ruleId": "shell",
         "file": "skills/craft-plugin-release/SKILL.md",
-        "line": 84,
+        "line": 91,
         "excerpt": "gh release view <tag> --json body -q '.body' | wc -c   # near-zero means blank",
         "disclosed": true,
         "automatic": false
@@ -62,7 +62,7 @@
       {
         "ruleId": "shell",
         "file": "skills/craft-plugin-release/SKILL.md",
-        "line": 90,
+        "line": 97,
         "excerpt": "perl -0777 -ne 'print $1 if /^## 1\\.7\\.4 - [0-9-]+\\n(.*?)(?=^## |\\z)/ms' CHANGELOG.md > /tmp/notes.md",
         "disclosed": true,
         "automatic": false
@@ -70,7 +70,7 @@
       {
         "ruleId": "shell",
         "file": "skills/craft-plugin-release/SKILL.md",
-        "line": 108,
+        "line": 115,
         "excerpt": "git fetch --prune origin",
         "disclosed": true,
         "automatic": false
@@ -78,7 +78,7 @@
       {
         "ruleId": "network",
         "file": "agents/craft-planner.md",
-        "line": 28,
+        "line": 30,
         "excerpt": "- `WebFetch` on Craft docs or plugin README — for API reference",
         "disclosed": false,
         "automatic": false,
@@ -87,21 +87,29 @@
       {
         "ruleId": "network",
         "file": "agents/craft-planner.md",
-        "line": 61,
-        "excerpt": "- Gate: `curl -X POST` returns 200, invalid signature returns 403",
+        "line": 75,
+        "excerpt": "- **Verification gate:** `ddev exec --dir /var/www/html/vendor/{vendor}/{plugin} vendor/bin/pest --filter=SyncJobTest` green; `curl -X POST` with a valid signat",
         "disclosed": false,
         "automatic": false,
         "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 10,
+        "excerpt": "\"command\": \"cd \\\"${CLAUDE_PROJECT_DIR:-.}\\\" 2>/dev/null; sh \\\"${CLAUDE_PLUGIN_ROOT}/bin/craft-version.sh\\\"\",",
+        "disclosed": true,
+        "automatic": true
       }
     ],
     "findingTotals": {
-      "shell": 6,
+      "shell": 7,
       "network": 3
     },
     "score": 92,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 10,
+    "filesScanned": 13,
     "filesSkipped": 0
   },
   "history": [
@@ -114,6 +122,12 @@
     {
       "commit": "822f3177187ddf146d11ab158b2cc5244f92bc25",
       "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "5910e2a7b20ecc76fb1520cb3e6239b8a57a6665",
+      "scannedAt": "2026-11-26T11:36:54.718Z",
       "score": 92,
       "rulesVersion": "1.3.0"
     }

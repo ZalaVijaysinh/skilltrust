@@ -7,13 +7,13 @@
   "description": "Opt-in advanced Docker security hardening beyond the docker-setup baseline — LAN containment with DNS policy, resource bounds with kernel-hygiene sysctls, a boot-time plugin install audit log, and a credential proxy that keeps API keys for mapped hosts outside the container. Applied as a reversible docker-compose overlay (does not touch the base compose file) and verified against the live container. Run after /docker-setup; requires bridge networking.",
   "stars": 85,
   "category": "coding",
-  "commit": "605075e7b8f87908f448cf45778e0ff92dccaea8",
-  "contentHash": "77d123e4e4d6519aac8c65ed23e425dd54ddf41260875c63f5fa6f4bb2d27891",
+  "commit": "379906ad7db458bd5a25c52d9a6b0019ebf255d5",
+  "contentHash": "022935c832a2efa2f38b8cada5bca7f4f4e6374356d47b9a86f80ba3c0b6ce64",
   "repoCreatedAt": "2026-03-23T18:33:11Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-21T10:21:16.775Z",
+  "scannedAt": "2026-11-26T11:36:54.718Z",
   "scan": {
     "findings": [
       {
@@ -83,7 +83,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/hermitd/scripts/browser-display.ts",
-        "line": 148,
+        "line": 153,
         "excerpt": "const children: ReturnType<typeof Bun.spawn>[] = [];",
         "disclosed": true,
         "automatic": false
@@ -91,7 +91,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/hermitd/scripts/browser-display.ts",
-        "line": 165,
+        "line": 170,
         "excerpt": "const xvnc = Bun.spawn(['Xvnc', owned.display, '-geometry', '500x1082', '-depth', '24', '-rfbport', '-1', '-rfbunixpath', vncSocket, '-rfbunixmode', '0600', '-S",
         "disclosed": true,
         "automatic": false
@@ -99,7 +99,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/hermitd/scripts/browser-display.ts",
-        "line": 174,
+        "line": 179,
         "excerpt": "children.push(Bun.spawn(['openbox'], { env, stdin: 'ignore', stdout: 'ignore', stderr: 'inherit' }));",
         "disclosed": true,
         "automatic": false
@@ -107,8 +107,24 @@
       {
         "ruleId": "shell",
         "file": "plugins/hermitd/scripts/browser-display.ts",
-        "line": 183,
+        "line": 188,
         "excerpt": "const child = Bun.spawn([process.execPath, path.join(import.meta.dir, 'browser-viewer.ts')], { env: { ...env, HERMIT_BROWSER_VIEWER_BIND: browserDisplaySettings",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/hermitd/scripts/cloud-session.ts",
+        "line": 5,
+        "excerpt": "import { spawnSync } from 'node:child_process';",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/hermitd/scripts/cloud-session.ts",
+        "line": 37,
+        "excerpt": "return spawnSync('tmux', args, { stdio: 'ignore', timeout: 5000 }).status === 0;",
         "disclosed": true,
         "automatic": false
       },
@@ -116,14 +132,14 @@
         "ruleId": "shell",
         "file": "plugins/hermitd/scripts/hermitd-start.ts",
         "line": 20,
-        "excerpt": "import { spawnSync } from 'node:child_process';",
+        "excerpt": "import { spawn, spawnSync, type SpawnOptions } from 'node:child_process';",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
         "file": "plugins/hermitd/scripts/hermitd-start.ts",
-        "line": 423,
+        "line": 424,
         "excerpt": "'bun: required runtime not on PATH. Install with `curl -fsSL https://bun.sh/install | bash`, ' +",
         "disclosed": false,
         "automatic": false
@@ -131,7 +147,7 @@
       {
         "ruleId": "network",
         "file": "plugins/hermitd/scripts/hermitd-start.ts",
-        "line": 423,
+        "line": 424,
         "excerpt": "'bun: required runtime not on PATH. Install with `curl -fsSL https://bun.sh/install | bash`, ' +",
         "disclosed": true,
         "automatic": false,
@@ -142,7 +158,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/hermitd/scripts/hermitd-start.ts",
-        "line": 632,
+        "line": 633,
         "excerpt": "const result = spawnSync('claude', ['plugin', 'marketplace', 'list', '--json'], {",
         "disclosed": true,
         "automatic": false
@@ -150,7 +166,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/hermitd/scripts/hermitd-start.ts",
-        "line": 1120,
+        "line": 1121,
         "excerpt": "const r = spawnSync('bun', [script, target, op], { stdio: 'pipe', encoding: 'utf-8' });",
         "disclosed": true,
         "automatic": false
@@ -158,7 +174,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/hermitd/scripts/hermitd-start.ts",
-        "line": 1158,
+        "line": 1159,
         "excerpt": "const r = spawnSync('bun', [script, '.claude/settings.local.json', 'voice-render'], { stdio: 'pipe', encoding: 'utf-8' });",
         "disclosed": true,
         "automatic": false
@@ -166,7 +182,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/hermitd/scripts/hermitd-start.ts",
-        "line": 1340,
+        "line": 1341,
         "excerpt": "const res = spawnSync(cmd[0], cmd.slice(1), { stdio: 'inherit' });",
         "disclosed": true,
         "automatic": false
@@ -174,31 +190,15 @@
       {
         "ruleId": "shell",
         "file": "plugins/hermitd/scripts/hermitd-start.ts",
-        "line": 1383,
+        "line": 1384,
         "excerpt": "const r = spawnSync(",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/hermitd/scripts/hermitd-start.ts",
-        "line": 1781,
-        "excerpt": "const result = spawnSync('tmux', ['new-session', '-d', '-s', sessionName, shellCmd], {",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugins/hermitd/scripts/lib/approval.ts",
-        "line": 3,
-        "excerpt": "import { spawnSync } from 'node:child_process';",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "reads-secrets",
         "file": "plugins/hermitd/scripts/lib/backup.ts",
-        "line": 228,
+        "line": 230,
         "excerpt": "try { content = fs.readFileSync(path.join(root, '.env'), 'utf-8'); } catch { return null; }",
         "disclosed": true,
         "automatic": false
@@ -233,7 +233,7 @@
       {
         "ruleId": "network",
         "file": "plugins/hermitd/scripts/lib/connector.ts",
-        "line": 130,
+        "line": 136,
         "excerpt": "const res = await fetch('http://connector/status', { unix: socket, signal: AbortSignal.timeout(timeoutMs) });",
         "disclosed": true,
         "automatic": false,
@@ -245,7 +245,7 @@
         "ruleId": "paid-api",
         "file": "plugins/hermitd/scripts/lib/netguard-hosts.ts",
         "line": 17,
-        "excerpt": "'archive.ubuntu.com', 'ports.ubuntu.com', 'huggingface.co', 'hf.co', 'api.groq.com', 'api.openai.com',",
+        "excerpt": "'huggingface.co', 'hf.co', 'api.groq.com', 'api.openai.com',",
         "disclosed": false,
         "automatic": false
       },
@@ -351,7 +351,7 @@
       }
     ],
     "findingTotals": {
-      "shell": 79,
+      "shell": 82,
       "downloads-code": 5,
       "network": 7,
       "reads-secrets": 1,
@@ -361,7 +361,7 @@
     "score": 49,
     "band": "high",
     "rulesVersion": "1.3.0",
-    "filesScanned": 164,
+    "filesScanned": 171,
     "filesSkipped": 1
   },
   "history": [
@@ -392,6 +392,12 @@
     {
       "commit": "605075e7b8f87908f448cf45778e0ff92dccaea8",
       "scannedAt": "2026-11-21T10:21:16.775Z",
+      "score": 49,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "379906ad7db458bd5a25c52d9a6b0019ebf255d5",
+      "scannedAt": "2026-11-26T11:36:54.718Z",
       "score": 49,
       "rulesVersion": "1.3.0"
     }

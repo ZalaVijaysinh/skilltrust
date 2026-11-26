@@ -4,16 +4,16 @@
   "repo": "charles-skills",
   "path": "skills/editing/charles-claude-editing",
   "name": "charles-claude-editing",
-  "description": "Edit raw talking-head videos into engaging, organic-looking Instagram Reels / TikToks - cut dead space and stumbles, pick the best take, 2-3 word captions, retention-maxing image/video overlays (pop-culture stickers, cutouts, split screens, tweet screenshots), sound effects, a background track from the music folder, and a TikTok-title-style hook when asked. Covers news and education/entertainment videos. Use this whenever Charles shares a talking-head .MOV/.mp4 and asks to edit, cut, caption, add a hook, add overlays/b-roll/images/a split screen, add music or sound effects, \"make it a reel\", \"minoify\" it, or fix any of those in a video already edited this way - even if only one of those steps is asked for.",
-  "stars": 231,
+  "description": "Edits Charles' raw talking-head footage into a finished Instagram Reel or TikTok: cuts dead space tight without clipping a word, keeps his last clean take, adds 2-3 word captions, overlays, splits, sound effects, music and a hook title when asked. Use when he shares a talking-head .MOV or .mp4 to edit, cut, caption or \"minoify\", or asks to fix any of that in a reel already cut this way.",
+  "stars": 288,
   "category": "design",
-  "commit": "4fc00ba7b56b7856d602067c1e876aa2389f9561",
-  "contentHash": "686df259cbfa9dd38bc5ca23944ef38c5bd1324501dd6704c1b9e7d4d8b1690b",
+  "commit": "83de509dd10b77ebaf83c3f9986b538cdaf19b63",
+  "contentHash": "f22aa50ff4d67805d9606579ee1456c9a966a0928a0a5e715bacfd7f5b68af77",
   "repoCreatedAt": "2026-11-07T02:12:02Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-21T10:21:16.775Z",
+  "scannedAt": "2026-11-26T11:36:54.718Z",
   "scan": {
     "findings": [
       {
@@ -23,16 +23,89 @@
         "excerpt": "npx skills add LemonFace0309/charles-skills --skill charles-claude-editing",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/editing/charles-claude-editing/scripts/captions.py",
+        "line": 132,
+        "excerpt": "out = subprocess.run([\"fc-match\", \"-f\", \"%{file}\\n%{index}\", \"Helvetica Neue:bold\"], capture_output=True, text=True).stdout.split(\"\\n\")",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/editing/charles-claude-editing/scripts/captions.py",
+        "line": 568,
+        "excerpt": "info = json.loads(subprocess.check_output([\"ffprobe\", \"-v\", \"error\", \"-show_entries\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/editing/charles-claude-editing/scripts/captions.py",
+        "line": 718,
+        "excerpt": "encoders = subprocess.run([\"ffmpeg\", \"-hide_banner\", \"-encoders\"], capture_output=True, text=True).stdout",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/editing/charles-claude-editing/scripts/captions.py",
+        "line": 723,
+        "excerpt": "subprocess.run([\"ffmpeg\", \"-hide_banner\", \"-loglevel\", \"error\", \"-y\", \"-i\", a.video, \"-f\", \"concat\", \"-safe\", \"0\", \"-i\", listing,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/editing/charles-claude-editing/scripts/check_joins.py",
+        "line": 43,
+        "excerpt": "out = subprocess.run([\"ffmpeg\", \"-v\", \"error\", \"-ss\", f\"{max(t0, 0):.4f}\", \"-i\", raw, \"-vf\", f\"fps={FPS},scale={TW}:{TH}\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/editing/charles-claude-editing/scripts/cut_take.py",
+        "line": 186,
+        "excerpt": "subprocess.run([\"ffmpeg\", \"-hide_banner\", \"-loglevel\", \"error\", \"-y\", \"-i\", a.raw, \"-i\", os.path.join(a.work, \"cut_voice.wav\"),",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/editing/charles-claude-editing/scripts/timeline_audio.py",
+        "line": 15,
+        "excerpt": "info = json.loads(subprocess.check_output([\"ffprobe\", \"-v\", \"error\", \"-select_streams\", \"a:0\", \"-show_entries\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/editing/charles-claude-editing/scripts/timeline_audio.py",
+        "line": 20,
+        "excerpt": "pts = [int(l.split(\",\")[0]) for l in subprocess.check_output([\"ffprobe\", \"-v\", \"error\", \"-select_streams\", \"a:0\", \"-show_entries\", \"packet=pts\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/editing/charles-claude-editing/scripts/timeline_audio.py",
+        "line": 22,
+        "excerpt": "pcm = np.frombuffer(subprocess.run([\"ffmpeg\", \"-v\", \"error\", \"-i\", path, \"-vn\", \"-ac\", str(ch), \"-ar\", str(rate), \"-f\", \"f32le\", \"-\"],",
+        "disclosed": false,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "downloads-code": 1
+      "downloads-code": 1,
+      "shell": 9
     },
-    "score": 85,
+    "score": 80,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 2,
-    "filesSkipped": 1
+    "filesScanned": 25,
+    "filesSkipped": 2
   },
   "history": [
     {
@@ -45,6 +118,12 @@
       "commit": "4fc00ba7b56b7856d602067c1e876aa2389f9561",
       "scannedAt": "2026-11-21T10:21:16.775Z",
       "score": 85,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "83de509dd10b77ebaf83c3f9986b538cdaf19b63",
+      "scannedAt": "2026-11-26T11:36:54.718Z",
+      "score": 80,
       "rulesVersion": "1.3.0"
     }
   ]

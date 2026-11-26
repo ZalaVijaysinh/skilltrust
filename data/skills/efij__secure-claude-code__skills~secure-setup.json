@@ -12,8 +12,8 @@
   "repoCreatedAt": "2026-03-24T02:39:24Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-21T10:21:16.775Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-26T11:36:54.718Z",
   "scan": {
     "findings": [
       {
@@ -204,6 +204,183 @@
         "hosts": []
       },
       {
+        "ruleId": "network",
+        "file": "hooks/abuse-chain-defense.sh",
+        "line": 22,
+        "excerpt": "if printf '%s' \"$INPUT\" | grep -Eqi '(curl|wget|Invoke-WebRequest|iwr|irm|fetch)' &&",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "hooks/binary-payload-guard.sh",
+        "line": 14,
+        "excerpt": "if ! printf '%s' \"$INPUT\" | grep -Eqi '(curl|wget|Invoke-WebRequest|certutil|base64|openssl|chmod[[:space:]]+\\+x|Start-Process|bash[[:space:]]|sh[[:space:]])'; ",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "hooks/block-dangerous-commands.sh",
+        "line": 33,
+        "excerpt": "if printf '%s' \"$INPUT\" | grep -Eq 'rm[[:space:]]+-rf[[:space:]]+(\\.git|~/.ssh|~/.aws|/etc/ssh|/var/lib)'; then",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "hooks/block-dangerous-commands.sh",
+        "line": 33,
+        "excerpt": "if printf '%s' \"$INPUT\" | grep -Eq 'rm[[:space:]]+-rf[[:space:]]+(\\.git|~/.ssh|~/.aws|/etc/ssh|/var/lib)'; then",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "hooks/docker-build-secret-leak-guard.sh",
+        "line": 11,
+        "excerpt": "if ! printf '%s\\n' \"$INPUT\" | grep -Eqi '(--build-arg[=[:space:]][^[:space:]]*(TOKEN|SECRET|PASSWORD|PASSWD|PRIVATE_KEY|ACCESS_KEY|API_KEY)=|--secret([^[:alnum:",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "network",
+        "file": "hooks/hooks.json",
+        "line": 1115,
+        "excerpt": "\"matcher\": \"WebFetch\",",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "hooks/hooks.json",
+        "line": 1119,
+        "excerpt": "\"command\": \"STALLION_HOME=\\\"${CLAUDE_PLUGIN_ROOT}\\\" bash \\\"${CLAUDE_PLUGIN_ROOT}/hooks/context-chain-guard.sh PostToolUse WebFetch\\\" \\\"$TOOL_INPUT\\\"\"",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "hooks/hooks.json",
+        "line": 1178,
+        "excerpt": "\"matcher\": \"Read|WebFetch|Bash|Grep|Glob|Task|mcp__.*|mcp_.*\",",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "hooks/indirect-prompt-injection-guard.sh",
+        "line": 39,
+        "excerpt": "MONITORED_TOOLS = {\"Read\", \"WebFetch\", \"Bash\", \"Grep\", \"Glob\", \"Task\"}",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "hooks/indirect-prompt-injection-guard.sh",
+        "line": 126,
+        "excerpt": "if tool_name == \"WebFetch\":",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "hooks/instruction-source-dropper-guard.sh",
+        "line": 17,
+        "excerpt": "if ! printf '%s' \"$INPUT\" | grep -Eqi '(curl|wget|Invoke-WebRequest|iwr|irm|fetch)'; then",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "hooks/lib/response_guard.py",
+        "line": 14,
+        "excerpt": "re.compile(r\"(curl|wget|iwr|irm|Invoke-WebRequest).{0,240}(\\||&&|;).{0,120}(bash|sh|zsh|pwsh|powershell)\", re.IGNORECASE),",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "hooks/lib/response_guard.py",
+        "line": 15,
+        "excerpt": "re.compile(r\"(bash|sh)\\s+-c.{0,200}(curl|wget|iwr|irm|Invoke-WebRequest)\", re.IGNORECASE),",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "hooks/mcp-server-command-chain-guard.sh",
+        "line": 17,
+        "excerpt": "if printf '%s' \"$INPUT\" | grep -Eqi '(curl|wget|iwr|irm|Invoke-WebRequest)[^[:cntrl:]]*(\\||&&|;)[^[:cntrl:]]*(bash|sh|zsh|pwsh|powershell)'; then",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "hooks/mcp-server-command-chain-guard.sh",
+        "line": 25,
+        "excerpt": "elif printf '%s' \"$INPUT\" | grep -Eqi '(bash|sh)[^[:cntrl:]]+-c[^[:cntrl:]]*(curl|wget|iwr|irm|Invoke-WebRequest)'; then",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "hooks/plugin-exec-chain-guard.sh",
+        "line": 15,
+        "excerpt": "if printf '%s' \"$INPUT\" | grep -Eqi '(curl|wget|iwr|irm|Invoke-WebRequest)[^[:cntrl:]]*(\\||&&|;)[^[:cntrl:]]*(bash|sh|zsh|pwsh|powershell)'; then",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "hooks/plugin-exec-chain-guard.sh",
+        "line": 23,
+        "excerpt": "elif printf '%s' \"$INPUT\" | grep -Eqi '(sh|bash)[[:space:]]+-c[^[:cntrl:]]*(curl|wget|iwr|irm|Invoke-WebRequest)'; then",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "hooks/remote-script-dropper-guard.sh",
+        "line": 10,
+        "excerpt": "if ! printf '%s' \"$INPUT\" | grep -Eqi '(curl|wget|Invoke-WebRequest|iwr|irm|fetch)'; then",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "hooks/skill-exec-chain-guard.sh",
+        "line": 17,
+        "excerpt": "if printf '%s' \"$INPUT\" | grep -Eqi '(curl|wget|iwr|irm|Invoke-WebRequest)[^[:cntrl:]]*(\\||&&|;)[^[:cntrl:]]*(bash|sh|zsh|pwsh|powershell)'; then",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "hooks/skill-exec-chain-guard.sh",
+        "line": 25,
+        "excerpt": "elif printf '%s' \"$INPUT\" | grep -Eqi '(sh|bash)[[:space:]]+-c[^[:cntrl:]]*(curl|wget|iwr|irm|Invoke-WebRequest)'; then",
+        "disclosed": false,
+        "automatic": true,
+        "hosts": []
+      },
+      {
         "ruleId": "reads-secrets",
         "file": "hooks/ssh-config-include-guard.sh",
         "line": 7,
@@ -213,15 +390,16 @@
       }
     ],
     "findingTotals": {
-      "shell": 139,
-      "network": 3,
-      "reads-secrets": 1
+      "shell": 280,
+      "network": 21,
+      "reads-secrets": 3,
+      "writes-outside": 1
     },
-    "score": 70,
+    "score": 60,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 6,
-    "filesSkipped": 128
+    "filesScanned": 134,
+    "filesSkipped": 0
   },
   "history": [
     {

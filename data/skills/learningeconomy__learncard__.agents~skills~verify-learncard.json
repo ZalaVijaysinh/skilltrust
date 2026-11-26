@@ -7,13 +7,13 @@
   "description": "Verify near-ready LearnCard changes across the web app, SDK, CLI, services, ConsentFlow, Partner Connect, and docs using lc verify. Use focused scripts or a reusable browser during development, matching journeys near PR readiness, and the full catalog before marking cross-surface or network-touching work ready. Linux ownership is required; macOS/Windows developers can use the secret-free hosted Linux workflow.",
   "stars": 71,
   "category": "writing",
-  "commit": "0dee4fe2c257bb4841e0347cdc7f20233d0fa272",
-  "contentHash": "a02376dfd7b973b5e6ea3333e20bbe9455e5de2548323f12c6f58c20eb17b5a8",
+  "commit": "29d6949fd19a6179bd012932ee40fe4014b18941",
+  "contentHash": "4e926357d6bfba4d5da9408bc168292e8d1a54a2f3c6b8cde9e705bb40c949f0",
   "repoCreatedAt": "2022-04-27T05:19:45Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-21T10:21:16.775Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-26T11:36:54.718Z",
   "scan": {
     "findings": [
       {
@@ -151,23 +151,288 @@
         "excerpt": "- `npx @learncard/cli send you@yourdomain.com` (docs: `docs/quick-start/your-first-integration.md`), then `status`, `verify`, `open`, `token`, `consent-contract",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "apps/learn-card-app/scripts/verification/inspect.ts",
+        "line": 1,
+        "excerpt": "import { spawn } from 'node:child_process';",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "apps/learn-card-app/scripts/verification/learncard-cli.ts",
+        "line": 1,
+        "excerpt": "import { spawn } from 'node:child_process';",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "apps/learn-card-app/scripts/verification/preflight.ts",
+        "line": 79,
+        "excerpt": "const configPath = join(process.env.HOME ?? '', '.docker/config.json');",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "apps/learn-card-app/scripts/verification/preflight.ts",
+        "line": 162,
+        "excerpt": "`Playwright Chromium is missing at ${browserPath}. From ${APP_ROOT}, run bunx playwright install chromium. For missing Linux shared libraries see https://playwr",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "apps/learn-card-app/scripts/verification/preflight.ts",
+        "line": 169,
+        "excerpt": "`Playwright Chromium cannot execute (often missing Linux shared libraries). Run bunx playwright install chromium for browser files and consult https://playwrigh",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "apps/learn-card-app/scripts/verification/process.ts",
+        "line": 1,
+        "excerpt": "import { spawn } from 'node:child_process';",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "apps/learn-card-app/scripts/verification/stack.ts",
+        "line": 1,
+        "excerpt": "import { spawn } from 'node:child_process';",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "apps/learn-card-app/scripts/verification/stack.ts",
+        "line": 516,
+        "excerpt": "const response = await fetch(url, {",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "apps/learn-card-app/scripts/verification/stack.ts",
+        "line": 614,
+        "excerpt": "const probe = `for (const port of ${ports}) { const url='http://localhost:'+port+'/.well-known/did.json'; try { const r=await fetch(url,{signal:AbortSignal.time",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "apps/learn-card-app/scripts/verification/stack.ts",
+        "line": 641,
+        "excerpt": "`const r=await fetch('http://elasticmq:9324/?Action=ListQueues&Version=2012-11-05',{signal:AbortSignal.timeout(4000)});if(!r.ok||!(await r.text()).includes('not",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "elasticmq"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "apps/learn-card-app/scripts/verification/stack.ts",
+        "line": 666,
+        "excerpt": "const response = await fetch(root, {",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/learn-card-cli/src/api.ts",
+        "line": 40,
+        "excerpt": "fetch: (...args) => globalThis.fetch(...args),",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "packages/learn-card-cli/src/api.ts",
+        "line": 161,
+        "excerpt": "if (fromProject) return { token: fromProject, source: '.env API_TOKEN' };",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "packages/learn-card-cli/src/api.ts",
+        "line": 255,
+        "excerpt": "return 'The token was rejected. Create a new one with `npx @learncard/cli token --scope \"<scopes>\"` or set LEARNCARD_API_KEY.';",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "packages/learn-card-cli/src/api.ts",
+        "line": 257,
+        "excerpt": "return 'The token lacks a scope this route needs. Create one with the right --scope (`npx @learncard/cli token --scope ...`).';",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "packages/learn-card-cli/src/api.ts",
+        "line": 259,
+        "excerpt": "return 'Check the path against the OpenAPI spec: `npx @learncard/cli api --spec`.';",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/learn-card-cli/src/api.ts",
+        "line": 279,
+        "excerpt": "const response = await deps.fetch(url, { ...init, signal: controller.signal });",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "packages/learn-card-cli/src/api.ts",
+        "line": 290,
+        "excerpt": "hint: 'Check --network and your connection. `npx @learncard/cli doctor` checks the setup.',",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "packages/learn-card-cli/src/api.ts",
+        "line": 410,
+        "excerpt": "'Usage: api <METHOD> <path>, e.g. `npx @learncard/cli api GET /profile`.',",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "packages/learn-card-cli/src/api.ts",
+        "line": 411,
+        "excerpt": "'See every route with `npx @learncard/cli api --spec --fetch`.'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "packages/learn-card-cli/src/api.ts",
+        "line": 430,
+        "excerpt": "const rerun = `npx @learncard/cli api ${httpMethod} ${apiPath}${options.data !== undefined ? ' --data ...' : ''}${query.length ? ' --query ...' : ''} --write`;",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "packages/learn-card-cli/src/api.ts",
+        "line": 492,
+        "excerpt": "hint: 'Create one with `npx @learncard/cli token --scope \"<scopes>\"` (saved to .env as API_TOKEN) or set LEARNCARD_API_KEY.',",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "packages/learn-card-cli/src/api.ts",
+        "line": 494,
+        "excerpt": "if (auth.source === '.env API_TOKEN') checkTokenNetwork(project, network);",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "packages/learn-card-cli/src/call.test.ts",
+        "line": 75,
+        "excerpt": "const readEnv = (): Promise<string> => fs.readFile(path.join(cwd, '.env'), 'utf8');",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "packages/learn-card-cli/src/call.test.ts",
+        "line": 972,
+        "excerpt": "example: \"npx @learncard/cli call acceptCredential --args '<value>' --write --json\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "packages/learn-card-cli/src/call.test.ts",
+        "line": 980,
+        "excerpt": "expect(out.result.example).toBe('npx @learncard/cli call getProfile --json');",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "packages/learn-card-cli/src/call.ts",
+        "line": 118,
+        "excerpt": "'List methods with `npx @learncard/cli call --list`.'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/learn-card-cli/src/capabilities.test.ts",
+        "line": 7,
+        "excerpt": "import { execFileSync } from 'node:child_process';",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/learn-card-cli/src/capabilities.test.ts",
+        "line": 71,
+        "excerpt": "execFileSync('node', [path.join(ROOT, 'scripts/check-docs-links.mjs'), '--urls'], {",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "packages/learn-card-cli/src/demo-refresh-ui.ts",
+        "line": 31,
+        "excerpt": "const response = await fetch(new URL('/tenant-config.json', app), {",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "packages/learn-card-cli/src/open.ts",
+        "line": 1,
+        "excerpt": "import { spawn } from 'node:child_process';",
+        "disclosed": true,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 10,
-      "downloads-code": 7
+      "shell": 17,
+      "downloads-code": 74,
+      "reads-secrets": 4,
+      "network": 7
     },
-    "score": 82,
-    "band": "low",
+    "score": 69,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 4,
-    "filesSkipped": 11
+    "filesScanned": 99,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "0dee4fe2c257bb4841e0347cdc7f20233d0fa272",
       "scannedAt": "2026-11-21T10:21:16.775Z",
       "score": 82,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "29d6949fd19a6179bd012932ee40fe4014b18941",
+      "scannedAt": "2026-11-26T11:36:54.718Z",
+      "score": 69,
       "rulesVersion": "1.3.0"
     }
   ]

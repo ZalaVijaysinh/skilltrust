@@ -7,19 +7,19 @@
   "description": "Expose, preview, protect with x402 payments or sign-in, or keep a local web app, static site, HTTP route set, or explicitly requested TCP/UDP service reachable through Portal, then verify the public endpoint and report its lifecycle. This is the app side of Portal, the same flow as the quick-start form on a relay website (install, run one portal expose command built from the app settings, open the public URL). Use when the user asks to deploy, publish, share, tunnel, expose, or connect a local app to Portal or to a specific relay, create a public preview, add a paid route, configure x402, limit who can open the URL with a login, needs an HTTPS URL on a phone or another device because a browser feature such as microphone, camera, geolocation, or PWA install refuses to work over a LAN http address, or wants a Go app to embed the Portal SDK. Do not use for deploying a Portal relay, generic cloud hosting, publishing this plugin, or reaching a service that someone else already published (portal-connect).",
   "stars": 305,
   "category": "devops",
-  "commit": "28198317bd34574c7ebc6bebab3f34066c8f3a5b",
-  "contentHash": "493b67d302b1600322f16c80b1435bed82d853225dee3d7ac842281936312e5f",
+  "commit": "8a41f275cf3c07526f78f1bd27df36ca0a1583ed",
+  "contentHash": "2d1f34fdd058125671151f9954f501066f3817c5e5c3399199aca7c68c299c5a",
   "repoCreatedAt": "2025-10-20T09:14:19Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-21T10:21:16.775Z",
+  "scannedAt": "2026-11-26T11:36:54.718Z",
   "scan": {
     "findings": [
       {
         "ruleId": "network",
         "file": "plugins/portal-tunnel/skills/portal-expose/SKILL.md",
-        "line": 119,
+        "line": 131,
         "excerpt": "- Verify the URL being handed off (`alias_url` when granted, otherwise `public_url`) with one bounded request. `*.localhost` often resolves to `::1` first, so u",
         "disclosed": true,
         "automatic": false,
@@ -37,7 +37,7 @@
       {
         "ruleId": "writes-outside",
         "file": "plugins/portal-tunnel/skills/portal-expose/references/application-auth.md",
-        "line": 161,
+        "line": 215,
         "excerpt": "(umask 077 && mkdir -p ~/.config/portal && openssl rand -hex 32 > ~/.config/portal/my-app.proof)",
         "disclosed": false,
         "automatic": false
@@ -45,7 +45,7 @@
       {
         "ruleId": "network",
         "file": "plugins/portal-tunnel/skills/portal-expose/references/application-auth.md",
-        "line": 204,
+        "line": 258,
         "excerpt": "1. `curl -sI https://<host>/` returns `303` with `Location: /_portal/auth/login?next=%2F`. A `200` means the gate is not on; stop and report it.",
         "disclosed": true,
         "automatic": false,
@@ -54,7 +54,7 @@
       {
         "ruleId": "network",
         "file": "plugins/portal-tunnel/skills/portal-expose/references/application-auth.md",
-        "line": 205,
+        "line": 259,
         "excerpt": "2. `curl -s -X POST https://<host>/` returns `401` with `{\"error\":\"authentication required\"}`.",
         "disclosed": true,
         "automatic": false,
@@ -63,16 +63,7 @@
       {
         "ruleId": "network",
         "file": "plugins/portal-tunnel/skills/portal-expose/references/application-auth.md",
-        "line": 206,
-        "excerpt": "3. `credential`: `curl -s -H \"X-Portal-Access-Credential: $C\" https://<host>/` returns the app's real response. Use the credential you already issued for the su",
-        "disclosed": true,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "plugins/portal-tunnel/skills/portal-expose/references/application-auth.md",
-        "line": 207,
+        "line": 261,
         "excerpt": "4. `oidc` and `saml`: `curl -s -o /dev/null -w '%{http_code} %{redirect_url}\\n' https://<host>/_portal/auth/login` prints `303` and the provider's authorization",
         "disclosed": true,
         "automatic": false,
@@ -81,7 +72,7 @@
       {
         "ruleId": "network",
         "file": "plugins/portal-tunnel/skills/portal-expose/references/application-auth.md",
-        "line": 208,
+        "line": 262,
         "excerpt": "5. `saml`: `curl -s https://<host>/_portal/auth/saml/metadata` returns the service provider metadata with the entity ID and the ACS address that the provider mu",
         "disclosed": true,
         "automatic": false,
@@ -90,7 +81,7 @@
       {
         "ruleId": "network",
         "file": "plugins/portal-tunnel/skills/portal-expose/references/application-auth.md",
-        "line": 209,
+        "line": 263,
         "excerpt": "6. `email`: `curl -s -o /dev/null -w '%{http_code}\\n' -X POST -H 'Origin: https://<host>' -H 'Content-Type: application/json' -d '{\"email\":\"nobody@example.inval",
         "disclosed": true,
         "automatic": false,
@@ -116,6 +107,41 @@
         ]
       },
       {
+        "ruleId": "writes-outside",
+        "file": "plugins/portal-tunnel/skills/portal-expose/references/unprivileged-sandboxes.md",
+        "line": 37,
+        "excerpt": "mkdir -p \"$HOME/.local/state/portal/sandbox-preview\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/portal-tunnel/skills/portal-expose/references/unprivileged-sandboxes.md",
+        "line": 57,
+        "excerpt": "apt-get install -y --no-install-recommends curl ca-certificates python3",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/portal-tunnel/skills/portal-expose/references/unprivileged-sandboxes.md",
+        "line": 58,
+        "excerpt": "curl -fsSL https://github.com/gosuda/portal-tunnel/releases/latest/download/install.sh | bash",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/portal-tunnel/skills/portal-expose/references/unprivileged-sandboxes.md",
+        "line": 58,
+        "excerpt": "curl -fsSL https://github.com/gosuda/portal-tunnel/releases/latest/download/install.sh | bash",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "github.com"
+        ]
+      },
+      {
         "ruleId": "network",
         "file": "plugins/portal-tunnel/skills/portal-expose/references/webhook-endpoints.md",
         "line": 32,
@@ -127,13 +153,13 @@
     ],
     "findingTotals": {
       "network": 10,
-      "writes-outside": 1,
-      "downloads-code": 1
+      "writes-outside": 2,
+      "downloads-code": 3
     },
     "score": 72,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 13,
+    "filesScanned": 14,
     "filesSkipped": 0
   },
   "history": [
@@ -158,6 +184,12 @@
     {
       "commit": "28198317bd34574c7ebc6bebab3f34066c8f3a5b",
       "scannedAt": "2026-11-21T10:21:16.775Z",
+      "score": 72,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "8a41f275cf3c07526f78f1bd27df36ca0a1583ed",
+      "scannedAt": "2026-11-26T11:36:54.718Z",
       "score": 72,
       "rulesVersion": "1.3.0"
     }

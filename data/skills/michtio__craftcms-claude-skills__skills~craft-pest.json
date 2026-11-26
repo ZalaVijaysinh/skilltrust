@@ -4,22 +4,22 @@
   "repo": "craftcms-claude-skills",
   "path": "skills/craft-pest",
   "name": "craft-pest",
-  "description": "Testing Craft CMS 5 plugins and modules with Pest — test isolation, database safety, and the markhuot/craft-pest-core harness. ALWAYS load when writing, running, fixing, or reviewing tests for a Craft plugin or module, and whenever a suite touches a real Craft install. Covers why rollback is opt-in, tests/Pest.php + tests/bootstrap.php wiring, phpunit.xml.dist <env> pins (force DB name + table prefix, default connection coordinates, pin CRAFT_ENVIRONMENT against server-scoped locks), why --configuration= defeats DB isolation, throwing fail-closed DB guards, installing the plugin under test, process-timezone pinning, per-test site fixtures, idempotent Install migrations, stale service caches when components get swapped, muting audit sinks, queue stubs, factories, HTTP/DB assertions, CI jobs.",
-  "stars": 89,
+  "description": "Testing Craft CMS 5 plugins and modules with Pest: test isolation, database safety, and the markhuot/craft-pest-core harness. ALWAYS load when writing, running, fixing, or reviewing tests for a Craft plugin or module, and whenever a suite touches a real Craft install. Covers opt-in rollback, tests/Pest.php + tests/bootstrap.php wiring, phpunit.xml.dist <env> pins (DB name, table prefix, connection, CRAFT_ENVIRONMENT against server-scoped locks), why --configuration= defeats isolation, fail-closed DB guards, installing the plugin under test, timezone pinning, per-test site fixtures, idempotent Install migrations, stale service caches, audit sinks, queue stubs, factories, HTTP/DB assertions, CI jobs.",
+  "stars": 90,
   "category": "coding",
-  "commit": "822f3177187ddf146d11ab158b2cc5244f92bc25",
-  "contentHash": "89279b9bf16a49c89fc030198b7b3d31fc3a5dd1a9e556bf04c32c2bb1cccf56",
+  "commit": "5910e2a7b20ecc76fb1520cb3e6239b8a57a6665",
+  "contentHash": "23965004c6147de64d151292fd772f2de395a9dc0cc70e4d9ab8ee58c0a46961",
   "repoCreatedAt": "2026-04-07T22:45:19Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "scannedAt": "2026-11-26T11:36:54.718Z",
   "scan": {
     "findings": [
       {
         "ruleId": "network",
         "file": "skills/craft-pest/SKILL.md",
-        "line": 27,
+        "line": 34,
         "excerpt": "Use `WebFetch` for specific pages, but prefer reading `vendor/markhuot/craft-pest-core/src/` when the question is \"what does it actually do.\"",
         "disclosed": false,
         "automatic": false,
@@ -28,7 +28,7 @@
       {
         "ruleId": "shell",
         "file": "skills/craft-pest/SKILL.md",
-        "line": 64,
+        "line": 71,
         "excerpt": "ddev craft pest -- --configuration=vendor/acme/my-plugin/phpunit.xml.dist",
         "disclosed": true,
         "automatic": false
@@ -36,7 +36,7 @@
       {
         "ruleId": "shell",
         "file": "skills/craft-pest/SKILL.md",
-        "line": 73,
+        "line": 80,
         "excerpt": "vendor/bin/pest",
         "disclosed": true,
         "automatic": false
@@ -44,7 +44,7 @@
       {
         "ruleId": "network",
         "file": "agents/craft-planner.md",
-        "line": 28,
+        "line": 30,
         "excerpt": "- `WebFetch` on Craft docs or plugin README — for API reference",
         "disclosed": false,
         "automatic": false,
@@ -53,21 +53,29 @@
       {
         "ruleId": "network",
         "file": "agents/craft-planner.md",
-        "line": 61,
-        "excerpt": "- Gate: `curl -X POST` returns 200, invalid signature returns 403",
+        "line": 75,
+        "excerpt": "- **Verification gate:** `ddev exec --dir /var/www/html/vendor/{vendor}/{plugin} vendor/bin/pest --filter=SyncJobTest` green; `curl -X POST` with a valid signat",
         "disclosed": false,
         "automatic": false,
         "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 10,
+        "excerpt": "\"command\": \"cd \\\"${CLAUDE_PROJECT_DIR:-.}\\\" 2>/dev/null; sh \\\"${CLAUDE_PLUGIN_ROOT}/bin/craft-version.sh\\\"\",",
+        "disclosed": true,
+        "automatic": true
       }
     ],
     "findingTotals": {
       "network": 3,
-      "shell": 2
+      "shell": 3
     },
     "score": 92,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 13,
+    "filesScanned": 15,
     "filesSkipped": 0
   },
   "history": [
@@ -80,6 +88,12 @@
     {
       "commit": "822f3177187ddf146d11ab158b2cc5244f92bc25",
       "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "5910e2a7b20ecc76fb1520cb3e6239b8a57a6665",
+      "scannedAt": "2026-11-26T11:36:54.718Z",
       "score": 92,
       "rulesVersion": "1.3.0"
     }

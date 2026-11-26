@@ -4,24 +4,105 @@
   "repo": "reachy-nova",
   "path": ".claude/skills/cicd",
   "name": "cicd",
-  "description": "",
-  "stars": 18,
-  "category": "other",
+  "description": "reachy-mini-cli's CI/CD lane, layered on `agex pr`. Delegates lint / open / read / reply / delta to agex; adds two extensions — `status` (SonarCloud quality gate + hotspots + unresolved-thread tally) and `await` (read --wait + status with non-zero exit on Sonar ERROR or unresolved threads). Use when: creating PRs in reachy-mini-cli, handling review feedback, polling CI status, or the user says \"create PR\", \"review comments\", \"address feedback\", \"resolve threads\". Renamed from `pr-review` in steward 0.7.0; rebased on agex in 0.12.0.",
+  "stars": 17,
+  "category": "devops",
   "commit": "495833c41fce64eec99ec93ea031287e97e3880f",
   "contentHash": "5dea02e583e7cbccce4e1adad19d037074cd3a4a5633dbf1ec8a5fcafe1e805d",
   "repoCreatedAt": "2026-02-12T05:20:36Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-21T10:21:16.775Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-26T11:36:54.718Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/cicd/SKILL.md",
+        "line": 74,
+        "excerpt": "uv tool install agex-cli   # or: pip install --user agex-cli",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/cicd/SKILL.md",
+        "line": 74,
+        "excerpt": "uv tool install agex-cli   # or: pip install --user agex-cli",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/cicd/SKILL.md",
+        "line": 188,
+        "excerpt": "[ -d tests ] && [ -f pyproject.toml ] && uv run pytest tests/ -x -q",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/cicd/scripts/pr-status.sh",
+        "line": 141,
+        "excerpt": "SONAR_QG=$(curl -s \"https://sonarcloud.io/api/qualitygates/project_status?projectKey=${SONAR_KEY}&pullRequest=${PR_NUMBER}\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "sonarcloud.io"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/cicd/scripts/pr-status.sh",
+        "line": 143,
+        "excerpt": "SONAR_OPEN=$(curl -s \"https://sonarcloud.io/api/issues/search?componentKeys=${SONAR_KEY}&pullRequest=${PR_NUMBER}&statuses=OPEN,CONFIRMED&ps=1\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "sonarcloud.io"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/cicd/scripts/pr-status.sh",
+        "line": 145,
+        "excerpt": "SONAR_HOTSPOTS=$(curl -s \"https://sonarcloud.io/api/hotspots/search?projectKey=${SONAR_KEY}&pullRequest=${PR_NUMBER}&status=TO_REVIEW&ps=1\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "sonarcloud.io"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/cicd/scripts/pr-status.sh",
+        "line": 161,
+        "excerpt": "curl -s \"https://sonarcloud.io/api/issues/search?componentKeys=${SONAR_KEY}&pullRequest=${PR_NUMBER}&statuses=OPEN,CONFIRMED&ps=20\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "sonarcloud.io"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/cicd/scripts/workflow.sh",
+        "line": 50,
+        "excerpt": "echo \"  uv tool install agex-cli  # or pip install agex-cli\" >&2",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "downloads-code": 2,
+      "shell": 2,
+      "network": 4
+    },
+    "score": 77,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 6
+    "filesScanned": 6,
+    "filesSkipped": 0
   },
   "history": [
     {

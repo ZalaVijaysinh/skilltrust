@@ -4,30 +4,102 @@
   "repo": "overdeck",
   "path": "sync-sources/dev-skills/pan-dashboard-restart",
   "name": "pan-dashboard-restart",
-  "description": "",
+  "description": "Safely restart the Overdeck dashboard server (production Node 22 dist) using a detached process. Use when pan up / pan restart hang, the dashboard churns/reconnects in a loop, two dashboards are dueling, or the server is running from a workspace path / wrong port.",
   "stars": 36,
   "category": "other",
-  "commit": "f08a9910ae8b320fe0bceb7bb2beeebc132b170e",
+  "commit": "3facc7a5a1692fec576f334f0083ba91619d4eb2",
   "contentHash": "66dd726222332c78f779373cb2b15794a5c31a7cd9d67890ea96f480ffd3d604",
   "repoCreatedAt": "2026-01-18T16:57:08Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-21T10:21:16.775Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-26T11:36:54.718Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "sync-sources/dev-skills/pan-dashboard-restart/SKILL.md",
+        "line": 46,
+        "excerpt": "cd ~/Projects/overdeck   # the PRIMARY checkout",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "sync-sources/dev-skills/pan-dashboard-restart/SKILL.md",
+        "line": 58,
+        "excerpt": "curl -s -X POST http://127.0.0.1:3012/restart-dashboard   # → 202 Accepted",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "sync-sources/dev-skills/pan-dashboard-restart/SKILL.md",
+        "line": 71,
+        "excerpt": "bash -c 'exec node dist/dashboard/server.js' > /tmp/pan-dash.log 2>&1 < /dev/null &",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "sync-sources/dev-skills/pan-dashboard-restart/SKILL.md",
+        "line": 77,
+        "excerpt": "code=$(curl -sk -o /dev/null -w '%{http_code}' --max-time 3 \"https://${DOMAIN}/api/health\" 2>/dev/null)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "${domain}"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "sync-sources/dev-skills/pan-dashboard-restart/SKILL.md",
+        "line": 81,
+        "excerpt": "ws=$(curl -sk -o /dev/null -w '%{http_code}' --http1.1 --max-time 5 \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "sync-sources/dev-skills/pan-dashboard-restart/SKILL.md",
+        "line": 103,
+        "excerpt": "- `overdeck.localhost/api/health` returns `{\"status\":\"ok\"}` and `curl http://localhost:<port>/api/health` returns 200.",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "sync-sources/dev-skills/pan-dashboard-restart/SKILL.md",
+        "line": 108,
+        "excerpt": "for pid in $(pgrep -f 'node .*dist/dashboard/server.js'); do",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 3,
+      "network": 4
+    },
+    "score": 92,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 1
+    "filesScanned": 1,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "f08a9910ae8b320fe0bceb7bb2beeebc132b170e",
       "scannedAt": "2026-11-21T10:21:16.775Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "3facc7a5a1692fec576f334f0083ba91619d4eb2",
+      "scannedAt": "2026-11-26T11:36:54.718Z",
+      "score": 92,
       "rulesVersion": "1.3.0"
     }
   ]

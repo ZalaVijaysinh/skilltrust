@@ -1,0 +1,309 @@
+{
+  "id": "glebis__claude-skills__sops-mesh",
+  "owner": "glebis",
+  "repo": "claude-skills",
+  "path": "sops-mesh",
+  "name": "sops-mesh",
+  "description": "This skill should be used to share SOPS + age secrets across someone's machines (macOS, Linux, Windows, CI), with one private key per machine in the strongest local store (Secure Enclave, Keychain, Credential Manager, libsecret, 0600 file), public keys exchanged over Syncthing or git, and secrets injected into AI agents that never see the keys. Triggers include \"encrypt my secrets\", \"set up sops\", \"share API keys between my machines\", \"stop agents seeing my keys\", \"sync secrets with Syncthing\", \"scan for plaintext secrets\", adding or revoking a machine, \"зашифровать секреты\", \"синхронизировать ключи\", \"спрятать ключи от агента\".",
+  "stars": 416,
+  "category": "security",
+  "commit": "78024267a1053177ad0dad509bdb2ee10fcfde31",
+  "contentHash": "ad89e7f8479c19dd945a80ea59c26f00439e957e9f1b39d610c323a03e52cf3b",
+  "repoCreatedAt": "2025-10-25T14:58:50Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-26T11:36:54.718Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "browser-secrets",
+        "file": "sops-mesh/SKILL.md",
+        "line": 89,
+        "excerpt": "- Never run `sops decrypt` to stdout, `sopsmesh key`, `security find-generic-password -w`,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "browser-secrets",
+        "file": "sops-mesh/assets/claude-settings.json",
+        "line": 15,
+        "excerpt": "\"Bash(security find-generic-password:*)\",",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "browser-secrets",
+        "file": "sops-mesh/assets/claude-settings.json",
+        "line": 16,
+        "excerpt": "\"Bash(security dump-keychain:*)\",",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "sops-mesh/references/platforms.md",
+        "line": 7,
+        "excerpt": "| Python 3.8+ | preinstalled / `brew install python` | preinstalled | `winget install Python.Python.3.12` |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "sops-mesh/references/platforms.md",
+        "line": 8,
+        "excerpt": "| sops ≥ 3.10 | `brew install sops` | GitHub release `.deb` (apt is often old) | `winget install --id Mozilla.SOPS` or `scoop install sops` |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "sops-mesh/references/platforms.md",
+        "line": 9,
+        "excerpt": "| age | `brew install age` | `sudo apt install age` | `winget install --id FiloSottile.age` or `scoop install age` |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "sops-mesh/references/platforms.md",
+        "line": 24,
+        "excerpt": "cd ~/src/age-plugin-se && swift build -c release && mkdir -p ~/.local/bin && cp .build/release/age-plugin-se ~/.local/bin/",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "sops-mesh/references/syncthing.md",
+        "line": 57,
+        "excerpt": "Install: macOS `brew install syncthing && brew services start syncthing` · Debian/Ubuntu",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "sops-mesh/references/syncthing.md",
+        "line": 58,
+        "excerpt": "`sudo apt install syncthing && systemctl --user enable --now syncthing` · Windows",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "sops-mesh/scripts/selftest.py",
+        "line": 51,
+        "excerpt": "def sm(self, *args: str, cwd: Path, inp: str | None = None) -> subprocess.CompletedProcess:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "sops-mesh/scripts/selftest.py",
+        "line": 52,
+        "excerpt": "return subprocess.run([sys.executable, str(TOOL), *args], cwd=cwd, env=self.env,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "sops-mesh/scripts/selftest.py",
+        "line": 68,
+        "excerpt": "subprocess.run([\"security\", \"delete-generic-password\", \"-s\", service], capture_output=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "sops-mesh/scripts/selftest.py",
+        "line": 70,
+        "excerpt": "subprocess.run([\"secret-tool\", \"clear\", \"service\", service, \"account\", \"age\"], capture_output=True)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "sops-mesh/scripts/selftest.py",
+        "line": 143,
+        "excerpt": "rogue = subprocess.run([\"age-keygen\"], capture_output=True, text=True,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "sops-mesh/scripts/sopsmesh.py",
+        "line": 72,
+        "excerpt": "\"\"\"PATH with the usual install locations added (brew, ~/.local/bin, scoop).\"\"\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "sops-mesh/scripts/sopsmesh.py",
+        "line": 92,
+        "excerpt": "def run_quiet(cmd: list[str], **kw) -> subprocess.CompletedProcess:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "sops-mesh/scripts/sopsmesh.py",
+        "line": 94,
+        "excerpt": "return subprocess.run(cmd, capture_output=True, text=True, env=env, **kw)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "sops-mesh/scripts/sopsmesh.py",
+        "line": 130,
+        "excerpt": "r = subprocess.run([\"icacls\", str(p), \"/inheritance:r\", \"/grant:r\", f\"{user}:F\"],",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "sops-mesh/scripts/sopsmesh.py",
+        "line": 461,
+        "excerpt": "import urllib.request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "sops-mesh/scripts/sopsmesh.py",
+        "line": 463,
+        "excerpt": "req = urllib.request.Request(f\"{base}/rest/config/folders\", headers={\"X-API-Key\": key})",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "sops-mesh/scripts/sopsmesh.py",
+        "line": 464,
+        "excerpt": "folders = json.load(urllib.request.urlopen(req, timeout=5))",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "sops-mesh/scripts/sopsmesh.py",
+        "line": 469,
+        "excerpt": "urllib.request.urlopen(urllib.request.Request(",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "sops-mesh/scripts/sopsmesh.py",
+        "line": 502,
+        "excerpt": "\"sops\": \"brew install sops\", \"age\": \"brew install age\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "sops-mesh/scripts/sopsmesh.py",
+        "line": 503,
+        "excerpt": "\"age-plugin-se\": \"brew install age-plugin-se   (macOS 26+; older macOS: see references/platforms.md)\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "sops-mesh/scripts/sopsmesh.py",
+        "line": 504,
+        "excerpt": "\"syncthing\": \"brew install syncthing && brew services start syncthing\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "sops-mesh/scripts/sopsmesh.py",
+        "line": 508,
+        "excerpt": "\"age\": \"sudo apt install age   # or dnf install age / pacman -S age\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "sops-mesh/scripts/sopsmesh.py",
+        "line": 509,
+        "excerpt": "\"secret-tool\": \"sudo apt install libsecret-tools   (desktop only)\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "sops-mesh/scripts/sopsmesh.py",
+        "line": 510,
+        "excerpt": "\"syncthing\": \"sudo apt install syncthing && systemctl --user enable --now syncthing\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "sops-mesh/scripts/sopsmesh.py",
+        "line": 843,
+        "excerpt": "r = subprocess.run([need(\"sops\"), \"updatekeys\", \"-y\", str(f.relative_to(mesh))],",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "sops-mesh/scripts/sopsmesh.py",
+        "line": 897,
+        "excerpt": "r = subprocess.run([need(\"sops\"), \"decrypt\", \"--input-type\", fmt, \"--output-type\", \"json\", str(f)],",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "sops-mesh/scripts/sopsmesh.py",
+        "line": 943,
+        "excerpt": "r = subprocess.run(cmd, env={**child_env(os.environ.copy()), **values})",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "sops-mesh/scripts/sopsmesh.py",
+        "line": 957,
+        "excerpt": "r = subprocess.run([need(\"sops\"), \"encrypt\", \"--filename-override\", f\"secrets/{name}\",",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "sops-mesh/scripts/sopsmesh.py",
+        "line": 974,
+        "excerpt": "sys.exit(subprocess.run([need(\"sops\"), \"edit\", str(f)], cwd=mesh, env=sops_env(load_local())).returncode)",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "browser-secrets": 3,
+      "downloads-code": 11,
+      "writes-outside": 2,
+      "shell": 13,
+      "network": 4
+    },
+    "score": 54,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 8,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "78024267a1053177ad0dad509bdb2ee10fcfde31",
+      "scannedAt": "2026-11-26T11:36:54.718Z",
+      "score": 54,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

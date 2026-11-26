@@ -4,24 +4,203 @@
   "repo": "EnClaws",
   "path": "skills/feishu-skills/feishu-im-file-analyze",
   "name": "feishu-im-file-analyze",
-  "description": "",
+  "description": "下载并解析飞书 IM 消息里的附件（pdf / docx / pptx / xlsx / xls / doc / ppt / rtf / epub / html / txt / csv / md / zip），\n返回结构化文本供 AI 分析。zip 会自动解压后递归处理支持的类型。\n适用场景（凡是\"用户把文件直接发给机器人让它读/总结/对比/提炼\"都走本 skill）：\n- 简历筛选：HR/老板把 PDF 简历或打包简历 zip 甩给机器人，让机器人提炼候选人亮点\n- 合同/协议审阅：法务/业务发 Word、PDF 合同给机器人，让机器人抽关键条款、找风险点\n- 会议/访谈材料：把 pptx 培训资料、doc 纪要、md 笔记发进群，让机器人生成摘要或问答\n- 数据表汇总：把 xlsx/xls/csv 报表发给机器人，让它读表头和样例、给解读或对比\n- 技术文档问答：把需求文档、接口说明（docx/html/md）发给机器人，让它回答具体问题\n- 批量附件分析：群里发一个 zip 打包的多份材料，机器人解压后逐份抽文本汇总\n- 小说/电子书阅读：epub/txt 发给机器人问剧情或提炼观点\n- 日志排查：log/txt/json 日志发给机器人，让它找异常或时间线",
   "stars": 35,
-  "category": "other",
+  "category": "data",
   "commit": "402d38faaa9cb7eb70909ff73d943bf429c30f8a",
   "contentHash": "079d63d4281233f21063cda34f8200866ce40aaee92b8dc6e8d8c922942afb9a",
   "repoCreatedAt": "2026-03-20T12:55:30Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-21T10:21:16.775Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-26T11:36:54.718Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/feishu-skills/feishu-im-file-analyze/SKILL.md",
+        "line": 29,
+        "excerpt": "node ./analyze.js --message-id \"om_xxx\" --file-key \"file_v3_xxx\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/feishu-skills/feishu-im-file-analyze/SKILL.md",
+        "line": 35,
+        "excerpt": "node ./analyze.js --local-path \"/tmp/foo.zip\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/feishu-skills/feishu-im-file-analyze/SKILL.md",
+        "line": 92,
+        "excerpt": "{ \"error\": \"missing_system_tool\", \"tool\": \"unzip\", \"install_hint\": \"apt install unzip\" }",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/feishu-skills/feishu-im-file-analyze/analyze.js",
+        "line": 19,
+        "excerpt": "const { execFileSync } = require('child_process');",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/feishu-skills/feishu-im-file-analyze/analyze.js",
+        "line": 73,
+        "excerpt": "const p = execFileSync(cmd, [tool], { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim();",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/feishu-skills/feishu-im-file-analyze/analyze.js",
+        "line": 92,
+        "excerpt": "const res = await fetch(",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/feishu-skills/feishu-im-file-analyze/analyze.js",
+        "line": 107,
+        "excerpt": "const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/feishu-skills/feishu-im-file-analyze/analyze.js",
+        "line": 164,
+        "excerpt": "const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/feishu-skills/feishu-im-file-analyze/analyze.js",
+        "line": 254,
+        "excerpt": "const outStr = execFileSync('unzip', ['-l', zipPath],",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/feishu-skills/feishu-im-file-analyze/analyze.js",
+        "line": 274,
+        "excerpt": "requireTool('unzip', 'apt install unzip / brew install unzip');",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/feishu-skills/feishu-im-file-analyze/analyze.js",
+        "line": 276,
+        "excerpt": "execFileSync('unzip', ['-o', '-q', zipPath, '-d', dest],",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/feishu-skills/feishu-im-file-analyze/analyze.js",
+        "line": 398,
+        "excerpt": "requireTool('unzip', 'apt install unzip / brew install unzip');",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/feishu-skills/feishu-im-file-analyze/analyze.mjs",
+        "line": 18,
+        "excerpt": "import { execFileSync } from 'node:child_process';",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/feishu-skills/feishu-im-file-analyze/analyze.mjs",
+        "line": 78,
+        "excerpt": "const p = execFileSync(cmd, [tool], { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim();",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/feishu-skills/feishu-im-file-analyze/analyze.mjs",
+        "line": 97,
+        "excerpt": "const res = await fetch(",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/feishu-skills/feishu-im-file-analyze/analyze.mjs",
+        "line": 112,
+        "excerpt": "const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/feishu-skills/feishu-im-file-analyze/analyze.mjs",
+        "line": 168,
+        "excerpt": "const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/feishu-skills/feishu-im-file-analyze/analyze.mjs",
+        "line": 258,
+        "excerpt": "const outStr = execFileSync('unzip', ['-l', zipPath],",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/feishu-skills/feishu-im-file-analyze/analyze.mjs",
+        "line": 278,
+        "excerpt": "requireTool('unzip', 'apt install unzip / brew install unzip');",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/feishu-skills/feishu-im-file-analyze/analyze.mjs",
+        "line": 280,
+        "excerpt": "execFileSync('unzip', ['-o', '-q', zipPath, '-d', dest],",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/feishu-skills/feishu-im-file-analyze/analyze.mjs",
+        "line": 401,
+        "excerpt": "requireTool('unzip', 'apt install unzip / brew install unzip');",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 10,
+      "downloads-code": 5,
+      "network": 6
+    },
+    "score": 75,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 3
+    "filesScanned": 3,
+    "filesSkipped": 0
   },
   "history": [
     {

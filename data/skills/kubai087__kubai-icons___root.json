@@ -4,16 +4,16 @@
   "repo": "kubai-icons",
   "path": "",
   "name": "kubai-icons",
-  "description": "生成一套风格统一的功能图标，有两种风格可选。分层动态（默认）：沿用 Lumno 书签文件夹图标的构造，后片、内容、前片分层，外描边，所有颜色从一个主色推导，悬停时形变，也可以导出静态 SVG。双色面性：16 网格的实心双色图标，浅色主体加主色点缀，悬停时有表现含义的动效，也可以导出静态 SVG，适合界面里的小尺寸图标。用户要做图标、功能图标、动态图标、静态 SVG 图标、面性或双色图标、duotone 图标、icon set、带 hover 动效的图标，或要往这套图标里加新图标时使用。",
-  "stars": 1081,
+  "description": "生成一套风格统一的功能图标，有三种风格可选。分层动态（默认）：沿用 Lumno 书签文件夹图标的构造，后片、内容、前片分层，外描边，所有颜色从一个主色推导，悬停时形变，也可以导出静态 SVG。双色面性：16 网格的实心双色图标，浅色主体加主色点缀，悬停时有表现含义的动效，也可以导出静态 SVG，适合界面里的小尺寸图标。线性：24 网格的圆角线条，线宽随文字字重调整（0.5–3），一份绘制得到线性、线性双色、面性、面性填充四种变体，悬停时有表现含义的动效，也可以导出静态 SVG。用户要做图标、功能图标、动态图标、静态 SVG 图标、面性或双色图标、duotone 图标、线性或描边图标、outline 图标、icon set、带 hover 动效的图标，或要往这套图标里加新图标时使用。",
+  "stars": 1256,
   "category": "design",
-  "commit": "b854c5f419c8b91333d03dbfce03f647b935d6d7",
-  "contentHash": "fb54c667f4df2a708b93a965fbbd25a88a111bd6743c7ee7c7ecd6714c5bcc8b",
+  "commit": "25c7370648de4a26482f703b751fcfd32426aa57",
+  "contentHash": "af5e32e0cb2ebe1f87493cdd1f8c9d9dfc315ffc74884b504542827ece4a5f6c",
   "repoCreatedAt": "2026-11-03T09:52:39Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-21T10:21:16.775Z",
+  "scannedAt": "2026-11-26T11:36:54.718Z",
   "scan": {
     "findings": [
       {
@@ -35,7 +35,7 @@
       {
         "ruleId": "shell",
         "file": "SKILL.md",
-        "line": 56,
+        "line": 57,
         "excerpt": "node scripts/check.mjs --only 新图标A,新图标B --with 文件夹,邮件,下载",
         "disclosed": false,
         "automatic": false
@@ -43,7 +43,7 @@
       {
         "ruleId": "shell",
         "file": "SKILL.md",
-        "line": 64,
+        "line": 65,
         "excerpt": "node scripts/export.mjs --only 新图标A,新图标B --palette 彩色 --out 目标目录",
         "disclosed": false,
         "automatic": false
@@ -67,31 +67,130 @@
       },
       {
         "ruleId": "shell",
-        "file": "tools/chrome.mjs",
-        "line": 2,
+        "file": "scripts/pack.mjs",
+        "line": 15,
         "excerpt": "import { execFileSync } from 'node:child_process';",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "tools/chrome.mjs",
-        "line": 28,
-        "excerpt": "execFileSync(findChrome(), ['--headless=new', '--disable-gpu', '--hide-scrollbars', `--user-data-dir=${path.join(work, 'profile')}`,",
+        "file": "scripts/pack.mjs",
+        "line": 30,
+        "excerpt": "const git = (...a) => execFileSync('git', ['-C', root, ...a], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/pack.mjs",
+        "line": 55,
+        "excerpt": "execFileSync('tar', ['-xf', tar, '-C', work]);",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/pack.mjs",
+        "line": 58,
+        "excerpt": "execFileSync('zip', ['-q', '-r', '-X', standard, name], { cwd: work });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "scripts/pack.mjs",
+        "line": 63,
+        "excerpt": "execFileSync('zip', ['-q', '-r', '-X', platform, name], { cwd: work });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "site/src/lib/icons.ts",
+        "line": 30,
+        "excerpt": "indexPromise ??= fetch(asset(\"/data/index.json\")).then((r) => {",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "site/src/lib/icons.ts",
+        "line": 102,
+        "excerpt": "const json = (path: string) => fetch(asset(path)).then((r) => {",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "styles/line/check.mjs",
+        "line": 30,
+        "excerpt": "import { execFileSync } from 'node:child_process';",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "styles/line/check.mjs",
+        "line": 47,
+        "excerpt": "execFileSync('node', [path.join(here, 'build.mjs'), ...(args.includes('--out') ? ['--out', out] : [])], { stdio: 'inherit' });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "styles/line/check.mjs",
+        "line": 48,
+        "excerpt": "execFileSync('node', [path.join(here, 'sheet.mjs'), '--out', out, ...(onlyArg ? ['--only', onlyArg] : [])], { stdio: 'inherit' });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "styles/line/chrome.mjs",
+        "line": 4,
+        "excerpt": "import { execFileSync } from 'node:child_process';",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "styles/line/chrome.mjs",
+        "line": 36,
+        "excerpt": "withPage(html, (page, profile) => execFileSync(findChrome(), ['--headless=new', '--disable-gpu', '--hide-scrollbars',",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "styles/line/chrome.mjs",
+        "line": 44,
+        "excerpt": "const dom = execFileSync(findChrome(), ['--headless=new', '--disable-gpu', `--user-data-dir=${profile}`,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "tools/indexnow.mjs",
+        "line": 30,
+        "excerpt": "const res = await fetch(ENDPOINT, {",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
       }
     ],
     "findingTotals": {
       "downloads-code": 3,
-      "shell": 4,
-      "network": 1
+      "shell": 13,
+      "network": 4
     },
     "score": 77,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 432,
-    "filesSkipped": 1456
+    "filesScanned": 414,
+    "filesSkipped": 2870
   },
   "history": [
     {
@@ -121,6 +220,12 @@
     {
       "commit": "b854c5f419c8b91333d03dbfce03f647b935d6d7",
       "scannedAt": "2026-11-21T10:21:16.775Z",
+      "score": 77,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "25c7370648de4a26482f703b751fcfd32426aa57",
+      "scannedAt": "2026-11-26T11:36:54.718Z",
       "score": 77,
       "rulesVersion": "1.3.0"
     }

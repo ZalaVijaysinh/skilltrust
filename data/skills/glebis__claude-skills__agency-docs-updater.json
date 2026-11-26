@@ -5,15 +5,15 @@
   "path": "agency-docs-updater",
   "name": "agency-docs-updater",
   "description": "End-to-end pipeline for publishing Claude Code lab meetings. Accepts optional args: date (YYYYMMDD, \"yesterday\", \"today\") and lab number (e.g. \"04\"). Examples: \"yesterday 04\", \"20260420 05\", \"04\" (today, lab 04), \"\" (today, auto-detect lab).",
-  "stars": 414,
+  "stars": 416,
   "category": "coding",
-  "commit": "4d37d3b0af1f98cb4ac820d9abbce95e38e909fb",
-  "contentHash": "4973cc8bbfd3b887035c0c5ee4adf04ac9cd586900bb330ff25e825371dda0e9",
+  "commit": "78024267a1053177ad0dad509bdb2ee10fcfde31",
+  "contentHash": "16035ab684b5e77c08ccc851e75fb28ed60c3a51e7772f22e34750f67806c0b5",
   "repoCreatedAt": "2025-10-25T14:58:50Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-17T11:16:37.484Z",
+  "scannedAt": "2026-11-26T11:36:54.718Z",
   "scan": {
     "findings": [
       {
@@ -35,7 +35,15 @@
       {
         "ruleId": "shell",
         "file": "agency-docs-updater/SKILL.md",
-        "line": 68,
+        "line": 57,
+        "excerpt": "python3 ${SKILLS_LOCAL_DIR}/agency-docs-updater/scripts/find_transcript.py ${DATE} [--slug ${LAB_SLUG}] [--lab ${LAB_FILTER}] --json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "agency-docs-updater/SKILL.md",
+        "line": 72,
         "excerpt": "python3 ${SKILLS_LOCAL_DIR}/agency-docs-updater/scripts/lab_layout.py ${LAB_SLUG} --lab ${LAB_NUMBER} --meeting ${MEETING_NUMBER} --json",
         "disclosed": false,
         "automatic": false
@@ -43,7 +51,7 @@
       {
         "ruleId": "shell",
         "file": "agency-docs-updater/SKILL.md",
-        "line": 85,
+        "line": 89,
         "excerpt": "python3 ${SKILLS_REPO_DIR}/zoom/scripts/zoom_meetings.py recordings \\",
         "disclosed": false,
         "automatic": false
@@ -51,7 +59,7 @@
       {
         "ruleId": "shell",
         "file": "agency-docs-updater/SKILL.md",
-        "line": 92,
+        "line": 96,
         "excerpt": "TOK=$(python3 -c \"import json,pathlib; print(json.load(open(pathlib.Path('${ZOOM_CREDENTIALS_DIR}')/'oauth_token.json'))['access_token'])\")",
         "disclosed": false,
         "automatic": false
@@ -59,7 +67,7 @@
       {
         "ruleId": "network",
         "file": "agency-docs-updater/SKILL.md",
-        "line": 93,
+        "line": 97,
         "excerpt": "curl -L -H \"Authorization: Bearer ${TOK}\" -o ${VAULT_DIR}/${VIDEO_NAME}.mp4 \"${MP4_DOWNLOAD_URL}\"",
         "disclosed": true,
         "automatic": false,
@@ -68,7 +76,7 @@
       {
         "ruleId": "shell",
         "file": "agency-docs-updater/SKILL.md",
-        "line": 98,
+        "line": 102,
         "excerpt": "cd ${VAULT_DIR} && python3 ${SKILLS_LOCAL_DIR}/fathom/scripts/download_video.py \\",
         "disclosed": false,
         "automatic": false
@@ -76,31 +84,23 @@
       {
         "ruleId": "shell",
         "file": "agency-docs-updater/SKILL.md",
-        "line": 109,
-        "excerpt": "bash ${SKILLS_LOCAL_DIR}/agency-docs-updater/scripts/trim_leading_silence.sh ${VAULT_DIR}/${VIDEO_NAME}.mp4",
+        "line": 116,
+        "excerpt": "python3 ${SKILLS_LOCAL_DIR}/agency-docs-updater/scripts/edit_video.py analyze ${VAULT_DIR}/${VIDEO_NAME}.mp4 \\",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "agency-docs-updater/SKILL.md",
-        "line": 118,
-        "excerpt": "python3 ${SKILLS_LOCAL_DIR}/agency-docs-updater/scripts/detect_lesson_start.py <fathom.json|zoom.vtt> --json",
+        "line": 129,
+        "excerpt": "python3 ${SKILLS_LOCAL_DIR}/agency-docs-updater/scripts/edit_video.py apply ${VAULT_DIR}/${VIDEO_NAME}.mp4 \\",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "agency-docs-updater/SKILL.md",
-        "line": 131,
-        "excerpt": "python3 ${SKILLS_LOCAL_DIR}/agency-docs-updater/scripts/cut_spans.py video.mp4 \\",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "agency-docs-updater/SKILL.md",
-        "line": 138,
+        "line": 141,
         "excerpt": "cd ${YOUTUBE_UPLOADER_DIR} && \\",
         "disclosed": false,
         "automatic": false
@@ -108,7 +108,15 @@
       {
         "ruleId": "shell",
         "file": "agency-docs-updater/SKILL.md",
-        "line": 249,
+        "line": 159,
+        "excerpt": "${YOUTUBE_UPLOADER_DIR}/.venv/bin/python ${SKILLS_LOCAL_DIR}/agency-docs-updater/scripts/verify_upload.py ${VIDEO_ID} \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "agency-docs-updater/SKILL.md",
+        "line": 227,
         "excerpt": "LAB_SLUG=${LAB_SLUG} python3 ${SKILLS_LOCAL_DIR}/agency-docs-updater/scripts/update_meeting_doc.py \\",
         "disclosed": false,
         "automatic": false
@@ -116,15 +124,23 @@
       {
         "ruleId": "shell",
         "file": "agency-docs-updater/SKILL.md",
-        "line": 268,
-        "excerpt": "cd ${DOCS_SITE_DIR}",
+        "line": 250,
+        "excerpt": "bash ${SKILLS_LOCAL_DIR}/agency-docs-updater/scripts/publish_preflight.sh",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "agency-docs-updater/SKILL.md",
-        "line": 288,
+        "line": 256,
+        "excerpt": "cd ${DOCS_SITE_DIR} && git fetch -q origin main",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "agency-docs-updater/SKILL.md",
+        "line": 277,
         "excerpt": "TIMEOUT=300; ELAPSED=0",
         "disclosed": false,
         "automatic": false
@@ -132,7 +148,7 @@
       {
         "ruleId": "shell",
         "file": "agency-docs-updater/SKILL.md",
-        "line": 308,
+        "line": 297,
         "excerpt": "python3 ${SKILLS_LOCAL_DIR}/agency-docs-updater/scripts/rebuild_aggregations.py",
         "disclosed": false,
         "automatic": false
@@ -140,15 +156,47 @@
       {
         "ruleId": "shell",
         "file": "agency-docs-updater/SKILL.md",
-        "line": 320,
+        "line": 309,
         "excerpt": "git add content/docs/database.mdx content/docs/glossary.mdx content/docs/library.mdx \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "agency-docs-updater/SKILL.md",
+        "line": 327,
+        "excerpt": "cd ~/ai_projects/pibot && OPENAI_API_KEY= SOPS_AGE_KEY_FILE=$HOME/.config/sops/age/keys.txt \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "agency-docs-updater/SKILL.md",
+        "line": 328,
+        "excerpt": "npx tsx ${SKILLS_LOCAL_DIR}/agency-docs-updater/scripts/announce_publication.ts --chat ${LAB_ANNOUNCE_CHAT_ID} \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "agency-docs-updater/evals/run_evals.py",
+        "line": 33,
+        "excerpt": "r = subprocess.run([str(c) for c in cmd], capture_output=True, text=True)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "agency-docs-updater/evals/run_evals.py",
+        "line": 416,
+        "excerpt": "r = subprocess.run([PY, str(S / \"update_meeting_doc.py\"), str(sess), \"https://youtu.be/abcdefghijk\", str(summ),",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
         "file": "agency-docs-updater/references/learnings.md",
-        "line": 42,
+        "line": 97,
         "excerpt": "- **Missing Python deps (seen 2026-06-13).** `ModuleNotFoundError: No module named 'google_auth_oauthlib'` — youtube-uploader has no venv and the deps aren't in",
         "disclosed": false,
         "automatic": false
@@ -156,7 +204,7 @@
       {
         "ruleId": "downloads-code",
         "file": "agency-docs-updater/references/learnings.md",
-        "line": 43,
+        "line": 98,
         "excerpt": "- `process_video.py` can fail at thumbnail step with `Executable doesn't exist … chrome-headless-shell` — Playwright browser missing. Fix: `cd ${YOUTUBE_UPLOADE",
         "disclosed": false,
         "automatic": false
@@ -164,7 +212,7 @@
       {
         "ruleId": "downloads-code",
         "file": "agency-docs-updater/references/learnings.md",
-        "line": 84,
+        "line": 139,
         "excerpt": "- disk-cleanup safe preset also trashes `~/Library/Caches/ms-playwright` — re-run `python3 -m playwright install chromium` after cleaning (Node's `npx playwrigh",
         "disclosed": false,
         "automatic": false
@@ -172,7 +220,7 @@
       {
         "ruleId": "downloads-code",
         "file": "agency-docs-updater/references/learnings.md",
-        "line": 89,
+        "line": 144,
         "excerpt": "- Disk-full during `npm install`/`npx playwright install` fails HALF-silently: node_modules ends up empty and chromium downloads but never extracts. After freei",
         "disclosed": false,
         "automatic": false
@@ -186,33 +234,36 @@
         "automatic": false
       },
       {
-        "ruleId": "shell",
-        "file": "agency-docs-updater/scripts/cut_spans.py",
-        "line": 21,
-        "excerpt": "out = subprocess.run(",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "agency-docs-updater/scripts/cut_spans.py",
-        "line": 95,
-        "excerpt": "subprocess.run(cmd, check=True)",
-        "disclosed": false,
-        "automatic": false
+        "ruleId": "network",
+        "file": "agency-docs-updater/scripts/announce_publication.ts",
+        "line": 61,
+        "excerpt": "const feed: any = await fetch(`https://agency-lab.glebkalinin.com/api/curriculum/${FEED}?ts=${Date.now()}`, { signal: AbortSignal.timeout(15000) }).then(r => r.",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "agency-lab.glebkalinin.com"
+        ]
       },
       {
         "ruleId": "downloads-code",
         "file": "agency-docs-updater/scripts/preflight.sh",
         "line": 18,
-        "excerpt": "echo \"✗ Missing Python deps — fix: cd \\\"$YOUTUBE_UPLOADER_DIR\\\" && python3 -m pip install --user -r requirements.txt\"",
+        "excerpt": "PY_FIX=\"cd \\\"$YOUTUBE_UPLOADER_DIR\\\" && .venv/bin/pip install -r requirements.txt\"",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
         "file": "agency-docs-updater/scripts/preflight.sh",
-        "line": 31,
+        "line": 21,
+        "excerpt": "PY_FIX=\"cd \\\"$YOUTUBE_UPLOADER_DIR\\\" && python3 -m venv .venv && .venv/bin/pip install -r requirements.txt\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "agency-docs-updater/scripts/preflight.sh",
+        "line": 39,
         "excerpt": "echo \"✗ Playwright module OK but chromium browser missing — fix: cd \\\"$YOUTUBE_UPLOADER_DIR\\\" && npx playwright install chromium\"",
         "disclosed": false,
         "automatic": false
@@ -220,7 +271,7 @@
       {
         "ruleId": "downloads-code",
         "file": "agency-docs-updater/scripts/preflight.sh",
-        "line": 35,
+        "line": 43,
         "excerpt": "echo \"✗ Playwright module not installed — fix: cd \\\"$YOUTUBE_UPLOADER_DIR\\\" && npm install && npx playwright install chromium\"",
         "disclosed": false,
         "automatic": false
@@ -228,30 +279,57 @@
       {
         "ruleId": "network",
         "file": "agency-docs-updater/scripts/preflight.sh",
-        "line": 45,
+        "line": 63,
         "excerpt": "code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 15 \\",
         "disclosed": true,
         "automatic": false,
         "hosts": []
       },
       {
-        "ruleId": "shell",
-        "file": "agency-docs-updater/scripts/update_meeting_doc.py",
-        "line": 217,
-        "excerpt": "result = subprocess.run([",
+        "ruleId": "downloads-code",
+        "file": "agency-docs-updater/scripts/render_html.mjs",
+        "line": 21,
+        "excerpt": "console.error('playwright not found — run: cd $YOUTUBE_UPLOADER_DIR && npm install && npx playwright install chromium');",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "agency-docs-updater/scripts/render_html.mjs",
+        "line": 38,
+        "excerpt": "console.error('no Chromium available — run: npx playwright install chromium');",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "agency-docs-updater/scripts/transcribe_cut.py",
+        "line": 94,
+        "excerpt": "r = requests.post(\"https://api.groq.com/openai/v1/audio/transcriptions\",",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.groq.com"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "agency-docs-updater/scripts/verify_upload.py",
+        "line": 69,
+        "excerpt": "print(\"✗ `trash` CLI not found; keeping files (install: brew install trash)\")",
         "disclosed": false,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 18,
-      "network": 2,
-      "downloads-code": 8
+      "shell": 43,
+      "network": 4,
+      "downloads-code": 13
     },
     "score": 77,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 19,
+    "filesScanned": 39,
     "filesSkipped": 0
   },
   "history": [
@@ -264,6 +342,12 @@
     {
       "commit": "4d37d3b0af1f98cb4ac820d9abbce95e38e909fb",
       "scannedAt": "2026-11-13T10:10:34.466Z",
+      "score": 77,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "78024267a1053177ad0dad509bdb2ee10fcfde31",
+      "scannedAt": "2026-11-26T11:36:54.718Z",
       "score": 77,
       "rulesVersion": "1.3.0"
     }

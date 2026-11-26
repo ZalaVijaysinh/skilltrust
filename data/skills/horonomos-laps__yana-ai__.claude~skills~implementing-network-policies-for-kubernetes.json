@@ -4,24 +4,74 @@
   "repo": "Yana-AI",
   "path": ".claude/skills/implementing-network-policies-for-kubernetes",
   "name": "implementing-network-policies-for-kubernetes",
-  "description": "",
-  "stars": 13,
+  "description": "Kubernetes NetworkPolicies provide pod-level network segmentation by",
+  "stars": 14,
   "category": "coding",
-  "commit": "56f9bc58ec46abd4c991da907d976b6fee391fa0",
+  "commit": "e821ccd2f0f7d96a9213082f7dfc1d43b5836e7f",
   "contentHash": "da4fbd56029a8f1df3f23334b8c12d92270bc1b25e3948b00c04b1726727f527",
   "repoCreatedAt": "2026-05-17T00:35:59Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-21T10:21:16.775Z",
+  "scannedAt": "2026-11-26T11:36:54.718Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/implementing-network-policies-for-kubernetes/SKILL.md",
+        "line": 225,
+        "excerpt": "kubectl get networkpolicies -n production",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/implementing-network-policies-for-kubernetes/SKILL.md",
+        "line": 228,
+        "excerpt": "kubectl run test-pod --image=busybox --restart=Never -n production -- wget -qO- --timeout=2 http://database-service:5432",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "database-service"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/implementing-network-policies-for-kubernetes/SKILL.md",
+        "line": 232,
+        "excerpt": "kubectl run frontend-test --image=busybox --labels=app=frontend --restart=Never -n production -- wget -qO- --timeout=2 http://backend-service:8080",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "backend-service"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/implementing-network-policies-for-kubernetes/scripts/process.py",
+        "line": 26,
+        "excerpt": "result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/implementing-network-policies-for-kubernetes/scripts/process.py",
+        "line": 30,
+        "excerpt": "except (subprocess.TimeoutExpired, json.JSONDecodeError, FileNotFoundError):",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 3,
+      "network": 2
+    },
+    "score": 92,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 1,
-    "filesSkipped": 8
+    "filesScanned": 4,
+    "filesSkipped": 5
   },
   "history": [
     {
@@ -34,6 +84,12 @@
       "commit": "56f9bc58ec46abd4c991da907d976b6fee391fa0",
       "scannedAt": "2026-11-21T10:21:16.775Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "e821ccd2f0f7d96a9213082f7dfc1d43b5836e7f",
+      "scannedAt": "2026-11-26T11:36:54.718Z",
+      "score": 92,
       "rulesVersion": "1.3.0"
     }
   ]

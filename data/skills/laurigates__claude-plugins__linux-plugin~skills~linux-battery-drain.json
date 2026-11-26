@@ -1,0 +1,110 @@
+{
+  "id": "laurigates__claude-plugins__linux-plugin~skills~linux-battery-drain",
+  "owner": "laurigates",
+  "repo": "claude-plugins",
+  "path": "linux-plugin/skills/linux-battery-drain",
+  "name": "linux-battery-drain",
+  "description": "Measure and diagnose laptop battery drain on Linux while off, suspended or idle, with gauge-aware tests. Use when a laptop's battery empties while off or in suspend, or runs down fast at idle.",
+  "stars": 60,
+  "category": "coding",
+  "commit": "5848b43d124cf72c743c25837d3ce25c55cd7de6",
+  "contentHash": "613f807830c7dabb24fad2d3930bbcc3ca7caafd8d623b41b0e2aaac835f375f",
+  "repoCreatedAt": "2025-12-16T11:24:04Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-26T11:36:54.718Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "linux-plugin/skills/linux-battery-drain/SKILL.md",
+        "line": 35,
+        "excerpt": "journalctl --list-boots",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "linux-plugin/skills/linux-battery-drain/SKILL.md",
+        "line": 57,
+        "excerpt": "cat /sys/class/power_supply/BAT*/power_now          # µW, on battery",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "linux-plugin/skills/linux-battery-drain/SKILL.md",
+        "line": 101,
+        "excerpt": "bash \"${CLAUDE_SKILL_DIR}/scripts/off-test.sh\" 7200          # or --no-rtc",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "linux-plugin/skills/linux-battery-drain/SKILL.md",
+        "line": 118,
+        "excerpt": "bash \"${CLAUDE_SKILL_DIR}/scripts/s3-test.sh\" 7200",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "linux-plugin/skills/linux-battery-drain/SKILL.md",
+        "line": 131,
+        "excerpt": "python3 -I \"${CLAUDE_SKILL_DIR}/scripts/drain-calc.py\" /var/log/offdrain.csv --overhead-wh 0.1",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "linux-plugin/skills/linux-battery-drain/scripts/off-test.sh",
+        "line": 26,
+        "excerpt": "sudo tee /etc/systemd/system/offdrain-after-boot.service >/dev/null <<EOF",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "linux-plugin/skills/linux-battery-drain/scripts/off-test.sh",
+        "line": 33,
+        "excerpt": "ExecStart=/bin/sh -c '${row/PHASE/after}'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "linux-plugin/skills/linux-battery-drain/scripts/off-test.sh",
+        "line": 43,
+        "excerpt": "sudo sh -c \"${row/PHASE/before}\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "linux-plugin/skills/linux-battery-drain/scripts/s3-test.sh",
+        "line": 26,
+        "excerpt": "sudo systemd-run --quiet --unit=\"s3-test-$(date +%s)\" /bin/sh -c \"",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 8,
+      "writes-outside": 1
+    },
+    "score": 85,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 6,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "5848b43d124cf72c743c25837d3ce25c55cd7de6",
+      "scannedAt": "2026-11-26T11:36:54.718Z",
+      "score": 85,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

@@ -4,30 +4,106 @@
   "repo": "lixpi",
   "path": "skills/docker-browser",
   "name": "docker-browser",
-  "description": "",
+  "description": "Run headless Chromium in Docker and drive the local Lixpi app through the Playwright MCP server. Use only when the user explicitly asks for this skill or the Docker browser. Never select it automatically.",
   "stars": 15,
   "category": "devops",
-  "commit": "9a7fe5619552da90f89477e721fb73e70284d568",
+  "commit": "4b89607f29fb6b070c76bdbc834b71cf6fcc5ba9",
   "contentHash": "eebba11192c0f4fb84b4e8b3ade885b97fd0793949b10917b93020c07dedca09",
   "repoCreatedAt": "2025-09-13T22:23:00Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-21T10:21:16.775Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-26T11:36:54.718Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/docker-browser/SKILL.md",
+        "line": 44,
+        "excerpt": "docker run -d --rm --name lixpi-browser-network --network nats --entrypoint sh alpine/socat:1.8.1.3 -c 'for port in 3443 3444 3445 3446; do socat TCP-LISTEN:$po",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/docker-browser/SKILL.md",
+        "line": 50,
+        "excerpt": "docker volume create lixpi-browser-nssdb",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/docker-browser/SKILL.md",
+        "line": 51,
+        "excerpt": "docker run --rm -v lixpi_caddy-certs:/certificates:ro -v lixpi-browser-nssdb:/nssdb alpine:3.24.3 sh -c 'apk add --no-cache nss-tools >/dev/null && certutil -N ",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/docker-browser/SKILL.md",
+        "line": 57,
+        "excerpt": "docker run --rm --network container:lixpi-browser-network -v lixpi_caddy-certs:/certificates:ro alpine:3.24.3 sh -c 'apk add --no-cache curl >/dev/null; for por",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/docker-browser/SKILL.md",
+        "line": 57,
+        "excerpt": "docker run --rm --network container:lixpi-browser-network -v lixpi_caddy-certs:/certificates:ro alpine:3.24.3 sh -c 'apk add --no-cache curl >/dev/null; for por",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/docker-browser/SKILL.md",
+        "line": 65,
+        "excerpt": "claude mcp add --scope local lixpi-browser -- docker run -i --rm --init --network container:lixpi-browser-network -v lixpi-browser-nssdb:/home/node/.pki/nssdb m",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/docker-browser/SKILL.md",
+        "line": 70,
+        "excerpt": "Never use the `npx @playwright/mcp` quick start from the Playwright README. It runs Node and the browser on the host.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/docker-browser/SKILL.md",
+        "line": 97,
+        "excerpt": "docker stop lixpi-browser-network",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 6,
+      "network": 1,
+      "downloads-code": 1
+    },
+    "score": 77,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 1
+    "filesScanned": 1,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "9a7fe5619552da90f89477e721fb73e70284d568",
       "scannedAt": "2026-11-21T10:21:16.775Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "4b89607f29fb6b070c76bdbc834b71cf6fcc5ba9",
+      "scannedAt": "2026-11-26T11:36:54.718Z",
+      "score": 77,
       "rulesVersion": "1.3.0"
     }
   ]

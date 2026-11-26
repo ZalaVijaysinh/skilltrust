@@ -5,15 +5,15 @@
   "path": "plugins/flow-next/codex/skills/flow-next",
   "name": "flow-next",
   "description": "Manage .flow/ tasks and specs. Use for show or list tasks, task status, what is ready, show fn-N. NOT for building or planning work (use flow-next-flow).",
-  "stars": 728,
+  "stars": 733,
   "category": "productivity",
-  "commit": "da1f773f1b90006e8f86aad7c67e8d33d9b3cd7f",
-  "contentHash": "366c8fb51ba504d296a9883c941fa41ea629e521de939530a94a5e6e9c8fce11",
+  "commit": "8096fff5c5c7bd57247a0976bf81dabb1f8cd7a8",
+  "contentHash": "fd569ede81c82af33eb9f837e2c27ccb68e0a645c73434ffa4e16860cc592147",
   "repoCreatedAt": "2025-12-26T22:27:07Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-21T10:21:16.775Z",
+  "scannedAt": "2026-11-26T11:36:54.718Z",
   "scan": {
     "findings": [
       {
@@ -44,7 +44,7 @@
         "ruleId": "shell",
         "file": "plugins/flow-next/codex/skills/flow-next/SKILL.md",
         "line": 88,
-        "excerpt": "$FLOWCTL specs --json",
+        "excerpt": "$FLOWCTL specs --json | jq -c '[.specs[]? | select(.status == \"open\") | {id, title, status}]'",
         "disclosed": false,
         "automatic": false
       },
@@ -68,7 +68,7 @@
         "ruleId": "shell",
         "file": "plugins/flow-next/codex/skills/flow-next/SKILL.md",
         "line": 120,
-        "excerpt": "$FLOWCTL tasks --json | jq -c '[.tasks[] | {id, title, status, spec}]'",
+        "excerpt": "$FLOWCTL list --json | jq -c '([.specs[]? | select(.status == \"open\") | .id]) as $open | [.tasks[]? | select((.spec as $s | $open | index($s) != null) and .stat",
         "disclosed": false,
         "automatic": false
       },
@@ -148,6 +148,12 @@
     {
       "commit": "da1f773f1b90006e8f86aad7c67e8d33d9b3cd7f",
       "scannedAt": "2026-11-21T10:21:16.775Z",
+      "score": 95,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "8096fff5c5c7bd57247a0976bf81dabb1f8cd7a8",
+      "scannedAt": "2026-11-26T11:36:54.718Z",
       "score": 95,
       "rulesVersion": "1.3.0"
     }

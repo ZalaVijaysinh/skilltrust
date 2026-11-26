@@ -4,24 +4,194 @@
   "repo": "Yana-AI",
   "path": ".claude/skills/hardening-docker-daemon-configuration",
   "name": "hardening-docker-daemon-configuration",
-  "description": "",
-  "stars": 13,
+  "description": "Harden the Docker daemon by configuring daemon.json with user namespace",
+  "stars": 14,
   "category": "coding",
-  "commit": "56f9bc58ec46abd4c991da907d976b6fee391fa0",
+  "commit": "e821ccd2f0f7d96a9213082f7dfc1d43b5836e7f",
   "contentHash": "f40d39a690d30787f2200a60b4e625dc68d4ee79b877e65dcab811e1103e10a5",
   "repoCreatedAt": "2026-05-17T00:35:59Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-21T10:21:16.775Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-26T11:36:54.718Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/hardening-docker-daemon-configuration/SKILL.md",
+        "line": 129,
+        "excerpt": "cat /etc/subuid",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/hardening-docker-daemon-configuration/SKILL.md",
+        "line": 176,
+        "excerpt": "openssl genrsa -aes256 -out ca-key.pem 4096",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".claude/skills/hardening-docker-daemon-configuration/SKILL.md",
+        "line": 204,
+        "excerpt": "sudo mkdir -p /etc/docker/tls",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".claude/skills/hardening-docker-daemon-configuration/SKILL.md",
+        "line": 205,
+        "excerpt": "sudo cp ca.pem server-cert.pem server-key.pem /etc/docker/tls/",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/hardening-docker-daemon-configuration/SKILL.md",
+        "line": 224,
+        "excerpt": "docker --tlsverify \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/hardening-docker-daemon-configuration/SKILL.md",
+        "line": 235,
+        "excerpt": "sudo chown root:docker /var/run/docker.sock",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/hardening-docker-daemon-configuration/SKILL.md",
+        "line": 249,
+        "excerpt": "curl -fsSL https://get.docker.com/rootless | sh",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/hardening-docker-daemon-configuration/SKILL.md",
+        "line": 249,
+        "excerpt": "curl -fsSL https://get.docker.com/rootless | sh",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "get.docker.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/hardening-docker-daemon-configuration/SKILL.md",
+        "line": 249,
+        "excerpt": "curl -fsSL https://get.docker.com/rootless | sh",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/hardening-docker-daemon-configuration/SKILL.md",
+        "line": 268,
+        "excerpt": "export DOCKER_CONTENT_TRUST=1",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/hardening-docker-daemon-configuration/SKILL.md",
+        "line": 282,
+        "excerpt": "docker info --format '{{.SecurityOptions}}'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/hardening-docker-daemon-configuration/SKILL.md",
+        "line": 295,
+        "excerpt": "sudo aa-status",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/hardening-docker-daemon-configuration/SKILL.md",
+        "line": 308,
+        "excerpt": "docker info",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".claude/skills/hardening-docker-daemon-configuration/assets/template.md",
+        "line": 59,
+        "excerpt": "2. Restore backup: `sudo cp /etc/docker/daemon.json.bak /etc/docker/daemon.json`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".claude/skills/hardening-docker-daemon-configuration/references/workflows.md",
+        "line": 24,
+        "excerpt": "sudo cp /etc/docker/daemon.json /etc/docker/daemon.json.bak 2>/dev/null",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".claude/skills/hardening-docker-daemon-configuration/references/workflows.md",
+        "line": 29,
+        "excerpt": "sudo tee /etc/docker/daemon.json <<'EOF'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".claude/skills/hardening-docker-daemon-configuration/references/workflows.md",
+        "line": 77,
+        "excerpt": "}' /etc/docker/daemon.json | sudo tee /etc/docker/daemon.json.new",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".claude/skills/hardening-docker-daemon-configuration/references/workflows.md",
+        "line": 78,
+        "excerpt": "sudo mv /etc/docker/daemon.json.new /etc/docker/daemon.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/hardening-docker-daemon-configuration/references/workflows.md",
+        "line": 106,
+        "excerpt": "curl -s http://127.0.0.1:9323/metrics | head -20",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/hardening-docker-daemon-configuration/scripts/process.py",
+        "line": 96,
+        "excerpt": "result = subprocess.run([\"docker\", \"info\", \"--format\", \"{{json .}}\"],",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 10,
+      "writes-outside": 7,
+      "downloads-code": 1,
+      "network": 2
+    },
+    "score": 67,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 1,
-    "filesSkipped": 8
+    "filesScanned": 9,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -34,6 +204,12 @@
       "commit": "56f9bc58ec46abd4c991da907d976b6fee391fa0",
       "scannedAt": "2026-11-21T10:21:16.775Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "e821ccd2f0f7d96a9213082f7dfc1d43b5836e7f",
+      "scannedAt": "2026-11-26T11:36:54.718Z",
+      "score": 67,
       "rulesVersion": "1.3.0"
     }
   ]

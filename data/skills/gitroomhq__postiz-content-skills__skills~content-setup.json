@@ -1,0 +1,237 @@
+{
+  "id": "gitroomhq__postiz-content-skills__skills~content-setup",
+  "owner": "gitroomhq",
+  "repo": "postiz-content-skills",
+  "path": "skills/content-setup",
+  "name": "content-setup",
+  "description": "First-time setup and health check for the seo-builder-skill and video-shorts skills. Installs the third-party software, connects the accounts (Postiz, OpenAI, EvoLink/Seedance, HeyGen, ElevenLabs, DataForSEO, WordPress, Google Search Console), picks the user's HeyGen avatar, and fills in the brand profile. Use for \"set up the content skills\", \"content-setup\", \"doctor\", or when another content skill says setup is incomplete.",
+  "stars": 70,
+  "category": "marketing",
+  "commit": "70fcc011b65635c4d38f2a021a7adda8d2432409",
+  "contentHash": "a0b5a03f94545f91872a33cf18a7585f0546c37c7cfcd58f49377accaa71e0d6",
+  "repoCreatedAt": "2026-11-24T05:40:12Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-26T11:36:54.718Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/content-setup/SKILL.md",
+        "line": 42,
+        "excerpt": "`open -e ~/.content-skills/.env` (macOS) or `nano ~/.content-skills/.env`. If they paste a key in chat anyway, write it",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/content-setup/scripts/doctor.sh",
+        "line": 30,
+        "excerpt": "http() { curl -s -m 15 -o /dev/null -w '%{http_code}' \"$@\"; }",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/content-setup/scripts/doctor.sh",
+        "line": 38,
+        "excerpt": "have postiz && ok \"postiz CLI\" || bad \"postiz CLI (npm i -g postiz)\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/content-setup/scripts/doctor.sh",
+        "line": 39,
+        "excerpt": "have agent-browser && ok \"agent-browser\" || warn \"agent-browser (fallback when Claude in Chrome isn't connected): npm i -g agent-browser && agent-browser instal",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/content-setup/scripts/doctor.sh",
+        "line": 40,
+        "excerpt": "if want seo; then have dataforseo-cli && ok \"dataforseo-cli\" || bad \"dataforseo-cli (npm i -g dataforseo-cli)\"; fi",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/content-setup/scripts/doctor.sh",
+        "line": 41,
+        "excerpt": "if want shorts; then have elevenlabs && ok \"elevenlabs CLI\" || bad \"elevenlabs CLI (npm i -g @elevenlabs/cli)\"; fi",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/content-setup/scripts/doctor.sh",
+        "line": 74,
+        "excerpt": "if [ $ONLINE = 1 ]; then c=$(http -H \"Authorization: Bearer $OPENAI_API_KEY\" https://api.openai.com/v1/models); [ \"$c\" = 200 ] && ok \"OpenAI key works\" || bad \"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "skills/content-setup/scripts/doctor.sh",
+        "line": 97,
+        "excerpt": "body=$(curl -s -m 15 -H \"xi-api-key: $ELEVENLABS_API_KEY\" https://api.elevenlabs.io/v1/user)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/content-setup/scripts/doctor.sh",
+        "line": 97,
+        "excerpt": "body=$(curl -s -m 15 -H \"xi-api-key: $ELEVENLABS_API_KEY\" https://api.elevenlabs.io/v1/user)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.elevenlabs.io"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/content-setup/scripts/install-deps.sh",
+        "line": 46,
+        "excerpt": "fail \"Node.js 18+ is required. Install it from https://nodejs.org (or: brew install node / nvm install --lts), then re-run.\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/content-setup/scripts/install-deps.sh",
+        "line": 54,
+        "excerpt": "fail \"Python 3.9+ is required (brew install python / apt install python3 python3-venv).\"; exit 1",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/content-setup/scripts/install-deps.sh",
+        "line": 65,
+        "excerpt": "brew) have brew || { fail \"Homebrew missing: https://brew.sh\"; exit 1; }; brew install \"${need[@]}\" ;;",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/content-setup/scripts/install-deps.sh",
+        "line": 66,
+        "excerpt": "apt)  sudo apt-get update -y && sudo apt-get install -y \"${need[@]}\" ;;",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/content-setup/scripts/install-deps.sh",
+        "line": 78,
+        "excerpt": "mkdir -p \"$HOME_DIR\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/content-setup/scripts/install-deps.sh",
+        "line": 80,
+        "excerpt": "\"$PY\" -m venv \"$HOME_DIR/venv\" || { fail \"python venv failed (Debian/Ubuntu: sudo apt install python3-venv)\"; FAILED+=(venv); }",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/content-setup/scripts/install-deps.sh",
+        "line": 83,
+        "excerpt": "\"$HOME_DIR/venv/bin/python\" -m pip install -q --upgrade pip >/dev/null 2>&1",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/content-setup/scripts/install-deps.sh",
+        "line": 84,
+        "excerpt": "if \"$HOME_DIR/venv/bin/python\" -m pip install -q --upgrade openai pillow; then ok \"openai $(\"$HOME_DIR/venv/bin/python\" -c 'import openai;print(openai.__version",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/content-setup/scripts/install-deps.sh",
+        "line": 84,
+        "excerpt": "if \"$HOME_DIR/venv/bin/python\" -m pip install -q --upgrade openai pillow; then ok \"openai $(\"$HOME_DIR/venv/bin/python\" -c 'import openai;print(openai.__version",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/content-setup/scripts/install-deps.sh",
+        "line": 85,
+        "excerpt": "else fail \"pip install openai pillow failed\"; FAILED+=(openai); fi",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/content-setup/scripts/install-deps.sh",
+        "line": 93,
+        "excerpt": "if npm install -g \"$pkg\" >/tmp/content-skills-npm.log 2>&1; then ok \"$pkg\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/content-setup/scripts/install-deps.sh",
+        "line": 113,
+        "excerpt": "if npx -y skills add \"$repo\" -g -y -a claude-code \"${args[@]}\" >/tmp/content-skills-skills.log 2>&1; then ok \"$* ($repo)\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/content-setup/scripts/install-deps.sh",
+        "line": 155,
+        "excerpt": "cp \"$SKILL_DIR/templates/env.example\" \"$HOME_DIR/.env\"; ok \"created $HOME_DIR/.env (fill in your keys)\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/content-setup/scripts/install-deps.sh",
+        "line": 159,
+        "excerpt": "cp \"$SKILL_DIR/templates/brand.md\" \"$HOME_DIR/brand.md\"; ok \"created $HOME_DIR/brand.md (describe your product)\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/content-setup/scripts/install-deps.sh",
+        "line": 163,
+        "excerpt": "warn \"Optional: Google Cloud CLI for Search Console data (macOS: brew install --cask google-cloud-sdk; others: https://cloud.google.com/sdk/docs/install)\"",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "reads-secrets": 1,
+      "network": 2,
+      "downloads-code": 15,
+      "paid-api": 2,
+      "writes-outside": 4
+    },
+    "score": 40,
+    "band": "high",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 6,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "70fcc011b65635c4d38f2a021a7adda8d2432409",
+      "scannedAt": "2026-11-26T11:36:54.718Z",
+      "score": 40,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

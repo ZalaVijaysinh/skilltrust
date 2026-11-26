@@ -4,24 +4,74 @@
   "repo": "obot",
   "path": ".claude/skills/draft-release-blog",
   "name": "draft-release-blog",
-  "description": "",
-  "stars": 1209,
+  "description": "Draft a release announcement blog post for an obot release, modeled on the existing obot.ai blog voice. Use when the user asks to draft a release blog, write a launch post, or write a blog announcement for a vX.Y.0 release. Outputs a markdown file the user can paste into the CMS. Can also create the post as a Wordpress draft via the `obot-wordpress` MCP server when the user asks, but never publishes a live post without explicit confirmation.",
+  "stars": 1221,
   "category": "writing",
-  "commit": "1bdd468d553dd910de9a17110dc5838761e8a77f",
+  "commit": "aa885305a9ad12de1dd481e3c6900c7dadacf1df",
   "contentHash": "bddd6c75e3be24b21bef789ccabf2fa81237afd39161274a16a06488b6431e7a",
   "repoCreatedAt": "2024-09-05T19:50:46Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-21T10:21:16.775Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-26T11:36:54.718Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/draft-release-blog/SKILL.md",
+        "line": 17,
+        "excerpt": "cat_id=$(curl -s \"https://obot.ai/wp-json/wp/v2/categories?slug=product-updates&_fields=id\" | jq '.[0].id')",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "obot.ai"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/draft-release-blog/SKILL.md",
+        "line": 17,
+        "excerpt": "cat_id=$(curl -s \"https://obot.ai/wp-json/wp/v2/categories?slug=product-updates&_fields=id\" | jq '.[0].id')",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/draft-release-blog/SKILL.md",
+        "line": 18,
+        "excerpt": "curl -s \"https://obot.ai/wp-json/wp/v2/posts?categories=${cat_id}&per_page=20&orderby=date&order=desc&_fields=date,slug,link,title\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "obot.ai"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/draft-release-blog/SKILL.md",
+        "line": 45,
+        "excerpt": "gh release view <VERSION> --repo obot-platform/obot",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/draft-release-blog/SKILL.md",
+        "line": 187,
+        "excerpt": "shasum -a 256 \"$CLAUDE_PROJECT_DIR/release-blog-<VERSION>.md\"",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "network": 2,
+      "shell": 3
+    },
+    "score": 92,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 2
+    "filesScanned": 2,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -34,6 +84,12 @@
       "commit": "1bdd468d553dd910de9a17110dc5838761e8a77f",
       "scannedAt": "2026-11-21T10:21:16.775Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "aa885305a9ad12de1dd481e3c6900c7dadacf1df",
+      "scannedAt": "2026-11-26T11:36:54.718Z",
+      "score": 92,
       "rulesVersion": "1.3.0"
     }
   ]

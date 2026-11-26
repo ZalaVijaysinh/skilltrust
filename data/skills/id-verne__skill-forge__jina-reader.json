@@ -5,15 +5,15 @@
   "path": "jina-reader",
   "name": "jina-reader",
   "description": "通过本机 Jina Reader 匿名轮询网关抓取任意 URL（含 PDF），转 Markdown / JSON / HTML。网关按需自启——用户或 agent 只要发一次请求就自动开工，无需手动启动服务。当用户要求\"用 jina 网关读这个链接\"\"抓取网页内容\"\"URL 转 markdown\"\"匿名绕过 RPM 限制\"\"读 PDF / X 推文 / 动态站\"或明确说\"只用网关拉取\"时触发。所有网络拉取只经本地网关，不使用其他抓取工具。",
-  "stars": 14,
+  "stars": 15,
   "category": "other",
   "commit": "27a003dbdcf9a1ba77b4b0ae0d5ce4d018defd0e",
   "contentHash": "1db192b9de9abca9c51fc3f9fbd8562f6711caa1bb9e9acc86cc4b171d0b0068",
   "repoCreatedAt": "2026-06-19T04:07:57Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-21T10:21:16.775Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-26T11:36:54.718Z",
   "scan": {
     "findings": [
       {
@@ -96,6 +96,75 @@
       },
       {
         "ruleId": "network",
+        "file": "jina-reader/scripts/jina.py",
+        "line": 25,
+        "excerpt": "import urllib.request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "jina-reader/scripts/jina.py",
+        "line": 36,
+        "excerpt": "_OPENER = urllib.request.build_opener(urllib.request.ProxyHandler({}))",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "jina-reader/scripts/jina.py",
+        "line": 55,
+        "excerpt": "req = urllib.request.Request(_base(port) + path, headers={\"Accept\": \"*/*\"})",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "jina-reader/scripts/jina.py",
+        "line": 81,
+        "excerpt": "kwargs = {\"stdin\": subprocess.DEVNULL, \"stdout\": logf, \"stderr\": subprocess.STDOUT,",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "jina-reader/scripts/jina.py",
+        "line": 88,
+        "excerpt": "subprocess.Popen(cmd, **kwargs)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "jina-reader/scripts/jina.py",
+        "line": 119,
+        "excerpt": "def fetch(url: str, fmt: str) -> tuple[int, bytes, str]:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "jina-reader/scripts/jina.py",
+        "line": 135,
+        "excerpt": "subprocess.run([sys.executable, str(GATEWAY), \"--stop\"],",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "jina-reader/scripts/jina.py",
+        "line": 151,
+        "excerpt": "status, body, ctype = fetch(args.url, args.format)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
         "file": "jina-reader/scripts/jina_gateway.py",
         "line": 111,
         "excerpt": "f\"curl -sS -m 60 -D - -o - -w {shlex.quote(STATUS_FMT)}{extra} \"",
@@ -165,14 +234,14 @@
     "findingTotals": {
       "downloads-code": 1,
       "writes-outside": 1,
-      "network": 7,
-      "shell": 8
+      "network": 12,
+      "shell": 11
     },
     "score": 67,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 3,
-    "filesSkipped": 5
+    "filesScanned": 8,
+    "filesSkipped": 0
   },
   "history": [
     {

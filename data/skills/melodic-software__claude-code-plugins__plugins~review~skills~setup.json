@@ -4,30 +4,54 @@
   "repo": "claude-code-plugins",
   "path": "plugins/review/skills/setup",
   "name": "setup",
-  "description": "Check or apply the review plugin's repository setup: the standards index, docs/conventions/review.yaml settings, and the repository's own design-smell list.",
+  "description": "Check or apply the review plugin's repository setup: the standards index, docs/conventions/review.yaml settings, the repository's own design-smell list, and the move of retired review-digest files.",
   "stars": 32,
   "category": "coding",
-  "commit": "6f854874bbebd8165ea9215268c7ceb7e43df60f",
-  "contentHash": "0b314c648ba517d453b47ee1604624a7fc877bf48f6b03403945d92b1c209d19",
+  "commit": "0c5e2cc8c7cba7867033a16ac15f5f8f49f1d2c7",
+  "contentHash": "6d58102426452d7304f239d1391b32096af298bf34900ec41d0977e9bbd9b39e",
   "repoCreatedAt": "2026-06-22T18:28:56Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-21T10:21:16.775Z",
+  "scannedAt": "2026-11-26T11:36:54.718Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "plugins/review/skills/setup/SKILL.md",
-        "line": 97,
+        "line": 142,
         "excerpt": "node \"${CLAUDE_SKILL_DIR}/scripts/setup-apply.mjs\" downstream_probe=report",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
+        "file": "plugins/review/lib/review-digest.mjs",
+        "line": 1,
+        "excerpt": "import { execFileSync, spawnSync } from \"node:child_process\";",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/review/lib/review-digest.mjs",
+        "line": 72,
+        "excerpt": "return execFileSync(\"git\", [\"-C\", root, ...args], { encoding: \"utf8\", stdio: [\"ignore\", \"pipe\", \"ignore\"] });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/review/lib/review-digest.mjs",
+        "line": 164,
+        "excerpt": "const parsed = spawnSync(\"awk\", [\"-f\", YAML_PARSER], { input: text, encoding: \"utf8\", env: { ...process.env, LC_ALL: \"C\" } });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
         "file": "plugins/review/lib/setup-apply.mjs",
-        "line": 178,
+        "line": 3,
         "excerpt": "import { spawnSync } from \"node:child_process\";",
         "disclosed": false,
         "automatic": false
@@ -35,7 +59,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/review/lib/setup-apply.mjs",
-        "line": 892,
+        "line": 604,
         "excerpt": "const git = spawnSync(\"git\", [\"-C\", process.cwd(), \"rev-parse\", \"--show-toplevel\"], { cwd: HERE, encoding: \"utf8\" });",
         "disclosed": false,
         "automatic": false
@@ -43,7 +67,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/review/lib/setup-apply.mjs",
-        "line": 1059,
+        "line": 746,
         "excerpt": "const grep = spawnSync(\"grep\", [\"-Eq\", \"-e\", record.content_match], { cwd: HERE, input: text.replace(/\\r$/gm, \"\"), encoding: \"utf8\" });",
         "disclosed": false,
         "automatic": false
@@ -51,7 +75,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/review/lib/setup-apply.mjs",
-        "line": 1156,
+        "line": 831,
         "excerpt": "const git = (...a) => spawnSync(\"git\", [\"-C\", root, ...a], { cwd: HERE, encoding: \"utf8\" });",
         "disclosed": false,
         "automatic": false
@@ -59,7 +83,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/review/lib/setup-apply.mjs",
-        "line": 1198,
+        "line": 865,
         "excerpt": "const r = spawnSync(\"bash\", [resolver, ...args], { cwd: HERE, input, encoding: \"utf8\" });",
         "disclosed": false,
         "automatic": false
@@ -67,7 +91,7 @@
       {
         "ruleId": "shell",
         "file": "plugins/review/lib/setup-apply.mjs",
-        "line": 1387,
+        "line": 1031,
         "excerpt": "return spawnSync(\"bash\", [config.reader, \"-\", k], { cwd: HERE, input: existing, encoding: \"utf8\" }).stdout.trim();",
         "disclosed": false,
         "automatic": false
@@ -75,19 +99,43 @@
       {
         "ruleId": "shell",
         "file": "plugins/review/lib/setup-apply.mjs",
-        "line": 1640,
+        "line": 1238,
         "excerpt": "const diff = spawnSync(\"diff\", [\"-u\", \"--label\", `a/${rel}`, \"--label\", `b/${rel}`, join(root, rel), \"-\"], {",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/review/lib/view-settings.mjs",
+        "line": 4,
+        "excerpt": "import { execFileSync, spawnSync } from \"node:child_process\";",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/review/lib/view-settings.mjs",
+        "line": 48,
+        "excerpt": "return execFileSync(\"git\", [\"-C\", root, ...args], { encoding: \"utf8\", stdio: [\"ignore\", \"pipe\", \"ignore\"] });",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugins/review/lib/view-settings.mjs",
+        "line": 122,
+        "excerpt": "const out = spawnSync(\"bash\", [join(HERE, \"state-key.sh\"), \"--root\", root ?? process.cwd()], { encoding: \"utf8\" });",
         "disclosed": false,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 8
+      "shell": 14
     },
     "score": 95,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 12,
+    "filesScanned": 18,
     "filesSkipped": 0
   },
   "history": [
@@ -118,6 +166,12 @@
     {
       "commit": "6f854874bbebd8165ea9215268c7ceb7e43df60f",
       "scannedAt": "2026-11-21T10:21:16.775Z",
+      "score": 95,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "0c5e2cc8c7cba7867033a16ac15f5f8f49f1d2c7",
+      "scannedAt": "2026-11-26T11:36:54.718Z",
       "score": 95,
       "rulesVersion": "1.3.0"
     }

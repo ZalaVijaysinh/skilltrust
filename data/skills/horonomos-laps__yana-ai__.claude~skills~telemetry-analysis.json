@@ -4,24 +4,75 @@
   "repo": "Yana-AI",
   "path": ".claude/skills/telemetry-analysis",
   "name": "telemetry-analysis",
-  "description": "",
-  "stars": 13,
+  "description": "Use when asked to analyze hook activity, token usage, audit logs, or agent behavior patterns. Triggers on: 'xem log', 'hook nào fire nhiều', 'token usage', 'audit trail', 'what hooks fired', 'session summary', 'telemetry report', 'hook health', 'agent activity'.",
+  "stars": 14,
   "category": "coding",
-  "commit": "56f9bc58ec46abd4c991da907d976b6fee391fa0",
+  "commit": "e821ccd2f0f7d96a9213082f7dfc1d43b5836e7f",
   "contentHash": "b56b16ba039739f47e0c00954b5cf3d14b1e1053cd1f05db8ab457c8600844d1",
   "repoCreatedAt": "2026-05-17T00:35:59Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-21T10:21:16.775Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-26T11:36:54.718Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/telemetry-analysis/SKILL.md",
+        "line": 25,
+        "excerpt": "ls -la .claude/state/ 2>/dev/null || echo \"No state dir — YAMTAM not applied yet\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/telemetry-analysis/SKILL.md",
+        "line": 34,
+        "excerpt": "jq -r '.hook // \"unknown\"' .claude/state/telemetry.jsonl 2>/dev/null \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/telemetry-analysis/SKILL.md",
+        "line": 46,
+        "excerpt": "jq -r '.tool // \"unknown\"' .claude/state/audit-chain.log 2>/dev/null \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/telemetry-analysis/SKILL.md",
+        "line": 57,
+        "excerpt": "cat .claude/state/session-trust.json 2>/dev/null | jq '.'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/telemetry-analysis/SKILL.md",
+        "line": 69,
+        "excerpt": "jq -r 'select(.duration_ms != null) | [.duration_ms, .hook] | @tsv' \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/telemetry-analysis/SKILL.md",
+        "line": 78,
+        "excerpt": "jq -r 'select(.input | strings | contains(\"YAMTAM_BYPASS\") or contains(\"APPROVED\")) | .input' .claude/state/audit-chain.log 2>/dev/null | sort | uniq -c",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 6
+    },
+    "score": 95,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 1,
-    "filesSkipped": 1
+    "filesScanned": 2,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -34,6 +85,12 @@
       "commit": "56f9bc58ec46abd4c991da907d976b6fee391fa0",
       "scannedAt": "2026-11-21T10:21:16.775Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "e821ccd2f0f7d96a9213082f7dfc1d43b5836e7f",
+      "scannedAt": "2026-11-26T11:36:54.718Z",
+      "score": 95,
       "rulesVersion": "1.3.0"
     }
   ]

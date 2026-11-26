@@ -1,0 +1,118 @@
+{
+  "id": "css-electronics__can-bus-reverse-engineering-skills__.claude~skills~cansub-reverse-engineering",
+  "owner": "CSS-Electronics",
+  "repo": "can-bus-reverse-engineering-skills",
+  "path": ".claude/skills/cansub-reverse-engineering",
+  "name": "cansub-reverse-engineering",
+  "description": "Reverse engineer / decode CAN bus signals: find which CAN ID, byte and bit encode a real-world quantity (vehicle speed, engine RPM, state-of-charge, coolant temp, throttle, door lock, ...) and derive its start-bit, length, endianness, scale and offset into a DBC. A deterministic chain of Python scripts (survey -> correlate -> bitsearch -> build_dbc -> verify) replaces \"a human watches the screen to spot correlations\". Works three ways: (1) OFFLINE - decode a signal from an EXISTING recorded log the user already has (a CAN + OBD2 log, an MF4/CANedge log, or a webCAN CSV) using a separately decodable reference such as an OBD2 PID (engine RPM, vehicle speed, coolant temp) or a CSS Electronics GPS source (CANmod.gps, or a CANedge's internal GPS/IMU on CAN9 - bundled DBCs, e.g. GPS speed as a reference for proprietary vehicle speed) - NO hardware needed; (2) LIVE - capture from a CSS Electronics CANsub interface with a human-supplied reference; or (3) VISION - the user has a CAN log plus a VIDEO of a display (dashboard / gauge app / instrument) showing the true value, and a local open-source OCR script digitizes the on-screen number into the reference. Trigger this skill whenever the user wants to reverse engineer, decode, identify or \"find the CAN ID/bits for\" an unknown signal, or build a DBC from a log - INCLUDING phrasings like \"reverse engineer Vehicle Speed from my CAN/OBD2 log file <name>.csv\", \"which CAN message carries RPM in this log\", or \"decode <signal> from my CAN log using this dashboard video as the reference\". Targets plain, non-multiplexed CAN signals. Ad-hoc input logs the user refers to by filename usually sit in the working-directory root (or under TEMP/) — glob for the named file there before asking where it is.",
+  "stars": 263,
+  "category": "design",
+  "commit": "619475ae696ec93f3c635639144eb8af19bb261a",
+  "contentHash": "bfd7cbc14deea82b1362faa1c6b67c715c5033006fa8e4413121ccc8e60f1159",
+  "repoCreatedAt": "2026-06-16T08:43:25Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-26T11:36:54.718Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/cansub-reverse-engineering/SKILL.md",
+        "line": 228,
+        "excerpt": "- macOS / Linux: `python3 -m venv .venv && .venv/bin/pip install -r requirements.txt`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/cansub-reverse-engineering/scripts/common.py",
+        "line": 208,
+        "excerpt": "sess = requests.Session()",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/cansub-reverse-engineering/scripts/flask_sync.py",
+        "line": 279,
+        "excerpt": "const d = await (await fetch('/api/device')).json();",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/cansub-reverse-engineering/scripts/flask_sync.py",
+        "line": 300,
+        "excerpt": "const r = await fetch(capturing ? '/api/capture/stop' : '/api/capture/start',",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/cansub-reverse-engineering/scripts/flask_sync.py",
+        "line": 317,
+        "excerpt": "setInterval(async () => { if (busy) return; try { const r = await fetch('/api/capture/status'); applyCapState(await r.json()); } catch(e){} }, 1000);",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/cansub-reverse-engineering/scripts/flask_sync.py",
+        "line": 320,
+        "excerpt": "try { const d = await (await fetch('/api/runs')).json();",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/cansub-reverse-engineering/scripts/flask_sync.py",
+        "line": 333,
+        "excerpt": "fetch('/api/log', {method:'POST', headers:{'Content-Type':'application/json'},",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/cansub-reverse-engineering/scripts/vision_reference.py",
+        "line": 80,
+        "excerpt": "out = subprocess.run(",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/cansub-reverse-engineering/scripts/vision_review.py",
+        "line": 140,
+        "excerpt": "fetch('/api/series').then(r => r.json()).then(d => {",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "downloads-code": 1,
+      "network": 7,
+      "shell": 1
+    },
+    "score": 77,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 24,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "619475ae696ec93f3c635639144eb8af19bb261a",
+      "scannedAt": "2026-11-26T11:36:54.718Z",
+      "score": 77,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

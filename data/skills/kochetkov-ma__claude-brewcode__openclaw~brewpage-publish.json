@@ -4,24 +4,108 @@
   "repo": "claude-brewcode",
   "path": "openclaw/brewpage-publish",
   "name": "brewpage-publish",
-  "description": "",
-  "stars": 39,
+  "description": "Prepare BrewPage drafts, publish supplied content or a new page, and update a specific BrewPage publication. Supports HTML, Markdown, JSON, files, built sites, and forms with saved visitor answers. Keeps the private owner key of an anonymous publication so its owner can edit or delete it later: saves it to the workspace file brewpage-history.md, recovers it from a local receipt, and reconciles an interrupted create. Its bundled runner talks only to brewpage.app. Use for BrewPage, share this as a link, publish site, RSVP, poll, черновик BrewPage, опубликуй, обнови страницу.",
+  "stars": 40,
   "category": "coding",
-  "commit": "4823bcbf943770d1b2390b91de512504e35fe2cc",
-  "contentHash": "f387b478d40bc6b7ddc04479d192df380dcb47f828db731c33e1c7d3d7536ed5",
+  "commit": "4488e70de97f421866a192a47be4023c2a512085",
+  "contentHash": "22ed2e7338a78e4b66dc51c28caea240b1783f1560ed8f6a48b3092678ca44e8",
   "repoCreatedAt": "2026-01-24T17:30:37Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-21T10:21:16.775Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-26T11:36:54.718Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "openclaw/brewpage-publish/README.md",
+        "line": 46,
+        "excerpt": "curl -q -fsS -A \"OpenClaw/1.1.4 (+https://brewpage.app)\" https://brewpage.app/api/limits",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "brewpage.app"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "openclaw/brewpage-publish/scripts/brewpage-lib.sh",
+        "line": 186,
+        "excerpt": "output=$(curl -q -s -A \"$BP_UA\" -X \"$method\" \"$url\" \"$@\" -w $'\\nBP_HTTP_STATUS:%{http_code}') || return 1",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "openclaw/brewpage-publish/scripts/brewpage-run.sh",
+        "line": 91,
+        "excerpt": "body=$(curl -q -s -A \"$BP_UA\" https://brewpage.app/api/limits) || die \"limits request failed\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "brewpage.app"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "openclaw/brewpage-publish/scripts/history.py",
+        "line": 84,
+        "excerpt": "result = subprocess.run(['git', '-C', root] + arguments, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env={**env, 'LC_ALL': 'C'})",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "openclaw/brewpage-publish/scripts/history.py",
+        "line": 303,
+        "excerpt": "record = requests.get(operation, {})",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "openclaw/brewpage-publish/scripts/publish.mjs",
+        "line": 4,
+        "excerpt": "import { spawn, spawnSync } from 'node:child_process';",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "openclaw/brewpage-publish/scripts/publish.mjs",
+        "line": 348,
+        "excerpt": "const r = spawnSync('unzip', ['-tq', zipPath], { env: archiveEnv, encoding: 'utf8', maxBuffer: LIST_MAX_BUFFER, timeout: CHECK_TIMEOUT_MS, killSignal: 'SIGKILL'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "openclaw/brewpage-publish/scripts/publish.mjs",
+        "line": 477,
+        "excerpt": "const encoded = spawnSync('python3', ['-I', '-S', '-c', MCP_FILES, out, args['mcp-out']], { stdio: 'ignore', timeout: CHECK_TIMEOUT_MS });",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "openclaw/brewpage-publish/scripts/publish.mjs",
+        "line": 514,
+        "excerpt": "const copied = spawnSync('python3', ['-I', '-S', '-c', FILE_SNAPSHOT, source, args.out, String(info.dev), String(info.ino), staged ? 'yes' : 'no'], { stdio: 'ig",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "network": 4,
+      "shell": 5
+    },
+    "score": 94,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 1,
-    "filesSkipped": 12
+    "filesScanned": 12,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -46,6 +130,12 @@
       "commit": "4823bcbf943770d1b2390b91de512504e35fe2cc",
       "scannedAt": "2026-11-21T10:21:16.775Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "4488e70de97f421866a192a47be4023c2a512085",
+      "scannedAt": "2026-11-26T11:36:54.718Z",
+      "score": 94,
       "rulesVersion": "1.3.0"
     }
   ]

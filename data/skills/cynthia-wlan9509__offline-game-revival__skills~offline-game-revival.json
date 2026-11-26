@@ -4,22 +4,22 @@
   "repo": "offline-game-revival",
   "path": "skills/offline-game-revival",
   "name": "offline-game-revival",
-  "description": "Turn shut-down / server-dead mobile games into fully offline, playable preservation builds: unpack & recon, locate the script logic layer (Lua / JS / IL2CPP), anchor-asserted patches, local fake server, repack & re-sign, on-device acceptance, and recovering lost game data from players' screenshots and screen recordings. 把停服或断网的手游改造成可离线运行的纪念版：解包侦察、定位脚本逻辑层（Lua / JS / IL2CPP）、锚点补丁、本地回包、重打包签名、真机验收，以及从玩家截图和录屏中找回丢失的游戏数据。当用户要求离线化、单机化、复活一个已停服的游戏，判断一款停服游戏还能不能救，继续维护/重建一个已离线化的 APK，或要从截图、录屏里还原停服游戏的数值和资料时使用。",
-  "stars": 111,
+  "description": "Turn shut-down / server-dead mobile games into fully offline, playable preservation builds: unpack & recon, locate the script logic layer (Lua / JS / IL2CPP), anchor-asserted patches, local fake server, repack & re-sign, on-device acceptance, and recovering lost game data from players' screenshots, screen recordings and phone backups. Also use when a game is about to shut down (first check how far the shutdown has gone), and when distributing an offline build (license tiers, save migration) and handling player bug reports. 把停服或断网的手游改造成可离线运行的纪念版：解包侦察、定位脚本逻辑层（Lua / JS / IL2CPP）、锚点补丁、本地回包、重打包签名、真机验收，以及从玩家截图和录屏中找回丢失的游戏数据。当用户要求离线化、单机化、复活一个已停服的游戏，判断一款停服游戏还能不能救，继续维护/重建一个已离线化的 APK，或要从截图、录屏里还原停服游戏的数值和资料时使用。",
+  "stars": 123,
   "category": "coding",
-  "commit": "f35e7c6b4a8c086462d43946a5ae87281c544018",
-  "contentHash": "3b5dba19f3124151c6828ad4b184ba978b8c386fd5a1402b4c7adf3ac860bed2",
+  "commit": "4b42fcc012e08ea7158e0a55e1fdb7a81a668c2d",
+  "contentHash": "97097baab8bf27a4f6716db317ad6d82ff5a4e2bce471e2be462f69730847398",
   "repoCreatedAt": "2026-10-19T01:42:59Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-21T10:21:16.775Z",
+  "scannedAt": "2026-11-26T11:36:54.718Z",
   "scan": {
     "findings": [
       {
         "ruleId": "network",
         "file": "skills/offline-game-revival/references/case-b-laya-native.md",
-        "line": 38,
+        "line": 64,
         "excerpt": "- 网络层是 HTTP+JSON（`{\"success\":1,\"data\":...}`），在 `Laya.HttpRequest.prototype.send` 和 `XMLHttpRequest` 两层拦截，按路径路由。",
         "disclosed": true,
         "automatic": false,
@@ -43,9 +43,33 @@
       },
       {
         "ruleId": "downloads-code",
-        "file": "skills/offline-game-revival/references/pitfalls.md",
-        "line": 869,
+        "file": "skills/offline-game-revival/references/pitfalls/test-verify.md",
+        "line": 38,
         "excerpt": "- 做法：`pip install lupa`，把要发布的 `.lua` 模块（和门禁一起，顺序同构建拼接）原样 `execute` 进去；在 Lua 里先建一个 `GameNS = {UnityEngine={PlayerPrefs=...}, System={Text=..., Convert=..., Secur",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/offline-game-revival/references/pitfalls/windows-emulator-build.md",
+        "line": 33,
+        "excerpt": "- **规避**：用 Python `subprocess.run(..., capture_output=True)` 直接写 raw bytes，或设备落盘后 `adb pull` 再删设备文件。",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/offline-game-revival/scripts/device_guard.py",
+        "line": 43,
+        "excerpt": "def run_adb(adb_path: str, args: list[str], timeout: int = 60) -> subprocess.CompletedProcess:",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/offline-game-revival/scripts/device_guard.py",
+        "line": 44,
+        "excerpt": "return subprocess.run(",
         "disclosed": false,
         "automatic": false
       },
@@ -96,12 +120,13 @@
     "findingTotals": {
       "network": 4,
       "downloads-code": 4,
+      "shell": 3,
       "paid-api": 1
     },
-    "score": 72,
+    "score": 67,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 23,
+    "filesScanned": 54,
     "filesSkipped": 0
   },
   "history": [
@@ -133,6 +158,12 @@
       "commit": "f35e7c6b4a8c086462d43946a5ae87281c544018",
       "scannedAt": "2026-11-21T10:21:16.775Z",
       "score": 72,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "4b42fcc012e08ea7158e0a55e1fdb7a81a668c2d",
+      "scannedAt": "2026-11-26T11:36:54.718Z",
+      "score": 67,
       "rulesVersion": "1.3.0"
     }
   ]

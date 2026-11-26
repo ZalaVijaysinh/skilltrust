@@ -5,17 +5,25 @@
   "path": "skills/unix_computer_use",
   "name": "unix_computer_use",
   "description": "Local and remote desktop observation and input, with macOS semantic actions, explicit foreground control, screenshot-bound coordinates and honest outcome receipts.",
-  "stars": 1690,
+  "stars": 1707,
   "category": "coding",
-  "commit": "21929faa30061ebe55566ce61a815dd9b1cdd154",
-  "contentHash": "be01f9bf55c6ef0aab95cd7d30494225a82cc8c50488002dca23ea521200c4c8",
+  "commit": "a10c279338a26342771811157daabd73165404c8",
+  "contentHash": "446124918c0ba7a764f4c44b542f3676fcdb4195ceda9b5c28b2028044d6b92e",
   "repoCreatedAt": "2026-02-11T22:02:13Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-21T10:21:16.775Z",
+  "scannedAt": "2026-11-26T11:36:54.718Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/unix_computer_use/capture.py",
+        "line": 117,
+        "excerpt": "except subprocess.TimeoutExpired:",
+        "disclosed": true,
+        "automatic": false
+      },
       {
         "ruleId": "shell",
         "file": "skills/unix_computer_use/macos_native.py",
@@ -27,7 +35,7 @@
       {
         "ruleId": "shell",
         "file": "skills/unix_computer_use/plugin.py",
-        "line": 125,
+        "line": 136,
         "excerpt": "proc = subprocess.run(cmd, input=text, encoding=\"utf-8\", capture_output=True, timeout=timeout,",
         "disclosed": true,
         "automatic": false
@@ -35,7 +43,7 @@
       {
         "ruleId": "shell",
         "file": "skills/unix_computer_use/plugin.py",
-        "line": 203,
+        "line": 211,
         "excerpt": "proc = subprocess.run(",
         "disclosed": true,
         "automatic": false
@@ -43,7 +51,7 @@
       {
         "ruleId": "shell",
         "file": "skills/unix_computer_use/plugin.py",
-        "line": 208,
+        "line": 216,
         "excerpt": "stdin=subprocess.DEVNULL,",
         "disclosed": true,
         "automatic": false
@@ -51,7 +59,7 @@
       {
         "ruleId": "shell",
         "file": "skills/unix_computer_use/plugin.py",
-        "line": 1449,
+        "line": 1431,
         "excerpt": "except subprocess.TimeoutExpired as exc:  # it ran and was cut off: outcome unknown; what it printed stays (a receipt line)",
         "disclosed": true,
         "automatic": false
@@ -59,7 +67,7 @@
       {
         "ruleId": "network",
         "file": "skills/unix_computer_use/remote.py",
-        "line": 26,
+        "line": 27,
         "excerpt": "import urllib.request",
         "disclosed": true,
         "automatic": false,
@@ -68,7 +76,31 @@
       {
         "ruleId": "shell",
         "file": "skills/unix_computer_use/remote.py",
-        "line": 58,
+        "line": 37,
+        "excerpt": "_RAW_SCRIPT_RUNNER = \"\"\"/bin/sh -c 'script=$(cat); exec \"${SHELL:-/bin/sh}\" -c \"$script\" </dev/null'\"\"\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/unix_computer_use/remote.py",
+        "line": 40,
+        "excerpt": "_SH_SCRIPT_RUNNER = \"\"\"/bin/sh -c 'script=$(cat); eval \"$script\" </dev/null'\"\"\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/unix_computer_use/remote.py",
+        "line": 48,
+        "excerpt": "return len(subprocess.list2cmdline(argv).encode(\"utf-16-le\")) // 2 + 1 <= 32_767",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/unix_computer_use/remote.py",
+        "line": 76,
         "excerpt": "Its status='success' means subprocess.run returned, NOT that the command succeeded.",
         "disclosed": true,
         "automatic": false
@@ -76,7 +108,7 @@
       {
         "ruleId": "network",
         "file": "skills/unix_computer_use/remote.py",
-        "line": 271,
+        "line": 255,
         "excerpt": "req = urllib.request.Request(target + \"/execute\", data=payload, headers={\"Content-Type\": \"application/json\"}, method=\"POST\")",
         "disclosed": true,
         "automatic": false,
@@ -85,7 +117,7 @@
       {
         "ruleId": "network",
         "file": "skills/unix_computer_use/remote.py",
-        "line": 272,
+        "line": 256,
         "excerpt": "with urllib.request.urlopen(req, timeout=timeout) as resp:",
         "disclosed": true,
         "automatic": false,
@@ -94,7 +126,7 @@
       {
         "ruleId": "network",
         "file": "skills/unix_computer_use/remote.py",
-        "line": 685,
+        "line": 630,
         "excerpt": "with urllib.request.urlopen(target + \"/accessibility\", timeout=20) as resp:",
         "disclosed": true,
         "automatic": false,
@@ -103,7 +135,7 @@
       {
         "ruleId": "network",
         "file": "skills/unix_computer_use/remote.py",
-        "line": 794,
+        "line": 739,
         "excerpt": "with urllib.request.urlopen(target + \"/screenshot\", timeout=20) as resp:",
         "disclosed": true,
         "automatic": false,
@@ -112,7 +144,7 @@
       {
         "ruleId": "network",
         "file": "skills/unix_computer_use/remote.py",
-        "line": 841,
+        "line": 786,
         "excerpt": "with urllib.request.urlopen(target + \"/screenshot\", timeout=10) as resp:",
         "disclosed": true,
         "automatic": false,
@@ -121,7 +153,15 @@
       {
         "ruleId": "shell",
         "file": "skills/unix_computer_use/remote.py",
-        "line": 894,
+        "line": 833,
+        "excerpt": "proc = subprocess.run([\"ssh\", \"-T\", *dest[1:], remote], input=command.encode(\"utf-8\"), capture_output=True, timeout=timeout)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/unix_computer_use/remote.py",
+        "line": 849,
         "excerpt": "proc = subprocess.run(scp_cmd, text=True, capture_output=True, timeout=30, stdin=subprocess.DEVNULL)",
         "disclosed": true,
         "automatic": false
@@ -129,7 +169,7 @@
       {
         "ruleId": "reads-secrets",
         "file": "skills/unix_computer_use/remote.py",
-        "line": 925,
+        "line": 880,
         "excerpt": "\"SSH auth failed. Put the private key in ~/.ssh/<name>, chmod 600 it, \"",
         "disclosed": false,
         "automatic": false
@@ -137,38 +177,29 @@
       {
         "ruleId": "reads-secrets",
         "file": "skills/unix_computer_use/remote.py",
-        "line": 926,
+        "line": 881,
         "excerpt": "\"and add Host/User/IdentityFile to ~/.ssh/config; then retry test_connection.\"",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "skills/unix_computer_use/remote.py",
-        "line": 929,
-        "excerpt": "hint = \"Install cliclick on the Mac (e.g. brew install cliclick) and grant Accessibility permission.\"",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/unix_computer_use/remote.py",
-        "line": 982,
+        "line": 941,
         "excerpt": "\"    _cls = subprocess.run(['xdotool','getactivewindow','getwindowclassname'],\"",
         "disclosed": true,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 8,
+      "shell": 13,
       "network": 6,
-      "reads-secrets": 2,
-      "downloads-code": 1
+      "reads-secrets": 2
     },
-    "score": 59,
+    "score": 74,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 6,
+    "filesScanned": 12,
     "filesSkipped": 0
   },
   "history": [
@@ -182,6 +213,12 @@
       "commit": "21929faa30061ebe55566ce61a815dd9b1cdd154",
       "scannedAt": "2026-11-21T10:21:16.775Z",
       "score": 59,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "a10c279338a26342771811157daabd73165404c8",
+      "scannedAt": "2026-11-26T11:36:54.718Z",
+      "score": 74,
       "rulesVersion": "1.3.0"
     }
   ]

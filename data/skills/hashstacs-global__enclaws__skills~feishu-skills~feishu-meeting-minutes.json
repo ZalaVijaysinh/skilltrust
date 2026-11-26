@@ -4,7 +4,7 @@
   "repo": "EnClaws",
   "path": "skills/feishu-skills/feishu-meeting-minutes",
   "name": "feishu-meeting-minutes",
-  "description": "",
+  "description": "飞书会议纪要生成。下载会议录制文件，通过 faster-whisper 转写语音，返回转写文本供 AI 生成会议纪要。",
   "stars": 35,
   "category": "productivity",
   "commit": "402d38faaa9cb7eb70909ff73d943bf429c30f8a",
@@ -12,16 +12,148 @@
   "repoCreatedAt": "2026-03-20T12:55:30Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-21T10:21:16.775Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-26T11:36:54.718Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/feishu-skills/feishu-meeting-minutes/SKILL.md",
+        "line": 19,
+        "excerpt": "python ./minutes.py --open-id \"SENDER_OPEN_ID\" --file \"/path/to/recording.mp4\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/feishu-skills/feishu-meeting-minutes/SKILL.md",
+        "line": 41,
+        "excerpt": "node ../feishu-calendar/calendar.js --open-id \"SENDER_OPEN_ID\" --action list_events --start-min \"7天前ISO8601\" --start-max \"现在ISO8601\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/feishu-skills/feishu-meeting-minutes/SKILL.md",
+        "line": 58,
+        "excerpt": "python ./minutes.py --meeting-no \"123456789\" --open-id \"SENDER_OPEN_ID\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/feishu-skills/feishu-meeting-minutes/SKILL.md",
+        "line": 96,
+        "excerpt": "node ../feishu-create-doc/create-doc.js --open-id \"SENDER_OPEN_ID\" --title \"会议纪要：{主题} {日期}\" --markdown \"<生成的纪要内容>\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/feishu-skills/feishu-meeting-minutes/SKILL.md",
+        "line": 104,
+        "excerpt": "node ../feishu-auth/send-card.js --chat-id \"CHAT_ID\" --title \"会议纪要已生成\" --body \"会议「{主题}」的纪要已生成\" --button-text \"查看文档\" --button-url \"{文档URL}\" --color green",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/feishu-skills/feishu-meeting-minutes/SKILL.md",
+        "line": 127,
+        "excerpt": "node ../feishu-auth/auth.js --auth-and-poll --open-id \"SENDER_OPEN_ID\" --chat-id \"CHAT_ID\" --timeout 60 --scope \"<required_scopes 用空格拼接>\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/feishu-skills/feishu-meeting-minutes/minutes.py",
+        "line": 21,
+        "excerpt": "import urllib.request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/feishu-skills/feishu-meeting-minutes/minutes.py",
+        "line": 81,
+        "excerpt": "req = urllib.request.Request(url, data=body, headers={'Content-Type': 'application/json'})",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/feishu-skills/feishu-meeting-minutes/minutes.py",
+        "line": 82,
+        "excerpt": "with urllib.request.urlopen(req) as resp:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/feishu-skills/feishu-meeting-minutes/minutes.py",
+        "line": 100,
+        "excerpt": "req = urllib.request.Request(url, headers={'Authorization': f'Bearer {token}'})",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/feishu-skills/feishu-meeting-minutes/minutes.py",
+        "line": 102,
+        "excerpt": "with urllib.request.urlopen(req) as resp:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/feishu-skills/feishu-meeting-minutes/minutes.py",
+        "line": 197,
+        "excerpt": "req = urllib.request.Request(url)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/feishu-skills/feishu-meeting-minutes/minutes.py",
+        "line": 199,
+        "excerpt": "with urllib.request.urlopen(req) as resp:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/feishu-skills/feishu-meeting-minutes/minutes.py",
+        "line": 230,
+        "excerpt": "die('dependency_error', 'faster-whisper 未安装，请执行: pip install faster-whisper')",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/feishu-skills/feishu-meeting-minutes/minutes.py",
+        "line": 280,
+        "excerpt": "result = subprocess.run(",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 7,
+      "network": 7,
+      "downloads-code": 1
+    },
+    "score": 75,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 4
+    "filesScanned": 4,
+    "filesSkipped": 0
   },
   "history": [
     {

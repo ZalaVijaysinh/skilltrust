@@ -4,16 +4,16 @@
   "repo": "craftcms-claude-skills",
   "path": "skills/craft-cloud",
   "name": "craft-cloud",
-  "description": "Craft Cloud — Pixel & Tonic's serverless hosting platform for Craft CMS. Covers craft-cloud.yaml configuration, the Build → Migrate → Release deploy pipeline, the craftcms/cloud extension package, edge image transforms via Cloudflare, edge static caching with cache.rules + ESI, Cloud-managed S3 filesystem, MySQL 8 / Postgres 15 databases (no MariaDB, no tablePrefix), Console-based command runner and scheduled cron (once-per-hour minimum), auto-handled queue jobs, custom domains and SSL, preview environments per branch, Cloud limitations (ephemeral filesystem, no SSH, no .htaccess, no built-in mail), plugin development requirements for Cloud compatibility, and self-hosted → Cloud migration.",
-  "stars": 89,
+  "description": "Craft Cloud, Pixel & Tonic's serverless hosting platform for Craft CMS. Covers craft-cloud.yaml, the Build → Migrate → Release deploy pipeline, the craftcms/cloud extension, edge transforms and static caching (cache.rules, ESI), the Cloud S3 filesystem, MySQL 8 / Postgres 15 (no MariaDB, no tablePrefix), the Console command runner and scheduled cron, queue jobs, custom domains, preview environments per branch, limits (ephemeral filesystem, no SSH, no .htaccess, no built-in mail), Cloud-compatible plugins, and self-hosted → Cloud migration.",
+  "stars": 90,
   "category": "coding",
-  "commit": "822f3177187ddf146d11ab158b2cc5244f92bc25",
-  "contentHash": "de53fc35432b22c2135566a25947ad6db54691f56cca51f376229975ab46d13b",
+  "commit": "5910e2a7b20ecc76fb1520cb3e6239b8a57a6665",
+  "contentHash": "500f11c6bc9f015bed7951d375808c60514d8c187ea2bc1d4363f5d72f28a72c",
   "repoCreatedAt": "2026-04-07T22:45:19Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-13T10:10:34.466Z",
+  "scannedAt": "2026-11-26T11:36:54.718Z",
   "scan": {
     "findings": [
       {
@@ -37,7 +37,7 @@
       {
         "ruleId": "network",
         "file": "agents/craft-planner.md",
-        "line": 28,
+        "line": 30,
         "excerpt": "- `WebFetch` on Craft docs or plugin README — for API reference",
         "disclosed": true,
         "automatic": false,
@@ -46,20 +46,29 @@
       {
         "ruleId": "network",
         "file": "agents/craft-planner.md",
-        "line": 61,
-        "excerpt": "- Gate: `curl -X POST` returns 200, invalid signature returns 403",
+        "line": 75,
+        "excerpt": "- **Verification gate:** `ddev exec --dir /var/www/html/vendor/{vendor}/{plugin} vendor/bin/pest --filter=SyncJobTest` green; `curl -X POST` with a valid signat",
         "disclosed": true,
         "automatic": false,
         "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "hooks/hooks.json",
+        "line": 10,
+        "excerpt": "\"command\": \"cd \\\"${CLAUDE_PROJECT_DIR:-.}\\\" 2>/dev/null; sh \\\"${CLAUDE_PLUGIN_ROOT}/bin/craft-version.sh\\\"\",",
+        "disclosed": false,
+        "automatic": true
       }
     ],
     "findingTotals": {
-      "network": 4
+      "network": 4,
+      "shell": 1
     },
-    "score": 97,
+    "score": 92,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 21,
+    "filesScanned": 25,
     "filesSkipped": 0
   },
   "history": [
@@ -73,6 +82,12 @@
       "commit": "822f3177187ddf146d11ab158b2cc5244f92bc25",
       "scannedAt": "2026-11-13T10:10:34.466Z",
       "score": 97,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "5910e2a7b20ecc76fb1520cb3e6239b8a57a6665",
+      "scannedAt": "2026-11-26T11:36:54.718Z",
+      "score": 92,
       "rulesVersion": "1.3.0"
     }
   ]

@@ -1,0 +1,216 @@
+{
+  "id": "moasq__nanowave__internal~skills~data~features~asc-notarization",
+  "owner": "moasq",
+  "repo": "nanowave",
+  "path": "internal/skills/data/features/asc-notarization",
+  "name": "asc-notarization",
+  "description": "Archive, export, and notarize macOS apps using xcodebuild and asc. Use when you need to prepare a macOS app for distribution outside the App Store with Developer ID signing and Apple notarization.",
+  "stars": 33,
+  "category": "coding",
+  "commit": "8f258989f5a271e3309991903336ed7153591151",
+  "contentHash": "6816c3f36dacba78fc6a691ff8ee90180ee1092bc68f155ceded59be1722f37b",
+  "repoCreatedAt": "2026-02-21T11:36:04Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-26T11:36:54.718Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "internal/skills/data/features/asc-notarization/SKILL.md",
+        "line": 21,
+        "excerpt": "security find-identity -v -p codesigning | grep \"Developer ID Application\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "internal/skills/data/features/asc-notarization/SKILL.md",
+        "line": 32,
+        "excerpt": "security dump-trust-settings 2>&1 | grep -A1 \"Developer ID\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "browser-secrets",
+        "file": "internal/skills/data/features/asc-notarization/SKILL.md",
+        "line": 35,
+        "excerpt": "security find-certificate -c \"Developer ID Application\" -p ~/Library/Keychains/login.keychain-db > /tmp/devid-cert.pem",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "internal/skills/data/features/asc-notarization/SKILL.md",
+        "line": 44,
+        "excerpt": "codesign --deep --force --options runtime --sign \"Developer ID Application: YOUR NAME (TEAM_ID)\" /path/to/any.app 2>&1",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "internal/skills/data/features/asc-notarization/SKILL.md",
+        "line": 52,
+        "excerpt": "xcodebuild archive \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "internal/skills/data/features/asc-notarization/SKILL.md",
+        "line": 81,
+        "excerpt": "xcodebuild -exportArchive \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "internal/skills/data/features/asc-notarization/SKILL.md",
+        "line": 92,
+        "excerpt": "codesign -dvvv \"/tmp/YourAppExport/YourApp.app\" 2>&1 | grep -E \"Authority|Timestamp\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "internal/skills/data/features/asc-notarization/SKILL.md",
+        "line": 102,
+        "excerpt": "ditto -c -k --keepParent \"/tmp/YourAppExport/YourApp.app\" \"/tmp/YourAppExport/YourApp.zip\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "internal/skills/data/features/asc-notarization/SKILL.md",
+        "line": 109,
+        "excerpt": "asc notarization submit --file \"/tmp/YourAppExport/YourApp.zip\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "internal/skills/data/features/asc-notarization/SKILL.md",
+        "line": 114,
+        "excerpt": "asc notarization submit --file \"/tmp/YourAppExport/YourApp.zip\" --wait",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "internal/skills/data/features/asc-notarization/SKILL.md",
+        "line": 119,
+        "excerpt": "asc notarization submit --file \"/tmp/YourAppExport/YourApp.zip\" --wait --poll-interval 30s --timeout 1h",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "internal/skills/data/features/asc-notarization/SKILL.md",
+        "line": 126,
+        "excerpt": "asc notarization status --id \"SUBMISSION_ID\" --output table",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "internal/skills/data/features/asc-notarization/SKILL.md",
+        "line": 131,
+        "excerpt": "asc notarization log --id \"SUBMISSION_ID\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "internal/skills/data/features/asc-notarization/SKILL.md",
+        "line": 136,
+        "excerpt": "curl -sL \"LOG_URL\" | python3 -m json.tool",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "internal/skills/data/features/asc-notarization/SKILL.md",
+        "line": 136,
+        "excerpt": "curl -sL \"LOG_URL\" | python3 -m json.tool",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "internal/skills/data/features/asc-notarization/SKILL.md",
+        "line": 141,
+        "excerpt": "asc notarization list --output table",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "internal/skills/data/features/asc-notarization/SKILL.md",
+        "line": 150,
+        "excerpt": "xcrun stapler staple \"/tmp/YourAppExport/YourApp.app\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "internal/skills/data/features/asc-notarization/SKILL.md",
+        "line": 156,
+        "excerpt": "hdiutil create -volname \"YourApp\" -srcfolder \"/tmp/YourAppExport/YourApp.app\" -ov -format UDZO \"/tmp/YourApp.dmg\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "internal/skills/data/features/asc-notarization/SKILL.md",
+        "line": 174,
+        "excerpt": "productsign --sign \"Developer ID Installer: YOUR NAME (TEAM_ID)\" unsigned.pkg signed.pkg",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "internal/skills/data/features/asc-notarization/SKILL.md",
+        "line": 179,
+        "excerpt": "asc notarization submit --file signed.pkg --wait",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "internal/skills/data/features/asc-notarization/SKILL.md",
+        "line": 196,
+        "excerpt": "ASC_UPLOAD_TIMEOUT=5m asc notarization submit --file ./LargeApp.zip --wait",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "internal/skills/data/features/asc-notarization/SKILL.md",
+        "line": 202,
+        "excerpt": "asc notarization log --id \"SUBMISSION_ID\"",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 20,
+      "browser-secrets": 1,
+      "network": 1
+    },
+    "score": 79,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "8f258989f5a271e3309991903336ed7153591151",
+      "scannedAt": "2026-11-26T11:36:54.718Z",
+      "score": 79,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

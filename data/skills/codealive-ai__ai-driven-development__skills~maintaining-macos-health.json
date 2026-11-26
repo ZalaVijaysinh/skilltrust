@@ -5,15 +5,15 @@
   "path": "skills/maintaining-macos-health",
   "name": "maintaining-macos-health",
   "description": "Hands-on playbook for macOS disk cleanup, dev-machine optimization, and proactive health alerting. Use when the Mac is full or slow, when a process persistently burns CPU, when a kernel panic / watchdog timeout / vm-compressor-space-shortage / Jetsam event happened, when the user asks to free disk space, audit storage, set up disk/memory/CPU alerts, or restore the same monitoring on a new Mac. Built around Mole (`mo` CLI) for safety guards plus a custom LaunchAgent-based alerter for active warnings. Covers Apple Silicon laptops with heavy AI/Docker workloads. Not for general macOS support, hardware diagnostics, networking issues, GUI / window-manager bugs, Time Machine recovery, or broken app installs.",
-  "stars": 188,
+  "stars": 191,
   "category": "coding",
-  "commit": "e593ee6f2e2dbb68d081c5305615c2c3a9abb823",
-  "contentHash": "f11e5d98449675d658be834324a639b1a3be428c5ed468a47c2683afb801dea8",
+  "commit": "8e8957104cbf30b3f7d2ca7479e0f0a3a8a4fefe",
+  "contentHash": "b8a40bfa4708fc906b9a5b2cf8d80c3f9867f787da0b02e00ac6b568ead58bac",
   "repoCreatedAt": "2026-01-16T20:49:38Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-21T10:21:16.775Z",
+  "scannedAt": "2026-11-26T11:36:54.718Z",
   "scan": {
     "findings": [
       {
@@ -328,24 +328,16 @@
       {
         "ruleId": "writes-outside",
         "file": "skills/maintaining-macos-health/assets/mac-heavy/tests/test.sh",
-        "line": 55,
-        "excerpt": "if ! mkdir \"$HOME/active\" 2>/dev/null; then touch \"$HOME/overlap\"; fi",
+        "line": 143,
+        "excerpt": "mkdir \"$HOME/active\" 2>/dev/null || touch \"$HOME/overlap\"",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "writes-outside",
         "file": "skills/maintaining-macos-health/assets/mac-heavy/tests/test.sh",
-        "line": 91,
-        "excerpt": "printf 'pid=%s executable=stale project=test since=1\\nstart=wrong\\n' \"$$\" > \"$HOME/.local/state/mac-heavy/waiting/$$\"",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "writes-outside",
-        "file": "skills/maintaining-macos-health/assets/mac-heavy/tests/test.sh",
-        "line": 186,
-        "excerpt": "echo 1 > \"$HOME/.local/state/mac-heavy/ledger.started\"",
+        "line": 226,
+        "excerpt": "rm -f \"$HOME/overlap\"",
         "disclosed": false,
         "automatic": false
       },
@@ -468,6 +460,14 @@
         "file": "skills/maintaining-macos-health/references/alerting.md",
         "line": 251,
         "excerpt": "- Run `command -v alerter` in the script context: temporarily edit the script, add `command -v alerter >> ~/Library/Logs/mac-health/health.log` near the top.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/maintaining-macos-health/references/alerting.md",
+        "line": 256,
+        "excerpt": "- Suppress when needed: `touch ~/.config/mac-health/silent`",
         "disclosed": false,
         "automatic": false
       },
@@ -713,8 +713,8 @@
     ],
     "findingTotals": {
       "downloads-code": 23,
-      "writes-outside": 74,
-      "shell": 225,
+      "writes-outside": 73,
+      "shell": 224,
       "network": 31,
       "browser-secrets": 3
     },
@@ -746,6 +746,12 @@
     {
       "commit": "e593ee6f2e2dbb68d081c5305615c2c3a9abb823",
       "scannedAt": "2026-11-21T10:21:16.775Z",
+      "score": 63,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "8e8957104cbf30b3f7d2ca7479e0f0a3a8a4fefe",
+      "scannedAt": "2026-11-26T11:36:54.718Z",
       "score": 63,
       "rulesVersion": "1.3.0"
     }

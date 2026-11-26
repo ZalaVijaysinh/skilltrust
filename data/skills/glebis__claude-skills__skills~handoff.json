@@ -4,16 +4,16 @@
   "repo": "claude-skills",
   "path": "skills/handoff",
   "name": "handoff",
-  "description": "Hand a written brief to an ACP agent that works in its own git worktree and herdr workspace, then check its work before anyone merges it. Writes a dated handoff doc, creates a beads epic when the repo has one, cuts a `handoff/<id>-<slug>` branch from the current branch, launches the agent through herdr's `acp-run` (default `cmd acp`), and later verifies commits, stray changes and the brief's checks. Use when the user says \"hand this off\", \"create a handoff\", \"start it in its own worktree\", \"give this to an agent\", \"launch an agent on this epic\", or wants an epic or multi-step to-do worked on away from a shared checkout. Requires git and a running herdr; beads is optional.",
-  "stars": 414,
+  "description": "Hand a written brief to an ACP agent that works in its own git worktree as its own process, then check its work before anyone merges it. Writes a dated handoff doc, creates a beads epic when the repo has one, cuts a `handoff/<id>-<slug>` branch from the current branch, launches the agent detached through herdr's `acp-run` script (default `cmd acp`), shows it in a herdr pane when herdr is running, can resume an agent that stopped, and later verifies commits, stray changes and the brief's checks. Use when the user says \"hand this off\", \"create a handoff\", \"start it in its own worktree\", \"give this to an agent\", \"launch an agent on this epic\", or wants an epic or multi-step to-do worked on away from a shared checkout. Requires git, node and the `acp-run` script; herdr and beads are optional.",
+  "stars": 416,
   "category": "coding",
-  "commit": "4d37d3b0af1f98cb4ac820d9abbce95e38e909fb",
-  "contentHash": "c4e5fce163768f05de9d338440f5ff5eb2ed50d82a7ca2126c23df5c1c60def2",
+  "commit": "78024267a1053177ad0dad509bdb2ee10fcfde31",
+  "contentHash": "ceeb9a351ebd6fcc322abdf57bfad71303e1b39b12b4694a6cff42b8ce7c4455",
   "repoCreatedAt": "2025-10-25T14:58:50Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-17T11:16:37.484Z",
+  "scannedAt": "2026-11-26T11:36:54.718Z",
   "scan": {
     "findings": [
       {
@@ -27,7 +27,7 @@
       {
         "ruleId": "shell",
         "file": "skills/handoff/scripts/handoff",
-        "line": 54,
+        "line": 67,
         "excerpt": "proc = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True)",
         "disclosed": false,
         "automatic": false
@@ -35,19 +35,59 @@
       {
         "ruleId": "shell",
         "file": "skills/handoff/scripts/handoff",
-        "line": 310,
+        "line": 87,
+        "excerpt": "return subprocess.run([\"herdr\", \"workspace\", \"list\"], capture_output=True,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/handoff/scripts/handoff",
+        "line": 89,
+        "excerpt": "except (OSError, subprocess.TimeoutExpired):",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/handoff/scripts/handoff",
+        "line": 110,
+        "excerpt": "proc = subprocess.Popen([\"herdr\", \"server\"], stdin=subprocess.DEVNULL,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/handoff/scripts/handoff",
+        "line": 169,
+        "excerpt": "proc = subprocess.Popen(cmd, cwd=state[\"worktree\"], stdin=subprocess.DEVNULL,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/handoff/scripts/handoff",
+        "line": 553,
         "excerpt": "proc = subprocess.run(cmd, shell=True, cwd=wt, capture_output=True, text=True)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/handoff/scripts/handoff",
+        "line": 566,
+        "excerpt": "proc2 = subprocess.run(cmd, shell=True, cwd=wt, capture_output=True, text=True)",
         "disclosed": false,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 3
+      "shell": 8
     },
     "score": 95,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 2,
+    "filesScanned": 3,
     "filesSkipped": 0
   },
   "history": [
@@ -61,6 +101,12 @@
       "commit": "4d37d3b0af1f98cb4ac820d9abbce95e38e909fb",
       "scannedAt": "2026-11-13T10:10:34.466Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "78024267a1053177ad0dad509bdb2ee10fcfde31",
+      "scannedAt": "2026-11-26T11:36:54.718Z",
+      "score": 95,
       "rulesVersion": "1.3.0"
     }
   ]

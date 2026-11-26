@@ -4,24 +4,115 @@
   "repo": "curvine",
   "path": ".agents/skills/cv-submit-pr-review",
   "name": "cv-submit-pr-review",
-  "description": "",
-  "stars": 1090,
+  "description": "Perform a direct code review of a Curvine PR against live base/head by reconstructing intent, reading tests first, mapping dirty crates, and checking correctness, safety, lifecycle, contracts, and performance on data I/O, RPC, and metadata paths. Use when user asks to review a PR's code, do a code review, or check a PR before merge.",
+  "stars": 1094,
   "category": "coding",
-  "commit": "a5cc2bc7008debf5e098dcdaa28713f8aab3d296",
-  "contentHash": "3c4034dd8c30f883312d808d6bd5717765cb396e5c25bda6382b81652dc71eb5",
+  "commit": "1d211f7dfa6d50a2e245cc9082ed2443cc85ba63",
+  "contentHash": "a8fa037d83b67bf29e810cdc13985c318f9280bac804af34b0d2239cc470a7f9",
   "repoCreatedAt": "2025-05-27T06:24:21Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-21T10:21:16.775Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-26T11:36:54.718Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/cv-submit-pr-review/SKILL.md",
+        "line": 113,
+        "excerpt": "git branch --show-current",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/cv-submit-pr-review/SKILL.md",
+        "line": 119,
+        "excerpt": "gh pr view --json number,url,headRefName,baseRefName,title",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/cv-submit-pr-review/SKILL.md",
+        "line": 125,
+        "excerpt": "gh pr list --head \"$(git branch --show-current)\" --json number,url,headRefName,baseRefName,title --limit 1",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/cv-submit-pr-review/SKILL.md",
+        "line": 137,
+        "excerpt": "bash .agents/skills/cv-sensitive-review/scripts/scan.sh --range origin/main...HEAD",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/cv-submit-pr-review/SKILL.md",
+        "line": 147,
+        "excerpt": "gh pr view <PR_NUMBER> --json number,url,title,body,headRefName,baseRefName,headRefOid,baseRefOid,reviews",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/cv-submit-pr-review/SKILL.md",
+        "line": 153,
+        "excerpt": "gh pr diff <PR_NUMBER>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/cv-submit-pr-review/SKILL.md",
+        "line": 159,
+        "excerpt": "gh api \"repos/{owner}/{repo}/pulls/<PR_NUMBER>/files?per_page=100\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/cv-submit-pr-review/SKILL.md",
+        "line": 165,
+        "excerpt": "gh api \"repos/{owner}/{repo}/pulls/<PR_NUMBER>/comments?per_page=100\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/cv-submit-pr-review/SKILL.md",
+        "line": 323,
+        "excerpt": "bash .agents/skills/cv-sensitive-review/scripts/scan.sh /tmp/review_comments.md",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/cv-submit-pr-review/SKILL.md",
+        "line": 341,
+        "excerpt": "gh api \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/cv-submit-pr-review/SKILL.md",
+        "line": 357,
+        "excerpt": "gh pr review <PR_NUMBER> --comment --body \"$(cat <<'EOF'",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 11
+    },
+    "score": 97,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 2
+    "filesScanned": 4,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -34,6 +125,12 @@
       "commit": "a5cc2bc7008debf5e098dcdaa28713f8aab3d296",
       "scannedAt": "2026-11-21T10:21:16.775Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "1d211f7dfa6d50a2e245cc9082ed2443cc85ba63",
+      "scannedAt": "2026-11-26T11:36:54.718Z",
+      "score": 97,
       "rulesVersion": "1.3.0"
     }
   ]

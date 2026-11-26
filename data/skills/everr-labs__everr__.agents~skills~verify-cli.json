@@ -4,30 +4,215 @@
   "repo": "everr",
   "path": ".agents/skills/verify-cli",
   "name": "verify-cli",
-  "description": "",
+  "description": "Drive the `everr` CLI and its local stack (embedded collector, chDB, local browser UI) the way a user does, in an isolated throwaway instance, and capture proof. Use when a change touches `packages/cli`, the collector packages it builds in (`collector/localcollector`, `collector/internal/localgateway`, `collector/exporter/chdbexporter`), `packages/local-app` or `packages/telemetry-explorer`, or when you must prove `everr local start/status/stop/query`, `everr wrap`, `everr skills`, or the local Logs UI actually work.",
   "stars": 55,
   "category": "coding",
-  "commit": "dcfa61cca4ef22150b792464d43ada4567addf81",
-  "contentHash": "35a66c6a23cb1f9aebba834d48815a71052fa3da8822bd09553434aad0dad2c4",
+  "commit": "dfa70b27b9708ade72636e10c6c3120726cac930",
+  "contentHash": "9896e45e8acce39b5c675a3a8eb41c67c5daa3ef84c6d20215735e5cd3aa7967",
   "repoCreatedAt": "2026-03-20T19:45:08Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-21T10:21:16.775Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-26T11:36:54.718Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/verify-cli/SKILL.md",
+        "line": 20,
+        "excerpt": "V=\"$(git rev-parse --show-toplevel)/.agents/skills/verify-cli/scripts/verify-cli.ts\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/verify-cli/SKILL.md",
+        "line": 27,
+        "excerpt": "1. Toolchain (once per machine). The build needs: Node >= 24 (repo pins `.node-version` = 24; Node 20 cannot run the `.ts` build scripts), pnpm via corepack (ve",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/verify-cli/SKILL.md",
+        "line": 31,
+        "excerpt": "$V build      # cold: dominated by the chDB download and compression; warm: much faster",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/verify-cli/SKILL.md",
+        "line": 38,
+        "excerpt": "$V launch            # or: $V launch <RUN_ID>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/verify-cli/SKILL.md",
+        "line": 58,
+        "excerpt": "$V doctor",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/verify-cli/SKILL.md",
+        "line": 70,
+        "excerpt": "$V cli <label> -- <everr args...>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/verify-cli/SKILL.md",
+        "line": 79,
+        "excerpt": "$V cli-until <label> '<expected stdout text>' -- local query \"<SQL>\" --format ndjson",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/verify-cli/SKILL.md",
+        "line": 86,
+        "excerpt": "$V ui-get /health",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/verify-cli/SKILL.md",
+        "line": 98,
+        "excerpt": "eval \"$($V browser-env)\"       # AGENT_BROWSER_SESSION=verify-everr-<RUN_ID>, UI, SHOTS=<evidence>/ui, ab_save",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/verify-cli/SKILL.md",
+        "line": 136,
+        "excerpt": "$V cleanup",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/verify-cli/features/local-ui-logs.md",
+        "line": 27,
+        "excerpt": "- **Health.** Run `$V ui-get /health`. JSON has `\"service\":\"everr-local-ui\"` and the same `instance_id` as `curl -s $EVERR_SQL_HTTP_ORIGIN/health` (both checked",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/verify-cli/features/local-ui-logs.md",
+        "line": 32,
+        "excerpt": "- **API guard.** Run `eval \"$($V env)\"; curl -s -o /dev/null -w '%{http_code}' -X POST -H \"Host: ${EVERR_LOCAL_UI_ORIGIN#http://}\" -H 'Content-Type: application",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "}"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/verify-cli/features/wrap.md",
+        "line": 24,
+        "excerpt": "- **Run wrapped command.** Run `$V cli wrap-run -- wrap sh -c \"echo $M-out; echo $M-err >&2; exit 3\"`. Stdout is `$M-out`, stderr is `$M-err`, exit code is `3` ",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/verify-cli/features/wrap.md",
+        "line": 32,
+        "excerpt": "- Service name is derived from the program, not the full command: `sh -c ...` is `everr-wrap-sh`, `pnpm test` is `everr-wrap-pnpm`. Always also filter by marker",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/verify-cli/scripts/verify-cli.ts",
+        "line": 322,
+        "excerpt": "const res = await fetch(url, init);",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/verify-shared/common.ts",
+        "line": 2,
+        "excerpt": "import { type StdioOptions, spawnSync } from \"node:child_process\";",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/verify-shared/common.ts",
+        "line": 115,
+        "excerpt": "const r = spawnSync(cmd, args, { encoding: \"utf8\", env: opts.env, cwd: opts.cwd, maxBuffer: 256 * 1024 * 1024 });",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/verify-shared/common.ts",
+        "line": 122,
+        "excerpt": "const r = spawnSync(cmd, args, { stdio: \"inherit\", env: opts.env, cwd: opts.cwd });",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/verify-shared/common.ts",
+        "line": 145,
+        "excerpt": "const r = spawnSync(cmd, args, { stdio, env: opts.env, cwd: opts.cwd });",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/verify-shared/common.ts",
+        "line": 180,
+        "excerpt": "export const AGENT_BROWSER_HINT = \"install it: npm install -g agent-browser && agent-browser install\";",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/verify-shared/common.ts",
+        "line": 313,
+        "excerpt": "const res = await fetch(url, { ...init, signal: AbortSignal.timeout(init.timeoutMs ?? 60000) });",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 15,
+      "downloads-code": 2,
+      "network": 4
+    },
+    "score": 77,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 9
+    "filesScanned": 10,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "dcfa61cca4ef22150b792464d43ada4567addf81",
       "scannedAt": "2026-11-21T10:21:16.775Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "dfa70b27b9708ade72636e10c6c3120726cac930",
+      "scannedAt": "2026-11-26T11:36:54.718Z",
+      "score": 77,
       "rulesVersion": "1.3.0"
     }
   ]
