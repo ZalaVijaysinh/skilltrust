@@ -4,22 +4,22 @@
   "repo": "mdk",
   "path": ".agents/skills/land-change",
   "name": "land-change",
-  "description": "Take an mdk change from an issue or a request to a PR that is ready to merge: confirm the issue is real and not a symptom of a deeper cause, build it test-first, verify locally with the end-to-end smoke, get two independent cross-model reviews of the local diff, open the PR, and bring it to green CI with no conflicts. Then stop and report. Enqueues only when the user asks, and then owns the merge-queue result until the change merges. Use when asked to fix an issue (\"fix #123\", an issue URL), build and ship a change, land, open a PR for, enqueue, or merge a change.",
-  "stars": 73,
+  "description": "Take an mdk change from an issue or a request to a ready PR, and merge it when the user asked you to land it: confirm the issue is real and not a symptom of a deeper cause, build it test-first, verify locally with everything team CI no longer runs, get two independent cross-model reviews of the local diff, and open the PR only once that is done. Report mode (the default) stops at a green PR; land mode squash-merges it. Use when asked to fix an issue (\"fix #123\", an issue URL), build and ship a change, land, open a PR for, or merge a change.",
+  "stars": 74,
   "category": "devops",
-  "commit": "3fce95465cdea1edc8456dbd1c6691d1c8dc1f2e",
-  "contentHash": "1a9579496e72900acf8def8d6b8c2ced34e8aa99c8e1deb505b4f6d3a4208655",
+  "commit": "6ca91f800f63caa743c1125ec2a5642f42e17306",
+  "contentHash": "602452799ce686b8426a36d2642b9525197b878a429baf021e8392ac7cfcba25",
   "repoCreatedAt": "2025-09-12T14:49:56Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-22T10:25:50.393Z",
+  "scannedAt": "2026-11-27T11:31:01.147Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": ".agents/skills/land-change/SKILL.md",
-        "line": 87,
+        "line": 117,
         "excerpt": "cargo fmt --all",
         "disclosed": false,
         "automatic": false
@@ -27,7 +27,7 @@
       {
         "ruleId": "shell",
         "file": ".agents/skills/land-change/SKILL.md",
-        "line": 98,
+        "line": 149,
         "excerpt": "cargo nextest run -p cgka-conformance-simulator --locked \\",
         "disclosed": false,
         "automatic": false
@@ -35,32 +35,32 @@
       {
         "ruleId": "shell",
         "file": ".agents/skills/land-change/SKILL.md",
-        "line": 168,
-        "excerpt": "gh pr view <pr> --json headRefOid,mergeable,mergeStateStatus,reviewDecision",
+        "line": 241,
+        "excerpt": "git range-diff \"$old_base..$old_head\" origin/master..HEAD",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": ".agents/skills/land-change/SKILL.md",
-        "line": 242,
-        "excerpt": "gh api graphql \\",
+        "line": 330,
+        "excerpt": "gh pr view <pr> --json headRefOid,isDraft,mergeable,mergeStateStatus,reviewDecision",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": ".agents/skills/land-change/SKILL.md",
-        "line": 258,
-        "excerpt": "gh api graphql -F owner='{owner}' -F repo='{repo}' -F n=<pr> -f query='",
+        "line": 441,
+        "excerpt": "git fetch --no-tags --depth=1 origin refs/heads/tree-state && git show FETCH_HEAD:state.json",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": ".agents/skills/land-change/SKILL.md",
-        "line": 285,
-        "excerpt": "gh run list --workflow ci.yml --event merge_group --limit 50 \\",
+        "line": 454,
+        "excerpt": "gh pr merge <pr> --squash --match-head-commit <sha>",
         "disclosed": false,
         "automatic": false
       }
@@ -78,6 +78,12 @@
     {
       "commit": "3fce95465cdea1edc8456dbd1c6691d1c8dc1f2e",
       "scannedAt": "2026-11-22T10:25:50.393Z",
+      "score": 95,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "6ca91f800f63caa743c1125ec2a5642f42e17306",
+      "scannedAt": "2026-11-27T11:31:01.147Z",
       "score": 95,
       "rulesVersion": "1.3.0"
     }

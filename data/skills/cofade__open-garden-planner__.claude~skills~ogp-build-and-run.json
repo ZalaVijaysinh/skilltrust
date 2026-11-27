@@ -4,30 +4,130 @@
   "repo": "open-garden-planner",
   "path": ".claude/skills/ogp-build-and-run",
   "name": "ogp-build-and-run",
-  "description": "",
-  "stars": 32,
+  "description": "Environment setup, running, building, and packaging Open Garden Planner. Load this skill when: setting up the dev environment from scratch (Windows or Linux/CI/cloud), running the app or the test suite, building the PyInstaller exe or the NSIS installer, adding or bumping a dependency, hitting an ImportError / ModuleNotFoundError / frozen-exe startup failure, wondering where artifacts, autosaves, settings, or user data land on disk, or checking whether the embedded Agent API (MCP) server is up.",
+  "stars": 35,
   "category": "design",
-  "commit": "47a7203ab30a87b731503be386620544ff943c08",
+  "commit": "49db0637aab7e6d570a161cf960bfdfbe4501997",
   "contentHash": "26867e3a19018f898bca5466c85f6b42454b5d208c633b1b3335a9bb18d4af11",
   "repoCreatedAt": "2026-01-24T22:26:39Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-23T11:25:12.649Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-27T11:31:01.147Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/ogp-build-and-run/SKILL.md",
+        "line": 70,
+        "excerpt": "python -c 'import subprocess,sys,tomllib; p=tomllib.load(open(\"pyproject.toml\",\"rb\"))[\"tool\"][\"uv\"][\"required-version\"].removeprefix(\"==\"); subprocess.check_cal",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/ogp-build-and-run/SKILL.md",
+        "line": 72,
+        "excerpt": "uv pip install --python .venv/Scripts/python.exe --no-deps --no-build-isolation -e .",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/ogp-build-and-run/SKILL.md",
+        "line": 90,
+        "excerpt": "venv/Scripts/python.exe -m open_garden_planner",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/ogp-build-and-run/SKILL.md",
+        "line": 126,
+        "excerpt": "PYTHONUTF8=1 venv/Scripts/python.exe scripts/update_translations.py",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/ogp-build-and-run/SKILL.md",
+        "line": 148,
+        "excerpt": "UV_PROJECT_ENVIRONMENT=venv uv sync --locked --python 3.11 --all-extras --group build --no-install-project",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/ogp-build-and-run/SKILL.md",
+        "line": 164,
+        "excerpt": "timeout 8 dist/OpenGardenPlanner/OpenGardenPlanner.exe",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/ogp-build-and-run/SKILL.md",
+        "line": 229,
+        "excerpt": "powershell -Command '$p = Start-Process \"dist/OpenGardenPlanner/OpenGardenPlanner.exe\" -ArgumentList \"--selftest\" -Wait -PassThru; exit $p.ExitCode'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/ogp-build-and-run/SKILL.md",
+        "line": 289,
+        "excerpt": "venv/Scripts/python.exe installer/build_installer.py",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/ogp-build-and-run/SKILL.md",
+        "line": 339,
+        "excerpt": "curl -s -o /dev/null -w \"%{http_code}\\n\" http://127.0.0.1:8765/mcp",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/ogp-build-and-run/SKILL.md",
+        "line": 339,
+        "excerpt": "curl -s -o /dev/null -w \"%{http_code}\\n\" http://127.0.0.1:8765/mcp",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/ogp-build-and-run/SKILL.md",
+        "line": 356,
+        "excerpt": "| CI apt package list + offscreen env | `grep -A2 'apt-get install' .github/workflows/ci.yml; grep QT_QPA .github/workflows/ci.yml` |",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 8,
+      "downloads-code": 2,
+      "network": 1
+    },
+    "score": 77,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 1
+    "filesScanned": 1,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "47a7203ab30a87b731503be386620544ff943c08",
       "scannedAt": "2026-11-23T11:25:12.649Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "49db0637aab7e6d570a161cf960bfdfbe4501997",
+      "scannedAt": "2026-11-27T11:31:01.147Z",
+      "score": 77,
       "rulesVersion": "1.3.0"
     }
   ]

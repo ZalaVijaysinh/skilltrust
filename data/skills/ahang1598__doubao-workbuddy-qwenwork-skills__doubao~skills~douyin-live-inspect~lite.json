@@ -4,22 +4,22 @@
   "repo": "doubao-workbuddy-qwenwork-skills",
   "path": "doubao/skills/douyin-live-inspect/lite",
   "name": "lite",
-  "description": "免火山登录的直播与本地视频质检，检测字幕和抽检画面中的风险，交付质检报告及含评分的内容复盘。适用于用户明确选择 Lite 或免账号体验；已有正式任务沿原链路续办。",
-  "stars": 105,
+  "description": "免火山登录的直播与本地视频质检，检测字幕和抽检画面中的风险，交付质检报告、含评分的内容复盘。适用于用户明确选择 Lite 或免账号体验；已有正式任务沿原链路续办。",
+  "stars": 109,
   "category": "other",
-  "commit": "8e8d15d72d534202f7331744cc333b4f4a716dfc",
-  "contentHash": "0a15aad5b69ed9837210f9c7738dc4a915a0a82feafe221839841ba31b557f95",
+  "commit": "f14481620e68495096ea2868d2cb3ec43e115a11",
+  "contentHash": "63627a584504595cce39ae383d8a7d027a10ac8be130d7832020d0a17278955c",
   "repoCreatedAt": "2026-07-07T07:33:58Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-23T11:25:12.649Z",
+  "scannedAt": "2026-11-27T11:31:01.147Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": "doubao/skills/douyin-live-inspect/lite/SKILL.md",
-        "line": 56,
+        "line": 60,
         "excerpt": "python3 scripts/live_inspect.py stop --task-dir <原目录> --reason user_request --user-instruction \"<用户真实停止原话>\"",
         "disclosed": false,
         "automatic": false
@@ -185,7 +185,7 @@
       {
         "ruleId": "shell",
         "file": "doubao/skills/douyin-live-inspect/lite/runtime/cli.py",
-        "line": 185,
+        "line": 188,
         "excerpt": "return subprocess.Popen([sys.executable,str(ENTRY),command,'--task-dir',str(store.root)],",
         "disclosed": false,
         "automatic": false
@@ -193,7 +193,7 @@
       {
         "ruleId": "shell",
         "file": "doubao/skills/douyin-live-inspect/lite/runtime/cli.py",
-        "line": 186,
+        "line": 189,
         "excerpt": "stdin=subprocess.DEVNULL,stdout=log if log is not None else subprocess.DEVNULL,",
         "disclosed": false,
         "automatic": false
@@ -201,10 +201,27 @@
       {
         "ruleId": "shell",
         "file": "doubao/skills/douyin-live-inspect/lite/runtime/cli.py",
-        "line": 187,
+        "line": 190,
         "excerpt": "stderr=log if log is not None else subprocess.DEVNULL,",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "doubao/skills/douyin-live-inspect/lite/runtime/cloud_frames.py",
+        "line": 40,
+        "excerpt": "except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as error:",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "doubao/skills/douyin-live-inspect/lite/runtime/douyin_interaction.py",
+        "line": 13,
+        "excerpt": "from urllib.request import Request, build_opener, HTTPCookieProcessor, HTTPSHandler",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
       },
       {
         "ruleId": "shell",
@@ -219,14 +236,6 @@
         "file": "doubao/skills/douyin-live-inspect/lite/runtime/douyin_live.py",
         "line": 374,
         "excerpt": "result = subprocess.run(args, input=payload, stdout=subprocess.PIPE,",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "doubao/skills/douyin-live-inspect/lite/runtime/douyin_live.py",
-        "line": 375,
-        "excerpt": "stderr=subprocess.DEVNULL, timeout=timeout, check=False)",
         "disclosed": false,
         "automatic": false
       },
@@ -334,7 +343,7 @@
       {
         "ruleId": "network",
         "file": "doubao/skills/douyin-live-inspect/lite/runtime/flv_capture.py",
-        "line": 149,
+        "line": 157,
         "excerpt": "def fetch(observation=None):",
         "disclosed": false,
         "automatic": false,
@@ -343,17 +352,8 @@
       {
         "ruleId": "network",
         "file": "doubao/skills/douyin-live-inspect/lite/runtime/flv_capture.py",
-        "line": 153,
+        "line": 161,
         "excerpt": "from urllib.request import build_opener, Request, HTTPSHandler, ProxyHandler, getproxies, proxy_bypass",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "doubao/skills/douyin-live-inspect/lite/runtime/flv_capture.py",
-        "line": 213,
-        "excerpt": "from http.client import IncompleteRead",
         "disclosed": false,
         "automatic": false,
         "hosts": []
@@ -361,21 +361,21 @@
       {
         "ruleId": "reads-secrets",
         "file": "doubao/skills/douyin-live-inspect/lite/runtime/review_execution.py",
-        "line": 655,
+        "line": 657,
         "excerpt": "env = dict(os.environ)",
         "disclosed": false,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 111,
-      "network": 27,
+      "shell": 122,
+      "network": 28,
       "reads-secrets": 1
     },
     "score": 70,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 106,
+    "filesScanned": 142,
     "filesSkipped": 0
   },
   "history": [
@@ -394,6 +394,12 @@
     {
       "commit": "8e8d15d72d534202f7331744cc333b4f4a716dfc",
       "scannedAt": "2026-11-23T11:25:12.649Z",
+      "score": 70,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "f14481620e68495096ea2868d2cb3ec43e115a11",
+      "scannedAt": "2026-11-27T11:31:01.147Z",
       "score": 70,
       "rulesVersion": "1.3.0"
     }

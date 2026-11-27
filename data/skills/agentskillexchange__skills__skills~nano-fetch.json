@@ -1,0 +1,284 @@
+{
+  "id": "agentskillexchange__skills__skills~nano-fetch",
+  "owner": "agentskillexchange",
+  "repo": "skills",
+  "path": "skills/nano-fetch",
+  "name": "Pay a Nano (XNO) 402 and Fetch",
+  "description": "Fetch a URL and, when it answers HTTP 402 with an x402 nano:mainnet exact quote, pay it once through the operator's own signer and retry with the proof. A per-call cap and a total budget in raw are checked before anything is signed, the send is bound to this one order (xno-binding/v1/rep), and an fsynced journal refuses to pay the same order twice, also after a restart. Standard library Python; the skill holds no key and no seed. The buyer's side of verify-nano-payment.",
+  "stars": 65,
+  "category": "coding",
+  "commit": "8292c50c0e951bbd9fa62ef005cfd9d5a29dda1e",
+  "contentHash": "1f9bd6a939b302ef8b0addf65011bb26f8d3553300f02120039786c5a68cfe56",
+  "repoCreatedAt": "2026-03-20T04:42:13Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-27T11:31:01.147Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/nano-fetch/SKILL.md",
+        "line": 29,
+        "excerpt": "git clone https://github.com/agentskillexchange/skills.git",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/nano-fetch/SKILL.md",
+        "line": 30,
+        "excerpt": "mkdir -p ~/.agent-skills",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/nano-fetch/SKILL.md",
+        "line": 31,
+        "excerpt": "cp -R skills/skills/nano-fetch ~/.agent-skills/nano-fetch",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/nano-fetch/SKILL.md",
+        "line": 38,
+        "excerpt": "`pip install`. Run `python3 fetch.py` from the folder, or give its path.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/nano-fetch/SKILL.md",
+        "line": 64,
+        "excerpt": "python3 fetch.py https://seller.example/report -o report.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/nano-fetch/SKILL.md",
+        "line": 70,
+        "excerpt": "PYTHONPATH=~/wallet python3 fetch.py https://seller.example/report --signer mywallet.sign --journal ~/.nano-pay.jsonl --cap-raw 100000000000000000000000000000 -",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/nano-fetch/SKILL.md",
+        "line": 77,
+        "excerpt": "PYTHONPATH=~/wallet python3 fetch.py https://seller.example/api -X POST -H 'Content-Type: application/json' -d '{\"q\": \"nano\"}' --signer mywallet.sign --journal ",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/nano-fetch/SKILL.md",
+        "line": 152,
+        "excerpt": "python3 -m unittest discover -s skills/nano-fetch -p 'test_*.py'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/nano-fetch/fetch.py",
+        "line": 40,
+        "excerpt": "import http.client",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/nano-fetch/fetch.py",
+        "line": 45,
+        "excerpt": "import urllib.request",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/nano-fetch/fetch.py",
+        "line": 55,
+        "excerpt": "DELIVERY_ERRORS = (OSError, http.client.HTTPException, ValueError)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/nano-fetch/fetch.py",
+        "line": 68,
+        "excerpt": "req = urllib.request.Request(url, data=data, method=method, headers=dict(headers))",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/nano-fetch/fetch.py",
+        "line": 84,
+        "excerpt": "o = urllib.request.OpenerDirector()",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/nano-fetch/fetch.py",
+        "line": 86,
+        "excerpt": "if not isinstance(h, urllib.request.HTTPRedirectHandler):",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/nano-fetch/fetch.py",
+        "line": 91,
+        "excerpt": "def fetch(url, signer=None, journal_path=None, cap_raw=DEFAULT_CAP_RAW, budget_raw=None, method=\"GET\",",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/nano-fetch/fetch.py",
+        "line": 94,
+        "excerpt": "opener = opener or urllib.request.build_opener()",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/nano-fetch/fetch.py",
+        "line": 102,
+        "excerpt": "if effective != urllib.request.Request(url).full_url:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/nano-fetch/fetch.py",
+        "line": 177,
+        "excerpt": "r = fetch(a.url, signer=signer, journal_path=a.journal, cap_raw=a.cap_raw, budget_raw=a.budget_raw,",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/nano-fetch/test_nano_fetch.py",
+        "line": 18,
+        "excerpt": "import urllib.request",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/nano-fetch/test_nano_fetch.py",
+        "line": 127,
+        "excerpt": "def fetch(self, url, **kw):",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/nano-fetch/test_nano_fetch.py",
+        "line": 129,
+        "excerpt": "kw.setdefault(\"opener\", urllib.request.build_opener(urllib.request.ProxyHandler({})))",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/nano-fetch/test_nano_fetch.py",
+        "line": 130,
+        "excerpt": "return nf.fetch(url, **kw)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/nano-fetch/test_nano_fetch.py",
+        "line": 141,
+        "excerpt": "r = self.fetch(self.url(Seller(v2_quote(), \"PAYMENT-SIGNATURE\"), \"/free\"))",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/nano-fetch/test_nano_fetch.py",
+        "line": 145,
+        "excerpt": "r = self.fetch(self.url(Seller(v2_quote(), \"PAYMENT-SIGNATURE\")))",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/nano-fetch/test_nano_fetch.py",
+        "line": 154,
+        "excerpt": "r = self.fetch(self.url(seller), signer=signer, journal_path=self.journal)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/nano-fetch/test_nano_fetch.py",
+        "line": 166,
+        "excerpt": "r = self.fetch(self.url(seller), signer=signer, journal_path=self.journal)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/nano-fetch/test_nano_fetch.py",
+        "line": 175,
+        "excerpt": "self.fetch(url, signer=Signer(), journal_path=self.journal)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/nano-fetch/test_nano_fetch.py",
+        "line": 177,
+        "excerpt": "r = self.fetch(url, signer=again, journal_path=self.journal)  # a new Journal reads the file again",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 5,
+      "writes-outside": 2,
+      "downloads-code": 1,
+      "network": 39
+    },
+    "score": 67,
+    "band": "review",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 8,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "8292c50c0e951bbd9fa62ef005cfd9d5a29dda1e",
+      "scannedAt": "2026-11-27T11:31:01.147Z",
+      "score": 67,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

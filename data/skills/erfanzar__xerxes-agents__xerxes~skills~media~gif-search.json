@@ -4,30 +4,125 @@
   "repo": "Xerxes-Agents",
   "path": "xerxes/skills/media/gif-search",
   "name": "gif-search",
-  "description": "",
-  "stars": 33,
+  "description": "Search and download GIFs from Tenor using wget. No dependencies beyond curl and jq. Useful for finding reaction GIFs, creating visual content, and sending GIFs in chat.",
+  "stars": 34,
   "category": "other",
-  "commit": "8e159a03efce148dffd9d929e308f0d736e6145e",
+  "commit": "3d79d1e84a53861d72ee8b334a38c75778d2ddef",
   "contentHash": "37c3c88f622ebb6beaf98755c238d7929c0c832f7083e59ef3ee948f24a648ea",
   "repoCreatedAt": "2024-01-15T18:16:16Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-23T11:25:12.649Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-27T11:31:01.147Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "xerxes/skills/media/gif-search/SKILL.md",
+        "line": 25,
+        "excerpt": "TENOR_API_KEY=your_key_here",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "xerxes/skills/media/gif-search/SKILL.md",
+        "line": 39,
+        "excerpt": "wget -qO- \"https://tenor.googleapis.com/v2/search?q=thumbs+up&limit=5&key=${TENOR_API_KEY}\" | jq -r '.results[].media_formats.gif.url'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "tenor.googleapis.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "xerxes/skills/media/gif-search/SKILL.md",
+        "line": 39,
+        "excerpt": "wget -qO- \"https://tenor.googleapis.com/v2/search?q=thumbs+up&limit=5&key=${TENOR_API_KEY}\" | jq -r '.results[].media_formats.gif.url'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "xerxes/skills/media/gif-search/SKILL.md",
+        "line": 42,
+        "excerpt": "wget -qO- \"https://tenor.googleapis.com/v2/search?q=nice+work&limit=3&key=${TENOR_API_KEY}\" | jq -r '.results[].media_formats.tinygif.url'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "tenor.googleapis.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "xerxes/skills/media/gif-search/SKILL.md",
+        "line": 49,
+        "excerpt": "URL=$(wget -qO- \"https://tenor.googleapis.com/v2/search?q=celebration&limit=1&key=${TENOR_API_KEY}\" | jq -r '.results[0].media_formats.gif.url')",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "tenor.googleapis.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "xerxes/skills/media/gif-search/SKILL.md",
+        "line": 49,
+        "excerpt": "URL=$(wget -qO- \"https://tenor.googleapis.com/v2/search?q=celebration&limit=1&key=${TENOR_API_KEY}\" | jq -r '.results[0].media_formats.gif.url')",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "xerxes/skills/media/gif-search/SKILL.md",
+        "line": 50,
+        "excerpt": "wget -qO-L \"$URL\" -o celebration.gif",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "xerxes/skills/media/gif-search/SKILL.md",
+        "line": 56,
+        "excerpt": "wget -qO- \"https://tenor.googleapis.com/v2/search?q=cat&limit=3&key=${TENOR_API_KEY}\" | jq '.results[] | {title: .title, url: .media_formats.gif.url, preview: .",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "tenor.googleapis.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "xerxes/skills/media/gif-search/SKILL.md",
+        "line": 56,
+        "excerpt": "wget -qO- \"https://tenor.googleapis.com/v2/search?q=cat&limit=3&key=${TENOR_API_KEY}\" | jq '.results[] | {title: .title, url: .media_formats.gif.url, preview: .",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 4,
+      "network": 5
+    },
+    "score": 90,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 1
+    "filesScanned": 1,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "8e159a03efce148dffd9d929e308f0d736e6145e",
       "scannedAt": "2026-11-23T11:25:12.649Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "3d79d1e84a53861d72ee8b334a38c75778d2ddef",
+      "scannedAt": "2026-11-27T11:31:01.147Z",
+      "score": 90,
       "rulesVersion": "1.3.0"
     }
   ]

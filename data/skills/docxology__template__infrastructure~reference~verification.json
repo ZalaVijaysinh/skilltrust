@@ -3,31 +3,67 @@
   "owner": "docxology",
   "repo": "template",
   "path": "infrastructure/reference/verification",
-  "name": "verification",
-  "description": "",
-  "stars": 24,
+  "name": "reference-verification",
+  "description": "Deterministic anti-hallucination gate for cited references. Resolves each entry in a manuscript .bib file against Crossref, OpenAlex, and arXiv; flags fabricated (identifier resolves to nothing), mismatched (title/author/year disagree), unverifiable (no identifier), unchecked (offline cache miss — never silently OK), and anachronistic (future-dated) citations. Offline-first with a persistent SQLite cache; live network resolution is opt-in. Use when verifying citation existence, auditing a references.bib before submission, or wiring a claim-verification / pipeline integrity gate.",
+  "stars": 25,
   "category": "research",
-  "commit": "0a56b3e168c897ff3247f49d0c6f9e9f236fb02f",
+  "commit": "8b2af45ba858e8419e1d9452610c261344ee8e6c",
   "contentHash": "aa95aab20b924580ede4c8edff764439fb02f206b8f8ba099db13571341ce904",
   "repoCreatedAt": "2025-08-18T16:48:46Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-23T11:25:12.649Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-27T11:31:01.147Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "infrastructure/reference/verification/SKILL.md",
+        "line": 31,
+        "excerpt": "uv run python -m infrastructure.reference.verification verify references.bib",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "infrastructure/reference/verification/resolver.py",
+        "line": 172,
+        "excerpt": "resp = self.http.get(url, params=params, timeout=self.timeout)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "infrastructure/reference/verification/resolver.py",
+        "line": 193,
+        "excerpt": "resp = self.http.get(self.openalex_base_url, params=params, timeout=self.timeout)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 1,
+      "network": 2
+    },
+    "score": 92,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 11
+    "filesScanned": 10,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "0a56b3e168c897ff3247f49d0c6f9e9f236fb02f",
       "scannedAt": "2026-11-23T11:25:12.649Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "8b2af45ba858e8419e1d9452610c261344ee8e6c",
+      "scannedAt": "2026-11-27T11:31:01.147Z",
+      "score": 92,
       "rulesVersion": "1.3.0"
     }
   ]

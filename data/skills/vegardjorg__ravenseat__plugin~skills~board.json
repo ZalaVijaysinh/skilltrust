@@ -5,15 +5,15 @@
   "path": "plugin/skills/board",
   "name": "board",
   "description": "Start the local queue board (kanban, plans, dependencies, statistics, \"Waiting on you\") for the current project; it opens itself in the user's browser. Use when the user types \"/ravenseat:board\", \"start the board\", \"open the board\", \"show me the queue board\", or asks how to see the board.",
-  "stars": 19,
+  "stars": 48,
   "category": "coding",
-  "commit": "0a028c820ad76d6a1d0c13a3817845a770a429cc",
-  "contentHash": "954f26706cb9f7962259c5d638bf0b7cdc8adb63b9d22c995d15518a55bc14bd",
+  "commit": "a88bea15f9046ab1c89ba9204cb1777613bd3adb",
+  "contentHash": "9e7c72dffc83389921758875b335b8ddfa181cbf920e7fa16a4fec3c821d25a5",
   "repoCreatedAt": "2026-10-27T19:58:44Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-21T10:21:16.775Z",
+  "scannedAt": "2026-11-27T11:31:01.147Z",
   "scan": {
     "findings": [
       {
@@ -70,15 +70,23 @@
       {
         "ruleId": "shell",
         "file": "plugin/scripts/orchestrator/hook-push-guard.mjs",
-        "line": 66,
-        "excerpt": "import { execFileSync } from 'node:child_process';",
+        "line": 67,
+        "excerpt": "import { execFileSync, spawnSync } from 'node:child_process';",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "plugin/scripts/orchestrator/hook-push-guard.mjs",
-        "line": 229,
+        "line": 205,
+        "excerpt": "const r = spawnSync('git', ['-C', cwd, 'log', '--format=', '--name-only', '--diff-filter=ACMR', range, '--'], {",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugin/scripts/orchestrator/hook-push-guard.mjs",
+        "line": 246,
         "excerpt": "return execFileSync('git', ['-C', cwd, ...args], {",
         "disclosed": true,
         "automatic": false
@@ -126,7 +134,7 @@
       {
         "ruleId": "network",
         "file": "plugin/scripts/orchestrator/lib/catalog.js",
-        "line": 1135,
+        "line": 1387,
         "excerpt": "'<!-- - HTTP: use the fetch wrapper in lib/http.ts; do not add axios -->',",
         "disclosed": false,
         "automatic": false,
@@ -135,7 +143,7 @@
       {
         "ruleId": "shell",
         "file": "plugin/scripts/orchestrator/lib/catalogIndex.js",
-        "line": 35,
+        "line": 36,
         "excerpt": "const { execFileSync } = require('node:child_process');",
         "disclosed": true,
         "automatic": false
@@ -143,7 +151,7 @@
       {
         "ruleId": "shell",
         "file": "plugin/scripts/orchestrator/lib/catalogIndex.js",
-        "line": 505,
+        "line": 506,
         "excerpt": "execFileSync('git', ['-C', root, '-c', 'core.quotepath=off', ...args], {",
         "disclosed": true,
         "automatic": false
@@ -168,7 +176,7 @@
       {
         "ruleId": "shell",
         "file": "plugin/scripts/orchestrator/lib/conflictPredict.js",
-        "line": 30,
+        "line": 31,
         "excerpt": "const { spawnSync } = require('node:child_process');",
         "disclosed": true,
         "automatic": false
@@ -176,7 +184,7 @@
       {
         "ruleId": "shell",
         "file": "plugin/scripts/orchestrator/lib/conflictPredict.js",
-        "line": 49,
+        "line": 50,
         "excerpt": "const r = spawnSync('git', ['--no-optional-locks', '-c', 'core.quotepath=off', ...args], {",
         "disclosed": true,
         "automatic": false
@@ -283,24 +291,16 @@
       },
       {
         "ruleId": "shell",
-        "file": "plugin/scripts/orchestrator/lib/repoVisibility.js",
-        "line": 37,
-        "excerpt": "const { execFileSync } = require('node:child_process');",
-        "disclosed": true,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "plugin/scripts/orchestrator/lib/repoVisibility.js",
-        "line": 90,
-        "excerpt": "const stdout = execFileSync('gh', ['repo', 'view', `${remote.owner}/${remote.name}`, '--json', 'visibility'], {",
+        "file": "plugin/scripts/orchestrator/lib/processGuard.js",
+        "line": 255,
+        "excerpt": "function identify(pid, { platform = process.platform, spawnSync = require('node:child_process').spawnSync } = {}) {",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "network",
         "file": "plugin/scripts/orchestrator/lib/repoVisibility.js",
-        "line": 101,
+        "line": 102,
         "excerpt": "const r = await fetch(url, { headers: { accept: 'application/json', 'user-agent': 'ravenseat' }, signal: AbortSignal.timeout(timeoutMs) });",
         "disclosed": false,
         "automatic": false,
@@ -318,14 +318,14 @@
     ],
     "findingTotals": {
       "network": 11,
-      "shell": 42,
+      "shell": 46,
       "downloads-code": 3,
       "reads-secrets": 2
     },
     "score": 57,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 138,
+    "filesScanned": 159,
     "filesSkipped": 0
   },
   "history": [
@@ -338,6 +338,12 @@
     {
       "commit": "0a028c820ad76d6a1d0c13a3817845a770a429cc",
       "scannedAt": "2026-11-21T10:21:16.775Z",
+      "score": 57,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "a88bea15f9046ab1c89ba9204cb1777613bd3adb",
+      "scannedAt": "2026-11-27T11:31:01.147Z",
       "score": 57,
       "rulesVersion": "1.3.0"
     }

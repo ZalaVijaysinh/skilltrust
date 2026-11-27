@@ -3,31 +3,346 @@
   "owner": "docxology",
   "repo": "template",
   "path": "infrastructure/search",
-  "name": "search",
-  "description": "",
-  "stars": 24,
+  "name": "infrastructure-search",
+  "description": "Discovery utilities. Hosts subpackages — `literature` for Paperclip-style multi-source academic search; `exa` for Exa-backed web search, contents, answers, and find-similar; `monid` for the Monid gateway (discover/inspect/run) plus offline USD-per-1k search API pricing; and `deep_research` for provider-neutral long-running research over OpenAI and Gemini (PAID). Use when finding papers, running web search, comparing search API costs, routing agent tasks through Monid, or dispatching manuscript deep-research reviews.",
+  "stars": 25,
   "category": "research",
-  "commit": "0a56b3e168c897ff3247f49d0c6f9e9f236fb02f",
-  "contentHash": "883d43d8439d1e568e69396c279e2ab5fa52a6b16964724bf9c70aad9a417186",
+  "commit": "8b2af45ba858e8419e1d9452610c261344ee8e6c",
+  "contentHash": "4ef954a23b8d11055b61133903a7a03ef11abedc36b0416a466ed052c5ee0abf",
   "repoCreatedAt": "2025-08-18T16:48:46Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-23T11:25:12.649Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-27T11:31:01.147Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "infrastructure/search/SKILL.md",
+        "line": 104,
+        "excerpt": "uv run python -m infrastructure.search.literature.cli search \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "infrastructure/search/SKILL.md",
+        "line": 127,
+        "excerpt": "export EXA_API_KEY=\"YOUR_API_KEY\"   # keys: https://dashboard.exa.ai/api-keys",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "infrastructure/search/SKILL.md",
+        "line": 147,
+        "excerpt": "uv run python -m infrastructure.search.exa search \"scaling laws\" --num-results 10",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "infrastructure/search/SKILL.md",
+        "line": 191,
+        "excerpt": "uv sync --group deep-research                                      # installs openai + google-genai",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "infrastructure/search/connectors/SKILL.md",
+        "line": 37,
+        "excerpt": "protein = registry.get(\"uniprot\").fetch(\"P12345\")",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "infrastructure/search/connectors/SKILL.md",
+        "line": 38,
+        "excerpt": "structure = registry.get(\"pdb\").fetch(\"4HHB\")",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "infrastructure/search/connectors/SKILL.md",
+        "line": 44,
+        "excerpt": "uv run python -m infrastructure.search.connectors list-dbs",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "infrastructure/search/connectors/SKILL.md",
+        "line": 62,
+        "excerpt": "uv run python -m infrastructure.search.connectors list-dbs",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "infrastructure/search/connectors/SKILL.md",
+        "line": 75,
+        "excerpt": "uv run python scripts/pipeline/stage_08_connector_search.py --project my_project",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "infrastructure/search/connectors/SKILL.md",
+        "line": 108,
+        "excerpt": "Connector,  # Protocol — search(query, opts) + fetch(id, opts)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "infrastructure/search/connectors/SKILL.md",
+        "line": 133,
+        "excerpt": "uv run pytest \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "infrastructure/search/connectors/http.py",
+        "line": 3,
+        "excerpt": "Wraps :mod:`urllib.request` with:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "infrastructure/search/connectors/http.py",
+        "line": 21,
+        "excerpt": "import urllib.request",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "infrastructure/search/connectors/http.py",
+        "line": 147,
+        "excerpt": "def _build_request(self, url: str, extra_headers: dict[str, str]) -> urllib.request.Request:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "infrastructure/search/connectors/http.py",
+        "line": 150,
+        "excerpt": "return urllib.request.Request(url, headers=headers)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "infrastructure/search/connectors/http.py",
+        "line": 157,
+        "excerpt": "with urllib.request.urlopen(req, timeout=self.timeout) as resp:  # nosec B310 — URLs are hard-coded to known public science APIs (OpenAlex, arXiv, etc.)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "infrastructure/search/connectors/impl/arxiv.py",
+        "line": 67,
+        "excerpt": "def fetch(",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "infrastructure/search/connectors/impl/base.py",
+        "line": 44,
+        "excerpt": "def fetch(",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "infrastructure/search/connectors/impl/biorxiv.py",
+        "line": 70,
+        "excerpt": "def fetch(",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "infrastructure/search/connectors/impl/crossref.py",
+        "line": 69,
+        "excerpt": "def fetch(",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "infrastructure/search/connectors/impl/europepmc.py",
+        "line": 64,
+        "excerpt": "def fetch(",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "infrastructure/search/connectors/impl/openalex.py",
+        "line": 73,
+        "excerpt": "def fetch(",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "infrastructure/search/connectors/impl/pdb.py",
+        "line": 74,
+        "excerpt": "def fetch(",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "infrastructure/search/connectors/impl/semantic_scholar.py",
+        "line": 78,
+        "excerpt": "def fetch(",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "infrastructure/search/connectors/impl/uniprot.py",
+        "line": 60,
+        "excerpt": "def fetch(",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "infrastructure/search/connectors/types.py",
+        "line": 171,
+        "excerpt": "def fetch(",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "infrastructure/search/deep_research/gemini.py",
+        "line": 94,
+        "excerpt": "from google import genai",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "infrastructure/search/deep_research/gemini.py",
+        "line": 94,
+        "excerpt": "from google import genai",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "generativelanguage.googleapis.com"
+        ]
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "infrastructure/search/deep_research/openai.py",
+        "line": 93,
+        "excerpt": "from openai import OpenAI",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "infrastructure/search/deep_research/openai.py",
+        "line": 93,
+        "excerpt": "from openai import OpenAI",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.openai.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "infrastructure/search/literature/SKILL.md",
+        "line": 98,
+        "excerpt": "uv run python -m infrastructure.search.literature.cli search \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "infrastructure/search/monid/SKILL.md",
+        "line": 48,
+        "excerpt": "export MONID_API_KEY=monid_live_...",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "infrastructure/SKILL.md",
+        "line": 78,
+        "excerpt": "uv run pytest tests/infra_tests/ --cov=infrastructure --cov-fail-under=60",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "infrastructure/SKILL.md",
+        "line": 84,
+        "excerpt": "uv run python scripts/runner/execute_pipeline.py --project template_code_project --mode core",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "infrastructure/SKILL.md",
+        "line": 90,
+        "excerpt": "uv run python -m infrastructure.validation.cli markdown projects/templates/template_code_project/manuscript/",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 13,
+      "network": 46,
+      "paid-api": 2
+    },
+    "score": 82,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 108
+    "filesScanned": 109,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "0a56b3e168c897ff3247f49d0c6f9e9f236fb02f",
       "scannedAt": "2026-11-23T11:25:12.649Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "8b2af45ba858e8419e1d9452610c261344ee8e6c",
+      "scannedAt": "2026-11-27T11:31:01.147Z",
+      "score": 82,
       "rulesVersion": "1.3.0"
     }
   ]

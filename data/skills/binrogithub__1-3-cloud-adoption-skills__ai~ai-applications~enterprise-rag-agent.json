@@ -4,18 +4,86 @@
   "repo": "1-3-Cloud-Adoption-Skills",
   "path": "AI/AI-Applications/enterprise-rag-agent",
   "name": "enterprise-rag-agent",
-  "description": "",
+  "description": "Build enterprise RAG knowledge agents for public-sector and regulated document collections. Use when Codex must design, provision, or generate an Enterprise RAG Agent Pack for laws, policies, official correspondence, PDFs, scans, procedures, FAQ, court/tax/social-security/healthcare/public-utility knowledge bases, multilingual Portuguese/Spanish/English cited answers, RAGFlow document parsing and OCR, LlamaIndex retrieval agents and workflows, OpenSearch/CSS hybrid retrieval, OBS storage, GaussDB/RDS metadata and audit, Huawei Cloud MaaS LLM inference, ECS demo portals for document upload and search, ACL enforcement, citation generation, evidence-chain prompts, evaluation sets, Terraform deployment, or anti-hallucination RAG workflows.",
   "stars": 14,
-  "category": "other",
+  "category": "design",
   "commit": "498f1cd114c88b83cbbedf8037f2dee73c0686a7",
   "contentHash": "b9e4ec287b52bc85b7aa65be60565977feb3f75033bdf70f013060aaf2e03c2b",
   "repoCreatedAt": "2026-04-17T21:55:08Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-23T11:25:12.649Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-27T11:31:01.147Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "downloads-code",
+        "file": "AI/AI-Applications/enterprise-rag-agent/references/huawei-cloud-deployment.md",
+        "line": 17,
+        "excerpt": "python3 -m pip install --user huaweicloudsdkcore huaweicloudsdkiam huaweicloudsdkecs huaweicloudsdkvpc huaweicloudsdkims huaweicloudsdkcss esdk-obs-python",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "AI/AI-Applications/enterprise-rag-agent/references/huawei-cloud-deployment.md",
+        "line": 49,
+        "excerpt": "apt-get install -y ca-certificates curl git docker.io docker-compose-v2 python3-venv python3-pip",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "AI/AI-Applications/enterprise-rag-agent/references/huawei-cloud-deployment.md",
+        "line": 52,
+        "excerpt": "/opt/government-rag/venv/bin/pip install --upgrade pip wheel",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "AI/AI-Applications/enterprise-rag-agent/references/huawei-cloud-deployment.md",
+        "line": 53,
+        "excerpt": "/opt/government-rag/venv/bin/pip install llama-index opensearch-py llama-index-vector-stores-opensearch esdk-obs-python",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "AI/AI-Applications/enterprise-rag-agent/references/huawei-cloud-deployment.md",
+        "line": 86,
+        "excerpt": "curl http://<ecs_public_ip>:8000/health",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "AI/AI-Applications/enterprise-rag-agent/references/huawei-cloud-deployment.md",
+        "line": 93,
+        "excerpt": "curl -L -F 'document=@/tmp/sample-policy.txt' http://<ecs_public_ip>:8000/upload",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "AI/AI-Applications/enterprise-rag-agent/references/huawei-cloud-deployment.md",
+        "line": 94,
+        "excerpt": "curl 'http://<ecs_public_ip>:8000/?q=procurement%20citation'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "AI/AI-Applications/enterprise-rag-agent/references/huawei-cloud-deployment.md",
+        "line": 113,
+        "excerpt": "curl -sS --connect-timeout 5 http://<css_private_endpoint>:9200 | head -c 300",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
       {
         "ruleId": "downloads-code",
         "file": "AI/AI-Applications/enterprise-rag-agent/scripts/install_ecs_portal.sh",
@@ -37,21 +105,107 @@
         "file": "AI/AI-Applications/enterprise-rag-agent/scripts/install_ecs_portal.sh",
         "line": 267,
         "excerpt": "- Health: curl http://127.0.0.1:${PORTAL_PORT}/health",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false,
         "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "AI/AI-Applications/enterprise-rag-agent/scripts/provision_huawei_demo.py",
+        "line": 20,
+        "excerpt": "HWC_SSH_KEY_PATH        default: ~/.ssh/<prefix>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "AI/AI-Applications/enterprise-rag-agent/scripts/provision_huawei_demo.py",
+        "line": 30,
+        "excerpt": "import urllib.request",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "AI/AI-Applications/enterprise-rag-agent/scripts/provision_huawei_demo.py",
+        "line": 96,
+        "excerpt": "ip = urllib.request.urlopen(\"https://api.ipify.org\", timeout=5).read().decode(\"ascii\").strip()",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.ipify.org"
+        ]
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "AI/AI-Applications/enterprise-rag-agent/scripts/provision_huawei_demo.py",
+        "line": 117,
+        "excerpt": "\"ssh_key_path\": Path(env(\"HWC_SSH_KEY_PATH\", f\"~/.ssh/{prefix}\")).expanduser(),",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI/AI-Applications/enterprise-rag-agent/scripts/provision_huawei_demo.py",
+        "line": 145,
+        "excerpt": "subprocess.run(",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI/AI-Applications/enterprise-rag-agent/scripts/provision_huawei_demo.py",
+        "line": 148,
+        "excerpt": "stdout=subprocess.DEVNULL,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI/AI-Applications/enterprise-rag-agent/scripts/provision_huawei_demo.py",
+        "line": 149,
+        "excerpt": "stderr=subprocess.DEVNULL,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "AI/AI-Applications/enterprise-rag-agent/scripts/provision_huawei_demo.py",
+        "line": 306,
+        "excerpt": "apt-get install -y ca-certificates curl git docker.io docker-compose-v2 python3-venv python3-pip",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "AI/AI-Applications/enterprise-rag-agent/scripts/provision_huawei_demo.py",
+        "line": 310,
+        "excerpt": "/opt/government-rag/venv/bin/pip install --upgrade pip wheel",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "AI/AI-Applications/enterprise-rag-agent/scripts/provision_huawei_demo.py",
+        "line": 311,
+        "excerpt": "/opt/government-rag/venv/bin/pip install llama-index opensearch-py llama-index-vector-stores-opensearch esdk-obs-python",
+        "disclosed": false,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "downloads-code": 1,
+      "downloads-code": 8,
+      "network": 7,
       "writes-outside": 1,
-      "network": 1
+      "reads-secrets": 2,
+      "shell": 3
     },
-    "score": 70,
+    "score": 57,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 2,
-    "filesSkipped": 17
+    "filesScanned": 18,
+    "filesSkipped": 1
   },
   "history": [
     {

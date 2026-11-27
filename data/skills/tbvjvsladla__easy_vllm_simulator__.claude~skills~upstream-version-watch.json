@@ -7,13 +7,13 @@
   "description": "vLLM 업스트림 신버전을 추적해 변경을 독해하고, 커스텀 Docker 컨테이너 레이어(베이스 이미지· 핵심 wheel·주변 의존성)의 bump를 제안한다. \"vllm 업데이트\", \"vllm 버전 올려\", \"신규 vllm 버전 반영\", \"컨테이너 버전 bump\", \"NGC 베이스 맞춰줘\" 같은 지시에 발동. 제안만 하며, 실제 핀 변경· 빌드·push는 .claude/rules/workflow.md 의 전파 워크플로(HITL 게이트)를 따른다.",
   "stars": 22,
   "category": "devops",
-  "commit": "d3a52f861604fc53fc2c87a139eead8278f3fc5d",
-  "contentHash": "b9ecb995ee05fda17a342ca15fb13b7f1fb77a82faf48240a0289422c3d5b9ee",
+  "commit": "c61ab440f5d35f67a62a6851b2d548fd4c55a3c2",
+  "contentHash": "0231ac66e66bf70a135f0275e5cb3ae0b8f5a67da49b562db85b453fb7747272",
   "repoCreatedAt": "2026-06-21T23:08:09Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-21T10:21:16.775Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-27T11:31:01.147Z",
   "scan": {
     "findings": [
       {
@@ -66,23 +66,451 @@
       },
       {
         "ruleId": "shell",
+        "file": ".claude/skills/upstream-version-watch/references/resolve-and-render.md",
+        "line": 51,
+        "excerpt": "docker exec <컨테이너> sh -c 'cd /usr/local/lib/python3.12/dist-packages && tar -cf - vllm-*.dist-info' | tar -xf - -C \"$D\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/upstream-version-watch/references/source-build.md",
+        "line": 21,
+        "excerpt": "build-system.requires **수동 설치**(`--no-build-isolation` 전제) → `pip install --no-build-isolation -e .` 컴파일 →",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/upstream-version-watch/references/source-build.md",
+        "line": 30,
+        "excerpt": "`use_existing_torch` → build-system.requires 설치 → **strip-hoist 패치**(`register_opaque_type` hoist kwarg 제거) → `pip install -e .`.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/upstream-version-watch/references/source-build.md",
+        "line": 126,
+        "excerpt": "로그는 `tee` 로 빌드 출력에 그대로 흐르고 원장엔 꼬리 64KiB 만 남는다. POSIX sh 만 쓴다(wheel 베이스 `/bin/sh -c` ↔ 26.07 `/bin/bash -c`).",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/upstream-version-watch/rust/runtime/checks/https_checks.rs",
+        "line": 725,
+        "excerpt": "fn fetch(url: &str, environment: &FetchEnvironment) -> Result<String, FetchFailure> {",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/upstream-version-watch/rust/runtime/checks/https_checks.rs",
+        "line": 746,
+        "excerpt": "fetch(&format!(\"https://{}/x\", ok.address), &environment).unwrap(),",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "{}"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/upstream-version-watch/rust/runtime/checks/https_checks.rs",
+        "line": 761,
+        "excerpt": "fetch(&format!(\"https://{}/x\", wrong.address), &untrusted)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "{}"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/upstream-version-watch/rust/runtime/checks/https_checks.rs",
+        "line": 770,
+        "excerpt": ".starts_with(\"<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED]\"));",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/upstream-version-watch/rust/runtime/checks/https_checks.rs",
+        "line": 781,
+        "excerpt": "refusal_boundary(fetch(\"http://127.0.0.1:9/x\", &environment_for(&data, None))),",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/upstream-version-watch/rust/runtime/checks/https_checks.rs",
+        "line": 785,
+        "excerpt": "refusal_boundary(fetch(\"ftp://127.0.0.1:9/x\", &environment_for(&data, None))),",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/upstream-version-watch/rust/runtime/checks/https_checks.rs",
+        "line": 789,
+        "excerpt": "refusal_boundary(fetch(&url, &proxied(\"http://user:pw@127.0.0.1:9\"))),",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "user"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/upstream-version-watch/rust/runtime/checks/https_checks.rs",
+        "line": 793,
+        "excerpt": "refusal_boundary(fetch(&url, &proxied(\"socks5://127.0.0.1:9\"))),",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/upstream-version-watch/rust/runtime/checks/https_checks.rs",
+        "line": 797,
+        "excerpt": "refusal_boundary(fetch(&url, &proxied(\"http://127.0.0.1\"))),",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/upstream-version-watch/rust/runtime/checks/https_checks.rs",
+        "line": 806,
+        "excerpt": "refusal_boundary(fetch(&url, &bypass)),",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/upstream-version-watch/rust/runtime/checks/https_checks.rs",
+        "line": 824,
+        "excerpt": "let outcome = fetch(&format!(\"https://{}/x\", target.address), &environment);",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "{}"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/upstream-version-watch/rust/runtime/checks/https_checks.rs",
+        "line": 838,
+        "excerpt": "let outcome = fetch(&format!(\"https://{}/x\", peer.address), &environment);",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "{}"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/upstream-version-watch/rust/runtime/checks/https_checks.rs",
+        "line": 861,
+        "excerpt": "let outcome = fetch(&format!(\"https://{address}/x\"), &environment);",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "{address}"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/upstream-version-watch/rust/runtime/checks/https_checks.rs",
+        "line": 876,
+        "excerpt": "let outcome = fetch(",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/upstream-version-watch/rust/runtime/checks/https_checks.rs",
+        "line": 900,
+        "excerpt": "let outcome = fetch(",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/upstream-version-watch/rust/runtime/checks/https_checks.rs",
+        "line": 924,
+        "excerpt": "fetch(\"https://api.github.com:443/x?q=1\", &environment).unwrap(),",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "api.github.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/upstream-version-watch/rust/runtime/checks/wheel_checks.rs",
+        "line": 315,
+        "excerpt": "\"<urlopen error [Errno 2] No such file or directory: '{}'>\",",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/upstream-version-watch/rust/runtime/notices/NOTICE-cpython-https.md",
+        "line": 14,
+        "excerpt": "| `urllib/error.py` | `URLError.__init__`/`__str__` (`args == (reason,)`, attribute `reason`, text `<urlopen error ...>`), the `__context__` it gets from being ",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/upstream-version-watch/rust/runtime/src/branch_sync_selftest.rs",
+        "line": 1050,
+        "excerpt": "write(&shim, \"#!/bin/bash\\nwhile [ $# -gt 0 ]; do case \\\"$1\\\" in -o|-p|-i|-l) shift 2 ;; -*) shift ;; *) break ;; esac; done\\nshift\\nexec /bin/sh -c \\\"$*\\\"\\n\")?",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/upstream-version-watch/rust/runtime/src/http_direct/failure.rs",
+        "line": 17,
+        "excerpt": "pub const HTTP_CLIENT_MODULE: &str = \"http.client\";",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/upstream-version-watch/rust/runtime/src/http_direct/failure.rs",
+        "line": 365,
+        "excerpt": "let message = format!(\"<urlopen error {shown}>\");",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/upstream-version-watch/rust/runtime/src/native_multinode/up.rs",
+        "line": 1220,
+        "excerpt": "\"# ② 설치 게이트(이미지 동등성) — 도구가 python3.12 -m venv → pip install --no-index --no-deps -r wh/requirements-closure.txt\".into(),",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/upstream-version-watch/rust/runtime/src/render_ledger_body.txt",
+        "line": 28,
+        "excerpt": "proc = subprocess.run(cmd, capture_output=True, text=True, timeout=300)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/upstream-version-watch/rust/runtime/src/render_ledger_body.txt",
+        "line": 29,
+        "excerpt": "except (OSError, subprocess.TimeoutExpired) as exc:",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/upstream-version-watch/rust/runtime/src/wheelhouse_build.rs",
+        "line": 1368,
+        "excerpt": "\"# native_wheelhouse.sh 생성 — 정확 핀(이미지 설치본 그대로) · pip install --no-index 전용\".to_string(),",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/upstream-version-watch/rust/runtime/src/wheelhouse_selftest.rs",
+        "line": 366,
+        "excerpt": "c.ck(\"pip install --no-index rc 0\", ri.status.success(), &tail(&txt, 800));",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/upstream-version-watch/rust/runtime/src/wheelhouse_verify.rs",
+        "line": 25,
+        "excerpt": "const GATE_RESOLVER: &str = \"resolver(pip install --no-index 리졸버 · pip check 0)\";",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/upstream-version-watch/rust/runtime/src/wheelhouse_verify.rs",
+        "line": 101,
+        "excerpt": "return Err(Err::Crash(format!(\"subprocess.TimeoutExpired: Command '{}' timed out after {} seconds\", argv[0], timeout.unwrap().as_secs())));",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".claude/skills/upstream-version-watch/scripts/smoke_clone.sh",
+        "line": 276,
+        "excerpt": "cp \"$ROOT/.claude/skills/vllm-recipe-explorer/scripts/recipe.sh\" \"$tmp/.claude/skills/vllm-recipe-explorer/scripts/recipe.sh\" 2>/dev/null",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": ".claude/skills/upstream-version-watch/scripts/sync_to_sub.sh",
+        "line": 220,
+        "excerpt": "KNOWN_HOSTS_FILE=\"$HOME/.ssh/known_hosts\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
         "file": ".claude/skills/upstream-version-watch/scripts/sync_to_sub.sh",
         "line": 1951,
         "excerpt": "sub_run \"[ ! -d '$root2' ] || find '$root2' -type d -name __pycache__ -exec sh -c '[ -z \\\"\\$(find \\\"\\$(dirname \\\"\\$1\\\")\\\" -maxdepth 1 -name \\\"*.py\\\" -print -qui",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/upstream-version-watch/templates/Dockerfile.source-build-dsv4.template",
+        "line": 43,
+        "excerpt": "RUN apt-get update && apt-get install -y --no-install-recommends ccache && rm -rf /var/lib/apt/lists/*",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".claude/skills/upstream-version-watch/templates/Dockerfile.source-build-dsv4.template",
+        "line": 60,
+        "excerpt": "RUN cp /etc/pip/constraint.txt /etc/pip/constraint.txt.bak 2>/dev/null || true; \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".claude/skills/upstream-version-watch/templates/Dockerfile.source-build-dsv4.template",
+        "line": 61,
+        "excerpt": "sed -E 's/\\[[^]]*\\]//g' /tmp/requirements.txt > /etc/pip/constraint.txt",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/upstream-version-watch/templates/Dockerfile.source-build-dsv4.template",
+        "line": 75,
+        "excerpt": "RUN pip install $(python3 -c \"import tomllib;print(' '.join(tomllib.load(open('pyproject.toml','rb'))['build-system']['requires']))\") \"setuptools<81\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/upstream-version-watch/templates/Dockerfile.source-build-dsv4.template",
+        "line": 134,
+        "excerpt": "pip install --no-build-isolation -e .",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/upstream-version-watch/templates/Dockerfile.source-build-dsv4.template",
+        "line": 148,
+        "excerpt": "RUN apt-get update && apt-get install -y --no-install-recommends \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/upstream-version-watch/templates/Dockerfile.source-build-dsv4.template",
+        "line": 152,
+        "excerpt": "RUN pip install ray==${RAY_VERSION}",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/upstream-version-watch/templates/Dockerfile.source-build-dsv4.template",
+        "line": 180,
+        "excerpt": "RUN pip install --no-cache-dir \"flashinfer-python==0.6.14\" \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/upstream-version-watch/templates/Dockerfile.source-build.template",
+        "line": 58,
+        "excerpt": "RUN apt-get update && apt-get install -y --no-install-recommends ccache libdw-dev && rm -rf /var/lib/apt/lists/*",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".claude/skills/upstream-version-watch/templates/Dockerfile.source-build.template",
+        "line": 69,
+        "excerpt": "RUN cp /etc/pip/constraint.txt /etc/pip/constraint.txt.bak 2>/dev/null || true; \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".claude/skills/upstream-version-watch/templates/Dockerfile.source-build.template",
+        "line": 70,
+        "excerpt": "sed -E 's/\\[[^]]*\\]//g' /tmp/requirements.txt > /etc/pip/constraint.txt",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/upstream-version-watch/templates/Dockerfile.source-build.template",
+        "line": 88,
+        "excerpt": "RUN pip install $(python3 -c \"import tomllib;print(' '.join(tomllib.load(open('pyproject.toml','rb'))['build-system']['requires']))\") \"setuptools<81\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/upstream-version-watch/templates/Dockerfile.source-build.template",
+        "line": 193,
+        "excerpt": "pip install --no-build-isolation -e .",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".claude/skills/upstream-version-watch/templates/Dockerfile.template",
+        "line": 13,
+        "excerpt": "RUN cp /etc/pip/constraint.txt /etc/pip/constraint.txt.bak \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".claude/skills/upstream-version-watch/templates/Dockerfile.template",
+        "line": 14,
+        "excerpt": "&& : > /etc/pip/constraint.txt",
+        "disclosed": false,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "downloads-code": 5,
-      "writes-outside": 1,
-      "shell": 1
+      "downloads-code": 26,
+      "writes-outside": 8,
+      "shell": 7,
+      "network": 67,
+      "reads-secrets": 1
     },
-    "score": 70,
-    "band": "review",
+    "score": 45,
+    "band": "high",
     "rulesVersion": "1.3.0",
-    "filesScanned": 35,
-    "filesSkipped": 367
+    "filesScanned": 399,
+    "filesSkipped": 3
   },
   "history": [
     {
@@ -95,6 +523,12 @@
       "commit": "d3a52f861604fc53fc2c87a139eead8278f3fc5d",
       "scannedAt": "2026-11-21T10:21:16.775Z",
       "score": 70,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "c61ab440f5d35f67a62a6851b2d548fd4c55a3c2",
+      "scannedAt": "2026-11-27T11:31:01.147Z",
+      "score": 45,
       "rulesVersion": "1.3.0"
     }
   ]

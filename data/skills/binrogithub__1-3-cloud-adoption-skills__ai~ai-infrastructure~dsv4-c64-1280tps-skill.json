@@ -3,19 +3,68 @@
   "owner": "binrogithub",
   "repo": "1-3-Cloud-Adoption-Skills",
   "path": "AI/AI-Infrastructure/dsv4-c64-1280tps-skill",
-  "name": "dsv4-c64-1280tps-skill",
-  "description": "",
+  "name": "dsv4-c64-1280tps-ascend-a3",
+  "description": "Deploy and benchmark DeepSeek-V4-Flash-0731 W8A8 on Ascend A3 to achieve C64 aggregate output TPS >1280 (per-concurrency >20 tok/s). Use when the user asks to optimize DSV4 C64 throughput, enable Fused MC2, tune DSpark for high concurrency, or reproduce the 1523 tok/s result.",
   "stars": 14,
-  "category": "other",
+  "category": "devops",
   "commit": "498f1cd114c88b83cbbedf8037f2dee73c0686a7",
   "contentHash": "ba8127067ec3aec6ad4e1bd93d0484878f27087ec0f839bd0e3ac64996ba0e5b",
   "repoCreatedAt": "2026-04-17T21:55:08Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-23T11:25:12.649Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-27T11:31:01.147Z",
   "scan": {
     "findings": [
+      {
+        "ruleId": "shell",
+        "file": "AI/AI-Infrastructure/dsv4-c64-1280tps-skill/SKILL.md",
+        "line": 114,
+        "excerpt": "vllm serve /data/models/DeepSeek-V4-Flash-0731-w8a8 \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI/AI-Infrastructure/dsv4-c64-1280tps-skill/SKILL.md",
+        "line": 131,
+        "excerpt": "export NUM_SPEC=3 FUSED_MC2=1 MULTISTREAM=0 DSA_CP=1 ENABLE_MLAPO=1 MAX_SEQS=32",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "AI/AI-Infrastructure/dsv4-c64-1280tps-skill/SKILL.md",
+        "line": 134,
+        "excerpt": "curl http://<inference-ip>:6697/health   # expect 200",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI/AI-Infrastructure/dsv4-c64-1280tps-skill/SKILL.md",
+        "line": 140,
+        "excerpt": "docker logs <container> 2>&1 | grep \"enable_fused_mc2\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI/AI-Infrastructure/dsv4-c64-1280tps-skill/SKILL.md",
+        "line": 162,
+        "excerpt": "bash run-c64-test.sh <label> <num_runs>",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "AI/AI-Infrastructure/dsv4-c64-1280tps-skill/SKILL.md",
+        "line": 194,
+        "excerpt": "python3 scripts/aggregate-results.py dsv4-c64-1280tps-result.xlsx",
+        "disclosed": false,
+        "automatic": false
+      },
       {
         "ruleId": "downloads-code",
         "file": "AI/AI-Infrastructure/dsv4-c64-1280tps-skill/scripts/aggregate-results.py",
@@ -31,17 +80,29 @@
         "excerpt": "os.system(\"pip install openpyxl --break-system-packages -q\")",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "AI/AI-Infrastructure/dsv4-c64-1280tps-skill/scripts/launch-dsv4-param.sh",
+        "line": 60,
+        "excerpt": "if curl -sf \"http://10.0.2.156:$PORT/health\" >/dev/null 2>&1; then",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "10.0.2.156"
+        ]
       }
     ],
     "findingTotals": {
-      "downloads-code": 1,
-      "shell": 1
+      "shell": 6,
+      "network": 2,
+      "downloads-code": 1
     },
-    "score": 80,
-    "band": "low",
+    "score": 77,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 4,
-    "filesSkipped": 8
+    "filesScanned": 11,
+    "filesSkipped": 1
   },
   "history": [
     {

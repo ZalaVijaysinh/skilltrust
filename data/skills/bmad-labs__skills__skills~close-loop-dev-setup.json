@@ -4,63 +4,103 @@
   "repo": "skills",
   "path": "skills/close-loop-dev-setup",
   "name": "close-loop-dev-setup",
-  "description": "Use when an agent cannot validate the product the way a human would — no browser or desktop harness, no screenshots, no vision check, or bmad-leader reports a UAT level as NOT RUN; also when the user says \"set up screenshot testing\", \"let the agent see the UI\", \"drive the app with Playwright\" or asks for a visual check. Sets up a minimal drive-and-observe loop and proves it can fail.",
+  "description": "Use when an agent cannot validate the product the way a human would — no browser or desktop harness, no screenshots, no vision check, or bmad-leader reports a UAT level as NOT RUN; also when the user says \"set up screenshot testing\", \"let the agent see the UI\", \"drive the app with Playwright\" or asks for a visual check, or to set up a cua-box or tart-box sandbox. Sets up a minimal drive-and-observe loop, by default in a per-project sandbox (Docker or Tart VM), and proves it can fail.",
   "stars": 20,
   "category": "design",
-  "commit": "561b02ccf2111ef7aaa9889821990006c1e59ff1",
-  "contentHash": "debac89297cc0dfc1f335701b1f31cf436f691176f562c3dea5c5c6e59b5ca46",
+  "commit": "16381ecb76b71d2b4d51f9519de7df6ff9eb090d",
+  "contentHash": "696164d73cf34bbcbce717bf0b2ad9c9db49a028962b69626536a9d5022f297e",
   "repoCreatedAt": "2026-01-15T04:05:49Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-23T11:25:12.649Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-27T11:31:01.147Z",
   "scan": {
     "findings": [
       {
         "ruleId": "downloads-code",
         "file": "skills/close-loop-dev-setup/SKILL.md",
-        "line": 53,
-        "excerpt": "| Web UI, scripted | Playwright | `npm i -D playwright` then `npx playwright install chromium` |",
+        "line": 98,
+        "excerpt": "| Web UI, scripted | Playwright | `npm i -D playwright@<version>` then `npx playwright install chromium`; in `cua-box`, install both in the Dockerfile and run t",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
         "file": "skills/close-loop-dev-setup/SKILL.md",
-        "line": 54,
+        "line": 99,
         "excerpt": "| Web UI, agent MCP | Playwright MCP | `npx @playwright/mcp@<version> --isolated` |",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
-        "file": "skills/close-loop-dev-setup/SKILL.md",
-        "line": 55,
-        "excerpt": "| Web UI, CLI-led agent | Playwright CLI | `npm i -D @playwright/cli@<version>` then `npx playwright-cli install --skills` |",
+        "file": "skills/close-loop-dev-setup/references/cua-box.md",
+        "line": 11,
+        "excerpt": "| Docker runtime (OrbStack or Docker Desktop) | `docker info` | Show `brew install --cask orbstack`; run it after the user says yes |",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
-        "file": "skills/close-loop-dev-setup/SKILL.md",
-        "line": 57,
-        "excerpt": "| macOS desktop, isolated | Tart VM + `cua-driver` in the guest | `brew install cirruslabs/cli/tart` |",
+        "file": "skills/close-loop-dev-setup/references/cua-box.md",
+        "line": 12,
+        "excerpt": "| `uv`, for the MCP cache proxy | `uv --version` | Show `brew install uv`; run it after the user says yes |",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "skills/close-loop-dev-setup/SKILL.md",
-        "line": 72,
-        "excerpt": "d=$(mktemp -d)",
+        "file": "skills/close-loop-dev-setup/references/cua-box.md",
+        "line": 48,
+        "excerpt": "docker exec -u cua <project>-box sh -c 'eval \"$(box-session-env)\" && /usr/local/bin/cua-driver doctor'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/close-loop-dev-setup/references/tart-box.md",
+        "line": 11,
+        "excerpt": "| Tart | `tart --version` | Show `brew install cirruslabs/cli/tart`; run it after the user says yes |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/close-loop-dev-setup/references/tart-box.md",
+        "line": 12,
+        "excerpt": "| `uv`, for the MCP cache proxy | `uv --version` | Show `brew install uv`; run it after the user says yes |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/close-loop-dev-setup/references/tart-box.md",
+        "line": 22,
+        "excerpt": "ssh-keygen -t ed25519 -N '' -f ~/.ssh/\"$VM\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/close-loop-dev-setup/references/tart-box.md",
+        "line": 24,
+        "excerpt": "ssh-copy-id -i ~/.ssh/\"$VM\".pub admin@\"$(TART_BOX_VM=\"$VM\" tart-box ip)\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/close-loop-dev-setup/references/tart-box.md",
+        "line": 31,
+        "excerpt": "Every command runs in the guest through `tart-box ssh` or `ssh -i ~/.ssh/$VM admin@<ip>`, never on the host.",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "network",
-        "file": "skills/close-loop-dev-setup/SKILL.md",
-        "line": 73,
-        "excerpt": "curl -fsSL https://cua.ai/driver/install.sh -o \"$d/install.sh\"",
+        "file": "skills/close-loop-dev-setup/references/tart-box.md",
+        "line": 37,
+        "excerpt": "curl -fsSL https://cua.ai/driver/install.sh -o /tmp/cua-driver-install.sh",
         "disclosed": true,
         "automatic": false,
         "hosts": [
@@ -69,31 +109,101 @@
       },
       {
         "ruleId": "downloads-code",
-        "file": "skills/close-loop-dev-setup/SKILL.md",
-        "line": 100,
-        "excerpt": "brew install cirruslabs/cli/tart",
+        "file": "skills/close-loop-dev-setup/templates/cua-box/Dockerfile",
+        "line": 15,
+        "excerpt": "&& apt-get install -y --no-install-recommends at-spi2-core socat \\",
         "disclosed": false,
         "automatic": false
       },
       {
+        "ruleId": "network",
+        "file": "skills/close-loop-dev-setup/templates/cua-box/Dockerfile",
+        "line": 31,
+        "excerpt": "RUN curl -fsSL -o /tmp/cua-driver.tar.gz \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/close-loop-dev-setup/templates/cua-box/Dockerfile",
+        "line": 36,
+        "excerpt": "&& ln -sf /opt/cua-driver/cua-driver /usr/local/bin/cua-driver \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/close-loop-dev-setup/templates/mcp-proxy/mcp_cache_proxy.py",
+        "line": 31,
+        "excerpt": "import urllib.request",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
         "ruleId": "shell",
-        "file": "skills/close-loop-dev-setup/SKILL.md",
-        "line": 100,
-        "excerpt": "brew install cirruslabs/cli/tart",
+        "file": "skills/close-loop-dev-setup/templates/mcp-proxy/mcp_cache_proxy.py",
+        "line": 111,
+        "excerpt": "out = subprocess.run(",
         "disclosed": true,
         "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/close-loop-dev-setup/templates/mcp-proxy/mcp_cache_proxy.py",
+        "line": 118,
+        "excerpt": "except (OSError, subprocess.SubprocessError):",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/close-loop-dev-setup/templates/mcp-proxy/mcp_cache_proxy.py",
+        "line": 156,
+        "excerpt": "with urllib.request.urlopen(url.format(host=host), timeout=1.0) as reply:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/close-loop-dev-setup/templates/mcp-proxy/proxy.example.json",
+        "line": 5,
+        "excerpt": "\"command\": \"docker\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "skills/close-loop-dev-setup/templates/tart-box/guest/dev.tart-box.mcp-bridge.plist",
+        "line": 7,
+        "excerpt": "cp dev.tart-box.mcp-bridge.plist ~/Library/LaunchAgents/",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/close-loop-dev-setup/templates/tart-box/tart-box",
+        "line": 65,
+        "excerpt": "code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 2 \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
       }
     ],
     "findingTotals": {
-      "downloads-code": 5,
-      "shell": 2,
-      "network": 1
+      "downloads-code": 8,
+      "shell": 3,
+      "reads-secrets": 3,
+      "network": 5,
+      "writes-outside": 2
     },
-    "score": 79,
+    "score": 59,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 1,
-    "filesSkipped": 1
+    "filesScanned": 15,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -112,6 +222,12 @@
       "commit": "561b02ccf2111ef7aaa9889821990006c1e59ff1",
       "scannedAt": "2026-11-20T10:39:23.037Z",
       "score": 79,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "16381ecb76b71d2b4d51f9519de7df6ff9eb090d",
+      "scannedAt": "2026-11-27T11:31:01.147Z",
+      "score": 59,
       "rulesVersion": "1.3.0"
     }
   ]

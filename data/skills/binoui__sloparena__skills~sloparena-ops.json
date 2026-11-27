@@ -4,24 +4,155 @@
   "repo": "SLOPArena",
   "path": "skills/sloparena-ops",
   "name": "sloparena-ops",
-  "description": "",
+  "description": "Investigates SLOPArena Steam/VPS readiness, connection failures, lag and match logs. Use when the user asks for logs, reports frozen or snapping fighters, or asks whether the servers are up. Alfred is an explicitly selected historical alternative.",
   "stars": 15,
   "category": "other",
   "commit": "95acf8ee6cc9f4b8d06ef65181cf0740c544db6c",
-  "contentHash": "f8cae0473dc98c6e5b51ce4b571934940df0b911b3d48a85308799fedef1347d",
+  "contentHash": "ffc2e7c314143a978040cf05bd05ea2336b2d730bbaed92f139e550ad2be25fa",
   "repoCreatedAt": "2026-05-25T23:07:31Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-23T11:25:12.649Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-27T11:31:01.147Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/sloparena-ops/SKILL.md",
+        "line": 68,
+        "excerpt": "python3 tools/replay_pull.py",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/sloparena-ops/SKILL.md",
+        "line": 87,
+        "excerpt": "ssh -o BatchMode=yes -o StrictHostKeyChecking=yes sloparena \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/sloparena-ops/SKILL.md",
+        "line": 103,
+        "excerpt": "SSH_AUTH_SOCK=\"/run/user/$(id -u)/ssh-agent.socket\" ssh-add ~/.ssh/sloparena_vps",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/sloparena-ops/SKILL.md",
+        "line": 103,
+        "excerpt": "SSH_AUTH_SOCK=\"/run/user/$(id -u)/ssh-agent.socket\" ssh-add ~/.ssh/sloparena_vps",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/sloparena-ops/SKILL.md",
+        "line": 114,
+        "excerpt": "curl --fail --silent --show-error --max-time 10 \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "deploy/vps/README.md",
+        "line": 304,
+        "excerpt": "| ssh sloparena 'rm -rf ~/sloparena-helpers && mkdir -m 0700 ~/sloparena-helpers && tar -xf - -C ~/sloparena-helpers'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "deploy/vps/README.md",
+        "line": 314,
+        "excerpt": "cd && rm -rf ~/sloparena-helpers",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "deploy/vps/README.md",
+        "line": 486,
+        "excerpt": "from urllib.request import Request, urlopen",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "deploy/vps/README.md",
+        "line": 496,
+        "excerpt": "with urlopen(request, timeout=8) as response:",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "deploy/vps/README.md",
+        "line": 529,
+        "excerpt": "SSH_AUTH_SOCK=\"/run/user/$(id -u)/ssh-agent.socket\" ssh-add ~/.ssh/sloparena_vps",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "docs/systems/production-hosting.md",
+        "line": 68,
+        "excerpt": "curl -s https://sloparena.barakaslurp.fr/health",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "sloparena.barakaslurp.fr"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": "docs/systems/production-hosting.md",
+        "line": 92,
+        "excerpt": "timeout 8 bash -c 'echo > /dev/tcp/<alfred-lan-ip>/7777' && echo OK",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "docs/systems/production-hosting.md",
+        "line": 94,
+        "excerpt": "timeout 8 bash -c 'echo > /dev/tcp/<public-ip>/7777' && echo OK",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "docs/systems/production-hosting.md",
+        "line": 97,
+        "excerpt": "sleep 1.5 && echo -n probe | timeout 8 bash -c 'cat > /dev/udp/<alfred-lan-ip>/7777' && wait",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "docs/systems/production-hosting.md",
+        "line": 172,
+        "excerpt": "sudo bash -c 'docker exec sloparena-postgres pg_dump -U sloparena sloparena | gzip > /var/backups/sloparena/manual.sql.gz'",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 8,
+      "reads-secrets": 2,
+      "writes-outside": 2,
+      "network": 3
+    },
+    "score": 74,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 1
+    "filesScanned": 5,
+    "filesSkipped": 0
   },
   "history": [
     {
