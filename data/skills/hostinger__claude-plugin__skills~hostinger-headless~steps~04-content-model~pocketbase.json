@@ -1,0 +1,114 @@
+{
+  "id": "hostinger__claude-plugin__skills~hostinger-headless~steps~04-content-model~pocketbase",
+  "owner": "hostinger",
+  "repo": "claude-plugin",
+  "path": "skills/hostinger-headless/steps/04-content-model/pocketbase",
+  "name": "headless-step-content-model-pocketbase",
+  "description": "Step 4 (content model) for the PocketBase backend of the Hostinger Headless flow. Prepare phase: turns the brief's visitor features into pocketbase/schema.json (collections, access rules, unique indexes, rate limits, seed records) from tested recipes and validates it offline. Push phase: applies it to the live backend with pb-apply-schema.mjs and checks it with pb-verify.mjs. Idempotent, instance-gated.",
+  "stars": 12,
+  "category": "other",
+  "commit": "79da24533e36913006fcbd3f21f595252e59d296",
+  "contentHash": "cda8d42a9001d92115da6530f3d1f78568afb9e27e799c9d2bc6e48db297f817",
+  "repoCreatedAt": "2026-06-02T10:07:04Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-28T10:59:08.925Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/hostinger-headless/steps/04-content-model/pocketbase/SKILL.md",
+        "line": 45,
+        "excerpt": "node <here>/scripts/pb-apply-schema.mjs --check ~/.hostinger/<domain>/pocketbase/schema.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hostinger-headless/steps/04-content-model/pocketbase/SKILL.md",
+        "line": 70,
+        "excerpt": "node <here>/scripts/pb-apply-schema.mjs ~/.hostinger/<domain>/pocketbase/schema.json ~/.hostinger/<domain>/.pocketbase/credentials.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hostinger-headless/steps/04-content-model/pocketbase/SKILL.md",
+        "line": 82,
+        "excerpt": "node <here>/scripts/pb-verify.mjs ~/.hostinger/<domain>/.pocketbase/credentials.json ~/.hostinger/<domain>/pocketbase/schema.json",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hostinger-headless/steps/04-content-model/pocketbase/scripts/pb-lib.mjs",
+        "line": 53,
+        "excerpt": "const response = await fetch(`${base}${path}`, {",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hostinger-headless/steps/04-content-model/pocketbase/scripts/pb-verify.mjs",
+        "line": 1,
+        "excerpt": "import { execFileSync } from \"node:child_process\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/hostinger-headless/steps/04-content-model/pocketbase/scripts/pb-verify.mjs",
+        "line": 101,
+        "excerpt": "const out = execFileSync(\"curl\", [\"-sS\", \"-N\", protocol, \"--max-time\", REALTIME_PROBE_SECONDS, \"-H\", \"Accept: text/event-stream\", `${base}/api/realtime`], {",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hostinger-headless/steps/04-content-model/pocketbase/scripts/pb-verify.mjs",
+        "line": 124,
+        "excerpt": "const dashboard = await fetch(`${base}/_/`, { signal: AbortSignal.timeout(PAGE_TIMEOUT_MS) }).catch(() => null)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hostinger-headless/steps/04-content-model/pocketbase/scripts/pb-verify.mjs",
+        "line": 127,
+        "excerpt": "const home = await fetch(`${base}/`, { signal: AbortSignal.timeout(PAGE_TIMEOUT_MS) }).catch(() => null)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/hostinger-headless/steps/04-content-model/pocketbase/troubleshooting.md",
+        "line": 55,
+        "excerpt": "To check by hand: `curl -N --http1.1 --max-time 8 https://<domain>/api/realtime` should print `event:PB_CONNECT` within a second.",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 5,
+      "network": 4
+    },
+    "score": 92,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 14,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "79da24533e36913006fcbd3f21f595252e59d296",
+      "scannedAt": "2026-11-28T10:59:08.925Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

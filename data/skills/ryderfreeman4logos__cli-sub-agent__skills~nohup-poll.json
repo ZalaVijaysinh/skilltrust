@@ -4,7 +4,7 @@
   "repo": "cli-sub-agent",
   "path": "skills/nohup-poll",
   "name": "nohup-poll",
-  "description": "",
+  "description": "Launch long-running commands (>4 min) via nohup and poll at kv_cache.long_poll_seconds (default 240s) to keep KV cache warm.",
   "stars": 12,
   "category": "other",
   "commit": "7c4100b81e9edaf6102db5b33be75c4a27c14b33",
@@ -12,16 +12,108 @@
   "repoCreatedAt": "2026-02-06T03:48:46Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-23T11:25:12.649Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-28T10:59:08.925Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/nohup-poll/SKILL.md",
+        "line": 43,
+        "excerpt": "| `cargo install --locked <large>` | 10–30 min | 2–7 |",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/nohup-poll/SKILL.md",
+        "line": 58,
+        "excerpt": "mkdir -p scripts && cat > scripts/bg.sh << 'BGEOF'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/nohup-poll/SKILL.md",
+        "line": 67,
+        "excerpt": "nohup bash -c '\"$@\"; echo $? > \"${LOGFILE}.exitcode\"' _ \"$@\" >> \"$LOGFILE\" 2>&1 &",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/nohup-poll/SKILL.md",
+        "line": 85,
+        "excerpt": "bash scripts/bg.sh \"/tmp/<task>-$(date +%s).log\" <command...>",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/nohup-poll/SKILL.md",
+        "line": 100,
+        "excerpt": "sleep \"$(csa config get kv_cache.long_poll_seconds --default 240)\" && if kill -0 <PID> 2>/dev/null; then echo \"POLL:RUNNING\"; tail -3 \"<LOG>\"; else echo \"POLL:D",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/nohup-poll/SKILL.md",
+        "line": 119,
+        "excerpt": "cat \"<LOG>\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/nohup-poll/SKILL.md",
+        "line": 125,
+        "excerpt": "tail -100 \"<LOG>\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/nohup-poll/SKILL.md",
+        "line": 137,
+        "excerpt": "kill -0 <PID> 2>/dev/null && echo \"STILL_RUNNING\" || echo \"DONE\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/nohup-poll/SKILL.md",
+        "line": 173,
+        "excerpt": "bash scripts/bg.sh \"/tmp/cargo-build-$(date +%s).log\" cargo build --release",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/nohup-poll/SKILL.md",
+        "line": 186,
+        "excerpt": "bash scripts/bg.sh \"/tmp/csa-run-$(date +%s).log\" csa run --sa-mode true --tier tier-1 \"Implement feature X\"",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/nohup-poll/SKILL.md",
+        "line": 197,
+        "excerpt": "bash scripts/bg.sh \"/tmp/precommit-$(date +%s).log\" just pre-commit",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "downloads-code": 1,
+      "shell": 10
+    },
+    "score": 82,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 1
+    "filesScanned": 1,
+    "filesSkipped": 0
   },
   "history": [
     {

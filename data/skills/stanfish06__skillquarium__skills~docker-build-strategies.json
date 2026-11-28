@@ -7,13 +7,13 @@
   "description": "Use this skill when writing, reviewing, or optimizing Dockerfiles, even if the user just says their image is too large, their build is slow, or they need to harden a container for production. Covers multi-stage builds, layer caching, .dockerignore, non-root users, and image size optimization.",
   "stars": 13,
   "category": "media",
-  "commit": "b04ff41632a7651b0c055d32f4ebcccc0e198aa7",
+  "commit": "baf92a54ef0a5e30479bfed20007447614e1a561",
   "contentHash": "1bd7f71efeb382735edb5c4c31d90854683c2484cdc4600fed64319815ce955b",
   "repoCreatedAt": "2026-06-09T12:36:45Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-23T11:25:12.649Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-28T10:59:08.925Z",
   "scan": {
     "findings": [
       {
@@ -41,6 +41,14 @@
         "automatic": false
       },
       {
+        "ruleId": "reads-secrets",
+        "file": "skills/docker-build-strategies/SKILL.md",
+        "line": 78,
+        "excerpt": "ssh-keyscan github.com >> /root/.ssh/known_hosts && \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
         "ruleId": "shell",
         "file": "skills/docker-build-strategies/SKILL.md",
         "line": 85,
@@ -63,17 +71,125 @@
         "excerpt": "pip install --no-compile -r requirements.txt",
         "disclosed": false,
         "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/docker-build-strategies/checks/verification.md",
+        "line": 73,
+        "excerpt": "grep -nE \"^(COPY|ADD) .*(\\.npmrc|\\.pypirc|\\.netrc|pip\\.conf|settings\\.xml|\\.env|\\.aws/credentials|\\.config/gcloud|\\.azure/|\\.vault-token|\\.cargo/credentials|id_",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/docker-build-strategies/evals/docker-build-strategies.md",
+        "line": 115,
+        "excerpt": "grep -nE \"^(COPY|ADD) .*(\\.npmrc|\\.pypirc|\\.netrc|pip\\.conf|settings\\.xml|\\.env|\\.aws/credentials|\\.config/gcloud|\\.azure/|\\.vault-token|\\.cargo/credentials|id_",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/docker-build-strategies/evals/docker-build-strategies.md",
+        "line": 123,
+        "excerpt": "curl -s http://localhost:3000/ && echo \"PASS: App responds\" || echo \"Check if app needs more startup time\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/docker-build-strategies/evals/docker-build-strategies.md",
+        "line": 181,
+        "excerpt": "curl -s http://localhost:3000/ && echo \"PASS: App responds\" || echo \"Check if app needs more startup time\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/docker-build-strategies/references/layer-caching.md",
+        "line": 20,
+        "excerpt": "4. Dependency installation (npm ci, go mod download, pip install)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/docker-build-strategies/references/layer-caching.md",
+        "line": 50,
+        "excerpt": "The bind mount only works for install commands that read the manifest without writing it back (`npm ci`, `pip install -r`, `go mod download`). If the step mutat",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/docker-build-strategies/references/layer-caching.md",
+        "line": 85,
+        "excerpt": "pip install -r requirements.txt",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/docker-build-strategies/references/layer-caching.md",
+        "line": 99,
+        "excerpt": "Only do this for install commands that don't write the manifest back (`npm ci`, `pip install -r`, `go mod download`). A command that mutates the lockfile in pla",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/docker-build-strategies/references/layer-caching.md",
+        "line": 140,
+        "excerpt": "apt-get install -y --no-install-recommends \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/docker-build-strategies/references/layer-caching.md",
+        "line": 146,
+        "excerpt": "RUN apt-get install -y curl",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "reads-secrets",
+        "file": "skills/docker-build-strategies/references/multi-stage-builds.md",
+        "line": 64,
+        "excerpt": "ssh-keyscan -t ed25519 github.com >> /root/.ssh/known_hosts && \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/docker-build-strategies/references/multi-stage-builds.md",
+        "line": 136,
+        "excerpt": "pip install --no-compile -r requirements.txt",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/docker-build-strategies/references/multi-stage-builds.md",
+        "line": 156,
+        "excerpt": "- Bind-mount `requirements.txt` into the `pip install` step instead of `COPY`-ing it — `pip install -r` doesn't write the file back.",
+        "disclosed": false,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "downloads-code": 4,
-      "shell": 2
+      "downloads-code": 12,
+      "reads-secrets": 4,
+      "shell": 2,
+      "network": 2
     },
-    "score": 82,
-    "band": "low",
+    "score": 69,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 6,
-    "filesSkipped": 6
+    "filesScanned": 12,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -98,6 +214,12 @@
       "commit": "b04ff41632a7651b0c055d32f4ebcccc0e198aa7",
       "scannedAt": "2026-11-23T11:25:12.649Z",
       "score": 82,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "baf92a54ef0a5e30479bfed20007447614e1a561",
+      "scannedAt": "2026-11-28T10:59:08.925Z",
+      "score": 69,
       "rulesVersion": "1.3.0"
     }
   ]

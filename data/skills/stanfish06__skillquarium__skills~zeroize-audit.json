@@ -7,13 +7,13 @@
   "description": "Detects missing zeroization of sensitive data in source code and identifies zeroization removed by compiler optimizations, with assembly-level analysis, and control-flow verification. Use for auditing C/C++/Rust code handling secrets, keys, passwords, or other sensitive data.",
   "stars": 13,
   "category": "coding",
-  "commit": "b04ff41632a7651b0c055d32f4ebcccc0e198aa7",
+  "commit": "baf92a54ef0a5e30479bfed20007447614e1a561",
   "contentHash": "568cafe4df72986bcf9c4be86928c417d73640d3d4c98dc4463e6a9e1e9760a1",
   "repoCreatedAt": "2026-06-09T12:36:45Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-23T11:25:12.649Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-28T10:59:08.925Z",
   "scan": {
     "findings": [
       {
@@ -41,6 +41,30 @@
         "automatic": false
       },
       {
+        "ruleId": "downloads-code",
+        "file": "skills/zeroize-audit/references/mcp-analysis.md",
+        "line": 24,
+        "excerpt": "The `plugin.json` registers Serena as the `serena` MCP server, launched via `uvx`. Serena wraps language servers (clangd for C/C++) and exposes semantic analysi",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/zeroize-audit/references/mcp-analysis.md",
+        "line": 27,
+        "excerpt": "- `uvx` must be on PATH (installed with `uv` — see https://docs.astral.sh/uv/)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/zeroize-audit/references/mcp-analysis.md",
+        "line": 28,
+        "excerpt": "- Serena is fetched and run automatically via `uvx --from git+https://github.com/oraios/serena`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
         "ruleId": "shell",
         "file": "skills/zeroize-audit/tools/generate_poc.py",
         "line": 105,
@@ -55,17 +79,57 @@
         "excerpt": "except subprocess.TimeoutExpired:",
         "disclosed": true,
         "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/zeroize-audit/tools/mcp/check_mcp.sh",
+        "line": 31,
+        "excerpt": "if ! command -v \"uvx\" >/dev/null 2>&1; then",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/zeroize-audit/tools/mcp/check_mcp.sh",
+        "line": 32,
+        "excerpt": "missing+=(\"uvx\")",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/zeroize-audit/tools/mcp/check_mcp.sh",
+        "line": 65,
+        "excerpt": "\"message\": \"Serena MCP server unavailable (uvx not found); advanced findings must be downgraded to needs_review.\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/zeroize-audit/tools/scripts/check_rust_asm.py",
+        "line": 60,
+        "excerpt": "result = subprocess.run(",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/zeroize-audit/tools/scripts/check_rust_asm.py",
+        "line": 69,
+        "excerpt": "except (FileNotFoundError, subprocess.TimeoutExpired, OSError) as e:",
+        "disclosed": true,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "downloads-code": 3,
-      "shell": 2
+      "downloads-code": 9,
+      "shell": 4
     },
     "score": 82,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 6,
-    "filesSkipped": 44
+    "filesScanned": 50,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -89,6 +153,12 @@
     {
       "commit": "b04ff41632a7651b0c055d32f4ebcccc0e198aa7",
       "scannedAt": "2026-11-23T11:25:12.649Z",
+      "score": 82,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "baf92a54ef0a5e30479bfed20007447614e1a561",
+      "scannedAt": "2026-11-28T10:59:08.925Z",
       "score": 82,
       "rulesVersion": "1.3.0"
     }

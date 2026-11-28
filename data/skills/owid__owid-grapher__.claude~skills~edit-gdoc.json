@@ -1,0 +1,173 @@
+{
+  "id": "owid__owid-grapher__.claude~skills~edit-gdoc",
+  "owner": "owid",
+  "repo": "owid-grapher",
+  "path": ".claude/skills/edit-gdoc",
+  "name": "edit-gdoc",
+  "description": "Edit or create an unpublished OWID gdoc, or check or read any registered one (article, data insight, any gdoc type), as ArchieML text through the local or staging admin API. Use when an engineer asks to change a test gdoc's content, create a new gdoc draft from ArchieML, or check a gdoc's errors and warnings — given a doc id or docs.google.com URL, on localhost or on staging-site-<branch>.",
+  "stars": 1575,
+  "category": "data",
+  "commit": "4571f2b32783195ca666bbe148d2fe4687e3db8a",
+  "contentHash": "4c5e789897ce86654933cd9de5f4edabc36e0f5c76990aec8aa4290ed4987bd4",
+  "repoCreatedAt": "2015-05-04T11:06:48Z",
+  "alsoFoundIn": [],
+  "status": "ok",
+  "incomplete": false,
+  "scannedAt": "2026-11-28T10:59:08.925Z",
+  "scan": {
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/edit-gdoc/SKILL.md",
+        "line": 25,
+        "excerpt": "jq -Rr 'select(startswith(\"ADMIN_SERVER_PORT=\")) | ltrimstr(\"ADMIN_SERVER_PORT=\") | sub(\"\\\\s*(#.*)?$\"; \"\")' .env",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/edit-gdoc/SKILL.md",
+        "line": 46,
+        "excerpt": "curl -s \"$HOST/admin/api/gdocs/$ID/archieml\" > doc.json",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/edit-gdoc/SKILL.md",
+        "line": 46,
+        "excerpt": "curl -s \"$HOST/admin/api/gdocs/$ID/archieml\" > doc.json",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/edit-gdoc/SKILL.md",
+        "line": 53,
+        "excerpt": "jq -j .text doc.json > doc.archieml",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/edit-gdoc/SKILL.md",
+        "line": 70,
+        "excerpt": "curl -s -X PUT \"$HOST/admin/api/gdocs/$ID/archieml?revisionId=$REVISION_ID\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/edit-gdoc/SKILL.md",
+        "line": 70,
+        "excerpt": "curl -s -X PUT \"$HOST/admin/api/gdocs/$ID/archieml?revisionId=$REVISION_ID\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/edit-gdoc/SKILL.md",
+        "line": 88,
+        "excerpt": "curl -s \"$HOST/admin/api/gdocs-reference/templates/$TYPE/exemplars.json\" | jq -r '.exemplars[0].gdocId'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/edit-gdoc/SKILL.md",
+        "line": 88,
+        "excerpt": "curl -s \"$HOST/admin/api/gdocs-reference/templates/$TYPE/exemplars.json\" | jq -r '.exemplars[0].gdocId'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/edit-gdoc/SKILL.md",
+        "line": 94,
+        "excerpt": "curl -s \"$HOST/admin/api/gdocs\" | jq -r --arg t \"$TYPE\" '[.[] | select(.type == $t)] | (map(select(.published)) + .)[0].id'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/edit-gdoc/SKILL.md",
+        "line": 94,
+        "excerpt": "curl -s \"$HOST/admin/api/gdocs\" | jq -r --arg t \"$TYPE\" '[.[] | select(.type == $t)] | (map(select(.published)) + .)[0].id'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/edit-gdoc/SKILL.md",
+        "line": 109,
+        "excerpt": "jq -rn --arg e \"$EMAIL\" '$e|@uri'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/edit-gdoc/SKILL.md",
+        "line": 115,
+        "excerpt": "curl -s -X POST \"$HOST/admin/api/gdocs/archieml?email=$ENCODED_EMAIL\" \\",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/edit-gdoc/SKILL.md",
+        "line": 115,
+        "excerpt": "curl -s -X POST \"$HOST/admin/api/gdocs/archieml?email=$ENCODED_EMAIL\" \\",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/edit-gdoc/SKILL.md",
+        "line": 120,
+        "excerpt": "Don't use `curl -G --data-urlencode`: `-G` moves the `--data-binary` body into the URL too.",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/edit-gdoc/SKILL.md",
+        "line": 131,
+        "excerpt": "curl -s \"$HOST/admin/api/gdocs/$ID/archieml\" | jq '.error // .report'",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/edit-gdoc/SKILL.md",
+        "line": 131,
+        "excerpt": "curl -s \"$HOST/admin/api/gdocs/$ID/archieml\" | jq '.error // .report'",
+        "disclosed": true,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 9,
+      "network": 7
+    },
+    "score": 92,
+    "band": "low",
+    "rulesVersion": "1.3.0",
+    "filesScanned": 1,
+    "filesSkipped": 0
+  },
+  "history": [
+    {
+      "commit": "4571f2b32783195ca666bbe148d2fe4687e3db8a",
+      "scannedAt": "2026-11-28T10:59:08.925Z",
+      "score": 92,
+      "rulesVersion": "1.3.0"
+    }
+  ]
+}

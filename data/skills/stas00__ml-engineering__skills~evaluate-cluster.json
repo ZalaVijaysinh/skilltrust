@@ -5,15 +5,15 @@
   "path": "skills/evaluate-cluster",
   "name": "evaluate-cluster",
   "description": "Evaluates an ML GPU cluster for a cloud trial or acceptance test: environment dump, isolated newest PyTorch, matmul FLOPS (MAMF/MSMF) on every GPU while the others compute, intra-node all-reduce bandwidth and per-call latency of every collective, the same inter-node on every node you were given (omit those sections if there is only one node), fio on local disk and shared FS, dated markdown report. Use when the user asks to evaluate a cluster, kick the tires on trial nodes, run cluster acceptance, or measure GPU/network/storage. Canonical copy: https://github.com/stas00/ml-engineering/blob/master/skills/evaluate-cluster/SKILL.md",
-  "stars": 19742,
+  "stars": 19752,
   "category": "other",
-  "commit": "1a78efc30ab987bfd8a016df00acfcdd653a268c",
-  "contentHash": "7be0690a0d7cc23f86b38cb350494e2884555d03ce3e71901051d0fb2b0a9046",
+  "commit": "61ac5628d838711774dc7ca22ff4eca2b687a3ba",
+  "contentHash": "bdc6252edad0314d1c39bfb524cc615cfca3325145a48d5ac7264225b3856587",
   "repoCreatedAt": "2020-09-02T19:23:01Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-23T11:25:12.649Z",
+  "scannedAt": "2026-11-28T10:59:08.925Z",
   "scan": {
     "findings": [
       {
@@ -21,7 +21,7 @@
         "file": "skills/evaluate-cluster/SKILL.md",
         "line": 66,
         "excerpt": "RAW=https://raw.githubusercontent.com/stas00/ml-engineering/master",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false
       },
       {
@@ -90,23 +90,23 @@
       {
         "ruleId": "shell",
         "file": "skills/evaluate-cluster/SKILL.md",
-        "line": 119,
-        "excerpt": "while read -r ip rest; do",
-        "disclosed": false,
+        "line": 120,
+        "excerpt": ": > hostfile-map.txt",
+        "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/evaluate-cluster/SKILL.md",
-        "line": 130,
-        "excerpt": "timeout 5 bash -c \"echo >/dev/tcp/$MASTER_ADDR/${SSH_PORT:-22}\" && echo OPEN",
-        "disclosed": false,
+        "line": 140,
+        "excerpt": "ssh -n \"${PEER:-$MASTER_ADDR}\" \"timeout 5 bash -c 'echo >/dev/tcp/$MASTER_ADDR/$SSH_PORT' && echo OPEN\"",
+        "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
         "file": "skills/evaluate-cluster/SKILL.md",
-        "line": 181,
+        "line": 193,
         "excerpt": "**Newest PyTorch, not newest Python: build the venv with the node's own Python if it is 3.12 or higher, else with 3.12.** The newest Python has no binary wheels",
         "disclosed": false,
         "automatic": false
@@ -114,23 +114,23 @@
       {
         "ruleId": "shell",
         "file": "skills/evaluate-cluster/SKILL.md",
-        "line": 186,
+        "line": 198,
         "excerpt": "python3 -m venv \"$EVAL_VENV\"   # python3 -V >= 3.12, else python3.12; $HOME/venvs/cluster-eval, or shared FS so every node sees it",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/evaluate-cluster/SKILL.md",
-        "line": 204,
+        "line": 216,
         "excerpt": "sudo apt-get update",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
         "file": "skills/evaluate-cluster/SKILL.md",
-        "line": 205,
+        "line": 217,
         "excerpt": "sudo apt-get install -y infiniband-diags fio iproute2 rdma-core pdsh",
         "disclosed": false,
         "automatic": false
@@ -138,7 +138,7 @@
       {
         "ruleId": "downloads-code",
         "file": "skills/evaluate-cluster/SKILL.md",
-        "line": 214,
+        "line": 226,
         "excerpt": "sudo dnf install -y infiniband-diags fio iproute rdma-core pdsh",
         "disclosed": false,
         "automatic": false
@@ -146,39 +146,39 @@
       {
         "ruleId": "shell",
         "file": "skills/evaluate-cluster/SKILL.md",
-        "line": 214,
+        "line": 226,
         "excerpt": "sudo dnf install -y infiniband-diags fio iproute rdma-core pdsh",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/evaluate-cluster/SKILL.md",
-        "line": 235,
+        "line": 247,
         "excerpt": "date -u +%FT%TZ",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/evaluate-cluster/SKILL.md",
-        "line": 267,
+        "line": 281,
         "excerpt": "pgrep -x nv-hostengine >/dev/null || sudo -n nv-hostengine   # drop sudo if root",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/evaluate-cluster/SKILL.md",
-        "line": 280,
+        "line": 294,
         "excerpt": "OUT_DIR=mamf \"$PY\" mamf-finder-all-gpus.py --dtype bfloat16 > mamf-all.console 2>&1",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
         "file": "skills/evaluate-cluster/SKILL.md",
-        "line": 324,
+        "line": 340,
         "excerpt": "`gpu-straggler-finder.py` runs 4 workloads on every GPU of every node at once, with no communication between the GPUs while it times them: a Llama-3.1-8B traini",
         "disclosed": false,
         "automatic": false
@@ -186,39 +186,71 @@
       {
         "ruleId": "shell",
         "file": "skills/evaluate-cluster/SKILL.md",
-        "line": 328,
-        "excerpt": "\"$PY\" gpu-straggler-finder.py --unflagged-rows -1 --json straggler.json > straggler.console 2>&1",
-        "disclosed": false,
+        "line": 345,
+        "excerpt": "export PDSH_RCMD_TYPE=ssh",
+        "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/evaluate-cluster/SKILL.md",
-        "line": 349,
+        "line": 361,
+        "excerpt": "sleep 120",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/evaluate-cluster/SKILL.md",
+        "line": 367,
+        "excerpt": "sleep 120",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/evaluate-cluster/SKILL.md",
+        "line": 383,
+        "excerpt": "sleep 120",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/evaluate-cluster/SKILL.md",
+        "line": 399,
+        "excerpt": "report=straggler-$(hostname -s)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/evaluate-cluster/SKILL.md",
+        "line": 415,
         "excerpt": "\"$PY\" -m torch.distributed.run --nproc_per_node=\"$NGPU\" --rdzv_endpoint localhost:6000 --rdzv_backend c10d \\",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/evaluate-cluster/SKILL.md",
-        "line": 356,
+        "line": 422,
         "excerpt": "\"$PY\" -u -m torch.distributed.run --nproc_per_node=\"$NGPU\" --rdzv_endpoint localhost:6000 --rdzv_backend c10d \\",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/evaluate-cluster/SKILL.md",
-        "line": 370,
+        "line": 436,
         "excerpt": "time deepspeed -H \"$HOSTFILE\" --venv_script run-env.sh torch-dist-bench.py --collectives all --separate-tables \\",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
         "file": "skills/evaluate-cluster/SKILL.md",
-        "line": 376,
+        "line": 442,
         "excerpt": "`pip install matplotlib` in the eval venv on **shared FS** so **every** node can plot; otherwise only the intra-node (single-node) plot appears.",
         "disclosed": false,
         "automatic": false
@@ -226,55 +258,31 @@
       {
         "ruleId": "shell",
         "file": "skills/evaluate-cluster/SKILL.md",
-        "line": 381,
+        "line": 447,
         "excerpt": "GPUS_PER_NODE=8",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/evaluate-cluster/SKILL.md",
-        "line": 422,
+        "line": 488,
         "excerpt": "python -c \"from torch.distributed.elastic.rendezvous.utils import _matches_machine_hostname as m; print(m('$MASTER_ADDR'))\"",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
         "file": "skills/evaluate-cluster/SKILL.md",
-        "line": 426,
+        "line": 492,
         "excerpt": "timeout 5 bash -c \"echo > /dev/tcp/$MASTER_ADDR/$MASTER_PORT\" && echo OPEN",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/evaluate-cluster/SKILL.md",
-        "line": 440,
-        "excerpt": "nvidia-smi topo -m          # NV18 = 18 NVLink bonds; PHB = PCIe host bridge (no NVLink)",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/evaluate-cluster/SKILL.md",
-        "line": 449,
-        "excerpt": "ls /sys/class/infiniband/                 # mlx5_* IB/RoCE; rdmap* EFA",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "skills/evaluate-cluster/SKILL.md",
-        "line": 520,
-        "excerpt": "./fio-scan \"$NVME_PATH\"",
-        "disclosed": false,
+        "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "network",
         "file": "skills/evaluate-cluster/SKILL.md",
-        "line": 601,
+        "line": 667,
         "excerpt": "**First row, on a cloud: the instance type**, since the provider's specs (local storage, NICs) are published per instance type: on Kubernetes the node label `no",
         "disclosed": true,
         "automatic": false,
@@ -283,7 +291,7 @@
       {
         "ruleId": "downloads-code",
         "file": "skills/evaluate-cluster/SKILL.md",
-        "line": 737,
+        "line": 803,
         "excerpt": "**Say who is slowed and by how much, in literal terms.** Hardware and files do not \"feel\", \"suffer\", \"struggle\", \"get punished\", or \"care\"; a filesystem is not ",
         "disclosed": false,
         "automatic": false
@@ -291,18 +299,18 @@
       {
         "ruleId": "downloads-code",
         "file": "skills/evaluate-cluster/SKILL.md",
-        "line": 789,
+        "line": 855,
         "excerpt": "- `pip install matplotlib` in the eval venv on **shared FS** so **every** node can plot. `torch-dist-bench.py` writes the PNG in the **process cwd** (often `$HO",
         "disclosed": false,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 19,
+      "shell": 23,
       "network": 8,
       "downloads-code": 7
     },
-    "score": 77,
+    "score": 79,
     "band": "review",
     "rulesVersion": "1.3.0",
     "filesScanned": 1,
@@ -331,6 +339,12 @@
       "commit": "1a78efc30ab987bfd8a016df00acfcdd653a268c",
       "scannedAt": "2026-11-23T11:25:12.649Z",
       "score": 77,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "61ac5628d838711774dc7ca22ff4eca2b687a3ba",
+      "scannedAt": "2026-11-28T10:59:08.925Z",
+      "score": 79,
       "rulesVersion": "1.3.0"
     }
   ]

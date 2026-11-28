@@ -4,24 +4,75 @@
   "repo": "skillquarium",
   "path": "skills/jakarta-namespace",
   "name": "jakarta-namespace",
-  "description": "",
+  "description": "Migrate Java EE javax.* imports to Jakarta EE jakarta.* namespace. Use when upgrading to Spring Boot 3.x, migrating javax.persistence, javax.validation, javax.servlet imports, or fixing compilation errors after Jakarta EE transition. Covers package mappings, batch sed commands, and verification steps.",
   "stars": 13,
   "category": "other",
-  "commit": "b04ff41632a7651b0c055d32f4ebcccc0e198aa7",
+  "commit": "baf92a54ef0a5e30479bfed20007447614e1a561",
   "contentHash": "f987ac80d49731fcd305fb67cfd2063ec876e00c361535585f9082917c52fe61",
   "repoCreatedAt": "2026-06-09T12:36:45Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-23T11:25:12.649Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-28T10:59:08.925Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "skills/jakarta-namespace/SKILL.md",
+        "line": 60,
+        "excerpt": "grep -r \"import javax\\.\" --include=\"*.java\" . | grep -vE \"javax\\.(sql|crypto|net|naming|transaction\\.xa|annotation\\.(processing|Nullable|Nonnull|CheckForNull))\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/jakarta-namespace/SKILL.md",
+        "line": 67,
+        "excerpt": "find . -name \"*.java\" -type f -exec sed -i 's/import javax\\.persistence/import jakarta.persistence/g' {} +",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/jakarta-namespace/SKILL.md",
+        "line": 88,
+        "excerpt": "find . -name \"*.java\" -type f -exec sed -i 's/import javax\\.persistence\\.\\*/import jakarta.persistence.*/g' {} +",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/jakarta-namespace/SKILL.md",
+        "line": 163,
+        "excerpt": "grep -r \"import javax\\.persistence\" --include=\"*.java\" .",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/jakarta-namespace/SKILL.md",
+        "line": 175,
+        "excerpt": "grep -r \"import jakarta\\.persistence\" --include=\"*.java\" .",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/jakarta-namespace/SKILL.md",
+        "line": 208,
+        "excerpt": "mvn rewrite:run",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 6
+    },
+    "score": 95,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 1
+    "filesScanned": 1,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -46,6 +97,12 @@
       "commit": "b04ff41632a7651b0c055d32f4ebcccc0e198aa7",
       "scannedAt": "2026-11-23T11:25:12.649Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "baf92a54ef0a5e30479bfed20007447614e1a561",
+      "scannedAt": "2026-11-28T10:59:08.925Z",
+      "score": 95,
       "rulesVersion": "1.3.0"
     }
   ]

@@ -4,7 +4,7 @@
   "repo": "ResearchTools",
   "path": ".claude/skills/pdf2md",
   "name": "pdf2md",
-  "description": "",
+  "description": "Convert a PDF (typically a thesis or paper received with no LaTeX source, where LaTeX export and Marker both failed) into clean, chapter-split markdown laid out as a project's own src/ directory (-o points AT that src/ itself, never a parent of it): src/main.md linking everything, src/content/ holding frontmatter.md, Introduction.md, chapitreN.md, Conclusion.md, and src/assets/ holding bibliography.md and ref.md (acronyms and, if ever extracted, figures under assets/figures/ are reserved slots, not implemented). Accurate enough to feed thesis-auditor's content-level checks, though never auto-discovered by thesis-auditor's own directory resolution, which needs a real src/main.tex and reads LaTeX \\input{}/\\include{} macros only. Drives mineru end to end via its installed mineru-kit CLI: installs/downloads what's missing, starts the VLM server with a real accuracy fix (--image-min-tokens) that mineru's own CLI wrapper cannot apply on Windows, runs the conversion at maximum accuracy, then cleans up the running-header splice defect mineru's own title_leveling step leaves behind when it fails under CPU contention. An article or a talk source is kept as ONE document instead (postprocess --layout single: src/main.md plus assets/bibliography.md). Trigger on: convert this PDF to markdown, pdf2md, mineru conversion, thesis has no LaTeX source, PDF to UQAC chapters, max accuracy PDF conversion, /pdf2md.",
   "stars": 15,
   "category": "research",
   "commit": "6c8c732c9dfdbf6af861b1f4a1a03532950d8119",
@@ -12,16 +12,316 @@
   "repoCreatedAt": "2026-06-12T01:20:43Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-23T11:25:12.649Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-28T10:59:08.925Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/pdf2md/SKILL.md",
+        "line": 35,
+        "excerpt": "launching `llama-server.exe` directly via `subprocess.Popen` with a",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/pdf2md/scripts/Test/test_pdf2md_fidelity.py",
+        "line": 531,
+        "excerpt": "run = subprocess.run(",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/pdf2md/scripts/Test/test_pdf2md_version.py",
+        "line": 120,
+        "excerpt": "original = pdf2md_version.subprocess.run",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/pdf2md/scripts/Test/test_pdf2md_version.py",
+        "line": 121,
+        "excerpt": "pdf2md_version.subprocess.run = fake_runner",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/pdf2md/scripts/Test/test_pdf2md_version.py",
+        "line": 128,
+        "excerpt": "pdf2md_version.subprocess.run = original",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/pdf2md/scripts/Test/test_pdf2md_vlmcheck.py",
+        "line": 131,
+        "excerpt": "import urllib.request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/pdf2md/scripts/Test/test_pdf2md_vlmcheck.py",
+        "line": 150,
+        "excerpt": "with mock.patch.object(urllib.request, \"build_opener\", fake_build_opener):",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/pdf2md/scripts/Test/test_pdf2md_vlmcheck.py",
+        "line": 154,
+        "excerpt": "proxy = next(h for h in seen[\"handlers\"] if isinstance(h, urllib.request.ProxyHandler))",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/pdf2md/scripts/Test/test_pdf2md_vlmcheck.py",
+        "line": 156,
+        "excerpt": "redirect = next(h for h in seen[\"handlers\"] if isinstance(h, urllib.request.HTTPRedirectHandler))",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/pdf2md/scripts/pdf2md-pipeline.json",
+        "line": 32,
+        "excerpt": "\"provenance\": \"literal carried over from the first commit (2026-10-10), chosen by the author and not measured; bound on `pip install` of the pinned packages, up",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/pdf2md/scripts/pdf2md_bootstrap.py",
+        "line": 62,
+        "excerpt": "runner: Callable[..., subprocess.CompletedProcess] | None = None,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/pdf2md/scripts/pdf2md_bootstrap.py",
+        "line": 79,
+        "excerpt": "subprocess.run.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/pdf2md/scripts/pdf2md_bootstrap.py",
+        "line": 88,
+        "excerpt": "runner = runner or subprocess.run",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/pdf2md/scripts/pdf2md_bootstrap.py",
+        "line": 150,
+        "excerpt": "pip_runner: Callable[..., subprocess.CompletedProcess] | None = None,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/pdf2md/scripts/pdf2md_bootstrap.py",
+        "line": 152,
+        "excerpt": "download_runner: Callable[..., subprocess.CompletedProcess] | None = None,",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/pdf2md/scripts/pdf2md_bootstrap.py",
+        "line": 223,
+        "excerpt": "runner = pip_runner or subprocess.run",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/pdf2md/scripts/pdf2md_bootstrap.py",
+        "line": 233,
+        "excerpt": "runner = download_runner or subprocess.run",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/pdf2md/scripts/pdf2md_convert.py",
+        "line": 127,
+        "excerpt": "subprocess.Popen with no shell involved.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/pdf2md/scripts/pdf2md_convert.py",
+        "line": 140,
+        "excerpt": "def launch_convert(args: list[str], log_path: Path, *, popen: Callable[..., subprocess.Popen] | None = None) -> subprocess.Popen:",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/pdf2md/scripts/pdf2md_convert.py",
+        "line": 152,
+        "excerpt": "subprocess.Popen.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/pdf2md/scripts/pdf2md_convert.py",
+        "line": 155,
+        "excerpt": "subprocess.Popen",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/pdf2md/scripts/pdf2md_convert.py",
+        "line": 158,
+        "excerpt": "popen = popen or subprocess.Popen",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/pdf2md/scripts/pdf2md_convert.py",
+        "line": 161,
+        "excerpt": "creationflags = subprocess.DETACHED_PROCESS | subprocess.CREATE_NEW_PROCESS_GROUP",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/pdf2md/scripts/pdf2md_convert.py",
+        "line": 163,
+        "excerpt": "process = popen(args, stdout=log_file, stderr=subprocess.STDOUT, creationflags=creationflags, close_fds=True)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/pdf2md/scripts/pdf2md_models.py",
+        "line": 120,
+        "excerpt": "def run_models_show(runner: Callable[..., subprocess.CompletedProcess] | None = None) -> str:",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/pdf2md/scripts/pdf2md_version.py",
+        "line": 124,
+        "excerpt": "import urllib.request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/pdf2md/scripts/pdf2md_version.py",
+        "line": 127,
+        "excerpt": "with urllib.request.urlopen(f\"https://pypi.org/pypi/{package}/json\", timeout=bound) as response:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "pypi.org"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/pdf2md/scripts/pdf2md_version.py",
+        "line": 139,
+        "excerpt": "Run `<this interpreter> -m pip install <specs>`. Every spec is an",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/pdf2md/scripts/pdf2md_vlmcheck.py",
+        "line": 35,
+        "excerpt": "import http.client",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/pdf2md/scripts/pdf2md_vlmcheck.py",
+        "line": 39,
+        "excerpt": "import urllib.request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/pdf2md/scripts/pdf2md_vlmcheck.py",
+        "line": 289,
+        "excerpt": "class _NoRedirectHandler(urllib.request.HTTPRedirectHandler):",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/pdf2md/scripts/pdf2md_vlmcheck.py",
+        "line": 323,
+        "excerpt": "import urllib.request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/pdf2md/scripts/pdf2md_vlmcheck.py",
+        "line": 325,
+        "excerpt": "request = urllib.request.Request(url, data=data, headers={\"Content-Type\": \"application/json\"})",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/pdf2md/scripts/pdf2md_vlmcheck.py",
+        "line": 329,
+        "excerpt": "opener = urllib.request.build_opener(urllib.request.ProxyHandler({}), _NoRedirect)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/skills/pdf2md/scripts/pdf2md_vlmcheck.py",
+        "line": 420,
+        "excerpt": "except (VlmAnswerError, OSError, RuntimeError, http.client.HTTPException) as exc:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      }
+    ],
+    "findingTotals": {
+      "shell": 46,
+      "network": 13,
+      "downloads-code": 2
+    },
+    "score": 75,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 38
+    "filesScanned": 38,
+    "filesSkipped": 0
   },
   "history": [
     {

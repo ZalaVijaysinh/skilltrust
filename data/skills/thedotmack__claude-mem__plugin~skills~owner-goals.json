@@ -4,24 +4,256 @@
   "repo": "claude-mem",
   "path": "plugin/skills/owner-goals",
   "name": "owner-goals",
-  "description": "",
-  "stars": 119878,
+  "description": "Map what the owner wants from the prompts they typed themselves (prompts an agent wrote are left out), then sort it into focus areas, asks and rules, each with dated quotes, and save them to My Work (areas as My Focus suggestions, rules as My Rules suggestions). Use when asked for \"owner goals\", \"my goals\", \"what do I want\", \"what am I asking for\", \"map my prompts\", or to refresh Goals in My Work.",
+  "stars": 120306,
   "category": "coding",
-  "commit": "9b3b78dfa53f80e7c9c447b9269ceda255ee99d9",
-  "contentHash": "06354e99ccc588cc58cf07ba57d68f9ccd906bc057b5249636b698fdb15f1c90",
+  "commit": "ad682a38da4cdbd2076451f595adc7db512a626c",
+  "contentHash": "8c2bd8542761aab618fd5ce4be12ca0d0950fc69c9f51d5c9080a76da59c87fb",
   "repoCreatedAt": "2025-08-31T20:50:03Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-26T11:36:54.718Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-28T10:59:08.925Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": "plugin/skills/owner-goals/SKILL.md",
+        "line": 27,
+        "excerpt": "python3 \"${CLAUDE_SKILL_DIR}/scripts/export_owner_prompts.py\" --out \"<folder>\" --days 31",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugin/skills/owner-goals/SKILL.md",
+        "line": 44,
+        "excerpt": "python3 \"${CLAUDE_SKILL_DIR}/scripts/save_goals.py\" --print-focus-areas > \"<folder>/focus-areas.json\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugin/skills/owner-goals/SKILL.md",
+        "line": 112,
+        "excerpt": "python3 \"${CLAUDE_SKILL_DIR}/scripts/save_goals.py\" --goals \"<folder>/owner-goals.json\" --prompts \"<folder>/owner-prompts.md\" --map \"<folder>/owner-map.md\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugin/skills/owner-goals/scripts/export_owner_prompts.py",
+        "line": 216,
+        "excerpt": "if subprocess.run([\"git\", \"-C\", out_dir, \"rev-parse\", \"--is-inside-work-tree\"], capture_output=True).returncode != 0:",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugin/skills/owner-goals/scripts/export_owner_prompts.py",
+        "line": 218,
+        "excerpt": "if subprocess.run([\"git\", \"-C\", out_dir, \"check-ignore\", \"-q\", \".\"], capture_output=True).returncode == 0:",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugin/skills/owner-goals/scripts/export_owner_prompts.py",
+        "line": 220,
+        "excerpt": "top = subprocess.run([\"git\", \"-C\", out_dir, \"rev-parse\", \"--show-toplevel\"], capture_output=True, text=True, check=True).stdout.strip()",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugin/skills/owner-goals/scripts/export_owner_prompts.py",
+        "line": 221,
+        "excerpt": "exclude = subprocess.run([\"git\", \"-C\", out_dir, \"rev-parse\", \"--git-path\", \"info/exclude\"], capture_output=True, text=True, check=True).stdout.strip()",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugin/skills/owner-goals/scripts/export_owner_prompts.py",
+        "line": 228,
+        "excerpt": "except (OSError, subprocess.CalledProcessError) as error:",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "plugin/skills/owner-goals/scripts/save_goals.py",
+        "line": 50,
+        "excerpt": "import argparse, datetime, json, os, re, sys, traceback, urllib.error, urllib.parse, urllib.request",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugin/skills/owner-goals/scripts/save_goals.py",
+        "line": 113,
+        "excerpt": "request = urllib.request.Request(base_url + path, method=\"POST\" if body is not None else \"GET\",",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "plugin/skills/owner-goals/scripts/save_goals.py",
+        "line": 117,
+        "excerpt": "with urllib.request.urlopen(request, timeout=30) as response:",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugin/skills/owner-goals/scripts/save_goals.py",
+        "line": 124,
+        "excerpt": "sys.exit(f\"claude-mem worker is not reachable at {base_url} ({error.reason}). Start it with: npx claude-mem start\")",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugin/scripts/ensure-launcher.cjs",
+        "line": 5,
+        "excerpt": "`,He=/^[a-z0-9]+(?:-[a-z0-9]+)*$/;function me(e){if(e===void 0)return new Set;let t=typeof e==\"string\"?e.split(\",\"):e;if(!Array.isArray(t)||t.some(r=>typeof r!=",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugin/scripts/ensure-launcher.cjs",
+        "line": 5,
+        "excerpt": "`,He=/^[a-z0-9]+(?:-[a-z0-9]+)*$/;function me(e){if(e===void 0)return new Set;let t=typeof e==\"string\"?e.split(\",\"):e;if(!Array.isArray(t)||t.some(r=>typeof r!=",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugin/scripts/ensure-launcher.cjs",
+        "line": 10,
+        "excerpt": "`;Le(s,m+_),n.success(`Added ${t} to PATH in ${s}`),d=\"rc-file-updated\"}catch(f){return n.warn(`Could not update ${s}: ${f instanceof Error?f.message:String(f)}",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugin/scripts/ensure-launcher.cjs",
+        "line": 11,
+        "excerpt": "`);function Tn(e){let{directory:t,logger:n}=e,r=e.host??xe(),o=e.runPowerShell??dt,i=r.environmentVariables.PATH??\"\";if(et(i,t).alreadyPresent)return\"already-on",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "plugin/scripts/ensure-launcher.cjs",
+        "line": 13,
+        "excerpt": "`).pop()??\"\"}`;let X=we(r.platform,d);if(u.kind===\"launcher\")throw new Error(`${U}; kept the existing launcher at ${s} (protocol ${u.protocol})${X}`);t.warn(`${",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugin/scripts/ensure-launcher.cjs",
+        "line": 13,
+        "excerpt": "`).pop()??\"\"}`;let X=we(r.platform,d);if(u.kind===\"launcher\")throw new Error(`${U}; kept the existing launcher at ${s} (protocol ${u.protocol})${X}`);t.warn(`${",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugin/.mcp.json",
+        "line": 5,
+        "excerpt": "\"command\": \"node\",",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugin/hooks.json",
+        "line": 8,
+        "excerpt": "\"command\": \"sh -c 'B=$(command -v bun || echo \\\"$HOME/.bun/bin/bun\\\"); R=\\\"${CLAUDE_CONFIG_DIR:-$HOME/.claude}/plugins/marketplaces/thedotmack/plugin/scripts\\\";",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugin/hooks.json",
+        "line": 18,
+        "excerpt": "\"command\": \"sh -c 'B=$(command -v bun || echo \\\"$HOME/.bun/bin/bun\\\"); R=\\\"${CLAUDE_CONFIG_DIR:-$HOME/.claude}/plugins/marketplaces/thedotmack/plugin/scripts\\\";",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugin/hooks.json",
+        "line": 30,
+        "excerpt": "\"command\": \"sh -c 'B=$(command -v bun || echo \\\"$HOME/.bun/bin/bun\\\"); R=\\\"${CLAUDE_CONFIG_DIR:-$HOME/.claude}/plugins/marketplaces/thedotmack/plugin/scripts\\\";",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugin/hooks.json",
+        "line": 42,
+        "excerpt": "\"command\": \"sh -c 'B=$(command -v bun || echo \\\"$HOME/.bun/bin/bun\\\"); R=\\\"${CLAUDE_CONFIG_DIR:-$HOME/.claude}/plugins/marketplaces/thedotmack/plugin/scripts\\\";",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugin/hooks.json",
+        "line": 54,
+        "excerpt": "\"command\": \"sh -c 'B=$(command -v bun || echo \\\"$HOME/.bun/bin/bun\\\"); R=\\\"${CLAUDE_CONFIG_DIR:-$HOME/.claude}/plugins/marketplaces/thedotmack/plugin/scripts\\\";",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugin/hooks.json",
+        "line": 66,
+        "excerpt": "\"command\": \"sh -c 'B=$(command -v bun || echo \\\"$HOME/.bun/bin/bun\\\"); R=\\\"${CLAUDE_CONFIG_DIR:-$HOME/.claude}/plugins/marketplaces/thedotmack/plugin/scripts\\\";",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugin/hooks.json",
+        "line": 78,
+        "excerpt": "\"command\": \"sh -c 'B=$(command -v bun || echo \\\"$HOME/.bun/bin/bun\\\"); R=\\\"${CLAUDE_CONFIG_DIR:-$HOME/.claude}/plugins/marketplaces/thedotmack/plugin/scripts\\\";",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugin/hooks/codex-hooks.json",
+        "line": 9,
+        "excerpt": "\"command\": \"/bin/sh -c '_HP=$(printenv PATH 2>/dev/null || true); if [ -z \\\"$_HP\\\" ] && [ -n \\\"${SHELL:-}\\\" ]; then _HP=$(\\\"$SHELL\\\" -lc '\\\\''printf %s \\\"$PATH\\",
+        "disclosed": false,
+        "automatic": true
+      },
+      {
+        "ruleId": "shell",
+        "file": "plugin/hooks/codex-hooks.json",
+        "line": 11,
+        "excerpt": "\"commandWindows\": \"node -e \\\"const fs=require('fs'),p=require('path'),o=require('os'),c=require('child_process');const h=o.homedir();const C=process.env.CLAUDE_",
+        "disclosed": false,
+        "automatic": true
+      }
+    ],
+    "findingTotals": {
+      "shell": 53,
+      "network": 3,
+      "downloads-code": 5
+    },
+    "score": 75,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 0,
-    "filesSkipped": 13
+    "filesScanned": 14,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -100,6 +332,12 @@
       "commit": "9b3b78dfa53f80e7c9c447b9269ceda255ee99d9",
       "scannedAt": "2026-11-26T11:36:54.718Z",
       "score": 100,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "ad682a38da4cdbd2076451f595adc7db512a626c",
+      "scannedAt": "2026-11-28T10:59:08.925Z",
+      "score": 75,
       "rulesVersion": "1.3.0"
     }
   ]

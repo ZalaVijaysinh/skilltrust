@@ -7,13 +7,13 @@
   "description": "Guidance for Worktrunk (the `wt` CLI) — git worktree management, hooks, and config. Load when working out which worktree a `wt` command will act on, or reaching for the global `-C <path>` to target one; editing .config/wt.toml or ~/.config/worktrunk/config.toml; adding, modifying, or debugging hooks (post-merge, post-start, pre-commit, pre-merge, post-switch, etc.); configuring commit message generation or command aliases; or troubleshooting wt behavior. Also answers general worktrunk/wt questions.",
   "stars": 13,
   "category": "coding",
-  "commit": "b04ff41632a7651b0c055d32f4ebcccc0e198aa7",
-  "contentHash": "2538bf25adb4c4a9ea71a0e10bf308611a80a43994a7590eeb4cfff4a860f45d",
+  "commit": "baf92a54ef0a5e30479bfed20007447614e1a561",
+  "contentHash": "8f34af93091c4e0380a2edc5baf1158051a5dfe9cfe9bfcf7657a68870c36394",
   "repoCreatedAt": "2026-06-09T12:36:45Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-23T11:25:12.649Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-28T10:59:08.925Z",
   "scan": {
     "findings": [
       {
@@ -45,6 +45,22 @@
         "file": "skills/worktrunk/SKILL.md",
         "line": 154,
         "excerpt": "wt switch --create <branch> --no-cd",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/worktrunk/reference/config.md",
+        "line": 1365,
+        "excerpt": "| `subprocess.log` | Running with `-vv` |",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/worktrunk/reference/config.md",
+        "line": 1368,
+        "excerpt": "`trace.log` is the human-readable trace of commands and their timings. `trace.jsonl` holds the same events as JSON lines, which `wt config state logs profile` s",
         "disclosed": true,
         "automatic": false
       },
@@ -135,18 +151,187 @@
         "excerpt": "cargo install worktrunk --no-default-features --features cli",
         "disclosed": true,
         "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/worktrunk/reference/hook.md",
+        "line": 193,
+        "excerpt": "seed = \"curl -X POST localhost:3000/seed -d {{ vars.config | tojson }}\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/worktrunk/reference/hook.md",
+        "line": 209,
+        "excerpt": "subprocess.run(['make', 'seed-db'])",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/worktrunk/reference/step.md",
+        "line": 607,
+        "excerpt": "$ curl http://localhost:$(wt step eval '{{ branch | hash_port }}')/health",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/worktrunk/reference/step.md",
+        "line": 683,
+        "excerpt": "For pipes, redirects, variables, or globs, wrap in `sh -c`:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/worktrunk/reference/step.md",
+        "line": 686,
+        "excerpt": "$ wt step for-each -- sh -c 'git status | wc -l'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/worktrunk/reference/step.md",
+        "line": 687,
+        "excerpt": "$ wt step for-each -- sh -c 'echo $HOME && git pull'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/worktrunk/reference/step.md",
+        "line": 705,
+        "excerpt": "$ git fetch --prune && wt step for-each -- sh -c '[ \"$(git rev-parse @{u} 2>/dev/null)\" ] || exit 0; git pull --autostash'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/worktrunk/reference/step.md",
+        "line": 995,
+        "excerpt": "For pipes, redirects, variables, or globs, wrap in `sh -c`:",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "skills/worktrunk/reference/step.md",
+        "line": 998,
+        "excerpt": "$ wt step tether -- sh -c 'PORT=$P npm run dev | tee dev.log'",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/worktrunk/reference/tips-patterns.md",
+        "line": 322,
+        "excerpt": "**Prerequisites:** [Caddy](https://caddyserver.com/docs/install) (`brew install caddy`)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/worktrunk/reference/tips-patterns.md",
+        "line": 329,
+        "excerpt": "curl -sf --max-time 0.5 http://localhost:2019/config/ || caddy start",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/worktrunk/reference/tips-patterns.md",
+        "line": 330,
+        "excerpt": "curl -sf http://localhost:2019/config/apps/http/servers/wt || \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/worktrunk/reference/tips-patterns.md",
+        "line": 331,
+        "excerpt": "curl -sfX PUT http://localhost:2019/config/apps/http/servers/wt -H 'Content-Type: application/json' \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/worktrunk/reference/tips-patterns.md",
+        "line": 333,
+        "excerpt": "curl -sf -X DELETE http://localhost:2019/id/wt:{{ repo }}:{{ branch | sanitize }} || true",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/worktrunk/reference/tips-patterns.md",
+        "line": 334,
+        "excerpt": "curl -sfX PUT http://localhost:2019/config/apps/http/servers/wt/routes/0 -H 'Content-Type: application/json' \\",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "skills/worktrunk/reference/tips-patterns.md",
+        "line": 339,
+        "excerpt": "proxy = \"curl -sf -X DELETE http://localhost:2019/id/wt:{{ repo }}:{{ branch | sanitize }} || true\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/worktrunk/reference/tips-patterns.md",
+        "line": 392,
+        "excerpt": "**Prerequisites:** [jq](https://jqlang.org) (`brew install jq`)",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/worktrunk/reference/worktrunk.md",
+        "line": 90,
+        "excerpt": "brew install worktrunk && wt config shell install",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/worktrunk/reference/worktrunk.md",
+        "line": 98,
+        "excerpt": "cargo install worktrunk && wt config shell install",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "skills/worktrunk/reference/worktrunk.md",
+        "line": 135,
+        "excerpt": "Python tools can also list `worktrunk` as a dependency, or run it without installing: `uvx --from worktrunk wt list`.",
+        "disclosed": true,
+        "automatic": false
       }
     ],
     "findingTotals": {
-      "shell": 8,
-      "downloads-code": 6,
-      "writes-outside": 1
+      "shell": 17,
+      "downloads-code": 11,
+      "writes-outside": 1,
+      "network": 8
     },
-    "score": 79,
+    "score": 76,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 6,
-    "filesSkipped": 11
+    "filesScanned": 17,
+    "filesSkipped": 0
   },
   "history": [
     {
@@ -171,6 +356,12 @@
       "commit": "b04ff41632a7651b0c055d32f4ebcccc0e198aa7",
       "scannedAt": "2026-11-23T11:25:12.649Z",
       "score": 79,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "baf92a54ef0a5e30479bfed20007447614e1a561",
+      "scannedAt": "2026-11-28T10:59:08.925Z",
+      "score": 76,
       "rulesVersion": "1.3.0"
     }
   ]

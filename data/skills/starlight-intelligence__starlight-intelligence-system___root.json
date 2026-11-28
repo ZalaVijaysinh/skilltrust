@@ -7,13 +7,13 @@
   "description": "",
   "stars": 11,
   "category": "coding",
-  "commit": "e159af3f94e93190c4a8ae127884d8f0d560dd5a",
-  "contentHash": "0e3c9facca5f436bdc2335bed7af19401270ca7443704a77c44fff8dcdd99ddf",
+  "commit": "def16b703edf41cc19f759a07576dc8b57f75bd2",
+  "contentHash": "0e31c97cec359eba501df2a5c02c39ec12af44b8215fe4e91842c3e934235bb8",
   "repoCreatedAt": "2025-12-18T15:14:50Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": true,
-  "scannedAt": "2026-11-23T11:25:12.649Z",
+  "scannedAt": "2026-11-28T10:59:08.925Z",
   "scan": {
     "findings": [
       {
@@ -140,6 +140,72 @@
       },
       {
         "ruleId": "shell",
+        "file": ".claude/hooks/agent-hygiene-stop.py",
+        "line": 73,
+        "excerpt": "out = subprocess.run([\"git\", \"-C\", cwd, *args], capture_output=True, text=True, timeout=5)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/hooks/agent-hygiene-stop.py",
+        "line": 74,
+        "excerpt": "except (OSError, subprocess.SubprocessError):",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/hooks/estate-guard-gate.py",
+        "line": 7,
+        "excerpt": "delete of / ~ or $HOME, curl|sh, permission-bypass flags, history",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/hooks/estate-guard-gate.py",
+        "line": 11,
+        "excerpt": "clean -fd, any rm -rf, unpinned remote execution (npx -y, @latest),",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".claude/hooks/estate-guard-gate.py",
+        "line": 37,
+        "excerpt": "(CMD + r\"rm\\s+-[a-zA-Z]*r[a-zA-Z]*\\s+(?:-[a-zA-Z]+\\s+)*(?:/|~|\\$HOME|\\\"\\$HOME\\\"|\\$\\{HOME\\}|/home/[^/\\s]+|/Users/[^/\\s]+)(?:/\\*)?(?:\\s|$|\\\")\", \"recursive delete ",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": ".claude/hooks/estate-guard-gate.py",
+        "line": 44,
+        "excerpt": "(r\"(?:>|>>|tee)\\s*\\\"?(?:~|\\$HOME|\\$\\{HOME\\})/\\.claude/settings\\.json\", \"writing the global Claude settings\"),",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/hooks/estate-guard-taint.py",
+        "line": 4,
+        "excerpt": "Runs after WebFetch, WebSearch, every MCP tool, and Bash commands that fetch",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/hooks/estate-guard-taint.py",
+        "line": 72,
+        "excerpt": "external = tool in (\"WebFetch\", \"WebSearch\") or tool.startswith(\"mcp__\")",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
         "file": ".claude/hooks/mcp-health-check.cjs",
         "line": 20,
         "excerpt": "const { spawn, spawnSync } = require('child_process');",
@@ -156,343 +222,602 @@
       },
       {
         "ruleId": "downloads-code",
-        "file": "docs/install/meetscribe.md",
-        "line": 54,
-        "excerpt": "python -m pip install --upgrade pip",
+        "file": ".claude/hooks/pre-commit.sh",
+        "line": 32,
+        "excerpt": "echo \"$STAGED_FILES\" | xargs npx eslint --fix --quiet || true",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "downloads-code",
-        "file": "docs/install/meetscribe.md",
-        "line": 55,
-        "excerpt": "pip install -r requirements.txt",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "docs/install/meetscribe.md",
-        "line": 61,
-        "excerpt": "pip install -e .",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "docs/ops/HANDOVER-2026-04-26-night.md",
-        "line": 45,
-        "excerpt": "pip install pydantic anthropic typer rich python-dotenv pyyaml fastapi \"uvicorn[standard]\" watchdog httpx pillow",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "docs/ops/HANDOVER-SITE-REFRESH-V77-2026-05-02.md",
-        "line": 26,
-        "excerpt": "**Quality gates:** `npx tsc --noEmit` exit 0 · `pnpm build` clean · 23/23 routes generate · all 5 changed/new routes return 200 with expected key phrases on dev",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "docs/ops/HANDOVER-SITE-REFRESH-V77-2026-05-02.md",
-        "line": 122,
-        "excerpt": "| `npx tsc --noEmit` | **exit 0** (clean) |",
+        "file": ".claude/hooks/pre-commit.sh",
+        "line": 38,
+        "excerpt": "echo \"$STAGED_FILES\" | xargs npx prettier --write --ignore-unknown || true",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "integrations/starter-packs/friend-starter/mcp.json",
-        "line": 14,
-        "excerpt": "\"command\": \"node\",",
+        "file": ".claude/hooks/quality-gate.cjs",
+        "line": 19,
+        "excerpt": "const { spawnSync } = require('child_process');",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "plugins/starlight-foundry/skills/system-forge/SKILL.md",
-        "line": 45,
-        "excerpt": "node tools/foundry/cli.mjs forge \\",
+        "file": ".claude/hooks/quality-gate.cjs",
+        "line": 67,
+        "excerpt": "return spawnSync(command, args, {",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/hooks/skill-activation-prompt.sh",
+        "line": 18,
+        "excerpt": "cat | npx tsx skill-activation-prompt.ts 2>/dev/null || cat | node skill-activation-prompt.js",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": ".claude/settings.json",
+        "line": 29,
+        "excerpt": "\"matcher\": \"WebFetch|WebSearch|Bash|mcp__.*\",",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "shell",
+        "file": ".claude/skills/estate-guard/SKILL.md",
+        "line": 23,
+        "excerpt": "node .claude/ci/estate-guard-scan.mjs --root . --fail-on never            # markdown report",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".claude/skills/estate-guard/SKILL.md",
+        "line": 95,
+        "excerpt": "| `estate-guard-gate.py` | PreToolUse on Bash | **Denies**: force-push to main/master/production, `rm -rf` of root or home, `curl \\| sh`, permission-bypass flag",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "scripts/tests/media-guard.contract.mjs",
-        "line": 2,
-        "excerpt": "import { execFileSync, spawnSync } from \"node:child_process\"",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "scripts/tests/media-guard.contract.mjs",
-        "line": 27,
-        "excerpt": "return execFileSync(\"git\", args, { cwd, encoding: \"utf8\" })",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "shell",
-        "file": "scripts/tests/media-guard.contract.mjs",
-        "line": 42,
-        "excerpt": "return spawnSync(process.execPath, base ? [guard, ...extraArguments, \"--base\", base] : [guard, ...extraArguments], {",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "site/motion/estate-hero-loop/package.json",
-        "line": 6,
-        "excerpt": "\"dev\": \"npx --yes hyperframes@0.6.112 preview\",",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "site/motion/estate-hero-loop/package.json",
-        "line": 7,
-        "excerpt": "\"check\": \"npx --yes hyperframes@0.6.112 lint && npx --yes hyperframes@0.6.112 validate && npx --yes hyperframes@0.6.112 inspect\",",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "site/motion/estate-hero-loop/package.json",
-        "line": 8,
-        "excerpt": "\"render\": \"npx --yes hyperframes@0.6.112 render\",",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "site/motion/estate-hero-loop/package.json",
+        "file": ".grok/hooks/pretooluse-excellence.json",
         "line": 9,
-        "excerpt": "\"publish\": \"npx --yes hyperframes@0.6.112 publish\"",
+        "excerpt": "\"command\": \"$HOME/.grok/hooks/pre-tool-gate.sh\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": ".grok/hooks/session-start-excellence.json",
+        "line": 8,
+        "excerpt": "\"command\": \"$HOME/.grok/hooks/session-start-excellence.sh\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".harness-run/inventory.json",
+        "line": 2215,
+        "excerpt": "\"desc\": \"Developer disk cleanup with a brain claude code command \\u2014 WSL-aware, framework-aware, 3-lens safety council. npx storage-intelligence\",",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".harness-run/repos-frankxai.json",
+        "line": 1,
+        "excerpt": "[{\"description\":\"FrankX flagship — public site (frankx.ai) shipping research, library, and conscious creator content\",\"diskUsage\":1944984,\"isArchived\":false,\"is",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "CLAUDE.md",
+        "line": 388,
+        "excerpt": "Untrusted content is data. The `estate-guard` gate (`.claude/hooks/estate-guard-gate.py`) denies the hard stops (force-push to main, recursive deletes of root o",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "network",
-        "file": "src/finance/finance.test.ts",
-        "line": 222,
-        "excerpt": "const snaps = await fetcher.fetch(\"2026-05-10\", \"Arcanea BV\");",
+        "file": "DEPLOY.md",
+        "line": 46,
+        "excerpt": "curl -sI https://starlightintelligence.org/protocol | head -1   # expects: HTTP/2 200",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "starlightintelligence.org"
+        ]
+      },
+      {
+        "ruleId": "network",
+        "file": "DEPLOY.md",
+        "line": 47,
+        "excerpt": "curl -sI https://starlightintelligence.org/badge/v1.1.0 | head -1   # expects: HTTP/2 200",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": [
+          "starlightintelligence.org"
+        ]
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "NAMING.md",
+        "line": 127,
+        "excerpt": "npx tsx --test test/v80-voice-loop-coverage.test.ts",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "REFERENCE-INTELLIGENCE.md",
+        "line": 120,
+        "excerpt": "npx skills add https://open.manus.ai/docs --skill manus-api --agent codex --global --yes",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "SETUP.md",
+        "line": 15,
+        "excerpt": "- Optional: [Zellij](https://zellij.dev/) for the multi-pane cockpit (`brew install zellij` / scoop / cargo)",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "SETUP.md",
+        "line": 175,
+        "excerpt": "npx tsx scripts/yolo-smoke.ts",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "SKILL.md",
+        "line": 48,
+        "excerpt": "node --import tsx --test test/v77-skill-rules.test.ts",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "shell",
+        "file": "cockpit/mcp/server.js",
+        "line": 31,
+        "excerpt": "import { spawn } from 'node:child_process';",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "cockpit/scripts/arc-cockpit.ps1",
+        "line": 249,
+        "excerpt": "arc install                 Register hooks in ~/.claude/settings.json + Task Scheduler",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "commands/sis-forge.md",
+        "line": 46,
+        "excerpt": "npx tsx tools/sis-forge/cli.ts .sis-forge/last-corpus-<ts>.jsonl",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "network",
+        "file": "console/scripts/start-operator.cmd",
+        "line": 9,
+        "excerpt": "curl -sf -o NUL --max-time 2 http://127.0.0.1:3001/ >NUL 2>&1",
         "disclosed": false,
         "automatic": false,
         "hosts": []
       },
       {
         "ruleId": "network",
-        "file": "src/finance/finance.test.ts",
-        "line": 238,
-        "excerpt": "const snaps = await fetcher.fetch(\"2026-05-10\", \"Arcanea BV\");",
+        "file": "console/scripts/start-operator.cmd",
+        "line": 16,
+        "excerpt": "curl -sf -o NUL --max-time 2 http://127.0.0.1:8765/status >NUL 2>&1",
         "disclosed": false,
         "automatic": false,
         "hosts": []
       },
       {
         "ruleId": "network",
-        "file": "src/finance/finance.test.ts",
-        "line": 244,
-        "excerpt": "const snaps = await fetcher.fetch(\"2026-05-10\", \"Arcanea BV\");",
+        "file": "console/scripts/start-operator.sh",
+        "line": 16,
+        "excerpt": "curl -sf -o /dev/null --max-time 2 \"$url\" 2>/dev/null",
         "disclosed": false,
         "automatic": false,
         "hosts": []
       },
       {
         "ruleId": "network",
-        "file": "src/finance/finance.test.ts",
-        "line": 250,
-        "excerpt": "await assert.rejects(() => fetcher.fetch(\"2026-05-10\", \"Arcanea BV\"), /Stripe API 401/);",
+        "file": "console/src/app/operator/OperatorClient.tsx",
+        "line": 136,
+        "excerpt": "const res = await fetch(\"/api/operator\", { cache: \"no-store\" });",
         "disclosed": false,
         "automatic": false,
         "hosts": []
       },
       {
         "ruleId": "network",
-        "file": "src/finance/revenue-snapshot.ts",
-        "line": 77,
-        "excerpt": "const snapshots = await fetcher.fetch(period, entity.name);",
+        "file": "console/src/app/operator/OperatorClient.tsx",
+        "line": 189,
+        "excerpt": "const res = await fetch(\"/api/operator\", {",
         "disclosed": false,
         "automatic": false,
         "hosts": []
       },
       {
         "ruleId": "network",
-        "file": "src/finance/revenue-sources/stripe.ts",
+        "file": "console/src/app/operator/OperatorClient.tsx",
+        "line": 213,
+        "excerpt": "const res = await fetch(\"/api/operator\", {",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "console/src/components/CanvasCluster.tsx",
+        "line": 88,
+        "excerpt": "fetch(`/api/canvas/${name}`)",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "console/src/lib/operator-data.ts",
+        "line": 416,
+        "excerpt": "const res = await fetch(url, { signal: ctrl.signal, cache: \"no-store\" });",
+        "disclosed": false,
+        "automatic": false,
+        "hosts": []
+      },
+      {
+        "ruleId": "network",
+        "file": "core/orchestrator/harnesses/claude/allowlisted-tools.md",
         "line": 21,
-        "excerpt": "async fetch(period: string, entity: string): Promise<RevenueSnapshot[]> {",
+        "excerpt": "| `WebFetch` | yes | External documentation, API reference, npm registry checks | Cached-belief protocol applies — never trust prior memory of \"X is shipped on ",
         "disclosed": false,
         "automatic": false,
         "hosts": []
       },
       {
         "ruleId": "network",
-        "file": "src/gateway/cloud-connector.ts",
-        "line": 100,
-        "excerpt": "const res = await fetch(url, {",
+        "file": "core/orchestrator/harnesses/claude/allowlisted-tools.md",
+        "line": 22,
+        "excerpt": "| `WebSearch` | yes | Research scratchpad for substrate-impacting decisions | For low-stakes research, prefer routing to OpenCode harness to preserve Sonnet/Opu",
         "disclosed": false,
         "automatic": false,
         "hosts": []
       },
       {
         "ruleId": "network",
-        "file": "src/gateway/cloud-connector.ts",
-        "line": 181,
-        "excerpt": "const res = await fetch(url, {",
+        "file": "core/orchestrator/harnesses/codex/allowlisted-tools.md",
+        "line": 18,
+        "excerpt": "| `WebSearch` | yes | External verification of cited claims (npm registry, GitHub, vendor docs) | Cached-belief protocol applies — every \"X is shipped\" claim ve",
         "disclosed": false,
         "automatic": false,
         "hosts": []
       },
       {
         "ruleId": "network",
-        "file": "src/gateway/cloud-connector.ts",
-        "line": 199,
-        "excerpt": "const res = await fetch(url, {",
+        "file": "core/orchestrator/harnesses/codex/allowlisted-tools.md",
+        "line": 19,
+        "excerpt": "| `WebFetch` | yes | Vendor documentation, registry queries, public artifact verification | Use to verify Claude Code primary's claims about external state |",
         "disclosed": false,
         "automatic": false,
         "hosts": []
       },
       {
         "ruleId": "network",
-        "file": "src/gateway/cloud-connector.ts",
-        "line": 224,
-        "excerpt": "const res = await fetch(url, {",
+        "file": "core/orchestrator/harnesses/gemini/allowlisted-tools.md",
+        "line": 18,
+        "excerpt": "| `WebFetch` | yes | External documentation, vendor canon, registry queries | When cross-referencing substrate against external standards (e.g. SIP spec at star",
         "disclosed": false,
         "automatic": false,
         "hosts": []
       },
       {
-        "ruleId": "network",
-        "file": "src/gateway/cloud-connector.ts",
-        "line": 241,
-        "excerpt": "const res = await fetch(url, {",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
+        "ruleId": "reads-secrets",
+        "file": "docs/guides/HERMES-CLAUDE-CODE-GUIDE.md",
+        "line": 319,
+        "excerpt": "ControlPath ~/.ssh/cm_%r@%h:%p",
+        "disclosed": true,
+        "automatic": false
       },
       {
-        "ruleId": "network",
-        "file": "src/infra/cost-snapshot.ts",
-        "line": 57,
-        "excerpt": "const settled = await Promise.allSettled(fetchers.map((f) => f.fetch(period)));",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
+        "ruleId": "reads-secrets",
+        "file": "docs/guides/HERMES-CLAUDE-CODE-GUIDE.md",
+        "line": 583,
+        "excerpt": "[ ] SSH keepalive added to ~/.ssh/config",
+        "disclosed": true,
+        "automatic": false
       },
       {
-        "ruleId": "network",
-        "file": "src/infra/cost-sources/_shared.ts",
-        "line": 27,
-        "excerpt": "fetch(period: string): Promise<CostSnapshot>;",
+        "ruleId": "writes-outside",
+        "file": "docs/guides/INFRA-DEPLOYMENT-GUIDE.md",
+        "line": 225,
+        "excerpt": "mkdir -p ~/.hermes",
         "disclosed": false,
-        "automatic": false,
-        "hosts": []
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/guides/INFRA-DEPLOYMENT-GUIDE.md",
+        "line": 229,
+        "excerpt": "cp /root/SIS/docs/guides/hermes.service /etc/systemd/system/hermes.service",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/guides/INFRA-DEPLOYMENT-GUIDE.md",
+        "line": 250,
+        "excerpt": "cat > ~/.config/zellij/layouts/sis.kdl << 'EOF'",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/install/screenpipe.md",
+        "line": 73,
+        "excerpt": "screenpipe install-service --data-dir \"$HOME\\captures\\screen\" --port 3030",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/install/screenpipe.md",
+        "line": 82,
+        "excerpt": "nssm install screenpipe \"C:\\Path\\To\\screenpipe.exe\" --data-dir \"$HOME\\captures\\screen\" --port 3030",
+        "disclosed": false,
+        "automatic": false
       },
       {
         "ruleId": "paid-api",
-        "file": "src/runtime-bridge/chatgpt-plan.ts",
-        "line": 88,
-        "excerpt": "response = await transport(`https://api.openai.com/v1/${path}`, {",
+        "file": "docs/ops/HANDOVER-2026-04-29-jarvis-live.md",
+        "line": 136,
+        "excerpt": "- `meta-llama/llama-4-scout-17b-16e-instruct` (the slug in `cognition.toml` comment) returns 404. The current valid slug is `meta-llama/llama-4-scout`. Don't tr",
         "disclosed": true,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "tools/spec-trace-daemon/server.py",
-        "line": 78,
-        "excerpt": "out = subprocess.run(",
+        "file": "docs/ops/HANDOVER-COGNITION-CLI-COMPLETE-2026-04-29.md",
+        "line": 36,
+        "excerpt": "Tests: 18 net-new (6 per backend), all mock `subprocess.run` + `shutil.which`.",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "tools/spec-trace-daemon/server.py",
-        "line": 87,
-        "excerpt": "except (OSError, subprocess.SubprocessError):",
+        "file": "docs/ops/HANDOVER-PACKET-ARCANEA-PHASE-0.4-2026-05-13.md",
+        "line": 22,
+        "excerpt": "`transcribe.mjs:33-39` shells out via `spawnSync('curl', ...)` per utterance:",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "tools/spec-trace-daemon/server.py",
-        "line": 259,
-        "excerpt": "info = subprocess.run(",
+        "file": "docs/ops/HANDOVER-PACKET-ARCANEA-PHASE-0.4-2026-05-13.md",
+        "line": 32,
+        "excerpt": "Replace `spawnSync('curl', ...)` with native `fetch` + `FormData`:",
         "disclosed": false,
         "automatic": false
       },
       {
         "ruleId": "shell",
-        "file": "tools/spec-trace-daemon/server.py",
-        "line": 274,
-        "excerpt": "except (OSError, subprocess.SubprocessError):",
+        "file": "docs/ops/HANDOVER-PACKET-ARCANEA-PHASE-0.4-2026-05-13.md",
+        "line": 36,
+        "excerpt": "const result = spawnSync('curl', [",
         "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "network",
-        "file": "tools/spec-trace-daemon/tests/test_server.py",
-        "line": 11,
-        "excerpt": "import http.client",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
+        "ruleId": "paid-api",
+        "file": "docs/ops/MADRID-EXCELLENCE-PLAN-2026-05-27.md",
+        "line": 209,
+        "excerpt": "curl -s \"https://generativelanguage.googleapis.com/v1beta/models?key=$GEMINI_API_KEY\" | head -20",
+        "disclosed": true,
+        "automatic": false
       },
       {
-        "ruleId": "network",
-        "file": "tools/spec-trace-daemon/tests/test_server.py",
-        "line": 113,
-        "excerpt": "conn = http.client.HTTPConnection(\"127.0.0.1\", port, timeout=5)",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "network",
-        "file": "tools/spec-trace-daemon/tests/test_server.py",
-        "line": 275,
-        "excerpt": "conn = http.client.HTTPConnection(\"127.0.0.1\", port, timeout=30)",
-        "disclosed": false,
-        "automatic": false,
-        "hosts": []
-      },
-      {
-        "ruleId": "shell",
-        "file": "tools/spec-trace.py",
-        "line": 37,
-        "excerpt": "out = subprocess.run(",
+        "ruleId": "writes-outside",
+        "file": "docs/ops/PATH-DUPLICATION-ARCANEA-CALLS-2026-05-05.md",
+        "line": 45,
+        "excerpt": "mv ~/Arcanea/starlight-intelligence-system ~/Arcanea/_archive/starlight-intelligence-system-2026-05-06",
         "disclosed": false,
         "automatic": false
       },
       {
-        "ruleId": "shell",
-        "file": "tools/spec-trace.py",
-        "line": 166,
-        "excerpt": "info = subprocess.run(",
+        "ruleId": "writes-outside",
+        "file": "docs/ops/PATH-DUPLICATION-ARCANEA-CALLS-2026-05-05.md",
+        "line": 65,
+        "excerpt": "mv ~/Arcanea/arcanea-flow ~/Arcanea/_archive/arcanea-flow-2026-05-06",
         "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "docs/ops/PREFLIGHT-2026-05-27.md",
+        "line": 53,
+        "excerpt": "curl -s \"https://generativelanguage.googleapis.com/v1beta/models?key=$env:GEMINI_API_KEY\" | Select-Object -First 1",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/ops/dreaming-cron-setup.md",
+        "line": 81,
+        "excerpt": "A receipt with `error: ...` indicates pipeline failure. Most common cause: vault dir missing (run `mkdir ~/.starlight/vaults` once or set `STARLIGHT_VAULT_DIR` ",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/queen-motion/ASSETS-L99.md",
+        "line": 24,
+        "excerpt": "cp ~/.grok/sessions/.../images/10.jpg docs/visuals/queen-hero-wide.jpg",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/queen-motion/ASSETS-L99.md",
+        "line": 25,
+        "excerpt": "cp ~/.grok/sessions/.../images/10.jpg docs/queen-motion/assets/queen-hero-wide.jpg",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/queen-motion/ASSETS-L99.md",
+        "line": 26,
+        "excerpt": "cp ~/.grok/sessions/.../images/10.jpg site/public/queen/queen-hero-wide.jpg",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/visuals/VISUALS.md",
+        "line": 196,
+        "excerpt": "cp ~/.grok/sessions/*-l99-*/images/8.jpg docs/visuals/08-queen-measure-tall.jpg",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/visuals/VISUALS.md",
+        "line": 197,
+        "excerpt": "cp ~/.grok/sessions/*-l99-*/images/9.jpg docs/visuals/09-queen-ledger-tall.jpg",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/visuals/VISUALS.md",
+        "line": 198,
+        "excerpt": "cp ~/.grok/sessions/*-l99-*/images/10.jpg docs/visuals/10-queen-hero-wide.jpg",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "writes-outside",
+        "file": "docs/visuals/VISUALS.md",
+        "line": 199,
+        "excerpt": "cp ~/.grok/sessions/*-l99-*/images/11.jpg docs/visuals/11-queen-system-wide.jpg",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "scripts/api-usage-monitor.ps1",
+        "line": 49,
+        "excerpt": "$r = Invoke-RestMethod -Uri 'https://openrouter.ai/api/v1/auth/key' `",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "scripts/api-usage-monitor.ps1",
+        "line": 88,
+        "excerpt": "$r = Invoke-RestMethod -Uri 'https://api.openai.com/v1/models' `",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "scripts/api-usage-monitor.ps1",
+        "line": 114,
+        "excerpt": "$r = Invoke-RestMethod -Uri \"https://generativelanguage.googleapis.com/v1beta/models?key=$gKey\" -ErrorAction Stop",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "services/starlight-cloud-worker/src/llm/ai-gateway.ts",
+        "line": 149,
+        "excerpt": "const res = await fetch('https://api.anthropic.com/v1/messages', {",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "services/starlight-cloud-worker/src/llm/ai-gateway.ts",
+        "line": 187,
+        "excerpt": "const res = await fetch('https://api.openai.com/v1/chat/completions', {",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "src/orchestration/model-adapters/anthropic-adapter.ts",
+        "line": 69,
+        "excerpt": "const response = await fetch(\"https://api.anthropic.com/v1/messages\", {",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "src/orchestration/model-adapters/openai-adapter.ts",
+        "line": 72,
+        "excerpt": "const response = await fetch(\"https://api.openai.com/v1/chat/completions\", {",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "src/runtime-bridge/jev-router.ts",
+        "line": 15,
+        "excerpt": "endpoint: \"https://openrouter.ai/api/v1/chat/completions\";",
+        "disclosed": true,
+        "automatic": false
+      },
+      {
+        "ruleId": "paid-api",
+        "file": "src/runtime-bridge/jev-router.ts",
+        "line": 63,
+        "excerpt": "endpoint: \"https://openrouter.ai/api/v1/chat/completions\",",
+        "disclosed": true,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "network": 18,
-      "downloads-code": 16,
-      "shell": 18,
-      "writes-outside": 2,
-      "paid-api": 1
+      "network": 129,
+      "downloads-code": 131,
+      "shell": 92,
+      "writes-outside": 22,
+      "reads-secrets": 2,
+      "paid-api": 12
     },
-    "score": 60,
+    "score": 50,
     "band": "review",
     "rulesVersion": "1.3.0",
-    "filesScanned": 334,
-    "filesSkipped": 3070
+    "filesScanned": 1730,
+    "filesSkipped": 1674
   },
   "history": [
     {
       "commit": "e159af3f94e93190c4a8ae127884d8f0d560dd5a",
       "scannedAt": "2026-11-19T10:50:00.942Z",
       "score": 65,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "def16b703edf41cc19f759a07576dc8b57f75bd2",
+      "scannedAt": "2026-11-28T10:59:08.925Z",
+      "score": 50,
       "rulesVersion": "1.3.0"
     }
   ]

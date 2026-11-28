@@ -4,22 +4,30 @@
   "repo": "pharos-watch",
   "path": ".codex/skills/d1-migration-rollout",
   "name": "d1-migration-rollout",
-  "description": "Use when adding, reviewing, squashing, deploying, or rolling back Pharos D1 migrations or schema cleanup.",
+  "description": "Author reviewed DML, squash the baseline, run destructive cleanup, and deploy or roll back Pharos D1 migrations. Use for D1 rollout sequencing and recovery. Not for routine read-only D1 queries.",
   "stars": 24,
   "category": "data",
-  "commit": "675804098ab95558fcd48c032cce176cbd74a2d7",
-  "contentHash": "3d7e60bcc112bebf4f7fdf4cacae12867ebf562785ae76ac5d64064a368394a8",
+  "commit": "50e836624d40edd927154d97439891f9f2413849",
+  "contentHash": "2d3e2efcab1f0e9a175f340843dd0b6dc683e3be21e2723a08367a75237612e0",
   "repoCreatedAt": "2026-01-29T01:12:48Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-23T11:25:12.649Z",
+  "scannedAt": "2026-11-28T10:59:08.925Z",
   "scan": {
     "findings": [
       {
         "ruleId": "downloads-code",
         "file": ".codex/skills/d1-migration-rollout/SKILL.md",
-        "line": 36,
+        "line": 37,
+        "excerpt": "- Reviewed DML or a changed checker fixture: `npx vitest run scripts/__tests__/check-worker-migrations.test.ts`.",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".codex/skills/d1-migration-rollout/SKILL.md",
+        "line": 38,
         "excerpt": "- Affected database/health paths: `npx vitest run worker/src/lib/__tests__/db-cache.test.ts worker/src/api/__tests__/health.test.ts`.",
         "disclosed": false,
         "automatic": false
@@ -43,7 +51,23 @@
       {
         "ruleId": "downloads-code",
         "file": "docs/deployment-process.md",
-        "line": 91,
+        "line": 93,
+        "excerpt": "npx --no-install wrangler queues create pharos-v9-continuation --delivery-delay-secs 0 --message-retention-period-secs 86400",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/deployment-process.md",
+        "line": 94,
+        "excerpt": "npx --no-install wrangler queues create pharos-v9-continuation-dlq --delivery-delay-secs 0 --message-retention-period-secs 1209600",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/deployment-process.md",
+        "line": 109,
         "excerpt": "**Bucket lock:** indefinite R2 lock rules `evergreen-v2-permanent` (`evergreen/v2/`) and `scorecards-v1-permanent` (`scorecards/v1/`) protect both prefixes (app",
         "disclosed": false,
         "automatic": false
@@ -51,7 +75,7 @@
       {
         "ruleId": "shell",
         "file": "docs/deployment-process.md",
-        "line": 254,
+        "line": 272,
         "excerpt": "python3 -c 'import subprocess, sys; subprocess.run(sys.argv[1:], timeout=1800, check=True)' \\",
         "disclosed": false,
         "automatic": false
@@ -59,7 +83,7 @@
       {
         "ruleId": "downloads-code",
         "file": "docs/deployment-process.md",
-        "line": 313,
+        "line": 331,
         "excerpt": "4. Provision only `COINGECKO_API_KEY`, `ALCHEMY_API_KEY`, `DRPC_API_KEY`, `TRONGRID_API_KEY`, `DWELLIR_API_KEY`, `GRAPH_API_KEY`, and `HEAVY_EXECUTOR_SHARED_SEC",
         "disclosed": false,
         "automatic": false
@@ -67,7 +91,7 @@
       {
         "ruleId": "downloads-code",
         "file": "docs/deployment-process.md",
-        "line": 320,
+        "line": 338,
         "excerpt": "npx --no-install wrangler secret put HEAVY_EXECUTOR_SHARED_SECRET --config wrangler.heavy.toml",
         "disclosed": false,
         "automatic": false
@@ -75,7 +99,7 @@
       {
         "ruleId": "downloads-code",
         "file": "docs/deployment-process.md",
-        "line": 321,
+        "line": 339,
         "excerpt": "npx --no-install wrangler secret put HEAVY_EXECUTOR_SHARED_SECRET --config wrangler.toml",
         "disclosed": false,
         "automatic": false
@@ -83,7 +107,7 @@
       {
         "ruleId": "downloads-code",
         "file": "docs/deployment-process.md",
-        "line": 344,
+        "line": 362,
         "excerpt": "- After approval, set Pages production `SITE_SESSION_ENFORCEMENT=enforce` before activating the same policy in the Worker: from `worker/`, run `npx --no-install",
         "disclosed": false,
         "automatic": false
@@ -91,7 +115,7 @@
       {
         "ruleId": "downloads-code",
         "file": "docs/deployment-process.md",
-        "line": 403,
+        "line": 421,
         "excerpt": "- The root and Worker manifests keep the same pinned Wrangler version: root scripts own the shared install and dependency overrides, while Worker commands run f",
         "disclosed": false,
         "automatic": false
@@ -106,56 +130,8 @@
       },
       {
         "ruleId": "downloads-code",
-        "file": "docs/runbooks/db-connectivity.md",
-        "line": 20,
-        "excerpt": "2. **Recent deploys:** `cd worker && npx --no-install wrangler deployments list` — did a new Worker version ship with a migration that's still applying? Migrati",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "docs/runbooks/db-connectivity.md",
-        "line": 26,
-        "excerpt": "- If a migration is mid-apply, wait it out. Check `cd worker && npx --no-install wrangler d1 migrations list stablecoin-db --remote` to confirm state.",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "docs/runbooks/db-connectivity.md",
-        "line": 62,
-        "excerpt": "printf \"true\" | npx wrangler secret put REQUEST_SOURCE_ATTRIBUTION_DISABLED",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "docs/runbooks/db-connectivity.md",
-        "line": 63,
-        "excerpt": "printf \"true\" | npx wrangler secret put API_KEY_REQUEST_ATTRIBUTION_DISABLED",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "docs/runbooks/db-connectivity.md",
-        "line": 69,
-        "excerpt": "npx wrangler secret delete REQUEST_SOURCE_ATTRIBUTION_DISABLED",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
-        "file": "docs/runbooks/db-connectivity.md",
-        "line": 70,
-        "excerpt": "npx wrangler secret delete API_KEY_REQUEST_ATTRIBUTION_DISABLED",
-        "disclosed": false,
-        "automatic": false
-      },
-      {
-        "ruleId": "downloads-code",
         "file": "docs/worker-infrastructure.md",
-        "line": 247,
+        "line": 255,
         "excerpt": "From `worker/`, use `npx --no-install wrangler d1 execute stablecoin-db --remote --json --command \"SELECT ...\"` (or root with global `--config worker/wrangler.t",
         "disclosed": false,
         "automatic": false
@@ -163,7 +139,7 @@
       {
         "ruleId": "downloads-code",
         "file": "worker/migrations/MANIFEST.md",
-        "line": 592,
+        "line": 600,
         "excerpt": "1. **Select a last-good point:** use a previously captured pre-migration bookmark, or run `cd worker && npx --no-install wrangler d1 time-travel info stablecoin",
         "disclosed": false,
         "automatic": false
@@ -171,20 +147,20 @@
       {
         "ruleId": "downloads-code",
         "file": "worker/migrations/MANIFEST.md",
-        "line": 593,
+        "line": 601,
         "excerpt": "2. **Restore:** `cd worker && npx --no-install wrangler d1 time-travel restore stablecoin-db --bookmark=<LAST_GOOD_BOOKMARK>` (or `--timestamp=<LAST_GOOD_RFC333",
         "disclosed": false,
         "automatic": false
       }
     ],
     "findingTotals": {
-      "downloads-code": 19,
+      "downloads-code": 16,
       "shell": 1
     },
     "score": 80,
     "band": "low",
     "rulesVersion": "1.3.0",
-    "filesScanned": 8,
+    "filesScanned": 6,
     "filesSkipped": 0
   },
   "history": [
@@ -215,6 +191,12 @@
     {
       "commit": "675804098ab95558fcd48c032cce176cbd74a2d7",
       "scannedAt": "2026-11-23T11:25:12.649Z",
+      "score": 80,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "50e836624d40edd927154d97439891f9f2413849",
+      "scannedAt": "2026-11-28T10:59:08.925Z",
       "score": 80,
       "rulesVersion": "1.3.0"
     }

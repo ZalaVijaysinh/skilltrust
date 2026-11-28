@@ -4,23 +4,31 @@
   "repo": "pharos-watch",
   "path": ".codex/skills/pharos-ci-failure-triage",
   "name": "pharos-ci-failure-triage",
-  "description": "Diagnose and fix failed Pharos GitHub Actions, adaptive PR checks, Cloudflare deploys, Pages releases, or scheduled automation. Use when a gate/run failed or the user asks to retrigger and iterate until clear.",
+  "description": "Diagnose and fix failed GitHub Actions, PR checks, Cloudflare deploys, Pages releases, or scheduled workflows. Use when a gate, run, or nightly fails. Not for routine releases or CI slim passes.",
   "stars": 24,
   "category": "data",
-  "commit": "675804098ab95558fcd48c032cce176cbd74a2d7",
-  "contentHash": "4186063eab043ea437c338a7766aeadd455ea1edaa2866b46ad0d81937713bec",
+  "commit": "50e836624d40edd927154d97439891f9f2413849",
+  "contentHash": "f11966cea4d030b4950a178df3f26725a667828de20a24b983b3109836c55e98",
   "repoCreatedAt": "2026-01-29T01:12:48Z",
   "alsoFoundIn": [],
   "status": "ok",
   "incomplete": false,
-  "scannedAt": "2026-11-23T11:25:12.649Z",
+  "scannedAt": "2026-11-28T10:59:08.925Z",
   "scan": {
     "findings": [
       {
         "ruleId": "shell",
         "file": ".codex/skills/pharos-ci-failure-triage/SKILL.md",
-        "line": 18,
+        "line": 17,
         "excerpt": "gh run view <run-id> --repo TokenBrice/pharos-watch --json status,conclusion,event,headSha,workflowName,url,jobs",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": ".codex/skills/pharos-ci-failure-triage/references/nightly-triage.md",
+        "line": 20,
+        "excerpt": "| Full tests, nightly tier | `npx vitest run <file>` for a `*.nightly.test.ts(x)` file or `nightly`-tagged case; the PR runner filters both out. |",
         "disclosed": false,
         "automatic": false
       },
@@ -43,7 +51,23 @@
       {
         "ruleId": "downloads-code",
         "file": "docs/deployment-process.md",
-        "line": 91,
+        "line": 93,
+        "excerpt": "npx --no-install wrangler queues create pharos-v9-continuation --delivery-delay-secs 0 --message-retention-period-secs 86400",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/deployment-process.md",
+        "line": 94,
+        "excerpt": "npx --no-install wrangler queues create pharos-v9-continuation-dlq --delivery-delay-secs 0 --message-retention-period-secs 1209600",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/deployment-process.md",
+        "line": 109,
         "excerpt": "**Bucket lock:** indefinite R2 lock rules `evergreen-v2-permanent` (`evergreen/v2/`) and `scorecards-v1-permanent` (`scorecards/v1/`) protect both prefixes (app",
         "disclosed": false,
         "automatic": false
@@ -51,7 +75,7 @@
       {
         "ruleId": "shell",
         "file": "docs/deployment-process.md",
-        "line": 254,
+        "line": 272,
         "excerpt": "python3 -c 'import subprocess, sys; subprocess.run(sys.argv[1:], timeout=1800, check=True)' \\",
         "disclosed": false,
         "automatic": false
@@ -59,7 +83,7 @@
       {
         "ruleId": "downloads-code",
         "file": "docs/deployment-process.md",
-        "line": 313,
+        "line": 331,
         "excerpt": "4. Provision only `COINGECKO_API_KEY`, `ALCHEMY_API_KEY`, `DRPC_API_KEY`, `TRONGRID_API_KEY`, `DWELLIR_API_KEY`, `GRAPH_API_KEY`, and `HEAVY_EXECUTOR_SHARED_SEC",
         "disclosed": false,
         "automatic": false
@@ -67,7 +91,7 @@
       {
         "ruleId": "downloads-code",
         "file": "docs/deployment-process.md",
-        "line": 320,
+        "line": 338,
         "excerpt": "npx --no-install wrangler secret put HEAVY_EXECUTOR_SHARED_SECRET --config wrangler.heavy.toml",
         "disclosed": false,
         "automatic": false
@@ -75,7 +99,7 @@
       {
         "ruleId": "downloads-code",
         "file": "docs/deployment-process.md",
-        "line": 321,
+        "line": 339,
         "excerpt": "npx --no-install wrangler secret put HEAVY_EXECUTOR_SHARED_SECRET --config wrangler.toml",
         "disclosed": false,
         "automatic": false
@@ -83,7 +107,7 @@
       {
         "ruleId": "downloads-code",
         "file": "docs/deployment-process.md",
-        "line": 344,
+        "line": 362,
         "excerpt": "- After approval, set Pages production `SITE_SESSION_ENFORCEMENT=enforce` before activating the same policy in the Worker: from `worker/`, run `npx --no-install",
         "disclosed": false,
         "automatic": false
@@ -91,8 +115,16 @@
       {
         "ruleId": "downloads-code",
         "file": "docs/deployment-process.md",
-        "line": 403,
+        "line": 421,
         "excerpt": "- The root and Worker manifests keep the same pinned Wrangler version: root scripts own the shared install and dependency overrides, while Worker commands run f",
+        "disclosed": false,
+        "automatic": false
+      },
+      {
+        "ruleId": "downloads-code",
+        "file": "docs/scripts.md",
+        "line": 111,
+        "excerpt": "[`freeze-validation-archive.ts`](../scripts/maintenance/freeze-validation-archive.ts) (`npx tsx scripts/maintenance/freeze-validation-archive.ts <baseline|roll|",
         "disclosed": false,
         "automatic": false
       },
@@ -147,7 +179,7 @@
     ],
     "findingTotals": {
       "shell": 2,
-      "downloads-code": 14
+      "downloads-code": 18
     },
     "score": 80,
     "band": "low",
@@ -183,6 +215,12 @@
     {
       "commit": "675804098ab95558fcd48c032cce176cbd74a2d7",
       "scannedAt": "2026-11-23T11:25:12.649Z",
+      "score": 80,
+      "rulesVersion": "1.3.0"
+    },
+    {
+      "commit": "50e836624d40edd927154d97439891f9f2413849",
+      "scannedAt": "2026-11-28T10:59:08.925Z",
       "score": 80,
       "rulesVersion": "1.3.0"
     }
